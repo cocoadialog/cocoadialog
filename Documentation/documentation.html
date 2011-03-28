@@ -1,0 +1,1464 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<title>CocoaDialog - Documentation</title>
+<link href="cocoadialog.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<div>
+	<table cellpadding="0" cellspacing="0" border="0" width="100%">
+	<tr><td class="header">CocoaDialog</td></tr>
+	<tr><td class="headerMenu">
+		<a href="index.html">overview</a> |
+		<a href="download.html">download</a> |
+		<a href="documentation.html" class="current">documentation</a> |
+		<a href="examples.html">examples</a> |
+		<a href="todo.html">todo</a> |
+		<a href="http://sourceforge.net/projects/cocoadialog/">sf.net project page</a>
+	</td></tr>
+	</table>
+	
+	<div class="bodyContent">
+		<h1>Documentation</h1>
+		<h4 style="text-align:center">(CocoaDialog 2.1.1)</h4>
+		<p>
+		The following document provides an overview of how to use CocoaDialog,
+		as well as the various run modes and commandline options available.
+		Visit the <a href="examples.html">examples</a> page to see more
+		practical examples of its use.
+		(It's really not as complicated as it may seem from this page).
+		</p>
+
+		<a name="top"></a>
+		<h2>Contents</h2>
+		<ul class="menu">
+			<li><a href="#executing">Executing CocoaDialog</a></li>
+			<li><a href="#rvs">Return Values / Output</a></li>
+			<li><a href="#global_options">Global Options</a></li>
+			<li><a href="#icons">Icons</a></li>
+			<li><a href="#runmodes">Run Modes / GUI Controls</a>
+				<ul>
+					<li><a href="#bubble_control">bubble</a></li>
+					<li><a href="#msgbox_control">msgbox</a></li>
+					<li><a href="#ok-msgbox_control">ok-msgbox</a></li>
+					<li><a href="#yesno-msgbox_control">yesno-msgbox</a></li>
+					<li><a href="#inputbox_control">inputbox</a></li>
+					<li><a href="#standard-inputbox_control">standard-inputbox</a></li>
+					<li><a href="#secure-inputbox_control">secure-inputbox</a></li>
+					<li><a href="#secure-standard-inputbox_control">secure-standard-inputbox</a></li>
+					<li><a href="#fileselect_control">fileselect</a></li>
+					<li><a href="#filesave_control">filesave</a></li>
+					<li><a href="#textbox_control">textbox</a></li>
+					<li><a href="#progressbar_control">progressbar</a></li>
+					<li><a href="#dropdown_control">dropdown</a></li>
+					<li><a href="#standard-dropdown_control">standard-dropdown</a></li>
+				</ul>
+			</li>
+		</ul>
+
+		<a name="executing"></a>
+		<h2>Executing CocoaDialog</h2>
+		<h3>Overview</h3>
+		<p>
+		CocoaDialog is run directly from the commandline by executing the 
+		binary file within the <code>.app</code> bundle.
+		The path to it will be
+		<code>CocoaDialog.app/Contents/MacOS/CocoaDialog</code>
+		<br />
+		If CocoaDialog is in your <code>~/Applications</code> directory,
+		for example, the executable will be:
+		<code>~/Applications/CocoaDialog.app/Contents/MacOS/CocoaDialog</code>
+		</p>
+		<p>
+		<strong>From here on we will refer to this binary file as simply
+		<code>CocoaDialog</code></strong>
+		</p>
+
+		<a name="wrapper"></a>
+		<h3>Easy way to invoke CocoaDialog</h3>
+		<p>
+		This is a simple wrapper script.  Put it somewhere in your <code>$PATH</code>. For example, mine is <code>~/bin/CocoaDialog</code>, and I have <code>export PATH=$PATH:~/bin</code> in my <code>~/.bash_profile</code>.
+		</p>
+		<p>
+		Now from the shell or other scripts, I can just do <code>CocoaDialog</code> to invoke the program.
+		</p>
+		<p><a href="examples/CocoaDialog">download this wrapper script</a></p>
+		<div class="code">
+			<pre>
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+my $path = "/Users/markstra/Applications"; # Change this!
+my $cd = "$path/CocoaDialog.app/Contents/MacOS/CocoaDialog";
+
+system($cd, @ARGV);
+			</pre>
+		</div>
+
+		<h3>Runmode and options</h3>
+		<p>
+		CocoaDialog is always executed with the following format:
+		</p>
+		<div class="code">CocoaDialog runmode options</div>
+		<p>
+		The <code>runmode</code> is always required, and specifies which GUI
+		control to use. 
+		<br />
+		An example is:
+		</p>
+		<div class="code">CocoaDialog yesno-msgbox --title "Delete backups"
+			--text "Delete all the backups?" --informative-text "This cannot be
+			un-done"</div>
+		<p>
+		See <a href="#runmodes">Run Modes / GUI Controls</a> for a list of available controls.
+		</p>
+
+		<a name="rvs"></a>
+		<h2>Return Values / Output</h2>
+		<p>
+		The return value of a control will simply be printed to
+		<code>stdout</code>.
+		This makes it trivial to determine the user input in any
+		shell, programming or scripting language.
+		</p>
+		<p>
+		In bash you could find it like this:
+		</p>
+		<div class="code">
+			rv=`CocoaDialog yesno-msgbox --string-output`
+			<br />
+			echo "User pressed the $rv button"
+		</div>
+		<p>
+		Controls that return multiple values will print each on its own
+		line (separated by newlines).
+		</p>
+
+		<a name="global_options"></a>
+		<h2>Global Options</h2>
+		<p>
+		The following options can be supplied for any of the run modes
+		(GUI controls).
+		</p>
+		<table border="1" cellpadding="3" cellspacing="0">
+			<tr>
+				<td><b>&#8209;&#8209;title</b> <i>"text for title"</i></td>
+				<td>Sets the window's title</td>
+			</tr>
+			<tr>
+				<td><b>&#8209;&#8209;string&#8209;output</b></td>
+				<td>Makes yes/no/ok/cancel buttons return values as "Yes", "No",
+					"Ok", or "Cancel" instead of integers. When used with custom
+					button labels, returns the label you provided.</td>
+			</tr>
+			<tr>
+				<td><b>&#8209;&#8209;no&#8209;newline</b></td>
+				<td>By default, return values will be printed with a trailing
+					newline. This will suppress that behavior. <i>Note that when a
+						control returns multiple lines this will
+						only suppress the trailing newline on the last line</i>.
+				</td>
+			</tr>
+			<tr>
+				<td><b>&#8209;&#8209;width</b> <i>integer</i></td>
+				<td>Sets the width of the window.  It's not advisable to use
+					this option without good reason, and some controls won't even
+					respond to it.  The automatic size of most windows should suffice.
+				</td>
+			</tr>
+			<tr>
+				<td><b>&#8209;&#8209;height</b> <i>integer</i></td>
+				<td>Sets the height of the window.  It's not advisable to use
+					this option without good reason, and some controls won't even
+					respond to it.  The automatic size of most windows should suffice.
+				</td>
+			</tr>
+			<tr>
+				<td><b>&#8209;&#8209;debug</b></td>
+				<td>
+					If you are not getting the results you expect, try turning on
+					this option.  When there is an error, it will print
+					<code>ERROR:</code> followed by the error message.
+				</td>
+			</tr>
+			<tr>
+				<td><b>&#8209;&#8209;help</b></td>
+				<td>
+					Gives a list of options and a link to this page.
+				</td>
+			</tr>
+		</table>
+
+		<a name="icons"></a>
+		<h2>Icons</h2>
+			<p>
+				The <code>msgbox</code>, <code>ok-msgbox</code>, <code>yesno-msgbox</code>,
+				and <code>bubble</code> dialogs allow you to specify icons.
+				In addition to using your own, you may also choose from the following stock icons
+				that are included with CocoaDialog.
+			</p>
+			<p>
+			If you want to use a mix of stock icons and custom icons, just use the custom icon option
+			(either <code>--icon-file</code> or <code>--icon-files</code>, see the documentation for
+			the particular run mode), and provide the path to the stock icon <code>.icns</code> file located in 
+			<code>CocoaDialog.app/Contents/Resources/</code>.
+			</p>
+			<table class="icons" cellpadding="2" cellspacing="0" border="0">
+				<tr>
+					<td><img class="icon" src="cdicons/cocoadialog.jpg" alt="cocoadialog" /><br />cocoadialog</td>
+					<td><img class="icon" src="cdicons/atom.jpg" alt="atom" /><br />atom</td>
+					<td><img class="icon" src="cdicons/computer.jpg" alt="computer" /><br />computer</td>
+					<td><img class="icon" src="cdicons/document.jpg" alt="document" /><br />document</td>
+					<td><img class="icon" src="cdicons/find.jpg" alt="find" /><br />find</td>
+					<td><img class="icon" src="cdicons/finder.jpg" alt="finder" /><br />finder</td>
+				</tr>
+				<tr>
+					<td><img class="icon" src="cdicons/firewire.jpg" alt="firewire" /><br />firewire</td>
+					<td><img class="icon" src="cdicons/folder.jpg" alt="folder" /><br />folder</td>
+					<td><img class="icon" src="cdicons/gear.jpg" alt="gear" /><br />gear</td>
+					<td><img class="icon" src="cdicons/globe.jpg" alt="globe" /><br />globe</td>
+					<td><img class="icon" src="cdicons/hazard.jpg" alt="hazard" /><br />hazard</td>
+					<td><img class="icon" src="cdicons/heart.jpg" alt="heart" /><br />heart</td>
+				</tr>
+				<tr>
+					<td><img class="icon" src="cdicons/hourglass.jpg" alt="hourglass" /><br />hourglass</td>
+					<td><img class="icon" src="cdicons/info.jpg" alt="info" /><br />info</td>
+					<td><img class="icon" src="cdicons/ipod.jpg" alt="ipod" /><br />ipod</td>
+					<td><img class="icon" src="cdicons/person.jpg" alt="person" /><br />person</td>
+					<td><img class="icon" src="cdicons/sound.jpg" alt="sound" /><br />sound</td>
+					<td><img class="icon" src="cdicons/x.jpg" alt="x" /><br />x</td>
+				</tr>
+			</table>
+			<p>
+			Thanks to Laurent Baumann for providing these. 
+			Visit his webpage at <a href="http://ave.ambitiouslemon.com">http://ave.ambitiouslemon.com</a>
+			</p>
+
+		<a name="runmodes"></a>
+		<h2>Run Modes / GUI Controls</h2>
+		<p>
+		<em>Notes:</em> The right-most button of controls with buttons has
+		the key-equivalent of enter.  Any button with a label "Cancel" has the
+		key-equivalent of escape.
+		</p>
+		<ul class="menu">
+			<li><a href="#bubble_control">bubble</a></li>
+			<li><a href="#msgbox_control">msgbox</a></li>
+			<li><a href="#ok-msgbox_control">ok-msgbox</a></li>
+			<li><a href="#yesno-msgbox_control">yesno-msgbox</a></li>
+			<li><a href="#inputbox_control">inputbox</a></li>
+			<li><a href="#standard-inputbox_control">standard-inputbox</a></li>
+			<li><a href="#secure-inputbox_control">secure-inputbox</a></li>
+			<li><a href="#secure-standard-inputbox_control">secure-standard-inputbox</a></li>
+			<li><a href="#fileselect_control">fileselect</a></li>
+			<li><a href="#filesave_control">filesave</a></li>
+			<li><a href="#textbox_control">textbox</a></li>
+			<li><a href="#progressbar_control">progressbar</a></li>
+			<li><a href="#dropdown_control">dropdown</a></li>
+			<li><a href="#standard-dropdown_control">standard-dropdown</a></li>
+		</ul>
+
+		<a name="bubble_control"></a>
+		<h3>bubble</h3>
+		<table>
+			<tr><td>
+				<img class="screenshot" src="bubbles.jpg" alt="bubble"
+					style="float:right" />
+				<p>
+				This is a fancy-looking, little bubble dialog window.  You can have one
+				or more displayed at a time. You can use it to display short, temporary 
+				messages to the user.
+				</p>
+				<p>
+				The bubbles will remain in the upper-right corner until the user clicks them, or they time out.
+				They will time out in 4 seconds by default, and all of them will close when
+				the user clicks one.  This behavior can be changed with the options below.
+				</p>
+				<p>
+				<i>Note:</i> The bubble has a fixed size.  Any text beyond its capacity
+				will simply be cut off.  This is on the <a href="todo.html">TODO list</a>
+				for future releases.
+				</p>
+				<p>
+				<b>returns:</b> nothing.  If it's not obvious, note that the program doesn't return until
+				the bubbles have timed out, or been clicked. If you want your script to continue immediately 
+				after displaying them, it's up to you to make your script do this (most likely by invoking
+				CocoaDialog as a background process).
+				</p>
+				<p>
+				<a href="examples/bubble.sh.txt">Example bubble shell script</a>
+				</p>
+			</td></tr>
+			<tr><td>
+				<em>Options for single or multiple bubbles:</em>
+				<table border="1" cellpadding="3" cellspacing="0">
+					<tr>
+						<td><b>&#8209;&#8209;timeout</b> <i>numSeconds</i></td>
+						<td>The amount of time, in seconds, that the bubble(s) will be displayed.  Clicking them
+							will make them closer sooner.
+							<br /><i>Unlike other dialogs, bubbles time out by default</i>.
+							<br />Default value is <code>4</code>.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;no&#8209;timeout</b></td>
+						<td>Don't time out.  By default the bubbles will time out after 4 seconds. With this
+							option enabled, they will stay visible until the user clicks them.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;alpha</b> <i>alphaValue</i></td>
+						<td>The alpha value (controls transparency) for the bubble(s). A number between 0 and 1.
+							<br />Default is <code>0.95</code>.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;x&#8209;placement</b> <i>placement</i></td>
+						<td>
+							This can be <code>left</code>, <code>right</code>, or <code>center</code>.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;y&#8209;placement</b> <i>placement</i></td>
+						<td>
+							This can be <code>top</code>, <code>bottom</code>, or <code>center</code>.
+						</td>
+					</tr>
+				</table>
+
+				<a name="single_bubble"></a>
+				<em>Options for a single bubble:</em>
+				<table border="1" cellpadding="3" cellspacing="0">
+					<tr>
+						<td><b>&#8209;&#8209;text</b> <i>"body of the bubble"</i></td>
+						<td><b>required</b>.  The body text of the bubble.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;title</b> <i>"title of the bubble"</i></td>
+						<td><b>required</b>.  The title of the bubble.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;icon</b> <i>stockIconName</i></td>
+						<td>The name of the <a href="#icons">stock icon</a> to use.  This is
+							incompatible with <code>--icon-file</code>
+							<br />Default is <code>cocoadialog</code>
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;icon&#8209;file</b> <i>"/full/path/to/icon file"</i></td>
+						<td>The full path to the custom icon image you would like to use.
+							Almost every image format is accepted.
+							This is incompatible with the <code>--icon</code> option.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;text&#8209;color</b> <i>colorHexValue</i></td>
+						<td>The color of the text on the bubble in 6 character hexadecimal format (like you
+							use in html).  <i>Do not</i> prepend a "#" to this value.  Examples: "000000" for black,
+							or "ffffff" for white.
+							<br />
+							The default is determined by your system, but should be <code>000000</code>.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;border&#8209;color</b> <i>colorHexValue</i></td>
+						<td>The color of the border in 6 character hexadecimal format (like you
+							use in html).  <i>Do not</i> prepend a "#" to this value.  Examples: "000000" for black,
+							or "ffffff" for white.
+							<br />
+							The default is <code>808080</code>.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;background&#8209;top</b> <i>colorHexValue</i></td>
+						<td>The color of the top of the background gradient in 6 character hexadecimal format (like you
+							use in html).  <i>Do not</i> prepend a "#" to this value.  Examples: "000000" for black,
+							or "ffffff" for white.
+							<br />
+							The default is <code>B1D4F4</code>.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;background&#8209;bottom</b> <i>colorHexValue</i></td>
+						<td>The color of the bottom of the background gradient in 6 character hexadecimal format (like you
+							use in html).  <i>Do not</i> prepend a "#" to this value.  Examples: "000000" for black,
+							or "ffffff" for white.
+							<br />
+							The default is <code>EFF7FD</code>.
+						</td>
+					</tr>
+				</table>
+
+				<em>Options for a multiple bubbles:</em>
+				<table border="1" cellpadding="3" cellspacing="0">
+					<tr>
+						<td><b>&#8209;&#8209;texts</b> <i>List of bodies for the bubbles</i></td>
+						<td><b>required</b>.  A list of body texts to use in the bubbles.
+							Example: <code>"This is bubble 1" bubble2 "and bubble 3"</code>
+							<br />This must have the same number of items as the <code>--titles</code> list.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;titles</b> <i>List of titles for the bubbles</i></td>
+						<td><b>required</b>.  A list of titles to use in the bubbles.
+							Example: <code>"Title for bubble 1" "And bubble2" "Bubble 3"</code>
+							<br />This must have the same number of items as the <code>--texts</code> list.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;icons</b> <i>List of stock icon names</i></td>
+						<td>The names of the <a href="#icons">stock icons</a> to use.  This is
+							incompatible with <code>--icon-files</code>.  If there are less icon names
+							provided than there are bubbles, it will use the default for the remaining.
+							<br />Defaults are <code>cocoadialog</code>
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;icon&#8209;files</b> <i>List of full paths to icon files</i></td>
+						<td>A list of files to use as icons.  This is
+							incompatible with <code>--icons</code>.  If there are less icon files
+							provided than there are bubbles, it will use the default for the remaining.
+							<br />Look at the <a href="#icons">Icons</a> section to see how to mix custom
+							icons with stock icons.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;text&#8209;colors</b> <i>List of hex colors</i></td>
+						<td>See <a href="#single_bubble">the single bubble</a> section for details. </td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;border&#8209;colors</b> <i>List of hex colors</i></td>
+						<td>See <a href="#single_bubble">the single bubble</a> section for details. </td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;background&#8209;tops</b> <i>List of hex colors</i></td>
+						<td>See <a href="#single_bubble">the single bubble</a> section for details. </td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;background&#8209;bottoms</b> <i>List of hex colors</i></td>
+						<td>See <a href="#single_bubble">the single bubble</a> section for details. </td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;independent</b></td>
+						<td>This makes clicking one bubble not close the others.  The default behavior
+							is to close all bubbles when you click one.
+						</td>
+					</tr>
+				</table>
+
+			</td></tr>
+		</table>
+		<p style="text-align:right">
+			<a href="#runmodes">back to runmodes/controls</a><br />
+			<a href="#global_options">up to global options</a>
+		</p>
+
+
+		<a name="msgbox_control"></a>
+		<h3>msgbox</h3>
+		<table>
+			<tr><td>
+				<img class="screenshot" src="msgbox.jpg" alt="msgbox"
+					style="float:right" />
+				<p>
+				This control provides a generic message box.  It allows you to
+				customize the labels of the buttons.  At least one button
+				(<code>--button1</code>) must be specified.  If labels for the
+				other buttons are not given, the buttons will not appear on the
+				message box.
+				</p>
+				<p>
+				Buttons go from right to left.
+				<code>--button1</code> is the right-most button.
+				</p>
+				<p>
+				<b>returns:</b> <code>1</code>, <code>2</code>, or <code>3</code>
+				depending on which button was pressed; or the label of the button
+				if the <code>--string-output</code> option is given..
+				<br />
+				If the dialog times out, it will return <code>0</code> or <code>timeout</code>.
+				</p>
+				<p>
+				Also see the
+				<a href="#yesno-msgbox_control">yesno-msgbox</a> and
+				<a href="#ok-msgbox_control">ok-msgbox</a>.
+				</p>
+				<p>
+				<a href="examples/msgbox.sh.txt">Example msgbox shell script</a>
+				</p>
+			</td></tr>
+			<tr><td>
+				<em>Options:</em> <small>(in addition to <a href="#global_options">global options</a>)</small>
+				<table border="1" cellpadding="3" cellspacing="0">
+					<tr>
+						<td><b>&#8209;&#8209;text</b> <i>"main text message"</i></td>
+						<td>This is the main, bold message text.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;informative&#8209;text</b>
+							<i>"extra informative text to be displayed"</i></td>
+						<td>This is the extra, smaller message text.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;icon</b> <i>stockIconName</i></td>
+						<td>The name of the <a href="#icons">stock icon</a> to use.  This is
+							incompatible with <code>--icon-file</code>
+							<br />Default is no icon.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;icon&#8209;file</b> <i>"/full/path/to/icon file"</i></td>
+						<td>The full path to the custom icon image you would like to use.
+							Almost every image format is accepted.
+							This is incompatible with the <code>--icon</code> option.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;float</b></td>
+						<td>Float on top of all windows.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;timeout</b> <i>numSeconds</i></td>
+						<td>The amount of time, in seconds, that the window will be displayed if the user
+							does not click a button.
+							<br />Does not time out by default.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;button1</b> <i>"label for button 1"</i></td>
+						<td><b>required</b>. This is the right-most button.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;button2</b> <i>"label for button 2"</i></td>
+						<td>This is the middle button.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;button3</b> <i>"label for button 3"</i></td>
+						<td>This is the left-most button. This will not be displayed
+							if there is no <code>--button2</code> label specified.</td>
+					</tr>
+				</table>
+			</td></tr>
+		</table>
+		<p style="text-align:right">
+			<a href="#runmodes">back to runmodes/controls</a><br />
+			<a href="#global_options">up to global options</a>
+		</p>
+
+		<a name="ok-msgbox_control"></a>
+		<h3>ok-msgbox</h3>
+		<table>
+			<tr><td>
+				<img class="screenshot" src="ok-msgbox.jpg" alt="ok-msgbox"
+					style="float:right" />
+				<p>
+				This control provides a standard Ok/Cancel message box. 
+				</p>
+				<p>
+				<b>returns:</b> <code>1</code> for ok, <code>2</code> for cancel
+				depending on which button was pressed; <code>Ok</code> or
+				<code>Cancel</code>
+				if the <code>--string-output</code> option is given.
+				<br />
+				If the dialog times out, it will return <code>0</code> or <code>timeout</code>.
+				</p>
+				<p><a href="examples/ok.sh.txt">Example ok-msgbox shell script</a></p>
+			</td></tr>
+			<tr><td>
+				<em>Options:</em> <small>(in addition to <a href="#global_options">global options</a>)</small>
+				<table border="1" cellpadding="3" cellspacing="0">
+					<tr>
+						<td><b>&#8209;&#8209;text</b> <i>"main text message"</i></td>
+						<td>This is the main, bold message text.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;informative&#8209;text</b>
+							<i>"extra informative text to be displayed"</i></td>
+						<td>This is the extra, smaller text.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;no&#8209;cancel</b></td>
+						<td>Don't show a cancel button, only "Ok".</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;icon</b> <i>stockIconName</i></td>
+						<td>The name of the <a href="#icons">stock icon</a> to use.  This is
+							incompatible with <code>--icon-file</code>
+							<br />Default is no icon.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;icon&#8209;file</b> <i>"/full/path/to/icon file"</i></td>
+						<td>The full path to the custom icon image you would like to use.
+							Almost every image format is accepted.
+							This is incompatible with the <code>--icon</code> option.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;float</b></td>
+						<td>Float on top of all windows.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;timeout</b> <i>numSeconds</i></td>
+						<td>The amount of time, in seconds, that the window will be displayed if the user
+							does not click a button.
+							<br />Does not time out by default.
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+		</table>
+		<p style="text-align:right">
+			<a href="#runmodes">back to runmodes/controls</a><br />
+			<a href="#global_options">up to global options</a>
+		</p>
+
+		<a name="yesno-msgbox_control"></a>
+		<h3>yesno-msgbox</h3>
+		<table>
+			<tr><td>
+				<img class="screenshot" src="yesno-msgbox.jpg" alt="yesno-msgbox"
+					style="float:right" />
+				<p>
+				This control provides a standard Yes/No/Cancel message box. 
+				</p>
+				<p>
+				<b>returns:</b> <code>1</code> for yes, <code>2</code> for no,
+				<code>3</code> for cancel
+				depending on which button was pressed; <code>Yes</code>,
+				<code>No</code>, or <code>Cancel</code>
+				if the <code>--string-output</code> option is given.
+				<br />
+				If the dialog times out, it will return <code>0</code> or <code>timeout</code>.
+				</p>
+				<p><a href="examples/yesno.sh.txt">Example yesno-msgbox shell script</a></p>
+			</td></tr>
+			<tr><td>
+				<em>Options:</em> <small>(in addition to <a href="#global_options">global options</a>)</small>
+				<table border="1" cellpadding="3" cellspacing="0">
+					<tr>
+						<td><b>&#8209;&#8209;text</b> <i>"main text message"</i></td>
+						<td>This is the main, bold message text.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;informative&#8209;text</b>
+							<i>"extra informative text to be displayed"</i></td>
+						<td>This is the extra, smaller text.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;no&#8209;cancel</b></td>
+						<td>Don't show a cancel button.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;icon</b> <i>stockIconName</i></td>
+						<td>The name of the <a href="#icons">stock icon</a> to use.  This is
+							incompatible with <code>--icon-file</code>
+							<br />Default is no icon.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;icon&#8209;file</b> <i>"/full/path/to/icon file"</i></td>
+						<td>The full path to the custom icon image you would like to use.
+							Almost every image format is accepted.
+							This is incompatible with the <code>--icon</code> option.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;float</b></td>
+						<td>Float on top of all windows.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;timeout</b> <i>numSeconds</i></td>
+						<td>The amount of time, in seconds, that the window will be displayed if the user
+							does not click a button.
+							<br />Does not time out by default.
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+		</table>
+		<p style="text-align:right">
+			<a href="#runmodes">back to runmodes/controls</a><br />
+			<a href="#global_options">up to global options</a>
+		</p>
+
+		<a name="inputbox_control"></a>
+		<h3>inputbox</h3>
+		<table>
+			<tr><td>
+				<img class="screenshot" src="inputbox.jpg" alt="inputbox"
+					style="float:right" />
+				<p>
+				This control provides a one line input box and customizable buttons.
+				At least one button
+				(<code>--button1</code>) must be specified.  If labels for the
+				other buttons are not given, the buttons will not appear on the
+				message box.
+				</p>
+				<p>
+				Buttons go from right to left.
+				<code>--button1</code> is the right-most button.
+				</p>
+				<p>
+				<b>returns:</b> <code>1</code>, <code>2</code>, or <code>3</code>
+				depending on which button was pressed; or the label of the button
+				if the <code>--string-output</code> option is given.  On the next
+				line will be the text provided by the user in the textbox.
+				<br />
+				On a timeout, it will return <code>0</code> or <code>timeout</code>, and the text from 
+				the textbox <i>will not</i> be returned.
+				</p>
+				<p>
+				Also see the
+				<a href="#standard-inputbox_control">standard-inputbox</a>.
+				</p>
+				<p><a href="examples/inputbox.pl.txt">Example inputbox Perl script</a></p>
+			</td></tr>
+			<tr><td>
+				<em>Options:</em> <small>(in addition to <a href="#global_options">global options</a>)</small>
+				<table border="1" cellpadding="3" cellspacing="0">
+					<tr>
+						<td><b>&#8209;&#8209;text</b>
+							<i>"initial text"</i></td>
+						<td>This is the initial text in the input box.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;informative&#8209;text</b>
+							<i>"extra informative text to be displayed"</i></td>
+						<td>This is the text for the label above the input box.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;button1</b> <i>"label for button 1"</i></td>
+						<td><b>required</b>. This is the right-most button.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;button2</b> <i>"label for button 2"</i></td>
+						<td>This is the middle button.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;button3</b> <i>"label for button 3"</i></td>
+						<td>This is the left-most button. This will not be displayed
+							if there is no <code>--button2</code> label specified.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;float</b></td>
+						<td>Float on top of all windows.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;timeout</b> <i>numSeconds</i></td>
+						<td>The amount of time, in seconds, that the window will be displayed if the user
+							does not click a button.
+							<br />Does not time out by default.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;no&#8209;show</b></td>
+						<td>This makes it a secure inputbox. Instead of what the user types,
+							only dots will be shown.
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+		</table>
+		<p style="text-align:right">
+			<a href="#runmodes">back to runmodes/controls</a><br />
+			<a href="#global_options">up to global options</a>
+		</p>
+
+		<a name="standard-inputbox_control"></a>
+		<h3>standard-inputbox</h3>
+		<table>
+			<tr><td>
+				<img class="screenshot" src="standard-inputbox.jpg"
+					alt="standard-inputbox" style="float:right" />
+				<p>
+				This control provides a standard input box with "Ok" and "Cancel"
+				buttons.
+				</p>
+				<p>
+				<b>returns:</b> <code>1</code> for ok, <code>2</code> for cancel
+				depending on which button was pressed; <code>Ok</code>,
+				or <code>Cancel</code>
+				if the <code>--string-output</code> option is given.  On the next
+				line will be the text provided by the user in the textbox.
+				<br />
+				On a timeout, it will return <code>0</code> or <code>timeout</code>, and the text from 
+				the textbox <i>will not</i> be returned.
+				</p>
+				<p><a href="examples/standard-inputbox.pl.txt">Example standard-inputbox Perl script</a></p>
+			</td></tr>
+			<tr><td>
+				<em>Options:</em> <small>(in addition to <a href="#global_options">global options</a>)</small>
+				<table border="1" cellpadding="3" cellspacing="0">
+					<tr>
+						<td><b>&#8209;&#8209;text</b>
+							<i>"initial text"</i></td>
+						<td>This is the initial text in the input box.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;informative&#8209;text</b>
+							<i>"extra informative text to be displayed"</i></td>
+						<td>This is the text for the label above the input box.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;no&#8209;cancel</b></td>
+						<td>Don't show a cancel button.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;float</b></td>
+						<td>Float on top of all windows.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;timeout</b> <i>numSeconds</i></td>
+						<td>The amount of time, in seconds, that the window will be displayed if the user
+							does not click a button.
+							<br />Does not time out by default.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;no&#8209;show</b></td>
+						<td>This makes it a secure inputbox. Instead of what the user types,
+							only dots will be shown.
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+		</table>
+		<p style="text-align:right">
+			<a href="#runmodes">back to runmodes/controls</a><br />
+			<a href="#global_options">up to global options</a>
+		</p>
+
+		<a name="secure-inputbox_control"></a>
+		<h3>secure-inputbox</h3>
+		<table>
+			<tr><td>
+				<img class="screenshot" src="secure-inputbox.jpg"
+					alt="secue-inputbox" style="float:right" />
+				<p>
+				This is an alias for running an <a href="#inputbox_control">inputbox</a> with 
+				the <code>--no-show</code> option.
+				All options available to <a href="#inputbox_control">inputbox</a> are
+				available to <code>secure-inputbox</code>.
+				</p>
+			</td></tr>
+		</table>
+		<p style="text-align:right">
+			<a href="#runmodes">back to runmodes/controls</a><br />
+			<a href="#global_options">up to global options</a>
+		</p>
+
+		<a name="secure-standard-inputbox_control"></a>
+		<h3>secure-standard-inputbox</h3>
+		<table>
+			<tr><td>
+				<img class="screenshot" src="secure-standard-inputbox.jpg"
+					alt="secue-inputbox" style="float:right" />
+				<p>
+				This is an alias for running a <a href="#standard-inputbox_control">standard-inputbox</a> with 
+				the <code>--no-show</code> option.
+				All options available to <a href="#standard-inputbox_control">standard-inputbox</a> are
+				available to <code>secure-standard-inputbox</code>.
+				</p>
+			</td></tr>
+		</table>
+		<p style="text-align:right">
+			<a href="#runmodes">back to runmodes/controls</a><br />
+			<a href="#global_options">up to global options</a>
+		</p>
+
+		<a name="fileselect_control"></a>
+		<h3>fileselect</h3>
+		<table>
+			<tr><td>
+				<img class="screenshot" src="fileselect.jpg" alt="fileselect"
+					style="float:right" />
+				<p>
+				This control provides a file selection window.
+				</p>
+				<p>
+				<b>returns:</b> the files or directories selected by the user, or
+				nothing if they cancel.
+				</p>
+				<p><a href="examples/fileselect.sh.txt">Example fileselect shell script</a></p>
+			</td></tr>
+			<tr><td>
+				<em>Options:</em> <small>(in addition to <a href="#global_options">global options</a>)</small>
+				<table border="1" cellpadding="3" cellspacing="0">
+					<tr>
+						<td><b>&#8209;&#8209;text</b> <i>"main text message"</i></td>
+						<td>This is the text displayed at the top of the fileselect
+							window.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;select&#8209;directories</b></td>
+						<td>Allow the user to select directories as well as files.
+							Default is to disallow it.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;select&#8209;only&#8209;directories</b></td>
+						<td>Allows the user to select only directories.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;packages&#8209;as&#8209;directories</b></td>
+						<td>Allows the user to navigate into packages as if they were directories, rather than
+							selecting the package as a file.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;select&#8209;multiple</b></td>
+						<td>Allow the user to select more than one file.
+							Default is to allow only one file/directory selection.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;with&#8209;extensions</b>
+							<i>list of extensions</i>
+						</td>
+						<td>
+							Limit selectable files to ones with these extensions.
+							<code>list of extensions</code> should be space separated, and
+							given as multiple arguments (ie: don't double quote the list).
+							<br />
+							Example: <code>CocoaDialog fileselect --with-extensions .c .h .m .txt</code>
+							<br />
+							The period/dot at the start of each extension is optional.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;with&#8209;directory</b>
+							<i>directory</i>
+						</td>
+						<td>
+							Start the file select window in <code>directory</code>.
+							The default value is up to the system, and will usually be
+							the last directory visited in a file select dialog.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;with&#8209;file</b>
+							<i>file</i>
+						</td>
+						<td>
+							Start the file select window with <code>file</code>
+							already selected.
+							By default no file will be selected.
+							<i>This must be used with <code>--with-directory</code></i>.
+							It should be the filename of a file within the directory.
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+		</table>
+		<p style="text-align:right">
+			<a href="#runmodes">back to runmodes/controls</a><br />
+			<a href="#global_options">up to global options</a>
+		</p>
+
+		<a name="filesave_control"></a>
+		<h3>filesave</h3>
+		<table>
+			<tr><td>
+				<img class="screenshot" src="filesave.jpg" alt="filesave"
+					style="float:right" />
+				<p>
+				This control provides a file save window, which allows the user to select a file,
+				or specify a new file.
+				</p>
+				<p>
+				This dialog allows the user to create directories. 
+				However, if the user specifies a file that
+				does not yet exist, it <em>will not be created</em>.  This is a task for
+				your script.
+				</p>
+				<p>
+				<b>returns:</b> the file selected (which may not exist), or
+				nothing if they cancel.
+				</p>
+			</td></tr>
+			<tr><td>
+				<em>Options:</em> <small>(in addition to <a href="#global_options">global options</a>)</small>
+				<table border="1" cellpadding="3" cellspacing="0">
+					<tr>
+						<td><b>&#8209;&#8209;text</b> <i>"main text message"</i></td>
+						<td>This is the text displayed at the top of the filesave
+							window.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;packages&#8209;as&#8209;directories</b></td>
+						<td>Allows the user to navigate into packages as if they were directories, rather than
+							selecting the package as a file.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;no&#8209;create&#8209;directories</b></td>
+						<td>Prevents the user from creating new directories. </td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;with&#8209;extensions</b>
+							<i>list of extensions</i>
+						</td>
+						<td>
+							Limit selectable files (including files the user creates) to ones with these extensions.
+							<code>list of extensions</code> should be space separated, and
+							given as multiple arguments (ie: don't double quote the list).
+							<br />
+							Example: <code>CocoaDialog filesave --with-extensions .c .h .m .txt</code>
+							<br />
+							The period/dot at the start of each extension is optional.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;with&#8209;directory</b>
+							<i>directory</i>
+						</td>
+						<td>
+							Start the file save window in <code>directory</code>.
+							The default value is up to the system, and will usually be
+							the last directory visited in a file dialog.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;with&#8209;file</b>
+							<i>file</i>
+						</td>
+						<td>
+							Start the file save window with <code>file</code>
+							already selected.
+							By default no file will be selected.
+							<i>This must be used with <code>--with-directory</code></i>.
+							It should be the filename of a file within the directory.
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+		</table>
+		<p style="text-align:right">
+			<a href="#runmodes">back to runmodes/controls</a><br />
+			<a href="#global_options">up to global options</a>
+		</p>
+
+		<a name="textbox_control"></a>
+		<h3>textbox</h3>
+		<table>
+			<tr><td>
+				<img class="screenshot" src="textbox.jpg" alt="textbox"
+				style="float:right" />
+				<p>
+				This is a text box with a large text area.
+				</p>
+				<p>
+				At least one button
+				(<code>--button1</code>) must be specified.  If labels for the
+				other buttons are not given, the buttons will not appear on the
+				text box.
+				</p>
+				<p>
+				Buttons go from right to left.
+				<code>--button1</code> is the right-most button.
+				</p>
+				<p>
+				<b>returns:</b> <code>1</code>, <code>2</code>, or <code>3</code>
+				depending on which button was pressed; or the label of the button
+				if the <code>--string-output</code> option is given.
+				<br />
+				If the <code>--editable</code> option was given, it will print
+				the contents of the text box following the return value for the
+				button.
+				<br />
+				On a timeout, it will return <code>0</code> or <code>timeout</code>, and the text from 
+				the textbox <i>will not</i> be returned.
+				</p>
+				<p><a href="examples/textbox.pl.txt">Example textbox Perl script</a></p>
+			</td></tr>
+			<tr><td>
+				<em>Options:</em> <small>(in addition to <a href="#global_options">global options</a>)</small>
+				<table border="1" cellpadding="3" cellspacing="0">
+					<tr>
+						<td><b>&#8209;&#8209;text</b> <i>"main text message"</i></td>
+						<td>This is the text that goes into the text box.
+							This value overrides <code>--text-from-file</code>.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;text&#8209;from&#8209;file</b>
+							<i>filename</i></td>
+						<td>Fills the text box with the contents of
+							<code>filename</code>
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;informative&#8209;text</b>
+							<i>"extra informative text to be displayed"</i></td>
+						<td>This is the message above the text box.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;button1</b> <i>"label for button 1"</i></td>
+						<td><b>required</b>. This is the right-most button.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;button2</b> <i>"label for button 2"</i></td>
+						<td>This is the middle button.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;button3</b> <i>"label for button 3"</i></td>
+						<td>This is the left-most button. This will not be displayed
+							if there is no <code>--button2</code> label specified.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;editable</b></td>
+						<td>
+							Makes the text box editable.  When this option is set, the 
+							return value for the button will be followed with the contents
+							of the text box.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;focus&#8209;textbox</b></td>
+						<td>This option is only useful when <code>--editable</code>
+							is set.  This makes the initial focus on the textbox rather
+							than the rightmost button.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;selected</b></td>
+						<td>
+							Selects all the text in the text box.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;scroll-to</b>
+							<i>bottom_or_top</i>
+						</td>
+						<td>
+							Where <code>bottom_or_top</code> is one of <code>bottom</code>
+							or <code>top</code>.
+							<br />
+							Causes the text box to initially scroll to the bottom or top
+							if the text it contains is larger than its current view.
+							<br />
+							Default is <code>top</code>.
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;float</b></td>
+						<td>Float on top of all windows.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;timeout</b> <i>numSeconds</i></td>
+						<td>The amount of time, in seconds, that the window will be displayed if the user
+							does not click a button.
+							<br />Does not time out by default.
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+		</table>
+		<p style="text-align:right">
+			<a href="#runmodes">back to runmodes/controls</a><br />
+			<a href="#global_options">up to global options</a>
+		</p>
+
+		<a name="progressbar_control"></a>
+		<h3>progressbar</h3>
+		<table>
+			<tr><td>
+					<div style="float:right">
+						<img class="screenshot" src="progressbar1.jpg" alt="progressbar" />
+						<br />
+						<img class="screenshot" src="progressbar2.jpg" alt="indeterminate progressbar" />
+					</div>
+				<p>
+				The progress bar is a bit different, and slightly more complex
+				than the other controls.
+				It has no return value, but reads input on <code>stdin</code>.
+				It will continue to display until it reads an <code>EOF</code>.
+				</p>
+				<p>
+				Input for the progress bar is in the form:
+				<code>newPercent updated text to be displayed</code> and must
+				be terminated by a newline.
+				If you want to leave the current text intact, just provide the new
+				percent.
+				<code>newPercent</code> should be a number.  
+				<br />
+				<br />
+				Examples (the first sets new text, the second leaves the old text):
+				</p>
+				<div class="code">
+					26 We're now at 26%
+				</div>
+				<div class="code">
+					26
+				</div>
+				<p>In your code it would like this: <code>"26 We're at 26%\n"</code>.  That newline is important.</p>
+				<p>
+					<a href="examples.html#progressbar3">Ideas and help for working with the progressbar in the shell</a>
+					<br />
+					<a href="examples/progressbar.pl.txt">Example progressbar Perl script</a>
+					<br />
+					<a href="examples/progressbar.sh.txt">Example progressbar shell script</a>
+					<br />
+					<a href="examples/ProgressBar.txt">Python class for working with the progressbar</a>
+				</p>
+
+			</td></tr>
+			<tr><td>
+				<em>Options:</em> <small>(in addition to <a href="#global_options">global options</a>)</small>
+				<table border="1" cellpadding="3" cellspacing="0">
+					<tr>
+						<td><b>&#8209;&#8209;text</b> <i>"initial text to display"</i></td>
+						<td>This is the text that will be initially displayed.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;percent</b> <i>number</i></td>
+						<td>Initial percentage, between 0 and 100, for the progress
+							bar</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;indeterminate</b></td>
+						<td>This option makes the progress bar an animated
+							"barbershop pole" (for lack of better description).  It does
+							not indicate how far the operations you're performing have
+							progressed; it just shows that your application/script is
+							busy.  You can still update the text of the label when
+							writing to CocoaDialog's <code>stdin</code> - and it doesn't
+							matter what percentage you feed it.
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+		</table>
+		<p style="text-align:right">
+			<a href="#runmodes">back to runmodes/controls</a><br />
+			<a href="#global_options">up to global options</a>
+		</p>
+
+		<a name="dropdown_control"></a>
+		<h3>dropdown</h3>
+		<table>
+			<tr><td>
+				<img class="screenshot" src="dropdown.jpg" alt="dropdown"
+					style="float:right" />
+				<p>
+				This control provides a dropdown list of items to select from
+				and customizable buttons.
+				<br />
+				Values for the dropdown list must be provided.
+				At least one button
+				(<code>--button1</code>) must be specified.  If labels for the
+				other buttons are not given, the buttons will not appear on the
+				message box.
+				</p>
+				<p>
+				Buttons go from right to left.
+				<code>--button1</code> is the right-most button.
+				</p>
+				<p>
+				<b>returns:</b> <code>1</code>, <code>2</code>, or <code>3</code>
+				depending on which button was pressed; or the label of the button
+				if the <code>--string-output</code> option is given.
+				<br />Returns <code>4</code> (for both regular and <code>--string-output</code>)
+				if the user didn't press a button due to <code>--exit-onchange</code>.
+				<br />
+				On the following line will be the index (zero-based) of the selected
+				item, or its label if the <code>--string-output</code> option is
+				given.
+				<br />
+				On a timeout, it will return <code>0</code> or <code>timeout</code>, and the selected
+				item <i>will not</i> be returned.
+				</p>
+				<p>
+				Also see the
+				<a href="#standard-dropdown_control">standard-dropdown</a>.
+				</p>
+				<p><a href="examples/dropdown.pl.txt">Example dropdown Perl script</a></p>
+			</td></tr>
+			<tr><td>
+				<em>Options:</em> <small>(in addition to <a href="#global_options">global options</a>)</small>
+				<table border="1" cellpadding="3" cellspacing="0">
+					<tr>
+						<td><b>&#8209;&#8209;text</b>
+							<i>"text"</i></td>
+						<td>This is the text for the label above the dropdown box.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;items</b>
+							<i>list of values</i>
+						</td>
+						<td>
+							<b>required</b>.  
+							These are the labels for the options provided in the dropdown
+							box.
+							<code>list of values</code> should be space separated, and
+							given as multiple arguments (ie: don't double quote the
+							entire list. Provide it as you would multiple arguments for
+							any shell program). The first item in the list is always 
+							selected by default.
+							<br />
+							Example: <code>CocoaDialog dropdown --text "Favorite OS?" --items "GNU/Linux" "OS X" Windows Amiga "TI 89" --button1 "Ok"</code>
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;pulldown</b></td>
+						<td>Sets the style to a pull-down box, which differs slightly
+							from the default pop-up style. The first item remains visible.
+							This option probably isn't very useful for a single-function
+							dialog such as those CocoaDialog provides, but I've included
+							it just in case it is.
+							To see how their appearances differ, just try them both.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;button1</b> <i>"label for button 1"</i></td>
+						<td><b>required</b>. This is the right-most button.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;button2</b> <i>"label for button 2"</i></td>
+						<td>This is the middle button.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;button3</b> <i>"label for button 3"</i></td>
+						<td>This is the left-most button. This will not be displayed
+							if there is no <code>--button2</code> label specified.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;exit&#8209;onchange</b></td>
+						<td>Makes the program exit immediately after the selection
+							changes, rather than waiting for the user to press one of the
+							buttons. This makes the return value for the button
+							<code>4</code> (for both regular output and with
+							<code>--string-output</code>).</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;float</b></td>
+						<td>Float on top of all windows.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;timeout</b> <i>numSeconds</i></td>
+						<td>The amount of time, in seconds, that the window will be displayed if the user
+							does not click a button.
+							<br />Does not time out by default.
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+		</table>
+		<p style="text-align:right">
+			<a href="#runmodes">back to runmodes/controls</a><br />
+			<a href="#global_options">up to global options</a>
+		</p>
+
+		<a name="standard-dropdown_control"></a>
+		<h3>standard-dropdown</h3>
+		<table>
+			<tr><td>
+				<img class="screenshot" src="standard-dropdown.jpg" alt="standard-dropdown"
+					style="float:right" />
+				<p>
+				This control provides a dropdown list of items to select from
+				and the standard "Ok" and "Cancel" buttons.
+				<br />
+				Values for the dropdown list must be provided.
+				</p>
+				<p>
+				<b>returns:</b> <code>1</code> for ok, <code>2</code> for cancel,
+				depending on which button was pressed; or <code>Ok</code> or
+				<code>Cancel</code>
+				if the <code>--string-output</code> option is given.
+				<br />Returns <code>4</code> (for both regular and <code>--string-output</code>)
+				if the user didn't press a button due to <code>--exit-onchange</code>.
+				<br />
+				On the following line will be the index (zero-based) of the selected
+				item, or its label if the <code>--string-output</code> option is
+				given.
+				<br />
+				On a timeout, it will return <code>0</code> or <code>timeout</code>, and the selected
+				item <i>will not</i> be returned.
+				</p>
+			</td></tr>
+			<tr><td>
+				<em>Options:</em> <small>(in addition to <a href="#global_options">global options</a>)</small>
+				<table border="1" cellpadding="3" cellspacing="0">
+					<tr>
+						<td><b>&#8209;&#8209;text</b>
+							<i>"text"</i></td>
+						<td>This is the text for the label above the dropdown box.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;items</b>
+							<i>list of values</i>
+						</td>
+						<td>
+							<b>required</b>.  
+							These are the labels for the options provided in the dropdown
+							box.
+							<code>list of values</code> should be space separated, and
+							given as multiple arguments (ie: don't double quote the
+							entire list. Provide it as you would multiple arguments for
+							any shell program). The first item in the list is always 
+							selected by default.
+							<br />
+							Example: <code>CocoaDialog dropdown --text "Favorite OS?" --items "GNU/Linux" "OS X" Windows Amiga "TI 89" --button1 "Ok"</code>
+						</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;pulldown</b></td>
+						<td>Sets the style to a pull-down box, which differs slightly
+							from the default pop-up style. The first item remains visible.
+							This option probably isn't very useful for a single-function
+							dialog such as those CocoaDialog provides, but I've included
+							it just in case it is.
+							To see how their appearances differ, just try them both.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;exit&#8209;onchange</b></td>
+						<td>Makes the program exit immediately after the selection
+							changes, rather than waiting for the user to press one of the
+							buttons. This makes the return value for the button
+							<code>4</code> (for both regular output and with
+							<code>--string-output</code>).</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;no&#8209;cancel</b></td>
+						<td>Don't show a cancel button.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;float</b></td>
+						<td>Float on top of all windows.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;timeout</b> <i>numSeconds</i></td>
+						<td>The amount of time, in seconds, that the window will be displayed if the user
+							does not click a button.
+							<br />Does not time out by default.
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+		</table>
+		<p style="text-align:right">
+			<a href="#runmodes">back to runmodes/controls</a><br />
+			<a href="#global_options">up to global options</a>
+		</p>
+
+	</div>
+	<div class="footer">
+		<a  href="http://sourceforge.net"><img src="http://sourceforge.net/sflogo.php?group_id=106818&amp;type=1"  width="88" height="31" alt="SourceForge.net Logo"  /></a>
+		<a href="http://validator.w3.org/check/referer"><img
+			src="http://www.w3.org/Icons/valid-xhtml10"
+			alt="Valid XHTML 1.0!" height="31" width="88" /></a>
+		<a href="http://jigsaw.w3.org/css-validator/"><img
+			style="border:0;width:88px;height:31px"
+			src="http://jigsaw.w3.org/css-validator/images/vcss" 
+			alt="Valid CSS!" /></a>
+	</div>
+
+</div>
+</body>
+</html>
