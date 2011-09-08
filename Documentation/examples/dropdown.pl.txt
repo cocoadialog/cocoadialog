@@ -6,7 +6,7 @@ our $CD = "cocoadialog";
 
 
 my $rv = `$CD dropdown --title "Preferred OS" --no-newline \\
-	---text "What is your favorite OS?" \\
+	--text "What is your favorite OS?" \\
 	--items "Mac OS X" "GNU/Linux" "Windows" --button1 'That one!' \\
 	--button2 Nevermind`;
 my ($button, $item) = split /\n/, $rv;

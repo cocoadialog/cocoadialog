@@ -542,7 +542,7 @@ use strict;
 our $CD = &quot;$ENV{HOME}/Applications/CocoaDialog.app/Contents/MacOS/CocoaDialog&quot;;
 
 my $rv = `$CD dropdown --title &quot;Preferred OS&quot; --no-newline \\
-	---text &quot;What is your favorite OS?&quot; \\
+	--text &quot;What is your favorite OS?&quot; \\
 	--items &quot;Mac OS X&quot; &quot;GNU/Linux&quot; &quot;Windows&quot; --button1 'That one!' \\
 	--button2 Nevermind`;
 my ($button, $item) = split /\n/, $rv;
