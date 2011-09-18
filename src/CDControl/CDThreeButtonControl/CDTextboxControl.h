@@ -23,6 +23,10 @@
 
 @interface CDTextboxControl : CDThreeButtonControl {
 	IBOutlet NSTextView  *textView;
+	IBOutlet NSScrollView  *scrollView;
 }
+
+- (void) setLabel:(NSString *)labelText;
+
 
 @end
