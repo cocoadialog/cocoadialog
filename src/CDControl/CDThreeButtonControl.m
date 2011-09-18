@@ -120,18 +120,29 @@
 		[expandingLabel setStringValue:@""];
 	}
 
-	NSRect frame = [expandingLabel frame];
-	float oldHeight = frame.size.height;
-	NSSize windowContentSize = [[panel contentView] frame].size;
-	NSRect dummyRect = NSMakeRect(0., 0., frame.size.width, 800.);
-	frame.size = [[expandingLabel cell] cellSizeForBounds:dummyRect];
-	float deltaHeight = frame.size.height - oldHeight;
-
-	[expandingLabel setFrame:frame];
-
-	windowContentSize.height += deltaHeight;
-	[panel setContentMinSize:windowContentSize];
+    NSRect labelRect = [expandingLabel frame];
+    NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: labelText]autorelease];
+    NSTextContainer *textContainer = [[[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)] autorelease];
+    NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease];
+    [layoutManager addTextContainer: textContainer];
+    [textStorage addLayoutManager: layoutManager];
+    [textContainer setLineFragmentPadding:0];
+    [layoutManager glyphRangeForTextContainer:textContainer];
+    
+    float newHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
+    float heightDiff = newHeight - labelRect.size.height;
+    
+    // Set panel's new width and height
+    NSSize p = [[panel contentView] frame].size;
+	p.height += heightDiff;
+	[panel setContentSize:p];
+    [panel center];
+    
+    // Set label's new width and height
+    NSRect l = NSMakeRect(labelRect.origin.x, p.height - 20 - newHeight, p.width - 20, newHeight);
+    [expandingLabel setFrame: l];
 }
+
 
 - (void) setTitle
 {
