@@ -60,7 +60,7 @@
 						</object>
 						<object class="NSTextField" id="40520108">
 							<reference key="NSNextResponder" ref="576688871"/>
-							<int key="NSvFlags">274</int>
+							<int key="NSvFlags">266</int>
 							<string key="NSFrame">{{17, 38}, {349, 14}}</string>
 							<reference key="NSSuperview" ref="576688871"/>
 							<reference key="NSWindow"/>

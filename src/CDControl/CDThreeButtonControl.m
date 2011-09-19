@@ -39,10 +39,6 @@
 {
 	if (aTitle && ![aTitle isEqualToString:@""]) {
 		[aButton setTitle:aTitle];
-		if ([aTitle isEqualToString:@"Cancel"]) {
-			[aButton setKeyEquivalent:@"\e"];
-		}
-
 		float maxX = NSMaxX([aButton frame]);
 		[aButton sizeToFit];
 		NSRect r = [aButton frame];
@@ -90,6 +86,16 @@
 	float minWidth = 2 * 20.0f; // margin
 	for (i = 0; i != sizeof(buttons)/sizeof(buttons[0]); i++) {
 		[self setTitle:[options optValue:buttons[i].key] forButton:buttons[i].button];
+        if ([[self options] hasOpt:@"cancel"]) {
+            if ([[options optValue:@"cancel"] isEqualToString:buttons[i].key]) {
+                [buttons[i].button setKeyEquivalent:@"\e"];
+            }
+        }
+        else {
+            if ([[options optValue:buttons[i].key] isEqualToString:@"Cancel"]) {
+                [buttons[i].button setKeyEquivalent:@"\e"];
+            }
+        }
 		if ([buttons[i].button isHidden] == NO) {
 			minWidth += NSWidth([buttons[i].button frame]);
 		}
@@ -132,15 +138,15 @@
     float newHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
     float heightDiff = newHeight - labelRect.size.height;
     
+    // Set label's new width and height
+    NSRect l = NSMakeRect(labelRect.origin.x, labelRect.origin.y - heightDiff, labelRect.size.width, newHeight);
+    [expandingLabel setFrame: l];
+    
     // Set panel's new width and height
     NSSize p = [[panel contentView] frame].size;
 	p.height += heightDiff;
 	[panel setContentSize:p];
     [panel center];
-    
-    // Set label's new width and height
-    NSRect l = NSMakeRect(labelRect.origin.x, p.height - 20 - newHeight, p.width - 20, newHeight);
-    [expandingLabel setFrame: l];
 }
 
 
