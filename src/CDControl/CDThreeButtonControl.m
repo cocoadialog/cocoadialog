@@ -39,13 +39,6 @@
 {
 	if (aTitle && ![aTitle isEqualToString:@""]) {
 		[aButton setTitle:aTitle];
-		if ([aTitle isEqualToString:@"Cancel"]) {
-			[aButton setKeyEquivalent:@"\e"];
-        }
-        else if ([aTitle isEqualToString:@"Skip"] && !cancelSet) {
-			[aButton setKeyEquivalent:@"\e"];
-		}
-
 		float maxX = NSMaxX([aButton frame]);
 		[aButton sizeToFit];
 		NSRect r = [aButton frame];
@@ -91,9 +84,18 @@
 	CDOptions *options = [self options];
 
 	float minWidth = 2 * 20.0f; // margin
-    cancelSet = NO;
 	for (i = 0; i != sizeof(buttons)/sizeof(buttons[0]); i++) {
 		[self setTitle:[options optValue:buttons[i].key] forButton:buttons[i].button];
+        if ([[self options] hasOpt:@"cancel"]) {
+            if ([[options optValue:@"cancel"] isEqualToString:buttons[i].key]) {
+                [buttons[i].button setKeyEquivalent:@"\e"];
+            }
+        }
+        else {
+            if ([[options optValue:buttons[i].key] isEqualToString:@"Cancel"]) {
+                [buttons[i].button setKeyEquivalent:@"\e"];
+            }
+        }
 		if ([buttons[i].button isHidden] == NO) {
 			minWidth += NSWidth([buttons[i].button frame]);
 		}

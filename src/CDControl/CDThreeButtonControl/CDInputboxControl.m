@@ -34,6 +34,7 @@
 		vOne, @"button1",
 		vOne, @"button2",
 		vOne, @"button3",
+        vOne, @"cancel",
 		vNone,@"no-show",
 		vNone,@"float",
 		vOne, @"timeout",
