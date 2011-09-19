@@ -28,6 +28,7 @@
 	IBOutlet NSButton    *button3;
 	IBOutlet NSTextField *expandingLabel;
 	int rv;
+    BOOL cancelSet;
 }
 
 - (IBAction) timeout:(id)sender;

@@ -41,6 +41,9 @@
 		[aButton setTitle:aTitle];
 		if ([aTitle isEqualToString:@"Cancel"]) {
 			[aButton setKeyEquivalent:@"\e"];
+        }
+        else if ([aTitle isEqualToString:@"Skip"] && !cancelSet) {
+			[aButton setKeyEquivalent:@"\e"];
 		}
 
 		float maxX = NSMaxX([aButton frame]);
@@ -88,6 +91,7 @@
 	CDOptions *options = [self options];
 
 	float minWidth = 2 * 20.0f; // margin
+    cancelSet = NO;
 	for (i = 0; i != sizeof(buttons)/sizeof(buttons[0]); i++) {
 		[self setTitle:[options optValue:buttons[i].key] forButton:buttons[i].button];
 		if ([buttons[i].button isHidden] == NO) {
