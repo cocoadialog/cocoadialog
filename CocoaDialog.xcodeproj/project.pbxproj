@@ -71,6 +71,8 @@
 		0EE0B434096802B90070F494 /* CDThreeButtonControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EE0B433096802B90070F494 /* CDThreeButtonControl.m */; };
 		0EE0B436096802CF0070F494 /* CDThreeButtonControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EE0B435096802CF0070F494 /* CDThreeButtonControl.h */; };
 		0EE0B5D009681BF00070F494 /* hazard.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0EE0B5CF09681BF00070F494 /* hazard.icns */; };
+		89BE1C9F14270A540030D0FF /* CDProgressbarInputHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BE1C9D14270A540030D0FF /* CDProgressbarInputHandler.m */; };
+		89BE1CA214270EC80030D0FF /* CDProgressbarInputHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 89BE1CA114270EC80030D0FF /* CDProgressbarInputHandler.h */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		A7255372142538DC004A7B4F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A725536A142538DC004A7B4F /* MainMenu.xib */; };
 		A7255373142538DC004A7B4F /* Inputbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = A725536C142538DC004A7B4F /* Inputbox.xib */; };
@@ -149,6 +151,8 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		89BE1C9D14270A540030D0FF /* CDProgressbarInputHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDProgressbarInputHandler.m; path = src/CDProgressbarInputHandler.m; sourceTree = "<group>"; };
+		89BE1CA114270EC80030D0FF /* CDProgressbarInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDProgressbarInputHandler.h; path = src/CDProgressbarInputHandler.h; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* CocoaDialog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocoaDialog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A725536B142538DC004A7B4F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		A725536C142538DC004A7B4F /* Inputbox.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Inputbox.xib; path = Resources/Inputbox.xib; sourceTree = "<group>"; };
@@ -174,6 +178,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				89BE1C9D14270A540030D0FF /* CDProgressbarInputHandler.m */,
 				0E71D9EB0963B15300FF6F7C /* AppController.m */,
 				0E77E9B30963C46500D651A3 /* KABubbleWindow.m */,
 				0E77E9B40963C46500D651A3 /* KABubbleWindowController.m */,
@@ -213,6 +218,7 @@
 		0E91738E06299DF400E97C20 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				89BE1CA114270EC80030D0FF /* CDProgressbarInputHandler.h */,
 				0E71D9CF0963B12800FF6F7C /* AppController.h */,
 				0E71D9D50963B12800FF6F7C /* CDOptions.h */,
 				0E77E9B90963C47A00D651A3 /* KABubbleWindow.h */,
@@ -401,6 +407,7 @@
 				0EE0B436096802CF0070F494 /* CDThreeButtonControl.h in Headers */,
 				0EC9B67E09B126D500956684 /* CDFileDialogControl.h in Headers */,
 				0EC9B68209B1273100956684 /* CDFileSaveControl.h in Headers */,
+				89BE1CA214270EC80030D0FF /* CDProgressbarInputHandler.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -513,6 +520,7 @@
 				0EE0B434096802B90070F494 /* CDThreeButtonControl.m in Sources */,
 				0EC9B67F09B126D500956684 /* CDFileDialogControl.m in Sources */,
 				0EC9B68409B1274100956684 /* CDFileSaveControl.m in Sources */,
+				89BE1C9F14270A540030D0FF /* CDProgressbarInputHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -545,6 +553,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;
@@ -579,6 +588,7 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -610,6 +620,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
