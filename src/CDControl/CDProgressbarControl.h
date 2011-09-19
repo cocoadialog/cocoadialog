@@ -28,7 +28,6 @@
 	IBOutlet NSPanel             *panel;
 	IBOutlet NSTextField         *label;
 	IBOutlet NSProgressIndicator *progressBar;
-	BOOL _shouldEndSession;
 }
 
 @end

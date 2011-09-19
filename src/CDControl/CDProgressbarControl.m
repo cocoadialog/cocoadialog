@@ -37,6 +37,7 @@
 		vOne,  @"text",
 		vOne,  @"percent",
 		vNone, @"indeterminate",
+		vNone, @"float",
 		nil];
 }
 
@@ -110,12 +111,35 @@
 	return initialPercent;
 }
 
+-(void) updateProgress:(NSNumber*)newProgress
+{
+	[progressBar setDoubleValue:[newProgress doubleValue]];
+}
+
+-(void) updateLabel:(NSString*)newLabel
+{
+	[label setStringValue:newLabel];
+}
+
+-(void) finish
+{
+	[NSApp terminate:nil];
+}
+
+-(void) invokeOnMainQueue:(SEL)selector object:(id)object
+{
+	NSOperationQueue* mainQueue = [NSOperationQueue mainQueue];
+	NSInvocationOperation* operation = [[NSInvocationOperation alloc] initWithTarget:self selector:selector object:object];
+	[mainQueue addOperation:operation];
+	[operation release];
+}
+
 // takes the NSData from the NSFileHandle's availableData and tries to do 
 // something useful with it.
-- (void) _readData:(NSData *)data
+- (BOOL) _readData:(NSData *)data
 {
 	if (data == nil) {
-		return;
+		return false;
 	}
 	
 	if ([data length] > 0) {
@@ -126,26 +150,47 @@
 			newPercent = [self _percentFromString:
 				[stuff objectAtIndex:0]];
 			if (![[self options] hasOpt:@"indeterminate"]) {
-				[progressBar setDoubleValue:newPercent];
+				[self invokeOnMainQueue:@selector(updateProgress:) object:[NSNumber numberWithDouble:newPercent]];
 			}
 			newLabel = [stuff count] > 1 ? 
 				[stuff objectAtIndex:1] : nil;
 			if (newLabel != nil && [newLabel length]) {
-				[label setStringValue:newLabel];
+				[self invokeOnMainQueue:@selector(updateLabel:) object:newLabel];
 			}			
 		}
+		return true;
 	} else {
-		_shouldEndSession = YES;
+		return false;
 	}
 }
 
-- (NSArray *) runControlFromOptions:(CDOptions *)options
+-(void) processInput
 {
 	NSFileHandle *stdinFH;
 	fd_set rfds;
 	struct timeval tv;
 	int selectRv;
+	stdinFH = [NSFileHandle fileHandleWithStandardInput];
 
+	BOOL shouldContinue = true;
+	while (shouldContinue) {
+		NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+		FD_ZERO(&rfds);
+		FD_SET([stdinFH fileDescriptor], &rfds);
+		tv.tv_sec = 10;
+
+		selectRv = select(1, &rfds, NULL, NULL, &tv);
+		if (selectRv) {
+			shouldContinue = [self _readData:[stdinFH availableData]];
+		}
+		[pool drain];
+	}
+
+	[self invokeOnMainQueue:@selector(finish) object:nil];
+}
+
+- (NSArray *) runControlFromOptions:(CDOptions *)options
+{
 	[self setOptions:options];
 	
 	// Load nib or return nil
@@ -190,53 +235,22 @@
 	} else {
 		[progressBar setIndeterminate:NO];
 	}
-	
-	stdinFH = [NSFileHandle fileHandleWithStandardInput];
-	_shouldEndSession = NO; // changed in _readData:
 
-	// first run for half a second without showing the window
-	int i;
-	for (i = 0; i < 50; i++) {
-		FD_ZERO(&rfds);
-		FD_SET([stdinFH fileDescriptor], &rfds);
-		tv.tv_sec = 0;
-		tv.tv_usec = 100;
-		selectRv = select(1, &rfds, NULL, NULL, &tv);
-		if (selectRv) {
-			[self _readData:[stdinFH availableData]];
-		}
-
-		if (_shouldEndSession) {
-			FD_CLR([stdinFH fileDescriptor], &rfds);
-			break;
-		}
+	[panel center];
+	if ([[self options] hasOpt:@"float"]) {
+		[panel setFloatingPanel: YES];
+		[panel setLevel:NSScreenSaverWindowLevel];
 	}
 
-	if(!_shouldEndSession) {
-		NSModalSession session = [NSApp beginModalSessionForWindow:panel];
-		for (;;) {
-			FD_ZERO(&rfds);
-			FD_SET([stdinFH fileDescriptor], &rfds);
-			tv.tv_sec = 0;
-			tv.tv_usec = 100;
-			selectRv = select(1, &rfds, NULL, NULL, &tv);
-			if (selectRv) {
-				[self _readData:[stdinFH availableData]];
-			}
+	NSOperationQueue* queue = [NSOperationQueue new];
+	NSInvocationOperation* operation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(processInput) object:nil];
 
-			if ([NSApp runModalSession:session] != NSRunContinuesResponse)
-				break;
+	[panel makeKeyAndOrderFront:nil];
 
-			if ([options hasOpt:@"indeterminate"])
-				[progressBar animate:self];
+	[queue addOperation:operation];
+	[operation release];
 
-			if (_shouldEndSession) {
-				FD_CLR([stdinFH fileDescriptor], &rfds);
-				break;
-			}
-		}
-		[NSApp endModalSession:session];
-	}
+	[NSApp run];
 
 	return [NSArray array];
 }
