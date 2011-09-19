@@ -11,7 +11,7 @@
 #define BUBBLE_VERT_CENTER  8
 #define BUBBLE_VERT_BOTTOM  16
 
-@interface KABubbleWindowController : NSWindowController {
+@interface KABubbleWindowController : NSWindowController <NSWindowDelegate> {
 	id _delegate;
 	NSTimer *_animationTimer;
 	unsigned int _depth;
