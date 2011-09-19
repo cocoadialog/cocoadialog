@@ -136,15 +136,15 @@
     float newHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
     float heightDiff = newHeight - labelRect.size.height;
     
+    // Set label's new width and height
+    NSRect l = NSMakeRect(labelRect.origin.x, labelRect.origin.y - heightDiff, labelRect.size.width, newHeight);
+    [expandingLabel setFrame: l];
+    
     // Set panel's new width and height
     NSSize p = [[panel contentView] frame].size;
 	p.height += heightDiff;
 	[panel setContentSize:p];
     [panel center];
-    
-    // Set label's new width and height
-    NSRect l = NSMakeRect(labelRect.origin.x, p.height - 20 - newHeight, labelRect.size.width, newHeight);
-    [expandingLabel setFrame: l];
 }
 
 

@@ -48,7 +48,7 @@
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<string key="NSWindowContentMinSize">{213, 5}</string>
 				<object class="NSView" key="NSWindowView" id="576688871">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSProgressIndicator" id="604174939">
@@ -57,14 +57,16 @@
 							<object class="NSPSMatrix" key="NSDrawMatrix"/>
 							<string key="NSFrame">{{19, 18}, {345, 12}}</string>
 							<reference key="NSSuperview" ref="576688871"/>
+							<reference key="NSWindow"/>
 							<int key="NSpiFlags">16652</int>
 							<double key="NSMaxValue">100</double>
 						</object>
 						<object class="NSTextField" id="40520108">
 							<reference key="NSNextResponder" ref="576688871"/>
-							<int key="NSvFlags">274</int>
+							<int key="NSvFlags">266</int>
 							<string key="NSFrame">{{17, 38}, {349, 14}}</string>
 							<reference key="NSSuperview" ref="576688871"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="300474533">
 								<int key="NSCellFlags">69336577</int>
@@ -98,6 +100,8 @@
 						</object>
 					</array>
 					<string key="NSFrameSize">{383, 72}</string>
+					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {2560, 1418}}</string>
 				<string key="NSMinSize">{213, 27}</string>

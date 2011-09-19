@@ -52,14 +52,15 @@
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<string key="NSWindowContentMinSize">{200, 100}</string>
 				<object class="NSView" key="NSWindowView" id="892073455">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSTextField" id="188151597">
 							<reference key="NSNextResponder" ref="892073455"/>
-							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{20, 416}, {391, 14}}</string>
+							<int key="NSvFlags">266</int>
+							<string key="NSFrame">{{20, 416}, {363, 14}}</string>
 							<reference key="NSSuperview" ref="892073455"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="127451908"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="560981705">
@@ -105,6 +106,7 @@
 											<int key="NSvFlags">2322</int>
 											<string key="NSFrame">{{0, 13}, {356, 14}}</string>
 											<reference key="NSSuperview" ref="75042322"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="249985030"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="720781868">
 												<object class="NSLayoutManager" key="NSLayoutManager">
@@ -125,7 +127,7 @@
 												<int key="NSTCFlags">1</int>
 											</object>
 											<object class="NSTextViewSharedData" key="NSSharedData">
-												<int key="NSFlags">100675429</int>
+												<int key="NSFlags">67120997</int>
 												<int key="NSTextCheckingTypes">0</int>
 												<nil key="NSMarkedAttributes"/>
 												<object class="NSColor" key="NSBackgroundColor" id="842879580">
@@ -166,6 +168,7 @@
 									</array>
 									<string key="NSFrame">{{1, 1}, {358, 346}}</string>
 									<reference key="NSSuperview" ref="127451908"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="34913011"/>
 									<reference key="NSDocView" ref="34913011"/>
 									<reference key="NSBGColor" ref="842879580"/>
@@ -200,6 +203,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-30, 1}, {15, 315}}</string>
 									<reference key="NSSuperview" ref="127451908"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="75042322"/>
 									<reference key="NSTarget" ref="127451908"/>
 									<string key="NSAction">_doScroller:</string>
@@ -210,6 +214,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 									<reference key="NSSuperview" ref="127451908"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="502970651"/>
 									<int key="NSsFlags">1</int>
 									<reference key="NSTarget" ref="127451908"/>
@@ -220,6 +225,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							</array>
 							<string key="NSFrame">{{20, 60}, {360, 348}}</string>
 							<reference key="NSSuperview" ref="892073455"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="75042322"/>
 							<int key="NSsFlags">133650</int>
 							<reference key="NSVScroller" ref="502970651"/>
@@ -231,6 +237,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">289</int>
 							<string key="NSFrame">{{308, 12}, {78, 32}}</string>
 							<reference key="NSSuperview" ref="892073455"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="174093312">
 								<int key="NSCellFlags">67239424</int>
@@ -256,6 +263,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">289</int>
 							<string key="NSFrame">{{230, 12}, {78, 32}}</string>
 							<reference key="NSSuperview" ref="892073455"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="923120149"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="766787080">
@@ -278,6 +286,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">292</int>
 							<string key="NSFrame">{{14, 12}, {78, 32}}</string>
 							<reference key="NSSuperview" ref="892073455"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="779635846"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="288774339">
@@ -299,6 +308,8 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 					</array>
 					<string key="NSFrameSize">{400, 450}</string>
+					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="188151597"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {2560, 1418}}</string>
@@ -555,7 +566,101 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 			<nil key="sourceID"/>
 			<int key="maxID">123</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">CDControl</string>
+					<string key="superclassName">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/CDControl.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">CDTextboxControl</string>
+					<string key="superclassName">CDThreeButtonControl</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="scrollView">NSScrollView</string>
+						<string key="textView">NSTextView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="scrollView">
+							<string key="name">scrollView</string>
+							<string key="candidateClassName">NSScrollView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textView">
+							<string key="name">textView</string>
+							<string key="candidateClassName">NSTextView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/CDTextboxControl.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">CDThreeButtonControl</string>
+					<string key="superclassName">CDControl</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="button1Pressed:">id</string>
+						<string key="button2Pressed:">id</string>
+						<string key="button3Pressed:">id</string>
+						<string key="timeout:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="button1Pressed:">
+							<string key="name">button1Pressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="button2Pressed:">
+							<string key="name">button2Pressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="button3Pressed:">
+							<string key="name">button3Pressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="timeout:">
+							<string key="name">timeout:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="button1">NSButton</string>
+						<string key="button2">NSButton</string>
+						<string key="button3">NSButton</string>
+						<string key="expandingLabel">NSTextField</string>
+						<string key="panel">NSPanel</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="button1">
+							<string key="name">button1</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button2">
+							<string key="name">button2</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button3">
+							<string key="name">button3</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="expandingLabel">
+							<string key="name">expandingLabel</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="panel">
+							<string key="name">panel</string>
+							<string key="candidateClassName">NSPanel</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/CDThreeButtonControl.h</string>
+					</object>
+				</object>
+			</array>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
