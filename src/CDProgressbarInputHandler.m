@@ -154,11 +154,11 @@
     [pool drain];
 }
 
-- (void)dealloc
+- (void) dealloc
 {
-    [super dealloc];
     [currentLabel release];
     [buffer release];
+    [super dealloc];
 }
 
 @end
