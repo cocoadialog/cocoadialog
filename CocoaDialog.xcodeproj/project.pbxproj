@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -39,7 +39,6 @@
 		0E71DA080963B16100FF6F7C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E71DA060963B16100FF6F7C /* main.m */; };
 		0E71DA1B0963B19500FF6F7C /* cocoadialog.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E71DA0A0963B19500FF6F7C /* cocoadialog.icns */; };
 		0E71DA1C0963B19500FF6F7C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E71DA0C0963B19500FF6F7C /* InfoPlist.strings */; };
-		0E71DA1F0963B19500FF6F7C /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E71DA120963B19500FF6F7C /* Info.plist */; };
 		0E77E9B60963C46500D651A3 /* KABubbleWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E77E9B30963C46500D651A3 /* KABubbleWindow.m */; };
 		0E77E9B70963C46500D651A3 /* KABubbleWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E77E9B40963C46500D651A3 /* KABubbleWindowController.m */; };
 		0E77E9B80963C46500D651A3 /* KABubbleWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E77E9B50963C46500D651A3 /* KABubbleWindowView.m */; };
@@ -431,8 +430,11 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = 0E77E9A30963C37C00D651A3 /* Build configuration list for PBXProject "CocoaDialog" */;
-			compatibilityVersion = "Xcode 2.4";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -457,7 +459,6 @@
 				0E53CED00634B34100E74888 /* Changelog in Resources */,
 				0E71DA1B0963B19500FF6F7C /* cocoadialog.icns in Resources */,
 				0E71DA1C0963B19500FF6F7C /* InfoPlist.strings in Resources */,
-				0E71DA1F0963B19500FF6F7C /* Info.plist in Resources */,
 				0E77EC140965C4E000D651A3 /* atom.icns in Resources */,
 				0E77EC150965C4E000D651A3 /* computer.icns in Resources */,
 				0E77EC160965C4E000D651A3 /* document.icns in Resources */,
@@ -546,7 +547,6 @@
 				DEBUGGING_SYMBOLS = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -579,7 +579,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -593,7 +592,6 @@
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
-				PREBINDING = NO;
 				PRODUCT_NAME = CocoaDialog;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -639,7 +637,7 @@
 			buildSettings = {
 				HEADER_SEARCH_PATHS = CDControl;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				SDKROOT = macosx10.6;
 			};
 			name = Development;
 		};
@@ -653,7 +651,7 @@
 				);
 				HEADER_SEARCH_PATHS = CDControl;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				SDKROOT = macosx10.6;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Deployment;
@@ -663,7 +661,7 @@
 			buildSettings = {
 				HEADER_SEARCH_PATHS = CDControl;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				SDKROOT = macosx10.6;
 			};
 			name = Default;
 		};

@@ -23,13 +23,13 @@
 
 @implementation CDControl
 
-- initWithOptions:(CDOptions *)options
+- (id)initWithOptions:(CDOptions *)options
 {
 	self = [super init];
 	[self setOptions:options];
 	return self;
 }
-- init
+- (id)init
 {
 	return [self initWithOptions:nil];
 }

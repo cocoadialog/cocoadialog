@@ -124,7 +124,7 @@
 		[text release];
 	} else if ([options optValue:@"text-from-file"]) {
 		NSString *contents = [NSString stringWithContentsOfFile:
-			[options optValue:@"text-from-file"] encoding:NSStringEncodingConversionExternalRepresentation error: NSErrorMergePolicyType];
+			[options optValue:@"text-from-file"] encoding:NSUTF8StringEncoding error:nil];
 		if (contents == nil) {
 			if ([options hasOpt:@"debug"]) {
 				[CDControl debug:@"Could not read file"];
