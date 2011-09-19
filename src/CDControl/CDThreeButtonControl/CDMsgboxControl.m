@@ -37,6 +37,7 @@
 		vOne, @"icon",
 		vOne, @"icon-file",
 		vNone,@"float",
+        vOne, @"cancel",
 		vOne, @"timeout",
 		nil];
 }
