@@ -117,35 +117,35 @@
 		[CDControl printHelp];
 		return nil;
 	} else if ([runMode isEqualToString:@"fileselect"]) {
-		return [[[CDFileSelectControl alloc] initWithOptions:options] autorelease];
+		return [[(CDControl *)[CDFileSelectControl alloc] initWithOptions:options] autorelease];
 	} else if ([runMode isEqualToString:@"filesave"]) {
-		return [[[CDFileSaveControl alloc] initWithOptions:options] autorelease];
+		return [[(CDControl *)[CDFileSaveControl alloc] initWithOptions:options] autorelease];
 	} else if ([runMode isEqualToString:@"msgbox"]) {
-		return [[[CDMsgboxControl alloc] initWithOptions:options] autorelease];
+		return [[(CDControl *)[CDMsgboxControl alloc] initWithOptions:options] autorelease];
 	} else if ([runMode isEqualToString:@"yesno-msgbox"]) {
-		return [[[CDYesNoMsgboxControl alloc] initWithOptions:options] autorelease];
+		return [[(CDControl *)[CDYesNoMsgboxControl alloc] initWithOptions:options] autorelease];
 	} else if ([runMode isEqualToString:@"ok-msgbox"]) {
-		return [[[CDOkMsgboxControl alloc] initWithOptions:options] autorelease];
+		return [[(CDControl *)[CDOkMsgboxControl alloc] initWithOptions:options] autorelease];
 	} else if ([runMode isEqualToString:@"textbox"]) {
-		return [[[CDTextboxControl alloc] initWithOptions:options] autorelease];
+		return [[(CDControl *)[CDTextboxControl alloc] initWithOptions:options] autorelease];
 	} else if ([runMode isEqualToString:@"progressbar"]) {
-		return [[[CDProgressbarControl alloc] initWithOptions:options] autorelease];
+		return [[(CDControl *)[CDProgressbarControl alloc] initWithOptions:options] autorelease];
 	} else if ([runMode isEqualToString:@"inputbox"]) {
-		return [[[CDInputboxControl alloc] initWithOptions:options] autorelease];
+		return [[(CDControl *)[CDInputboxControl alloc] initWithOptions:options] autorelease];
 	} else if ([runMode isEqualToString:@"standard-inputbox"]) {
-		return [[[CDStandardInputboxControl alloc] initWithOptions:options] autorelease];
+		return [[(CDControl *)[CDStandardInputboxControl alloc] initWithOptions:options] autorelease];
 	} else if ([runMode isEqualToString:@"secure-standard-inputbox"]) {
 		[extraOptions setObject:[NSNumber numberWithBool:NO] forKey:@"no-show"];
-		return [[[CDStandardInputboxControl alloc] initWithOptions:options] autorelease];
+		return [[(CDControl *)[CDStandardInputboxControl alloc] initWithOptions:options] autorelease];
 	} else if ([runMode isEqualToString:@"secure-inputbox"]) {
 		[extraOptions setObject:[NSNumber numberWithBool:NO] forKey:@"no-show"];
-		return [[[CDInputboxControl alloc] initWithOptions:options] autorelease];
+		return [[(CDControl *)[CDInputboxControl alloc] initWithOptions:options] autorelease];
 	} else if ([runMode isEqualToString:@"dropdown"]) {
-		return [[[CDPopUpButtonControl alloc] initWithOptions:options] autorelease];
+		return [[(CDControl *)[CDPopUpButtonControl alloc] initWithOptions:options] autorelease];
 	} else if ([runMode isEqualToString:@"standard-dropdown"]) {
-		return [[[CDStandardPopUpButtonControl alloc] initWithOptions:options] autorelease];
+		return [[(CDControl *)[CDStandardPopUpButtonControl alloc] initWithOptions:options] autorelease];
 	} else if ([runMode isEqualToString:@"bubble"]) {
-		return [[[CDBubbleControl alloc] initWithOptions:options] autorelease];
+		return [[(CDControl *)[CDBubbleControl alloc] initWithOptions:options] autorelease];
 	} else {
 		NSFileHandle *fh = [NSFileHandle fileHandleWithStandardOutput];
 		NSString *output = [NSString stringWithFormat:@"Unknown dialog type: %@\n", runMode]; 

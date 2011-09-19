@@ -39,7 +39,7 @@
 @interface CDControl : NSObject <CDControlProtocol> {
 	CDOptions *_options;
 }
-- initWithOptions:(CDOptions *)options;
+- (id)initWithOptions:(CDOptions *)options;
 
 // You should override availableKeys if you want options local to your control
 - (NSDictionary *) availableKeys;

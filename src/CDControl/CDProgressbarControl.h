@@ -21,14 +21,14 @@
 #import <Foundation/Foundation.h>
 #import "CDControl.h"
 
-#define CDProgressbarMAX 100.0
-#define CDProgressbarMIN 0.0
-
 @interface CDProgressbarControl : CDControl {
 	IBOutlet NSPanel             *panel;
 	IBOutlet NSTextField         *label;
 	IBOutlet NSProgressIndicator *progressBar;
-	BOOL _shouldEndSession;
 }
+
+-(void) updateProgress:(NSNumber*)newProgress;
+-(void) updateLabel:(NSString*)newLabel;
+-(void) finish;
 
 @end
