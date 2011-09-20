@@ -39,7 +39,7 @@
 			<object class="NSWindowTemplate" id="434343453">
 				<int key="NSWindowStyleMask">1</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{66, 578}, {428, 128}}</string>
+				<string key="NSWindowRect">{{66, 578}, {428, 127}}</string>
 				<int key="NSWTFlags">1886912512</int>
 				<string key="NSWindowTitle">Panel</string>
 				<string key="NSWindowClass">NSPanel</string>
@@ -129,7 +129,7 @@
 						<object class="NSTextField" id="916616914">
 							<reference key="NSNextResponder" ref="337231257"/>
 							<int key="NSvFlags">290</int>
-							<string key="NSFrame">{{20, 60}, {388, 22}}</string>
+							<string key="NSFrame">{{20, 48}, {388, 22}}</string>
 							<reference key="NSSuperview" ref="337231257"/>
 							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
@@ -163,7 +163,7 @@
 						<object class="NSTextField" id="555876163">
 							<reference key="NSNextResponder" ref="337231257"/>
 							<int key="NSvFlags">266</int>
-							<string key="NSFrame">{{17, 90}, {394, 17}}</string>
+							<string key="NSFrame">{{17, 78}, {394, 28}}</string>
 							<reference key="NSSuperview" ref="337231257"/>
 							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
@@ -171,7 +171,11 @@
 								<int key="NSCellFlags">69336577</int>
 								<int key="NSCellFlags2">272629760</int>
 								<string key="NSContents">System Font Text</string>
-								<reference key="NSSupport" ref="969040748"/>
+								<object class="NSFont" key="NSSupport">
+									<string key="NSName">LucidaGrande</string>
+									<double key="NSSize">11</double>
+									<int key="NSfFlags">3100</int>
+								</object>
 								<reference key="NSControlView" ref="555876163"/>
 								<object class="NSColor" key="NSBackgroundColor">
 									<int key="NSColorSpace">6</int>
@@ -191,7 +195,7 @@
 							</object>
 						</object>
 					</array>
-					<string key="NSFrameSize">{428, 128}</string>
+					<string key="NSFrameSize">{428, 127}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 				</object>
@@ -333,11 +337,11 @@
 						<int key="objectID">6</int>
 						<reference key="object" ref="337231257"/>
 						<array class="NSMutableArray" key="children">
+							<reference ref="555876163"/>
+							<reference ref="916616914"/>
 							<reference ref="1054117712"/>
 							<reference ref="912097719"/>
 							<reference ref="636305855"/>
-							<reference ref="916616914"/>
-							<reference ref="555876163"/>
 						</array>
 						<reference key="parent" ref="434343453"/>
 					</object>
