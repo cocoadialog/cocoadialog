@@ -92,7 +92,20 @@
 		[panel setContentSize:[self findNewSizeForWindow:panel]];
 	}
 	
-	result = [panel runModalForDirectory:dir file:file types:extensions];
+    
+    if (kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber10_6) {
+        result = [panel runModalForDirectory:dir file:file types:extensions];
+    }
+    else {
+        if (dir != nil) {
+            NSURL * url = [[[NSURL alloc] initWithString:dir] autorelease];
+            [panel setDirectoryURL:url];
+        }
+        [panel setAllowedFileTypes:extensions];
+        [panel setNameFieldStringValue:file];
+        [panel runModal];
+    }
+
 
 	if (result == NSOKButton) {
 		return [panel filenames];
