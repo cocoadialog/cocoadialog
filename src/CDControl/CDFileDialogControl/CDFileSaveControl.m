@@ -84,7 +84,7 @@
     }
     else {
         if (dir != nil) {
-            NSURL * url = [[[NSURL alloc] initWithString:dir] autorelease];
+            NSURL * url = [[[NSURL alloc] initFileURLWithPath:dir] autorelease];
             [panel setDirectoryURL:url];
         }
         [panel setNameFieldStringValue:file];
