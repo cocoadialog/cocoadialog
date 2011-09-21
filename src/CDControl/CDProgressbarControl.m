@@ -22,11 +22,6 @@
 #import "CDProgressbarInputHandler.h"
 #import <sys/select.h>
 
-/*
- NOTE: I'm using C's select to do the non-blocking reading of stdin.
- If you can get it to work with purely NSFileHandle, let me know.
- */
-
 @implementation CDProgressbarControl
 
 - (NSDictionary *) availableKeys
