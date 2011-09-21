@@ -37,6 +37,8 @@
 #import "CDPopUpButtonControl.h"
 #import "CDStandardPopUpButtonControl.h"
 
+#import "CDCheckboxControl.h"
+
 @implementation AppController
 
 - (void) awakeFromNib
@@ -120,6 +122,8 @@
 		return [[(CDControl *)[CDFileSelectControl alloc] initWithOptions:options] autorelease];
 	} else if ([runMode isEqualToString:@"filesave"]) {
 		return [[(CDControl *)[CDFileSaveControl alloc] initWithOptions:options] autorelease];
+	} else if ([runMode isEqualToString:@"checkbox"]) {
+		return [[(CDControl *)[CDCheckboxControl alloc] initWithOptions:options] autorelease];
 	} else if ([runMode isEqualToString:@"msgbox"]) {
 		return [[(CDControl *)[CDMsgboxControl alloc] initWithOptions:options] autorelease];
 	} else if ([runMode isEqualToString:@"yesno-msgbox"]) {

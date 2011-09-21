@@ -120,19 +120,19 @@
 // Should be called after setButtons, and before resize
 - (void) setLabel:(NSString *)labelText
 {
-	if (labelText != nil) {
-		[expandingLabel setStringValue:labelText];
-	} else {
-		[expandingLabel setStringValue:@""];
+	if (labelText == nil) {
+		labelText = @"";
 	}
+    
+    [expandingLabel setStringValue:labelText];
 
     NSRect labelRect = [expandingLabel frame];
-    NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: labelText]autorelease];
+    NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: labelText] autorelease];
     NSTextContainer *textContainer = [[[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)] autorelease];
-    NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease];
+    NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease]; 
     [layoutManager addTextContainer: textContainer];
     [textStorage addLayoutManager: layoutManager];
-    [textContainer setLineFragmentPadding:0];
+    [textContainer setLineFragmentPadding:0.0];
     [layoutManager glyphRangeForTextContainer:textContainer];
     
     float newHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;

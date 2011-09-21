@@ -79,7 +79,17 @@
 		[panel setContentSize:[self findNewSizeForWindow:panel]];
 	}
 	
-	result = [panel runModalForDirectory:dir file:file];
+    if (kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber10_6) {
+        result = [panel runModalForDirectory:dir file:file];
+    }
+    else {
+        if (dir != nil) {
+            NSURL * url = [[[NSURL alloc] initFileURLWithPath:dir] autorelease];
+            [panel setDirectoryURL:url];
+        }
+        [panel setNameFieldStringValue:file];
+        [panel runModal];
+    }
 
 	if (result == NSFileHandlingPanelOKButton) {
 		return [NSArray arrayWithObject:[panel filename]];
