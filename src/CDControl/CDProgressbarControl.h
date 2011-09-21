@@ -22,7 +22,7 @@
 #import "CDControl.h"
 
 @interface CDProgressbarControl : CDControl {
-	IBOutlet NSPanel             *panel;
+	IBOutlet NSWindow            *window;
 	IBOutlet NSTextField         *label;
 	IBOutlet NSProgressIndicator *progressBar;
 }

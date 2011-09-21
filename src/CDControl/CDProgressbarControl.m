@@ -72,8 +72,8 @@
 	}
 	
 	// resize if necessary
-	if ([self windowNeedsResize:panel]) {
-		[panel setContentSize:[self findNewSizeForWindow:panel]];
+	if ([self windowNeedsResize:window]) {
+		[window setContentSize:[self findNewSizeForWindow:window]];
 	}
 	
 	CDProgressbarInputHandler *inputHandler = [[CDProgressbarInputHandler alloc] init];
@@ -92,7 +92,7 @@
 	
 	//set window title
 	if ([options optValue:@"title"]) {
-		[panel setTitle:[options optValue:@"title"]];
+		[window setTitle:[options optValue:@"title"]];
 	}
 
 	// set indeterminate
@@ -103,15 +103,14 @@
 		[progressBar setIndeterminate:NO];
 	}
 
-	[panel center];
+	[window center];
 	if ([[self options] hasOpt:@"float"]) {
-		[panel setFloatingPanel: YES];
-		[panel setLevel:NSScreenSaverWindowLevel];
+		[window setLevel:NSScreenSaverWindowLevel];
 	}
 
 	NSOperationQueue* queue = [NSOperationQueue new];
 
-	[panel makeKeyAndOrderFront:nil];
+	[window makeKeyAndOrderFront:nil];
 
 	[queue addOperation:inputHandler];
 	[inputHandler release];
