@@ -80,6 +80,8 @@
 		A7255376142538DC004A7B4F /* Progressbar.xib in Resources */ = {isa = PBXBuildFile; fileRef = A725536F142538DC004A7B4F /* Progressbar.xib */; };
 		A7255377142538DC004A7B4F /* SecureInputbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7255370142538DC004A7B4F /* SecureInputbox.xib */; };
 		A7255378142538DC004A7B4F /* Textbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7255371142538DC004A7B4F /* Textbox.xib */; };
+		A786B44A142989D500917E4D /* CDCheckboxControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A786B448142989D500917E4D /* CDCheckboxControl.h */; };
+		A786B44B142989D500917E4D /* CDCheckboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A786B449142989D500917E4D /* CDCheckboxControl.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -160,6 +162,8 @@
 		A725536F142538DC004A7B4F /* Progressbar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Progressbar.xib; path = Resources/Progressbar.xib; sourceTree = "<group>"; };
 		A7255370142538DC004A7B4F /* SecureInputbox.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SecureInputbox.xib; path = Resources/SecureInputbox.xib; sourceTree = "<group>"; };
 		A7255371142538DC004A7B4F /* Textbox.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Textbox.xib; path = Resources/Textbox.xib; sourceTree = "<group>"; };
+		A786B448142989D500917E4D /* CDCheckboxControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDCheckboxControl.h; path = src/CDControl/CDThreeButtonControl/CDCheckboxControl.h; sourceTree = "<group>"; };
+		A786B449142989D500917E4D /* CDCheckboxControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDCheckboxControl.m; path = src/CDControl/CDThreeButtonControl/CDCheckboxControl.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -267,6 +271,7 @@
 				0E71D9D30963B12800FF6F7C /* CDMsgboxControl.h */,
 				0E71D9D40963B12800FF6F7C /* CDOkMsgboxControl.h */,
 				0E71D9D60963B12800FF6F7C /* CDPopUpButtonControl.h */,
+				A786B448142989D500917E4D /* CDCheckboxControl.h */,
 				0E71D9D80963B12800FF6F7C /* CDStandardInputboxControl.h */,
 				0E71D9D90963B12800FF6F7C /* CDStandardPopUpButtonControl.h */,
 				0E71D9DA0963B12800FF6F7C /* CDTextboxControl.h */,
@@ -292,6 +297,7 @@
 			isa = PBXGroup;
 			children = (
 				0E71D9EE0963B15300FF6F7C /* CDInputboxControl.m */,
+				A786B449142989D500917E4D /* CDCheckboxControl.m */,
 				0E71D9EF0963B15300FF6F7C /* CDMsgboxControl.m */,
 				0E71D9F00963B15300FF6F7C /* CDOkMsgboxControl.m */,
 				0E71D9F20963B15300FF6F7C /* CDPopUpButtonControl.m */,
@@ -407,6 +413,7 @@
 				0EC9B67E09B126D500956684 /* CDFileDialogControl.h in Headers */,
 				0EC9B68209B1273100956684 /* CDFileSaveControl.h in Headers */,
 				89BE1CA214270EC80030D0FF /* CDProgressbarInputHandler.h in Headers */,
+				A786B44A142989D500917E4D /* CDCheckboxControl.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -522,6 +529,7 @@
 				0EC9B67F09B126D500956684 /* CDFileDialogControl.m in Sources */,
 				0EC9B68409B1274100956684 /* CDFileSaveControl.m in Sources */,
 				89BE1C9F14270A540030D0FF /* CDProgressbarInputHandler.m in Sources */,
+				A786B44B142989D500917E4D /* CDCheckboxControl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
