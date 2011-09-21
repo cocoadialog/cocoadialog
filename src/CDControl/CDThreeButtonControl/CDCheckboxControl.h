@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "CDThreeButtonControl.h"
 
-@interface CDCheckboxControl : CDThreeButtonControl
-{
-    
+@interface CDCheckboxControl : CDThreeButtonControl {
+    IBOutlet NSView * controlView;
+    NSMutableArray * checkboxes;
 }
 
 @end

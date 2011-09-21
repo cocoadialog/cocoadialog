@@ -82,6 +82,7 @@
 		A7255378142538DC004A7B4F /* Textbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7255371142538DC004A7B4F /* Textbox.xib */; };
 		A786B44A142989D500917E4D /* CDCheckboxControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A786B448142989D500917E4D /* CDCheckboxControl.h */; };
 		A786B44B142989D500917E4D /* CDCheckboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A786B449142989D500917E4D /* CDCheckboxControl.m */; };
+		A786B44E14298C6000917E4D /* Checkbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = A786B44D14298C6000917E4D /* Checkbox.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -164,6 +165,7 @@
 		A7255371142538DC004A7B4F /* Textbox.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Textbox.xib; path = Resources/Textbox.xib; sourceTree = "<group>"; };
 		A786B448142989D500917E4D /* CDCheckboxControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDCheckboxControl.h; path = src/CDControl/CDThreeButtonControl/CDCheckboxControl.h; sourceTree = "<group>"; };
 		A786B449142989D500917E4D /* CDCheckboxControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDCheckboxControl.m; path = src/CDControl/CDThreeButtonControl/CDCheckboxControl.m; sourceTree = "<group>"; };
+		A786B44D14298C6000917E4D /* Checkbox.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Checkbox.xib; path = Resources/Checkbox.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -371,6 +373,7 @@
 				A725536F142538DC004A7B4F /* Progressbar.xib */,
 				A7255370142538DC004A7B4F /* SecureInputbox.xib */,
 				A7255371142538DC004A7B4F /* Textbox.xib */,
+				A786B44D14298C6000917E4D /* Checkbox.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -497,6 +500,7 @@
 				A7255376142538DC004A7B4F /* Progressbar.xib in Resources */,
 				A7255377142538DC004A7B4F /* SecureInputbox.xib in Resources */,
 				A7255378142538DC004A7B4F /* Textbox.xib in Resources */,
+				A786B44E14298C6000917E4D /* Checkbox.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
