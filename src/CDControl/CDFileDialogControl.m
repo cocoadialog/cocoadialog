@@ -22,22 +22,6 @@
 
 @implementation CDFileDialogControl
 
-// You really need to override this. And be sure to
-// include the options below
-- (NSDictionary *) availableKeys
-{
-	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
-	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
-
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-		vOne,  @"text",
-		vMul,  @"with-extensions",
-		vOne,  @"with-directory",
-		vOne,  @"with-file",
-		vNone, @"packages-as-directories",
-		nil];
-}
 
 - (NSArray *) extensionsFromOptionKey:(NSString *)key
 {
