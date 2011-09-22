@@ -1,6 +1,7 @@
 
 /* Generic elements */
-body { margin: 0; padding: 0; background: #edf5fa; font: 12px/170% Verdana, sans-serif; color: #494949; }
+html { background: #BDBDBD; }
+body { background: #BDBDBD; background-image: linear-gradient(bottom, rgb(189,189,189) 0%, rgb(242,242,242) 100%); background-image: -o-linear-gradient(bottom, rgb(189,189,189) 0%, rgb(242,242,242) 100%); background-image: -moz-linear-gradient(bottom, rgb(189,189,189) 0%, rgb(242,242,242) 100%); background-image: -webkit-linear-gradient(bottom, rgb(189,189,189) 0%, rgb(242,242,242) 100%); background-image: -ms-linear-gradient(bottom, rgb(189,189,189) 0%, rgb(242,242,242) 100%); background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0, rgb(189,189,189)), color-stop(1, rgb(242,242,242)) ); margin: 0; padding: 0; font: 12px/170% Verdana, sans-serif; color: #494949; }
 input { font: 12px/100% Verdana, sans-serif; color: #494949; }
 textarea, select { font: 12px/160% Verdana, sans-serif; color: #494949; }
 h1, h2, h3, h4, h5, h6 { margin: 0; padding: 0; font-weight: normal; font-family: Helvetica, Arial, sans-serif; }
@@ -19,10 +20,6 @@ hr { margin: 0; padding: 0; border: none; height: 1px; background: #5294c1; }
 ol { margin: 0.75em 0 1.25em; padding: 0; }
 
 /* Wrapper */
-
-#wrapper {
-  background: #ffffff url(images/body.png) repeat-x 50% 0;
-}
 
 #wrapper .container {
   margin: 0 auto;
@@ -131,22 +128,6 @@ ol { margin: 0.75em 0 1.25em; padding: 0; }
 
 
 #wrapper #center {
-  background: #eeeeee;
-  background-image: linear-gradient(bottom, rgb(189,189,189) 0%, rgb(242,242,242) 100%);
-  background-image: -o-linear-gradient(bottom, rgb(189,189,189) 0%, rgb(242,242,242) 100%);
-  background-image: -moz-linear-gradient(bottom, rgb(189,189,189) 0%, rgb(242,242,242) 100%);
-  background-image: -webkit-linear-gradient(bottom, rgb(189,189,189) 0%, rgb(242,242,242) 100%);
-  background-image: -ms-linear-gradient(bottom, rgb(189,189,189) 0%, rgb(242,242,242) 100%);
-
-  background-image: -webkit-gradient(
-  	linear,
-  	left bottom,
-  	left top,
-  	color-stop(0, rgb(189,189,189)),
-  	color-stop(1, rgb(242,242,242))
-  );
-
-
   clear: both;
   position: relative;
 }
