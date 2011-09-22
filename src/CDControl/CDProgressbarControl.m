@@ -50,6 +50,12 @@
 
 -(void) finish
 {
+	if (confirmationSheet) {
+		[NSApp endSheet:[confirmationSheet window]];
+		[confirmationSheet release];
+		confirmationSheet = nil;
+	}
+
 	if (stopped) {
 		NSFileHandle *fh = [NSFileHandle fileHandleWithStandardOutput];
 		[fh writeData:[@"stopped\n" dataUsingEncoding:NSUTF8StringEncoding]];
@@ -60,15 +66,19 @@
 
 -(void) confirmStop
 {
-	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-	[alert addButtonWithTitle:@"Stop"];
-	[alert addButtonWithTitle:@"Cancel"];
-	[alert setMessageText:@"Are you sure you want to stop?"];
-	[alert beginSheetModalForWindow:window modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
+	confirmationSheet = [[NSAlert alloc] init];
+	[confirmationSheet addButtonWithTitle:@"Stop"];
+	[confirmationSheet addButtonWithTitle:@"Cancel"];
+	[confirmationSheet setMessageText:@"Are you sure you want to stop?"];
+	[confirmationSheet beginSheetModalForWindow:window modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
 - (void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
+	if (confirmationSheet == alert) {
+		[confirmationSheet release];
+		confirmationSheet = nil;
+	}
 	if (returnCode == NSAlertFirstButtonReturn && stopEnabled) {
 		stopped = YES;
 		[self finish];

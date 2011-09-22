@@ -29,6 +29,9 @@
 	IBOutlet NSButton            *stopButton;
 
 	@private
+	NSAlert	*confirmationSheet;
+
+	@private
 	BOOL	stopped;
 
 	@private
