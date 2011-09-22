@@ -6,13 +6,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CDProgressbarControl.h"
+#import "CDProgressbarInputHandlerDelegate.h"
 
 #define CDProgressbarMAX 100.0
 #define CDProgressbarMIN 0.0
 
 @interface CDProgressbarInputHandler : NSOperation {
-    CDProgressbarControl *delegate;
+    id delegate;
 
 @private
     NSMutableData *buffer;
@@ -22,5 +22,5 @@
 }
 
 -(BOOL) parseString:(NSString*)str intoProgress:(double*)value;
--(void) setDelegate:(CDProgressbarControl*)newDelegate;
+-(void) setDelegate:(id)newDelegate;
 @end
