@@ -69,7 +69,7 @@
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="300474533">
 								<int key="NSCellFlags">69336641</int>
-								<int key="NSCellFlags2">4196416</int>
+								<int key="NSCellFlags2">4196928</int>
 								<string key="NSContents">Small System Font Text</string>
 								<object class="NSFont" key="NSSupport" id="26">
 									<string key="NSName">LucidaGrande</string>
