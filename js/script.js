@@ -17,8 +17,31 @@
     return content;
   }
   
+  function scrollToHash(array) {
+    var content = $('#content');
+    // wait a bit for the new content to load
+    setTimeout(function(){
+      if (array.length == 2) {
+        // Attempt to get an ID anchor
+        var anchor = $('#' + array[1], content);
+        // Attempt to get a named anchor
+        if (!anchor.length) {
+          anchor = $('[name="' + array[1] + '"]', content);
+        }
+        if (anchor.length) {
+          $('html, body').animate({ scrollTop: anchor.offset().top }, 0);
+        }
+      }
+      // Scroll to top for main page
+      else {
+        $('html, body').animate({ scrollTop: 0 }, 0);
+      }
+    }, 250);
+  }
   
   function loadContent(hash) {
+    var array = hash.split('/');
+    hash = array[0];
     var content = $('#content');
     var links = $('#navigation li');
     if(hash != "") {
@@ -31,9 +54,11 @@
         links.filter('.active').removeClass('active');
         newLink.addClass('active');
       }
+      hash = hash.replace('!',''); //so the server doesn't balk at a URL containing !
       $.get(hash +".html", function(html) {
         content.html(html);
         pageSections(content);
+        scrollToHash(array);
       }, 'html');
     }
     else if(origContent != "") {
@@ -41,6 +66,10 @@
       origLink.addClass('active');
       content.html(origContent);
       pageSections(content);
+      scrollToHash(array);
+    }
+    else {
+      scrollToHash(array);
     }
   }
 
@@ -50,10 +79,9 @@
     var links = $('#navigation li');
     $('a', links).not('.external').click(function(e) {
       // $(this).parent().addClass('active');
-      var url = $(this).attr('href');
-      url = url.replace(/^.*#/, '');
-      $.history.load(url);
-      $('html, body').animate({ scrollTop: 0 }, 0);
+      var hash = $(this).attr('href');
+      hash = hash.replace(/^.*#/, '');
+      $.history.load(hash);
       return false;
     });
     
