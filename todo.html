@@ -1,78 +1,37 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<h1>TODO list</h1>
+<p>
+This is a to-do list for the project.  It's where I'll list things
+that I plan to work on.
+If you would like to help out, feel free to tackle anything here.
+</p>
+<p>
+If you have something you would like to add to this list, or you'd
+really like to see an item bumped up in priority,
+<a href="mailto:mark[AT]sporkstorms.org">let me know</a>.
+</p>
 
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
-<title>CocoaDialog - TODO</title>
-<link href="cocoadialog.css" rel="stylesheet" type="text/css" />
-</head>
+<h3>Sooner</h3>
+<ul>
+	<li>Intelligent resizing of bubbles.  If anyone wants to work on this you'll have my gratitude. ;)  Newer versions of Growl do this, but it makes it considerably more complicated than the drawing routines cocoadialog uses.</li>
+	<li>Sometimes we get the following runtime warning:
+		<code>__CGPixelAccessLockWindowAccess: access lock failed: error 1001.</code>
+	</li>
+	<li>Dialogs that time out should return values properly.
+	(see <code>- (IBAction) timeout:(id)sender;</code> in CDControl/CDThreeButtonControl.m)
+	</li>
+	<li>Mouseover highlighting for bubbles. Either change color, or maybe make alpha=1</li>
+</ul>
 
-<body>
-<div>
-	<table cellpadding="0" cellspacing="0" border="0" width="100%">
-	<tr><td class="header">CocoaDialog</td></tr>
-	<tr><td class="headerMenu">
-		<a href="index.html">overview</a> |
-		<a href="download.html">download</a> |
-		<a href="documentation.html">documentation</a> |
-		<a href="examples.html">examples</a> |
-		<a href="todo.html" class="current">todo</a> |
-		<a href="http://sourceforge.net/projects/cocoadialog/">sf.net project page</a>
-	</td></tr>
-	</table>
-	
-	<div class="bodyContent">
-		<h1>TODO list</h1>
-		<p>
-		This is a to-do list for the project.  It's where I'll list things
-		that I plan to work on.
-		If you would like to help out, feel free to tackle anything here.
-		</p>
-		<p>
-		If you have something you would like to add to this list, or you'd
-		really like to see an item bumped up in priority,
-		<a href="mailto:mark[AT]sporkstorms.org">let me know</a>.
-		</p>
-
-		<h3>Sooner</h3>
-		<ul>
-			<li>Intelligent resizing of bubbles.  If anyone wants to work on this you'll have my gratitude. ;)  Newer versions of Growl do this, but it makes it considerably more complicated than the drawing routines cocoadialog uses.</li>
-			<li>Sometimes we get the following runtime warning:
-				<code>__CGPixelAccessLockWindowAccess: access lock failed: error 1001.</code>
-			</li>
-			<li>Dialogs that time out should return values properly.
-			(see <code>- (IBAction) timeout:(id)sender;</code> in CDControl/CDThreeButtonControl.m)
-			</li>
-			<li>Mouseover highlighting for bubbles. Either change color, or maybe make alpha=1</li>
-		</ul>
-
-		<h3>Later</h3>
-		<ul>
-			<li>Countdown timer in dialogs that time out</li>
-			<li>Create a <a href="http://www.gnustep.org/">GNUstep</a> port</li>
-			<li>New controls <em>maybe</em>: checkbox groups, radio groups</li>
-			<li>New control <em>maybe</em>: color selector.  Mostly useless though</li>
-			<li>CDOptions has the limitation that a key's value cannot
-			be the same as another key. For example, <code>--title --width</code>
-			will not set the title to "--width".  Is this even a problem? I can't
-			imagine it being one for anybody, but you never know.
-			</li>
-			<li>For multiple monitors, make the dialogs go to the correct screen</li>
-		</ul>
-
-	</div>
-	<div class="footer">
-		<a  href="http://sourceforge.net"><img src="http://sourceforge.net/sflogo.php?group_id=106818&amp;type=1"  width="88" height="31" alt="SourceForge.net Logo"  /></a>
-		<a href="http://validator.w3.org/check/referer"><img
-			src="http://www.w3.org/Icons/valid-xhtml10"
-			alt="Valid XHTML 1.0!" height="31" width="88" /></a>
-		<a href="http://jigsaw.w3.org/css-validator/"><img
-			style="border:0;width:88px;height:31px"
-			src="http://jigsaw.w3.org/css-validator/images/vcss" 
-			alt="Valid CSS!" /></a>
-	</div>
-</div>
-</body>
-</html>
+<h3>Later</h3>
+<ul>
+	<li>Countdown timer in dialogs that time out</li>
+	<li>Create a <a href="http://www.gnustep.org/">GNUstep</a> port</li>
+	<li>New controls <em>maybe</em>: checkbox groups, radio groups</li>
+	<li>New control <em>maybe</em>: color selector.  Mostly useless though</li>
+	<li>CDOptions has the limitation that a key's value cannot
+	be the same as another key. For example, <code>--title --width</code>
+	will not set the title to "--width".  Is this even a problem? I can't
+	imagine it being one for anybody, but you never know.
+	</li>
+	<li>For multiple monitors, make the dialogs go to the correct screen</li>
+</ul>
