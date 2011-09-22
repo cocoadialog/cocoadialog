@@ -20,15 +20,21 @@
 
 #import <Foundation/Foundation.h>
 #import "CDControl.h"
+#import "CDProgressbarInputHandlerDelegate.h"
 
-@interface CDProgressbarControl : CDControl {
+@interface CDProgressbarControl : CDControl <NSWindowDelegate, CDProgressbarInputHandlerDelegate> {
 	IBOutlet NSWindow            *window;
 	IBOutlet NSTextField         *label;
 	IBOutlet NSProgressIndicator *progressBar;
+	IBOutlet NSButton            *stopButton;
+
+	@private
+	BOOL	stopped;
+
+	@private
+	BOOL	stopEnabled;
 }
 
--(void) updateProgress:(NSNumber*)newProgress;
--(void) updateLabel:(NSString*)newLabel;
--(void) finish;
+-(IBAction)stop:(id)sender;
 
 @end

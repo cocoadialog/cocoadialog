@@ -114,24 +114,30 @@
     for (NSUInteger i = 0; i < [lines count]; i++) {
         NSString *line = [lines objectAtIndex:i];
         if ([line length] != 0) {
-            NSScanner *scanner = [NSScanner scannerWithString:line];
+            if ([line isEqualToString:@"stop enable"]) {
+                [self invokeOnMainQueueWithTarget:delegate selector:@selector(setStopEnabled:) object:[NSNumber numberWithBool:YES]];
+            } else if ([line isEqualToString:@"stop disable"]) {
+                [self invokeOnMainQueueWithTarget:delegate selector:@selector(setStopEnabled:) object:[NSNumber numberWithBool:NO]];
+            } else {
+                NSScanner *scanner = [NSScanner scannerWithString:line];
 
-            NSString *percent = NULL;
-            [scanner scanUpToCharactersFromSet:whitespaceSet intoString:&percent];
+                NSString *percent = NULL;
+                [scanner scanUpToCharactersFromSet:whitespaceSet intoString:&percent];
 
-            double progressValue;
-            if ([self parseString:percent intoProgress:&progressValue]) {
-                [self updateProgress:progressValue];
-                NSString *newLabel = [line substringFromIndex:[scanner scanLocation]];
-                if ([newLabel length] != 0) {
-                    [self updateLabel:newLabel];
+                double progressValue;
+                if ([self parseString:percent intoProgress:&progressValue]) {
+                    [self updateProgress:progressValue];
+                    NSString *newLabel = [line substringFromIndex:[scanner scanLocation]];
+                    if ([newLabel length] != 0) {
+                        [self updateLabel:newLabel];
+                    }
                 }
             }
         }
     }
 }
 
--(void) setDelegate:(CDProgressbarControl*)newDelegate
+-(void) setDelegate:(id)newDelegate
 {
     delegate = newDelegate;
 }

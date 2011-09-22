@@ -34,6 +34,7 @@
 		vOne,  @"percent",
 		vNone, @"indeterminate",
 		vNone, @"float",
+		vNone, @"stoppable",
 		nil];
 }
 
@@ -49,11 +50,45 @@
 
 -(void) finish
 {
+	if (stopped) {
+		NSFileHandle *fh = [NSFileHandle fileHandleWithStandardOutput];
+		[fh writeData:[@"stopped\n" dataUsingEncoding:NSUTF8StringEncoding]];
+	}
+
 	[NSApp terminate:nil];
+}
+
+-(void) confirmStop
+{
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	[alert addButtonWithTitle:@"Stop"];
+	[alert addButtonWithTitle:@"Cancel"];
+	[alert setMessageText:@"Are you sure you want to stop?"];
+	[alert beginSheetModalForWindow:window modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
+}
+
+- (void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+	if (returnCode == NSAlertFirstButtonReturn && stopEnabled) {
+		stopped = YES;
+		[self finish];
+	}
+}
+
+-(IBAction)stop:(id)sender
+{
+	[self confirmStop];
+}
+
+-(void) setStopEnabled:(NSNumber*)enabled
+{
+	stopEnabled = [enabled boolValue];
+	[stopButton setEnabled:stopEnabled];
 }
 
 - (NSArray *) runControlFromOptions:(CDOptions *)options
 {
+	stopEnabled = YES;
 	[self setOptions:options];
 	
 	// Load nib or return nil
@@ -71,6 +106,23 @@
 		[label setStringValue:@""];
 	}
 	
+	// hide stop button if not stoppable and resize window/controls
+	if (![options hasOpt:@"stoppable"]) {
+		NSRect progressBarFrame = [progressBar frame];
+
+		NSRect currentWindowFrame = [window frame];
+		CGFloat stopButtonWidth = [stopButton frame].size.width;
+		NSRect newWindowFrame = {
+			.origin = currentWindowFrame.origin,
+			.size = NSMakeSize(currentWindowFrame.size.width - stopButtonWidth + 2, currentWindowFrame.size.height)
+		};
+		[window setFrame:newWindowFrame display:NO];
+
+		[progressBar setFrame:progressBarFrame];
+		[stopButton setHidden:YES];
+	}
+
+
 	// resize if necessary
 	if ([self windowNeedsResize:window]) {
 		[window setContentSize:[self findNewSizeForWindow:window]];
