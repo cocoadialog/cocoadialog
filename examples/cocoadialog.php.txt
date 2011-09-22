@@ -1,0 +1,110 @@
+#!/usr/bin/php
+<?php
+/*
+Very Simple PHP Wrapper for CocoaDialog
+This is free, no limitations whatsoever
+use at your own risc
+
+Written by Stefan Lange-Hegermann
+*/
+
+// Settings:
+/**********/
+
+define("CDPATH", "~/Applications/CocoaDialog.app");
+
+/**********/
+
+
+function CDmsgbox($title,$text,$informtext,$button1,$button2='',$button3='',$style='informational')
+{
+    $execstr=CDPATH."/Contents/MacOS/CocoaDialog msgbox --text \"$text\" --informative-text \"$informtext\" --button1 \"$button1\" --button2 \"$button2\" --button3 \"$button3\" --style $style --title \"$title\"";
+    return exec($execstr);
+}
+
+function CDokmsgbox($title,$text,$informtext,$nocancel=false,$style='informational')
+{
+    $execstr=CDPATH."/Contents/MacOS/CocoaDialog ok-msgbox --text \"$text\" --informative-text \"$informtext\" --style $style --title \"$title\" ";
+    if ($nocancel) $execstr.='--no-cancel';
+    return exec($execstr);
+}
+
+function CDyesnomsgbox($title,$text,$informtext,$nocancel=false,$style='informational')
+{
+    $execstr=CDPATH."/Contents/MacOS/CocoaDialog yesno-msgbox --text \"$text\" --informative-text \"$informtext\" --style $style --title \"$title\"";
+    if ($nocancel) $execstr.=' --no-cancel';
+    return exec($execstr);
+}
+
+function CDfileselect($title,$text,$startdir='',$extlist='',$selectdirs=false,$selectmulti=false)
+{
+    $execstr=CDPATH."/Contents/MacOS/CocoaDialog fileselect --text \"$text\" --with-directory \"$startdir\" --title \"$title\"";
+    if ($selectdir) $execstr.=' --select-directories';
+    if ($selectmulti) $execstr.=' --select-multiple';
+    if ($startdir!='') $execstr.=" --with-extensions $extlist";
+
+    return exec($execstr);
+}
+
+function CDtextbox($title,$text,$informtext,$button1,$button2='',$button3='',$editable=false,$selected=false,$scrollto='top')
+{
+    $execstr=CDPATH."/Contents/MacOS/CocoaDialog textbox --text \"$text\" --informative-text \"$informtext\" --button1 \"$button1\" --title \"$title\" --scroll-to $scrollto";
+    if ($button2!='')  $execstr.=" --button2 \"$button2\"";
+    if ($button3!='')  $execstr.=" --button3 \"$button3\"";
+    if ($editable) $execstr.=' --editable';
+    if ($selected) $execstr.=' --selected';
+    return shell_exec($execstr);
+}
+
+function CDprogressbar($title,$text,$percent=0,$indeterminate=false)
+{
+    $execstr=CDPATH."/Contents/MacOS/CocoaDialog progressbar --text \"$text\" --title \"$title\" --percent $percent";
+    return popen ( $execstr, "w");
+}
+
+function CDbarvalue($bar,$value,$text='')
+{
+    $space='';
+    if ($text!='') $space=' ';
+    fwrite($bar,$value.$space.$text."\n");
+}
+
+
+// To use this as a library remove everything from
+
+// ****** HERE ******
+
+
+// msgbox
+echo CDmsgbox("CocoaDialog : msgbox","message box"," This control provides a generic message box.\nIt allows you to customize the labels of the buttons.","one","two","three")."\n";
+
+// ok-msgbox
+echo CDokmsgbox("CocoaDialog : ok-msgbox","OK/Cancel message box","This control provides a standard Ok/Cancel message box.",true)."\n";
+
+// yesno-msgbox
+echo CDyesnomsgbox("CocoaDialog : yesno-msgbox","Yes/No/Cancel message box"," This control provides a standard Yes/No/Cancel message box.")."\n";
+
+// fileselect
+echo CDfileselect("CocoaDialog : fileselect","file selection window")."\n";
+
+// textbox
+echo CDtextbox("CocoaDialog : textbox","text box"," This is a text box with a large text area.","One","Two","",true)."\n";
+
+// progressbar
+$myPBar = CDprogressbar("CocoaDialog : progressbar","progress bar");
+for ($a=1;$a<101;$a++)
+{
+
+    for ($b=0;$b<1;$b=$b+0.0002)
+    {
+        $foo=sin($b);
+    }
+    CDbarvalue($myPBar,$a,"Calculation progress: ".$a."%");
+}
+fclose($myPBar);
+
+echo CDokmsgbox("Done","All GUI Controls done","You have seen everything, now let's hope for a simple one line Text input control ;)",true)."\n";
+
+
+// **** To HERE ****
+?> 
