@@ -1,3 +1,18 @@
+#wrapper { background: #ffffff url(images/body.png) repeat-x 50% 0; }
+
+#wrapper #container { margin: 0 auto; padding: 0 20px; max-width: 1270px; }
+
+#wrapper #container #header { height: 80px; }
+
+#wrapper #container #header #masthead { position: absolute; }
+
+#wrapper #container #header h1, #wrapper #container #header h1 a:link, #wrapper #container #header h1 a:visited { line-height: 120px; position: relative; z-index: 2; white-space: nowrap; }
+
+#wrapper #container #header h1 span { font-weight: bold; }
+
+#wrapper #container #header h1 img { padding-top: 14px; padding-right: 20px; float: left; }
+
+
 /* CSS Document */
 
 .header {
