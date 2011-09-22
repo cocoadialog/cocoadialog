@@ -1177,8 +1177,8 @@ system($cd, @ARGV);
 				<p>
 				The progress bar is a bit different, and slightly more complex
 				than the other controls.
-				It has no return value, but reads input on <code>stdin</code>.
-				It will continue to display until it reads an <code>EOF</code>.
+				It reads input on <code>stdin</code> and displays until it reads an <code>EOF</code>
+				(or the stop button is pressed).
 				</p>
 				<p>
 				Input for the progress bar is in the form:
@@ -1199,6 +1199,10 @@ system($cd, @ARGV);
 				</div>
 				<p>In your code it would like this: <code>"26 We're at 26%\n"</code>.  That newline is important.</p>
 				<p>
+				If the <code>--stoppable</code> option was given, it also accepts the following lines:
+				<code>stop enable</code> and <code>stop disable</code>.
+				</p>
+				<p>
 					<a href="examples.html#progressbar3">Ideas and help for working with the progressbar in the shell</a>
 					<br />
 					<a href="examples/progressbar.pl.txt">Example progressbar Perl script</a>
@@ -1207,7 +1211,10 @@ system($cd, @ARGV);
 					<br />
 					<a href="examples/ProgressBar.txt">Python class for working with the progressbar</a>
 				</p>
-
+				<p>
+				<b>returns:</b> <code>stopped</code> if the user pressed the stop button and confirmed it,
+				and stopping is currently enabled).
+				</p>
 			</td></tr>
 			<tr><td>
 				<em>Options:</em> <small>(in addition to <a href="#global_options">global options</a>)</small>
@@ -1235,6 +1242,10 @@ system($cd, @ARGV);
 					<tr>
 						<td><b>&#8209;&#8209;float</b></td>
 						<td>Float on top of all windows.</td>
+					</tr>
+					<tr>
+						<td><b>&#8209;&#8209;stoppable</b></td>
+						<td>Show the stop button.</td>
 					</tr>
 				</table>
 			</td></tr>

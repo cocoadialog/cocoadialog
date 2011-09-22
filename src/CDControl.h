@@ -59,6 +59,6 @@
 - (BOOL) windowNeedsResize:(NSWindow *)window;
 
 + (void) debug:(NSString *)message;
-+ (void) printHelp;
++ (void) printHelpTo:(NSFileHandle *)fh;
 
 @end

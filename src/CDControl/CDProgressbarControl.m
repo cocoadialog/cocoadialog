@@ -22,11 +22,6 @@
 #import "CDProgressbarInputHandler.h"
 #import <sys/select.h>
 
-/*
- NOTE: I'm using C's select to do the non-blocking reading of stdin.
- If you can get it to work with purely NSFileHandle, let me know.
- */
-
 @implementation CDProgressbarControl
 
 - (NSDictionary *) availableKeys
@@ -39,6 +34,7 @@
 		vOne,  @"percent",
 		vNone, @"indeterminate",
 		vNone, @"float",
+		vNone, @"stoppable",
 		nil];
 }
 
@@ -54,11 +50,55 @@
 
 -(void) finish
 {
+	if (confirmationSheet) {
+		[NSApp endSheet:[confirmationSheet window]];
+		[confirmationSheet release];
+		confirmationSheet = nil;
+	}
+
+	if (stopped) {
+		NSFileHandle *fh = [NSFileHandle fileHandleWithStandardOutput];
+		[fh writeData:[@"stopped\n" dataUsingEncoding:NSUTF8StringEncoding]];
+	}
+
 	[NSApp terminate:nil];
+}
+
+-(void) confirmStop
+{
+	confirmationSheet = [[NSAlert alloc] init];
+	[confirmationSheet addButtonWithTitle:@"Stop"];
+	[confirmationSheet addButtonWithTitle:@"Cancel"];
+	[confirmationSheet setMessageText:@"Are you sure you want to stop?"];
+	[confirmationSheet beginSheetModalForWindow:window modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
+}
+
+- (void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+	if (confirmationSheet == alert) {
+		[confirmationSheet release];
+		confirmationSheet = nil;
+	}
+	if (returnCode == NSAlertFirstButtonReturn && stopEnabled) {
+		stopped = YES;
+		[self finish];
+	}
+}
+
+-(IBAction)stop:(id)sender
+{
+	[self confirmStop];
+}
+
+-(void) setStopEnabled:(NSNumber*)enabled
+{
+	stopEnabled = [enabled boolValue];
+	[stopButton setEnabled:stopEnabled];
 }
 
 - (NSArray *) runControlFromOptions:(CDOptions *)options
 {
+	stopEnabled = YES;
 	[self setOptions:options];
 	
 	// Load nib or return nil
@@ -76,9 +116,26 @@
 		[label setStringValue:@""];
 	}
 	
+	// hide stop button if not stoppable and resize window/controls
+	if (![options hasOpt:@"stoppable"]) {
+		NSRect progressBarFrame = [progressBar frame];
+
+		NSRect currentWindowFrame = [window frame];
+		CGFloat stopButtonWidth = [stopButton frame].size.width;
+		NSRect newWindowFrame = {
+			.origin = currentWindowFrame.origin,
+			.size = NSMakeSize(currentWindowFrame.size.width - stopButtonWidth + 2, currentWindowFrame.size.height)
+		};
+		[window setFrame:newWindowFrame display:NO];
+
+		[progressBar setFrame:progressBarFrame];
+		[stopButton setHidden:YES];
+	}
+
+
 	// resize if necessary
-	if ([self windowNeedsResize:panel]) {
-		[panel setContentSize:[self findNewSizeForWindow:panel]];
+	if ([self windowNeedsResize:window]) {
+		[window setContentSize:[self findNewSizeForWindow:window]];
 	}
 	
 	CDProgressbarInputHandler *inputHandler = [[CDProgressbarInputHandler alloc] init];
@@ -97,7 +154,7 @@
 	
 	//set window title
 	if ([options optValue:@"title"]) {
-		[panel setTitle:[options optValue:@"title"]];
+		[window setTitle:[options optValue:@"title"]];
 	}
 
 	// set indeterminate
@@ -108,15 +165,14 @@
 		[progressBar setIndeterminate:NO];
 	}
 
-	[panel center];
+	[window center];
 	if ([[self options] hasOpt:@"float"]) {
-		[panel setFloatingPanel: YES];
-		[panel setLevel:NSScreenSaverWindowLevel];
+		[window setLevel:NSScreenSaverWindowLevel];
 	}
 
 	NSOperationQueue* queue = [NSOperationQueue new];
 
-	[panel makeKeyAndOrderFront:nil];
+	[window makeKeyAndOrderFront:nil];
 
 	[queue addOperation:inputHandler];
 	[inputHandler release];

@@ -102,7 +102,7 @@
 	options=[CDOptions getOpts:args availableKeys:allKeys];
 	if ([options hasOpt:@"help"]) {
 		[CDOptions printOpts:allKeys];
-		[CDControl printHelp];
+		[CDControl printHelpTo:[NSFileHandle fileHandleWithStandardOutput]];
 		exit(1);
 	}
 	return options;
@@ -159,16 +159,15 @@
 
 + (void) debug:(NSString *)message
 {
-	NSFileHandle *fh = [NSFileHandle fileHandleWithStandardOutput];
+	NSFileHandle *fh = [NSFileHandle fileHandleWithStandardError];
 	NSString *output = [NSString stringWithFormat:@"ERROR: %@\n", message]; 
 	if (fh) {
 		[fh writeData:[output dataUsingEncoding:NSUTF8StringEncoding]];
 	}
 }
 
-+ (void) printHelp
++ (void) printHelpTo:(NSFileHandle *)fh
 {
-	NSFileHandle *fh = [NSFileHandle fileHandleWithStandardOutput];
 	NSString *output = @"Usage: CocoaDialog type [options]\n\tAvailable types:\n\t\tfileselect, filesave, msgbox, yesno-msgbox, ok-msgbox,\n\t\ttextbox, progressbar, inputbox, standard-inputbox,\n\t\tsecure-inputbox, secure-standard-inputbox\n\t\tdropdown, standard-dropdown, bubble.\n\tGlobal Options:\n\t\t--help, --debug, --title, --width, --height,\n\t\t--string-output, --no-newline\n\nSee http://cocoadialog.sourceforge.net/documentation.html\nfor detailed documentation.\n";
 	if (fh) {
 		[fh writeData:[output dataUsingEncoding:NSUTF8StringEncoding]];
