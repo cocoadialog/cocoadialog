@@ -115,8 +115,11 @@
 
 - (CDControl *) chooseControl:(NSString *)runMode useOptions:options addExtraOptionsTo:(NSMutableDictionary *)extraOptions
 {
-	if (runMode == nil || [runMode isEqualToString:@"--help"]) {
-		[CDControl printHelp];
+	if (runMode == nil) {
+		[CDControl printHelpTo:[NSFileHandle fileHandleWithStandardError]];
+		return nil;
+	} else if ([runMode isEqualToString:@"--help"]) {
+		[CDControl printHelpTo:[NSFileHandle fileHandleWithStandardOutput]];
 		return nil;
 	} else if ([runMode isEqualToString:@"fileselect"]) {
 		return [[(CDControl *)[CDFileSelectControl alloc] initWithOptions:options] autorelease];
@@ -151,12 +154,12 @@
 	} else if ([runMode isEqualToString:@"bubble"]) {
 		return [[(CDControl *)[CDBubbleControl alloc] initWithOptions:options] autorelease];
 	} else {
-		NSFileHandle *fh = [NSFileHandle fileHandleWithStandardOutput];
+		NSFileHandle *fh = [NSFileHandle fileHandleWithStandardError];
 		NSString *output = [NSString stringWithFormat:@"Unknown dialog type: %@\n", runMode]; 
 		if (fh) {
 			[fh writeData:[output dataUsingEncoding:NSUTF8StringEncoding]];
 		}
-		[CDControl printHelp];
+		[CDControl printHelpTo:fh];
 		return nil;
 	}
 }
