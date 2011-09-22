@@ -226,7 +226,7 @@ ol { margin: 0.75em 0 1.25em; padding: 0; }
     font-weight:bold;
     color:#333;
     text-shadow:1px 1px 0 #fff; 
-    background:url(http://github.com/images/modules/buttons/minibutton_matrix.png) 0 0 no-repeat;
+    background:url(https://github.com/images/modules/buttons/minibutton_matrix.png) 0 0 no-repeat;
     white-space:nowrap;
     border:none;
     overflow:visible;
@@ -239,7 +239,7 @@ ol { margin: 0.75em 0 1.25em; padding: 0; }
     height:23px;
     padding:0 10px 0 8px;
     line-height:23px;
-    background:url(http://github.com/images/modules/buttons/minibutton_matrix.png) 100% 0 no-repeat;
+    background:url(https://github.com/images/modules/buttons/minibutton_matrix.png) 100% 0 no-repeat;
   }
   
   a.minibutton:hover, a.minibutton:focus {
@@ -259,7 +259,7 @@ ol { margin: 0.75em 0 1.25em; padding: 0; }
     margin-left:-4px;
     width:18px;
     height:22px;
-    background:url(http://github.com/images/modules/buttons/minibutton_icons.png?v20100306) 0 0 no-repeat;
+    background:url(https://github.com/images/modules/buttons/minibutton_icons.png?v20100306) 0 0 no-repeat;
   }
   a.btn-download .icon {background-position:-40px 0;}
   a.btn-download:hover .icon, a.btn-download:focus .icon {background-position:-40px -25px;}
