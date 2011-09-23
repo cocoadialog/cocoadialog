@@ -93,7 +93,7 @@ ol { margin: 0.75em 0 1.25em; padding: 0; }
 #wrapper #masthead h1 img {
   position: relative;
   padding-right: 10px;
-  vertical-align: bottom;
+  vertical-align: middle;
 }
 
 #wrapper #navigation {
