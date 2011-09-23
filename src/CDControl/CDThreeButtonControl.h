@@ -22,11 +22,12 @@
 #import "CDControl.h"
 
 @interface CDThreeButtonControl : CDControl {
-	IBOutlet NSPanel     *panel;
-	IBOutlet NSButton    *button1;
-	IBOutlet NSButton    *button2;
-	IBOutlet NSButton    *button3;
-	IBOutlet NSTextField *expandingLabel;
+	IBOutlet NSPanel        *panel;
+	IBOutlet NSButton       *button1;
+	IBOutlet NSButton       *button2;
+	IBOutlet NSButton       *button3;
+	IBOutlet NSTextField    *expandingLabel;
+    IBOutlet NSView         *controlView;
 	int rv;
 }
 
@@ -44,6 +45,7 @@
 
 - (void) setTitle;
 - (void) setButtons;
+- (void) setControl;
 - (void) setLabel:(NSString *)labelText;
 
 - (void) setTitle:(NSString*)aTitle forButton:(NSButton*)aButton;

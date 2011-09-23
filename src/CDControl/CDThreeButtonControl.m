@@ -35,6 +35,11 @@
 	[NSApp run];
 }
 
+- (void) setControl
+{
+    
+}
+
 - (void) setTitle:(NSString*)aTitle forButton:(NSButton*)aButton
 {
 	if (aTitle && ![aTitle isEqualToString:@""]) {
@@ -58,6 +63,7 @@
 // This resizes
 - (void) setTitleButtonsLabel:(NSString *)labelText
 {
+
 	[self setTitle];
 	[self setButtons];
 
@@ -70,6 +76,13 @@
 	if ([self windowNeedsResize:panel]) {
 		[panel setContentSize:[self findNewSizeForWindow:panel]];
 	}
+    
+    [self setControl];
+    
+	if ([self windowNeedsResize:panel]) {
+		[panel setContentSize:[self findNewSizeForWindow:panel]];
+	}
+
 }
 
 - (void) setButtons
@@ -120,35 +133,41 @@
 // Should be called after setButtons, and before resize
 - (void) setLabel:(NSString *)labelText
 {
-	if (labelText == nil) {
-		labelText = @"";
+	if (labelText != nil) {
+		[expandingLabel setStringValue:labelText];
+	} else {
+		[expandingLabel setStringValue:@""];
 	}
     
-    [expandingLabel setStringValue:labelText];
-
     NSRect labelRect = [expandingLabel frame];
-    NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: labelText] autorelease];
+    NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: labelText]autorelease];
     NSTextContainer *textContainer = [[[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)] autorelease];
-    NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease]; 
+    NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease];
     [layoutManager addTextContainer: textContainer];
     [textStorage addLayoutManager: layoutManager];
-    [textContainer setLineFragmentPadding:0.0];
+    [textContainer setLineFragmentPadding:0];
     [layoutManager glyphRangeForTextContainer:textContainer];
     
-    float newHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
-    float heightDiff = newHeight - labelRect.size.height;
+    float labelNewHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
+    float labelHeightDiff = labelNewHeight - labelRect.size.height;
     
-    // Set label's new width and height
-    NSRect l = NSMakeRect(labelRect.origin.x, labelRect.origin.y - heightDiff, labelRect.size.width, newHeight);
+    // Set label's new height
+    NSRect l = NSMakeRect(labelRect.origin.x, labelRect.origin.y - labelHeightDiff, labelRect.size.width, labelNewHeight);
     [expandingLabel setFrame: l];
     
     // Set panel's new width and height
     NSSize p = [[panel contentView] frame].size;
-	p.height += heightDiff;
+	p.height += labelHeightDiff;
 	[panel setContentSize:p];
     [panel center];
-}
 
+    // Ajdust the control view height if it's assigned
+    if (controlView != nil) {
+        NSSize s = [controlView frame].size;
+        s.height -= labelHeightDiff;
+        [controlView setFrameSize:s];
+    }
+}
 
 - (void) setTitle
 {

@@ -10,7 +10,6 @@
 #import "CDThreeButtonControl.h"
 
 @interface CDCheckboxControl : CDThreeButtonControl {
-    IBOutlet NSView * controlView;
     NSMutableArray * checkboxes;
 }
 
