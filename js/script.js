@@ -2,17 +2,27 @@
 (function($){
   var origContent = "";
   var origLink = null;
+  var currentPage = null;
   
   function pageSections(content) {
     var content = $(content);
     var sidebar = $('#center .sidebar');
     var sidebarSections = $('.sections', sidebar);
+    var sections = $('.sections', content).hide().clone().show();
     if (sidebarSections.length) {
       sidebarSections.remove();
     }
-    var sections = $('.sections', content).hide().clone().show();
     if (sections.length) {
       sidebar.append(sections);
+      var top = sections.offset().top - parseFloat(sections.css('marginTop').replace(/auto/, 0));
+      $(window).scroll(function (event) {
+        var y = $(this).scrollTop() + 140;
+        if (y >= top) {
+          sections.addClass('fixed');
+        } else {
+          sections.removeClass('fixed');
+        }
+      });
     }
     return content;
   }
@@ -45,21 +55,27 @@
     var content = $('#content');
     var links = $('#navigation li');
     if(hash != "") {
-      if(origContent == "") {
-        origLink = links.filter('.active');
-        origContent = content.html();
+      if (hash != currentPage) {
+        if(origContent == "") {
+          origLink = links.filter('.active');
+          origContent = content.html();
+        }
+        var newLink = $('a', links).filter('[href="#' + hash + '"]').parent('li');
+        if (newLink.length) {
+          links.filter('.active').removeClass('active');
+          newLink.addClass('active');
+        }
+        hash = hash.replace('!',''); //so the server doesn't balk at a URL containing !
+        $.get(hash +".html", function(html) {
+          content.html(html);
+          pageSections(content);
+          scrollToHash(array);
+          currentPage = hash;
+        }, 'html');
       }
-      var newLink = $('a', links).filter('[href="#' + hash + '"]').parent('li');
-      if (newLink.length) {
-        links.filter('.active').removeClass('active');
-        newLink.addClass('active');
-      }
-      hash = hash.replace('!',''); //so the server doesn't balk at a URL containing !
-      $.get(hash +".html", function(html) {
-        content.html(html);
-        pageSections(content);
+      else {
         scrollToHash(array);
-      }, 'html');
+      }
     }
     else if(origContent != "") {
       links.filter('.active').removeClass('active');

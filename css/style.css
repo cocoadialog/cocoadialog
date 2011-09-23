@@ -184,6 +184,7 @@ ol { margin: 0.75em 0 1.25em; padding: 0; }
 
 #wrapper #center .sqeeze {
   margin-right: 260px;
+  position: relative;
 }
 
 /* Content */
@@ -199,11 +200,20 @@ ol { margin: 0.75em 0 1.25em; padding: 0; }
 
 /* Sidebar */
 #wrapper #center .sidebar {
+  position: absolute;
   border-left: 1px solid #ccc;
-  float: right;
-  margin-right: -260px;
+  right: -260px;
   margin-top: 140px;
   padding: 0 20px;
+  width: 200px;
+}
+
+#wrapper #center .sidebar .fixed {
+  position: fixed;
+  top: 100px;
+  margin-left: -21px;
+  padding: 0 20px;
+  border-left: 1px solid #ccc;
   width: 200px;
 }
 
