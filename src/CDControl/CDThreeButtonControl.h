@@ -27,8 +27,13 @@
 	IBOutlet NSButton       *button2;
 	IBOutlet NSButton       *button3;
 	IBOutlet NSTextField    *expandingLabel;
-    IBOutlet NSView         *controlView;
+    IBOutlet NSMatrix       *controlMatrix;
 	int rv;
+    
+    @private
+	NSAlert	*emptySheet;
+
+    
 }
 
 - (IBAction) timeout:(id)sender;
@@ -40,12 +45,14 @@
 
 - (void) setTimeout;
 
+- (IBAction)setControl:(id)sender;
+- (void) setControl: (id)sender matrixRows:(NSInteger)rows matrixColumns:(NSInteger)columns items:(NSArray *)items precedence:(int)precedence;
+
 // This resizes too. Use it instead of the 3 contained method calls
 - (void) setTitleButtonsLabel:(NSString *)labelText;
 
 - (void) setTitle;
 - (void) setButtons;
-- (void) setControl;
 - (void) setLabel:(NSString *)labelText;
 
 - (void) setTitle:(NSString*)aTitle forButton:(NSButton*)aButton;

@@ -35,9 +35,71 @@
 	[NSApp run];
 }
 
-- (void) setControl
+- (void) setControl:(id)sender
 {
     
+}
+
+- (void) setControl: (id)sender matrixRows:(NSInteger)rows matrixColumns:(NSInteger)columns items:(NSArray *)items precedence:(int)precedence
+{
+    if (controlMatrix != nil) {
+        // Default exact columns/rows
+        int exactColumns = [items count] / rows;
+        float exactColumnsFloat = (float) [items count] / (float)rows;
+        
+        int exactRows = [items count] / columns;
+        float exactRowsFloat = (float)[items count] / (float)columns;
+        
+        switch (precedence) {
+                // Rows have precedence over columns, if items extend past number of rows
+                // columns will be increased to account for the additional items.
+            case 1:
+                // Items do not fill rows, reduce the rows to fit
+                if (exactRowsFloat < (float)rows) {
+                    rows = exactRows;
+                }
+                // Items exceed rows, expand columns
+                else if (exactRowsFloat > (float)rows) {
+                    columns = [items count] / rows;
+                    float exactColumnsFloat = (float)[items count] / (float)rows;
+                    if (exactColumnsFloat > (float) columns) {
+                        columns++;
+                    }
+                }
+                // Extend rows once more if the division is greater than a whole number
+                if (exactColumnsFloat > (float) columns) {
+                    columns++;
+                }
+                break;
+                
+                // Columns have precedence over rows, if items extend past number of columns
+                // rows will be increased to account for the additional items.
+            default:
+                // Items do not fill columns, reduce the columns to fit
+                if (exactColumnsFloat < (float)columns) {
+                    columns = (int) exactColumns;
+                }
+                // Items exceed columns, expand rows
+                else if (exactColumnsFloat > (float)columns) {
+                    rows = [items count] / columns;
+                    exactRowsFloat = (float)[items count] / (float)columns;
+                    if (exactRowsFloat > (float) rows) {
+                        rows++;
+                    }
+                    exactColumnsFloat = (float) [items count] / (float)rows;
+                    if (exactColumnsFloat <= (float)columns) {
+                        columns = (int) exactColumnsFloat;
+                    }
+                }
+                // Extend rows once more if the division is greater than a whole number
+                if (exactRowsFloat > (float) rows) {
+                    rows++;
+                }
+                break;
+        }
+        // Tell the matrix how many rows and columns it has
+        [controlMatrix renewRows:rows columns:columns];
+    }
 }
 
 - (void) setTitle:(NSString*)aTitle forButton:(NSButton*)aButton
@@ -66,22 +128,41 @@
 
 	[self setTitle];
 	[self setButtons];
-
-	if ([self windowNeedsResize:panel]) {
-		[panel setContentSize:[self findNewSizeForWindow:panel]];
-	}
-
-	[self setLabel:labelText];
-
 	if ([self windowNeedsResize:panel]) {
 		[panel setContentSize:[self findNewSizeForWindow:panel]];
 	}
     
-    [self setControl];
+    [self setLabel:labelText];
     
 	if ([self windowNeedsResize:panel]) {
 		[panel setContentSize:[self findNewSizeForWindow:panel]];
 	}
+    
+    if (controlMatrix != nil) {
+        // Remember old controlMatrix size
+        NSRect m = [controlMatrix frame];
+        float oldHeight = m.size.height;
+        float oldWidth = m.size.width;
+        
+        // Call the control
+        [self setControl:self];
+
+        // Resize
+        [controlMatrix sizeToCells];
+        [[controlMatrix superview] setNeedsDisplay:YES];
+        m = [controlMatrix frame];
+
+        // Set panel's new width and height
+        NSSize p = [[panel contentView] frame].size;
+        p.height += m.size.height - oldHeight;
+        p.width += m.size.width - oldWidth;
+        [panel setContentSize:p];
+        [panel center];
+        
+        if ([self windowNeedsResize:panel]) {
+            [panel setContentSize:[self findNewSizeForWindow:panel]];
+        }
+    }
 
 }
 
@@ -145,7 +226,6 @@
     NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease];
     [layoutManager addTextContainer: textContainer];
     [textStorage addLayoutManager: layoutManager];
-    [textContainer setLineFragmentPadding:0];
     [layoutManager glyphRangeForTextContainer:textContainer];
     
     float labelNewHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
@@ -160,13 +240,6 @@
 	p.height += labelHeightDiff;
 	[panel setContentSize:p];
     [panel center];
-
-    // Ajdust the control view height if it's assigned
-    if (controlView != nil) {
-        NSSize s = [controlView frame].size;
-        s.height -= labelHeightDiff;
-        [controlView setFrameSize:s];
-    }
 }
 
 - (void) setTitle

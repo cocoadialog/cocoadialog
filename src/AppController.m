@@ -38,6 +38,7 @@
 #import "CDStandardPopUpButtonControl.h"
 
 #import "CDCheckboxControl.h"
+#import "CDRadioControl.h"
 
 @implementation AppController
 
@@ -118,42 +119,62 @@
 	if (runMode == nil) {
 		[CDControl printHelpTo:[NSFileHandle fileHandleWithStandardError]];
 		return nil;
-	} else if ([runMode isEqualToString:@"--help"]) {
+	}
+    else if ([runMode isEqualToString:@"--help"]) {
 		[CDControl printHelpTo:[NSFileHandle fileHandleWithStandardOutput]];
 		return nil;
-	} else if ([runMode isEqualToString:@"fileselect"]) {
+	}
+    else if ([runMode isEqualToString:@"fileselect"]) {
 		return [[(CDControl *)[CDFileSelectControl alloc] initWithOptions:options] autorelease];
-	} else if ([runMode isEqualToString:@"filesave"]) {
+	}
+    else if ([runMode isEqualToString:@"filesave"]) {
 		return [[(CDControl *)[CDFileSaveControl alloc] initWithOptions:options] autorelease];
-	} else if ([runMode isEqualToString:@"checkbox"]) {
+	}
+    else if ([runMode isEqualToString:@"checkbox"]) {
 		return [[(CDControl *)[CDCheckboxControl alloc] initWithOptions:options] autorelease];
-	} else if ([runMode isEqualToString:@"msgbox"]) {
+	}
+    else if ([runMode isEqualToString:@"radio"]) {
+		return [[(CDControl *)[CDRadioControl alloc] initWithOptions:options] autorelease];
+	}
+    else if ([runMode isEqualToString:@"msgbox"]) {
 		return [[(CDControl *)[CDMsgboxControl alloc] initWithOptions:options] autorelease];
-	} else if ([runMode isEqualToString:@"yesno-msgbox"]) {
+	}
+    else if ([runMode isEqualToString:@"yesno-msgbox"]) {
 		return [[(CDControl *)[CDYesNoMsgboxControl alloc] initWithOptions:options] autorelease];
-	} else if ([runMode isEqualToString:@"ok-msgbox"]) {
+	}
+    else if ([runMode isEqualToString:@"ok-msgbox"]) {
 		return [[(CDControl *)[CDOkMsgboxControl alloc] initWithOptions:options] autorelease];
-	} else if ([runMode isEqualToString:@"textbox"]) {
+	}
+    else if ([runMode isEqualToString:@"textbox"]) {
 		return [[(CDControl *)[CDTextboxControl alloc] initWithOptions:options] autorelease];
-	} else if ([runMode isEqualToString:@"progressbar"]) {
+	}
+    else if ([runMode isEqualToString:@"progressbar"]) {
 		return [[(CDControl *)[CDProgressbarControl alloc] initWithOptions:options] autorelease];
-	} else if ([runMode isEqualToString:@"inputbox"]) {
+	}
+    else if ([runMode isEqualToString:@"inputbox"]) {
 		return [[(CDControl *)[CDInputboxControl alloc] initWithOptions:options] autorelease];
-	} else if ([runMode isEqualToString:@"standard-inputbox"]) {
+	}
+    else if ([runMode isEqualToString:@"standard-inputbox"]) {
 		return [[(CDControl *)[CDStandardInputboxControl alloc] initWithOptions:options] autorelease];
-	} else if ([runMode isEqualToString:@"secure-standard-inputbox"]) {
+	}
+    else if ([runMode isEqualToString:@"secure-standard-inputbox"]) {
 		[extraOptions setObject:[NSNumber numberWithBool:NO] forKey:@"no-show"];
 		return [[(CDControl *)[CDStandardInputboxControl alloc] initWithOptions:options] autorelease];
-	} else if ([runMode isEqualToString:@"secure-inputbox"]) {
+	}
+    else if ([runMode isEqualToString:@"secure-inputbox"]) {
 		[extraOptions setObject:[NSNumber numberWithBool:NO] forKey:@"no-show"];
 		return [[(CDControl *)[CDInputboxControl alloc] initWithOptions:options] autorelease];
-	} else if ([runMode isEqualToString:@"dropdown"]) {
+	}
+    else if ([runMode isEqualToString:@"dropdown"]) {
 		return [[(CDControl *)[CDPopUpButtonControl alloc] initWithOptions:options] autorelease];
-	} else if ([runMode isEqualToString:@"standard-dropdown"]) {
+	}
+    else if ([runMode isEqualToString:@"standard-dropdown"]) {
 		return [[(CDControl *)[CDStandardPopUpButtonControl alloc] initWithOptions:options] autorelease];
-	} else if ([runMode isEqualToString:@"bubble"]) {
+	}
+    else if ([runMode isEqualToString:@"bubble"]) {
 		return [[(CDControl *)[CDBubbleControl alloc] initWithOptions:options] autorelease];
-	} else {
+	}
+    else {
 		NSFileHandle *fh = [NSFileHandle fileHandleWithStandardError];
 		NSString *output = [NSString stringWithFormat:@"Unknown dialog type: %@\n", runMode]; 
 		if (fh) {

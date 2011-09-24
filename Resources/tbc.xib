@@ -43,7 +43,7 @@
 			<object class="NSWindowTemplate" id="365987548">
 				<int key="NSWindowStyleMask">1</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{272, 172}, {428, 134}}</string>
+				<string key="NSWindowRect">{{272, 172}, {428, 216}}</string>
 				<int key="NSWTFlags">1685586944</int>
 				<string key="NSWindowTitle">Panel</string>
 				<string key="NSWindowClass">NSPanel</string>
@@ -137,7 +137,7 @@
 						<object class="NSTextField" id="196127081">
 							<reference key="NSNextResponder" ref="651731071"/>
 							<int key="NSvFlags">266</int>
-							<string key="NSFrame">{{17, 86}, {394, 28}}</string>
+							<string key="NSFrame">{{17, 168}, {394, 28}}</string>
 							<reference key="NSSuperview" ref="651731071"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="316184613"/>
@@ -175,16 +175,16 @@
 						</object>
 						<object class="NSCustomView" id="316184613">
 							<reference key="NSNextResponder" ref="651731071"/>
-							<int key="NSvFlags">274</int>
-							<string key="NSFrame">{{20, 60}, {388, 18}}</string>
+							<int key="NSvFlags">292</int>
+							<string key="NSFrame">{{20, 60}, {388, 100}}</string>
 							<reference key="NSSuperview" ref="651731071"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="547107954"/>
 							<string key="NSReuseIdentifierKey">_NS:1192</string>
-							<string key="NSClassName">NSView</string>
+							<string key="NSClassName">NSMatrix</string>
 						</object>
 					</object>
-					<string key="NSFrameSize">{428, 134}</string>
+					<string key="NSFrameSize">{428, 216}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="196127081"/>
@@ -265,11 +265,11 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">controlView</string>
+						<string key="label">controlMatrix</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="316184613"/>
 					</object>
-					<int key="connectionID">33</int>
+					<int key="connectionID">36</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -316,10 +316,10 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="196127081"/>
+							<reference ref="316184613"/>
 							<reference ref="840052715"/>
 							<reference ref="297909641"/>
 							<reference ref="547107954"/>
-							<reference ref="316184613"/>
 						</object>
 						<reference key="parent" ref="365987548"/>
 					</object>
@@ -437,7 +437,7 @@
 				<reference key="dict.values" ref="1002"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">33</int>
+			<int key="maxID">37</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -460,10 +460,12 @@
 							<string>button1Pressed:</string>
 							<string>button2Pressed:</string>
 							<string>button3Pressed:</string>
+							<string>setControl:</string>
 							<string>timeout:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -477,6 +479,7 @@
 							<string>button1Pressed:</string>
 							<string>button2Pressed:</string>
 							<string>button3Pressed:</string>
+							<string>setControl:</string>
 							<string>timeout:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -494,6 +497,10 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">setControl:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">timeout:</string>
 								<string key="candidateClassName">id</string>
 							</object>
@@ -506,7 +513,7 @@
 							<string>button1</string>
 							<string>button2</string>
 							<string>button3</string>
-							<string>controlView</string>
+							<string>controlMatrix</string>
 							<string>expandingLabel</string>
 							<string>panel</string>
 						</object>
@@ -515,7 +522,7 @@
 							<string>NSButton</string>
 							<string>NSButton</string>
 							<string>NSButton</string>
-							<string>NSView</string>
+							<string>NSMatrix</string>
 							<string>NSTextField</string>
 							<string>NSPanel</string>
 						</object>
@@ -527,7 +534,7 @@
 							<string>button1</string>
 							<string>button2</string>
 							<string>button3</string>
-							<string>controlView</string>
+							<string>controlMatrix</string>
 							<string>expandingLabel</string>
 							<string>panel</string>
 						</object>
@@ -546,8 +553,8 @@
 								<string key="candidateClassName">NSButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">controlView</string>
-								<string key="candidateClassName">NSView</string>
+								<string key="name">controlMatrix</string>
+								<string key="candidateClassName">NSMatrix</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">expandingLabel</string>
