@@ -159,7 +159,7 @@
 		89880CAC142AB364004E79A1 /* CDProgressbarInputHandlerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDProgressbarInputHandlerDelegate.h; path = src/CDProgressbarInputHandlerDelegate.h; sourceTree = "<group>"; };
 		89BE1C9D14270A540030D0FF /* CDProgressbarInputHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDProgressbarInputHandler.m; path = src/CDProgressbarInputHandler.m; sourceTree = "<group>"; };
 		89BE1CA114270EC80030D0FF /* CDProgressbarInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDProgressbarInputHandler.h; path = src/CDProgressbarInputHandler.h; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* CocoaDialog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocoaDialog.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107320486CEB800E47090 /* cocoaDialog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cocoaDialog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A725536B142538DC004A7B4F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		A725536C142538DC004A7B4F /* Inputbox.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Inputbox.xib; path = Resources/Inputbox.xib; sourceTree = "<group>"; };
 		A725536D142538DC004A7B4F /* Msgbox.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Msgbox.xib; path = Resources/Msgbox.xib; sourceTree = "<group>"; };
@@ -340,7 +340,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D1107320486CEB800E47090 /* CocoaDialog.app */,
+				8D1107320486CEB800E47090 /* cocoaDialog.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -434,9 +434,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8D1107260486CEB800E47090 /* CocoaDialog */ = {
+		8D1107260486CEB800E47090 /* cocoaDialog */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0E77E99F0963C37C00D651A3 /* Build configuration list for PBXNativeTarget "CocoaDialog" */;
+			buildConfigurationList = 0E77E99F0963C37C00D651A3 /* Build configuration list for PBXNativeTarget "cocoaDialog" */;
 			buildPhases = (
 				8D1107270486CEB800E47090 /* Headers */,
 				8D1107290486CEB800E47090 /* Resources */,
@@ -447,10 +447,10 @@
 			);
 			dependencies = (
 			);
-			name = CocoaDialog;
+			name = cocoaDialog;
 			productInstallPath = "$(HOME)/Applications";
 			productName = CocoaDialog;
-			productReference = 8D1107320486CEB800E47090 /* CocoaDialog.app */;
+			productReference = 8D1107320486CEB800E47090 /* cocoaDialog.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -473,7 +473,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D1107260486CEB800E47090 /* CocoaDialog */,
+				8D1107260486CEB800E47090 /* cocoaDialog */,
 			);
 		};
 /* End PBXProject section */
@@ -595,7 +595,7 @@
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = CocoaDialog;
+				PRODUCT_NAME = cocoaDialog;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -626,7 +626,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = CocoaDialog;
+				PRODUCT_NAME = cocoaDialog;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -656,7 +656,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = CocoaDialog;
+				PRODUCT_NAME = cocoaDialog;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -703,7 +703,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0E77E99F0963C37C00D651A3 /* Build configuration list for PBXNativeTarget "CocoaDialog" */ = {
+		0E77E99F0963C37C00D651A3 /* Build configuration list for PBXNativeTarget "cocoaDialog" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0E77E9A00963C37C00D651A3 /* Development */,
