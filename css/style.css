@@ -303,7 +303,41 @@ ol { margin: 0.75em 0 1.25em; padding: 0; }
 }
 
 
-/* CSS Document */
+/* General styling */
+
+table.commands thead th {
+  border-bottom: 2px solid #ccc;
+  text-align: left;
+  vertical-align: bottom;
+}
+
+table.commands tbody td {
+  padding: 5px 0;
+  text-align: left;
+  vertical-align: top;
+}
+
+table.commands tbody tr:nth-child(odd) {
+  background-color:#eee;
+}
+
+table.commands tbody td.command {
+  font-weight: bold;
+  white-space: nowrap;
+  padding-right: 20px;
+  width: 10px;
+}
+
+table.commands tbody td.arguments {
+  font-style: italic;
+  padding-right: 20px;
+  white-space: nowrap;
+  width: 10px;
+}
+
+table.commands tbody td.description {
+}
+
 
 .code {
 	font-family: monospace;
@@ -328,7 +362,24 @@ table.icons tr td {
 	font-size: x-small;
 	text-align:center;
 }
-.icon {
+
+table.icons .icon {
+	border: 0px;
+	margin-left:0px;
+	margin-right:0px;
+	margin-top:0px;
+	margin-bottom:3px;
+}
+
+
+div.icons .icon {
+  float: left;
+  padding: 5px;
+  font-size: x-small;
+  text-align: center;
+}
+
+div.icons .icon img {
 	border: 0px;
 	margin-left:0px;
 	margin-right:0px;
