@@ -34,8 +34,6 @@
 		vOne, @"button1",
 		vOne, @"button2",
 		vOne, @"button3",
-		vOne, @"icon",
-		vOne, @"icon-file",
 		vNone,@"float",
         vOne, @"cancel",
 		vOne, @"timeout",
@@ -54,6 +52,10 @@
 		}
 		return nil;
 	}
+    
+    // Add extra control
+    [controlItems addObject:text];
+
 	
 	// add the main bold text
 	if ([options optValue:@"text"]) {
@@ -61,8 +63,6 @@
 	}
 
 	[self setTitleButtonsLabel:[options optValue:@"informative-text"]];
-
-	[self setIcon];
 
 	[self setTimeout];
 
@@ -86,34 +86,6 @@
 		returnString = @"";
 	}
 	return [NSArray arrayWithObject:returnString];
-}
-
-- (void) setIcon
-{
-	CDOptions *options = [self options];
-	NSImage *icon = nil;
-	if ([options hasOpt:@"icon-file"]) {
-		icon = [[[NSImage alloc ]initWithContentsOfFile:[options optValue:@"icon-file"]] autorelease];
-		if (icon == nil && [options hasOpt:@"debug"]) {
-			[CDControl debug:[NSString stringWithFormat:@"Could not get image from specified icon file '%@'.", [options optValue:@"icon-file"]]];
-		}
-
-	} else if ([options hasOpt:@"icon"]) {
-		NSString *iconName = [options optValue:@"icon"];
-		NSString *fileName = [[NSBundle mainBundle] pathForResource:iconName ofType:@"icns"];
-		if (fileName) {
-			icon = [[[NSImage alloc ]initWithContentsOfFile:fileName] autorelease];
-			if (icon == nil && [options hasOpt:@"debug"]) {
-				[CDControl debug:[NSString stringWithFormat:@"Could not get image from specified icon file '%@'.", fileName]];
-			}
-		} else if ([options hasOpt:@"debug"]) {
-			[CDControl debug:[NSString stringWithFormat:@"Could not file for icon '%@'.", iconName]];
-		}
-	}
-	if (icon != nil) {
-		[imageView setImage:icon];
-	}
-	// Do we need to stick a blank image in there failing the above?...
 }
 
 @end

@@ -23,9 +23,6 @@
 
 @interface CDMsgboxControl : CDThreeButtonControl {
 	IBOutlet NSTextField* text;
-	IBOutlet NSImageView* imageView;
 }
-
-- (void) setIcon;
 
 @end

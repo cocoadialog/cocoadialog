@@ -70,7 +70,7 @@
 	// come to the front automatically.
 	[[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
 
-	control = [self chooseControl:runMode useOptions:options addExtraOptionsTo:extraOptions];
+	control = [[[self chooseControl:runMode useOptions:options addExtraOptionsTo:extraOptions] init] autorelease];
 
 	if (control != nil) {
 		int i;
@@ -85,7 +85,7 @@
 		while (key = [en nextObject]) {
 			[options setOption:[extraOptions objectForKey:key] forKey:key];
 		}
-
+        
 		// Run the control (a modal window)
 		rv = [control runControlFromOptions:options];
 		

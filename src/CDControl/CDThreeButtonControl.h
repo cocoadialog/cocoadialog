@@ -23,15 +23,18 @@
 
 @interface CDThreeButtonControl : CDControl {
 	IBOutlet NSPanel        *panel;
+    IBOutlet NSImageView    *icon;
 	IBOutlet NSButton       *button1;
 	IBOutlet NSButton       *button2;
 	IBOutlet NSButton       *button3;
 	IBOutlet NSTextField    *expandingLabel;
     IBOutlet NSMatrix       *controlMatrix;
-	int rv;
+    
+    NSMutableArray          *controlItems;
+             int            rv;
     
     @private
-	NSAlert	*emptySheet;
+             NSAlert        *emptySheet;
 
     
 }
@@ -44,6 +47,10 @@
 - (void) runAndSetRv;
 
 - (void) setTimeout;
+
+- (void) setIcon;
+- (void) setIconWithImage:(NSImage *)anImage withSize:(NSSize)aSize;
+- (void) setIconWithImage:(NSImage *)anImage withSize:(NSSize)aSize withControls:(NSArray *)anArray;
 
 - (IBAction)setControl:(id)sender;
 - (void) setControl: (id)sender matrixRows:(NSInteger)rows matrixColumns:(NSInteger)columns items:(NSArray *)items precedence:(int)precedence;

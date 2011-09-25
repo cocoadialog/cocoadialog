@@ -22,6 +22,22 @@
 
 @implementation CDThreeButtonControl
 
+
+- (id)init
+{
+    self = [super init];
+    controlItems = [[[NSMutableArray alloc] init] retain];
+	return self;
+}
+
+- (void) dealloc
+{
+	[controlItems release];
+	[super dealloc];
+}
+
+
+
 - (void) runAndSetRv
 {
 	// Run modal
@@ -35,10 +51,8 @@
 	[NSApp run];
 }
 
-- (void) setControl:(id)sender
-{
-    
-}
+// Needs to be overriden in control
+- (void) setControl:(id)sender { }
 
 - (void) setControl: (id)sender matrixRows:(NSInteger)rows matrixColumns:(NSInteger)columns items:(NSArray *)items precedence:(int)precedence
 {
@@ -102,6 +116,405 @@
     }
 }
 
+- (void) setIcon
+{
+    if (icon != nil) {
+        NSImage *image = [[[NSImage alloc] initWithData:nil] autorelease];
+        CDOptions *options = [self options];
+        if ([options hasOpt:@"icon-file"]) {
+            image = [[[NSImage alloc ]initWithContentsOfFile:[options optValue:@"icon-file"]] autorelease];
+            if (image == nil && [options hasOpt:@"debug"]) {
+                [CDControl debug:[NSString stringWithFormat:@"Could not get image from specified icon file '%@'.", [options optValue:@"icon-file"]]];
+            }
+            
+        } else if ([options hasOpt:@"icon"]) {
+            NSString *iconName = [options optValue:@"icon"];
+            NSString *bundle = nil;
+            NSString *path = nil;
+            // Use bundle identifier
+            if ([options hasOpt:@"icon-bundle"]) {
+                bundle = [options optValue:@"icon-bundle"];
+            }
+            // Set default bundle identifier
+            if (bundle == nil) {
+                // Application icon
+                if ([iconName caseInsensitiveCompare:@"cocoadialog"] == NSOrderedSame) {
+                    image = [NSApp applicationIconImage];
+                }
+                // User specific computer image
+                else if ([iconName caseInsensitiveCompare:@"computer"] == NSOrderedSame) {
+                    image = [NSImage imageNamed: NSImageNameComputer];
+                }
+                // Bundle Identifications
+                else if ([iconName caseInsensitiveCompare:@"addressbook"] == NSOrderedSame) {
+                    iconName = @"AppIcon";
+                    bundle = @"com.apple.AddressBook";
+                }
+                else if ([iconName caseInsensitiveCompare:@"airport"] == NSOrderedSame) {
+                    iconName = @"AirPort";
+                    bundle = @"com.apple.AirPortBaseStationAgent";
+                }
+                else if ([iconName caseInsensitiveCompare:@"airport2"] == NSOrderedSame) {
+                    iconName = @"AirPort";
+                    bundle = @"com.apple.wifi.diagnostics";
+                }
+                else if ([iconName caseInsensitiveCompare:@"archive"] == NSOrderedSame) {
+                    iconName = @"bah";
+                    bundle = @"com.apple.archiveutility";
+                }
+                else if ([iconName caseInsensitiveCompare:@"bluetooth"] == NSOrderedSame) {
+                    iconName = @"AppIcon";
+                    bundle = @"com.apple.BluetoothAudioAgent";
+                }
+                else if ([iconName caseInsensitiveCompare:@"application"] == NSOrderedSame) {
+                    iconName = @"GenericApplicationIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";
+                }
+                else if ([iconName caseInsensitiveCompare:@"bonjour"] == NSOrderedSame || [iconName caseInsensitiveCompare:@"atom"] == NSOrderedSame) {
+                    iconName = @"Bonjour";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"burn"] == NSOrderedSame || [iconName caseInsensitiveCompare:@"hazard"] == NSOrderedSame) {
+                    iconName = @"BurningIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"caution"] == NSOrderedSame) {
+                    iconName = @"AlertCautionIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"document"] == NSOrderedSame) {
+                    iconName = @"GenericDocumentIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"documents"] == NSOrderedSame) {
+                    iconName = @"ToolbarDocumentsFolderIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"download"] == NSOrderedSame) {
+                    iconName = @"ToolbarDownloadsFolderIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"eject"] == NSOrderedSame) {
+                    iconName = @"EjectMediaIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"everyone"] == NSOrderedSame) {
+                    iconName = @"Everyone";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"executable"] == NSOrderedSame) {
+                    iconName = @"ExecutableBinaryIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"favorite"] == NSOrderedSame || [iconName caseInsensitiveCompare:@"heart"] == NSOrderedSame) {
+                    iconName = @"ToolbarFavoritesIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"fileserver"] == NSOrderedSame) {
+                    iconName = @"GenericFileServerIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"filevault"] == NSOrderedSame) {
+                    iconName = @"FileVaultIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"finder"] == NSOrderedSame) {
+                    iconName = @"FinderIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"folder"] == NSOrderedSame) {
+                    iconName = @"GenericFolderIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"folderopen"] == NSOrderedSame) {
+                    iconName = @"OpenFolderIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"foldersmart"] == NSOrderedSame) {
+                    iconName = @"SmartFolderIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"gear"] == NSOrderedSame) {
+                    iconName = @"ToolbarAdvanced";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"general"] == NSOrderedSame) {
+                    iconName = @"General";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"globe"] == NSOrderedSame) {
+                    iconName = @"BookmarkIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"group"] == NSOrderedSame) {
+                    iconName = @"GroupIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"home"] == NSOrderedSame) {
+                    iconName = @"HomeFolderIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"info"] == NSOrderedSame) {
+                    iconName = @"ToolbarInfo";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"ipod"] == NSOrderedSame) {
+                    iconName = @"com.apple.ipod-touch-4";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"movie"] == NSOrderedSame) {
+                    iconName = @"ToolbarMovieFolderIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"music"] == NSOrderedSame) {
+                    iconName = @"ToolbarMusicFolderIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"network"] == NSOrderedSame) {
+                    iconName = @"GenericNetworkIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"notice"] == NSOrderedSame) {
+                    iconName = @"AlertNoteIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"stop"] == NSOrderedSame || [iconName caseInsensitiveCompare:@"x"] == NSOrderedSame) {
+                    iconName = @"AlertStopIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"sync"] == NSOrderedSame) {
+                    iconName = @"Sync";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"trash"] == NSOrderedSame) {
+                    iconName = @"TrashIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"trashfull"] == NSOrderedSame) {
+                    iconName = @"FullTrashIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"url"] == NSOrderedSame) {
+                    iconName = @"GenericURLIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"user"] == NSOrderedSame || [iconName caseInsensitiveCompare:@"person"] == NSOrderedSame) {
+                    iconName = @"UserIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"utilities"] == NSOrderedSame) {
+                    iconName = @"ToolbarUtilitiesFolderIcon";
+                    path = @"/System/Library/CoreServices/CoreTypes.bundle";							
+                }
+                else if ([iconName caseInsensitiveCompare:@"dashboard"] == NSOrderedSame) {
+                    iconName = @"Dashboard";
+                    bundle = @"com.apple.dashboard.installer";
+                }
+                else if ([iconName caseInsensitiveCompare:@"dock"] == NSOrderedSame) {
+                    iconName = @"Dock";
+                    bundle = @"com.apple.dock";
+                }
+                else if ([iconName caseInsensitiveCompare:@"widget"] == NSOrderedSame) {
+                    iconName = @"widget";
+                    bundle = @"com.apple.dock";
+                }
+                else if ([iconName caseInsensitiveCompare:@"help"] == NSOrderedSame) {
+                    iconName = @"HelpViewer";
+                    bundle = @"com.apple.helpviewer";
+                }
+                else if ([iconName caseInsensitiveCompare:@"installer"] == NSOrderedSame) {
+                    iconName = @"Installer";
+                    bundle = @"com.apple.installer";
+                }
+                else if ([iconName caseInsensitiveCompare:@"package"] == NSOrderedSame) {
+                    iconName = @"package";
+                    bundle = @"com.apple.installer";
+                }
+                else if ([iconName caseInsensitiveCompare:@"firewire"] == NSOrderedSame) {
+                    iconName = @"FireWireHD";
+                    bundle = @"com.apple.iokit.IOSCSIArchitectureModelFamily";
+                    path = @"/System/Library/Extensions/IOSCSIArchitectureModelFamily.kext";
+                }
+                else if ([iconName caseInsensitiveCompare:@"usb"] == NSOrderedSame) {
+                    iconName = @"USBHD";
+                    bundle = @"com.apple.iokit.IOSCSIArchitectureModelFamily";
+                    path = @"/System/Library/Extensions/IOSCSIArchitectureModelFamily.kext";
+                }
+                else if ([iconName caseInsensitiveCompare:@"cd"] == NSOrderedSame) {
+                    iconName = @"CD";
+                    bundle = @"com.apple.ODSAgent";
+                }
+                else if ([iconName caseInsensitiveCompare:@"sound"] == NSOrderedSame) {
+                    iconName = @"SoundPref";
+                    path = @"/System/Library/PreferencePanes/Sound.prefPane";
+                }
+                else if ([iconName caseInsensitiveCompare:@"printer"] == NSOrderedSame) {
+                    iconName = @"Printer";
+                    bundle = @"com.apple.print.PrintCenter";
+                }
+                else if ([iconName caseInsensitiveCompare:@"screenshare"] == NSOrderedSame) {
+                    iconName = @"ScreenSharing";
+                    bundle = @"com.apple.ScreenSharing";
+                }
+                else if ([iconName caseInsensitiveCompare:@"security"] == NSOrderedSame) {
+                    iconName = @"Security";
+                    bundle = @"com.apple.securityagent";
+                }
+                else if ([iconName caseInsensitiveCompare:@"update"] == NSOrderedSame) {
+                    iconName = @"Software Update";
+                    bundle = @"com.apple.SoftwareUpdate";
+                }
+                else if ([iconName caseInsensitiveCompare:@"search"] == NSOrderedSame || [iconName caseInsensitiveCompare:@"find"] == NSOrderedSame) {
+                    iconName = @"Spotlight";
+                    path = @"/System/Library/CoreServices/Search.bundle";
+                }
+                else if ([iconName caseInsensitiveCompare:@"preferences"] == NSOrderedSame) {
+                    iconName = @"PrefApp";
+                    bundle = @"com.apple.systempreferences";
+                }
+            }
+            // Process bundle image path only if image has not already been set from above
+            if (image == nil) {
+                if (bundle != nil || path != nil) {
+                    NSString * fileName = nil;
+                    if (path == nil) {
+                        NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
+                        fileName = [[NSBundle bundleWithPath:[workspace absolutePathForAppBundleWithIdentifier:bundle]] pathForResource:iconName ofType:@"icns"];
+                    }
+                    else {
+                        fileName = [[NSBundle bundleWithPath:path] pathForResource:iconName ofType:@"icns"];
+                    }
+                    if (fileName != nil) {
+                        image = [[[NSImage alloc] initWithContentsOfFile:fileName] autorelease];
+                        if (image == nil && [options hasOpt:@"debug"]) {
+                            [CDControl debug:[NSString stringWithFormat:@"Could not get image from specified icon file '%@'.", fileName]];
+                        }
+                    }
+                    else if ([options hasOpt:@"debug"]) {
+                        [CDControl debug:[NSString stringWithFormat:@"Cannot find icon '%@' in bundle '%@'.", iconName, bundle]];
+                    }
+                }
+                else {
+                    if ([options hasOpt:@"debug"]) {
+                        [CDControl debug:[NSString stringWithFormat:@"Unknown icon '%@'. No --icon-bundle specified.", iconName]];
+                    }
+                }
+            }
+        }
+        
+        // Set default icon sizes
+        float iconWidth = 48.0;
+        float iconHeight = 48.0;
+        NSSize resize = NSMakeSize(iconWidth, iconHeight);
+        
+        // Add default controls
+        if (expandingLabel != nil && ![controlItems containsObject:expandingLabel]) {
+            [controlItems addObject:expandingLabel];
+        }
+        if (controlMatrix != nil && ![controlItems containsObject:controlMatrix]) {
+            [controlItems addObject:controlMatrix];
+        }
+        
+        // Control should display icon, process image.
+        if (image != nil) {
+            // Set default icon height
+            // Get icon sizes from user options
+            if ([options hasOpt:@"icon-size"]) {
+                int iconSize = [[options optValue:@"icon-size"] intValue];
+                switch (iconSize) {
+                    case 256: iconWidth = 256.0; iconHeight = 256.0; break;
+                    case 128: iconWidth = 128.0; iconHeight = 128.0; break;
+                    case 48: iconWidth = 48.0; iconHeight = 48.0; break;
+                    case 32: iconWidth = 32.0; iconHeight = 32.0; break;
+                    case 16: iconWidth = 16.0; iconHeight = 16.0; break;
+                }
+            }
+            else {
+                if ([options hasOpt:@"icon-width"]) {
+                    iconWidth = [[options optValue:@"icon-width"] floatValue];
+                }
+                if ([options hasOpt:@"icon-height"]) {
+                    iconHeight = [[options optValue:@"icon-height"] floatValue];
+                }
+            }
+            // Set sizes
+            resize = NSMakeSize(iconWidth, iconHeight);
+            [self setIconWithImage:image withSize:resize withControls:controlItems];
+        }
+        // Control shouldn't display icon, remove it and resize.
+        else {
+            [self setIconWithImage:nil withSize:resize withControls:controlItems];
+        }
+    }
+}
+- (void) setIconWithImage:(NSImage *)anImage withSize:(NSSize)aSize
+{
+    if (anImage != nil) {
+        NSSize originalSize = [anImage size];
+        // Resize Icon
+        if (originalSize.width != aSize.width || originalSize.height != aSize.height) {
+            NSImage *resizedImage = [[[NSImage alloc] initWithSize: aSize] autorelease];
+            [resizedImage lockFocus];
+            [anImage drawInRect: NSMakeRect(0, 0, aSize.width, aSize.height) fromRect: NSMakeRect(0, 0, originalSize.width, originalSize.height) operation: NSCompositeSourceOver fraction: 1.0];
+            [resizedImage unlockFocus];
+            [icon setImage:resizedImage];
+        }
+        else {
+            [icon setImage:anImage];
+        }
+        // Resize icon frame
+        NSRect iconFrame = [icon frame];
+        float iconHeightDiff = aSize.height - iconFrame.size.height;
+        NSRect newIconFrame = NSMakeRect(iconFrame.origin.x, iconFrame.origin.y - iconHeightDiff, aSize.width, aSize.height);
+        [icon setFrame:newIconFrame];
+    }
+}
+
+- (void) setIconWithImage:(NSImage *)anImage withSize:(NSSize)aSize withControls:(NSArray *)anArray
+{
+    // Icon has image
+    if (anImage != nil) {
+        // Set current icon frame
+        NSRect iconFrame = [icon frame];
+
+        // Set image and resize icon
+        [self setIconWithImage:anImage withSize:aSize];
+        
+        float iconWidthDiff = [icon frame].size.width - iconFrame.size.width;
+        NSEnumerator *en = [anArray objectEnumerator];
+        id control;
+        while (control = [en nextObject]) {
+            // Make sure the control exists
+            if (control != nil) {
+                NSRect controlFrame = [control frame];
+                NSRect newControlFrame = NSMakeRect(controlFrame.origin.x + iconWidthDiff, controlFrame.origin.y, controlFrame.size.width - iconWidthDiff, controlFrame.size.height);
+                [control setFrame:newControlFrame];
+            }
+        }
+
+    }
+    // Icon does not have image
+    else {
+        // Set current icon frame
+        NSRect iconFrame = [icon frame];
+        // Remove the icon
+        [icon removeFromSuperview];
+        icon = nil;
+        // Move the controls to the left and increase their width
+        NSEnumerator *en = [anArray objectEnumerator];
+        id control;
+        while (control = [en nextObject]) {
+            // Make sure the control exists
+            if (control != nil) {
+                NSRect controlFrame = [control frame];
+                float newControlWidth = controlFrame.size.width + (controlFrame.origin.x - iconFrame.origin.x);
+                NSRect newControlFrame = NSMakeRect(iconFrame.origin.x, controlFrame.origin.y, newControlWidth, controlFrame.size.height);
+                [control setFrame:newControlFrame];
+            }
+        }
+    }
+}
+
 - (void) setTitle:(NSString*)aTitle forButton:(NSButton*)aButton
 {
 	if (aTitle && ![aTitle isEqualToString:@""]) {
@@ -127,6 +540,7 @@
 {
 
 	[self setTitle];
+    [self setIcon];
 	[self setButtons];
 	if ([self windowNeedsResize:panel]) {
 		[panel setContentSize:[self findNewSizeForWindow:panel]];

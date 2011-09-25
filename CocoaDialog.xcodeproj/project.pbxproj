@@ -46,22 +46,6 @@
 		0E77E9BD0963C47A00D651A3 /* KABubbleWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E77E9BA0963C47A00D651A3 /* KABubbleWindowController.h */; };
 		0E77E9BE0963C47A00D651A3 /* KABubbleWindowView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E77E9BB0963C47A00D651A3 /* KABubbleWindowView.h */; };
 		0E77EA490964265900D651A3 /* CDBubbleControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E77EA480964265900D651A3 /* CDBubbleControl.m */; };
-		0E77EC140965C4E000D651A3 /* atom.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E77EC040965C4E000D651A3 /* atom.icns */; };
-		0E77EC150965C4E000D651A3 /* computer.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E77EC050965C4E000D651A3 /* computer.icns */; };
-		0E77EC160965C4E000D651A3 /* document.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E77EC060965C4E000D651A3 /* document.icns */; };
-		0E77EC170965C4E000D651A3 /* find.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E77EC070965C4E000D651A3 /* find.icns */; };
-		0E77EC180965C4E000D651A3 /* finder.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E77EC080965C4E000D651A3 /* finder.icns */; };
-		0E77EC190965C4E000D651A3 /* firewire.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E77EC090965C4E000D651A3 /* firewire.icns */; };
-		0E77EC1A0965C4E000D651A3 /* gear.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E77EC0A0965C4E000D651A3 /* gear.icns */; };
-		0E77EC1B0965C4E000D651A3 /* globe.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E77EC0B0965C4E000D651A3 /* globe.icns */; };
-		0E77EC1C0965C4E000D651A3 /* heart.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E77EC0C0965C4E000D651A3 /* heart.icns */; };
-		0E77EC1D0965C4E000D651A3 /* hourglass.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E77EC0D0965C4E000D651A3 /* hourglass.icns */; };
-		0E77EC1E0965C4E000D651A3 /* info.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E77EC0E0965C4E000D651A3 /* info.icns */; };
-		0E77EC1F0965C4E000D651A3 /* ipod.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E77EC0F0965C4E000D651A3 /* ipod.icns */; };
-		0E77EC200965C4E000D651A3 /* person.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E77EC100965C4E000D651A3 /* person.icns */; };
-		0E77EC220965C4E000D651A3 /* sound.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E77EC120965C4E000D651A3 /* sound.icns */; };
-		0E77EC230965C4E000D651A3 /* x.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E77EC130965C4E000D651A3 /* x.icns */; };
-		0E77EC82096682AD00D651A3 /* folder.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E77EC81096682AD00D651A3 /* folder.icns */; };
 		0EC9B67E09B126D500956684 /* CDFileDialogControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EC9B67C09B126D500956684 /* CDFileDialogControl.h */; };
 		0EC9B67F09B126D500956684 /* CDFileDialogControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC9B67D09B126D500956684 /* CDFileDialogControl.m */; };
 		0EC9B68209B1273100956684 /* CDFileSaveControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EC9B68109B1273100956684 /* CDFileSaveControl.h */; };
@@ -69,7 +53,6 @@
 		0EE0B42B0968018A0070F494 /* CDBubbleControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EE0B42A0968018A0070F494 /* CDBubbleControl.h */; };
 		0EE0B434096802B90070F494 /* CDThreeButtonControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EE0B433096802B90070F494 /* CDThreeButtonControl.m */; };
 		0EE0B436096802CF0070F494 /* CDThreeButtonControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EE0B435096802CF0070F494 /* CDThreeButtonControl.h */; };
-		0EE0B5D009681BF00070F494 /* hazard.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0EE0B5CF09681BF00070F494 /* hazard.icns */; };
 		89880CAD142AB364004E79A1 /* CDProgressbarInputHandlerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 89880CAC142AB364004E79A1 /* CDProgressbarInputHandlerDelegate.h */; };
 		89BE1C9F14270A540030D0FF /* CDProgressbarInputHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BE1C9D14270A540030D0FF /* CDProgressbarInputHandler.m */; };
 		89BE1CA214270EC80030D0FF /* CDProgressbarInputHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 89BE1CA114270EC80030D0FF /* CDProgressbarInputHandler.h */; };
@@ -129,22 +112,6 @@
 		0E77E9BA0963C47A00D651A3 /* KABubbleWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KABubbleWindowController.h; path = src/KABubbleWindowController.h; sourceTree = "<group>"; };
 		0E77E9BB0963C47A00D651A3 /* KABubbleWindowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KABubbleWindowView.h; path = src/KABubbleWindowView.h; sourceTree = "<group>"; };
 		0E77EA480964265900D651A3 /* CDBubbleControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDBubbleControl.m; path = src/CDControl/CDBubbleControl.m; sourceTree = "<group>"; };
-		0E77EC040965C4E000D651A3 /* atom.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = atom.icns; path = Resources/atom.icns; sourceTree = "<group>"; };
-		0E77EC050965C4E000D651A3 /* computer.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = computer.icns; path = Resources/computer.icns; sourceTree = "<group>"; };
-		0E77EC060965C4E000D651A3 /* document.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = document.icns; path = Resources/document.icns; sourceTree = "<group>"; };
-		0E77EC070965C4E000D651A3 /* find.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = find.icns; path = Resources/find.icns; sourceTree = "<group>"; };
-		0E77EC080965C4E000D651A3 /* finder.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = finder.icns; path = Resources/finder.icns; sourceTree = "<group>"; };
-		0E77EC090965C4E000D651A3 /* firewire.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = firewire.icns; path = Resources/firewire.icns; sourceTree = "<group>"; };
-		0E77EC0A0965C4E000D651A3 /* gear.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = gear.icns; path = Resources/gear.icns; sourceTree = "<group>"; };
-		0E77EC0B0965C4E000D651A3 /* globe.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = globe.icns; path = Resources/globe.icns; sourceTree = "<group>"; };
-		0E77EC0C0965C4E000D651A3 /* heart.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = heart.icns; path = Resources/heart.icns; sourceTree = "<group>"; };
-		0E77EC0D0965C4E000D651A3 /* hourglass.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = hourglass.icns; path = Resources/hourglass.icns; sourceTree = "<group>"; };
-		0E77EC0E0965C4E000D651A3 /* info.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = info.icns; path = Resources/info.icns; sourceTree = "<group>"; };
-		0E77EC0F0965C4E000D651A3 /* ipod.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ipod.icns; path = Resources/ipod.icns; sourceTree = "<group>"; };
-		0E77EC100965C4E000D651A3 /* person.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = person.icns; path = Resources/person.icns; sourceTree = "<group>"; };
-		0E77EC120965C4E000D651A3 /* sound.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = sound.icns; path = Resources/sound.icns; sourceTree = "<group>"; };
-		0E77EC130965C4E000D651A3 /* x.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = x.icns; path = Resources/x.icns; sourceTree = "<group>"; };
-		0E77EC81096682AD00D651A3 /* folder.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = folder.icns; path = Resources/folder.icns; sourceTree = "<group>"; };
 		0EC9B67C09B126D500956684 /* CDFileDialogControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDFileDialogControl.h; path = src/CDControl/CDFileDialogControl.h; sourceTree = "<group>"; };
 		0EC9B67D09B126D500956684 /* CDFileDialogControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDFileDialogControl.m; path = src/CDControl/CDFileDialogControl.m; sourceTree = "<group>"; };
 		0EC9B68109B1273100956684 /* CDFileSaveControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDFileSaveControl.h; path = src/CDControl/CDFileDialogControl/CDFileSaveControl.h; sourceTree = "<group>"; };
@@ -152,7 +119,6 @@
 		0EE0B42A0968018A0070F494 /* CDBubbleControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDBubbleControl.h; path = src/CDControl/CDBubbleControl.h; sourceTree = "<group>"; };
 		0EE0B433096802B90070F494 /* CDThreeButtonControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDThreeButtonControl.m; path = src/CDControl/CDThreeButtonControl.m; sourceTree = "<group>"; };
 		0EE0B435096802CF0070F494 /* CDThreeButtonControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDThreeButtonControl.h; path = src/CDControl/CDThreeButtonControl.h; sourceTree = "<group>"; };
-		0EE0B5CF09681BF00070F494 /* hazard.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = hazard.icns; path = Resources/hazard.icns; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -199,31 +165,6 @@
 				0EE0B431096802440070F494 /* CDControl */,
 			);
 			name = Classes;
-			sourceTree = "<group>";
-		};
-		0E77EC240965C4EB00D651A3 /* Icons */ = {
-			isa = PBXGroup;
-			children = (
-				0EE0B5CF09681BF00070F494 /* hazard.icns */,
-				0E77EC81096682AD00D651A3 /* folder.icns */,
-				0E77EC040965C4E000D651A3 /* atom.icns */,
-				0E77EC050965C4E000D651A3 /* computer.icns */,
-				0E77EC060965C4E000D651A3 /* document.icns */,
-				0E77EC070965C4E000D651A3 /* find.icns */,
-				0E77EC080965C4E000D651A3 /* finder.icns */,
-				0E77EC090965C4E000D651A3 /* firewire.icns */,
-				0E77EC0A0965C4E000D651A3 /* gear.icns */,
-				0E77EC0B0965C4E000D651A3 /* globe.icns */,
-				0E77EC0C0965C4E000D651A3 /* heart.icns */,
-				0E77EC0D0965C4E000D651A3 /* hourglass.icns */,
-				0E77EC0E0965C4E000D651A3 /* info.icns */,
-				0E77EC0F0965C4E000D651A3 /* ipod.icns */,
-				0E77EC100965C4E000D651A3 /* person.icns */,
-				0E77EC120965C4E000D651A3 /* sound.icns */,
-				0E77EC130965C4E000D651A3 /* x.icns */,
-				0E71DA0A0963B19500FF6F7C /* cocoadialog.icns */,
-			);
-			name = Icons;
 			sourceTree = "<group>";
 		};
 		0E91738E06299DF400E97C20 /* Headers */ = {
@@ -372,7 +313,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				0E77EC240965C4EB00D651A3 /* Icons */,
+				0E71DA0A0963B19500FF6F7C /* cocoadialog.icns */,
 				0E71DA0C0963B19500FF6F7C /* InfoPlist.strings */,
 				0E71DA120963B19500FF6F7C /* Info.plist */,
 				A725536A142538DC004A7B4F /* MainMenu.xib */,
@@ -487,23 +428,6 @@
 				0E53CED00634B34100E74888 /* Changelog in Resources */,
 				0E71DA1B0963B19500FF6F7C /* cocoadialog.icns in Resources */,
 				0E71DA1C0963B19500FF6F7C /* InfoPlist.strings in Resources */,
-				0E77EC140965C4E000D651A3 /* atom.icns in Resources */,
-				0E77EC150965C4E000D651A3 /* computer.icns in Resources */,
-				0E77EC160965C4E000D651A3 /* document.icns in Resources */,
-				0E77EC170965C4E000D651A3 /* find.icns in Resources */,
-				0E77EC180965C4E000D651A3 /* finder.icns in Resources */,
-				0E77EC190965C4E000D651A3 /* firewire.icns in Resources */,
-				0E77EC1A0965C4E000D651A3 /* gear.icns in Resources */,
-				0E77EC1B0965C4E000D651A3 /* globe.icns in Resources */,
-				0E77EC1C0965C4E000D651A3 /* heart.icns in Resources */,
-				0E77EC1D0965C4E000D651A3 /* hourglass.icns in Resources */,
-				0E77EC1E0965C4E000D651A3 /* info.icns in Resources */,
-				0E77EC1F0965C4E000D651A3 /* ipod.icns in Resources */,
-				0E77EC200965C4E000D651A3 /* person.icns in Resources */,
-				0E77EC220965C4E000D651A3 /* sound.icns in Resources */,
-				0E77EC230965C4E000D651A3 /* x.icns in Resources */,
-				0E77EC82096682AD00D651A3 /* folder.icns in Resources */,
-				0EE0B5D009681BF00070F494 /* hazard.icns in Resources */,
 				A7255372142538DC004A7B4F /* MainMenu.xib in Resources */,
 				A7255373142538DC004A7B4F /* Inputbox.xib in Resources */,
 				A7255374142538DC004A7B4F /* Msgbox.xib in Resources */,

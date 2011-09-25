@@ -26,7 +26,9 @@
 - (id)initWithOptions:(CDOptions *)options
 {
 	self = [super init];
-	[self setOptions:options];
+    if (options != nil) {
+        [self setOptions:options];
+    }
 	return self;
 }
 - (id)init
@@ -74,6 +76,12 @@
 		vOne,  @"title",
 		vOne,  @"width",
 		vOne,  @"height",
+        vOne,  @"icon",
+        vOne,  @"icon-bundle",
+        vOne,  @"icon-file",
+        vOne,  @"icon-size",
+        vOne,  @"icon-width",
+        vOne,  @"icon-height",
 		vNone, @"string-output",
 		vNone, @"no-newline",
 		nil];

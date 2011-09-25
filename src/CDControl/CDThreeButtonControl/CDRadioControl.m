@@ -214,7 +214,6 @@
     for (int currColumn = 0; currColumn <= columns - 1; currColumn++) {
         for (int currRow = 0; currRow <= rows - 1; currRow++) {
             if (currItem <= [items count] - 1) {
-                // NSLog(@"currColumn: %d, currRow: %d, index: %d", currColumn, currRow, currItem);
                 NSButtonCell * cell = [controls objectAtIndex:currItem];
                 [controlMatrix putCell:cell atRow:currRow column:currColumn];
                 if (selected == currItem) {
