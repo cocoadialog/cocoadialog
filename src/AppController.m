@@ -52,8 +52,10 @@
 	NSMutableDictionary *extraOptions = [[[NSMutableDictionary alloc] init] autorelease];
     
 	NSDictionary *globalKeys = [[[NSDictionary alloc] init] autorelease];
+	NSDictionary *depreciatedKeys = [[[NSDictionary alloc] init] autorelease];
     
     globalKeys = [control globalAvailableKeys];
+    depreciatedKeys = [control depreciatedKeys];
 
 	[arguments addObjectsFromArray:[[NSProcessInfo processInfo] arguments]];
 	if ([arguments count] >= 2) {
@@ -62,7 +64,7 @@
 		[arguments removeObjectAtIndex:0]; // Remove the run-mode
 	}
 
-	options = [CDOptions getOpts:arguments availableKeys:globalKeys];
+	options = [CDOptions getOpts:arguments availableKeys:globalKeys depreciatedKeys:depreciatedKeys];
 		
 	// Bring application into focus.
 	// Because this application isn't going to be double-clicked, or
@@ -75,10 +77,11 @@
 	if (control != nil) {
 		int i;
         globalKeys = [control globalAvailableKeys];
+        depreciatedKeys = [control depreciatedKeys];
+
 		// Now that we have the control, we can re-get the options to
 		// include the local options for that control.
-		options = [control controlOptionsFromArgs:arguments
-			withGlobalKeys:globalKeys];
+		options = [control controlOptionsFromArgs:arguments	withGlobalKeys:globalKeys];
         
         if ([options hasOpt:@"help"]) {
             NSMutableDictionary *allKeys;

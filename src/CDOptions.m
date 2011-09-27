@@ -34,11 +34,10 @@
 	return [self initWithOpts:[NSDictionary dictionary]];
 }
 
-+ (BOOL) _argIsKey:(NSString *)arg availableKeys:(NSDictionary *)availableKeys
++ (BOOL) _argIsKey:(NSString *)arg availableKeys:(NSDictionary *)availableKeys depreciatedKeys:(NSDictionary *)depreciatedKeys
 {
-	if ([arg length] > 2
-	    && [[arg substringWithRange:NSMakeRange(0,2)] isEqualToString:@"--"]
-	    && [availableKeys objectForKey:[arg substringFromIndex:2]] != nil)
+	if ([arg length] > 2 && [[arg substringWithRange:NSMakeRange(0,2)] isEqualToString:@"--"] && 
+        ([availableKeys objectForKey:[arg substringFromIndex:2]] != nil || [depreciatedKeys objectForKey:[arg substringFromIndex:2]] != nil))
 	{
 		return YES;
 	} else {
@@ -46,8 +45,7 @@
 	}
 }
 
-+ (CDOptions *) getOpts:(NSArray *)args 
-	  availableKeys:(NSDictionary *)availableKeys
++ (CDOptions *) getOpts:(NSArray *)args availableKeys:(NSDictionary *)availableKeys depreciatedKeys:(NSDictionary *)depreciatedKeys
 {
 	NSMutableDictionary *options;
 	NSString *arg;
@@ -62,10 +60,17 @@
 		arg = [args objectAtIndex:i];
 
 		// If the arg is a key we specified above...
-		if ([CDOptions _argIsKey:arg availableKeys:availableKeys]) {
+		if ([CDOptions _argIsKey:arg availableKeys:availableKeys depreciatedKeys:depreciatedKeys]) {
 			// strip leading '--'
 			arg = [arg substringFromIndex:2];
-			argType = [[availableKeys objectForKey:arg] intValue];
+            
+            // Replace the argument with the newer one if it's depreciated
+            NSString * depreciatedArg = [depreciatedKeys objectForKey:arg];
+            if (depreciatedArg != nil) {
+                arg = depreciatedArg;
+            }
+            
+            argType = [[availableKeys objectForKey:arg] intValue];
 
 			// If it's a no-value option, store the bool NO to indicate
 			// no values for this key, increment i and continue.
@@ -91,7 +96,7 @@
 					break;
 				}
 				// add a value to the values array
-                else if (argType == CDOptionsMultipleValues && ![CDOptions _argIsKey:[args objectAtIndex:i+1] availableKeys:availableKeys]) {
+                else if (argType == CDOptionsMultipleValues && ![CDOptions _argIsKey:[args objectAtIndex:i+1] availableKeys:availableKeys depreciatedKeys:depreciatedKeys]) {
 					[values addObject:nextArg];
 					i++;
 					

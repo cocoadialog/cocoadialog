@@ -69,6 +69,12 @@
 	return nil;
 }
 
+// This must be sub-classed if you want specify local depreciated keys for your control
+- (NSDictionary *) depreciatedKeys
+{
+    return nil;
+}
+
 // This must be overridden if you want local global options for your control
 - (NSDictionary *) globalAvailableKeys {
     NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
@@ -94,25 +100,22 @@
 
 - (CDOptions *) controlOptionsFromArgs:(NSArray *)args
 {
-	return [CDOptions getOpts:args availableKeys:[self availableKeys]];
+	return [CDOptions getOpts:args availableKeys:[self availableKeys] depreciatedKeys:[self depreciatedKeys]];
 }
-- (CDOptions *) controlOptionsFromArgs:(NSArray *)args 
-			withGlobalKeys:(NSDictionary *)globalKeys
+- (CDOptions *) controlOptionsFromArgs:(NSArray *)args withGlobalKeys:(NSDictionary *)globalKeys
 {
-	CDOptions* options;
-	NSMutableDictionary *allKeys;
+	NSMutableDictionary *allKeys = [[[NSMutableDictionary alloc] init] autorelease];
+    [allKeys addEntriesFromDictionary:globalKeys];
+
 	NSDictionary *localKeys = [self availableKeys];
 	if (localKeys != nil) {
-		allKeys = [NSMutableDictionary dictionaryWithCapacity:
-			[globalKeys count]+[localKeys count]];
-		[allKeys addEntriesFromDictionary:globalKeys];
 		[allKeys addEntriesFromDictionary:localKeys];
-	} else {
-		allKeys = [NSMutableDictionary dictionaryWithCapacity:[globalKeys count]];
-		[allKeys addEntriesFromDictionary:globalKeys];
-		
 	}
-	options=[CDOptions getOpts:args availableKeys:allKeys];
+    
+    NSDictionary *depreciatedKeys = [self depreciatedKeys];
+    
+	CDOptions* options;
+	options=[CDOptions getOpts:args availableKeys:allKeys depreciatedKeys:depreciatedKeys];
 	return options;
 }
 

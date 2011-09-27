@@ -46,6 +46,7 @@
 
 // You should override availableKeys if you want options local to your control
 - (NSDictionary *) availableKeys;
+- (NSDictionary *) depreciatedKeys;
 - (NSDictionary *) globalAvailableKeys;
 
 - (CDOptions *) controlOptionsFromArgs:(NSArray *)args;

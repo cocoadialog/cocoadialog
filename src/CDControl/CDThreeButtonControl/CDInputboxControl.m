@@ -29,10 +29,18 @@
 	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
 	
 	return [NSDictionary dictionaryWithObjectsAndKeys:
-		vOne, @"text",
-		vOne, @"informative-text",
+		vOne, @"value",
+		vOne, @"label",
 		vNone,@"no-show",
 		nil];
+}
+
+- (NSDictionary *) depreciatedKeys
+{
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+            @"value", @"text",
+            @"label", @"informative-text",
+            nil];
 }
 
 - (NSArray *) runControlFromOptions:(CDOptions *)options
@@ -62,14 +70,14 @@
 	}
 	
 	// Set initial text in textfield
-	if ([options optValue:@"text"]) {
-		[textField setStringValue:[options optValue:@"text"]];
+	if ([options optValue:@"value"]) {
+		[textField setStringValue:[options optValue:@"value"]];
 	} else {
 		[textField setStringValue:@""];
 	}
 	inputText = [[textField stringValue] retain];
 
-	[self setTitleButtonsLabel:[options optValue:@"informative-text"]];
+	[self setTitleButtonsLabel:[options optValue:@"label"]];
 
 	// select all the text
 	if ([options hasOpt:@"selected"]) {

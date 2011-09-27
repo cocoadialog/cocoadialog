@@ -26,9 +26,6 @@
 
 // Simple wrapper for commandline options.
 // Easily used with [CDOptions getOpts:[[NSProcessInfo processInfo] arguments]]
-// This is limiting in that the value associated with a key may not be a key
-// itself.  Example: You cannot do "... --text --no-cancel ..." and expect the
-// @"text" option to contain @"--no-cancel"
 
 @interface CDOptions : NSObject {
 	NSMutableDictionary *_options;
@@ -36,8 +33,7 @@
 
 // availableKeys should be an NSString key, and an NSNumber int value using
 // one of the constants defined above.
-+ (CDOptions *) getOpts:(NSArray *)args 
-	  availableKeys:(NSDictionary *)availableKeys;
++ (CDOptions *) getOpts:(NSArray *)args availableKeys:(NSDictionary *)availableKeys depreciatedKeys:(NSDictionary *)depreciatedKeys;
 + (void)printOpts:(NSArray *)availableOptions forRunMode:(NSString *)runMode;
 
 - (BOOL) hasOpt:(NSString *)key;
