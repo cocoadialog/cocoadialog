@@ -55,7 +55,7 @@
 	int i;
 	int argType;
 
-	options = [NSMutableDictionary dictionaryWithCapacity:8];
+	options = [[[NSMutableDictionary alloc] init] autorelease];
 
 	i = 0;
 	while (i < [args count]) {
@@ -76,11 +76,10 @@
 			}
 			// Control reaches here there should be one or more
 			// values for key.
-			values = [NSMutableArray arrayWithCapacity:8];
-			while (i+1 < [args count] &&
-			       ! [CDOptions _argIsKey:[args objectAtIndex:i+1] 
-					availableKeys:availableKeys])
-			{
+            if (argType == CDOptionsMultipleValues) {
+                values = [[[NSMutableArray alloc] init] autorelease];
+            }
+			while (i+1 < [args count]) {
 				NSString *nextArg = [args objectAtIndex:i+1];
 
 				// set single string value for this key,
@@ -90,8 +89,9 @@
 						    forKey:arg];
 					i++;
 					break;
+				}
 				// add a value to the values array
-				} else if (argType == CDOptionsMultipleValues) {
+                else if (argType == CDOptionsMultipleValues && ![CDOptions _argIsKey:[args objectAtIndex:i+1] availableKeys:availableKeys]) {
 					[values addObject:nextArg];
 					i++;
 					
@@ -100,7 +100,7 @@
 				} else {
 					break;
 				}
-			} // End looking for more values to to a key
+			} // End looking for values to add to the key
 
 			// set the array of values for this key
 			if (argType == CDOptionsMultipleValues) {
