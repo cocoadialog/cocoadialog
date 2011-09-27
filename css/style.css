@@ -318,7 +318,7 @@ table.commands tbody td {
 }
 
 table.commands tbody tr:nth-child(odd) {
-  background-color:#eee;
+  background-color:#f7f7f7;
 }
 
 table.commands tbody td.command {
@@ -338,21 +338,33 @@ table.commands tbody td.arguments {
 table.commands tbody td.description {
 }
 
+code {
+	background-color: #e0e0e0;
+	border-bottom: 2px solid #ccc;
+  color: #777;
+  font-family: menlo, "Courier New", monospace;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 0 4px;
+	-moz-border-radius: 5px 5px 0 0;
+	-webkit-border-radius: 5px 5px 0 0;
+	border-radius: 5px 5px 0 0;
+}
 
 .code {
-	font-family: monospace;
-	font-size: 85%;
-	text-align: left;
-	border: 1px solid;
-	padding: 3px;
-	margin: 3px;
+	background-color: #eee;
+  clear: both;
+	color: #777;
+  font-family: menlo, "Courier New", monospace;
+  font-size: 11px;
+	border-left: 4px solid #ccc;
+	margin: 5px 20px;
 	display: block;
-	background-color: #f0f0f0;
-	border-color: #676767;
-	color: #333333;
-}
-code {
-	background-color: #f0f0f0;
+	text-align: left;
+	padding: 2px 6px;
+	-moz-border-radius: 0 10px 10px 0;
+	-webkit-border-radius: 0 10px 10px 0;
+	border-radius: 0 10px 10px 0;
 }
 .screenshot {
 	/* border: 1px solid black; */

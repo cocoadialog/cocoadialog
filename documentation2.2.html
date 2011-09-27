@@ -1,7 +1,7 @@
 <div class="sections">
   <h2>Page Contents</h2>
   <ul class="menu">
-  	<li><a href="#documentation2.2/executing">Executing CocoaDialog</a></li>
+  	<li><a href="#documentation2.2/executing">Executing cocoaDialog</a></li>
   	<li><a href="#documentation2.2/rvs">Return Values / Output</a></li>
   	<li><a href="#documentation2.2/global_options">Global Options</a></li>
   	<li><a href="#documentation2.2/icons">Icons</a></li>
@@ -29,7 +29,7 @@
 
 <h1>Documentation (cocoaDialog 2.2)</h1>
 <p>
-The following document provides an overview of how to use CocoaDialog,
+The following document provides an overview of how to use cocoaDialog,
 as well as the various run modes and commandline options available.
 Visit the <a href="#examples">examples</a> page to see more
 practical examples of its use.
@@ -39,32 +39,32 @@ practical examples of its use.
 <a name="top"></a>
 
 <a name="executing"></a>
-<h2>Executing CocoaDialog</h2>
+<h2>Executing cocoaDialog</h2>
 <h3>Overview</h3>
 <p>
-CocoaDialog is run directly from the commandline by executing the 
+cocoaDialog is run directly from the commandline by executing the 
 binary file within the <code>.app</code> bundle.
 The path to it will be
-<code>CocoaDialog.app/Contents/MacOS/CocoaDialog</code>
+<code>cocoaDialog.app/Contents/MacOS/cocoaDialog</code>
 <br />
-If CocoaDialog is in your <code>~/Applications</code> directory,
+If cocoaDialog is in your <code>~/Applications</code> directory,
 for example, the executable will be:
-<code>~/Applications/CocoaDialog.app/Contents/MacOS/CocoaDialog</code>
+<code>~/Applications/cocoaDialog.app/Contents/MacOS/cocoaDialog</code>
 </p>
 <p>
 <strong>From here on we will refer to this binary file as simply
-<code>CocoaDialog</code></strong>
+<code>cocoaDialog</code></strong>
 </p>
 
 <a name="wrapper"></a>
-<h3>Easy way to invoke CocoaDialog</h3>
+<h3>Easy way to invoke cocoaDialog</h3>
 <p>
-This is a simple wrapper script.  Put it somewhere in your <code>$PATH</code>. For example, mine is <code>~/bin/CocoaDialog</code>, and I have <code>export PATH=$PATH:~/bin</code> in my <code>~/.bash_profile</code>.
+This is a simple wrapper script.  Put it somewhere in your <code>$PATH</code>. For example, mine is <code>~/bin/cocoaDialog</code>, and I have <code>export PATH=$PATH:~/bin</code> in my <code>~/.bash_profile</code>.
 </p>
 <p>
-Now from the shell or other scripts, I can just do <code>CocoaDialog</code> to invoke the program.
+Now from the shell or other scripts, I can just do <code>cocoaDialog</code> to invoke the program.
 </p>
-<p><a href="examples/CocoaDialog">download this wrapper script</a></p>
+<p><a href="examples/cocoaDialog">download this wrapper script</a></p>
 <div class="code">
 	<pre>
 #!/usr/bin/perl
@@ -72,7 +72,7 @@ use strict;
 use warnings;
 
 my $path = "/Users/markstra/Applications"; # Change this!
-my $cd = "$path/CocoaDialog.app/Contents/MacOS/CocoaDialog";
+my $cd = "$path/cocoaDialog.app/Contents/MacOS/cocoaDialog";
 
 system($cd, @ARGV);
 	</pre>
@@ -80,20 +80,20 @@ system($cd, @ARGV);
 
 <h3>Runmode and options</h3>
 <p>
-CocoaDialog is always executed with the following format:
+cocoaDialog is always executed with the following format:
 </p>
-<div class="code">CocoaDialog runmode options</div>
+<div class="code">cocoaDialog runmode options</div>
 <p>
 The <code>runmode</code> is always required, and specifies which GUI
 control to use. 
 <br />
 An example is:
 </p>
-<div class="code">CocoaDialog yesno-msgbox --title "Delete backups"
+<div class="code">cocoaDialog yesno-msgbox --title "Delete backups"
 	--text "Delete all the backups?" --informative-text "This cannot be
 	un-done"</div>
 <p>
-See <a href="#runmodes">Run Modes / GUI Controls</a> for a list of available controls.
+See <a href="#documentation2.2/runmodes">Run Modes / GUI Controls</a> for a list of available controls.
 </p>
 
 <a name="rvs"></a>
@@ -108,7 +108,7 @@ shell, programming or scripting language.
 In bash you could find it like this:
 </p>
 <div class="code">
-	rv=`CocoaDialog yesno-msgbox --string-output`
+	rv=`cocoaDialog yesno-msgbox --string-output`
 	<br />
 	echo "User pressed the $rv button"
 </div>
@@ -149,16 +149,6 @@ The following options can be supplied for any of the run modes
   		<td class="description">By default, return values will be printed with a trailing	newline. This will suppress that behavior. <em>NOTE: when a control returns multiple lines this will only suppress the trailing newline on the last line</em></td>
   	</tr>
   	<tr>
-  	  <td class="command">--icon</td>
-  		<td class="arguments">Icon Name</td>
-  		<td class="description">The name of the <a href="#documentation2.2/icons">icon</a> to use. This is incompatible with <code>--icon-file</code><br />Default: no icon.</td>
-		</tr>
-		<tr>
-		  <td class="command">--icon-file</td>
-  		<td class="arguments">"/full/path/to/icon.icns"</td>
-  		<td class="description">The full path to the custom icon image you would like to use. Almost every image format is accepted. This is incompatible with the <code>--icon</code> option.</td>
-		</tr>
-  	<tr>
   	  <td class="command">--width</td>
   		<td class="arguments">integer</td>
   		<td class="description">Sets the width of the window. It's not advisable to use this option without good reason, and some controls won't even	respond to it. The automatic size of most windows should suffice.</td>
@@ -167,6 +157,36 @@ The following options can be supplied for any of the run modes
   	  <td class="command">--height</td>
   		<td class="arguments">integer</td>
   		<td class="description">Sets the height of the window. It's not advisable to use this option without good reason, and some controls won't even respond to it.  The automatic size of most windows should suffice.</td>
+  	</tr>
+  	<tr>
+  	  <td class="command">--icon</td>
+	    <td class="arguments">"icon"</td>
+  	  <td class="description">The <a href="#documentation2.2/icons">name of the icon</a> to use. If used with <code>--icon-file</code>, this icon will be used as a backup.<br />Default: no icon.</td>
+  	</tr>
+  	<tr>
+  	  <td class="command">--icon-bundle</td>
+	    <td class="arguments">"com.apple.bundle.identifier"</td>
+  	  <td class="description">The bundle identifier of the application to use. Must be used with <code>--icon</code> to specify the icon name to search for in the bundles resource folder.</td>
+  	</tr>
+  	<tr>
+  	  <td class="command">--icon-file</td>
+    	<td class="arguments">"/full/path/to/icon.icns"</td>
+    	<td class="description">The full path to the custom icon image you would like to use. Almost every image format is accepted <code>.jpg .jpeg .png .tiff .icns</code>. If used with <code>--icon</code>, this icon will take precedence and <code>--icon</code> will only be used as a backup.</td>
+  	</tr>
+  	<tr>
+  	  <td class="command">--icon-size</td>
+	    <td class="arguments">integer</td>
+  	  <td class="description">The size of the icon. Must be one of: <code>16, 32, 48, 128, 256</code>. If not specified or an unknown size, defaults to <code>48</code>.</td>
+  	</tr>
+  	<tr>
+  	  <td class="command">--icon-height</td>
+    	<td class="arguments">integer</td>
+    	<td class="description">The height of the icon. This will override <code>--icon-size</code>. Defaults to: <code>--icon-size</code>.</td>
+  	</tr>
+  	<tr>
+  	  <td class="command">--icon-width</td>
+    	<td class="arguments">integer</td>
+    	<td class="description">The width of the icon. This will override <code>--icon-size</code>. Defaults to: <code>--icon-size</code>.</td>
   	</tr>
   	<tr>
   	  <td class="command">--debug</td>
@@ -184,16 +204,10 @@ The following options can be supplied for any of the run modes
 <a name="icons"></a>
 <h2>Icons</h2>
 	<p>
-		The <code>msgbox</code>, <code>ok-msgbox</code>, <code>yesno-msgbox</code>,
-		and <code>bubble</code> dialogs allow you to specify icons.
-		In addition to using your own, you may also choose from the following stock icons
-		that are included with CocoaDialog.
+		All dialogs allow you display an icon. In addition to using a custom icon with <code>--icon-file</code> or <code>--icon-bundle</code>, you may also choose from the following icon name and cocoaDialog can locate the icon on your computer for you.
 	</p>
 	<p>
-	If you want to use a mix of stock icons and custom icons, just use the custom icon option
-	(either <code>--icon-file</code> or <code>--icon-files</code>, see the documentation for
-	the particular run mode), and provide the path to the stock icon <code>.icns</code> file located in 
-	<code>CocoaDialog.app/Contents/Resources/</code>.
+	  You can also specify that <code>--icon</code> should be used as a backup when also using <code>--icon-file</code>.
 	</p>
 	<div class="icons">
 		<div class="icon"><img class="icon" src="icons/addressbook.jpg" alt="addressbook" /><br />addressbook</div>
@@ -306,7 +320,7 @@ key-equivalent of escape.
 		<b>returns:</b> nothing.  If it's not obvious, note that the program doesn't return until
 		the bubbles have timed out, or been clicked. If you want your script to continue immediately 
 		after displaying them, it's up to you to make your script do this (most likely by invoking
-		CocoaDialog as a background process).
+		cocoaDialog as a background process).
 		</p>
 		<p>
 		<a href="examples/bubble.sh.txt">Example bubble shell script</a>
@@ -929,7 +943,7 @@ key-equivalent of escape.
 					<code>list of extensions</code> should be space separated, and
 					given as multiple arguments (ie: don't double quote the list).
 					<br />
-					Example: <code>CocoaDialog fileselect --with-extensions .c .h .m .txt</code>
+					Example: <code>cocoaDialog fileselect --with-extensions .c .h .m .txt</code>
 					<br />
 					The period/dot at the start of each extension is optional.
 				</td>
@@ -1012,7 +1026,7 @@ key-equivalent of escape.
 					<code>list of extensions</code> should be space separated, and
 					given as multiple arguments (ie: don't double quote the list).
 					<br />
-					Example: <code>CocoaDialog filesave --with-extensions .c .h .m .txt</code>
+					Example: <code>cocoaDialog filesave --with-extensions .c .h .m .txt</code>
 					<br />
 					The period/dot at the start of each extension is optional.
 				</td>
@@ -1238,7 +1252,7 @@ key-equivalent of escape.
 					not indicate how far the operations you're performing have
 					progressed; it just shows that your application/script is
 					busy.  You can still update the text of the label when
-					writing to CocoaDialog's <code>stdin</code> - and it doesn't
+					writing to cocoaDialog's <code>stdin</code> - and it doesn't
 					matter what percentage you feed it.
 				</td>
 			</tr>
@@ -1320,7 +1334,7 @@ key-equivalent of escape.
 					any shell program). The first item in the list is always 
 					selected by default.
 					<br />
-					Example: <code>CocoaDialog dropdown --text "Favorite OS?" --items "GNU/Linux" "OS X" Windows Amiga "TI 89" --button1 "Ok"</code>
+					Example: <code>cocoaDialog dropdown --text "Favorite OS?" --items "GNU/Linux" "OS X" Windows Amiga "TI 89" --button1 "Ok"</code>
 				</td>
 			</tr>
 			<tr>
@@ -1328,7 +1342,7 @@ key-equivalent of escape.
 				<td>Sets the style to a pull-down box, which differs slightly
 					from the default pop-up style. The first item remains visible.
 					This option probably isn't very useful for a single-function
-					dialog such as those CocoaDialog provides, but I've included
+					dialog such as those cocoaDialog provides, but I've included
 					it just in case it is.
 					To see how their appearances differ, just try them both.</td>
 			</tr>
@@ -1422,7 +1436,7 @@ key-equivalent of escape.
 					any shell program). The first item in the list is always 
 					selected by default.
 					<br />
-					Example: <code>CocoaDialog dropdown --text "Favorite OS?" --items "GNU/Linux" "OS X" Windows Amiga "TI 89" --button1 "Ok"</code>
+					Example: <code>cocoaDialog dropdown --text "Favorite OS?" --items "GNU/Linux" "OS X" Windows Amiga "TI 89" --button1 "Ok"</code>
 				</td>
 			</tr>
 			<tr>
@@ -1430,7 +1444,7 @@ key-equivalent of escape.
 				<td>Sets the style to a pull-down box, which differs slightly
 					from the default pop-up style. The first item remains visible.
 					This option probably isn't very useful for a single-function
-					dialog such as those CocoaDialog provides, but I've included
+					dialog such as those cocoaDialog provides, but I've included
 					it just in case it is.
 					To see how their appearances differ, just try them both.</td>
 			</tr>
