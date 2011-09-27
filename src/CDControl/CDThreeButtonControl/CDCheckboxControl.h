@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "CDThreeButtonControl.h"
 
-@interface CDCheckboxControl : CDThreeButtonControl {
-    NSMutableArray * checkboxes;
-}
+@interface CDCheckboxControl : CDThreeButtonControl
 
 @end

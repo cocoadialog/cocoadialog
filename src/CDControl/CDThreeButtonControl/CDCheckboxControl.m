@@ -69,6 +69,7 @@
 	[self runAndSetRv];
     
 	// set return values 
+    NSArray * checkboxes = [controlMatrix cells];
 	if ([options hasOpt:@"string-output"]) {
 		if (rv == 1) {
 			buttonRv = [button1 title];
@@ -87,11 +88,13 @@
             id obj;
             int state;
             while (obj = [en nextObject]) {
-                state = [obj state];
-                switch (state) {
-                    case NSOffState: [itemRvArray addObject: @"off"]; break;
-                    case NSOnState: [itemRvArray addObject: @"on"]; break;
-                    case NSMixedState: [itemRvArray addObject: @"mixed"]; break;
+                if ([[obj className] isEqualToString:@"NSButtonCell"]) {
+                    state = [obj state];
+                    switch (state) {
+                        case NSOffState: [itemRvArray addObject: @"off"]; break;
+                        case NSOnState: [itemRvArray addObject: @"on"]; break;
+                        case NSMixedState: [itemRvArray addObject: @"mixed"]; break;
+                    }
                 }
             }
             itemRv = [itemRvArray componentsJoinedByString:@" "];
@@ -103,7 +106,9 @@
             NSEnumerator *en = [checkboxes objectEnumerator];
             id obj;
             while (obj = [en nextObject]) {
-                [itemRvArray addObject: [NSString stringWithFormat:@"%i", [obj state]]];
+                if ([[obj className] isEqualToString:@"NSButtonCell"]) {
+                    [itemRvArray addObject: [NSString stringWithFormat:@"%i", [obj state]]];
+                }
             }
             itemRv = [itemRvArray componentsJoinedByString:@" "];
         }
