@@ -34,6 +34,7 @@
 }
 - (id)init
 {
+    controlItems = [[[NSMutableArray alloc] init] retain];
 	return [self initWithOptions:nil];
 }
 
@@ -70,7 +71,25 @@
 
 // This must be overridden if you want local global options for your control
 - (NSDictionary *) globalAvailableKeys {
-    return nil;
+    NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
+	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
+    return [[NSDictionary dictionaryWithObjectsAndKeys:
+            vNone, @"help",
+            vNone, @"debug",
+            vOne,  @"title",
+            vOne,  @"width",
+            vOne,  @"height",
+            vNone, @"minimize",
+            vNone, @"resize",
+            vOne,  @"icon",
+            vOne,  @"icon-bundle",
+            vOne,  @"icon-file",
+            vOne,  @"icon-size",
+            vOne,  @"icon-width",
+            vOne,  @"icon-height",
+            vNone, @"string-output",
+            vNone, @"no-newline",
+            nil] autorelease];
 }
 
 - (CDOptions *) controlOptionsFromArgs:(NSArray *)args
@@ -186,11 +205,11 @@
 }
 
 
-- (void) setIconForPanel:(NSPanel *)aPanel
+- (void) setIconForWindow:(NSWindow *)aWindow
 {
     if (controlIcon != nil) {
-        NSImage *image = [[[NSImage alloc] initWithData:nil] autorelease];
         CDOptions *options = [self options];
+        NSImage *image = [[[NSImage alloc] initWithData:nil] autorelease];
         if ([options hasOpt:@"icon-file"]) {
             image = [[[NSImage alloc ]initWithContentsOfFile:[options optValue:@"icon-file"]] autorelease];
             if (image == nil && [options hasOpt:@"debug"]) {
@@ -473,8 +492,8 @@
         }
         
         // Set default icon sizes
-        float iconWidth = 48.0;
-        float iconHeight = 48.0;
+        float iconWidth = [controlIcon frame].size.width;
+        float iconHeight = [controlIcon frame].size.height;
         NSSize resize = NSMakeSize(iconWidth, iconHeight);
         
         // Control should display icon, process image.
@@ -501,15 +520,15 @@
             }
             // Set sizes
             resize = NSMakeSize(iconWidth, iconHeight);
-            [self setIconForPanel: aPanel withImage:image withSize:resize withControls:controlItems];
+            [self setIconForWindow:aWindow withImage:image withSize:resize withControls:controlItems];
         }
         // Control shouldn't display icon, remove it and resize.
         else {
-            [self setIconForPanel: aPanel withImage:nil withSize:resize withControls:controlItems];
+            [self setIconForWindow:aWindow withImage:nil withSize:resize withControls:controlItems];
         }
     }
 }
-- (void) setIconForPanel:(NSPanel *)aPanel withImage:(NSImage *)anImage withSize:(NSSize)aSize
+- (void) setIconForWindow:(NSWindow *)aWindow withImage:(NSImage *)anImage withSize:(NSSize)aSize
 {
     if (anImage != nil) {
         NSSize originalSize = [anImage size];
@@ -532,14 +551,14 @@
         iconFrame = [controlIcon frame];
 
         // Add the icon to the panel's minimum content size
-        NSSize panelContent = [aPanel contentMinSize];
-        panelContent.height += iconFrame.size.height;
-        panelContent.width += iconFrame.size.width;
-        [aPanel setContentMinSize:panelContent];
+        NSSize windowContent = [aWindow contentMinSize];
+        windowContent.height += iconFrame.size.height + 40.0f;
+        windowContent.width += iconFrame.size.width + 40.0f;
+        [aWindow setContentMinSize:windowContent];
     }
 }
 
-- (void) setIconForPanel:(NSPanel *)aPanel withImage:(NSImage *)anImage withSize:(NSSize)aSize withControls:(NSArray *)anArray
+- (void) setIconForWindow:(NSWindow *)aWindow withImage:(NSImage *)anImage withSize:(NSSize)aSize withControls:(NSArray *)anArray
 {
     // Icon has image
     if (anImage != nil) {
@@ -547,7 +566,7 @@
         NSRect iconFrame = [controlIcon frame];
         
         // Set image and resize icon
-        [self setIconForPanel:aPanel withImage:anImage withSize:aSize];
+        [self setIconForWindow:aWindow withImage:anImage withSize:aSize];
         
         float iconWidthDiff = [controlIcon frame].size.width - iconFrame.size.width;
         NSEnumerator *en = [anArray objectEnumerator];
@@ -587,6 +606,7 @@
 - (void) dealloc
 {
 	[_options release];
+    [controlItems release];
 	[super dealloc];
 }
 

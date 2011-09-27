@@ -45,36 +45,36 @@
 - (NSArray *) runControlFromOptions:(CDOptions *)options
 {
 	int result;
-	NSOpenPanel *panel = [NSOpenPanel openPanel];
+	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 	NSString *file = nil;
 	NSString *dir = nil;
 	
 	[self setOptions:options];
-	[self setMisc:panel];
+	[self setMisc:openPanel];
 	NSArray *extensions = [self extensionsFromOptionKey:@"with-extensions"];
 
 	// set select-multiple
 	if ([options hasOpt:@"select-multiple"]) {
-		[panel setAllowsMultipleSelection:YES];
+		[openPanel setAllowsMultipleSelection:YES];
 	} else {
-		[panel setAllowsMultipleSelection:NO];
+		[openPanel setAllowsMultipleSelection:NO];
 	}
 
 	// set select-directories
 	if ([options hasOpt:@"select-directories"]) {
-		[panel setCanChooseDirectories:YES];
+		[openPanel setCanChooseDirectories:YES];
 	} else {
-		[panel setCanChooseDirectories:NO];
+		[openPanel setCanChooseDirectories:NO];
 	}
 	if ([options hasOpt:@"select-only-directories"]) {
-		[panel setCanChooseDirectories:YES];
-		[panel setCanChooseFiles:NO];
+		[openPanel setCanChooseDirectories:YES];
+		[openPanel setCanChooseFiles:NO];
 	}
 	
 	if ([options hasOpt:@"packages-as-directories"]) {
-		[panel setTreatsFilePackagesAsDirectories:YES];
+		[openPanel setTreatsFilePackagesAsDirectories:YES];
 	} else {
-		[panel setTreatsFilePackagesAsDirectories:NO];
+		[openPanel setTreatsFilePackagesAsDirectories:NO];
 	}
 
 	// set starting file (to be used later with 
@@ -94,21 +94,21 @@
 	
     
     if (kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber10_6) {
-        result = [panel runModalForDirectory:dir file:file types:extensions];
+        result = [openPanel runModalForDirectory:dir file:file types:extensions];
     }
     else {
         if (dir != nil) {
             NSURL * url = [[[NSURL alloc] initFileURLWithPath:dir] autorelease];
-            [panel setDirectoryURL:url];
+            [openPanel setDirectoryURL:url];
         }
-        [panel setAllowedFileTypes:extensions];
-        [panel setNameFieldStringValue:file];
-        [panel runModal];
+        [openPanel setAllowedFileTypes:extensions];
+        [openPanel setNameFieldStringValue:file];
+        [openPanel runModal];
     }
 
 
 	if (result == NSOKButton) {
-		return [panel filenames];
+		return [openPanel filenames];
 	} else {
 		return [NSArray array];
 	}

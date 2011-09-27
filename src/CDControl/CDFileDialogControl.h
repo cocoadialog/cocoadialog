@@ -28,6 +28,6 @@
 - (NSArray *) extensionsFromOptionKey:(NSString *)key;
 
 // Set options common to any file save panel
-- (void) setMisc:(NSSavePanel *)panel;
+- (void) setMisc:(NSSavePanel *)savePanel;
 
 @end

@@ -45,7 +45,7 @@
 
 -(void) updateLabel:(NSString*)newLabel
 {
-	[label setStringValue:newLabel];
+	[expandingLabel setStringValue:newLabel];
 }
 
 -(void) finish
@@ -70,7 +70,7 @@
 	[confirmationSheet addButtonWithTitle:@"Stop"];
 	[confirmationSheet addButtonWithTitle:@"Cancel"];
 	[confirmationSheet setMessageText:@"Are you sure you want to stop?"];
-	[confirmationSheet beginSheetModalForWindow:window modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
+	[confirmationSheet beginSheetModalForWindow:panel modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
 - (void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
@@ -109,24 +109,40 @@
 		return nil;
 	}
 	
+	// Add the progressbar width to the panel's minimum content size
+	NSSize panelContent = [panel contentMinSize];
+	panelContent.width += [progressBar frame].size.width + 30.0f;
+	[panel setContentMinSize:panelContent];
+
+	
+	[controlItems addObject:expandingLabel];
+	[controlItems addObject:progressBar];
+	[self setIconForWindow:panel];
+	
+	
+	panelContent = [panel contentMinSize];
+	panelContent.width += 500.0f;
+	[panel setContentMaxSize:panelContent];
+
+
 	// set text label
 	if ([options optValue:@"text"]) {
-		[label setStringValue:[options optValue:@"text"]];
+		[expandingLabel setStringValue:[options optValue:@"text"]];
 	} else {
-		[label setStringValue:@""];
+		[expandingLabel setStringValue:@""];
 	}
 	
 	// hide stop button if not stoppable and resize window/controls
 	if (![options hasOpt:@"stoppable"]) {
 		NSRect progressBarFrame = [progressBar frame];
 
-		NSRect currentWindowFrame = [window frame];
+		NSRect currentWindowFrame = [panel frame];
 		CGFloat stopButtonWidth = [stopButton frame].size.width;
 		NSRect newWindowFrame = {
 			.origin = currentWindowFrame.origin,
 			.size = NSMakeSize(currentWindowFrame.size.width - stopButtonWidth + 2, currentWindowFrame.size.height)
 		};
-		[window setFrame:newWindowFrame display:NO];
+		[panel setFrame:newWindowFrame display:NO];
 
 		[progressBar setFrame:progressBarFrame];
 		[stopButton setHidden:YES];
@@ -134,8 +150,8 @@
 
 
 	// resize if necessary
-	if ([self windowNeedsResize:window]) {
-		[window setContentSize:[self findNewSizeForWindow:window]];
+	if ([self windowNeedsResize:panel]) {
+		[panel setContentSize:[self findNewSizeForWindow:panel]];
 	}
 	
 	CDProgressbarInputHandler *inputHandler = [[CDProgressbarInputHandler alloc] init];
@@ -154,7 +170,7 @@
 	
 	//set window title
 	if ([options optValue:@"title"]) {
-		[window setTitle:[options optValue:@"title"]];
+		[panel setTitle:[options optValue:@"title"]];
 	}
 
 	// set indeterminate
@@ -165,14 +181,14 @@
 		[progressBar setIndeterminate:NO];
 	}
 
-	[window center];
+	[panel center];
 	if ([[self options] hasOpt:@"float"]) {
-		[window setLevel:NSScreenSaverWindowLevel];
+		[panel setLevel:NSScreenSaverWindowLevel];
 	}
 
 	NSOperationQueue* queue = [NSOperationQueue new];
 
-	[window makeKeyAndOrderFront:nil];
+	[panel makeKeyAndOrderFront:nil];
 
 	[queue addOperation:inputHandler];
 	[inputHandler release];

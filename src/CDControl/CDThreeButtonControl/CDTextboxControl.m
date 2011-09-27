@@ -102,6 +102,8 @@
 		}
 		return nil;
 	}
+    
+    [controlItems addObject:scrollView];
 	
 	// set editable
 	if ([options hasOpt:@"editable"]) {

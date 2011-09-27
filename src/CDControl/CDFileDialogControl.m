@@ -48,16 +48,16 @@
 }
 
 // Set options common to any file save panel
-- (void) setMisc:(NSSavePanel *)panel
+- (void) setMisc:(NSSavePanel *)savePanel
 {
 	CDOptions *options = [self options];
 	// Set title
 	if ([options optValue:@"title"] != nil) {
-		[panel setTitle:[options optValue:@"title"]];
+		[savePanel setTitle:[options optValue:@"title"]];
 	}
 	// set message displayed on file select panel
 	if ([options optValue:@"text"] != nil) {
-		[panel setMessage:[options optValue:@"text"]];
+		[savePanel setMessage:[options optValue:@"text"]];
 	}
 }
 

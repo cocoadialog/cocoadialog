@@ -23,10 +23,9 @@
 #import "CDProgressbarInputHandlerDelegate.h"
 
 @interface CDProgressbarControl : CDControl <NSWindowDelegate, CDProgressbarInputHandlerDelegate> {
-	IBOutlet NSWindow            *window;
-	IBOutlet NSTextField         *label;
-	IBOutlet NSProgressIndicator *progressBar;
-	IBOutlet NSButton            *stopButton;
+	IBOutlet NSTextField			*expandingLabel;
+	IBOutlet NSProgressIndicator	*progressBar;
+	IBOutlet NSButton				*stopButton;
 
 	@private
 	NSAlert	*confirmationSheet;

@@ -42,26 +42,26 @@
 - (NSArray *) runControlFromOptions:(CDOptions *)options
 {
 	int result;
-	NSSavePanel *panel = [NSSavePanel savePanel];
+	NSSavePanel *savePanel = [NSSavePanel savePanel];
 	NSString *file = @"";
 	NSString *dir = nil;
 	
 	[self setOptions:options];
-	[self setMisc:panel];
+	[self setMisc:savePanel];
 
 	NSArray *extensions = [self extensionsFromOptionKey:@"with-extensions"];
-	[panel setAllowedFileTypes:extensions];
+	[savePanel setAllowedFileTypes:extensions];
 
 	if ([options hasOpt:@"packages-as-directories"]) {
-		[panel setTreatsFilePackagesAsDirectories:YES];
+		[savePanel setTreatsFilePackagesAsDirectories:YES];
 	} else {
-		[panel setTreatsFilePackagesAsDirectories:NO];
+		[savePanel setTreatsFilePackagesAsDirectories:NO];
 	}
 
 	if ([options hasOpt:@"no-create-directories"]) {
-		[panel setCanCreateDirectories:NO];
+		[savePanel setCanCreateDirectories:NO];
 	} else {
-		[panel setCanCreateDirectories:YES];
+		[savePanel setCanCreateDirectories:YES];
 	}
 
 	// set starting file (to be used later with 
@@ -80,19 +80,19 @@
 	}
 	
     if (kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber10_6) {
-        result = [panel runModalForDirectory:dir file:file];
+        result = [savePanel runModalForDirectory:dir file:file];
     }
     else {
         if (dir != nil) {
             NSURL * url = [[[NSURL alloc] initFileURLWithPath:dir] autorelease];
-            [panel setDirectoryURL:url];
+            [savePanel setDirectoryURL:url];
         }
-        [panel setNameFieldStringValue:file];
-        [panel runModal];
+        [savePanel setNameFieldStringValue:file];
+        [savePanel runModal];
     }
 
 	if (result == NSFileHandlingPanelOKButton) {
-		return [NSArray arrayWithObject:[panel filename]];
+		return [NSArray arrayWithObject:[savePanel filename]];
 	} else {
 		return [NSArray array];
 	}

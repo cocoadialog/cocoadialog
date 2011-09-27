@@ -44,30 +44,16 @@
 
 - (void) awakeFromNib
 {
-	CDControl *control;
+	CDControl *control = [[[CDControl alloc] init] autorelease];
 	CDOptions *options = nil;
 	NSArray *rv;
 	NSMutableArray *arguments = [[[NSMutableArray alloc] init] autorelease];
 	NSString *runMode = nil;
 	NSMutableDictionary *extraOptions = [[[NSMutableDictionary alloc] init] autorelease];
     
-    NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
-	NSDictionary *globalKeys = [NSDictionary dictionaryWithObjectsAndKeys:
-                  vNone, @"help",
-                  vNone, @"debug",
-                  vOne,  @"title",
-                  vOne,  @"width",
-                  vOne,  @"height",
-                  vOne,  @"icon",
-                  vOne,  @"icon-bundle",
-                  vOne,  @"icon-file",
-                  vOne,  @"icon-size",
-                  vOne,  @"icon-width",
-                  vOne,  @"icon-height",
-                  vNone, @"string-output",
-                  vNone, @"no-newline",
-                  nil];
+	NSDictionary *globalKeys = [[[NSDictionary alloc] init] autorelease];
+    
+    globalKeys = [control globalAvailableKeys];
 
 	[arguments addObjectsFromArray:[[NSProcessInfo processInfo] arguments]];
 	if ([arguments count] >= 2) {

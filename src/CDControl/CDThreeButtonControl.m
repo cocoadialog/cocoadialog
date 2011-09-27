@@ -23,21 +23,6 @@
 @implementation CDThreeButtonControl
 
 
-- (id)init
-{
-    self = [super init];
-    controlItems = [[[NSMutableArray alloc] init] retain];
-	return self;
-}
-
-- (void) dealloc
-{
-	[controlItems release];
-	[super dealloc];
-}
-
-
-
 - (void) runAndSetRv
 {
 	// Run modal
@@ -178,7 +163,7 @@
         [controlItems addObject:controlMatrix];
     }
 
-    [self setIconForPanel:panel];
+    [self setIconForWindow:panel];
     
 	[self setButtons];
 	if ([self windowNeedsResize:panel]) {
