@@ -44,20 +44,24 @@
 }
 - (id)initWithOptions:(CDOptions *)options;
 
-// You should override availableKeys if you want options local to your control
+// This must be sub-classed if you want options local to your control
 - (NSDictionary *) availableKeys;
+// This must be sub-classed if you want specify local depreciated keys for your control
 - (NSDictionary *) depreciatedKeys;
+// This must be sub-classed if you want validate local options for your control
+- (BOOL) validateControl:(CDOptions *)options;
+
 - (NSDictionary *) globalAvailableKeys;
 
 - (CDOptions *) controlOptionsFromArgs:(NSArray *)args;
-- (CDOptions *) controlOptionsFromArgs:(NSArray *)args 
-			withGlobalKeys:(NSDictionary *)globalKeys;
+- (CDOptions *) controlOptionsFromArgs:(NSArray *)args withGlobalKeys:(NSDictionary *)globalKeys;
 - (CDOptions *) options;
 - (void) setOptions:(CDOptions *)options;
 
 - (void) setIconForWindow:(NSWindow *)aWindow;
 - (void) setIconForWindow:(NSWindow *)aWindow withImage:(NSImage *)anImage withSize:(NSSize)aSize;
 - (void) setIconForWindow:(NSWindow *)aWindow withImage:(NSImage *)anImage withSize:(NSSize)aSize withControls:(NSArray *)anArray;
+
 
 // Looks at the --width and --height options and determines if the window
 // needs to be resized.  If so, return NSSize, otherwise returns an NSSize

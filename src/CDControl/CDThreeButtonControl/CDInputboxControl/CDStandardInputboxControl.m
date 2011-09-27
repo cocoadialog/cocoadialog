@@ -29,11 +29,11 @@
 	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
 	
 	return [NSDictionary dictionaryWithObjectsAndKeys:
-		vOne, @"text",
-		vOne, @"informative-text",
-		vNone, @"no-cancel",
-		vNone, @"no-show",
-		nil];
+            vOne,   @"value",
+            vNone,  @"selected",
+            vNone,  @"no-cancel",
+            vNone,  @"no-show",
+            nil];
 }
 
 - (void) setButtons

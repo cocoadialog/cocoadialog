@@ -106,6 +106,9 @@
 			[options setOption:[extraOptions objectForKey:key] forKey:key];
 		}
         
+        // Set options for the control sub-class
+        [control setOptions:options];
+        
 		// Run the control (a modal window)
 		rv = [control runControlFromOptions:options];
 		
@@ -146,7 +149,7 @@
             [CDOkMsgboxControl class],              @"ok-msgbox",
             [CDProgressbarControl class],           @"progressbar",
             [CDRadioControl class],                 @"radio",
-            [CDStandardInputboxControl class],      @"secure-inputbox",           
+            [CDInputboxControl class],              @"secure-inputbox",           
             [CDStandardInputboxControl class],      @"secure-standard-inputbox",
             [CDStandardPopUpButtonControl class],   @"standard-dropdown",         
             [CDStandardInputboxControl class],      @"standard-inputbox",

@@ -21,9 +21,6 @@
 #import <Foundation/Foundation.h>
 #import "CDThreeButtonControl.h"
 
-@interface CDInputboxControl : CDThreeButtonControl {
-	IBOutlet NSTextField *textField;
-	NSString *inputText;
-}
+@interface CDInputboxControl : CDThreeButtonControl
 
 @end

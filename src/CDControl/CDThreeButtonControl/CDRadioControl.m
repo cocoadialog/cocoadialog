@@ -17,7 +17,6 @@
 	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
     
 	return [NSDictionary dictionaryWithObjectsAndKeys:
-            vOne, @"text",
             vNone,@"allow-mixed",
             vMul, @"items",
             vOne, @"selected",
@@ -28,48 +27,65 @@
             nil];
 }
 
-- (NSArray *) runControlFromOptions:(CDOptions *)options
+- (BOOL) validateControl:(CDOptions *)options
 {
-	NSString *buttonRv = nil;
-	NSString *itemRv   = nil;
-    
-	[self setOptions:options];
-    
-	// check that they specified at least a button1
-	// return nil if not
-	if (![options optValue:@"button1"] 
-	    && [self isMemberOfClass:[CDRadioControl class]]) 
-	{
-		if ([options hasOpt:@"debug"]) {
-			[CDControl debug:@"Must supply at least a --button1"];
+    // Check that we're in the right sub-class
+    if (![self isMemberOfClass:[CDRadioControl class]]) {
+        if ([options hasOpt:@"debug"]) {
+			[CDControl debug:@"This run-mode is not properly classed."];
 		}
-		return nil;
-	}
-    
-	// Load tbc.xib or return nil
-	if (![NSBundle loadNibNamed:@"tbc" owner:self]) {
+        return NO;
+    }
+	// Check that at least button1 has been specified
+	if (![options optValue:@"button1"])	{
 		if ([options hasOpt:@"debug"]) {
-			[CDControl debug:@"Could not load tbc.xib"];
+			[CDControl debug:@"Must supply at least --button1"];
 		}
-		return nil;
+		return NO;
 	}
-    
+    // Check that at least one item has been specified
     NSArray *items = [[[NSArray alloc] init] autorelease];
 	items = [options optValues:@"items"];
-
     if (![items count]) { 
 		if ([options hasOpt:@"debug"]) {
 			[CDControl debug:@"Must supply at least one --items"];
 		}
-		return nil;
+		return NO;
 	}
+    // Load nib
+	if (![NSBundle loadNibNamed:@"tbc" owner:self]) {
+		if ([options hasOpt:@"debug"]) {
+			[CDControl debug:@"Could not load tbc.nib"];
+		}
+		return NO;
+	}
+    // Everything passed
+    return YES;
+}
+
+
+- (NSArray *) runControlFromOptions:(CDOptions *)options
+{
+    // Validate control before continuing
+	if (![self validateControl:options]) {
+        return nil;
+    }
     
-	[self setTitleButtonsLabel:[options optValue:@"text"]];
+    NSString * labelText = @"";
+    if ([options hasOpt:@"label"] && [options optValue:@"label"] != nil) {
+        labelText = [options optValue:@"label"];
+    }
+    
+	[self setTitleButtonsLabel:labelText];
 	
 	[self setTimeout];
     
 	[self runAndSetRv];
+
     
+    NSString *buttonRv = nil;
+	NSString *itemRv   = nil;
+
 	// set return values 
 	if ([options hasOpt:@"string-output"]) {
 		if (rv == 1) {

@@ -19,6 +19,8 @@
 */
 
 #import "CDInputboxControl.h"
+#import "CDStandardInputboxControl.h"
+
 
 
 @implementation CDInputboxControl
@@ -29,9 +31,9 @@
 	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
 	
 	return [NSDictionary dictionaryWithObjectsAndKeys:
-		vOne, @"value",
-		vOne, @"label",
-		vNone,@"no-show",
+		vOne,   @"value",
+        vNone,  @"selected",
+		vNone,  @"no-show",
 		nil];
 }
 
@@ -43,51 +45,55 @@
             nil];
 }
 
+- (BOOL) validateControl:(CDOptions *)options
+{
+    // Check that we're in the right sub-class
+    if (![self isMemberOfClass:[CDInputboxControl class]]) {
+        if (![self isMemberOfClass:[CDStandardInputboxControl class]]) {
+            if ([options hasOpt:@"debug"]) {
+                [CDControl debug:@"This run-mode is not properly classed."];
+            }
+            return NO;
+        }
+    }
+	// Check that at least button1 has been specified
+	if (![options optValue:@"button1"])	{
+		if ([options hasOpt:@"debug"]) {
+			[CDControl debug:@"Must supply at least --button1"];
+		}
+		return NO;
+	}
+    // Load nib
+	if (![NSBundle loadNibNamed:@"tbc" owner:self]) {
+		if ([options hasOpt:@"debug"]) {
+			[CDControl debug:@"Could not load tbc.nib"];
+		}
+		return NO;
+	}
+    // Everything passed
+    return YES;
+}
+
+
 - (NSArray *) runControlFromOptions:(CDOptions *)options
 {
-	NSString *returnString = nil;
-
-	[self setOptions:options];
-
-	// check that they specified at least a button1
-	// return nil if not
-	if (![options optValue:@"button1"] 
-	    && [self isMemberOfClass:[CDInputboxControl class]]) 
-	{
-		if ([options hasOpt:@"debug"]) {
-			[CDControl debug:@"Must supply at least a --button1"];
-		}
-		return nil;
-	}	
-	
-	// Load Inputbox.nib or return nil
-	NSString *nib = [options hasOpt:@"no-show"] ? @"SecureInputbox" : @"Inputbox";
-	if (![NSBundle loadNibNamed:nib owner:self]) {
-		if ([options hasOpt:@"debug"]) {
-			[CDControl debug:@"Could not load Inputbox.nib"];
-		}
-		return nil;
-	}
-	
-	// Set initial text in textfield
-	if ([options optValue:@"value"]) {
-		[textField setStringValue:[options optValue:@"value"]];
-	} else {
-		[textField setStringValue:@""];
-	}
-	inputText = [[textField stringValue] retain];
-
-	[self setTitleButtonsLabel:[options optValue:@"label"]];
-
-	// select all the text
-	if ([options hasOpt:@"selected"]) {
-		[textField selectText:self];
-	}
+    // Validate control before continuing
+	if (![self validateControl:options]) {
+        return nil;
+    }
+    
+    NSString * labelText = @"";
+    if ([options hasOpt:@"label"] && [options optValue:@"label"] != nil) {
+        labelText = [options optValue:@"label"];
+    }
+    
+	[self setTitleButtonsLabel:labelText];
 	
 	[self setTimeout];
-
+    
 	[self runAndSetRv];
 
+	NSString *returnString = nil;
 
 	// set returnString
 	if ([options hasOpt:@"string-output"]) {
@@ -103,18 +109,47 @@
 	} else {
 		returnString = [NSString stringWithFormat:@"%d",rv];
 	}
-	return [NSArray arrayWithObjects:returnString, inputText, nil];
+	return [NSArray arrayWithObjects:returnString, [[controlMatrix cellAtRow:0 column:0] stringValue], nil];
 }
 
-- (void)controlTextDidChange:(NSNotification *)aNotification
+- (void) setControl:(id)sender
 {
-	[inputText release];
-	inputText = [[textField stringValue] retain];
-}
-- (void) dealloc
-{
-	[inputText release];
-	[super dealloc];
+    CDOptions *options = [self options];
+
+    // Set other attributes of matrix
+    [controlMatrix setCellSize:NSMakeSize([controlMatrix frame].size.width, 20.0f)];
+    [controlMatrix renewRows:1 columns:1];
+    [controlMatrix setAutosizesCells:NO];
+    [controlMatrix setMode:NSRadioModeMatrix];
+    [controlMatrix setAllowsEmptySelection:NO];
+    [controlMatrix deselectAllCells];
+    
+    id inputbox;
+    if ([options hasOpt:@"no-show"]) {
+        inputbox = [[[NSSecureTextField alloc] init] autorelease];
+    }
+    else {
+        inputbox = [[[NSTextField alloc] init] autorelease];
+    }
+    [inputbox setRefusesFirstResponder:YES];
+    // Set initial text in textfield
+    if ([options optValue:@"value"]) {
+        [inputbox setStringValue:[options optValue:@"value"]];
+    }
+    else {
+        [inputbox setStringValue:@""];
+    }
+    [controlMatrix putCell:[inputbox cell] atRow:0 column:0];
+
+    
+    // select all the text
+	if ([options hasOpt:@"selected"]) {
+        [controlMatrix selectTextAtRow:0 column:0];
+	}
+    else {
+        [controlMatrix deselectAllCells];
+    }
+
 }
 
 @end

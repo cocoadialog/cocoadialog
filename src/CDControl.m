@@ -63,7 +63,7 @@
 	return nil;
 }
 
-// This must be overridden if you want local options for your control
+// This must be sub-classed if you want options local to your control
 - (NSDictionary *) availableKeys
 {
 	return nil;
@@ -73,6 +73,11 @@
 - (NSDictionary *) depreciatedKeys
 {
     return nil;
+}
+// This must be sub-classed if you want validate local options for your control
+- (BOOL) validateControl:(CDOptions *)options
+{
+    return YES;
 }
 
 // This must be overridden if you want local global options for your control
@@ -556,7 +561,7 @@
         // Add the icon to the panel's minimum content size
         NSSize windowContent = [aWindow contentMinSize];
         windowContent.height += iconFrame.size.height + 40.0f;
-        windowContent.width += iconFrame.size.width + 40.0f;
+        windowContent.width += iconFrame.size.width + 30.0f;
         [aWindow setContentMinSize:windowContent];
     }
 }

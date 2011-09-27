@@ -54,6 +54,7 @@
             vOne,  @"icon-height",
             vNone, @"string-output",
             vNone, @"no-newline",
+            vOne,  @"label",
             vOne,  @"button1",
             vOne,  @"button2",
             vOne,  @"button3",
@@ -191,10 +192,10 @@
         m = [controlMatrix frame];
 
         // Set panel's new width and height
-        NSSize p = [[panel contentView] frame].size;
-        p.height += m.size.height - oldHeight;
-        p.width += m.size.width - oldWidth;
-        [panel setContentSize:p];
+        NSSize panelSize = [[panel contentView] frame].size;
+        panelSize.height += m.size.height - oldHeight;
+        panelSize.width += m.size.width - oldWidth;
+        [panel setContentSize:panelSize];
         [panel center];
         
         if ([self windowNeedsResize:panel]) {
@@ -245,7 +246,7 @@
 
 	// ensure that the buttons never gets clipped
 	NSSize s = [panel contentMinSize];
-    s.height += 60.0f; // 20 * 2 for margin + 20 for height
+    s.height += 40.0f; // 20 * 2 for margin + 20 for height
 	s.width += minWidth;
 	[panel setContentMinSize:s];
 }
@@ -253,32 +254,35 @@
 // Should be called after setButtons, and before resize
 - (void) setLabel:(NSString *)labelText
 {
-	if (labelText != nil) {
-		[expandingLabel setStringValue:labelText];
-	} else {
-		[expandingLabel setStringValue:@""];
-	}
-    
-    NSRect labelRect = [expandingLabel frame];
-    NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: labelText]autorelease];
-    NSTextContainer *textContainer = [[[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)] autorelease];
-    NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease];
-    [layoutManager addTextContainer: textContainer];
-    [textStorage addLayoutManager: layoutManager];
-    [layoutManager glyphRangeForTextContainer:textContainer];
-    
-    float labelNewHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
-    float labelHeightDiff = labelNewHeight - labelRect.size.height;
-    
-    // Set label's new height
-    NSRect l = NSMakeRect(labelRect.origin.x, labelRect.origin.y - labelHeightDiff, labelRect.size.width, labelNewHeight);
-    [expandingLabel setFrame: l];
-    
-    // Set panel's new width and height
-    NSSize p = [[panel contentView] frame].size;
-	p.height += labelHeightDiff;
-	[panel setContentSize:p];
-    [panel center];
+    if (expandingLabel != nil) {
+        if (labelText == nil) {
+            labelText = @"";
+        }
+        float labelNewHeight = -10.0f;
+        NSRect labelRect = [expandingLabel frame];
+        float labelHeightDiff = labelNewHeight - labelRect.size.height;
+        if (![labelText isEqualToString:@""]) {
+            [expandingLabel setStringValue:labelText];
+            NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: labelText]autorelease];
+            NSTextContainer *textContainer = [[[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)] autorelease];
+            NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease];
+            [layoutManager addTextContainer: textContainer];
+            [textStorage addLayoutManager: layoutManager];
+            [layoutManager glyphRangeForTextContainer:textContainer];
+            labelNewHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
+            labelHeightDiff = labelNewHeight - labelRect.size.height;
+            // Set label's new height
+            NSRect l = NSMakeRect(labelRect.origin.x, labelRect.origin.y - labelHeightDiff, labelRect.size.width, labelNewHeight);
+            [expandingLabel setFrame: l];
+        }
+        else {
+            [expandingLabel setHidden:YES];
+        }
+        // Set panel's new width and height
+        NSSize p = [[panel contentView] frame].size;
+        p.height += labelHeightDiff;
+        [panel setContentSize:p];
+    }
 }
 
 - (void) setTitle
