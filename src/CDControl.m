@@ -524,12 +524,18 @@
         else {
             [controlIcon setImage:anImage];
         }
-//        float panelContentHeight = 40.0;
         // Resize icon frame
         NSRect iconFrame = [controlIcon frame];
         float iconHeightDiff = aSize.height - iconFrame.size.height;
         NSRect newIconFrame = NSMakeRect(iconFrame.origin.x, iconFrame.origin.y - iconHeightDiff, aSize.width, aSize.height);
         [controlIcon setFrame:newIconFrame];
+        iconFrame = [controlIcon frame];
+
+        // Add the icon to the panel's minimum content size
+        NSSize panelContent = [aPanel contentMinSize];
+        panelContent.height += iconFrame.size.height;
+        panelContent.width += iconFrame.size.width;
+        [aPanel setContentMinSize:panelContent];
     }
 }
 

@@ -255,12 +255,13 @@
 
 	// move button3 to the left
 	r = [button3 frame];
-	r.origin.x = 0;
+	r.origin.x = 12.0f;
 	[button3 setFrame:r];
 
 	// ensure that the buttons never gets clipped
 	NSSize s = [panel contentMinSize];
-	s.width = minWidth;
+    s.height += 60.0f; // 20 * 2 for margin + 20 for height
+	s.width += minWidth;
 	[panel setContentMinSize:s];
 }
 

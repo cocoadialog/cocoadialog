@@ -139,7 +139,7 @@
 						<object class="NSTextField" id="196127081">
 							<reference key="NSNextResponder" ref="651731071"/>
 							<int key="NSvFlags">266</int>
-							<string key="NSFrame">{{83, 168}, {328, 28}}</string>
+							<string key="NSFrame">{{70, 182}, {341, 14}}</string>
 							<reference key="NSSuperview" ref="651731071"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="316184613"/>
@@ -178,7 +178,7 @@
 						<object class="NSCustomView" id="316184613">
 							<reference key="NSNextResponder" ref="651731071"/>
 							<int key="NSvFlags">292</int>
-							<string key="NSFrame">{{86, 60}, {322, 100}}</string>
+							<string key="NSFrame">{{73, 60}, {335, 114}}</string>
 							<reference key="NSSuperview" ref="651731071"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="547107954"/>
@@ -200,7 +200,7 @@
 									<string>NeXT TIFF v4.0 pasteboard type</string>
 								</object>
 							</object>
-							<string key="NSFrame">{{20, 142}, {54, 54}}</string>
+							<string key="NSFrame">{{17, 148}, {48, 48}}</string>
 							<reference key="NSSuperview" ref="651731071"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="196127081"/>
@@ -358,12 +358,12 @@
 						<reference key="object" ref="651731071"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="316184613"/>
-							<reference ref="840052715"/>
 							<reference ref="297909641"/>
 							<reference ref="547107954"/>
+							<reference ref="840052715"/>
 							<reference ref="751930790"/>
 							<reference ref="196127081"/>
+							<reference ref="316184613"/>
 						</object>
 						<reference key="parent" ref="365987548"/>
 					</object>
@@ -411,6 +411,7 @@
 							<reference ref="282908529"/>
 						</object>
 						<reference key="parent" ref="651731071"/>
+						<string key="objectName">button3</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">12</int>
@@ -425,6 +426,7 @@
 							<reference ref="366165101"/>
 						</object>
 						<reference key="parent" ref="651731071"/>
+						<string key="objectName">button2</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">13</int>
@@ -439,6 +441,7 @@
 							<reference ref="704062656"/>
 						</object>
 						<reference key="parent" ref="651731071"/>
+						<string key="objectName">button1</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">14</int>
