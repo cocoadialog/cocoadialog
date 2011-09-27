@@ -47,9 +47,9 @@
 	CDControl *control;
 	CDOptions *options = nil;
 	NSArray *rv;
-	NSMutableArray *arguments = [NSMutableArray arrayWithCapacity:10];
+	NSMutableArray *arguments = [[[NSMutableArray alloc] init] autorelease];
 	NSString *runMode = nil;
-	NSMutableDictionary *extraOptions = [NSMutableDictionary dictionary];
+	NSMutableDictionary *extraOptions = [[[NSMutableDictionary alloc] init] autorelease];
     
     NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
 	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
