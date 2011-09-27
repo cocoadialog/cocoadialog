@@ -86,7 +86,7 @@
 						<object class="NSButton" id="468841275">
 							<reference key="NSNextResponder" ref="133442508"/>
 							<int key="NSvFlags">-2147483356</int>
-							<string key="NSFrame">{{14, 14}, {90, 32}}</string>
+							<string key="NSFrame">{{14, 12}, {90, 32}}</string>
 							<reference key="NSSuperview" ref="133442508"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="672186790"/>
@@ -136,7 +136,6 @@
 							<string key="NSFrame">{{79, 95}, {320, 18}}</string>
 							<reference key="NSSuperview" ref="133442508"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="1021319989">
 								<int key="NSCellFlags">67239424</int>
@@ -206,7 +205,7 @@
 								<string>NeXT Encapsulated PostScript v1.2 pasteboard type</string>
 								<string>NeXT TIFF v4.0 pasteboard type</string>
 							</set>
-							<string key="NSFrame">{{20, 59}, {54, 54}}</string>
+							<string key="NSFrame">{{20, 60}, {54, 54}}</string>
 							<reference key="NSSuperview" ref="133442508"/>
 							<reference key="NSWindow"/>
 							<string key="NSReuseIdentifierKey">_NS:2141</string>
@@ -310,11 +309,11 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">icon</string>
+						<string key="label">controlIcon</string>
 						<reference key="source" ref="130006000"/>
 						<reference key="destination" ref="96383020"/>
 					</object>
-					<int key="connectionID">85</int>
+					<int key="connectionID">86</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -390,12 +389,12 @@
 						<int key="objectID">7</int>
 						<reference key="object" ref="133442508"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="96383020"/>
 							<reference ref="413810851"/>
 							<reference ref="560126026"/>
 							<reference ref="468841275"/>
-							<reference ref="193589021"/>
 							<reference ref="672186790"/>
+							<reference ref="193589021"/>
+							<reference ref="96383020"/>
 						</array>
 						<reference key="parent" ref="166560093"/>
 					</object>
@@ -508,13 +507,24 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">85</int>
+			<int key="maxID">86</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
 					<string key="className">CDControl</string>
 					<string key="superclassName">NSObject</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">controlIcon</string>
+						<string key="NS.object.0">NSImageView</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">controlIcon</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">controlIcon</string>
+							<string key="candidateClassName">NSImageView</string>
+						</object>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/CDControl.h</string>
@@ -577,7 +587,6 @@
 						<string key="button3">NSButton</string>
 						<string key="controlMatrix">NSMatrix</string>
 						<string key="expandingLabel">NSTextField</string>
-						<string key="icon">NSImageView</string>
 						<string key="panel">NSPanel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -600,10 +609,6 @@
 						<object class="IBToOneOutletInfo" key="expandingLabel">
 							<string key="name">expandingLabel</string>
 							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="icon">
-							<string key="name">icon</string>
-							<string key="candidateClassName">NSImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="panel">
 							<string key="name">panel</string>

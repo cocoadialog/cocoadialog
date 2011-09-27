@@ -113,20 +113,41 @@
 	return [[[CDOptions alloc] initWithOpts:options] autorelease];
 }
 
-+ (void) printOpts:(NSDictionary *)availableKeys
++ (void) printOpts:(NSArray *)availableOptions forRunMode:(NSString *)runMode
 {
 	NSFileHandle *fh = [NSFileHandle fileHandleWithStandardOutput];
 
 	if (fh) {
-		[fh writeData:[@"All Available options:\n" dataUsingEncoding:NSUTF8StringEncoding]];
-	}
-	
-	NSEnumerator *enumerator = [availableKeys keyEnumerator];
-	id key;
-	while (key = [enumerator nextObject]) {
-		[fh writeData:[@"\t--" dataUsingEncoding:NSUTF8StringEncoding]];
-		[fh writeData:[key dataUsingEncoding:NSUTF8StringEncoding]];
-		[fh writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        [fh writeData:[@"Usage:\tcocoaDialog " dataUsingEncoding:NSUTF8StringEncoding]];
+        [fh writeData:[[runMode lowercaseString] dataUsingEncoding:NSUTF8StringEncoding]];
+        [fh writeData:[@" [options]\n\tAvailable options:\n" dataUsingEncoding:NSUTF8StringEncoding]];
+
+        NSArray *sortedAvailableKeys = [NSArray arrayWithArray:[availableOptions sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
+        
+        NSEnumerator *en = [sortedAvailableKeys objectEnumerator];
+        id key;
+        unsigned i = 0;
+        unsigned currKey = 0;
+        while (key = [en nextObject]) {
+            if (i == 0) {
+                [fh writeData:[@"\t\t" dataUsingEncoding:NSUTF8StringEncoding]];
+            }
+            [fh writeData:[@"--" dataUsingEncoding:NSUTF8StringEncoding]];
+            [fh writeData:[key dataUsingEncoding:NSUTF8StringEncoding]];
+            if (i <= 6 && currKey != [sortedAvailableKeys count] - 1) {
+                [fh writeData:[@", " dataUsingEncoding:NSUTF8StringEncoding]];
+                i++;
+            }
+            if (i == 6 || currKey == [sortedAvailableKeys count] - 1) {
+                [fh writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
+                i = 0;
+            }
+            currKey++;
+        }
+        [fh writeData:[@"\nFor detailed documentation, please visit:\nhttp://mstratman.github.com/cocoadialog/#documentation/" dataUsingEncoding:NSUTF8StringEncoding]];
+        [fh writeData:[[runMode lowercaseString] dataUsingEncoding:NSUTF8StringEncoding]];
+        [fh writeData:[@"_control\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        exit(1);
 	}
 }
 

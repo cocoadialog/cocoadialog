@@ -35,8 +35,6 @@
 		vNone, @"exit-onchange",
 		vNone, @"pulldown",
 		vNone, @"no-cancel",
-		vNone, @"float",
-		vOne, @"timeout",
 		nil];
 }
 

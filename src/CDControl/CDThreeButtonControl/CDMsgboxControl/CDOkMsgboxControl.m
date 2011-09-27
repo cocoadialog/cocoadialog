@@ -30,11 +30,7 @@
 	return [NSDictionary dictionaryWithObjectsAndKeys:
 		vOne, @"text",
 		vOne, @"informative-text",
-		vOne, @"icon",
-		vOne, @"icon-file",
 		vNone, @"no-cancel",
-		vNone, @"float",
-		vOne,  @"timeout",
 		nil];
 }
 

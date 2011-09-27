@@ -32,10 +32,6 @@
 		vOne, @"text",
 		vOne, @"informative-text",
 		vNone, @"no-cancel",
-		vOne, @"icon",
-		vOne, @"icon-file",
-		vNone, @"float",
-		vOne,  @"timeout",
 		nil];
 }
 

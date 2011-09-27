@@ -33,8 +33,6 @@
 		vOne, @"informative-text",
 		vNone, @"no-cancel",
 		vNone, @"no-show",
-		vNone, @"float",
-		vOne,  @"timeout",
 		nil];
 }
 

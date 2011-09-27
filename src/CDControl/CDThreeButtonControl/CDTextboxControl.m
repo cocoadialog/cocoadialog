@@ -23,6 +23,24 @@
 
 @implementation CDTextboxControl
 
+- (NSDictionary *) availableKeys
+{
+	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
+	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
+	
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+            vOne, @"text",
+            vOne, @"text-from-file",
+            vOne, @"informative-text",
+            vNone, @"editable",
+            vNone, @"no-editable",
+            vNone, @"selected",
+            vNone, @"focus-textbox",
+            vOne, @"scroll-to",
+            nil];
+}
+
+
 // Should be called after setButtons, and before resize
 - (void) setLabel:(NSString *)labelText
 {
@@ -59,29 +77,6 @@
     s.height -= heightDiff;
 	[scrollView setFrameSize:s];
 
-}
-
-
-- (NSDictionary *) availableKeys
-{
-	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
-	
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-		vOne, @"text",
-		vOne, @"text-from-file",
-		vOne, @"informative-text",
-		vOne, @"button1",
-		vOne, @"button2",
-		vOne, @"button3",
-		vNone, @"editable",
-		vNone, @"no-editable",
-		vNone, @"selected",
-		vNone, @"focus-textbox",
-		vOne, @"scroll-to",
-		vNone, @"float",
-		vOne, @"timeout",
-		nil];
 }
 
 - (NSArray *) runControlFromOptions:(CDOptions *)options

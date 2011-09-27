@@ -38,7 +38,7 @@
 // one of the constants defined above.
 + (CDOptions *) getOpts:(NSArray *)args 
 	  availableKeys:(NSDictionary *)availableKeys;
-+ (void)printOpts:(NSDictionary *)availableKeys;
++ (void)printOpts:(NSArray *)availableOptions forRunMode:(NSString *)runMode;
 
 - (BOOL) hasOpt:(NSString *)key;
 - (NSString *) optValue:(NSString *)key;

@@ -38,18 +38,25 @@
 // You must override runControlFromOptions.
 @interface CDControl : NSObject <CDControlProtocol> {
 	CDOptions *_options;
+    
+    IBOutlet NSImageView    *controlIcon;
+    NSMutableArray          *controlItems;
 }
 - (id)initWithOptions:(CDOptions *)options;
 
 // You should override availableKeys if you want options local to your control
 - (NSDictionary *) availableKeys;
-+ (NSDictionary *) globalAvailableKeys;
+- (NSDictionary *) globalAvailableKeys;
 
 - (CDOptions *) controlOptionsFromArgs:(NSArray *)args;
 - (CDOptions *) controlOptionsFromArgs:(NSArray *)args 
 			withGlobalKeys:(NSDictionary *)globalKeys;
 - (CDOptions *) options;
 - (void) setOptions:(CDOptions *)options;
+
+- (void) setIconForPanel:(NSPanel *)aPanel;
+- (void) setIconForPanel:(NSPanel *)aPanel withImage:(NSImage *)anImage withSize:(NSSize)aSize;
+- (void) setIconForPanel:(NSPanel *)aPanel withImage:(NSImage *)anImage withSize:(NSSize)aSize withControls:(NSArray *)anArray;
 
 // Looks at the --width and --height options and determines if the window
 // needs to be resized.  If so, return NSSize, otherwise returns an NSSize

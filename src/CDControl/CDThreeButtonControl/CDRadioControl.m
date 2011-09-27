@@ -18,10 +18,6 @@
     
 	return [NSDictionary dictionaryWithObjectsAndKeys:
             vOne, @"text",
-            vOne, @"button1",
-            vOne, @"button2",
-            vOne, @"button3",
-            vOne, @"cancel",
             vNone,@"allow-mixed",
             vMul, @"items",
             vOne, @"selected",
@@ -29,8 +25,6 @@
             vMul, @"disabled",
             vOne, @"rows",
             vOne, @"columns",
-            vNone, @"float",
-            vOne, @"timeout",
             nil];
 }
 

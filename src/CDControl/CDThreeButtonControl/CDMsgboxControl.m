@@ -26,17 +26,11 @@
 - (NSDictionary *) availableKeys
 {
 	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
+//	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
 
 	return [NSDictionary dictionaryWithObjectsAndKeys:
 		vOne, @"text",
 		vOne, @"informative-text",
-		vOne, @"button1",
-		vOne, @"button2",
-		vOne, @"button3",
-		vNone,@"float",
-        vOne, @"cancel",
-		vOne, @"timeout",
 		nil];
 }
 

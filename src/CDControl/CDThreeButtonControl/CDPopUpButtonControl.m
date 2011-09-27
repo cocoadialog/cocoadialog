@@ -31,15 +31,9 @@
 
 	return [NSDictionary dictionaryWithObjectsAndKeys:
 		vOne, @"text",
-		vOne, @"button1",
-		vOne, @"button2",
-		vOne, @"button3",
-        vOne, @"cancel",
 		vMul, @"items",
 		vNone, @"exit-onchange",
 		vNone, @"pulldown",
-		vNone, @"float",
-		vOne, @"timeout",
 		nil];
 }
 

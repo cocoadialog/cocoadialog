@@ -50,10 +50,24 @@
 	NSMutableArray *arguments = [NSMutableArray arrayWithCapacity:10];
 	NSString *runMode = nil;
 	NSMutableDictionary *extraOptions = [NSMutableDictionary dictionary];
-
-	NSDictionary *globalKeys;
-	
-	globalKeys = [CDControl globalAvailableKeys];
+    
+    NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
+	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
+	NSDictionary *globalKeys = [NSDictionary dictionaryWithObjectsAndKeys:
+                  vNone, @"help",
+                  vNone, @"debug",
+                  vOne,  @"title",
+                  vOne,  @"width",
+                  vOne,  @"height",
+                  vOne,  @"icon",
+                  vOne,  @"icon-bundle",
+                  vOne,  @"icon-file",
+                  vOne,  @"icon-size",
+                  vOne,  @"icon-width",
+                  vOne,  @"icon-height",
+                  vNone, @"string-output",
+                  vNone, @"no-newline",
+                  nil];
 
 	[arguments addObjectsFromArray:[[NSProcessInfo processInfo] arguments]];
 	if ([arguments count] >= 2) {
@@ -74,11 +88,28 @@
 
 	if (control != nil) {
 		int i;
-
+        globalKeys = [control globalAvailableKeys];
 		// Now that we have the control, we can re-get the options to
 		// include the local options for that control.
 		options = [control controlOptionsFromArgs:arguments
 			withGlobalKeys:globalKeys];
+        
+        if ([options hasOpt:@"help"]) {
+            NSMutableDictionary *allKeys;
+            NSDictionary *localKeys = [control availableKeys];
+            if (localKeys != nil) {
+                allKeys = [NSMutableDictionary dictionaryWithCapacity:
+                           [globalKeys count]+[localKeys count]];
+                [allKeys addEntriesFromDictionary:globalKeys];
+                [allKeys addEntriesFromDictionary:localKeys];
+            } else {
+                allKeys = [NSMutableDictionary dictionaryWithCapacity:[globalKeys count]];
+                [allKeys addEntriesFromDictionary:globalKeys];
+                
+            }
+            [CDOptions printOpts:[allKeys allKeys] forRunMode:runMode];
+        }
+        
 		// Add any extras chooseControl came up with
 		NSEnumerator *en = [extraOptions keyEnumerator];
 		NSString *key;
@@ -114,8 +145,30 @@
 	[NSApp terminate:self];
 }
 
++ (NSDictionary *) availableControls {
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+            [CDBubbleControl class],                @"bubble",
+            [CDCheckboxControl class],              @"checkbox",
+            [CDPopUpButtonControl class],           @"dropdown",
+            [CDFileSelectControl class],            @"fileselect",
+            [CDFileSaveControl class],              @"filesave",
+            [CDInputboxControl class],              @"inputbox",
+            [CDMsgboxControl class],                @"msgbox",
+            [CDOkMsgboxControl class],              @"ok-msgbox",
+            [CDProgressbarControl class],           @"progressbar",
+            [CDRadioControl class],                 @"radio",
+            [CDStandardInputboxControl class],      @"secure-inputbox",           
+            [CDStandardInputboxControl class],      @"secure-standard-inputbox",
+            [CDStandardPopUpButtonControl class],   @"standard-dropdown",         
+            [CDStandardInputboxControl class],      @"standard-inputbox",
+            [CDYesNoMsgboxControl class],           @"yesno-msgbox",
+            nil];
+}
+
 - (CDControl *) chooseControl:(NSString *)runMode useOptions:options addExtraOptionsTo:(NSMutableDictionary *)extraOptions
 {
+    NSDictionary *controls = [AppController availableControls];
+
 	if (runMode == nil) {
 		[CDControl printHelpTo:[NSFileHandle fileHandleWithStandardError]];
 		return nil;
@@ -124,64 +177,21 @@
 		[CDControl printHelpTo:[NSFileHandle fileHandleWithStandardOutput]];
 		return nil;
 	}
-    else if ([runMode isEqualToString:@"fileselect"]) {
-		return [[(CDControl *)[CDFileSelectControl alloc] initWithOptions:options] autorelease];
-	}
-    else if ([runMode isEqualToString:@"filesave"]) {
-		return [[(CDControl *)[CDFileSaveControl alloc] initWithOptions:options] autorelease];
-	}
-    else if ([runMode isEqualToString:@"checkbox"]) {
-		return [[(CDControl *)[CDCheckboxControl alloc] initWithOptions:options] autorelease];
-	}
-    else if ([runMode isEqualToString:@"radio"]) {
-		return [[(CDControl *)[CDRadioControl alloc] initWithOptions:options] autorelease];
-	}
-    else if ([runMode isEqualToString:@"msgbox"]) {
-		return [[(CDControl *)[CDMsgboxControl alloc] initWithOptions:options] autorelease];
-	}
-    else if ([runMode isEqualToString:@"yesno-msgbox"]) {
-		return [[(CDControl *)[CDYesNoMsgboxControl alloc] initWithOptions:options] autorelease];
-	}
-    else if ([runMode isEqualToString:@"ok-msgbox"]) {
-		return [[(CDControl *)[CDOkMsgboxControl alloc] initWithOptions:options] autorelease];
-	}
-    else if ([runMode isEqualToString:@"textbox"]) {
-		return [[(CDControl *)[CDTextboxControl alloc] initWithOptions:options] autorelease];
-	}
-    else if ([runMode isEqualToString:@"progressbar"]) {
-		return [[(CDControl *)[CDProgressbarControl alloc] initWithOptions:options] autorelease];
-	}
-    else if ([runMode isEqualToString:@"inputbox"]) {
-		return [[(CDControl *)[CDInputboxControl alloc] initWithOptions:options] autorelease];
-	}
-    else if ([runMode isEqualToString:@"standard-inputbox"]) {
-		return [[(CDControl *)[CDStandardInputboxControl alloc] initWithOptions:options] autorelease];
-	}
-    else if ([runMode isEqualToString:@"secure-standard-inputbox"]) {
-		[extraOptions setObject:[NSNumber numberWithBool:NO] forKey:@"no-show"];
-		return [[(CDControl *)[CDStandardInputboxControl alloc] initWithOptions:options] autorelease];
-	}
-    else if ([runMode isEqualToString:@"secure-inputbox"]) {
-		[extraOptions setObject:[NSNumber numberWithBool:NO] forKey:@"no-show"];
-		return [[(CDControl *)[CDInputboxControl alloc] initWithOptions:options] autorelease];
-	}
-    else if ([runMode isEqualToString:@"dropdown"]) {
-		return [[(CDControl *)[CDPopUpButtonControl alloc] initWithOptions:options] autorelease];
-	}
-    else if ([runMode isEqualToString:@"standard-dropdown"]) {
-		return [[(CDControl *)[CDStandardPopUpButtonControl alloc] initWithOptions:options] autorelease];
-	}
-    else if ([runMode isEqualToString:@"bubble"]) {
-		return [[(CDControl *)[CDBubbleControl alloc] initWithOptions:options] autorelease];
-	}
     else {
-		NSFileHandle *fh = [NSFileHandle fileHandleWithStandardError];
-		NSString *output = [NSString stringWithFormat:@"Unknown dialog type: %@\n", runMode]; 
-		if (fh) {
-			[fh writeData:[output dataUsingEncoding:NSUTF8StringEncoding]];
-		}
-		[CDControl printHelpTo:fh];
-		return nil;
+        id control = [controls objectForKey:[runMode lowercaseString]];
+        if (control != nil) {
+            if ([runMode caseInsensitiveCompare:@"secure-standard-inputbox"] == NSOrderedSame || [runMode caseInsensitiveCompare:@"secure-inputbox"] == NSOrderedSame) {
+                [extraOptions setObject:[NSNumber numberWithBool:NO] forKey:@"no-show"];
+            }
+            return [[(CDControl *)[control alloc] initWithOptions:options] autorelease];
+        }
+        NSFileHandle *fh = [NSFileHandle fileHandleWithStandardError];
+        NSString *output = [NSString stringWithFormat:@"Unknown dialog type: %@\n", runMode]; 
+        if (fh) {
+            [fh writeData:[output dataUsingEncoding:NSUTF8StringEncoding]];
+        }
+        [CDControl printHelpTo:fh];
+        return nil;
 	}
 }
 

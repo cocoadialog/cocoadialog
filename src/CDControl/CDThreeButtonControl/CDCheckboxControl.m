@@ -12,24 +12,18 @@
 
 - (NSDictionary *) availableKeys
 {
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
+//	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
 	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
 	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
     
 	return [NSDictionary dictionaryWithObjectsAndKeys:
             vOne, @"text",
-            vOne, @"button1",
-            vOne, @"button2",
-            vOne, @"button3",
-            vOne, @"cancel",
             vOne, @"rows",
             vOne, @"columns",
             vMul, @"items",
             vMul, @"checked",
             vMul, @"mixed",
             vMul, @"disabled",
-            vNone, @"float",
-            vOne, @"timeout",
             nil];
 }
 
