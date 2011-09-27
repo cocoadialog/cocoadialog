@@ -69,7 +69,23 @@
 	[self runAndSetRv];
     
 	// set return values 
-    NSArray * checkboxes = [controlMatrix cells];
+    NSArray * cells = [controlMatrix cells];
+    NSMutableArray *tmpValues = [[[NSMutableArray alloc] init] autorelease];
+
+    NSEnumerator *en = [cells objectEnumerator];
+    id obj;
+    while (obj = [en nextObject]) {
+        if ([[obj className] isEqualToString:@"NSButtonCell"]) {
+            [tmpValues addObject:obj];
+        } 
+    }
+    
+    NSMutableArray *checkboxes = [[[NSMutableArray alloc] initWithArray:[tmpValues copy]] autorelease];
+    en = [tmpValues objectEnumerator];
+    while (obj = [en nextObject]) {
+        [checkboxes replaceObjectAtIndex:[obj tag] withObject:obj];
+    }
+
 	if ([options hasOpt:@"string-output"]) {
 		if (rv == 1) {
 			buttonRv = [button1 title];
@@ -84,17 +100,15 @@
 		}
         if (checkboxes != nil && [checkboxes count]) {
             NSMutableArray *itemRvArray = [[[NSMutableArray alloc] init] autorelease];
-            NSEnumerator *en = [checkboxes objectEnumerator];
+            en = [checkboxes objectEnumerator];
             id obj;
             int state;
             while (obj = [en nextObject]) {
-                if ([[obj className] isEqualToString:@"NSButtonCell"]) {
-                    state = [obj state];
-                    switch (state) {
-                        case NSOffState: [itemRvArray addObject: @"off"]; break;
-                        case NSOnState: [itemRvArray addObject: @"on"]; break;
-                        case NSMixedState: [itemRvArray addObject: @"mixed"]; break;
-                    }
+                state = [obj state];
+                switch (state) {
+                    case NSOffState: [itemRvArray addObject: @"off"]; break;
+                    case NSOnState: [itemRvArray addObject: @"on"]; break;
+                    case NSMixedState: [itemRvArray addObject: @"mixed"]; break;
                 }
             }
             itemRv = [itemRvArray componentsJoinedByString:@" "];
@@ -106,9 +120,7 @@
             NSEnumerator *en = [checkboxes objectEnumerator];
             id obj;
             while (obj = [en nextObject]) {
-                if ([[obj className] isEqualToString:@"NSButtonCell"]) {
-                    [itemRvArray addObject: [NSString stringWithFormat:@"%i", [obj state]]];
-                }
+                [itemRvArray addObject: [NSString stringWithFormat:@"%i", [obj state]]];
             }
             itemRv = [itemRvArray componentsJoinedByString:@" "];
         }
