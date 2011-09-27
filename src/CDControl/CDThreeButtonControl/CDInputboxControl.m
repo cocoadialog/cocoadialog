@@ -122,7 +122,6 @@
     [controlMatrix setAutosizesCells:NO];
     [controlMatrix setMode:NSRadioModeMatrix];
     [controlMatrix setAllowsEmptySelection:NO];
-    [controlMatrix deselectAllCells];
     
     id inputbox;
     if ([options hasOpt:@"no-show"]) {

@@ -21,9 +21,8 @@
 #import <Foundation/Foundation.h>
 #import "CDThreeButtonControl.h"
 
-@interface CDPopUpButtonControl : CDThreeButtonControl {
-	IBOutlet NSPopUpButton *popup;
-}
-- (IBAction) selectionChanged:(id)sender;
+@interface CDPopUpButtonControl : CDThreeButtonControl
+
+- (void) selectionChanged:(id)sender;
 
 @end

@@ -29,8 +29,8 @@
 	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
 
 	return [NSDictionary dictionaryWithObjectsAndKeys:
-		vOne, @"text",
-		vOne, @"informative-text",
+            vOne, @"alert",
+            vOne, @"label",
 		vNone, @"no-cancel",
 		nil];
 }

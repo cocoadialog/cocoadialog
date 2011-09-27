@@ -29,10 +29,19 @@
 //	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
 
 	return [NSDictionary dictionaryWithObjectsAndKeys:
-		vOne, @"text",
-		vOne, @"informative-text",
+		vOne, @"alert",
+		vOne, @"label",
 		nil];
 }
+
+- (NSDictionary *) depreciatedKeys
+{
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+            @"alert", @"text",
+            @"label", @"informative-text",
+            nil];
+}
+
 
 - (NSArray *) runControlFromOptions:(CDOptions *)options
 {
@@ -52,11 +61,11 @@
 
 	
 	// add the main bold text
-	if ([options optValue:@"text"]) {
-		[text setStringValue:[options optValue:@"text"]];
+	if ([options optValue:@"alert"]) {
+		[text setStringValue:[options optValue:@"alert"]];
 	}
 
-	[self setTitleButtonsLabel:[options optValue:@"informative-text"]];
+	[self setTitleButtonsLabel:[options optValue:@"label"]];
 
 	[self setTimeout];
 

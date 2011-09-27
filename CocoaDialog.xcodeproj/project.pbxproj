@@ -58,11 +58,8 @@
 		89BE1CA214270EC80030D0FF /* CDProgressbarInputHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 89BE1CA114270EC80030D0FF /* CDProgressbarInputHandler.h */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		A7255372142538DC004A7B4F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A725536A142538DC004A7B4F /* MainMenu.xib */; };
-		A7255373142538DC004A7B4F /* Inputbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = A725536C142538DC004A7B4F /* Inputbox.xib */; };
 		A7255374142538DC004A7B4F /* Msgbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = A725536D142538DC004A7B4F /* Msgbox.xib */; };
-		A7255375142538DC004A7B4F /* PopUpButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = A725536E142538DC004A7B4F /* PopUpButton.xib */; };
 		A7255376142538DC004A7B4F /* Progressbar.xib in Resources */ = {isa = PBXBuildFile; fileRef = A725536F142538DC004A7B4F /* Progressbar.xib */; };
-		A7255377142538DC004A7B4F /* SecureInputbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7255370142538DC004A7B4F /* SecureInputbox.xib */; };
 		A7255378142538DC004A7B4F /* Textbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7255371142538DC004A7B4F /* Textbox.xib */; };
 		A751C5D9142D084C0078437A /* CDRadioControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A751C5D7142D084C0078437A /* CDRadioControl.h */; };
 		A751C5DA142D084C0078437A /* CDRadioControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A751C5D8142D084C0078437A /* CDRadioControl.m */; };
@@ -127,11 +124,8 @@
 		89BE1CA114270EC80030D0FF /* CDProgressbarInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDProgressbarInputHandler.h; path = src/CDProgressbarInputHandler.h; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* cocoaDialog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cocoaDialog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A725536B142538DC004A7B4F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		A725536C142538DC004A7B4F /* Inputbox.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Inputbox.xib; path = Resources/Inputbox.xib; sourceTree = "<group>"; };
 		A725536D142538DC004A7B4F /* Msgbox.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Msgbox.xib; path = Resources/Msgbox.xib; sourceTree = "<group>"; };
-		A725536E142538DC004A7B4F /* PopUpButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PopUpButton.xib; path = Resources/PopUpButton.xib; sourceTree = "<group>"; };
 		A725536F142538DC004A7B4F /* Progressbar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Progressbar.xib; path = Resources/Progressbar.xib; sourceTree = "<group>"; };
-		A7255370142538DC004A7B4F /* SecureInputbox.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SecureInputbox.xib; path = Resources/SecureInputbox.xib; sourceTree = "<group>"; };
 		A7255371142538DC004A7B4F /* Textbox.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Textbox.xib; path = Resources/Textbox.xib; sourceTree = "<group>"; };
 		A751C5D7142D084C0078437A /* CDRadioControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDRadioControl.h; path = src/CDControl/CDThreeButtonControl/CDRadioControl.h; sourceTree = "<group>"; };
 		A751C5D8142D084C0078437A /* CDRadioControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDRadioControl.m; path = src/CDControl/CDThreeButtonControl/CDRadioControl.m; sourceTree = "<group>"; };
@@ -317,11 +311,8 @@
 				0E71DA0C0963B19500FF6F7C /* InfoPlist.strings */,
 				0E71DA120963B19500FF6F7C /* Info.plist */,
 				A725536A142538DC004A7B4F /* MainMenu.xib */,
-				A725536C142538DC004A7B4F /* Inputbox.xib */,
 				A725536D142538DC004A7B4F /* Msgbox.xib */,
-				A725536E142538DC004A7B4F /* PopUpButton.xib */,
 				A725536F142538DC004A7B4F /* Progressbar.xib */,
-				A7255370142538DC004A7B4F /* SecureInputbox.xib */,
 				A7255371142538DC004A7B4F /* Textbox.xib */,
 				A786B44D14298C6000917E4D /* tbc.xib */,
 			);
@@ -429,11 +420,8 @@
 				0E71DA1B0963B19500FF6F7C /* cocoadialog.icns in Resources */,
 				0E71DA1C0963B19500FF6F7C /* InfoPlist.strings in Resources */,
 				A7255372142538DC004A7B4F /* MainMenu.xib in Resources */,
-				A7255373142538DC004A7B4F /* Inputbox.xib in Resources */,
 				A7255374142538DC004A7B4F /* Msgbox.xib in Resources */,
-				A7255375142538DC004A7B4F /* PopUpButton.xib in Resources */,
 				A7255376142538DC004A7B4F /* Progressbar.xib in Resources */,
-				A7255377142538DC004A7B4F /* SecureInputbox.xib in Resources */,
 				A7255378142538DC004A7B4F /* Textbox.xib in Resources */,
 				A786B44E14298C6000917E4D /* tbc.xib in Resources */,
 			);
