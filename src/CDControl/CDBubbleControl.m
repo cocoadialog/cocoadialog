@@ -121,7 +121,7 @@
 		NSArray *givenIconImages = [self _iconImages];
 		NSImage *fallbackIcon = nil;
 		NSMutableArray *icons = nil;
-		int i;
+		unsigned i;
 		// See what icons we got at the command line, or set a fallback
 		// icon to use for all bubbles
 		if (givenIconImages == nil) {
@@ -133,7 +133,7 @@
 		// for any extra bubbles
 		if ([icons count] < [texts count]) {
 			NSImage *defaultIcon = [self _iconImage];
-			int numToAdd = [texts count] - [icons count];
+			unsigned long numToAdd = [texts count] - [icons count];
 			for (i = 0; i < numToAdd; i++) {
 				[icons addObject:defaultIcon];
 			}
@@ -151,7 +151,7 @@
 				darkColor:[self _colorForBubble:i fromKey:@"background-bottoms" alpha:alpha]
 				textColor:[self _colorForBubble:i fromKey:@"text-colors" alpha:alpha]
 				borderColor:[self _colorForBubble:i fromKey:@"border-colors" alpha:alpha]
-				numExpectedBubbles:[texts count]
+				numExpectedBubbles:(unsigned)[texts count]
 				bubblePosition:position];
 			
 			[bubble setAutomaticallyFadesOut:(![options hasOpt:@"no-timeout"])];
@@ -247,7 +247,7 @@
 }
 
 // the `i` index is zero based.
-- (NSColor *) _colorForBubble:(int)i fromKey:(NSString *)key alpha:(float)alpha
+- (NSColor *) _colorForBubble:(unsigned long)i fromKey:(NSString *)key alpha:(float)alpha
 {
 	CDOptions *options = [self options];
 	NSArray *colorArgs = nil;

@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
+	<string>en_US</string>
 	<key>CFBundleExecutable</key>
-	<string>CocoaDialog</string>
+	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
 	<string>cocoadialog</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.sporkstorms.CocoaDialog</string>
+	<string>org.sporkstorms.cocoaDialog</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
@@ -26,5 +26,20 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>10.4</string>
+	<key>LSMinimumSystemVersionByArchitecture</key>
+	<dict>
+		<key>i386</key>
+		<string>10.4</string>
+		<key>ppc</key>
+		<string>10.4</string>
+		<key>ppc64</key>
+		<string>10.5</string>
+		<key>x86_64</key>
+		<string>10.6</string>
+	</dict>
+	<key>CFBundleName</key>
+	<string>${PRODUCT_NAME}</string>
 </dict>
 </plist>

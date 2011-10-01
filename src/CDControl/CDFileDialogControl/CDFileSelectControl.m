@@ -44,7 +44,7 @@
 
 - (NSArray *) runControlFromOptions:(CDOptions *)options
 {
-	int result;
+	unsigned long result;
 	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 	NSString *file = nil;
 	NSString *dir = nil;

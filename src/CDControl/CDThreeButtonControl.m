@@ -72,10 +72,10 @@
 {
     if (controlMatrix != nil) {
         // Default exact columns/rows
-        int exactColumns = [items count] / rows;
+        unsigned long exactColumns = [items count] / rows;
         float exactColumnsFloat = (float) [items count] / (float)rows;
         
-        int exactRows = [items count] / columns;
+        unsigned long exactRows = [items count] / columns;
         float exactRowsFloat = (float)[items count] / (float)columns;
         
         switch (precedence) {
@@ -89,7 +89,7 @@
                 // Items exceed rows, expand columns
                 else if (exactRowsFloat > (float)rows) {
                     columns = [items count] / rows;
-                    float exactColumnsFloat = (float)[items count] / (float)rows;
+                    exactColumnsFloat = (float)[items count] / (float)rows;
                     if (exactColumnsFloat > (float) columns) {
                         columns++;
                     }

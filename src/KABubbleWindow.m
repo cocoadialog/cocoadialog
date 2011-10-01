@@ -6,12 +6,12 @@
 @implementation KABubbleWindow
 
 - (id)initWithContentRect:(NSRect)contentRect
-				styleMask:(unsigned int)aStyle
+				styleMask:(unsigned long)aStyle
 				  backing:(NSBackingStoreType)bufferingType
 					defer:(BOOL)flag {
 	
 	//use NSWindow to draw for us
-	NSWindow* result = [super initWithContentRect:contentRect 
+	KABubbleWindow* result = [super initWithContentRect:contentRect 
 										styleMask:NSBorderlessWindowMask 
 										  backing:NSBackingStoreBuffered 
 											defer:NO];

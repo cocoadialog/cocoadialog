@@ -114,8 +114,7 @@
         if (checkboxes != nil && [checkboxes count]) {
             NSMutableArray *itemRvArray = [[[NSMutableArray alloc] init] autorelease];
             en = [checkboxes objectEnumerator];
-            id obj;
-            int state;
+            unsigned long state;
             while (obj = [en nextObject]) {
                 state = [obj state];
                 switch (state) {
@@ -130,8 +129,7 @@
 		buttonRv = [NSString stringWithFormat:@"%d",rv];
         if (checkboxes != nil && [checkboxes count]) {
             NSMutableArray *itemRvArray = [[[NSMutableArray alloc] init] autorelease];
-            NSEnumerator *en = [checkboxes objectEnumerator];
-            id obj;
+            en = [checkboxes objectEnumerator];
             while (obj = [en nextObject]) {
                 [itemRvArray addObject: [NSString stringWithFormat:@"%i", [obj state]]];
             }
@@ -167,7 +165,7 @@
     int matrixPrecedence = 0;
     
     // Set default number of columns
-    NSInteger columns = 1;
+    unsigned long columns = 1;
     // Set specified number of columns
     if ([options hasOpt:@"columns"]) {
         columns = [[options optValue:@"columns"] intValue];
@@ -177,7 +175,7 @@
     }
     
     // Set default number of rows
-    NSInteger rows = 1;
+    unsigned long rows = 1;
     // Set specified number of rows
     if ([options hasOpt:@"rows"]) {
         rows = [[options optValue:@"rows"] intValue];
@@ -201,7 +199,7 @@
     NSMutableArray * controls = [[[NSMutableArray alloc] init] autorelease];
     
     // Create the control for each item
-    NSInteger currItem = 0;
+    unsigned long currItem = 0;
     NSEnumerator *en = [items objectEnumerator];
     float cellWidth = 0.0;
     id obj;
@@ -241,8 +239,8 @@
     
     // Populate the matrix
     currItem = 0;
-    for (int currColumn = 0; currColumn <= columns - 1; currColumn++) {
-        for (int currRow = 0; currRow <= rows - 1; currRow++) {
+    for (unsigned long currColumn = 0; currColumn <= columns - 1; currColumn++) {
+        for (unsigned long currRow = 0; currRow <= rows - 1; currRow++) {
             if (currItem <= [items count] - 1) {
                 NSButtonCell * cell = [controls objectAtIndex:currItem];
                 [controlMatrix putCell:cell atRow:currRow column:currColumn];

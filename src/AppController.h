@@ -23,8 +23,18 @@
 #import "CDControl.h"
 
 @interface AppController : NSObject {
+    IBOutlet NSPanel * aboutPanel;
+    IBOutlet NSTextField * aboutAppLink;
+    IBOutlet NSTextField * aboutText;
 }
 + (NSDictionary *) availableControls;
+- (NSString *) appVersion;
 - (CDControl *) chooseControl:(NSString *)runMode useOptions:options addExtraOptionsTo:(NSMutableDictionary *)extraOptions;
+-(void)setHyperlinkForTextField:(NSTextField*)aTextField replaceString:(NSString *)aString withURL:(NSString *)aURL;
+@end
+
+@interface NSAttributedString (Hyperlink)
+
++(id)hyperlinkFromString:(NSString*)inString withURL:(NSURL*)aURL withFont:(NSFont *)aFont;
 
 @end

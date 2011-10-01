@@ -50,12 +50,11 @@
 	NSMutableDictionary *options;
 	NSString *arg;
 	NSMutableArray *values;
-	int i;
 	int argType;
 
 	options = [[[NSMutableDictionary alloc] init] autorelease];
 
-	i = 0;
+	unsigned i = 0;
 	while (i < [args count]) {
 		arg = [args objectAtIndex:i];
 

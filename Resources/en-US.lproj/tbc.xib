@@ -129,7 +129,7 @@
 						</object>
 						<object class="NSCustomView" id="316184613">
 							<reference key="NSNextResponder" ref="651731071"/>
-							<int key="NSvFlags">258</int>
+							<int key="NSvFlags">292</int>
 							<string key="NSFrame">{{73, 60}, {335, 114}}</string>
 							<reference key="NSSuperview" ref="651731071"/>
 							<reference key="NSWindow"/>
@@ -143,7 +143,6 @@
 							<string key="NSFrame">{{336, 12}, {78, 32}}</string>
 							<reference key="NSSuperview" ref="651731071"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<int key="NSViewLayerContentsRedrawPolicy">2</int>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="704062656">
@@ -223,6 +222,7 @@
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="751930790"/>
 					<int key="NSViewLayerContentsRedrawPolicy">2</int>
+					<bool key="NSViewCanDrawConcurrently">YES</bool>
 					<string key="NSReuseIdentifierKey">_NS:207</string>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {2560, 1418}}</string>

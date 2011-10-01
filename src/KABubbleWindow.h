@@ -8,4 +8,9 @@
 {
 	NSPoint startingPoint;
 }
+
+- (id)initWithContentRect:(NSRect)contentRect
+				styleMask:(unsigned long)aStyle
+				  backing:(NSBackingStoreType)bufferingType
+					defer:(BOOL)flag;
 @end

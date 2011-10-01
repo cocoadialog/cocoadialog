@@ -41,7 +41,7 @@
 
 - (NSArray *) runControlFromOptions:(CDOptions *)options
 {
-	int result;
+	unsigned long result;
 	NSSavePanel *savePanel = [NSSavePanel savePanel];
 	NSString *file = @"";
 	NSString *dir = nil;

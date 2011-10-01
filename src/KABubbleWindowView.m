@@ -75,7 +75,7 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 
 	[path setClip];
 
-	struct CGFunctionCallbacks callbacks = { 0, KABubbleShadeInterpolate, NULL };
+	struct CGFunctionCallbacks callbacks = { 0, (void *)KABubbleShadeInterpolate, NULL };
 	CGFunctionRef function = CGFunctionCreate( self, 1, NULL, 4, NULL, &callbacks );
 	CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
 
@@ -153,7 +153,7 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 
 	float r, g, b, alpha;
 	NSColor *rgb = [_darkColor colorUsingColorSpaceName:@"NSCalibratedRGBColorSpace"];
-	[rgb getRed:&r green:&g blue:&b alpha:&alpha];
+	[rgb getRed:(CGFloat *)&r green:(CGFloat *)&g blue:(CGFloat *)&b alpha:(CGFloat *)&alpha];
 	_darkColorFloat[0] = r;
 	_darkColorFloat[1] = g;
 	_darkColorFloat[2] = b;
@@ -175,7 +175,7 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 
 	float r, g, b, alpha;
 	NSColor *rgb = [_lightColor colorUsingColorSpaceName:@"NSCalibratedRGBColorSpace"];
-	[rgb getRed:&r green:&g blue:&b alpha:&alpha];
+	[rgb getRed:(CGFloat *)&r green:(CGFloat *)&g blue:(CGFloat *)&b alpha:(CGFloat *)&alpha];
 	_lightColorFloat[0] = r;
 	_lightColorFloat[1] = g;
 	_lightColorFloat[2] = b;

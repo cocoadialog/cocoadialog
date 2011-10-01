@@ -149,7 +149,7 @@
     NSFileHandle *stdinFH = [NSFileHandle fileHandleWithStandardInput];
 
     while (!finished) {
-        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+        pool = [[NSAutoreleasePool alloc] init];
         NSString* lines = [self readLines:stdinFH];
         [self parseLines:lines];
         [pool drain];

@@ -37,6 +37,8 @@
 	BOOL	stopEnabled;
 }
 
+-(void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+
 -(IBAction)stop:(id)sender;
 
 @end
