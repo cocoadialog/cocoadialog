@@ -71,7 +71,7 @@
     [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
     
     // Show the about dialog if cocoaDialog was ran from GUI and not the command line
-    if ([[runMode substringToIndex:4] isEqualToString:@"-psn"]) {
+    if ([[runMode substringToIndex:4] isEqualToString:@"-psn"] || [runMode caseInsensitiveCompare:@"about"] == NSOrderedSame) {
         [self setHyperlinkForTextField:aboutAppLink replaceString:@"http://mstratman.github.com/cocoadialog/" withURL:@"http://mstratman.github.com/cocoadialog/"];
         [self setHyperlinkForTextField:aboutText replaceString:@"command line interface" withURL:@"http://en.wikipedia.org/wiki/Command-line_interface"];    
         [self setHyperlinkForTextField:aboutText replaceString:@"documentation" withURL:@"http://mstratman.github.com/cocoadialog/#documentation"];    

@@ -353,7 +353,7 @@
 			<object class="NSWindowTemplate" id="849425590">
 				<int key="NSWindowStyleMask">1</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{272, 172}, {600, 311}}</string>
+				<string key="NSWindowRect">{{272, 172}, {600, 332}}</string>
 				<int key="NSWTFlags">611845120</int>
 				<string key="NSWindowTitle">About cocoaDialog</string>
 				<string key="NSWindowClass">NSPanel</string>
@@ -366,7 +366,7 @@
 						<object class="NSTextField" id="742804882">
 							<reference key="NSNextResponder" ref="397892460"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{0, 56}, {600, 255}}</string>
+							<string key="NSFrame">{{0, 58}, {600, 274}}</string>
 							<reference key="NSSuperview" ref="397892460"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="124562689"/>
@@ -411,7 +411,7 @@
 								<string>NeXT Encapsulated PostScript v1.2 pasteboard type</string>
 								<string>NeXT TIFF v4.0 pasteboard type</string>
 							</set>
-							<string key="NSFrame">{{20, 163}, {128, 128}}</string>
+							<string key="NSFrame">{{20, 184}, {128, 128}}</string>
 							<reference key="NSSuperview" ref="397892460"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="452742714"/>
@@ -436,7 +436,7 @@
 						<object class="NSTextField" id="452742714">
 							<reference key="NSNextResponder" ref="397892460"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{165, 247}, {418, 44}}</string>
+							<string key="NSFrame">{{165, 268}, {418, 44}}</string>
 							<reference key="NSSuperview" ref="397892460"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="535443805"/>
@@ -472,7 +472,7 @@
 						<object class="NSTextField" id="535443805">
 							<reference key="NSNextResponder" ref="397892460"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{165, 225}, {418, 14}}</string>
+							<string key="NSFrame">{{165, 246}, {418, 14}}</string>
 							<reference key="NSSuperview" ref="397892460"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="882775625"/>
@@ -526,7 +526,7 @@
 						<object class="NSTextField" id="882775625">
 							<reference key="NSNextResponder" ref="397892460"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{165, 203}, {418, 14}}</string>
+							<string key="NSFrame">{{165, 224}, {418, 14}}</string>
 							<reference key="NSSuperview" ref="397892460"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="23425562"/>
@@ -552,7 +552,7 @@
 						<object class="NSTextField" id="148112229">
 							<reference key="NSNextResponder" ref="397892460"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{165, 78}, {418, 85}}</string>
+							<string key="NSFrame">{{165, 65}, {418, 119}}</string>
 							<reference key="NSSuperview" ref="397892460"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="270678209"/>
@@ -562,7 +562,11 @@
 							<object class="NSTextFieldCell" key="NSCell" id="980468187">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">272629760</int>
-								<string key="NSContents">cocoaDialog is a command line interface that allows the use of common GUI dialogs such as file selectors, text input, progress bars, confirmations and more. You cannot run cocoaDialog directly from your user environment. Please read the documentation on how to properly run cocoaDialog.</string>
+								<string type="base64-UTF8" key="NSContents">Y29jb2FEaWFsb2cgY2Fubm90IGJlIHVzZWQgYnkgbGF1bmNoaW5nIHRoZSBtYWluIGFwcGxpY2F0aW9u
+LiBQbGVhc2UgcmVhZCB0aGUgZG9jdW1lbnRhdGlvbiBvbiBob3cgdG8gdXNlIGNvY29hRGlhbG9nLgoK
+Y29jb2FEaWFsb2cgaXMgYSBjb21tYW5kIGxpbmUgaW50ZXJmYWNlIHRoYXQgYWxsb3dzIHRoZSB1c2Ug
+b2YgY29tbW9uIEdVSSBkaWFsb2dzIHN1Y2ggYXMgZmlsZSBzZWxlY3RvcnMsIHRleHQgaW5wdXQsIHBy
+b2dyZXNzIGJhcnMsIGNvbmZpcm1hdGlvbnMgYW5kIG1vcmUuA</string>
 								<reference key="NSSupport" ref="57348683"/>
 								<string key="NSCellIdentifier">_NS:3944</string>
 								<reference key="NSControlView" ref="148112229"/>
@@ -573,7 +577,7 @@
 						<object class="NSTextField" id="270678209">
 							<reference key="NSNextResponder" ref="397892460"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{17, 23}, {458, 11}}</string>
+							<string key="NSFrame">{{17, 25}, {458, 11}}</string>
 							<reference key="NSSuperview" ref="397892460"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="425611621"/>
@@ -604,7 +608,7 @@
 						<object class="NSBox" id="23425562">
 							<reference key="NSNextResponder" ref="397892460"/>
 							<int key="NSvFlags">12</int>
-							<string key="NSFrame">{{180, 181}, {388, 5}}</string>
+							<string key="NSFrame">{{180, 202}, {388, 5}}</string>
 							<reference key="NSSuperview" ref="397892460"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="148112229"/>
@@ -636,7 +640,7 @@
 							<bool key="NSTransparent">NO</bool>
 						</object>
 					</array>
-					<string key="NSFrameSize">{600, 311}</string>
+					<string key="NSFrameSize">{600, 332}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="742804882"/>
@@ -1134,9 +1138,9 @@
 							<reference ref="535443805"/>
 							<reference ref="452742714"/>
 							<reference ref="148112229"/>
+							<reference ref="23425562"/>
 							<reference ref="425611621"/>
 							<reference ref="270678209"/>
-							<reference ref="23425562"/>
 						</array>
 						<reference key="parent" ref="849425590"/>
 					</object>
