@@ -8,6 +8,8 @@
 
 #import "CDControl.h"
 
-@interface CDNotifyControl : CDControl
+@interface CDNotifyControl : CDControl {
+    NSMutableArray *notifications;
+}
 
 @end

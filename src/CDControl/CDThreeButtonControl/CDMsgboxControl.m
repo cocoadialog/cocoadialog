@@ -51,7 +51,7 @@
 
 	if (![NSBundle loadNibNamed:@"Msgbox" owner:self]) {
 		if ([options hasOpt:@"debug"]) {
-			[CDControl debug:@"Could not load Msgbox.nib"];
+			[self debug:@"Could not load Msgbox.nib"];
 		}
 		return nil;
 	}

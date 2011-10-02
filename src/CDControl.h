@@ -73,7 +73,7 @@
 - (NSSize) findNewSizeForWindow:(NSWindow *)window;
 - (BOOL) windowNeedsResize:(NSWindow *)window;
 
-+ (void) debug:(NSString *)message;
+- (void) debug:(NSString *)message;
 + (void) printHelpTo:(NSFileHandle *)fh;
 
 @end

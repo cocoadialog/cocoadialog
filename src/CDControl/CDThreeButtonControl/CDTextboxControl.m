@@ -90,7 +90,7 @@
 	// return nil if not
 	if (![options optValue:@"button1"]) {
 		if ([options hasOpt:@"debug"]) {
-			[CDControl debug:@"Must supply at least a --button1"];
+			[self debug:@"Must supply at least a --button1"];
 		}
 		return nil;
 	}	
@@ -98,7 +98,7 @@
 	// Load Textbox.nib or return nil
 	if (![NSBundle loadNibNamed:@"Textbox" owner:self]) {
 		if ([options hasOpt:@"debug"]) {
-			[CDControl debug:@"Could not load Textbox.nib"];
+			[self debug:@"Could not load Textbox.nib"];
 		}
 		return nil;
 	}
@@ -124,7 +124,7 @@
 			[options optValue:@"text-from-file"] encoding:NSUTF8StringEncoding error:nil];
 		if (contents == nil) {
 			if ([options hasOpt:@"debug"]) {
-				[CDControl debug:@"Could not read file"];
+				[self debug:@"Could not read file"];
 			}
 			return nil;
 		} else {

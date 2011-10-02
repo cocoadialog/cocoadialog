@@ -34,12 +34,9 @@
     SUUpdater * updater = [SUUpdater sharedUpdater];
     [updater setDelegate:self];
     
-    // Allow cocoaDialog to register with Growl by setting it's delegate to this class initially
-    [GrowlApplicationBridge setGrowlDelegate:self];
-    
 	NSString *runMode = nil;
 
-	NSMutableArray *arguments = [[[NSMutableArray alloc] initWithArray:[[NSProcessInfo processInfo] arguments]] autorelease];
+	arguments = [[[NSMutableArray alloc] initWithArray:[[NSProcessInfo processInfo] arguments]] autorelease];
 	if ([arguments count] >= 2) {
 		[arguments removeObjectAtIndex:0]; // Remove program name.
 		runMode = [arguments objectAtIndex:0];
@@ -155,12 +152,12 @@
                     }
                 }
             } else if ([options hasOpt:@"debug"]) {
-                [CDControl debug:@"Control returned nil."];
+                [control debug:@"Control returned nil."];
             }
         } else if ([options hasOpt:@"debug"]
                || [runMode isEqualToString:@"--debug"]) 
         {
-            [CDControl debug:@"No run-mode, or invalid runmode provided as first argument."];
+            [control debug:@"No run-mode, or invalid runmode provided as first argument."];
         }
     }
     [NSApp terminate:self];
@@ -207,7 +204,14 @@
         exit(0);
     }
     else if ([runMode caseInsensitiveCompare:@"CDNotifyControl"] == NSOrderedSame) {
-        return [[(CDControl *)[NSClassFromString(![GrowlApplicationBridge isGrowlInstalled] && ![GrowlApplicationBridge isGrowlRunning] ? @"CDGrowlControl" : @"CDBubbleControl") alloc] initWithOptions:options] autorelease];
+        CDControl * notify = [[[CDNotifyControl alloc] init] autorelease];
+        NSDictionary * notifyGlobalKeys = [notify globalAvailableKeys];
+        CDOptions * notifyOptions = [notify controlOptionsFromArgs:arguments withGlobalKeys:notifyGlobalKeys];
+        NSString * notifyClass = [GrowlApplicationBridge isGrowlInstalled]
+                                && [GrowlApplicationBridge isGrowlRunning]
+                                && ![notifyOptions hasOpt:@"no-growl"]
+                                ? @"CDGrowlControl" : @"CDBubbleControl";
+        return [[(CDControl *)[NSClassFromString(notifyClass) alloc] initWithOptions:options] autorelease];
     }
     else {
         // Bring application into focus.
@@ -231,19 +235,6 @@
         [CDControl printHelpTo:fh];
         return nil;
 	}
-}
-
-#pragma mark - Growl Integration
-// Register Growl Notifications
-- (NSDictionary *) registrationDictionaryForGrowl
-{
-    NSArray * notifications = [[[NSArray alloc] initWithObjects:@"General Notification", nil] autorelease];
-    NSDictionary * growlDict = [[NSDictionary dictionaryWithObjectsAndKeys:
-                                 [NSNumber numberWithInt:1], @"TicketVersion",
-                                 notifications, @"AllNotifications",
-                                 notifications, @"DefaultNotifications",
-                                 nil] autorelease];
-    return growlDict;
 }
 
 #pragma mark - Label Hyperlinks

@@ -51,7 +51,7 @@
     if (![self isMemberOfClass:[CDPopUpButtonControl class]]) {
         if (![self isMemberOfClass:[CDStandardPopUpButtonControl class]]) {
             if ([options hasOpt:@"debug"]) {
-                [CDControl debug:@"This run-mode is not properly classed."];
+                [self debug:@"This run-mode is not properly classed."];
             }
             return NO;
         }
@@ -59,7 +59,7 @@
 	// Check that at least button1 has been specified
 	if (![options optValue:@"button1"])	{
 		if ([options hasOpt:@"debug"]) {
-			[CDControl debug:@"Must supply at least --button1"];
+			[self debug:@"Must supply at least --button1"];
 		}
 		return NO;
 	}
@@ -68,14 +68,14 @@
 	items = [options optValues:@"items"];
     if (![items count]) { 
 		if ([options hasOpt:@"debug"]) {
-			[CDControl debug:@"Must supply at least one --items"];
+			[self debug:@"Must supply at least one --items"];
 		}
 		return NO;
 	}
     // Load nib
 	if (![NSBundle loadNibNamed:@"tbc" owner:self]) {
 		if ([options hasOpt:@"debug"]) {
-			[CDControl debug:@"Could not load tbc.nib"];
+			[self debug:@"Could not load tbc.nib"];
 		}
 		return NO;
 	}

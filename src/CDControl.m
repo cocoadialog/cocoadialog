@@ -173,11 +173,9 @@
 	}
 }
 
-+ (void) debug:(NSString *)message
+- (void) debug:(NSString *)message
 {
 	NSString *output = [NSString stringWithFormat:@"ERROR: %@\n", message]; 
-    // Also log this, needed for CDNotifyControls
-    NSLog(@"%@", output);
     // Output to stdErr
 	NSFileHandle *fh = [NSFileHandle fileHandleWithStandardError];
 	if (fh) {
@@ -221,7 +219,7 @@
     NSImage *image = [[[NSImage alloc] initWithData:nil] autorelease];
     image = [[[NSImage alloc ]initWithContentsOfFile:aFile] autorelease];
     if (image == nil && [options hasOpt:@"debug"]) {
-        [CDControl debug:[NSString stringWithFormat:@"Could not get image from specified icon file '%@'.", aFile]];
+        [self debug:[NSString stringWithFormat:@"Could not get image from specified icon file '%@'.", aFile]];
     }
     return image;
 }
@@ -488,16 +486,16 @@
             if (fileName != nil) {
                 image = [[[NSImage alloc] initWithContentsOfFile:fileName] autorelease];
                 if (image == nil && [options hasOpt:@"debug"]) {
-                    [CDControl debug:[NSString stringWithFormat:@"Could not get image from specified icon file '%@'.", fileName]];
+                    [self debug:[NSString stringWithFormat:@"Could not get image from specified icon file '%@'.", fileName]];
                 }
             }
             else if ([options hasOpt:@"debug"]) {
-                [CDControl debug:[NSString stringWithFormat:@"Cannot find icon '%@' in bundle '%@'.", aName, bundle]];
+                [self debug:[NSString stringWithFormat:@"Cannot find icon '%@' in bundle '%@'.", aName, bundle]];
             }
         }
         else {
             if ([options hasOpt:@"debug"]) {
-                [CDControl debug:[NSString stringWithFormat:@"Unknown icon '%@'. No --icon-bundle specified.", aName]];
+                [self debug:[NSString stringWithFormat:@"Unknown icon '%@'. No --icon-bundle specified.", aName]];
             }
         }
     }

@@ -19,7 +19,6 @@
 */
 
 #import <Foundation/Foundation.h>
-#import <Growl/Growl.h>
 #import <Sparkle/Sparkle.h>
 #import "CDOptions.h"
 #import "CDControl.h"
@@ -40,10 +39,11 @@
 #import "CDTextboxControl.h"
 #import "CDYesNoMsgboxControl.h"
 
-@interface AppController : NSObject <GrowlApplicationBridgeDelegate> {
+@interface AppController : NSObject {
     IBOutlet NSPanel * aboutPanel;
     IBOutlet NSTextField * aboutAppLink;
     IBOutlet NSTextField * aboutText;
+    NSMutableArray * arguments;
 }
 + (NSDictionary *) availableControls;
 - (NSString *) appVersion;

@@ -303,7 +303,7 @@
 			[self performSelector:@selector(timeout:) withObject:panel afterDelay:t];
 		} else {
 			if ([options hasOpt:@"debug"]) {
-				[CDControl debug:@"Could not parse the timeout option"];
+				[self debug:@"Could not parse the timeout option"];
 			}
 		}
 	}

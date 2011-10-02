@@ -104,7 +104,7 @@
 	// Load nib or return nil
 	if (![NSBundle loadNibNamed:@"Progressbar" owner:self]) {
 		if ([options hasOpt:@"debug"]) {
-			[CDControl debug:@"Could not load Progressbar.nib"];
+			[self debug:@"Could not load Progressbar.nib"];
 		}
 		return nil;
 	}

@@ -20,6 +20,7 @@
              vNone, @"help",
              vNone, @"debug",
              vNone, @"sticky",
+             vNone, @"no-growl",
              // Text
              vOne,  @"title",
              vOne,  @"description",

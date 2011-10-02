@@ -99,14 +99,14 @@
 
 	if ([options hasOpt:@"timeout"]) {
 		if (![[NSScanner scannerWithString:[options optValue:@"timeout"]] scanFloat:&timeout]) {
-			[CDControl debug:@"Could not parse the timeout option."];
+			[self debug:@"Could not parse the timeout option."];
 			timeout = 4.;
 		}
 	}
 
 	if ([options hasOpt:@"alpha"]) {
 		if (![[NSScanner scannerWithString:[options optValue:@"alpha"]] scanFloat:&alpha]) {
-			[CDControl debug:@"Could not parse the alpha option."];
+			[self debug:@"Could not parse the alpha option."];
 			timeout = .95;
 		}
 	}
@@ -175,7 +175,7 @@
 			numExpectedBubbles:1
 			bubblePosition:position];
 
-		[bubble setAutomaticallyFadesOut:(![options hasOpt:@"no-timeout"])];
+		[bubble setAutomaticallyFadesOut:(![options hasOpt:@"sticky"])];
 		[bubble setDelegate:self];
 		[activeBubbles addObject:bubble];
 		[bubble startFadeIn];
@@ -183,13 +183,37 @@
 	// Error
 	} else {
 		if ([options hasOpt:@"debug"]) {
-			[CDControl debug:@"You must specify either --title and --description, or --titles and --descriptions (with the same number of args)"];
+			[self debug:@"You must specify either --title and --description, or --titles and --descriptions (with the same number of args)"];
 		}
 		return nil;
 	}
 
 	[NSApp run];
 	return [NSArray array];
+}
+
+- (void) debug:(NSString *)message
+{
+    [[self options] setOption:[NSNumber numberWithInt:1] forKey:@"independent"];
+    int position = 0;
+    position |= BUBBLE_HORIZ_RIGHT;
+    position |= BUBBLE_VERT_TOP;
+    KABubbleWindowController *bubble = [KABubbleWindowController
+                                        bubbleWithTitle:@"cocoaDialog Debug"
+                                        text:message
+                                        icon:[self getIconWithName:@"caution"]
+                                        timeout:4.0
+                                        lightColor:[self _colorForBubble:0 fromKey:@"background-top" alpha:0.85]
+                                        darkColor:[self _colorForBubble:0 fromKey:@"background-bottom-" alpha:0.85]
+                                        textColor:[self _colorForBubble:0 fromKey:@"text-color" alpha:0.85]
+                                        borderColor:[self _colorForBubble:0 fromKey:@"border-color" alpha:0.85]
+                                        numExpectedBubbles:1
+                                        bubblePosition:position];
+    
+    [bubble setAutomaticallyFadesOut:NO];
+    [bubble setDelegate:self];
+    [activeBubbles addObject:bubble];
+    [bubble startFadeIn];
 }
 
 /*
