@@ -175,8 +175,11 @@
 
 + (void) debug:(NSString *)message
 {
-	NSFileHandle *fh = [NSFileHandle fileHandleWithStandardError];
 	NSString *output = [NSString stringWithFormat:@"ERROR: %@\n", message]; 
+    // Also log this, needed for CDNotifyControls
+    NSLog(@"%@", output);
+    // Output to stdErr
+	NSFileHandle *fh = [NSFileHandle fileHandleWithStandardError];
 	if (fh) {
 		[fh writeData:[output dataUsingEncoding:NSUTF8StringEncoding]];
 	}

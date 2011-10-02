@@ -31,6 +31,9 @@
 #pragma mark - Initialization
 - (void) awakeFromNib
 {
+    SUUpdater * updater = [SUUpdater sharedUpdater];
+    [updater setDelegate:self];
+    
     // Allow cocoaDialog to register with Growl by setting it's delegate to this class initially
     [GrowlApplicationBridge setGrowlDelegate:self];
     
@@ -43,14 +46,9 @@
 		[arguments removeObjectAtIndex:0]; // Remove the run-mode
 	}
     
-    // Bring application into focus.
-    // Because this application isn't going to be double-clicked, or
-    // launched with the "open" command-line tool, it won't necessarily
-    // come to the front automatically.
-    [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
-
     // runMode is either the PID of a GUI initialization or "about", show the about dialog
     if ([[runMode substringToIndex:4] isEqualToString:@"-psn"] || [runMode caseInsensitiveCompare:@"about"] == NSOrderedSame) {
+        [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
         [self setHyperlinkForTextField:aboutAppLink replaceString:@"http://mstratman.github.com/cocoadialog/" withURL:@"http://mstratman.github.com/cocoadialog/"];
         [self setHyperlinkForTextField:aboutText replaceString:@"command line interface" withURL:@"http://en.wikipedia.org/wiki/Command-line_interface"];    
         [self setHyperlinkForTextField:aboutText replaceString:@"documentation" withURL:@"http://mstratman.github.com/cocoadialog/#documentation"];    
@@ -73,18 +71,19 @@
         NSString *pid = [NSString stringWithFormat:@"%d", [[NSProcessInfo processInfo] processIdentifier]];
         [arguments insertObject:pid atIndex:1];
         [arguments insertObject:launcherTarget atIndex:0];
-#ifdef __ppc__
+#if defined __ppc__
         [arguments insertObject:@"-ppc" atIndex:0];
-#elifdef __ppc64__
+#elif defined __ppc64__
         [arguments insertObject:@"-ppc64" atIndex:0];
-#elifdef __i386__
+#elif defined __i386__
         [arguments insertObject:@"-i386" atIndex:0];
-#elifdef __x86_64__
+#elif defined __x86_64__
         [arguments insertObject:@"-x86_64" atIndex:0];
 #endif
         [[NSFileManager defaultManager] removeItemAtPath:launcherTarget error:NULL];
         [[NSFileManager defaultManager] copyItemAtPath:launcherSource toPath:launcherTarget error:NULL];
         NSTask *task = [[[NSTask alloc] init] autorelease];
+        // Output must be silenced to not hang this process
         [task setStandardError:[NSPipe pipe]];
         [task setStandardOutput:[NSPipe pipe]];
         [task setLaunchPath:@"/usr/bin/arch"];
@@ -211,6 +210,12 @@
         return [[(CDControl *)[NSClassFromString(![GrowlApplicationBridge isGrowlInstalled] && ![GrowlApplicationBridge isGrowlRunning] ? @"CDGrowlControl" : @"CDBubbleControl") alloc] initWithOptions:options] autorelease];
     }
     else {
+        // Bring application into focus.
+        // Because this application isn't going to be double-clicked, or
+        // launched with the "open" command-line tool, it won't necessarily
+        // come to the front automatically.
+        [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
+
         id control = [controls objectForKey:[runMode lowercaseString]];
         if (control != nil) {
             if ([runMode caseInsensitiveCompare:@"secure-standard-inputbox"] == NSOrderedSame || [runMode caseInsensitiveCompare:@"secure-inputbox"] == NSOrderedSame) {

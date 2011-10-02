@@ -31,43 +31,44 @@
 
 	return [NSDictionary dictionaryWithObjectsAndKeys:
 		// Options for one bubble
-		vOne, @"text",
-		vOne, @"title",
-		vOne, @"icon",
-		vOne, @"icon-file",
 		vOne, @"text-color",
 		vOne, @"border-color",
 		vOne, @"background-top",
 		vOne, @"background-bottom",
 
 		// Options for multiple bubble
-		vMul, @"texts",
-		vMul, @"titles",
-		vMul, @"icons",      // Multiple bubbles can also use --icon or
-		vMul, @"icon-files", // --icon-file.
 		vMul, @"text-colors",
 		vMul, @"border-colors",
 		vMul, @"background-tops",
 		vMul, @"background-bottoms",
-		vNone, @"independent", // With this set, clicking one 
-		                       // bubble won't kill the rest.
+		vNone, @"independent", // With this set, clicking one bubble won't kill the rest.
 
 		// General options, apply to all scenarios
 		vOne, @"x-placement",
 		vOne, @"y-placement",
 		vOne, @"alpha",
 		vOne, @"timeout",
-		vNone, @"no-timeout", // Times out by default, this prevents it.
 		nil];
 }
+
+- (NSDictionary *) depreciatedKeys
+{
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+            @"description", @"text",
+            @"descriptions", @"texts",
+            @"sticky", @"no-timeout",
+            nil];
+}
+
 
 - (NSArray *) runControlFromOptions:(CDOptions *)options
 {
 	float timeout = 4.;
-	float alpha = 0.95;
+	float alpha = 0.85;
 	int position = 0;
 
 	[self setOptions:options];
+
 	activeBubbles = [[NSMutableArray array] retain];
 	fadingBubbles = [[NSMutableArray array] retain];
 	
@@ -109,7 +110,7 @@
 			timeout = .95;
 		}
 	}
-	NSArray *texts = [options optValues:@"texts"];
+	NSArray *texts = [options optValues:@"descriptions"];
 	NSArray *titles = [options optValues:@"titles"];
 
 	// Multiple bubbles
@@ -153,18 +154,18 @@
 				numExpectedBubbles:(unsigned)[texts count]
 				bubblePosition:position];
 			
-			[bubble setAutomaticallyFadesOut:(![options hasOpt:@"no-timeout"])];
+			[bubble setAutomaticallyFadesOut:(![options hasOpt:@"sticky"])];
 			[bubble setDelegate:self];
 			[activeBubbles addObject:bubble];
 			[bubble startFadeIn];
 		}
 
 	// Single bubble
-	} else if ([options hasOpt:@"title"] && [options hasOpt:@"text"]) {
+	} else if ([options hasOpt:@"title"] && [options hasOpt:@"description"]) {
 		NSImage *icon = [self _iconImage];
 		KABubbleWindowController *bubble = [KABubbleWindowController
 			bubbleWithTitle:[options optValue:@"title"]
-			text:[options optValue:@"text"]
+			text:[options optValue:@"description"]
 			icon:icon
 			timeout:timeout
 			lightColor:[self _colorForBubble:0 fromKey:@"background-top" alpha:alpha]
@@ -182,7 +183,7 @@
 	// Error
 	} else {
 		if ([options hasOpt:@"debug"]) {
-			[CDControl debug:@"You must specify either --title and --text, or --titles and --texts (with the same number of args)"];
+			[CDControl debug:@"You must specify either --title and --description, or --titles and --descriptions (with the same number of args)"];
 		}
 		return nil;
 	}
@@ -276,20 +277,20 @@
 
 	if ([myKey hasPrefix:@"text-color"]) {
 		return hexValue
-			? [CDBubbleControl colorFromHex:hexValue alpha:1.]
-			: [NSColor controlTextColor];
+			? [CDBubbleControl colorFromHex:hexValue alpha:alpha]
+			: [NSColor whiteColor];
 	} else if ([myKey hasPrefix:@"border-color"]) {
 		return hexValue
 			? [CDBubbleControl colorFromHex:hexValue alpha:alpha]
-			: [CDBubbleControl colorFromHex:@"808080" alpha:alpha];
+			: [CDBubbleControl colorFromHex:@"000000" alpha:alpha];
 	} else if ([myKey hasPrefix:@"background-top"]) {
 		return hexValue
 			? [CDBubbleControl colorFromHex:hexValue alpha:alpha]
-			: [CDBubbleControl colorFromHex:@"B1D4F4" alpha:alpha];
+			: [CDBubbleControl colorFromHex:@"000000" alpha:alpha];
 	} else if ([myKey hasPrefix:@"background-bottom"]) {
 		return hexValue
 			? [CDBubbleControl colorFromHex:hexValue alpha:alpha]
-			: [CDBubbleControl colorFromHex:@"EFF7FD" alpha:alpha];
+			: [CDBubbleControl colorFromHex:@"000000" alpha:alpha];
 	}
 	return [NSColor yellowColor]; //only happen on programmer error
 }
@@ -307,16 +308,7 @@
 		en = [iconArgs objectEnumerator];
 		NSString *iconName;
 		while (iconName = (NSString *)[en nextObject]) {
-			NSString *fileName = [[NSBundle mainBundle] pathForResource:iconName ofType:@"icns"];
-			NSImage *icon = nil;
-			if (fileName) {
-				icon = [[[NSImage alloc ]initWithContentsOfFile:fileName] autorelease];
-				if (icon == nil && [options hasOpt:@"debug"]) {
-					[CDControl debug:[NSString stringWithFormat:@"Could not get image from specified icon file '%@'.", fileName]];
-				}
-			} else {
-				[CDControl debug:[NSString stringWithFormat:@"Could not file for icon '%@'.", iconName]];
-			}
+            NSImage * icon = [self getIconWithName:iconName];
 			if (icon == nil) {
 				icon = [NSApp applicationIconImage];
 			}
@@ -330,11 +322,8 @@
 		en = [iconArgs objectEnumerator];
 		NSString *fileName;
 		while (fileName = (NSString *)[en nextObject]) {
-			NSImage *icon = [[[NSImage alloc ]initWithContentsOfFile:fileName] autorelease];
+            NSImage * icon = [self getIconFromFile:fileName];
 			if (icon == nil) {
-				if ([options hasOpt:@"debug"]) {
-					[CDControl debug:[NSString stringWithFormat:@"Could not get image from specified icon file '%@'.", fileName]];
-				}
 				icon = [NSApp applicationIconImage];
 			}
 			[icons addObject:icon];
@@ -354,22 +343,10 @@
 	NSImage *icon = nil;
 
 	if ([options hasOpt:@"icon-file"]) {
-		icon = [[[NSImage alloc ]initWithContentsOfFile:[options optValue:@"icon-file"]] autorelease];
-		if (icon == nil && [options hasOpt:@"debug"]) {
-			[CDControl debug:[NSString stringWithFormat:@"Could not get image from specified icon file '%@'.", [options optValue:@"icon-file"]]];
-		}
+        icon = [[self getIconFromFile:[options optValue:@"icon-file"]] autorelease];
 
 	} else if ([options hasOpt:@"icon"]) {
-		NSString *iconName = [options optValue:@"icon"];
-		NSString *fileName = [[NSBundle mainBundle] pathForResource:iconName ofType:@"icns"];
-		if (fileName) {
-			icon = [[[NSImage alloc ]initWithContentsOfFile:fileName] autorelease];
-			if (icon == nil && [options hasOpt:@"debug"]) {
-				[CDControl debug:[NSString stringWithFormat:@"Could not get image from specified icon file '%@'.", fileName]];
-			}
-		} else if ([options hasOpt:@"debug"]) {
-			[CDControl debug:[NSString stringWithFormat:@"Could not file for icon '%@'.", iconName]];
-		}
+        icon = [self getIconWithName:[options optValue:@"icon"]];
 	}
 
 	if (icon == nil) {
