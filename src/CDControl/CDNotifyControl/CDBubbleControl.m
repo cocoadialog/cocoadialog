@@ -232,21 +232,21 @@
 }
 
 // We really ought to stick this in a proper NSColor category
-+ (NSColor *) colorFromHex:(NSString *) hexValue alpha:(float)alpha
++ (NSColor *) colorFromHex:(NSString *) hexValue alpha:(CGFloat)alpha
 {
 	unsigned char r, g, b;
 	unsigned int value;
 	[[NSScanner scannerWithString:hexValue] scanHexInt:&value];
-	r = (unsigned char)(value >> 16);
-	g = (unsigned char)(value >> 8);
-	b = (unsigned char)value;
+	r = (CGFloat)(value >> 16);
+	g = (CGFloat)(value >> 8);
+	b = (CGFloat)value;
 	NSColor *rv = nil;
-	rv = [NSColor colorWithCalibratedRed:(float)r/255 green:(float)g/255 blue:(float)b/255 alpha:alpha];
+	rv = [NSColor colorWithCalibratedRed:(CGFloat)r/255 green:(CGFloat)g/255 blue:(CGFloat)b/255 alpha:alpha];
 	return rv;
 }
 
 // the `i` index is zero based.
-- (NSColor *) _colorForBubble:(unsigned long)i fromKey:(NSString *)key alpha:(float)alpha
+- (NSColor *) _colorForBubble:(unsigned long)i fromKey:(NSString *)key alpha:(CGFloat)alpha
 {
 	CDOptions *options = [self options];
 	NSArray *colorArgs = nil;

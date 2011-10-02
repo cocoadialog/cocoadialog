@@ -27,9 +27,9 @@
 }
 
 // We really ought to stick this in a proper NSColor category
-+ (NSColor *) colorFromHex:(NSString *) hexValue alpha:(float)alpha;
++ (NSColor *) colorFromHex:(NSString *) hexValue alpha:(CGFloat)alpha;
 
-- (NSColor *) _colorForBubble:(unsigned long)i fromKey:(NSString *)key alpha:(float)alpha;
+- (NSColor *) _colorForBubble:(unsigned long)i fromKey:(NSString *)key alpha:(CGFloat)alpha;
 
 // returns an NSArray of NSImage's or nil if there's only one.
 - (NSArray *) _iconImages;
