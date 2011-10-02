@@ -19,10 +19,28 @@
 */
 
 #import <Foundation/Foundation.h>
+#import <Growl/Growl.h>
+#import <Sparkle/Sparkle.h>
 #import "CDOptions.h"
 #import "CDControl.h"
+#import "CDBubbleControl.h"
+#import "CDCheckboxControl.h"
+#import "CDFileSelectControl.h"
+#import "CDFileSaveControl.h"
+#import "CDGrowlControl.h"
+#import "CDInputboxControl.h"
+#import "CDMsgboxControl.h"
+#import "CDNotifyControl.h"
+#import "CDOkMsgboxControl.h"
+#import "CDPopUpButtonControl.h"
+#import "CDProgressbarControl.h"
+#import "CDRadioControl.h"
+#import "CDStandardInputboxControl.h"
+#import "CDStandardPopUpButtonControl.h"
+#import "CDTextboxControl.h"
+#import "CDYesNoMsgboxControl.h"
 
-@interface AppController : NSObject {
+@interface AppController : NSObject <GrowlApplicationBridgeDelegate> {
     IBOutlet NSPanel * aboutPanel;
     IBOutlet NSTextField * aboutAppLink;
     IBOutlet NSTextField * aboutText;

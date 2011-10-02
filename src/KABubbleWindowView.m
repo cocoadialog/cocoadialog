@@ -151,9 +151,9 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 	[_darkColor release];
 	_darkColor = color;
 
-	float r, g, b, alpha;
+	CGFloat r, g, b, alpha;
 	NSColor *rgb = [_darkColor colorUsingColorSpaceName:@"NSCalibratedRGBColorSpace"];
-	[rgb getRed:(CGFloat *)&r green:(CGFloat *)&g blue:(CGFloat *)&b alpha:(CGFloat *)&alpha];
+	[rgb getRed:&r green:&g blue:&b alpha:&alpha];
 	_darkColorFloat[0] = r;
 	_darkColorFloat[1] = g;
 	_darkColorFloat[2] = b;
@@ -173,9 +173,9 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 	[_lightColor release];
 	_lightColor = color;
 
-	float r, g, b, alpha;
+	CGFloat r, g, b, alpha;
 	NSColor *rgb = [_lightColor colorUsingColorSpaceName:@"NSCalibratedRGBColorSpace"];
-	[rgb getRed:(CGFloat *)&r green:(CGFloat *)&g blue:(CGFloat *)&b alpha:(CGFloat *)&alpha];
+	[rgb getRed:&r green:&g blue:&b alpha:&alpha];
 	_lightColorFloat[0] = r;
 	_lightColorFloat[1] = g;
 	_lightColorFloat[2] = b;

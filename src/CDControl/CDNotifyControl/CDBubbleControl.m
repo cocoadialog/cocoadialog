@@ -109,7 +109,6 @@
 			timeout = .95;
 		}
 	}
-
 	NSArray *texts = [options optValues:@"texts"];
 	NSArray *titles = [options optValues:@"titles"];
 

@@ -58,6 +58,9 @@
 - (CDOptions *) options;
 - (void) setOptions:(CDOptions *)options;
 
+- (NSImage *) getIconFromFile:(NSString *)aFile;
+- (NSImage *) getIconWithName:(NSString *)aName;
+
 - (void) setIconForWindow:(NSWindow *)aWindow;
 - (void) setIconForWindow:(NSWindow *)aWindow withImage:(NSImage *)anImage withSize:(NSSize)aSize;
 - (void) setIconForWindow:(NSWindow *)aWindow withImage:(NSImage *)anImage withSize:(NSSize)aSize withControls:(NSArray *)anArray;

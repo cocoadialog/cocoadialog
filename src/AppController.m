@@ -20,44 +20,23 @@
 
 #import "AppController.h"
 
-#import "CDBubbleControl.h"
-#import "CDFileSelectControl.h"
-#import "CDFileSaveControl.h"
-#import "CDProgressbarControl.h"
-
-#import "CDMsgboxControl.h"
-#import "CDYesNoMsgboxControl.h"
-#import "CDOkMsgboxControl.h"
-
-#import "CDTextboxControl.h"
-
-#import "CDInputboxControl.h"
-#import "CDStandardInputboxControl.h"
-
-#import "CDPopUpButtonControl.h"
-#import "CDStandardPopUpButtonControl.h"
-
-#import "CDCheckboxControl.h"
-#import "CDRadioControl.h"
-
 @implementation AppController
 
+- (NSString *) appVersion
+{
+    return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    
+}
+
+#pragma mark - Initialization
 - (void) awakeFromNib
 {
-	CDControl *control = [[[CDControl alloc] init] autorelease];
-	CDOptions *options = nil;
-	NSArray *rv;
-	NSMutableArray *arguments = [[[NSMutableArray alloc] init] autorelease];
+    // Allow cocoaDialog to register with Growl by setting it's delegate to this class initially
+    [GrowlApplicationBridge setGrowlDelegate:self];
+    
 	NSString *runMode = nil;
-	NSMutableDictionary *extraOptions = [[[NSMutableDictionary alloc] init] autorelease];
-    
-	NSDictionary *globalKeys = [[[NSDictionary alloc] init] autorelease];
-	NSDictionary *depreciatedKeys = [[[NSDictionary alloc] init] autorelease];
-    
-    globalKeys = [control globalAvailableKeys];
-    depreciatedKeys = [control depreciatedKeys];
-    
-	[arguments addObjectsFromArray:[[NSProcessInfo processInfo] arguments]];
+
+	NSMutableArray *arguments = [[[NSMutableArray alloc] initWithArray:[[NSProcessInfo processInfo] arguments]] autorelease];
 	if ([arguments count] >= 2) {
 		[arguments removeObjectAtIndex:0]; // Remove program name.
 		runMode = [arguments objectAtIndex:0];
@@ -69,8 +48,8 @@
     // launched with the "open" command-line tool, it won't necessarily
     // come to the front automatically.
     [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
-    
-    // Show the about dialog if cocoaDialog was ran from GUI and not the command line
+
+    // runMode is either the PID of a GUI initialization or "about", show the about dialog
     if ([[runMode substringToIndex:4] isEqualToString:@"-psn"] || [runMode caseInsensitiveCompare:@"about"] == NSOrderedSame) {
         [self setHyperlinkForTextField:aboutAppLink replaceString:@"http://mstratman.github.com/cocoadialog/" withURL:@"http://mstratman.github.com/cocoadialog/"];
         [self setHyperlinkForTextField:aboutText replaceString:@"command line interface" withURL:@"http://en.wikipedia.org/wiki/Command-line_interface"];    
@@ -81,10 +60,46 @@
         [aboutPanel makeKeyAndOrderFront:nil];
         [NSApp run];
     }
-    // Otherwise, continue processing arguments from command line
+    // runMode is a notification, these need to be handled much differently
+    else if ([runMode caseInsensitiveCompare:@"notify"] == NSOrderedSame || [runMode caseInsensitiveCompare:@"bubble"] == NSOrderedSame) {
+        // Determine which notification type to use
+        // Recapture the arguments
+        arguments = [[[NSMutableArray alloc] initWithArray:[[NSProcessInfo processInfo] arguments]] autorelease];
+        // Replace the runMode with the new one
+        [arguments replaceObjectAtIndex:1 withObject:@"CDNotifyControl"];
+        // Relaunch cocoaDialog with the new runMode
+        NSString *launcherSource = [[NSBundle bundleForClass:[SUUpdater class]]  pathForResource:@"relaunch" ofType:@""];
+        NSString *launcherTarget = [NSTemporaryDirectory() stringByAppendingPathComponent:[launcherSource lastPathComponent]];
+        NSString *pid = [NSString stringWithFormat:@"%d", [[NSProcessInfo processInfo] processIdentifier]];
+        [arguments insertObject:pid atIndex:1];
+        [arguments insertObject:launcherTarget atIndex:0];
+#ifdef __ppc__
+        [arguments insertObject:@"-ppc" atIndex:0];
+#elifdef __ppc64__
+        [arguments insertObject:@"-ppc64" atIndex:0];
+#elifdef __i386__
+        [arguments insertObject:@"-i386" atIndex:0];
+#elifdef __x86_64__
+        [arguments insertObject:@"-x86_64" atIndex:0];
+#endif
+        [[NSFileManager defaultManager] removeItemAtPath:launcherTarget error:NULL];
+        [[NSFileManager defaultManager] copyItemAtPath:launcherSource toPath:launcherTarget error:NULL];
+        NSTask *task = [[[NSTask alloc] init] autorelease];
+        [task setStandardError:[NSPipe pipe]];
+        [task setStandardOutput:[NSPipe pipe]];
+        [task setLaunchPath:@"/usr/bin/arch"];
+        [task setArguments:arguments];
+        [task launch];
+        [NSApp terminate:self];
+    }
+    // runMode needs to run through control logic
     else {
-        options = [CDOptions getOpts:arguments availableKeys:globalKeys depreciatedKeys:depreciatedKeys];
+        CDControl *control = [[[CDControl alloc] init] autorelease];
+        NSDictionary *globalKeys = [[[NSDictionary alloc] initWithDictionary:[control globalAvailableKeys]] autorelease];
+        NSDictionary *depreciatedKeys = [[[NSDictionary alloc] initWithDictionary:[control depreciatedKeys]] autorelease];
+        CDOptions *options = [CDOptions getOpts:arguments availableKeys:globalKeys depreciatedKeys:depreciatedKeys];
 
+        NSMutableDictionary *extraOptions = [[[NSMutableDictionary alloc] init] autorelease];
         control = [[[self chooseControl:runMode useOptions:options addExtraOptionsTo:extraOptions] init] autorelease];
 
         if (control != nil) {
@@ -121,6 +136,7 @@
             // Set options for the control sub-class
             [control setOptions:options];
             
+            NSArray *rv;
             // Run the control (a modal window)
             rv = [control runControlFromOptions:options];
             
@@ -151,15 +167,16 @@
     [NSApp terminate:self];
 }
 
+#pragma mark - CDControl
 + (NSDictionary *) availableControls {
     return [NSDictionary dictionaryWithObjectsAndKeys:
-            [CDBubbleControl class],                @"bubble",
             [CDCheckboxControl class],              @"checkbox",
             [CDPopUpButtonControl class],           @"dropdown",
             [CDFileSelectControl class],            @"fileselect",
             [CDFileSaveControl class],              @"filesave",
             [CDInputboxControl class],              @"inputbox",
             [CDMsgboxControl class],                @"msgbox",
+            [CDNotifyControl class],                @"notify",
             [CDOkMsgboxControl class],              @"ok-msgbox",
             [CDProgressbarControl class],           @"progressbar",
             [CDRadioControl class],                 @"radio",
@@ -169,33 +186,6 @@
             [CDStandardInputboxControl class],      @"standard-inputbox",
             [CDYesNoMsgboxControl class],           @"yesno-msgbox",
             nil];
-}
-
--(void)setHyperlinkForTextField:(NSTextField*)aTextField replaceString:(NSString *)aString withURL:(NSString *)aURL
-{
-    NSMutableAttributedString *textFieldString = [[[aTextField attributedStringValue] mutableCopy] autorelease];
-    NSRange range = [[textFieldString string] rangeOfString:aString];
-
-    // both are needed, otherwise hyperlink won't accept mousedown
-    [aTextField setAllowsEditingTextAttributes: YES];
-    [aTextField setSelectable: YES];
-    
-    NSMutableAttributedString* replacement = [[[NSMutableAttributedString alloc] init] autorelease];
-    [replacement setAttributedString: [NSAttributedString hyperlinkFromString:aString withURL:[NSURL URLWithString:aURL] withFont:[aTextField font]]];
-    
-    [textFieldString replaceCharactersInRange:range withAttributedString:replacement];
-    
-    // set the attributed string to the NSTextField
-    [aTextField setAttributedStringValue: textFieldString];
-    // Refresh the text field
-	[aTextField selectText:self];
-    [[aTextField currentEditor] setSelectedRange:NSMakeRange(0, 0)];
-}
-
-- (NSString *) appVersion
-{
-    return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-
 }
 
 - (CDControl *) chooseControl:(NSString *)runMode useOptions:options addExtraOptionsTo:(NSMutableDictionary *)extraOptions
@@ -217,6 +207,9 @@
         }
         exit(0);
     }
+    else if ([runMode caseInsensitiveCompare:@"CDNotifyControl"] == NSOrderedSame) {
+        return [[(CDControl *)[NSClassFromString(![GrowlApplicationBridge isGrowlInstalled] && ![GrowlApplicationBridge isGrowlRunning] ? @"CDGrowlControl" : @"CDBubbleControl") alloc] initWithOptions:options] autorelease];
+    }
     else {
         id control = [controls objectForKey:[runMode lowercaseString]];
         if (control != nil) {
@@ -235,8 +228,42 @@
 	}
 }
 
-@end
+#pragma mark - Growl Integration
+// Register Growl Notifications
+- (NSDictionary *) registrationDictionaryForGrowl
+{
+    NSArray * notifications = [[[NSArray alloc] initWithObjects:@"General Notification", nil] autorelease];
+    NSDictionary * growlDict = [[NSDictionary dictionaryWithObjectsAndKeys:
+                                 [NSNumber numberWithInt:1], @"TicketVersion",
+                                 notifications, @"AllNotifications",
+                                 notifications, @"DefaultNotifications",
+                                 nil] autorelease];
+    return growlDict;
+}
 
+#pragma mark - Label Hyperlinks
+-(void)setHyperlinkForTextField:(NSTextField*)aTextField replaceString:(NSString *)aString withURL:(NSString *)aURL
+{
+    NSMutableAttributedString *textFieldString = [[[aTextField attributedStringValue] mutableCopy] autorelease];
+    NSRange range = [[textFieldString string] rangeOfString:aString];
+    
+    // both are needed, otherwise hyperlink won't accept mousedown
+    [aTextField setAllowsEditingTextAttributes: YES];
+    [aTextField setSelectable: YES];
+    
+    NSMutableAttributedString* replacement = [[[NSMutableAttributedString alloc] init] autorelease];
+    [replacement setAttributedString: [NSAttributedString hyperlinkFromString:aString withURL:[NSURL URLWithString:aURL] withFont:[aTextField font]]];
+    
+    [textFieldString replaceCharactersInRange:range withAttributedString:replacement];
+    
+    // set the attributed string to the NSTextField
+    [aTextField setAttributedStringValue: textFieldString];
+    // Refresh the text field
+	[aTextField selectText:self];
+    [[aTextField currentEditor] setSelectedRange:NSMakeRange(0, 0)];
+}
+
+@end
 
 @implementation NSAttributedString (Hyperlink)
 +(id)hyperlinkFromString:(NSString*)inString withURL:(NSURL*)aURL withFont:(NSFont *)aFont

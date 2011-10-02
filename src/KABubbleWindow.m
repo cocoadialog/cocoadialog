@@ -11,7 +11,7 @@
 					defer:(BOOL)flag {
 	
 	//use NSWindow to draw for us
-	KABubbleWindow* result = [super initWithContentRect:contentRect 
+	NSWindow* result = [super initWithContentRect:contentRect 
 										styleMask:NSBorderlessWindowMask 
 										  backing:NSBackingStoreBuffered 
 											defer:NO];
@@ -24,7 +24,7 @@
 	[result setHasShadow: YES];
 	[result setCanHide:NO ];
 	
-	return result;
+	return (id)result;
 }
 
 @end

@@ -19,9 +19,9 @@
 */
 
 #import <Foundation/Foundation.h>
-#import "CDControl.h"
+#import "CDNotifyControl.h"
 
-@interface CDBubbleControl : CDControl {
+@interface CDBubbleControl : CDNotifyControl {
 	NSMutableArray *activeBubbles;
 	NSMutableArray *fadingBubbles;
 }
