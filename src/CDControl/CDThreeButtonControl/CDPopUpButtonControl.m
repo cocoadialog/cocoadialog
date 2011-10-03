@@ -64,8 +64,7 @@
 		return NO;
 	}
     // Check that at least one item has been specified
-    NSArray *items = [[[NSArray alloc] init] autorelease];
-	items = [options optValues:@"items"];
+    NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
     if (![items count]) { 
 		if ([options hasOpt:@"debug"]) {
 			[self debug:@"Must supply at least one --items"];
@@ -141,8 +140,7 @@
     // Set popup/pulldown style
     [popup setPullsDown:[options hasOpt:@"pulldown"] ? YES : NO];
     // Populate menu
-    NSArray *items = [[[NSArray alloc] init] autorelease];
-	items = [options optValues:@"items"];
+    NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
 	if (items != nil && [items count]) {
 		NSEnumerator *en = [items objectEnumerator];
 		id obj;

@@ -42,8 +42,7 @@
 		return NO;
 	}
     // Check that at least one item has been specified
-    NSArray *items = [[[NSArray alloc] init] autorelease];
-	items = [options optValues:@"items"];
+    NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
     if (![items count]) { 
 		if ([options hasOpt:@"debug"]) {
 			[self debug:@"Must supply at least one --items"];
@@ -93,7 +92,7 @@
         } 
     }
     
-    NSMutableArray *checkboxes = [[[NSMutableArray alloc] initWithArray:[tmpValues copy]] autorelease];
+    NSMutableArray *checkboxes = [NSMutableArray arrayWithArray:tmpValues];
     en = [tmpValues objectEnumerator];
     while (obj = [en nextObject]) {
         [checkboxes replaceObjectAtIndex:[obj tag] withObject:obj];
@@ -145,8 +144,7 @@
     CDOptions *options = [self options];
     
     // Setup the control
-    NSArray *items = [[[NSArray alloc] init] autorelease];
-	items = [options optValues:@"items"];
+    NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
     NSArray *checked = [[[NSArray alloc] init] autorelease];
     NSArray *mixed = [[[NSArray alloc] init] autorelease];
     NSArray *disabled = [[[NSArray alloc] init] autorelease];

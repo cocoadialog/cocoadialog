@@ -186,7 +186,7 @@
 		[panel setLevel:NSScreenSaverWindowLevel];
 	}
 
-	NSOperationQueue* queue = [NSOperationQueue new];
+	NSOperationQueue* queue = [[NSOperationQueue new] autorelease];
 
 	[panel makeKeyAndOrderFront:nil];
 

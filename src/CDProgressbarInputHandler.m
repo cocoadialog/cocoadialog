@@ -54,7 +54,7 @@
                 [buffer release];
                 buffer = [[NSMutableData alloc] initWithData:rest];
 
-                NSString* result = [[NSString alloc] initWithData:readStrings encoding:NSUTF8StringEncoding];
+                NSString* result = [[[NSString alloc] initWithData:readStrings encoding:NSUTF8StringEncoding] autorelease];
                 return result;
             }
         }

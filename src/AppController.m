@@ -28,6 +28,11 @@
     
 }
 
+- (void)dealloc
+{
+    [super dealloc];
+}
+
 #pragma mark - Initialization
 - (void) awakeFromNib
 {
@@ -91,16 +96,19 @@
     // runMode needs to run through control logic
     else {
         CDControl *control = [[[CDControl alloc] init] autorelease];
+
         NSDictionary *globalKeys = [[[NSDictionary alloc] initWithDictionary:[control globalAvailableKeys]] autorelease];
         NSDictionary *depreciatedKeys = [[[NSDictionary alloc] initWithDictionary:[control depreciatedKeys]] autorelease];
         CDOptions *options = [CDOptions getOpts:arguments availableKeys:globalKeys depreciatedKeys:depreciatedKeys];
 
         NSMutableDictionary *extraOptions = [[[NSMutableDictionary alloc] init] autorelease];
-        control = [[[self chooseControl:runMode useOptions:options addExtraOptionsTo:extraOptions] init] autorelease];
+        control = [[self chooseControl:runMode useOptions:options addExtraOptionsTo:extraOptions] init];
 
         if (control != nil) {
+            
+            [NSApp setDelegate:self];
+
             globalKeys = [control globalAvailableKeys];
-            depreciatedKeys = [control depreciatedKeys];
 
             // Now that we have the control, we can re-get the options to
             // include the local options for that control.
@@ -128,7 +136,6 @@
             while (key = [en nextObject]) {
                 [options setOption:[extraOptions objectForKey:key] forKey:key];
             }
-            
             // Set options for the control sub-class
             [control setOptions:options];
             
@@ -161,6 +168,14 @@
         }
     }
     [NSApp terminate:self];
+}
+
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
+{
+    if (currentControl != nil && ![currentControl hasFinished]) {
+        return NSTerminateLater;
+    }
+    return NSTerminateNow;
 }
 
 #pragma mark - CDControl
@@ -211,7 +226,8 @@
                                 && [GrowlApplicationBridge isGrowlRunning]
                                 && ![notifyOptions hasOpt:@"no-growl"]
                                 ? @"CDGrowlControl" : @"CDBubbleControl";
-        return [[(CDControl *)[NSClassFromString(notifyClass) alloc] initWithOptions:options] autorelease];
+        currentControl = [[(CDControl *)[NSClassFromString(notifyClass) alloc] initWithOptions:options] autorelease];
+        return currentControl;
     }
     else {
         // Bring application into focus.
@@ -225,7 +241,8 @@
             if ([runMode caseInsensitiveCompare:@"secure-standard-inputbox"] == NSOrderedSame || [runMode caseInsensitiveCompare:@"secure-inputbox"] == NSOrderedSame) {
                 [extraOptions setObject:[NSNumber numberWithBool:NO] forKey:@"no-show"];
             }
-            return [[(CDControl *)[control alloc] initWithOptions:options] autorelease];
+            currentControl = [[(CDControl *)[control alloc] initWithOptions:options] autorelease];
+            return currentControl;
         }
         NSFileHandle *fh = [NSFileHandle fileHandleWithStandardError];
         NSString *output = [NSString stringWithFormat:@"Unknown dialog type: %@\n", runMode]; 

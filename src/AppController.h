@@ -39,12 +39,14 @@
 #import "CDTextboxControl.h"
 #import "CDYesNoMsgboxControl.h"
 
-@interface AppController : NSObject {
-    IBOutlet NSPanel * aboutPanel;
-    IBOutlet NSTextField * aboutAppLink;
-    IBOutlet NSTextField * aboutText;
-    NSMutableArray * arguments;
+@interface AppController : NSObject <NSApplicationDelegate> {
+    CDControl               *currentControl;
+    IBOutlet NSPanel        *aboutPanel;
+    IBOutlet NSTextField    *aboutAppLink;
+    IBOutlet NSTextField    *aboutText;
+    NSMutableArray          *arguments;
 }
+
 + (NSDictionary *) availableControls;
 - (NSString *) appVersion;
 - (CDControl *) chooseControl:(NSString *)runMode useOptions:options addExtraOptionsTo:(NSMutableDictionary *)extraOptions;

@@ -31,9 +31,4 @@
 
 - (NSColor *) _colorForBubble:(unsigned long)i fromKey:(NSString *)key alpha:(CGFloat)alpha;
 
-// returns an NSArray of NSImage's or nil if there's only one.
-- (NSArray *) _iconImages;
-// try _iconImages first, then this.
-- (NSImage *) _iconImage;
-
 @end

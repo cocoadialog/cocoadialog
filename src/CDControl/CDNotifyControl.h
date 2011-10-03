@@ -9,7 +9,11 @@
 #import "CDControl.h"
 
 @interface CDNotifyControl : CDControl {
-    NSMutableArray *notifications;
+    int             activeNotifications;
+    NSMutableArray  *notifications;
 }
+
+- (NSImage *) notificationIcon;
+- (NSArray *) notificationIcons;
 
 @end

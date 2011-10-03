@@ -28,6 +28,7 @@
 // Each NSString is printed to stdout on its own line.
 // Return an empty NSArray if there is no output to be printed, or nil
 // on error.
+@class NSObject;
 @protocol CDControlProtocol
 - (NSArray *) runControlFromOptions:(CDOptions *)options;
 - (NSArray *) runControl;
@@ -36,12 +37,15 @@
 // CDControl provides a runControl method.  It invokes
 // runControlFromOptions: with the options specified in initWithOptions:
 // You must override runControlFromOptions.
-@interface CDControl : NSObject <CDControlProtocol> {
-	CDOptions               *_options;
-    IBOutlet NSPanel        *panel;
-    IBOutlet NSImageView    *controlIcon;
-    NSMutableArray          *controlItems;
+@interface CDControl : NSObject <CDControlProtocol,NSApplicationDelegate> {
+	CDOptions                   *_options;
+    IBOutlet NSPanel            *panel;
+    IBOutlet NSImageView        *controlIcon;
+    NSMutableArray              *controlItems;
+    BOOL                        hasFinished;
 }
+@property BOOL hasFinished;
+
 - (id)initWithOptions:(CDOptions *)options;
 
 // This must be sub-classed if you want options local to your control

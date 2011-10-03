@@ -21,11 +21,13 @@
 #import "AppController.h"
 #import "CDControl.h"
 
-
 @implementation CDControl
+@synthesize hasFinished;
 
 - (id)initWithOptions:(CDOptions *)options
 {
+    hasFinished = YES;
+    controlItems = [[[NSMutableArray alloc] init] retain];
 	self = [super init];
     if (options != nil) {
         [self setOptions:options];
@@ -34,8 +36,14 @@
 }
 - (id)init
 {
-    controlItems = [[[NSMutableArray alloc] init] retain];
 	return [self initWithOptions:nil];
+}
+
+- (void) dealloc
+{
+	[_options release];
+    [controlItems release];
+	[super dealloc];
 }
 
 - (CDOptions *) options
@@ -84,7 +92,7 @@
 - (NSDictionary *) globalAvailableKeys {
     NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
 	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
-    return [[NSDictionary dictionaryWithObjectsAndKeys:
+    return [NSDictionary dictionaryWithObjectsAndKeys:
             vNone, @"help",
             vNone, @"debug",
             vOne,  @"title",
@@ -100,7 +108,7 @@
             vOne,  @"icon-height",
             vNone, @"string-output",
             vNone, @"no-newline",
-            nil] autorelease];
+            nil];
 }
 
 - (CDOptions *) controlOptionsFromArgs:(NSArray *)args
@@ -216,8 +224,8 @@
 - (NSImage *)getIconFromFile:(NSString *)aFile
 {
     CDOptions *options = [self options];
-    NSImage *image = [[[NSImage alloc] initWithData:nil] autorelease];
-    image = [[[NSImage alloc ]initWithContentsOfFile:aFile] autorelease];
+    NSImage *image = nil;
+    image = [[[NSImage alloc] initWithContentsOfFile:aFile] autorelease];
     if (image == nil && [options hasOpt:@"debug"]) {
         [self debug:[NSString stringWithFormat:@"Could not get image from specified icon file '%@'.", aFile]];
     }
@@ -625,13 +633,6 @@
             }
         }
     }
-}
-
-- (void) dealloc
-{
-	[_options release];
-    [controlItems release];
-	[super dealloc];
 }
 
 @end

@@ -23,44 +23,6 @@
 
 @implementation CDBubbleControl
 
-- (NSDictionary *) availableKeys
-{
-	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
-	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
-
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-		// Options for one bubble
-		vOne, @"text-color",
-		vOne, @"border-color",
-		vOne, @"background-top",
-		vOne, @"background-bottom",
-
-		// Options for multiple bubble
-		vMul, @"text-colors",
-		vMul, @"border-colors",
-		vMul, @"background-tops",
-		vMul, @"background-bottoms",
-		vNone, @"independent", // With this set, clicking one bubble won't kill the rest.
-
-		// General options, apply to all scenarios
-		vOne, @"x-placement",
-		vOne, @"y-placement",
-		vOne, @"alpha",
-		vOne, @"timeout",
-		nil];
-}
-
-- (NSDictionary *) depreciatedKeys
-{
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-            @"description", @"text",
-            @"descriptions", @"texts",
-            @"sticky", @"no-timeout",
-            nil];
-}
-
-
 - (NSArray *) runControlFromOptions:(CDOptions *)options
 {
 	float timeout = 4.;
@@ -118,21 +80,21 @@
 	    && titles != nil && [titles count]
 	    && [titles count] == [texts count])
 	{
-		NSArray *givenIconImages = [self _iconImages];
+		NSArray *givenIconImages = [self notificationIcons];
 		NSImage *fallbackIcon = nil;
 		NSMutableArray *icons = nil;
 		unsigned i;
 		// See what icons we got at the command line, or set a fallback
 		// icon to use for all bubbles
 		if (givenIconImages == nil) {
-			fallbackIcon = [self _iconImage];
+			fallbackIcon = [self notificationIcon];
 		} else {
 			icons = [NSMutableArray arrayWithArray:givenIconImages];
 		}
 		// If we were given less icons than we have bubbles, use a default
 		// for any extra bubbles
 		if ([icons count] < [texts count]) {
-			NSImage *defaultIcon = [self _iconImage];
+			NSImage *defaultIcon = [self notificationIcon];
 			unsigned long numToAdd = [texts count] - [icons count];
 			for (i = 0; i < numToAdd; i++) {
 				[icons addObject:defaultIcon];
@@ -162,7 +124,7 @@
 
 	// Single bubble
 	} else if ([options hasOpt:@"title"] && [options hasOpt:@"description"]) {
-		NSImage *icon = [self _iconImage];
+		NSImage *icon = [self notificationIcon];
 		KABubbleWindowController *bubble = [KABubbleWindowController
 			bubbleWithTitle:[options optValue:@"title"]
 			text:[options optValue:@"description"]
@@ -187,7 +149,7 @@
 		}
 		return nil;
 	}
-
+    hasFinished = YES;
 	[NSApp run];
 	return [NSArray array];
 }
@@ -317,66 +279,6 @@
 			: [CDBubbleControl colorFromHex:@"000000" alpha:alpha];
 	}
 	return [NSColor yellowColor]; //only happen on programmer error
-}
-
-// returns an NSArray of NSImage's or nil if there's only one.
-- (NSArray *) _iconImages
-{
-	CDOptions *options = [self options];
-	NSMutableArray *icons = [NSMutableArray array];
-	NSArray *iconArgs;
-	NSEnumerator *en;
-
-	if ([options hasOpt:@"icons"] && [[options optValues:@"icons"] count]) {
-		iconArgs = [options optValues:@"icons"];
-		en = [iconArgs objectEnumerator];
-		NSString *iconName;
-		while (iconName = (NSString *)[en nextObject]) {
-            NSImage * icon = [self getIconWithName:iconName];
-			if (icon == nil) {
-				icon = [NSApp applicationIconImage];
-			}
-			[icons addObject:icon];
-		}
-
-	} else if ([options hasOpt:@"icon-files"]
-	           && [[options optValues:@"icon-files"] count])
-	{
-		iconArgs = [options optValues:@"icon-files"];
-		en = [iconArgs objectEnumerator];
-		NSString *fileName;
-		while (fileName = (NSString *)[en nextObject]) {
-            NSImage * icon = [self getIconFromFile:fileName];
-			if (icon == nil) {
-				icon = [NSApp applicationIconImage];
-			}
-			[icons addObject:icon];
-		}
-
-	} else {
-		return nil;
-	}
-
-	return icons;
-}
-
-// Should always return an image
-- (NSImage *) _iconImage
-{
-	CDOptions *options = [self options];
-	NSImage *icon = nil;
-
-	if ([options hasOpt:@"icon-file"]) {
-        icon = [[self getIconFromFile:[options optValue:@"icon-file"]] autorelease];
-
-	} else if ([options hasOpt:@"icon"]) {
-        icon = [self getIconWithName:[options optValue:@"icon"]];
-	}
-
-	if (icon == nil) {
-		icon = [NSApp applicationIconImage];
-	}
-	return icon;
 }
 
 @end

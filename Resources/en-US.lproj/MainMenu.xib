@@ -660,14 +660,6 @@ b2dyZXNzIGJhcnMsIGNvbmZpcm1hdGlvbnMgYW5kIG1vcmUuA</string>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">terminate:</string>
-						<reference key="source" ref="338885069"/>
-						<reference key="destination" ref="425611621"/>
-					</object>
-					<int key="connectionID">228</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">terminate:</string>
 						<reference key="source" ref="952122188"/>
 						<reference key="destination" ref="324672311"/>
 					</object>
@@ -704,6 +696,14 @@ b2dyZXNzIGJhcnMsIGNvbmZpcm1hdGlvbnMgYW5kIG1vcmUuA</string>
 						<reference key="destination" ref="315280"/>
 					</object>
 					<int key="connectionID">153</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">terminate:</string>
+						<reference key="source" ref="952122188"/>
+						<reference key="destination" ref="425611621"/>
+					</object>
+					<int key="connectionID">254</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -1350,7 +1350,7 @@ b2dyZXNzIGJhcnMsIGNvbmZpcm1hdGlvbnMgYW5kIG1vcmUuA</string>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">252</int>
+			<int key="maxID">256</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
