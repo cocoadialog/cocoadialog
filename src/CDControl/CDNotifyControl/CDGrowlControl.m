@@ -213,7 +213,10 @@
     if ([clickPath caseInsensitiveCompare:@"cocoaDialog"] == NSOrderedSame) {
         clickPath = [[[NSProcessInfo processInfo] arguments] objectAtIndex:0];
     }
-    NSArray * arguments = [NSArray arrayWithArray:[self parseTextForArguments:[notification objectForKey:@"clickArg"]]];
+    NSArray *arguments = nil;
+    if (![[notification objectForKey:@"clickArg"] isEqualToString:@""]) {
+        arguments = [NSArray arrayWithArray:[self parseTextForArguments:[notification objectForKey:@"clickArg"]]];
+    }
     NSMutableArray * clickArg = [NSMutableArray arrayWithArray:arguments];
     // Check to ensure the file exists before launching the command
     if (![clickPath isEqualToString:@""] && [[NSFileManager defaultManager] fileExistsAtPath:clickPath]) {
