@@ -18,14 +18,6 @@
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#define CONTROL_POSX_LEFT   0
-#define CONTROL_POSX_CENTER 1
-#define CONTROL_POSX_RIGHT  2
-
-#define CONTROL_POSY_TOP     4
-#define CONTROL_POSY_CENTER  8
-#define CONTROL_POSY_BOTTOM  16
-
 #import <Foundation/Foundation.h>
 #import "CDOptions.h"
 
