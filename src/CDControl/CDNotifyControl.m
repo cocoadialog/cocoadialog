@@ -47,6 +47,7 @@
              // Icons
              vOne,  @"icon",
              vOne,  @"icon-bundle",
+             vOne,  @"icon-type",
              vOne,  @"icon-file",
              vMul,  @"icons",
              vMul,  @"icon-files",

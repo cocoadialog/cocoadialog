@@ -53,6 +53,7 @@
             vOne,  @"icon",
             vOne,  @"icon-bundle",
             vOne,  @"icon-file",
+            vOne,  @"icon-type",
             vOne,  @"icon-size",
             vOne,  @"icon-width",
             vOne,  @"icon-height",

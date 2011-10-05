@@ -104,6 +104,7 @@
             vNone, @"resize",
             vOne,  @"icon",
             vOne,  @"icon-bundle",
+            vOne,  @"icon-type",
             vOne,  @"icon-file",
             vOne,  @"icon-size",
             vOne,  @"icon-width",
@@ -305,6 +306,10 @@
     NSImage *image = [[[NSImage alloc] initWithData:nil] autorelease];
     NSString *bundle = nil;
     NSString *path = nil;
+    NSString *iconType = @"icns";
+    if ([options hasOpt:@"icon-type"]) {
+        iconType = [options optValue:@"icon-type"];
+    }
     // Use bundle identifier
     if ([options hasOpt:@"icon-bundle"]) {
         bundle = [options optValue:@"icon-bundle"];
@@ -553,10 +558,10 @@
             NSString * fileName = nil;
             if (path == nil) {
                 NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
-                fileName = [[NSBundle bundleWithPath:[workspace absolutePathForAppBundleWithIdentifier:bundle]] pathForResource:aName ofType:@"icns"];
+                fileName = [[NSBundle bundleWithPath:[workspace absolutePathForAppBundleWithIdentifier:bundle]] pathForResource:aName ofType:iconType];
             }
             else {
-                fileName = [[NSBundle bundleWithPath:path] pathForResource:aName ofType:@"icns"];
+                fileName = [[NSBundle bundleWithPath:path] pathForResource:aName ofType:iconType];
             }
             if (fileName != nil) {
                 image = [[[NSImage alloc] initWithContentsOfFile:fileName] autorelease];
