@@ -98,6 +98,8 @@
             vOne,  @"title",
             vOne,  @"width",
             vOne,  @"height",
+            vOne,  @"posX",
+            vOne,  @"posY",
             vNone, @"minimize",
             vNone, @"resize",
             vOne,  @"icon",
@@ -131,6 +133,71 @@
 	options=[CDOptions getOpts:args availableKeys:allKeys depreciatedKeys:depreciatedKeys];
 	return options;
 }
+
+- (void) findPositionForWindow:(NSWindow *)window;
+{
+	CDOptions *options = [self options];
+    NSRect screen = [[NSScreen mainScreen] visibleFrame];
+
+    CGFloat leftPoint = 0.0;
+	CGFloat topPoint = 0.0;
+    CGFloat padding = 10.0;
+
+    id posX;
+    id posY;
+    // Has posX option
+	if ([options hasOpt:@"posX"]) {
+		posX = [options optValue:@"posX"];
+        // Left
+		if ([posX caseInsensitiveCompare:@"left"] == NSOrderedSame) {
+            leftPoint = padding;
+		}
+        // Right
+        else if ([posX caseInsensitiveCompare:@"right"] == NSOrderedSame) {
+            leftPoint = NSWidth(screen) - NSWidth([window frame]) - padding;
+		}
+        // Manual posX coords
+        else if ([posX floatValue] > 0.0) {
+            leftPoint = [posX floatValue];
+        }
+        // Center
+        else {
+            leftPoint = (NSWidth(screen)-NSWidth([window frame]))/2 - padding;
+		}
+	}
+    // Center
+    else {
+        leftPoint = (NSWidth(screen)-NSWidth([window frame]))/2 - padding;
+	}
+    // Has posY option
+	if ([options hasOpt:@"posY"]) {
+		posY = [options optValue:@"posY"];
+        // Bottom
+		if ([posY caseInsensitiveCompare:@"bottom"] == NSOrderedSame) {
+            topPoint = NSMinY(screen) + padding + NSHeight([window frame]);
+		}
+        // Top
+        else if ([posY caseInsensitiveCompare:@"top"] == NSOrderedSame) {
+            topPoint = NSMaxY(screen) - padding;
+		}
+        // Manual posY coords
+        else if ([posY floatValue] > 0.0) {
+            topPoint = NSMaxY(screen) - [posY floatValue];
+        }
+        // Center
+        else {
+            topPoint = NSMaxY(screen)/1.8 + NSHeight([window frame]);
+		}
+	}
+    // Center
+    else {
+		topPoint = NSMaxY(screen)/1.8 + NSHeight([window frame]);
+	}
+	
+	[window setFrameTopLeftPoint:NSMakePoint(leftPoint, topPoint)];
+
+}
+
 
 - (NSSize) findNewSizeForWindow:(NSWindow *)window
 {

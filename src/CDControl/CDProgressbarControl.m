@@ -181,7 +181,9 @@
 		[progressBar setIndeterminate:NO];
 	}
 
-	[panel center];
+    // Reposition Panel
+    [self findPositionForWindow:panel];
+
 	if ([[self options] hasOpt:@"float"]) {
 		[panel setLevel:NSScreenSaverWindowLevel];
 	}

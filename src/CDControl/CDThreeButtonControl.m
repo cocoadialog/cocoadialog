@@ -25,8 +25,10 @@
 
 - (void) runAndSetRv
 {
+    // Reposition Panel
+    [self findPositionForWindow:panel];
+    
 	// Run modal
-	[panel center];
 	if ([[self options] hasOpt:@"float"]) {
 		[panel setFloatingPanel: YES];
 		[panel setLevel:NSScreenSaverWindowLevel];
@@ -46,6 +48,8 @@
             vOne,  @"title",
             vOne,  @"width",
             vOne,  @"height",
+            vOne,  @"posX",
+            vOne,  @"posY",
             vOne,  @"icon",
             vOne,  @"icon-bundle",
             vOne,  @"icon-file",

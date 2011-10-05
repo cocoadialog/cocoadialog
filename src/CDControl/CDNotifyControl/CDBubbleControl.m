@@ -34,8 +34,8 @@
 	activeBubbles = [[NSMutableArray array] retain];
 	fadingBubbles = [[NSMutableArray array] retain];
 	
-	if ([options hasOpt:@"x-placement"]) {
-		NSString *xplace = [options optValue:@"x-placement"];
+	if ([options hasOpt:@"posX"]) {
+		NSString *xplace = [options optValue:@"posX"];
 		if ([xplace isEqualToString:@"left"]) {
 			position |= BUBBLE_HORIZ_LEFT;
 		} else if ([xplace isEqualToString:@"center"]) {
@@ -46,8 +46,8 @@
 	} else {
 		position |= BUBBLE_HORIZ_RIGHT;
 	}
-	if ([options hasOpt:@"y-placement"]) {
-		NSString *yplace = [options optValue:@"y-placement"];
+	if ([options hasOpt:@"posY"]) {
+		NSString *yplace = [options optValue:@"posY"];
 		if ([yplace isEqualToString:@"bottom"]) {
 			position |= BUBBLE_VERT_BOTTOM;
 		} else if ([yplace isEqualToString:@"center"]) {

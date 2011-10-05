@@ -88,10 +88,12 @@
 	}
 
 	// resize window if user specified alternate width/height
-	if ([self windowNeedsResize:panel]) {
-		[panel setContentSize:[self findNewSizeForWindow:panel]];
+	if ([self windowNeedsResize:openPanel]) {
+		[openPanel setContentSize:[self findNewSizeForWindow:openPanel]];
 	}
 	
+    // Reposition Panel
+    [self findPositionForWindow:openPanel];
     
     if (kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber10_6) {
         result = [openPanel runModalForDirectory:dir file:file types:extensions];

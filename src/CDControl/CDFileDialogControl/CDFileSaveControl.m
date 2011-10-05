@@ -75,9 +75,12 @@
 	}
 
 	// resize window if user specified alternate width/height
-	if ([self windowNeedsResize:panel]) {
-		[panel setContentSize:[self findNewSizeForWindow:panel]];
+	if ([self windowNeedsResize:savePanel]) {
+		[savePanel setContentSize:[self findNewSizeForWindow:savePanel]];
 	}
+    
+    // Reposition Panel
+    [self findPositionForWindow:savePanel];
 	
     if (kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber10_6) {
         result = [savePanel runModalForDirectory:dir file:file];

@@ -73,8 +73,8 @@
              vNone, @"independent", // With this set, clicking one bubble won't kill the rest.
              
              // General options, apply to all scenarios
-             vOne, @"x-placement",
-             vOne, @"y-placement",
+             vOne, @"posX",
+             vOne, @"posY",
              vOne, @"alpha",
              vOne, @"timeout",
 
@@ -87,6 +87,8 @@
             @"description", @"text",
             @"descriptions", @"texts",
             @"sticky", @"no-timeout",
+            @"posX", @"x-placement",
+            @"posY", @"y-placement",
             nil];
 }
 
