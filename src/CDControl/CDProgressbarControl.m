@@ -167,7 +167,7 @@
 			[progressBar setDoubleValue:initialPercent];
 		}
 	}
-	
+		
 	//set window title
 	if ([options optValue:@"title"]) {
 		[panel setTitle:[options optValue:@"title"]];

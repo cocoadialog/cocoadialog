@@ -74,7 +74,20 @@
 		A78A8D3A1437C341007AE363 /* CDGrowlControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A78A8D381437C341007AE363 /* CDGrowlControl.m */; };
 		A78A8D3E1437C416007AE363 /* CDNotifyControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A78A8D3C1437C416007AE363 /* CDNotifyControl.h */; };
 		A78A8D3F1437C416007AE363 /* CDNotifyControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A78A8D3D1437C416007AE363 /* CDNotifyControl.m */; };
+		A7BABB331445817B00D3F168 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A7BABB321445817B00D3F168 /* main.m */; };
+		A7BABB3D144581F500D3F168 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7BABAD81445809700D3F168 /* Cocoa.framework */; };
+		A7BABB401445829B00D3F168 /* relaunch in Resources */ = {isa = PBXBuildFile; fileRef = A7BABB2E1445817B00D3F168 /* relaunch */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A7BABB3E1445828300D3F168 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A7BABB2D1445817B00D3F168;
+			remoteInfo = relaunch;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		A78A8CEA143784BD007AE363 /* CopyFiles */ = {
@@ -164,6 +177,12 @@
 		A78A8D381437C341007AE363 /* CDGrowlControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDGrowlControl.m; path = src/CDControl/CDNotifyControl/CDGrowlControl.m; sourceTree = "<group>"; };
 		A78A8D3C1437C416007AE363 /* CDNotifyControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDNotifyControl.h; path = src/CDControl/CDNotifyControl.h; sourceTree = "<group>"; };
 		A78A8D3D1437C416007AE363 /* CDNotifyControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDNotifyControl.m; path = src/CDControl/CDNotifyControl.m; sourceTree = "<group>"; };
+		A7BABA9714456CC800D3F168 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		A7BABAD81445809700D3F168 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		A7BABADA1445809700D3F168 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		A7BABB051445810000D3F168 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		A7BABB2E1445817B00D3F168 /* relaunch */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = relaunch; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7BABB321445817B00D3F168 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +193,14 @@
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				A78A8CE9143784A8007AE363 /* Growl.framework in Frameworks */,
 				A78A8D2F1437AC29007AE363 /* Sparkle.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A7BABB2B1445817B00D3F168 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A7BABB3D144581F500D3F168 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,6 +331,7 @@
 			children = (
 				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				A7BABADA1445809700D3F168 /* CoreData.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
@@ -312,6 +340,7 @@
 			isa = PBXGroup;
 			children = (
 				8D1107320486CEB800E47090 /* cocoaDialog.app */,
+				A7BABB2E1445817B00D3F168 /* relaunch */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -326,6 +355,7 @@
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				A78A8C9414375703007AE363 /* Configurations */,
+				A7BABB311445817B00D3F168 /* relaunch */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -359,10 +389,13 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A78A8D2E1437AC29007AE363 /* Sparkle.framework */,
 				A78A8CE8143784A8007AE363 /* Growl.framework */,
+				A78A8D2E1437AC29007AE363 /* Sparkle.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				A78A8CF21437938D007AE363 /* CoreFoundation.framework */,
+				A7BABA9714456CC800D3F168 /* Foundation.framework */,
+				A7BABAD81445809700D3F168 /* Cocoa.framework */,
+				A7BABB051445810000D3F168 /* CoreServices.framework */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -394,6 +427,14 @@
 				A78A8D381437C341007AE363 /* CDGrowlControl.m */,
 			);
 			name = CDNotifyControl;
+			sourceTree = "<group>";
+		};
+		A7BABB311445817B00D3F168 /* relaunch */ = {
+			isa = PBXGroup;
+			children = (
+				A7BABB321445817B00D3F168 /* main.m */,
+			);
+			path = relaunch;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -449,12 +490,29 @@
 			buildRules = (
 			);
 			dependencies = (
+				A7BABB3F1445828300D3F168 /* PBXTargetDependency */,
 			);
 			name = cocoaDialog;
 			productInstallPath = "$(HOME)/Applications";
 			productName = CocoaDialog;
 			productReference = 8D1107320486CEB800E47090 /* cocoaDialog.app */;
 			productType = "com.apple.product-type.application";
+		};
+		A7BABB2D1445817B00D3F168 /* relaunch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A7BABB381445817B00D3F168 /* Build configuration list for PBXNativeTarget "relaunch" */;
+			buildPhases = (
+				A7BABB2A1445817B00D3F168 /* Sources */,
+				A7BABB2B1445817B00D3F168 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = relaunch;
+			productName = relaunch;
+			productReference = A7BABB2E1445817B00D3F168 /* relaunch */;
+			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
@@ -478,6 +536,7 @@
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* cocoaDialog */,
+				A7BABB2D1445817B00D3F168 /* relaunch */,
 			);
 		};
 /* End PBXProject section */
@@ -487,6 +546,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7BABB401445829B00D3F168 /* relaunch in Resources */,
 				0E71DA1B0963B19500FF6F7C /* cocoadialog.icns in Resources */,
 				A78A8CD414376C42007AE363 /* InfoPlist.strings in Resources */,
 				A78A8CD514376C42007AE363 /* MainMenu.xib in Resources */,
@@ -535,7 +595,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A7BABB2A1445817B00D3F168 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A7BABB331445817B00D3F168 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A7BABB3F1445828300D3F168 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A7BABB2D1445817B00D3F168 /* relaunch */;
+			targetProxy = A7BABB3E1445828300D3F168 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		A78A8CB5143759ED007AE363 /* InfoPlist.strings */ = {
@@ -631,6 +707,22 @@
 			};
 			name = Release;
 		};
+		A7BABB391445817B00D3F168 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = relaunch;
+			};
+			name = Debug;
+		};
+		A7BABB3A1445817B00D3F168 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = relaunch;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -651,6 +743,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		A7BABB381445817B00D3F168 /* Build configuration list for PBXNativeTarget "relaunch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A7BABB391445817B00D3F168 /* Debug */,
+				A7BABB3A1445817B00D3F168 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

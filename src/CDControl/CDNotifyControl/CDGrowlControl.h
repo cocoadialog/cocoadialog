@@ -6,7 +6,6 @@
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import <Sparkle/Sparkle.h>
 #import <Growl/Growl.h>
 #import "CDNotifyControl.h"
 

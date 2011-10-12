@@ -3,7 +3,7 @@
 //  CocoaDialog
 //
 //  Created by Mark Carver on 10/1/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2011 Mark Carver. All rights reserved.
 //
 
 #import "CDGrowlControl.h"
@@ -221,7 +221,7 @@
     // Check to ensure the file exists before launching the command
     if (![clickPath isEqualToString:@""] && [[NSFileManager defaultManager] fileExistsAtPath:clickPath]) {
         // Relaunch cocoaDialog with the new runMode
-        NSString *launcherSource = [[NSBundle bundleForClass:[SUUpdater class]]  pathForResource:@"relaunch" ofType:@""];
+        NSString *launcherSource = [[NSBundle mainBundle] pathForResource:@"relaunch" ofType:@""];
         NSString *launcherTarget = [NSTemporaryDirectory() stringByAppendingPathComponent:[launcherSource lastPathComponent]];
         NSString *pid = [NSString stringWithFormat:@"%d", [[NSProcessInfo processInfo] processIdentifier]];
         [clickArg insertObject:pid atIndex:0];
