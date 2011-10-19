@@ -73,14 +73,10 @@
         NSString *pid = [NSString stringWithFormat:@"%d", [[NSProcessInfo processInfo] processIdentifier]];
         [arguments insertObject:pid atIndex:1];
         [arguments insertObject:launcherTarget atIndex:0];
-#if defined __ppc__
-        [arguments insertObject:@"-ppc" atIndex:0];
-#elif defined __ppc64__
-        [arguments insertObject:@"-ppc64" atIndex:0];
-#elif defined __i386__
-        [arguments insertObject:@"-i386" atIndex:0];
-#elif defined __x86_64__
-        [arguments insertObject:@"-x86_64" atIndex:0];
+#if defined __ppc__ || defined __i368__
+        [arguments insertObject:@"-32" atIndex:0];
+#elif defined __ppc64__ || defined __x86_64__
+        [arguments insertObject:@"-64" atIndex:0];
 #endif
         [[NSFileManager defaultManager] removeItemAtPath:launcherTarget error:NULL];
         [[NSFileManager defaultManager] copyItemAtPath:launcherSource toPath:launcherTarget error:NULL];
@@ -95,28 +91,25 @@
     }
     // runMode needs to run through control logic
     else {
-        CDControl *control = [[[CDControl alloc] init] autorelease];
-
-        NSDictionary *globalKeys = [[[NSDictionary alloc] initWithDictionary:[control globalAvailableKeys]] autorelease];
-        NSDictionary *depreciatedKeys = [[[NSDictionary alloc] initWithDictionary:[control depreciatedKeys]] autorelease];
+        // Initialize control
+        currentControl = [[[CDControl alloc] init] autorelease];
+        // Setup containers
+        NSDictionary *globalKeys = [[[NSDictionary alloc] initWithDictionary:[currentControl globalAvailableKeys]] autorelease];
+        NSDictionary *depreciatedKeys = [[[NSDictionary alloc] initWithDictionary:[currentControl depreciatedKeys]] autorelease];
         CDOptions *options = [CDOptions getOpts:arguments availableKeys:globalKeys depreciatedKeys:depreciatedKeys];
-
         NSMutableDictionary *extraOptions = [[[NSMutableDictionary alloc] init] autorelease];
-        control = [[self chooseControl:runMode useOptions:options addExtraOptionsTo:extraOptions] init];
-
-        if (control != nil) {
-            
+        // Choose the control
+        [self chooseControl:runMode useOptions:options addExtraOptionsTo:extraOptions];
+        if (currentControl != nil) {
+            [currentControl init];
             [NSApp setDelegate:self];
-
-            globalKeys = [control globalAvailableKeys];
-
+            globalKeys = [currentControl globalAvailableKeys];
             // Now that we have the control, we can re-get the options to
             // include the local options for that control.
-            options = [control controlOptionsFromArgs:arguments	withGlobalKeys:globalKeys];
-            
+            options = [currentControl controlOptionsFromArgs:arguments	withGlobalKeys:globalKeys];
             if ([options hasOpt:@"help"]) {
                 NSMutableDictionary *allKeys;
-                NSDictionary *localKeys = [control availableKeys];
+                NSDictionary *localKeys = [currentControl availableKeys];
                 if (localKeys != nil) {
                     allKeys = [NSMutableDictionary dictionaryWithCapacity:
                                [globalKeys count]+[localKeys count]];
@@ -129,7 +122,6 @@
                 }
                 [CDOptions printOpts:[allKeys allKeys] forRunMode:runMode];
             }
-            
             // Add any extras chooseControl came up with
             NSEnumerator *en = [extraOptions keyEnumerator];
             NSString *key;
@@ -137,12 +129,10 @@
                 [options setOption:[extraOptions objectForKey:key] forKey:key];
             }
             // Set options for the control sub-class
-            [control setOptions:options];
-            
-            NSArray *rv;
+            [currentControl setOptions:options];
             // Run the control (a modal window)
-            rv = [control runControlFromOptions:options];
-            
+            NSArray *rv;
+            rv = [currentControl runControlFromOptions:options];
             // print all the returned lines
             if (rv != nil) {
                 unsigned i;
@@ -159,12 +149,12 @@
                     }
                 }
             } else if ([options hasOpt:@"debug"]) {
-                [control debug:@"Control returned nil."];
+                [currentControl debug:@"Control returned nil."];
             }
         } else if ([options hasOpt:@"debug"]
                || [runMode isEqualToString:@"--debug"]) 
         {
-            [control debug:@"No run-mode, or invalid runmode provided as first argument."];
+            [currentControl debug:@"No run-mode, or invalid runmode provided as first argument."];
         }
     }
     [NSApp terminate:self];
@@ -199,24 +189,26 @@
             nil];
 }
 
-- (CDControl *) chooseControl:(NSString *)runMode useOptions:options addExtraOptionsTo:(NSMutableDictionary *)extraOptions
+- (void) chooseControl:(NSString *)runMode useOptions:options addExtraOptionsTo:(NSMutableDictionary *)extraOptions
 {
     NSDictionary *controls = [AppController availableControls];
 
 	if (runMode == nil) {
+        currentControl = nil;
 		[CDControl printHelpTo:[NSFileHandle fileHandleWithStandardError]];
-		return nil;
 	}
     else if ([runMode isEqualToString:@"--help"]) {
+        currentControl = nil;
 		[CDControl printHelpTo:[NSFileHandle fileHandleWithStandardOutput]];
-		return nil;
 	}
     else if ([runMode caseInsensitiveCompare:@"version"] == NSOrderedSame) {
+        currentControl = nil;
         NSFileHandle * fh = [NSFileHandle fileHandleWithStandardOutput];
         if (fh) {
             [fh writeData:[[self appVersion] dataUsingEncoding:NSUTF8StringEncoding]];
         }
         exit(0);
+        
     }
     else if ([runMode caseInsensitiveCompare:@"CDNotifyControl"] == NSOrderedSame) {
         CDControl * notify = [[[CDNotifyControl alloc] init] autorelease];
@@ -227,7 +219,6 @@
                                 && ![notifyOptions hasOpt:@"no-growl"]
                                 ? @"CDGrowlControl" : @"CDBubbleControl";
         currentControl = [[(CDControl *)[NSClassFromString(notifyClass) alloc] initWithOptions:options] autorelease];
-        return currentControl;
     }
     else {
         // Bring application into focus.
@@ -242,7 +233,7 @@
                 [extraOptions setObject:[NSNumber numberWithBool:NO] forKey:@"no-show"];
             }
             currentControl = [[(CDControl *)[control alloc] initWithOptions:options] autorelease];
-            return currentControl;
+            return;
         }
         NSFileHandle *fh = [NSFileHandle fileHandleWithStandardError];
         NSString *output = [NSString stringWithFormat:@"Unknown dialog type: %@\n", runMode]; 
@@ -250,7 +241,7 @@
             [fh writeData:[output dataUsingEncoding:NSUTF8StringEncoding]];
         }
         [CDControl printHelpTo:fh];
-        return nil;
+        currentControl = nil;
 	}
 }
 

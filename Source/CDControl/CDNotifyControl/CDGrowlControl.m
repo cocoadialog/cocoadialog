@@ -22,32 +22,6 @@
             nil];
 }
 
-- (void)addNotificationWithTitle:(NSString *)title description:(NSString *)description icon:(NSImage *)icon priority:(NSNumber *)priority sticky:(BOOL)sticky clickPath:(NSString *)clickPath clickArg:(NSString *)clickArg
-{
-    NSMutableDictionary * notification = [NSMutableDictionary dictionary];
-    [notification setObject:title forKey:@"title"];
-    [notification setObject:description forKey:@"description"];
-    NSData *iconData = [NSData dataWithData:[icon TIFFRepresentation]];
-    if (iconData == nil) {
-        iconData = [NSData data];
-    }
-    [notification setObject:iconData forKey:@"iconData"];
-    if (priority == nil) {
-        priority = 0;
-    }
-    [notification setObject:priority forKey:@"priority"];
-    [notification setObject:[NSNumber numberWithBool:sticky] forKey:@"sticky"];
-    if (clickPath == nil) {
-        clickPath = @"";
-    }
-    [notification setObject:clickPath forKey:@"clickPath"];
-    if (clickArg == nil) {
-        clickArg = @"";
-    }
-    [notification setObject:clickArg forKey:@"clickArg"];
-    [notifications addObject:notification];
-}
-
 - (NSArray *) runControlFromOptions:(CDOptions *)options
 {
     [GrowlApplicationBridge setGrowlDelegate:self];
@@ -170,84 +144,11 @@
                                  nil];
 }
 
-- (NSArray *) parseTextForArguments:(NSString *)string
-{
-    NSMutableArray* masterArray = [NSMutableArray arrayWithArray:nil];
-    // Make quotes on their own lines
-    string = [string stringByReplacingOccurrencesOfString:@"\"" withString:[NSString stringWithFormat: @"\n\"\n"]];
-    NSArray * quotedArray = [string componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-    BOOL inQuote = NO;
-    NSEnumerator *en = [quotedArray objectEnumerator];
-    id arg;
-    while (arg = [en nextObject]) {
-        NSMutableArray* spacedArray = [NSMutableArray arrayWithArray:nil];
-        // Determine if we're in a quote
-        if ([[arg substringToIndex:1] isEqualToString:@"\""]) {
-            if (inQuote) {
-                inQuote = NO;
-            }
-            else {
-                inQuote = YES;
-            }
-            continue;
-        }
-        if (![arg isEqualToString:@""] || arg != nil) {
-            if (inQuote) {
-                [spacedArray addObject:arg];
-            }
-            else {
-                // Trim any spaces or newlines from the beginning or end
-                arg = [arg stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-                [spacedArray addObjectsFromArray: [arg componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
-            }
-            [masterArray addObjectsFromArray:spacedArray];
-        }
-    }
-    return masterArray;
-}
-
 - (void) growlNotificationWasClicked:(id)clickContext
 {
-    NSDictionary * notification = [NSDictionary dictionaryWithDictionary:[notifications objectAtIndex:[clickContext intValue]]];
-    NSString * clickPath = [notification objectForKey:@"clickPath"];
-    if ([clickPath caseInsensitiveCompare:@"cocoaDialog"] == NSOrderedSame) {
-        clickPath = [[[NSProcessInfo processInfo] arguments] objectAtIndex:0];
-    }
-    NSArray *arguments = nil;
-    if (![[notification objectForKey:@"clickArg"] isEqualToString:@""]) {
-        arguments = [NSArray arrayWithArray:[self parseTextForArguments:[notification objectForKey:@"clickArg"]]];
-    }
-    NSMutableArray * clickArg = [NSMutableArray arrayWithArray:arguments];
-    // Check to ensure the file exists before launching the command
-    if (![clickPath isEqualToString:@""] && [[NSFileManager defaultManager] fileExistsAtPath:clickPath]) {
-        // Relaunch cocoaDialog with the new runMode
-        NSString *launcherSource = [[NSBundle mainBundle] pathForResource:@"relaunch" ofType:@""];
-        NSString *launcherTarget = [NSTemporaryDirectory() stringByAppendingPathComponent:[launcherSource lastPathComponent]];
-        NSString *pid = [NSString stringWithFormat:@"%d", [[NSProcessInfo processInfo] processIdentifier]];
-        [clickArg insertObject:pid atIndex:0];
-        [clickArg insertObject:clickPath atIndex:0];
-        [clickArg insertObject:launcherTarget atIndex:0];
-#if defined __ppc__
-        [clickArg insertObject:@"-ppc" atIndex:0];
-#elif defined __ppc64__
-        [clickArg insertObject:@"-ppc64" atIndex:0];
-#elif defined __i386__
-        [clickArg insertObject:@"-i386" atIndex:0];
-#elif defined __x86_64__
-        [clickArg insertObject:@"-x86_64" atIndex:0];
-#endif
-        [[NSFileManager defaultManager] removeItemAtPath:launcherTarget error:NULL];
-        [[NSFileManager defaultManager] copyItemAtPath:launcherSource toPath:launcherTarget error:NULL];
-        NSTask *task = [[[NSTask alloc] init] autorelease];
-        // Output must be silenced to not hang this process
-        [task setStandardError:[NSPipe pipe]];
-        [task setStandardOutput:[NSPipe pipe]];
-        [task setLaunchPath:@"/usr/bin/arch"];
-        [task setArguments:clickArg];
-        [task launch];
-    }
+    [self notificationWasClicked:clickContext];
     activeNotifications--;
-    // Terminate cocoaDialog once all the notifications for this dialog are through
+    // Terminate cocoaDialog once all the notifications are complete
     if (activeNotifications <= 0) {
         hasFinished = YES;
         [self dealloc];

@@ -3,7 +3,7 @@
 //  CocoaDialog
 //
 //  Created by Mark Carver on 10/1/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2011 Mark Carver. All rights reserved.
 //
 
 #import "CDControl.h"
@@ -13,7 +13,18 @@
     NSMutableArray  *notifications;
 }
 
+- (void) addNotificationWithTitle:(NSString *)title
+                      description:(NSString *)description
+                             icon:(NSImage *)icon
+                         priority:(NSNumber *)priority
+                           sticky:(BOOL)sticky
+                        clickPath:(NSString *)clickPath
+                         clickArg:(NSString *)clickArg;
+
 - (NSImage *) notificationIcon;
 - (NSArray *) notificationIcons;
+
+- (void) notificationWasClicked:(id)clickContext;
+- (NSArray *) parseTextForArguments:(NSString *)string;
 
 @end

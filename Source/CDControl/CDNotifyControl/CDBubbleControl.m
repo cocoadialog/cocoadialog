@@ -31,8 +31,15 @@
 
 	[self setOptions:options];
 
-	activeBubbles = [[NSMutableArray array] retain];
-	fadingBubbles = [[NSMutableArray array] retain];
+    NSString *clickPath = @"";
+    if ([options hasOpt:@"click-path"]) {
+        clickPath = [options optValue:@"click-path"];
+    }
+    
+    NSString *clickArg = @"";
+    if ([options hasOpt:@"click-arg"]) {
+        clickArg = [options optValue:@"click-arg"];
+    }
 	
 	if ([options hasOpt:@"posX"]) {
 		NSString *xplace = [options optValue:@"posX"];
@@ -72,13 +79,15 @@
 			timeout = .95;
 		}
 	}
-	NSArray *texts = [options optValues:@"descriptions"];
+    BOOL sticky = [options hasOpt:@"sticky"];
+
 	NSArray *titles = [options optValues:@"titles"];
+	NSArray *descriptions = [options optValues:@"descriptions"];
 
 	// Multiple bubbles
-	if (texts != nil && [texts count]
+	if (descriptions != nil && [descriptions count]
 	    && titles != nil && [titles count]
-	    && [titles count] == [texts count])
+	    && [titles count] == [descriptions count])
 	{
 		NSArray *givenIconImages = [self notificationIcons];
 		NSImage *fallbackIcon = nil;
@@ -93,129 +102,98 @@
 		}
 		// If we were given less icons than we have bubbles, use a default
 		// for any extra bubbles
-		if ([icons count] < [texts count]) {
+		if ([icons count] < [descriptions count]) {
 			NSImage *defaultIcon = [self notificationIcon];
-			unsigned long numToAdd = [texts count] - [icons count];
+			unsigned long numToAdd = [descriptions count] - [icons count];
 			for (i = 0; i < numToAdd; i++) {
 				[icons addObject:defaultIcon];
 			}
 		}
+        NSArray * clickPaths = [NSArray arrayWithArray:[options optValues:@"click-paths"]];
+        NSArray * clickArgs = [NSArray arrayWithArray:[options optValues:@"click-args"]];
 		// Create the bubbles
-		for (i = 0; i < [texts count]; i++) {
-			NSString *text  = [texts objectAtIndex:i];
-			NSString *title = [titles objectAtIndex:i];
+		for (i = 0; i < [descriptions count]; i++) {
 			NSImage *icon = fallbackIcon == nil ? (NSImage *)[icons objectAtIndex:i] : fallbackIcon;
-			KABubbleWindowController *bubble = [KABubbleWindowController
-				bubbleWithTitle:title text:text
-				icon:icon
-				timeout:timeout
-				lightColor:[self _colorForBubble:i fromKey:@"background-tops" alpha:alpha]
-				darkColor:[self _colorForBubble:i fromKey:@"background-bottoms" alpha:alpha]
-				textColor:[self _colorForBubble:i fromKey:@"text-colors" alpha:alpha]
-				borderColor:[self _colorForBubble:i fromKey:@"border-colors" alpha:alpha]
-				numExpectedBubbles:(unsigned)[texts count]
-				bubblePosition:position];
-			
-			[bubble setAutomaticallyFadesOut:(![options hasOpt:@"sticky"])];
-			[bubble setDelegate:self];
-			[activeBubbles addObject:bubble];
-			[bubble startFadeIn];
+            [self addNotificationWithTitle:[titles objectAtIndex:i]
+                               description:[descriptions objectAtIndex:i]
+                                      icon:icon
+                                  priority:nil
+                                    sticky:sticky
+                                 clickPath:[clickPaths count] ? [clickPaths objectAtIndex:i] : clickPath
+                                  clickArg:[clickArgs count] ? [clickArgs objectAtIndex:i] : clickArg
+             ];
 		}
-
 	// Single bubble
 	} else if ([options hasOpt:@"title"] && [options hasOpt:@"description"]) {
-		NSImage *icon = [self notificationIcon];
-		KABubbleWindowController *bubble = [KABubbleWindowController
-			bubbleWithTitle:[options optValue:@"title"]
-			text:[options optValue:@"description"]
-			icon:icon
-			timeout:timeout
-			lightColor:[self _colorForBubble:0 fromKey:@"background-top" alpha:alpha]
-			darkColor:[self _colorForBubble:0 fromKey:@"background-bottom" alpha:alpha]
-			textColor:[self _colorForBubble:0 fromKey:@"text-color" alpha:alpha]
-			borderColor:[self _colorForBubble:0 fromKey:@"border-color" alpha:alpha]
-			numExpectedBubbles:1
-			bubblePosition:position];
-
-		[bubble setAutomaticallyFadesOut:(![options hasOpt:@"sticky"])];
-		[bubble setDelegate:self];
-		[activeBubbles addObject:bubble];
-		[bubble startFadeIn];
-
+        [self addNotificationWithTitle:[options optValue:@"title"]
+                           description:[options optValue:@"description"]
+                                  icon:[self notificationIcon]
+                              priority:nil
+                                sticky:sticky
+                             clickPath:clickPath
+                              clickArg:clickArg
+         ];
 	// Error
 	} else {
 		if ([options hasOpt:@"debug"]) {
 			[self debug:@"You must specify either --title and --description, or --titles and --descriptions (with the same number of args)"];
 		}
-		return nil;
 	}
-    hasFinished = YES;
+
+    NSEnumerator *en = [notifications objectEnumerator];
+    id obj;
+    int i = 0;
+    while (obj = [en nextObject]) {
+        NSDictionary * notification = [NSDictionary dictionaryWithDictionary:obj];
+        KABubbleWindowController *bubble = [KABubbleWindowController
+                                            bubbleWithTitle:[notification objectForKey:@"title"] text:[notification objectForKey:@"description"]
+                                            icon:[notification objectForKey:@"icon"]
+                                            timeout:timeout
+                                            lightColor:[self _colorForBubble:i fromKey:@"background-tops" alpha:alpha]
+                                            darkColor:[self _colorForBubble:i fromKey:@"background-bottoms" alpha:alpha]
+                                            textColor:[self _colorForBubble:i fromKey:@"text-colors" alpha:alpha]
+                                            borderColor:[self _colorForBubble:i fromKey:@"border-colors" alpha:alpha]
+                                            numExpectedBubbles:(unsigned)[notifications count]
+                                            bubblePosition:position];
+        
+        [bubble setAutomaticallyFadesOut:![[notification objectForKey:@"sticky"] boolValue]];
+        [bubble setDelegate:self];
+        [bubble setClickContext:[NSString stringWithFormat:@"%d", activeNotifications]];
+        [bubble startFadeIn];
+        activeNotifications++;
+        i++;
+    }
 	[NSApp run];
 	return [NSArray array];
 }
 
 - (void) debug:(NSString *)message
 {
-    [[self options] setOption:[NSNumber numberWithInt:1] forKey:@"independent"];
-    int position = 0;
-    position |= BUBBLE_HORIZ_RIGHT;
-    position |= BUBBLE_VERT_TOP;
-    KABubbleWindowController *bubble = [KABubbleWindowController
-                                        bubbleWithTitle:@"cocoaDialog Debug"
-                                        text:message
-                                        icon:[self getIconWithName:@"caution"]
-                                        timeout:4.0
-                                        lightColor:[self _colorForBubble:0 fromKey:@"background-top" alpha:0.85]
-                                        darkColor:[self _colorForBubble:0 fromKey:@"background-bottom-" alpha:0.85]
-                                        textColor:[self _colorForBubble:0 fromKey:@"text-color" alpha:0.85]
-                                        borderColor:[self _colorForBubble:0 fromKey:@"border-color" alpha:0.85]
-                                        numExpectedBubbles:1
-                                        bubblePosition:position];
-    
-    [bubble setAutomaticallyFadesOut:NO];
-    [bubble setDelegate:self];
-    [activeBubbles addObject:bubble];
-    [bubble startFadeIn];
+    [self addNotificationWithTitle:@"cocoaDialog Debug"
+                       description:message
+                              icon:[self getIconWithName:@"caution"]
+                          priority:0
+                            sticky:YES
+                         clickPath:nil
+                          clickArg:nil
+     ];
 }
 
-/*
-- (void) bubbleWillFadeIn:(KABubbleWindowController *) bubble {}
-- (void) bubbleDidFadeIn:(KABubbleWindowController *) bubble  {}
-*/
-
-- (void) bubbleWillFadeOut:(KABubbleWindowController *) bubble
+- (void)bubbleWasClicked:(id)clickContext
 {
-	[activeBubbles removeObject:bubble];
-	[fadingBubbles addObject:bubble];
-
-	// Don't fade other bubbles if this option is provided.
-	if ([[self options] hasOpt:@"independent"]) {
-		return;
-	}
-
-	// When a bubble fades, make the others start to fade as well.
-	KABubbleWindowController *aBubble;
-	NSEnumerator *en = [activeBubbles objectEnumerator];
-	while (aBubble = (KABubbleWindowController *)[en nextObject]) {
-		[aBubble startFadeOut];
-	}
+    // Launch task
+    [self notificationWasClicked:clickContext];
 }
+
 - (void) bubbleDidFadeOut:(KABubbleWindowController *) bubble
 {
-	[fadingBubbles removeObject:bubble];
-	if (![fadingBubbles count] && ![activeBubbles count]) {
-		[NSApp stop:self];
-		[NSApp terminate:nil];
-	}
-}
-
-- (void) dealloc
-{
-	[activeBubbles release];
-	[fadingBubbles release];
-	activeBubbles = nil;
-	fadingBubbles = nil;
-	[super dealloc];
+    // Terminate cocoaDialog once all the notifications are complete
+    activeNotifications--;
+    if (activeNotifications <= 0) {
+        hasFinished = YES;
+        [NSApp replyToApplicationShouldTerminate: YES];
+        [NSApp stop:self];
+    }
 }
 
 // We really ought to stick this in a proper NSColor category

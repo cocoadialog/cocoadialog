@@ -21,14 +21,10 @@
 #import <Foundation/Foundation.h>
 #import "CDNotifyControl.h"
 
-@interface CDBubbleControl : CDNotifyControl {
-	NSMutableArray *activeBubbles;
-	NSMutableArray *fadingBubbles;
-}
+@interface CDBubbleControl : CDNotifyControl
 
 // We really ought to stick this in a proper NSColor category
 + (NSColor *) colorFromHex:(NSString *) hexValue alpha:(CGFloat)alpha;
-
 - (NSColor *) _colorForBubble:(unsigned long)i fromKey:(NSString *)key alpha:(CGFloat)alpha;
 
 @end

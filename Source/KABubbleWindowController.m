@@ -94,6 +94,8 @@ static unsigned int bubbleWindowDepth = 0;
 
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( _applicationDidSwitch: ) name:NSApplicationDidBecomeActiveNotification object:[NSApplication sharedApplication]];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( _applicationDidSwitch: ) name:NSApplicationDidHideNotification object:[NSApplication sharedApplication]];
+    
+    self = [super initWithWindow:panel];
 
 	_depth = ++bubbleWindowDepth;
 	_autoFadeOut = YES;
@@ -101,9 +103,10 @@ static unsigned int bubbleWindowDepth = 0;
 	_target = nil;
 	_representedObject = nil;
 	_action = NULL;
+    _clickContext = nil;
 	_animationTimer = nil;
 
-	return ( self = [super initWithWindow:panel] );
+	return self;
 }
 
 - (void) dealloc {
@@ -114,6 +117,7 @@ static unsigned int bubbleWindowDepth = 0;
 	[_animationTimer invalidate];
 	[_animationTimer release];
 
+    _clickContext = nil;
 	_target = nil;
 	_representedObject = nil;
 	_delegate = nil;
@@ -153,8 +157,9 @@ static unsigned int bubbleWindowDepth = 0;
 		[[self window] setAlphaValue:[[self window] alphaValue] - FADE_INCREMENT];
 	} else {
 		[self _stopTimer];
-		if( [_delegate respondsToSelector:@selector( bubbleDidFadeOut: )] )
+		if( [_delegate respondsToSelector:@selector( bubbleDidFadeOut: )] ) {
 			[_delegate bubbleDidFadeOut:self];
+        }
 		[self close];
 		[self autorelease]; // Relase, we retained when we faded in.
 	}
@@ -168,8 +173,9 @@ static unsigned int bubbleWindowDepth = 0;
 }
 
 - (void) _bubbleClicked:(id) sender {
-	if( _target && _action && [_target respondsToSelector:_action] )
-		[_target performSelector:_action withObject:self];
+    if (_clickContext != nil && [_delegate respondsToSelector:@selector( bubbleWasClicked: )]) {
+        [_delegate bubbleWasClicked:_clickContext];
+    }
 	[self startFadeOut];
 }
 
@@ -185,8 +191,9 @@ static unsigned int bubbleWindowDepth = 0;
 }
 
 - (void) startFadeOut {
-	if( [_delegate respondsToSelector:@selector( bubbleWillFadeOut: )] )
-		[_delegate bubbleWillFadeOut:self];
+	if( [_delegate respondsToSelector:@selector( bubbleWillFadeOut: )] ) {
+     [_delegate bubbleWillFadeOut:self];   
+    }
 	[self _stopTimer];
 	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector( _fadeOut: ) userInfo:nil repeats:YES] retain];
 }
@@ -220,6 +227,16 @@ static unsigned int bubbleWindowDepth = 0;
 
 - (void) setAction:(SEL) selector {
 	_action = selector;
+}
+
+#pragma mark -
+
+- (id) clickContext {
+	return _clickContext;
+}
+
+- (void) setClickContext:(id) object {
+	_clickContext = object;
 }
 
 #pragma mark -

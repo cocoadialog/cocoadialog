@@ -17,6 +17,7 @@
 	unsigned int _depth;
 	BOOL _autoFadeOut;
 	SEL _action;
+    id _clickContext;
 	id _target;
 	id _representedObject;
 	float _timeout;
@@ -53,6 +54,9 @@
 - (SEL) action;
 - (void) setAction:(SEL) selector;
 
+- (id) clickContext;
+- (void) setClickContext:(id) object;
+
 - (id) representedObject;
 - (void) setRepresentedObject:(id) object;
 
@@ -65,6 +69,8 @@
 @end
 
 @interface NSObject (KABubbleWindowControllerDelegate)
+- (void) bubbleWasClicked:(id)clickContext;
+
 - (void) bubbleWillFadeIn:(KABubbleWindowController *) bubble;
 - (void) bubbleDidFadeIn:(KABubbleWindowController *) bubble;
 
