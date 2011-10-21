@@ -25,16 +25,11 @@
 
 - (NSDictionary *) availableKeys
 {
-	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
-	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
+//	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
+//	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
 	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
 
 	return [NSDictionary dictionaryWithObjectsAndKeys:
-		vOne,  @"text",
-		vMul,  @"with-extensions",
-		vOne,  @"with-directory",
-		vOne,  @"with-file",
-		vNone, @"packages-as-directories",
 		vNone, @"no-create-directories",
 		nil];
 }
@@ -48,9 +43,6 @@
 	
 	[self setOptions:options];
 	[self setMisc:savePanel];
-
-	NSArray *extensions = [self extensionsFromOptionKey:@"with-extensions"];
-	[savePanel setAllowedFileTypes:extensions];
 
 	if ([options hasOpt:@"packages-as-directories"]) {
 		[savePanel setTreatsFilePackagesAsDirectories:YES];
@@ -91,7 +83,7 @@
             [savePanel setDirectoryURL:url];
         }
         [savePanel setNameFieldStringValue:file];
-        [savePanel runModal];
+        result = [savePanel runModal];
     }
 
 	if (result == NSFileHandlingPanelOKButton) {

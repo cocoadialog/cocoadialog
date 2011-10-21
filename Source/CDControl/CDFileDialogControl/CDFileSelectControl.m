@@ -25,20 +25,16 @@
 - (NSDictionary *) availableKeys
 {
 	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
-	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
+//	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
 	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
 
 	return [NSDictionary dictionaryWithObjectsAndKeys:
-		vOne,  @"text",
+        vMul,  @"allowed-files",
 		vNone, @"select-directories",
 		vNone, @"select-only-directories",
 		vNone, @"no-select-directories",
 		vNone, @"select-multiple",
 		vNone, @"no-select-multiple",
-		vMul,  @"with-extensions",
-		vOne,  @"with-directory",
-		vOne,  @"with-file",
-		vNone, @"packages-as-directories",
 		nil];
 }
 
@@ -46,12 +42,13 @@
 {
 	unsigned long result;
 	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+    [openPanel setDelegate:self];
+
 	NSString *file = nil;
 	NSString *dir = nil;
 	
 	[self setOptions:options];
 	[self setMisc:openPanel];
-	NSArray *extensions = [self extensionsFromOptionKey:@"with-extensions"];
 
 	// set select-multiple
 	if ([options hasOpt:@"select-multiple"]) {
@@ -96,25 +93,53 @@
     [self findPositionForWindow:openPanel];
     
     if (kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber10_6) {
-        result = [openPanel runModalForDirectory:dir file:file types:extensions];
+        result = [openPanel runModalForDirectory:dir file:file];
     }
     else {
         if (dir != nil) {
+            if (file != nil) {
+                dir = [dir stringByAppendingString:@"/"];
+                dir = [dir stringByAppendingString:file];
+            }
             NSURL * url = [[[NSURL alloc] initFileURLWithPath:dir] autorelease];
             [openPanel setDirectoryURL:url];
         }
-        [openPanel setAllowedFileTypes:extensions];
-        [openPanel setNameFieldStringValue:file];
-        [openPanel runModal];
+        result = [openPanel runModal];
     }
 
 
-	if (result == NSOKButton) {
+	if (result == NSFileHandlingPanelOKButton) {
 		return [openPanel filenames];
 	} else {
 		return [NSArray array];
 	}
 }
 
+- (BOOL)isExtensionAllowed:(NSString *)filename
+{
+    CDOptions *options = [self options];
+    BOOL extensionAllowed = YES;
+    if (extensions != nil && [extensions count]) {
+        NSString* extension = [filename pathExtension];
+        extensionAllowed = [extensions containsObject:extension];
+    }
+    if ([options hasOpt:@"allowed-files"]) {
+        NSArray *allowedFiles = [options optValues:@"allowed-files"];
+        if (allowedFiles != nil && [allowedFiles count]) {
+            if ([allowedFiles containsObject:[filename lastPathComponent]]) {
+                return YES;
+            }
+            else {
+                return NO;
+            }
+        }
+        else {
+            return extensionAllowed;
+        }
+    }
+    else {
+        return extensionAllowed;
+    }
+}
 
 @end

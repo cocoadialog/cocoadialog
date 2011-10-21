@@ -22,10 +22,11 @@
 #import "CDControl.h"
 
 
-@interface CDFileDialogControl : CDControl {
+@interface CDFileDialogControl : CDControl <NSOpenSavePanelDelegate> {
+    NSMutableArray * extensions;
 }
 
-- (NSArray *) extensionsFromOptionKey:(NSString *)key;
+- (BOOL) isExtensionAllowed:(NSString *)filename;
 
 // Set options common to any file save panel
 - (void) setMisc:(NSSavePanel *)savePanel;
