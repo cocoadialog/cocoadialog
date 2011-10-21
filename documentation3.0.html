@@ -8,25 +8,25 @@
   	<li><a href="#documentation3.0/runmodes">Run Modes / GUI Controls</a>
   		<ul>
   			<li><a href="#documentation3.0/bubble_control">bubble</a></li>
+  			<li><a href="#documentation3.0/checkbox_control">checkbox</a></li>
+  			<li><a href="#documentation3.0/dropdown_control">dropdown</a></li>
+  			<li><a href="#documentation3.0/filesave_control">filesave</a></li>
+  			<li><a href="#documentation3.0/fileselect_control">fileselect</a></li>
   			<li><a href="#documentation3.0/msgbox_control">msgbox</a></li>
-  			<li><a href="#documentation3.0/ok-msgbox_control">ok-msgbox</a></li>
-  			<li><a href="#documentation3.0/yesno-msgbox_control">yesno-msgbox</a></li>
   			<li><a href="#documentation3.0/inputbox_control">inputbox</a></li>
-  			<li><a href="#documentation3.0/standard-inputbox_control">standard-inputbox</a></li>
+  			<li><a href="#documentation3.0/ok-msgbox_control">ok-msgbox</a></li>
+  			<li><a href="#documentation3.0/progressbar_control">progressbar</a></li>
+  			<li><a href="#documentation3.0/radio_control">radio</a></li>
   			<li><a href="#documentation3.0/secure-inputbox_control">secure-inputbox</a></li>
   			<li><a href="#documentation3.0/secure-standard-inputbox_control">secure-standard-inputbox</a></li>
-  			<li><a href="#documentation3.0/fileselect_control">fileselect</a></li>
-  			<li><a href="#documentation3.0/filesave_control">filesave</a></li>
-  			<li><a href="#documentation3.0/textbox_control">textbox</a></li>
-  			<li><a href="#documentation3.0/progressbar_control">progressbar</a></li>
-  			<li><a href="#documentation3.0/dropdown_control">dropdown</a></li>
   			<li><a href="#documentation3.0/standard-dropdown_control">standard-dropdown</a></li>
+  			<li><a href="#documentation3.0/standard-inputbox_control">standard-inputbox</a></li>
+  			<li><a href="#documentation3.0/textbox_control">textbox</a></li>
+  			<li><a href="#documentation3.0/yesno-msgbox_control">yesno-msgbox</a></li>
   		</ul>
   	</li>
   </ul>
 </div>
-
-
 <h1>Documentation (cocoaDialog 3.0)</h1>
 <p>
 The following document provides an overview of how to use cocoaDialog,
@@ -39,169 +39,157 @@ practical examples of its use.
 <a name="top"></a>
 
 <a name="executing"></a>
-<h2>Executing cocoaDialog</h2>
-<h3>Overview</h3>
-<p>
-cocoaDialog is run directly from the commandline by executing the 
-binary file within the <code>.app</code> bundle.
-The path to it will be
-<code>cocoaDialog.app/Contents/MacOS/cocoaDialog</code>
-<br />
-If cocoaDialog is in your <code>~/Applications</code> directory,
-for example, the executable will be:
-<code>~/Applications/cocoaDialog.app/Contents/MacOS/cocoaDialog</code>
-</p>
-<p>
-<strong>From here on we will refer to this binary file as simply
-<code>cocoaDialog</code></strong>
-</p>
+<div class="section">
+  <h2>Executing cocoaDialog</h2>
+  <h3>Overview</h3>
+  <p>
+    cocoaDialog is run directly from the commandline by executing the binary file within the <code>.app</code> bundle. The path to it will be <code>cocoaDialog.app/Contents/MacOS/cocoaDialog</code><br />
+    If cocoaDialog is in your <code>~/Applications</code> directory, for example, the executable will be: <code>~/Applications/cocoaDialog.app/Contents/MacOS/cocoaDialog</code>
+  </p>
+  <p>
+    <strong>From here on we will refer to this binary file as simply <code>cocoaDialog</code></strong>
+  </p>
 
-<a name="wrapper"></a>
-<h3>Easy way to invoke cocoaDialog</h3>
-<p>
-This is a simple wrapper script.  Put it somewhere in your <code>$PATH</code>. For example, mine is <code>~/bin/cocoaDialog</code>, and I have <code>export PATH=$PATH:~/bin</code> in my <code>~/.bash_profile</code>.
-</p>
-<p>
-Now from the shell or other scripts, I can just do <code>cocoaDialog</code> to invoke the program.
-</p>
-<p><a href="examples/cocoaDialog">download this wrapper script</a></p>
-<div class="code">
-	<pre>
-#!/usr/bin/perl
+  <a name="wrapper"></a>
+  <h3>Easy way to invoke cocoaDialog</h3>
+  <p>
+  This is a simple wrapper script.  Put it somewhere in your <code>$PATH</code>. For example, mine is <code>~/bin/cocoaDialog</code>, and I have <code>export PATH=$PATH:~/bin</code> in my <code>~/.bash_profile</code>.
+  </p>
+  <p>
+  Now from the shell or other scripts, I can just do <code>cocoaDialog</code> to invoke the program.
+  </p>
+  <p><a href="examples/cocoaDialog">download this wrapper script</a></p>
+  <div class="code">#!/usr/bin/perl
 use strict;
 use warnings;
 
 my $path = "/Users/markstra/Applications"; # Change this!
 my $cd = "$path/cocoaDialog.app/Contents/MacOS/cocoaDialog";
 
-system($cd, @ARGV);
-	</pre>
-</div>
+system($cd, @ARGV);</div>
 
-<h3>Runmode and options</h3>
-<p>
-cocoaDialog is always executed with the following format:
-</p>
-<div class="code">cocoaDialog runmode options</div>
-<p>
-The <code>runmode</code> is always required, and specifies which GUI
-control to use. 
-<br />
-An example is:
-</p>
-<div class="code">cocoaDialog yesno-msgbox --title "Delete backups"
-	--text "Delete all the backups?" --informative-text "This cannot be
-	un-done"</div>
-<p>
-See <a href="#documentation3.0/runmodes">Run Modes / GUI Controls</a> for a list of available controls.
-</p>
+  <h3>Runmode and options</h3>
+  <p>
+  cocoaDialog is always executed with the following format:
+  </p>
+  <pre><code>cocoaDialog runmode options</code></pre>
+  <p>
+  The <code>runmode</code> is always required, and specifies which GUI
+  control to use. 
+  <br />
+  An example is:
+  </p>
+  <pre><code>cocoaDialog yesno-msgbox --title "Delete backups" --text "Delete all the backups?" --informative-text "This cannot be un-done"</code></pre>
+  <p>
+  See <a href="#documentation3.0/runmodes">Run Modes / GUI Controls</a> for a list of available controls.
+  </p>
+</div>
 
 <a name="rvs"></a>
-<h2>Return Values / Output</h2>
-<p>
-The return value of a control will simply be printed to
-<code>stdout</code>.
-This makes it trivial to determine the user input in any
-shell, programming or scripting language.
-</p>
-<p>
-In bash you could find it like this:
-</p>
-<div class="code">
-	rv=`cocoaDialog yesno-msgbox --string-output`
-	<br />
-	echo "User pressed the $rv button"
+<div class="section">
+  <h2>
+    Return Values / Output
+  </h2>
+  <p>
+    The return value of a control will simply be printed to <code>stdout</code>. This makes it trivial to determine the user input in any shell, programming or scripting language.
+  </p>
+  <p>
+    In bash you could find it like this:
+  </p>
+  <pre><code>rv=$(cocoaDialog yesno-msgbox --string-output); echo "User pressed the ${rv} button";</code></pre>
+  <p>
+    Controls that return multiple values will print each on its own line (separated by newlines).
+  </p>
 </div>
-<p>
-Controls that return multiple values will print each on its own
-line (separated by newlines).
-</p>
 
 <a name="global_options"></a>
-<h2>Global Options</h2>
-<p>
-The following options can be supplied for any of the run modes
-(GUI controls).
-</p>
+<div class="section">
+  <h2>Global Options</h2>
+  <p>
+  The following options can be supplied for any of the run modes
+  (GUI controls).
+  </p>
 
-<table class="commands" cellpadding="0" cellspacing="0">
-  <thead>
-    <tr>
-      <th>Command</th>
-      <th>Arguments</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-  	<tr>
-  		<td class="command">--title</td>
-  		<td class="arguments">"string"</td>
-  		<td class="description">Sets the window's title.</td>
-  	</tr>
-  	<tr>
-  	  <td class="command">--string-output</td>
-  		<td class="arguments"></td>
-  		<td class="description">Makes yes/no/ok/cancel buttons return values as "Yes", "No", "Ok", or "Cancel" instead of integers. When used with custom	button labels, returns the label you provided</td>
-  	</tr>
-  	<tr>
-  	  <td class="command">--no-newline</td>
-  		<td class="arguments"></td>
-  		<td class="description">By default, return values will be printed with a trailing	newline. This will suppress that behavior. <em>NOTE: when a control returns multiple lines this will only suppress the trailing newline on the last line</em></td>
-  	</tr>
-  	<tr>
-  	  <td class="command">--width</td>
-  		<td class="arguments">integer</td>
-  		<td class="description">Sets the width of the window. It's not advisable to use this option without good reason, and some controls won't even	respond to it. The automatic size of most windows should suffice.</td>
-  	</tr>
-  	<tr>
-  	  <td class="command">--height</td>
-  		<td class="arguments">integer</td>
-  		<td class="description">Sets the height of the window. It's not advisable to use this option without good reason, and some controls won't even respond to it.  The automatic size of most windows should suffice.</td>
-  	</tr>
-  	<tr>
-  	  <td class="command">--icon</td>
-	    <td class="arguments">"icon"</td>
-  	  <td class="description">The <a href="#documentation3.0/icons">name of the icon</a> to use. If used with <code>--icon-file</code>, this icon will be used as a backup.<br />Default: no icon.</td>
-  	</tr>
-  	<tr>
-  	  <td class="command">--icon-bundle</td>
-	    <td class="arguments">"com.apple.bundle.identifier"</td>
-  	  <td class="description">The bundle identifier of the application to use. Must be used with <code>--icon</code> to specify the icon name to search for in the bundles resource folder.</td>
-  	</tr>
-  	<tr>
-  	  <td class="command">--icon-file</td>
-    	<td class="arguments">"/full/path/to/icon.icns"</td>
-    	<td class="description">The full path to the custom icon image you would like to use. Almost every image format is accepted <code>.jpg .jpeg .png .tiff .icns</code>. If used with <code>--icon</code>, this icon will take precedence and <code>--icon</code> will only be used as a backup.</td>
-  	</tr>
-  	<tr>
-  	  <td class="command">--icon-size</td>
-	    <td class="arguments">integer</td>
-  	  <td class="description">The size of the icon. Must be one of: <code>16, 32, 48, 128, 256</code>. If not specified or an unknown size, defaults to <code>48</code>.</td>
-  	</tr>
-  	<tr>
-  	  <td class="command">--icon-height</td>
-    	<td class="arguments">integer</td>
-    	<td class="description">The height of the icon. This will override <code>--icon-size</code>. Defaults to: <code>--icon-size</code>.</td>
-  	</tr>
-  	<tr>
-  	  <td class="command">--icon-width</td>
-    	<td class="arguments">integer</td>
-    	<td class="description">The width of the icon. This will override <code>--icon-size</code>. Defaults to: <code>--icon-size</code>.</td>
-  	</tr>
-  	<tr>
-  	  <td class="command">--debug</td>
-  		<td class="arguments"></td>
-  		<td class="description">If you are not getting the results you expect, try turning on	this option. When there is an error, it will print <code>ERROR:</code> followed by the error message.</td>
-  	</tr>
-  	<tr>
-  	  <td class="command">--help</td>
-  		<td class="arguments"></td>
-  		<td class="description">Gives a list of options and a link to this page.</td>
-  	</tr>
-  </tbody>
-</table>
+  <table class="commands" cellpadding="0" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Command</th>
+        <th>Arguments</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+    	<tr>
+    		<td class="command">--title</td>
+    		<td class="arguments">"string"</td>
+    		<td class="description">Sets the window's title.</td>
+    	</tr>
+    	<tr>
+    	  <td class="command">--string-output</td>
+    		<td class="arguments"></td>
+    		<td class="description">Makes yes/no/ok/cancel buttons return values as "Yes", "No", "Ok", or "Cancel" instead of integers. When used with custom	button labels, returns the label you provided</td>
+    	</tr>
+    	<tr>
+    	  <td class="command">--no-newline</td>
+    		<td class="arguments"></td>
+    		<td class="description">By default, return values will be printed with a trailing	newline. This will suppress that behavior. <em>NOTE: when a control returns multiple lines this will only suppress the trailing newline on the last line</em></td>
+    	</tr>
+    	<tr>
+    	  <td class="command">--width</td>
+    		<td class="arguments">integer</td>
+    		<td class="description">Sets the width of the window. It's not advisable to use this option without good reason, and some controls won't even	respond to it. The automatic size of most windows should suffice.</td>
+    	</tr>
+    	<tr>
+    	  <td class="command">--height</td>
+    		<td class="arguments">integer</td>
+    		<td class="description">Sets the height of the window. It's not advisable to use this option without good reason, and some controls won't even respond to it.  The automatic size of most windows should suffice.</td>
+    	</tr>
+    	<tr>
+    	  <td class="command">--icon</td>
+  	    <td class="arguments">"icon"</td>
+    	  <td class="description">The <a href="#documentation3.0/icons">name of the icon</a> to use. If used with <code>--icon-file</code>, this icon will be used as a backup.<br />Default: no icon.</td>
+    	</tr>
+    	<tr>
+    	  <td class="command">--icon-bundle</td>
+  	    <td class="arguments">"com.apple.bundle.identifier"</td>
+    	  <td class="description">The bundle identifier of the application to use. Must be used with <code>--icon</code> to specify the icon name to search for in the bundles resource folder.</td>
+    	</tr>
+    	<tr>
+    	  <td class="command">--icon-file</td>
+      	<td class="arguments">"/full/path/to/icon.icns"</td>
+      	<td class="description">The full path to the custom icon image you would like to use. Almost every image format is accepted <code>.jpg .jpeg .png .tiff .icns</code>. If used with <code>--icon</code>, this icon will take precedence and <code>--icon</code> will only be used as a backup.</td>
+    	</tr>
+    	<tr>
+    	  <td class="command">--icon-size</td>
+  	    <td class="arguments">integer</td>
+    	  <td class="description">The size of the icon. Must be one of: <code>16, 32, 48, 128, 256</code>. If not specified or an unknown size, defaults to <code>48</code>.</td>
+    	</tr>
+    	<tr>
+    	  <td class="command">--icon-height</td>
+      	<td class="arguments">integer</td>
+      	<td class="description">The height of the icon. This will override <code>--icon-size</code>. Defaults to: <code>--icon-size</code>.</td>
+    	</tr>
+    	<tr>
+    	  <td class="command">--icon-width</td>
+      	<td class="arguments">integer</td>
+      	<td class="description">The width of the icon. This will override <code>--icon-size</code>. Defaults to: <code>--icon-size</code>.</td>
+    	</tr>
+    	<tr>
+    	  <td class="command">--debug</td>
+    		<td class="arguments"></td>
+    		<td class="description">If you are not getting the results you expect, try turning on	this option. When there is an error, it will print <code>ERROR:</code> followed by the error message.</td>
+    	</tr>
+    	<tr>
+    	  <td class="command">--help</td>
+    		<td class="arguments"></td>
+    		<td class="description">Gives a list of options and a link to this page.</td>
+    	</tr>
+    </tbody>
+  </table>
+</div>
 
 <a name="icons"></a>
+<div class="section">
 <h2>Icons</h2>
 	<p>
 		All dialogs allow you display an icon. In addition to using a custom icon with <code>--icon-file</code> or <code>--icon-bundle</code>, you may also choose from the following icon name and cocoaDialog can locate the icon on your computer for you.
@@ -269,6 +257,8 @@ The following options can be supplied for any of the run modes
 		<div class="icon"><img class="icon" src="icons/utilities.jpg" alt="utilities" /><br />utilities</div>
 		<div class="icon"><img class="icon" src="icons/widget.jpg" alt="widget" /><br />widget</div>
 	</div>
+</div>
+
 <br style="clear: both">    
 
 <a name="runmodes"></a>

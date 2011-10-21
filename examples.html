@@ -29,9 +29,7 @@ This is a simple wrapper script.  Put it somewhere in your <code>$PATH</code>. F
 <p>
 Now from the shell or other scripts, I can just do <code>CocoaDialog</code> to invoke the program.
 </p>
-<div class="code">
-	<pre>
-#!/usr/bin/perl
+<pre><code>#!/usr/bin/perl
 use strict;
 use warnings;
 
@@ -39,16 +37,13 @@ my $path = "/Users/markstra/Applications"; # Change this!
 my $cd = "$path/CocoaDialog.app/Contents/MacOS/CocoaDialog";
 
 system($cd, @ARGV);
-	</pre>
-</div>
+</code></pre>
 <p style="text-align:right"><a href="#examples/top">back to the top</a></p>
 
 <a name="bubble"></a>
 <h2>bubble shell script</h2>
 <p><a href="examples/bubble.sh.txt">download</a></p>
-<div class="code">
-	<pre>
-#!/bin/bash
+<pre><code>#!/bin/bash
 
 CD_APP=&quot;$HOME/Applications/CocoaDialog.app&quot;
 CD=&quot;$CD_APP/Contents/MacOS/CocoaDialog&quot;
@@ -72,17 +67,13 @@ $CD bubble --debug --titles &quot;Bubble 1&quot; &quot;Second bubble&quot;      
 --background-bottoms &quot;86c7fe&quot; &quot;fdde88&quot;            \
 --icon-files &quot;/Users/markstra/Desktop/icon1.png&quot;  \
            &quot;$CD_APP/Contents/Resources/globe.icns&quot;
-
-	</pre>
-</div>
+</code></pre>
 <p style="text-align:right"><a href="#examples/top">back to the top</a></p>
 
 <a name="ok"></a>
 <h2>ok-msgbox shell script</h2>
 <p><a href="examples/ok.sh.txt">download</a></p>
-<div class="code">
-	<pre>
-#!/bin/bash
+<pre><code>#!/bin/bash
 
 CD=&quot;$HOME/Applications/CocoaDialog.app/Contents/MacOS/CocoaDialog&quot;
 
@@ -95,16 +86,13 @@ elif [ &quot;$rv&quot; == &quot;2&quot; ]; then
 echo &quot;Canceling&quot;
 exit
 fi
-	</pre>
-</div>
+</code></pre>
 <p style="text-align:right"><a href="#examples/top">back to the top</a></p>
 
 <a name="yesno"></a>
 <h2>yesno-msgbox shell script</h2>
 <p><a href="examples/yesno.sh.txt">download</a></p>
-<div class="code">
-	<pre>
-#!/bin/bash
+<pre><code>#!/bin/bash
 
 CD=&quot;$HOME/Applications/CocoaDialog.app/Contents/MacOS/CocoaDialog&quot;
 
@@ -123,16 +111,13 @@ echo &quot;User does not like this program&quot;
 elif [ &quot;$rv&quot; == &quot;3&quot; ]; then
 echo &quot;User has no opinion (pressed cancel)&quot;
 fi
-	</pre>
-</div>
+</code></pre>
 <p style="text-align:right"><a href="#examples/top">back to the top</a></p>
 
 <a name="msgbox"></a>
 <h2>msgbox shell script</h2>
 <p><a href="examples/msgbox.sh.txt">download</a></p>
-<div class="code">
-	<pre>
-#!/bin/bash
+<pre><code>#!/bin/bash
 
 CD=&quot;$HOME/Applications/CocoaDialog.app/Contents/MacOS/CocoaDialog&quot;
 
@@ -147,16 +132,13 @@ echo &quot;User likes Linux&quot;
 elif [ &quot;$rv&quot; == &quot;3&quot; ]; then
 echo &quot;User doesn't care&quot;
 fi
-	</pre>
-</div>
+</code></pre>
 <p style="text-align:right"><a href="#examples/top">back to the top</a></p>
 
 <a name="standard-inputbox"></a>
 <h2>standard-inputbox Perl script</h2>
 <p><a href="examples/standard-inputbox.pl.txt">download</a></p>
-<div class="code">
-	<pre>
-#!/usr/bin/perl -w
+<pre><code>#!/usr/bin/perl -w
 use strict;
 
 our $CD = &quot;$ENV{HOME}/Applications/CocoaDialog.app/Contents/MacOS/CocoaDialog&quot;;
@@ -170,16 +152,13 @@ print &quot;Hello $name\n&quot;;
 } elsif ($button_rv == 2) {
 print &quot;No name given\n&quot;;
 }
-	</pre>
-</div>
+</code></pre>
 <p style="text-align:right"><a href="#examples/top">back to the top</a></p>
 
 <a name="inputbox"></a>
 <h2>inputbox Perl script</h2>
 <p><a href="examples/inputbox.pl.txt">download</a></p>
-<div class="code">
-	<pre>
-#!/usr/bin/perl -w
+<pre><code>#!/usr/bin/perl -w
 use strict;
 
 our $CD = &quot;$ENV{HOME}/Applications/CocoaDialog.app/Contents/MacOS/CocoaDialog&quot;;
@@ -196,17 +175,14 @@ print &quot;Search for '$term'\n&quot;;
 } elsif ($button_rv == 2) {
 print &quot;Search all files for '$term'\n&quot;;
 }
-	</pre>
-</div>
+</code></pre>
 <p style="text-align:right"><a href="#examples/top">back to the top</a></p>
 
 <a name="progressbar4"></a>
 <h2>progressbar Python class</h2>
 <p>Paul Bissex wrote this Python class for working with the progressbar control</p>
 <p><a href="examples/ProgressBar.txt">download</a></p>
-<div class="code">
-	<pre>
-"""ProgressBar -- for use with CocoaDialog (http://cocoadialog.sourceforge.net/)"""
+<pre><code>"""ProgressBar -- for use with CocoaDialog (http://cocoadialog.sourceforge.net/)"""
 
 __author__ = "Paul Bissex &lt;pb@e-scribe.com&gt;"
 __version__ = "0.2.1"
@@ -255,16 +231,13 @@ for percent in range(25,100):
  
 time.sleep(.5)
 bar.finish()
-	</pre>
-</div>
+</code></pre>
 <p style="text-align:right"><a href="#examples/top">back to the top</a></p>
 
 <a name="progressbar"></a>
 <h2>progressbar Perl script</h2>
 <p><a href="examples/progressbar.pl.txt">download</a></p>
-<div class="code">
-	<pre>
-#!/usr/bin/perl -w
+<pre><code>#!/usr/bin/perl -w
 
 use strict;
 use IO::File;
@@ -337,8 +310,7 @@ $fh-&gt;autoflush(1);
 sleep 8;
 
 $fh-&gt;close();
-	</pre>
-</div>
+</code></pre>
 <p style="text-align:right"><a href="#examples/top">back to the top</a></p>
 
 <a name="progressbar2"></a>
@@ -348,9 +320,7 @@ Thanks to Kevin Hendricks for writing this and sending it in.
 <br />
 <a href="examples/progressbar.sh.txt">download</a>
 </p>
-<div class="code">
-	<pre>
-#!/bin/bash
+<pre><code>#!/bin/bash
 
 # create a named pipe
 rm -f /tmp/hpipe
@@ -375,8 +345,7 @@ exec 3&gt;&amp;-
 wait
 rm -f /tmp/hpipe
 exit 0
-	</pre>
-</div>
+</code></pre>
 <p style="text-align:right"><a href="#examples/top">back to the top</a></p>
 
 <a name="progressbar3"></a>
@@ -419,9 +388,7 @@ echo "Got back: $res"
 <a name="textbox"></a>
 <h2>textbox Perl script</h2>
 <p><a href="examples/textbox.pl.txt">download</a></p>
-<div class="code">
-	<pre>
-#!/usr/bin/perl -w
+<pre><code>#!/usr/bin/perl -w
 use strict;
 
 our $CD = &quot;$ENV{HOME}/Applications/CocoaDialog.app/Contents/MacOS/CocoaDialog&quot;;
@@ -461,16 +428,13 @@ print $text;
 } elsif ($button_rv == 2) {
 print &quot;User hit cancel\n&quot;;
 }
-	</pre>
-</div>
+</code></pre>
 <p style="text-align:right"><a href="#examples/top">back to the top</a></p>
 
 <a name="fileselect"></a>
 <h2>fileselect shell script</h2>
 <p><a href="examples/fileselect.sh.txt">download</a></p>
-<div class="code">
-	<pre>
-#!/bin/bash
+<pre><code>#!/bin/bash
 
 CD=&quot;$HOME/Applications/CocoaDialog.app/Contents/MacOS/CocoaDialog&quot;
 
@@ -504,16 +468,13 @@ done
 else
 echo &quot;No files chosen&quot;
 fi
-	</pre>
-</div>
+</code></pre>
 <p style="text-align:right"><a href="#examples/top">back to the top</a></p>
 
 <a name="dropdown"></a>
 <h2>dropdown Perl script</h2>
 <p><a href="examples/dropdown.pl.txt">download</a></p>
-<div class="code">
-	<pre>
-#!/usr/bin/perl -w
+<pre><code>#!/usr/bin/perl -w
 use strict;
 
 our $CD = &quot;$ENV{HOME}/Applications/CocoaDialog.app/Contents/MacOS/CocoaDialog&quot;;
@@ -536,16 +497,13 @@ print &quot;Windows?!??!?\n&quot;;
 } else {
 print &quot;User canceled\n&quot;;
 }
-	</pre>
-</div>
+</code></pre>
 <p style="text-align:right"><a href="#examples/top">back to the top</a></p>
 
 <a name="finding"></a>
 <h2>Finding CocoaDialog executable</h2>
 <p><a href="examples/find_cocoadialog.sh.txt">download shell script</a></p>
-<div class="code">
-	<pre>
-#!/bin/bash
+<pre><code>#!/bin/bash
 
 COCOA_DIALOG=&quot;&quot;
 
@@ -557,12 +515,9 @@ else
 echo &quot;CocoaDialog.app not found&quot;
 exit 1
 fi
-	</pre>
-</div>
+</code></pre>
 <p><a href="examples/find_cocoadialog.pl.txt">download Perl script</a></p>
-<div class="code">
-	<pre>
-#!/usr/bin/perl -w
+<pre><code>#!/usr/bin/perl -w
 use strict;
 
 our $COCOA_DIALOG = undef;
@@ -575,6 +530,5 @@ if (-d &quot;$path/CocoaDialog.app&quot;) {
 unless (defined $COCOA_DIALOG) {
 die &quot;Could not find CocoaDialog.app&quot;;
 }
-	</pre>
-</div>
+</code></pre>
 <p style="text-align:right"><a href="#examples/top">back to the top</a></p>
