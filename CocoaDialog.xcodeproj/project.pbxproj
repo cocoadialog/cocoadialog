@@ -48,6 +48,7 @@
 		0EC9B68409B1274100956684 /* CDFileSaveControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC9B68309B1274100956684 /* CDFileSaveControl.m */; };
 		0EE0B434096802B90070F494 /* CDThreeButtonControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EE0B433096802B90070F494 /* CDThreeButtonControl.m */; };
 		0EE0B436096802CF0070F494 /* CDThreeButtonControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EE0B435096802CF0070F494 /* CDThreeButtonControl.h */; };
+		61FA9D2114518E97006E0674 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 61FA9D2014518E97006E0674 /* dsa_pub.pem */; };
 		89880CAD142AB364004E79A1 /* CDProgressbarInputHandlerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 89880CAC142AB364004E79A1 /* CDProgressbarInputHandlerDelegate.h */; };
 		89BE1C9F14270A540030D0FF /* CDProgressbarInputHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BE1C9D14270A540030D0FF /* CDProgressbarInputHandler.m */; };
 		89BE1CA214270EC80030D0FF /* CDProgressbarInputHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 89BE1CA114270EC80030D0FF /* CDProgressbarInputHandler.h */; };
@@ -147,6 +148,7 @@
 		0EE0B435096802CF0070F494 /* CDThreeButtonControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDThreeButtonControl.h; path = Source/CDControl/CDThreeButtonControl.h; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		61FA9D2014518E97006E0674 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
 		89880CAC142AB364004E79A1 /* CDProgressbarInputHandlerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDProgressbarInputHandlerDelegate.h; path = Source/CDProgressbarInputHandlerDelegate.h; sourceTree = "<group>"; };
 		89BE1C9D14270A540030D0FF /* CDProgressbarInputHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDProgressbarInputHandler.m; path = Source/CDProgressbarInputHandler.m; sourceTree = "<group>"; };
 		89BE1CA114270EC80030D0FF /* CDProgressbarInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDProgressbarInputHandler.h; path = Source/CDProgressbarInputHandler.h; sourceTree = "<group>"; };
@@ -355,6 +357,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				61FA9D2014518E97006E0674 /* dsa_pub.pem */,
 				A78A8CD2143761E5007AE363 /* Info.plist */,
 				A78A8CB5143759ED007AE363 /* InfoPlist.strings */,
 				A78A8CB7143759ED007AE363 /* MainMenu.xib */,
@@ -545,6 +548,7 @@
 				A78A8CD914376C42007AE363 /* Textbox.xib in Resources */,
 				A78A8CE014377610007AE363 /* CHANGELOG in Resources */,
 				A78A8CE114377610007AE363 /* LICENSE in Resources */,
+				61FA9D2114518E97006E0674 /* dsa_pub.pem in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
