@@ -59,14 +59,14 @@ practical examples of its use.
   Now from the shell or other scripts, I can just do <code>cocoaDialog</code> to invoke the program.
   </p>
   <p><a href="examples/cocoaDialog">download this wrapper script</a></p>
-  <div class="code">#!/usr/bin/perl
+  <pre><code>#!/usr/bin/perl
 use strict;
 use warnings;
 
 my $path = "/Users/markstra/Applications"; # Change this!
 my $cd = "$path/cocoaDialog.app/Contents/MacOS/cocoaDialog";
 
-system($cd, @ARGV);</div>
+system($cd, @ARGV);</code></pre>
 
   <h3>Runmode and options</h3>
   <p>

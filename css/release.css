@@ -1,9 +1,9 @@
 /* Tiger Mac Help task_style.css v2.0f*/
 /* <html><head><meta name="robots" content="noindex"></head></html> */
-
-body  {
-	margin: 2px 12px 12px
-	}
+body {
+  font: 12px/170% Verdana, sans-serif;
+  color: #494949;
+}
 
 h1            {
 	font-size: 11pt;
@@ -84,20 +84,9 @@ ul p        {
 	}
 
 
-a         {
-	color: #00f;
-	font-size: 9pt;
-	font-family: "Lucida Grande", Arial, sans-serif;
-	line-height: 12pt;
-	text-decoration: none
-	}
-
-
-a:hover    {
-	color: #00f;
-	font-family: "Lucida Grande", Arial, sans-serif;
-	text-decoration: underline
-	}
+a:link, a:visited { color: #027AC6; text-decoration: none; }
+a:hover { color: #0062A0; text-decoration: underline; }
+a:active, a.active { color: #5895be; }
 
 hr  {
 	text-decoration: none;
@@ -196,6 +185,13 @@ margin-top: 3px;
     margin-left: 15px;
 }
 
+.released {
+  float: right;
+  font-weight: normal;
+  font-size:x-small;
+  font-style:italic;
+}
+
 .rules   {
 	border-bottom: 1px dotted #ccc
 	}
@@ -208,8 +204,35 @@ margin-top: 3px;
 	margin-top: 4px;
 	margin-bottom: 4px
 	}
-code       {
-	color: black;
-	font-size: 9pt;
-	font-family: Verdana, Courier, sans-serif;
-	}
+
+  pre, code {
+      font: 12px 'Bitstream Vera Sans Mono','Courier',monospace;
+  }
+
+  code {
+      background-color: #F8F8FF !important;
+      border: 1px solid #DEDEDE !important;
+      color: #444444 !important;
+      font-size: 12px !important;
+      padding: 0 0.2em !important;
+  }
+
+  pre {
+      background-color: #EEEEEE;
+      border: 1px solid #DDDDDD;
+      color: #444444;
+      font-size: 12px;
+      margin: 1em 0;
+      overflow: auto;
+      padding: 5px;
+      -moz-border-radius: 3px;
+    	-webkit-border-radius: 3px;
+    	border-radius: 3px;
+  }
+
+  pre code {
+      background-color: #EEEEEE !important;
+      border: medium none !important;
+      font-size: 12px !important;
+      padding: 0 !important;
+  }

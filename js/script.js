@@ -101,7 +101,7 @@
       return false;
     });
     
-    $('a.minibutton').bind({
+    $('.minibutton, .button').bind({
       mousedown: function() {
         $(this).addClass('mousedown');
       },
