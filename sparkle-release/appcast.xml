@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
+	<channel>
+		<title>cocoaDialog</title>
+		<link>http://mstratman.github.com/cocoadialog/</link>
+		<description>Most recent changes with links to updates.</description>
+		<language>en</language>
+
+		<item>
+			<title>Version 3.0-beta4</title>
+			<sparkle:releaseNotesLink>http://mstratman.github.com/cocoadialog/release.html</sparkle:releaseNotesLink>
+			<pubDate>Fri, 21 Oct 2011 11:14:17 CDT</pubDate>
+			<enclosure url="https://github.com/downloads/mstratman/cocoadialog/cocoaDialog_3.0.0-beta4.dmg" length="102" type="application/octet-stream" sparkle:version="3.0.0-beta4" sparkle:shortVersionString="3.0-beta4" sparkle:dsaSignature="MC0CFBYUQq8KXbHL4zfVJWEKIS68BI06AhUA2hAbqd3lhA6LwgYoSBcZCCdUo1w=" />
+		</item>
+	</channel>
+</rss>

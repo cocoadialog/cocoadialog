@@ -28,17 +28,29 @@
     
 }
 
+- (void)updaterDidNotFindUpdate:(SUUpdater *)update
+{
+    [NSApp terminate:self];
+}
+
+- (void)updaterWillRelaunchApplication:(SUUpdater *)updater
+{
+    [NSApp terminate:self];
+}
+
 - (void)dealloc
 {
     [super dealloc];
 }
+
 
 #pragma mark - Initialization
 - (void) awakeFromNib
 {
     SUUpdater * updater = [SUUpdater sharedUpdater];
     [updater setDelegate:self];
-    
+    [updater setFeedURL:[NSURL URLWithString:@"https://raw.github.com/mstratman/cocoadialog/master/sparkle-release/appcast.xml"]];
+
 	NSString *runMode = nil;
 
 	arguments = [[[NSMutableArray alloc] initWithArray:[[NSProcessInfo processInfo] arguments]] autorelease];
@@ -88,6 +100,20 @@
         [task setArguments:arguments];
         [task launch];
         [NSApp terminate:self];
+    }
+    else if ([runMode caseInsensitiveCompare:@"update"] == NSOrderedSame) {
+        [updater setAutomaticallyChecksForUpdates:YES];
+        [updater setAutomaticallyDownloadsUpdates:NO];
+        [updater resetUpdateCycle];
+        [updater checkForUpdates:nil];
+        [NSApp run];
+    }
+    else if ([runMode caseInsensitiveCompare:@"update-automatic"] == NSOrderedSame) {
+        [updater setAutomaticallyChecksForUpdates:YES];
+        [updater setAutomaticallyDownloadsUpdates:YES];
+        [updater resetUpdateCycle];
+        [updater checkForUpdatesInBackground];
+        [NSApp run];
     }
     // runMode needs to run through control logic
     else {
