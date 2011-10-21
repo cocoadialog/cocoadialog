@@ -44,6 +44,23 @@
             // General
             vNone, @"help",
             vNone, @"debug",
+            vOne,  @"title",
+            vOne,  @"width",
+            vOne,  @"height",
+            vOne,  @"posX",
+            vOne,  @"posY",
+            vNone, @"minimize",
+            vNone, @"resize",
+            vOne,  @"icon",
+            vOne,  @"icon-bundle",
+            vOne,  @"icon-type",
+            vOne,  @"icon-file",
+            vOne,  @"icon-size",
+            vOne,  @"icon-width",
+            vOne,  @"icon-height",
+            vNone, @"string-output",
+            vNone, @"no-newline",
+            // Open/Save
             vOne,  @"label",
             vNone, @"packages-as-directories",
             vMul,  @"with-extensions",
@@ -65,7 +82,6 @@
     CDOptions *options = [self options];
     extensions = [[[NSMutableArray alloc] init] retain];
     NSArray *optionExtensions = [options optValues:@"with-extensions"];
-    NSLog(@"%@", optionExtensions);
 	if (optionExtensions != nil && [optionExtensions count]) {
 		NSString *extension;
 		NSEnumerator *en = [optionExtensions objectEnumerator];
@@ -95,6 +111,7 @@
 {
     if (extensions != nil && [extensions count]) {
         NSString* extension = [filename pathExtension];
+        NSLog(@"%@: %@", extension, [extensions containsObject:extension] ? @"YES" : @"NO");
         return [extensions containsObject:extension];
     }
     else {

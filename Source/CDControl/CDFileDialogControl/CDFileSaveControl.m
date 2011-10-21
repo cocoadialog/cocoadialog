@@ -38,10 +38,13 @@
 {
 	unsigned long result;
 	NSSavePanel *savePanel = [NSSavePanel savePanel];
+    [savePanel setDelegate:self];
+    [savePanel setAllowedFileTypes:nil];
+    
 	NSString *file = @"";
 	NSString *dir = nil;
 	
-	[self setOptions:options];
+    [self setOptions:options];
 	[self setMisc:savePanel];
 
 	if ([options hasOpt:@"packages-as-directories"]) {
@@ -79,13 +82,16 @@
     }
     else {
         if (dir != nil) {
+            if (file != nil) {
+                dir = [dir stringByAppendingString:@"/"];
+                dir = [dir stringByAppendingString:file];
+            }
             NSURL * url = [[[NSURL alloc] initFileURLWithPath:dir] autorelease];
             [savePanel setDirectoryURL:url];
         }
         [savePanel setNameFieldStringValue:file];
         result = [savePanel runModal];
     }
-
 	if (result == NSFileHandlingPanelOKButton) {
 		return [NSArray arrayWithObject:[savePanel filename]];
 	} else {
