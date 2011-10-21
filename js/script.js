@@ -113,6 +113,24 @@
       }
     });
     
+    
+    
+    function gh(url,callback) {
+      $.getJSON("https://api.github.com"+url+"?callback=?", function(json){
+        callback(json.data);
+      });
+
+    }
+    var gh_user="mstratman";
+    var gh_repo="cocoadialog";
+    var gh_url = "https://github.com/"+gh_user+"/"+gh_repo;
+    gh("/repos/"+gh_user+"/"+gh_repo, function(json){
+      if(json) {
+        $('.stats .watchers .value').html($('<a>').addClass('watchers').attr('href', gh_url+'/watchers').text(json.watchers));
+        $('.stats .forks .value').html($('<a>').addClass('forks').attr('href', gh_url+'/network').text(json.forks));
+      }
+    });
+    
   });
   
 })(jQuery);

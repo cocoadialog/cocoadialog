@@ -163,6 +163,34 @@ ol { margin: 0.75em 0 1.25em; padding: 0; }
   text-shadow: 0 2px 2px #000;
 }
 
+#wrapper #navigation .stats {
+  position: relative;
+  float: right;
+}
+
+#wrapper #navigation .stats div {
+  position: relative;
+  float: left;
+  padding: 0 5px;
+}
+
+#wrapper #navigation .stats div .icon {
+  position: relative;
+  display: block;
+  float: left;
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  background-repeat: none;
+}
+
+#wrapper #navigation .stats .forks .icon { background: url(../images/forks.png) }
+#wrapper #navigation .stats .watchers .icon { background: url(../images/watchers.png) }
+
+#wrapper #navigation .stats div .value {
+  float: right;
+  color: #636363;
+}
 
 #wrapper #center {
   float: left;
