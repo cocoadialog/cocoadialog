@@ -23,7 +23,6 @@
 
 @implementation CDStandardPopUpButtonControl
 
-
 - (NSDictionary *) availableKeys
 {
     NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
@@ -42,7 +41,7 @@
 - (void) setButtons
 {
 	CDOptions *options = [self options];
-	[button1 setTitle:@"Ok"];
+	[button1 setTitle:@"Okay"];
 	if ([options hasOpt:@"no-cancel"]) {
 		[button2 setEnabled:NO];
 		[button2 setHidden:YES];

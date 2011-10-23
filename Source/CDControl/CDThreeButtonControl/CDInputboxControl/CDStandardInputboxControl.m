@@ -39,13 +39,14 @@
 - (void) setButtons
 {
 	CDOptions *options = [self options];
-	[button1 setTitle:@"Ok"];
+	[button1 setTitle:@"Okay"];
 	if ([options hasOpt:@"no-cancel"]) {
 		[button2 setEnabled:NO];
 		[button2 setHidden:YES];
 	} else {
 		[button2 setTitle:@"Cancel"];
 		[button2 setKeyEquivalent:@"\e"];
+        cancelButton = 2;
 	}
 	[button3 setEnabled:NO];
 	[button3 setHidden:YES];
