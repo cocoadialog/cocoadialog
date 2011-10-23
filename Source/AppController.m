@@ -211,6 +211,7 @@
             [CDStandardInputboxControl class],      @"secure-standard-inputbox",
             [CDStandardPopUpButtonControl class],   @"standard-dropdown",         
             [CDStandardInputboxControl class],      @"standard-inputbox",
+            [CDTextboxControl class],               @"textbox",
             [CDYesNoMsgboxControl class],           @"yesno-msgbox",
             nil];
 }

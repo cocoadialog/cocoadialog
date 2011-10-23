@@ -29,9 +29,9 @@
 	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
 	
 	return [NSDictionary dictionaryWithObjectsAndKeys:
+            vOne, @"label",
             vOne, @"text",
             vOne, @"text-from-file",
-            vOne, @"informative-text",
             vNone, @"editable",
             vNone, @"no-editable",
             vNone, @"selected",
@@ -40,6 +40,12 @@
             nil];
 }
 
+- (NSDictionary *) depreciatedKeys
+{
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+            @"label", @"informative-text",
+            nil];
+}
 
 // Should be called after setButtons, and before resize
 - (void) setLabel:(NSString *)labelText
@@ -78,6 +84,17 @@
 	[scrollView setFrameSize:s];
 
 }
+
+- (BOOL)isReturnValueEmpty
+{
+    return [[[textView textStorage] string] isEqualToString:@""];
+}
+
+- (NSString *) returnValueEmptyText
+{
+    return @"The text box can cannot be empty, please enter some text.";
+}
+
 
 - (NSArray *) runControlFromOptions:(CDOptions *)options
 {
@@ -137,7 +154,7 @@
 			[[[NSAttributedString alloc] initWithString:@""] autorelease]];
 	}
 		
-	[self setTitleButtonsLabel:[options optValue:@"informative-text"]];
+	[self setTitleButtonsLabel:[options optValue:@"label"]];
 	
 	// scroll to top or bottom (do this AFTER resizing, setting the text, 
 	// etc). Default is top
