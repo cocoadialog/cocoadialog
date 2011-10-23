@@ -10,5 +10,7 @@
 #import "CDThreeButtonControl.h"
 
 @interface CDCheckboxControl : CDThreeButtonControl
-
+{
+    NSMutableArray *checkboxes;
+}
 @end

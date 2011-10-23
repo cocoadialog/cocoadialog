@@ -60,6 +60,35 @@
     return YES;
 }
 
+- (BOOL)isReturnValueEmpty
+{
+    if ([checkboxes count] > 0) {
+        NSEnumerator *en = [checkboxes objectEnumerator];
+        BOOL hasChecked = NO;
+        id obj;
+        while (obj = [en nextObject]) {
+            if ([obj state] == NSOnState){
+                hasChecked = YES;
+                break;
+            }
+        }
+        return !hasChecked;
+    }
+    else {
+        return NO;
+    }
+}
+
+- (NSString *) returnValueEmptyText
+{
+    if ([checkboxes count] > 1) {
+        return @"You must check at least one item before continuing.";
+    }
+    else {
+        return [NSString stringWithFormat: @"You must check the item \"%@\" before continuing.", [[checkboxes objectAtIndex:0] title]];
+    }
+}
+
 - (NSArray *) runControlFromOptions:(CDOptions *)options
 {
     // Validate control before continuing
@@ -74,11 +103,6 @@
     
 	[self setTitleButtonsLabel:labelText];
 	[self setTimeout];
-	[self runAndSetRv];
-    
-    
-    NSString *buttonRv = nil;
-	NSString *itemRv   = nil;
     
 	// set return values 
     NSArray * cells = [controlMatrix cells];
@@ -92,11 +116,16 @@
         } 
     }
     
-    NSMutableArray *checkboxes = [NSMutableArray arrayWithArray:tmpValues];
+    checkboxes = [[NSMutableArray arrayWithArray:tmpValues] autorelease];
     en = [tmpValues objectEnumerator];
     while (obj = [en nextObject]) {
         [checkboxes replaceObjectAtIndex:[obj tag] withObject:obj];
     }
+    
+    [self runAndSetRv];
+
+    NSString *buttonRv = nil;
+	NSString *itemRv   = nil;
 
 	if ([options hasOpt:@"string-output"]) {
 		if (rv == 1) {

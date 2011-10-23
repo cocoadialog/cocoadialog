@@ -27,7 +27,8 @@
 	IBOutlet NSButton       *button1;
 	IBOutlet NSButton       *button2;
 	IBOutlet NSButton       *button3;
-    int rv;
+    int                     cancelButton;
+    int                     rv;
 }
 
 - (IBAction) timeout:(id)sender;

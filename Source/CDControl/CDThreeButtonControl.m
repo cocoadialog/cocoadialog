@@ -214,6 +214,7 @@
 
 - (void) setButtons
 {
+    cancelButton = 0;
 	unsigned i;
 	struct { NSString *key; NSButton *button; } const buttons[] = {
 		{ @"button1", button1 },
@@ -226,15 +227,13 @@
 	float minWidth = 2 * 20.0f; // margin
 	for (i = 0; i != sizeof(buttons)/sizeof(buttons[0]); i++) {
 		[self setTitle:[options optValue:buttons[i].key] forButton:buttons[i].button];
-        if ([[self options] hasOpt:@"cancel"]) {
-            if ([[options optValue:@"cancel"] isEqualToString:buttons[i].key]) {
-                [buttons[i].button setKeyEquivalent:@"\e"];
-            }
+        if ([[self options] hasOpt:@"cancel"] && [[options optValue:@"cancel"] isEqualToString:buttons[i].key]) {
+            [buttons[i].button setKeyEquivalent:@"\e"];
+            cancelButton = i+1;
         }
-        else {
-            if ([[options optValue:buttons[i].key] isEqualToString:@"Cancel"]) {
-                [buttons[i].button setKeyEquivalent:@"\e"];
-            }
+        else if ([[options optValue:buttons[i].key] isEqualToString:@"Cancel"]) {
+            [buttons[i].button setKeyEquivalent:@"\e"];
+            cancelButton = i+1;
         }
 		if ([buttons[i].button isHidden] == NO) {
 			minWidth += NSWidth([buttons[i].button frame]);
@@ -355,7 +354,7 @@
 
 - (NSString *) returnValueEmptyText
 {
-    return @"Your input cannot be empty, please try again.";
+    return @"An input is required, please try again.";
 }
 
 - (void) returnValueEmptySheet
@@ -381,7 +380,7 @@
 - (IBAction) button1Pressed:(id)sender
 {
 	rv = 1;
-    if (![self allowEmptyReturn] && [self isReturnValueEmpty]) {
+    if (![self allowEmptyReturn] && [self isReturnValueEmpty] && cancelButton != 1) {
         [self returnValueEmptySheet];
         return;
     }
@@ -392,7 +391,7 @@
 - (IBAction) button2Pressed:(id)sender
 {
 	rv = 2;
-    if (![self allowEmptyReturn] && [self isReturnValueEmpty]) {
+    if (![self allowEmptyReturn] && [self isReturnValueEmpty] && cancelButton != 2) {
         [self returnValueEmptySheet];
         return;
     }
@@ -403,7 +402,7 @@
 - (IBAction) button3Pressed:(id)sender
 {
 	rv = 3;
-    if (![self allowEmptyReturn] && [self isReturnValueEmpty]) {
+    if (![self allowEmptyReturn] && [self isReturnValueEmpty] && cancelButton != 3) {
         [self returnValueEmptySheet];
         return;
     }

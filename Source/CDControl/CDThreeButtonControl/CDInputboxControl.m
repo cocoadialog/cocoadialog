@@ -82,7 +82,7 @@
 
 - (NSString *) returnValueEmptyText
 {
-    return @"Your input cannot be empty, please enter some text.";
+    return @"The text field can cannot be empty, please enter some text.";
 }
 
 - (NSArray *) runControlFromOptions:(CDOptions *)options
