@@ -172,6 +172,7 @@ ol { margin: 0.75em 0 1.25em; padding: 0; }
   position: relative;
   float: left;
   padding: 0 5px;
+  cursor: pointer;
 }
 
 #wrapper #navigation .stats div .icon {
@@ -186,6 +187,12 @@ ol { margin: 0.75em 0 1.25em; padding: 0; }
 
 #wrapper #navigation .stats .forks .icon { background: url(../images/forks.png) }
 #wrapper #navigation .stats .watchers .icon { background: url(../images/watchers.png) }
+
+#wrapper #navigation .stats div.hover .icon { background-position: 0 20px; }
+
+#wrapper #navigation .stats div.hover a {
+  color: #fff;
+}
 
 #wrapper #navigation .stats div .value {
   float: right;
@@ -256,23 +263,43 @@ ol { margin: 0.75em 0 1.25em; padding: 0; }
 }
 
 #wrapper #center .sidebar .download {
-  color: #3e9533;
+  color: #777;
+  font-size: 8pt;
+  line-height: 10pt;
   padding: 10px;
   margin: 0 0 20px;
 }
 
-#wrapper #center .sidebar .download h1 {
-  border: none;
+#wrapper #center .sidebar .download .stats {
+  text-align: right;
 }
 
-#wrapper #center .sidebar .download.beta {
-  color: #b33630;
+#wrapper #center .sidebar .download .stats strong {
+  float: left;
+  text-align: left;
+  color: #555;
 }
 
-#wrapper #center .sidebar .download.beta .links a, #wrapper #center .sidebar .download.beta .links a:visited, #wrapper #center .sidebar .download.beta .links a:hover {
-  color: #b33630;
+#wrapper #center .sidebar .download h2 {
+  color: #3e9533;
+  margin: 0;
 }
 
+#wrapper #center .sidebar .download.beta h2 {
+  color: #3072b3;
+}
+
+#wrapper #center .sidebar .download .button,
+#wrapper #center .sidebar .download .minibutton {
+  width: 100%;
+}
+
+#wrapper #center .sidebar .download .button .size,
+#wrapper #center .sidebar .download .minibutton .size {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 
 button.classy,a.button.classy,button.classy:disabled:hover,a.button.classy.disabled:hover {
   height: 34px;
@@ -467,7 +494,7 @@ button.minibutton::-moz-focus-inner {
   background: -webkit-gradient(linear,left top,left bottom,from(#f4f4f4),to(#ececec));
   background: -moz-linear-gradient(top,#f4f4f4,#ececec);
 }
-.minibutton>span {
+.minibutton span {
   display: block;
   height: 21px;
   padding: 0 9px 0 7px;

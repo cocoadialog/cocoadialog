@@ -113,8 +113,6 @@
       }
     });
     
-    
-    
     function gh(url,callback) {
       $.getJSON("https://api.github.com"+url+"?callback=?", function(json){
         callback(json.data);
@@ -129,6 +127,23 @@
         $('.stats .watchers .value').html($('<a>').addClass('watchers').attr('href', gh_url+'/watchers').text(json.watchers));
         $('.stats .forks .value').html($('<a>').addClass('forks').attr('href', gh_url+'/network').text(json.forks));
       }
+    });
+    
+    // Navigation Stats
+    $('#navigation .stats div').each(function(){
+      var stat = $(this);
+      var link;
+      stat.mouseenter(function(){
+        stat.addClass('hover');
+        link = stat.find('a').click(function(){
+          stat.trigger('click');
+          return false;
+        });
+      }).mouseleave(function(){
+        stat.removeClass('hover');
+      }).click(function(){
+        window.open(link.attr('href'),stat.attr('title'));
+      });
     });
     
   });
