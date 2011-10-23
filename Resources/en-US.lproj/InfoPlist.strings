@@ -1,6 +1,6 @@
 /* Localized versions of Info.plist keys */
 
 CFBundleName = "cocoaDialog";
-CFBundleVersion = "3.0.0-beta4";
-CFBundleShortVersionString = "3.0-beta4";
+CFBundleVersion = "3.0.0-beta5";
+CFBundleShortVersionString = "3.0-beta5";
 NSHumanReadableCopyright = "Copyright © 2004-2011, Mark A. Stratman";

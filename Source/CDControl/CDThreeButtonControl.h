@@ -28,9 +28,6 @@
 	IBOutlet NSButton       *button2;
 	IBOutlet NSButton       *button3;
     int rv;
-    
-    @private
-    NSAlert *emptySheet;
 }
 
 - (IBAction) timeout:(id)sender;
@@ -53,5 +50,12 @@
 - (void) setLabel:(NSString *)labelText;
 
 - (void) setTitle:(NSString*)aTitle forButton:(NSButton*)aButton;
+
+- (BOOL) allowEmptyReturn;
+- (BOOL) isReturnValueEmpty;
+- (NSString *) returnValueEmptyText;
+
+- (void) returnValueEmptySheet;
+- (void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 
 @end

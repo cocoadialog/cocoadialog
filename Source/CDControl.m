@@ -289,6 +289,22 @@
 	}
 }
 
+- (NSImage *)getIcon
+{
+    CDOptions *options = [self options];
+    NSImage *icon = [[[NSImage alloc] initWithData:nil] autorelease];
+    if ([options hasOpt:@"icon-file"]) {
+        icon = [self getIconFromFile:[options optValue:@"icon-file"]];
+    }
+    else if ([options hasOpt:@"icon"]) {
+        icon = [self getIconWithName:[options optValue:@"icon"]];
+    }
+    if (icon == nil) {
+        icon = [NSApp applicationIconImage];
+    }
+    return icon;
+}
+
 - (NSImage *)getIconFromFile:(NSString *)aFile
 {
     CDOptions *options = [self options];

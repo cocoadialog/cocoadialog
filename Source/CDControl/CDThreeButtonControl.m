@@ -66,6 +66,8 @@
             vOne,  @"cancel",
             vNone, @"float",
             vOne,  @"timeout",
+            vNone, @"value-required",
+            vOne,  @"empty-text",
             nil];
 }
 
@@ -339,24 +341,73 @@
 	[NSApp terminate:nil];
 }
 
+- (BOOL)allowEmptyReturn
+{
+    CDOptions *options = [self options];
+    return ![options hasOpt:@"value-required"];
+}
+
+// This must be subclassed for each control. Each control must provide additional logic pertaining to their specific return values
+- (BOOL) isReturnValueEmpty
+{
+    return NO;
+}
+
+- (NSString *) returnValueEmptyText
+{
+    return @"Your input cannot be empty, please try again.";
+}
+
+- (void) returnValueEmptySheet
+{
+    CDOptions *options = [self options];
+    NSString *message = [self returnValueEmptyText];
+    if ([options hasOpt:@"empty-text"]) {
+        message = [options optValue:@"empty-text"];
+    }
+    NSAlert *alertSheet = [[NSAlert alloc] init];
+    [alertSheet addButtonWithTitle:@"Okay"];
+    [alertSheet setIcon:[self getIconWithName:@"caution"]];
+    [alertSheet setMessageText:message];
+    [alertSheet beginSheetModalForWindow:panel modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
+}
+
+- (void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+    [NSApp endSheet:[alert window]];
+    [alert release];
+}
+
 - (IBAction) button1Pressed:(id)sender
 {
 	rv = 1;
-	[NSApp stop:nil];
+    if (![self allowEmptyReturn] && [self isReturnValueEmpty]) {
+        [self returnValueEmptySheet];
+        return;
+    }
+    [NSApp stop:nil];
 	return;
 }
 
 - (IBAction) button2Pressed:(id)sender
 {
 	rv = 2;
-	[NSApp stop:nil];
+    if (![self allowEmptyReturn] && [self isReturnValueEmpty]) {
+        [self returnValueEmptySheet];
+        return;
+    }
+    [NSApp stop:nil];
 	return;
 }
 
 - (IBAction) button3Pressed:(id)sender
 {
 	rv = 3;
-	[NSApp stop:nil];
+    if (![self allowEmptyReturn] && [self isReturnValueEmpty]) {
+        [self returnValueEmptySheet];
+        return;
+    }
+    [NSApp stop:nil];
 	return;
 }
 

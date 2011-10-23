@@ -74,6 +74,16 @@
     return YES;
 }
 
+- (BOOL)isReturnValueEmpty
+{
+    NSString *value = [[controlMatrix cellAtRow:0 column:0] stringValue];
+    return [value isEqualToString:@""];
+}
+
+- (NSString *) returnValueEmptyText
+{
+    return @"Your input cannot be empty, please enter some text.";
+}
 
 - (NSArray *) runControlFromOptions:(CDOptions *)options
 {

@@ -62,6 +62,7 @@
 - (CDOptions *) options;
 - (void) setOptions:(CDOptions *)options;
 
+- (NSImage *) getIcon;
 - (NSImage *) getIconFromFile:(NSString *)aFile;
 - (NSImage *) getIconWithName:(NSString *)aName;
 

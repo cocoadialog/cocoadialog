@@ -42,7 +42,6 @@
             nil];
 }
 
-
 - (NSArray *) runControlFromOptions:(CDOptions *)options
 {
 	NSString *returnString = nil;
