@@ -62,6 +62,33 @@
     return YES;
 }
 
+- (BOOL)isReturnValueEmpty
+{
+    NSArray * items = [controlMatrix cells];
+    if (items != nil && [items count]) {
+        NSCell * selectedCell = [controlMatrix selectedCell];
+        if (selectedCell != nil) {
+            return NO;
+        }
+        else {
+            return YES;
+        }
+    }
+    else {
+        return NO;
+    }
+}
+
+- (NSString *) returnValueEmptyText
+{
+    NSArray * items = [controlMatrix cells];
+    if ([items count] > 1) {
+        return @"You must select at least one item before continuing.";
+    }
+    else {
+        return [NSString stringWithFormat: @"You must select the item \"%@\" before continuing.", [[controlMatrix cellAtRow:0 column:0] title]];
+    }
+}
 
 - (NSArray *) runControlFromOptions:(CDOptions *)options
 {
