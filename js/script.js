@@ -131,7 +131,7 @@
     
     // Navigation Stats
     $('#navigation .stats div').each(function(){
-      var stat = $(this);
+      var stat = $(this).tipsy({gravity: 's'});
       var link;
       stat.mouseenter(function(){
         stat.addClass('hover');
