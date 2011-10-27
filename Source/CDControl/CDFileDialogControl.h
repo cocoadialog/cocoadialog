@@ -23,12 +23,13 @@
 
 
 @interface CDFileDialogControl : CDControl <NSOpenSavePanelDelegate> {
+    NSSavePanel *savePanel;
     NSMutableArray * extensions;
 }
 
 - (BOOL) isExtensionAllowed:(NSString *)filename;
 
 // Set options common to any file save panel
-- (void) setMisc:(NSSavePanel *)savePanel;
+- (void) setMisc;
 
 @end

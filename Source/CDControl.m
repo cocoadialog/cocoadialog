@@ -23,127 +23,70 @@
 
 @implementation CDControl
 @synthesize hasFinished;
+@synthesize options;
 
-- (id)initWithOptions:(CDOptions *)options
-{
-    hasFinished = YES;
-    controlItems = [[[NSMutableArray alloc] init] retain];
-	self = [super init];
-    if (options != nil) {
-        [self setOptions:options];
-    }
-	return self;
-}
-- (id)init
-{
-	return [self initWithOptions:nil];
-}
-
-- (void) dealloc
-{
-	[_options release];
-    [controlItems release];
-	[super dealloc];
-}
-
-- (CDOptions *) options
-{
-	return _options;
-}
-- (void) setOptions:(CDOptions *)options
-{
-	[options retain];
-	[_options release];
-	_options = options;
-}
-
-- (NSArray *) runControl
-{
-	if ([self options] != nil) {
-		return [self runControlFromOptions:[self options]];
-	} else {
-		return nil;
-	}
-}
-// This must be overridden
-- (NSArray *) runControlFromOptions:(CDOptions *)options
-{
-	return nil;
-}
-
-// This must be sub-classed if you want options local to your control
-- (NSDictionary *) availableKeys
-{
-	return nil;
-}
-
-// This must be sub-classed if you want specify local depreciated keys for your control
-- (NSDictionary *) depreciatedKeys
-{
-    return nil;
-}
-// This must be sub-classed if you want validate local options for your control
-- (BOOL) validateControl:(CDOptions *)options
-{
-    return YES;
-}
-
-// This must be overridden if you want local global options for your control
-- (NSDictionary *) globalAvailableKeys {
-    NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-            vNone, @"help",
-            vNone, @"debug",
-            vOne,  @"title",
-            vOne,  @"width",
-            vOne,  @"height",
-            vOne,  @"posX",
-            vOne,  @"posY",
-            vNone, @"minimize",
-            vNone, @"resize",
-            vOne,  @"icon",
-            vOne,  @"icon-bundle",
-            vOne,  @"icon-type",
-            vOne,  @"icon-file",
-            vOne,  @"icon-size",
-            vOne,  @"icon-width",
-            vOne,  @"icon-height",
-            vNone, @"string-output",
-            vNone, @"no-newline",
-            nil];
-}
-
-- (CDOptions *) controlOptionsFromArgs:(NSArray *)args
-{
+#pragma mark - Internal Control Methods -
+- (CDOptions *) controlOptionsFromArgs:(NSArray *)args {
 	return [CDOptions getOpts:args availableKeys:[self availableKeys] depreciatedKeys:[self depreciatedKeys]];
 }
-- (CDOptions *) controlOptionsFromArgs:(NSArray *)args withGlobalKeys:(NSDictionary *)globalKeys
-{
+- (CDOptions *) controlOptionsFromArgs:(NSArray *)args withGlobalKeys:(NSDictionary *)globalKeys {
 	NSMutableDictionary *allKeys = [[[NSMutableDictionary alloc] init] autorelease];
     [allKeys addEntriesFromDictionary:globalKeys];
-
+    
 	NSDictionary *localKeys = [self availableKeys];
 	if (localKeys != nil) {
 		[allKeys addEntriesFromDictionary:localKeys];
 	}
-    
     NSDictionary *depreciatedKeys = [self depreciatedKeys];
-    
-	CDOptions* options;
-	options=[CDOptions getOpts:args availableKeys:allKeys depreciatedKeys:depreciatedKeys];
-	return options;
+	return [CDOptions getOpts:args availableKeys:allKeys depreciatedKeys:depreciatedKeys];
 }
-
-- (void) findPositionForWindow:(NSWindow *)window;
-{
-	CDOptions *options = [self options];
+- (void) dealloc {
+    [controlExitStatusString release];
+    [controlItems release];
+    [controlReturnValues release];
+	[options release];
+	[super dealloc];
+}
+- (NSSize) findNewSizeForWindow:(NSWindow *)window {
+	NSSize size = NSZeroSize;
+	NSSize oldSize;
+	NSString *width, *height;
+	if (options == nil || window == nil) {
+		return size;
+	}
+	size = [[window contentView] frame].size;
+	oldSize.width = size.width;
+	oldSize.height = size.height;
+	if ([options hasOpt:@"width"]) {
+		width = [options optValue:@"width"];
+		if ([width floatValue] != 0.0) {
+			size.width = [width floatValue];
+		}
+	}
+	if ([options hasOpt:@"height"]) {
+		height = [options optValue:@"height"];
+		if ([height floatValue] != 0.0) {
+			size.height = [height floatValue];
+		}
+	}
+	NSSize minSize = [window contentMinSize];
+	if (size.height < minSize.height) {
+		size.height = minSize.height;
+	}
+	if (size.width < minSize.width) {
+		size.width = minSize.width;
+	}
+	if (size.width != oldSize.width || size.height != oldSize.height) {
+		return size;
+	} else {
+		return NSMakeSize(0.0,0.0);
+	}
+}
+- (void) findPositionForWindow:(NSWindow *)window {
     NSRect screen = [[NSScreen mainScreen] visibleFrame];
-
     CGFloat leftPoint = 0.0;
 	CGFloat topPoint = 0.0;
     CGFloat padding = 10.0;
-
     id posX;
     id posY;
     // Has posX option
@@ -194,104 +137,9 @@
     else {
 		topPoint = NSMaxY(screen)/1.8 + NSHeight([window frame]);
 	}
-	
 	[window setFrameTopLeftPoint:NSMakePoint(leftPoint, topPoint)];
-
 }
-
-
-- (NSSize) findNewSizeForWindow:(NSWindow *)window
-{
-	NSSize size = NSZeroSize;
-	NSSize oldSize;
-	NSString *width, *height;
-	CDOptions *options = [self options];
-
-	if (options == nil || window == nil) {
-		return size;
-	}
-	
-	size = [[window contentView] frame].size;
-	oldSize.width = size.width;
-	oldSize.height = size.height;
-	if ([options hasOpt:@"width"]) {
-		width = [options optValue:@"width"];
-		if ([width floatValue] != 0.0) {
-			size.width = [width floatValue];
-		}
-	}
-	if ([options hasOpt:@"height"]) {
-		height = [options optValue:@"height"];
-		if ([height floatValue] != 0.0) {
-			size.height = [height floatValue];
-		}
-	}
-	NSSize minSize = [window contentMinSize];
-	if (size.height < minSize.height) {
-		size.height = minSize.height;
-	}
-	if (size.width < minSize.width) {
-		size.width = minSize.width;
-	}
-	if (size.width != oldSize.width || size.height != oldSize.height) {
-		return size;
-	} else {
-		return NSMakeSize(0.0,0.0);
-	}
-}
-- (BOOL) windowNeedsResize:(NSWindow *)window
-{
-	NSSize size = [self findNewSizeForWindow:window];
-	if (size.width != 0.0 || size.height != 0.0) {
-		return YES;
-	} else {
-		return NO;
-	}
-}
-
-- (void) debug:(NSString *)message
-{
-	NSString *output = [NSString stringWithFormat:@"ERROR: %@\n", message]; 
-    // Output to stdErr
-	NSFileHandle *fh = [NSFileHandle fileHandleWithStandardError];
-	if (fh) {
-		[fh writeData:[output dataUsingEncoding:NSUTF8StringEncoding]];
-	}
-}
-
-+ (void) printHelpTo:(NSFileHandle *)fh
-{
-	if (fh) {
-        [fh writeData:[@"Usage: cocoaDialog <run-mode> [options]\n\tAvailable run-modes:\n" dataUsingEncoding:NSUTF8StringEncoding]];
-        NSArray *sortedAvailableKeys = [NSArray arrayWithArray:[[[AppController availableControls] allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
-        
-        NSEnumerator *en = [sortedAvailableKeys objectEnumerator];
-        id key;
-        unsigned i = 0;
-        unsigned currKey = 0;
-        while (key = [en nextObject]) {
-            if (i == 0) {
-                [fh writeData:[@"\t\t" dataUsingEncoding:NSUTF8StringEncoding]];
-            }
-            [fh writeData:[key dataUsingEncoding:NSUTF8StringEncoding]];
-            if (i <= 6 && currKey != [sortedAvailableKeys count] - 1) {
-                [fh writeData:[@", " dataUsingEncoding:NSUTF8StringEncoding]];
-                i++;
-            }
-            if (i == 6) {
-                [fh writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
-                i = 0;
-            }
-            currKey++;
-        }
-
-        [fh writeData:[@"\n\tGlobal Options:\n\t\t--help, --debug, --title, --width, --height,\n\t\t--string-output, --no-newline\n\nSee http://mstratman.github.com/cocoadialog/#documentation\nfor detailed documentation.\n" dataUsingEncoding:NSUTF8StringEncoding]];
-	}
-}
-
-- (NSImage *)getIcon
-{
-    CDOptions *options = [self options];
+- (NSImage *)getIcon {
     NSImage *icon = [[[NSImage alloc] initWithData:nil] autorelease];
     if ([options hasOpt:@"icon-file"]) {
         icon = [self getIconFromFile:[options optValue:@"icon-file"]];
@@ -304,10 +152,7 @@
     }
     return icon;
 }
-
-- (NSImage *)getIconFromFile:(NSString *)aFile
-{
-    CDOptions *options = [self options];
+- (NSImage *)getIconFromFile:(NSString *)aFile {
     NSImage *image = nil;
     image = [[[NSImage alloc] initWithContentsOfFile:aFile] autorelease];
     if (image == nil && [options hasOpt:@"debug"]) {
@@ -315,10 +160,7 @@
     }
     return image;
 }
-
-- (NSImage *)getIconWithName:(NSString *)aName
-{
-    CDOptions *options = [self options];
+- (NSImage *)getIconWithName:(NSString *)aName {
     NSImage *image = [[[NSImage alloc] initWithData:nil] autorelease];
     NSString *bundle = nil;
     NSString *path = nil;
@@ -597,12 +439,55 @@
     }
     return image;
 }
+- (id)init {
+	return [self initWithOptions:nil];
+}
+- (id)initWithOptions:(CDOptions *)newOptions {
+	self = [super init];
+    controlExitStatus = -1;
+    controlExitStatusString = nil;
+    controlReturnValues = [[[NSMutableArray alloc] init] retain];
+    hasFinished = YES;
+    [self setOptions:nil];
+    controlItems = [[[NSMutableArray alloc] init] retain];
+    if (newOptions != nil) {
+        [self setOptions:newOptions];
+    }
+	return self;
+}
++ (void) printHelpTo:(NSFileHandle *)fh {
+	if (fh) {
+        [fh writeData:[@"Usage: cocoaDialog <run-mode> [options]\n\tAvailable run-modes:\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        NSArray *sortedAvailableKeys = [NSArray arrayWithArray:[[[AppController availableControls] allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
+        
+        NSEnumerator *en = [sortedAvailableKeys objectEnumerator];
+        id key;
+        unsigned i = 0;
+        unsigned currKey = 0;
+        while (key = [en nextObject]) {
+            if (i == 0) {
+                [fh writeData:[@"\t\t" dataUsingEncoding:NSUTF8StringEncoding]];
+            }
+            [fh writeData:[key dataUsingEncoding:NSUTF8StringEncoding]];
+            if (i <= 6 && currKey != [sortedAvailableKeys count] - 1) {
+                [fh writeData:[@", " dataUsingEncoding:NSUTF8StringEncoding]];
+                i++;
+            }
+            if (i == 6) {
+                [fh writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
+                i = 0;
+            }
+            currKey++;
+        }
+        
+        [fh writeData:[@"\n\tGlobal Options:\n\t\t--help, --debug, --title, --width, --height,\n\t\t--string-output, --no-newline\n\nSee http://mstratman.github.com/cocoadialog/#documentation\nfor detailed documentation.\n" dataUsingEncoding:NSUTF8StringEncoding]];
+	}
+}
+- (void) runControl {
 
-
-- (void) setIconForWindow:(NSWindow *)aWindow
-{
+}
+- (void) setIconForWindow:(NSWindow *)aWindow {
     if (controlIcon != nil) {
-        CDOptions *options = [self options];
         NSImage *image = [[[NSImage alloc] initWithData:nil] autorelease];
         if ([options hasOpt:@"icon-file"]) {
             image = [self getIconFromFile:[options optValue:@"icon-file"]];
@@ -648,8 +533,7 @@
         }
     }
 }
-- (void) setIconForWindow:(NSWindow *)aWindow withImage:(NSImage *)anImage withSize:(NSSize)aSize
-{
+- (void) setIconForWindow:(NSWindow *)aWindow withImage:(NSImage *)anImage withSize:(NSSize)aSize {
     if (anImage != nil) {
         NSSize originalSize = [anImage size];
         // Resize Icon
@@ -669,7 +553,7 @@
         NSRect newIconFrame = NSMakeRect(iconFrame.origin.x, iconFrame.origin.y - iconHeightDiff, aSize.width, aSize.height);
         [controlIcon setFrame:newIconFrame];
         iconFrame = [controlIcon frame];
-
+        
         // Add the icon to the panel's minimum content size
         NSSize windowContent = [aWindow contentMinSize];
         windowContent.height += iconFrame.size.height + 40.0f;
@@ -677,9 +561,7 @@
         [aWindow setContentMinSize:windowContent];
     }
 }
-
-- (void) setIconForWindow:(NSWindow *)aWindow withImage:(NSImage *)anImage withSize:(NSSize)aSize withControls:(NSArray *)anArray
-{
+- (void) setIconForWindow:(NSWindow *)aWindow withImage:(NSImage *)anImage withSize:(NSSize)aSize withControls:(NSArray *)anArray {
     // Icon has image
     if (anImage != nil) {
         // Set current icon frame
@@ -722,5 +604,140 @@
         }
     }
 }
+- (void) setTimeout {
+	if ([options hasOpt:@"timeout"]) {
+		NSTimeInterval _timeout;
+		if ([[NSScanner scannerWithString:[options optValue:@"timeout"]] scanDouble:&_timeout]) {
+			[self performSelector:@selector(timeout:) withObject:panel afterDelay:_timeout];
+		} else {
+			if ([options hasOpt:@"debug"]) {
+				[self debug:@"Could not parse the timeout option"];
+			}
+		}
+        timer = [[NSTimer scheduledTimerWithTimeInterval:_timeout target:self selector:@selector( startFadeOut ) userInfo:nil repeats:NO] retain];
+        
+        if (timeoutLabel != nil) {
+            
+        }
+        
+	}
+    else {
+        if (timeoutLabel != nil) {
+            [timeoutLabel setHidden:YES];
+            [timeoutLabel setEnabled:NO];
+            timeoutLabel = nil;
+        }
+    }
+}
+
+// TODO - this needs to return a value properly
+- (void) timeout {
+	controlExitStatus = -4;
+	// For some reason, this doesn't return the run loop until the mouse is moved over the window or something. I think it has something to do with threading.
+	[NSApp stop:self];
+	// So termination is needed or it won't return
+	// But since that doesn't return, we have to put the exit stuff here.
+	// Bah.
+	NSFileHandle *fh = [NSFileHandle fileHandleWithStandardOutput];
+	if ([options hasOpt:@"string-output"]) {
+		if (fh) {
+			[fh writeData:[@"timeout" dataUsingEncoding:NSUTF8StringEncoding]];
+		}
+	} else {
+		if (fh) {
+			[fh writeData:[@"0" dataUsingEncoding:NSUTF8StringEncoding]];
+		}
+	}
+	if (![options hasOpt:@"no-newline"]) {
+		[fh writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
+	}
+	[NSApp terminate:nil];
+}
+- (BOOL) windowNeedsResize:(NSWindow *)window {
+	NSSize size = [self findNewSizeForWindow:window];
+	if (size.width != 0.0 || size.height != 0.0) {
+		return YES;
+	} else {
+		return NO;
+	}
+}
+
+
+#pragma mark - Subclassable Control Methods -
+- (NSDictionary *) availableKeys {return nil;}
+- (void) createControlWithOptions:(CDOptions *)options {}
+- (void) controlHasFinished {
+    // Stop any modal windows currently running
+    [NSApp stop:nil];
+    if (![options hasOpt:@"quiet"] && controlExitStatus != -1 && controlExitStatus != -2) {
+        if ([options hasOpt:@"string-output"]) {
+            if (controlExitStatusString == nil) {
+                controlExitStatusString = [NSString stringWithFormat:@"%d", controlExitStatus];
+            }
+            [controlReturnValues insertObject:controlExitStatusString atIndex:0];
+        }
+        else {
+            [controlReturnValues insertObject:[NSString stringWithFormat:@"%d", controlExitStatus] atIndex:0];
+        }
+    }
+    if (controlExitStatus == -1) controlExitStatus = 0;
+    if (controlExitStatus == -2) controlExitStatus = 1;
+    // Print all the returned lines
+    if (controlReturnValues != nil) {
+        unsigned i;
+        NSFileHandle *fh = [NSFileHandle fileHandleWithStandardOutput];
+        for (i = 0; i < [controlReturnValues count]; i++) {
+            if (fh) {
+                [fh writeData:[[controlReturnValues objectAtIndex:i] dataUsingEncoding:NSUTF8StringEncoding]];
+            }
+            if (![options hasOpt:@"no-newline"] || i+1 < [controlReturnValues count]) 
+            {
+                if (fh) {
+                    [fh writeData:[[NSString stringWithString:@"\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+                }
+            }
+        }
+    } else if ([options hasOpt:@"debug"]) {
+        [self debug:@"Control returned nil."];
+    }
+    // Return the exit status
+    exit(controlExitStatus);
+}
+- (BOOL) controlValidateOptions:(CDOptions *)options { return YES; }
+- (void) debug:(NSString *)message {
+	NSString *output = [NSString stringWithFormat:@"ERROR: %@\n", message]; 
+    // Output to stdErr
+	NSFileHandle *fh = [NSFileHandle fileHandleWithStandardError];
+	if (fh) {
+		[fh writeData:[output dataUsingEncoding:NSUTF8StringEncoding]];
+	}
+}
+- (NSDictionary *) depreciatedKeys {return nil;}
+- (NSDictionary *) globalAvailableKeys {
+    NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
+	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+            vNone, @"help",
+            vNone, @"debug",
+            vNone, @"quiet",
+            vOne,  @"title",
+            vOne,  @"width",
+            vOne,  @"height",
+            vOne,  @"posX",
+            vOne,  @"posY",
+            vNone, @"minimize",
+            vNone, @"resize",
+            vOne,  @"icon",
+            vOne,  @"icon-bundle",
+            vOne,  @"icon-type",
+            vOne,  @"icon-file",
+            vOne,  @"icon-size",
+            vOne,  @"icon-width",
+            vOne,  @"icon-height",
+            vNone, @"string-output",
+            vNone, @"no-newline",
+            nil];
+}
+- (BOOL) validateControl:(CDOptions *)options {return YES;}
 
 @end

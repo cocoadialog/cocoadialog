@@ -38,18 +38,16 @@
 		nil];
 }
 
-- (NSArray *) runControlFromOptions:(CDOptions *)options
-{
-	unsigned long result;
-	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-    [openPanel setDelegate:self];
-
+- (void) createControlWithOptions:(CDOptions *)options {
+    savePanel = [NSOpenPanel openPanel];
 	NSString *file = nil;
 	NSString *dir = nil;
 	
 	[self setOptions:options];
-	[self setMisc:openPanel];
+	[self setMisc];
 
+    NSOpenPanel *openPanel = (NSOpenPanel *)savePanel;
+    
 	// set select-multiple
 	if ([options hasOpt:@"select-multiple"]) {
 		[openPanel setAllowsMultipleSelection:YES];
@@ -92,6 +90,8 @@
     // Reposition Panel
     [self findPositionForWindow:openPanel];
     
+    NSInteger result;
+    
     if (kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber10_6) {
         result = [openPanel runModalForDirectory:dir file:file];
     }
@@ -106,13 +106,15 @@
         }
         result = [openPanel runModal];
     }
-
-
-	if (result == NSFileHandlingPanelOKButton) {
-		return [openPanel filenames];
-	} else {
-		return [NSArray array];
-	}
+    if (result == NSFileHandlingPanelOKButton) {
+        controlExitStatus = -1;
+        [controlReturnValues addObject:[savePanel filename]];
+    }
+    else {
+        controlExitStatus = -2;
+        controlReturnValues = [NSMutableArray array];
+    }
+    [super controlHasFinished];
 }
 
 - (BOOL)isExtensionAllowed:(NSString *)filename

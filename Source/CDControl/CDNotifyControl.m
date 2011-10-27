@@ -3,7 +3,7 @@
 //  CocoaDialog
 //
 //  Created by Mark Carver on 10/1/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2011 Mark Whitaker. All rights reserved.
 //
 
 #import "CDNotifyControl.h"
@@ -22,8 +22,6 @@
 - (void) dealloc
 {
     [notifications release];
-	[_options release];
-    [controlItems release];
 	[super dealloc];
 }
 
@@ -37,6 +35,7 @@
              // General
              vNone, @"help",
              vNone, @"debug",
+             vNone, @"quiet",
              vNone, @"sticky",
              vNone, @"no-growl",
              // Text

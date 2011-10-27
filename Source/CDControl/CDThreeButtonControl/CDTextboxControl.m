@@ -96,12 +96,8 @@
 }
 
 
-- (NSArray *) runControlFromOptions:(CDOptions *)options
-{
+- (void) createControlWithOptions:(CDOptions *)options {
 	NSAttributedString *text;
-	NSString *returnString = nil;
-
-	[self setOptions:options];
 
 	// check that they specified at least a button1
 	// return nil if not
@@ -109,7 +105,7 @@
 		if ([options hasOpt:@"debug"]) {
 			[self debug:@"Must supply at least a --button1"];
 		}
-		return nil;
+		return;
 	}	
 	
 	// Load Textbox.nib or return nil
@@ -117,7 +113,7 @@
 		if ([options hasOpt:@"debug"]) {
 			[self debug:@"Could not load Textbox.nib"];
 		}
-		return nil;
+		return;
 	}
     
     [controlItems addObject:scrollView];
@@ -143,7 +139,7 @@
 			if ([options hasOpt:@"debug"]) {
 				[self debug:@"Could not read file"];
 			}
-			return nil;
+			return;
 		} else {
 			text = [[NSAttributedString alloc] initWithString:contents];
 		}
@@ -182,30 +178,12 @@
 	}
 	
 	[self setTimeout];
-
 	[self runAndSetRv];
+}
 
-	// set returnString
-	if ([options hasOpt:@"string-output"]) {
-		if (rv == 1) {
-			returnString = [button1 title];
-		} else if (rv == 2) {
-			returnString = [button2 title];
-		} else if (rv == 3) {
-			returnString = [button3 title];
-		} else if (rv == 0) {
-			returnString = @"timeout";
-		}
-	} else {
-		returnString = [NSString stringWithFormat:@"%d",rv];
-	}
-		
-	if ([options hasOpt:@"editable"]) {
-		return [NSArray arrayWithObjects:returnString, 
-				[[textView textStorage] string], nil];
-	} else {
-		return returnString == nil ? nil :
-			[NSArray arrayWithObject:returnString];
+- (void) controlHasFinished {
+	if ([[self options] hasOpt:@"editable"]) {
+        [controlReturnValues addObject:[[textView textStorage] string]];
 	}
 }
 

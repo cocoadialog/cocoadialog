@@ -3,7 +3,7 @@
 //  CocoaDialog
 //
 //  Created by Mark Carver on 10/1/11.
-//  Copyright (c) 2011 Mark Carver. All rights reserved.
+//  Copyright (c) 2011 Mark Whitaker. All rights reserved.
 //
 
 #import "CDControl.h"

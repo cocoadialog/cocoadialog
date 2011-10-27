@@ -85,8 +85,7 @@
 	}
 }
 
--(IBAction)stop:(id)sender
-{
+-(IBAction)stop:(id)sender {
 	[self confirmStop];
 }
 
@@ -96,18 +95,19 @@
 	[stopButton setEnabled:stopEnabled];
 }
 
-- (NSArray *) runControlFromOptions:(CDOptions *)options
-{
-	stopEnabled = YES;
-	[self setOptions:options];
-	
+- (BOOL) controlValidateOptions:(CDOptions *)options {
 	// Load nib or return nil
 	if (![NSBundle loadNibNamed:@"Progressbar" owner:self]) {
 		if ([options hasOpt:@"debug"]) {
 			[self debug:@"Could not load Progressbar.nib"];
 		}
-		return nil;
+		return NO;
 	}
+	return YES;
+}
+
+- (void) createControlWithOptions:(CDOptions *)options {
+	stopEnabled = YES;
 	
 	// Add the progressbar width to the panel's minimum content size
 	NSSize panelContent = [panel contentMinSize];
@@ -194,10 +194,6 @@
 
 	[queue addOperation:inputHandler];
 	[inputHandler release];
-
-	[NSApp run];
-
-	return [NSArray array];
 }
 
 @end

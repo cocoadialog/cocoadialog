@@ -42,52 +42,26 @@
             nil];
 }
 
-- (NSArray *) runControlFromOptions:(CDOptions *)options
-{
-	NSString *returnString = nil;
-	
-	[self setOptions:options];
-
+- (BOOL) controlValidateOptions:(CDOptions *)options {
 	if (![NSBundle loadNibNamed:@"Msgbox" owner:self]) {
 		if ([options hasOpt:@"debug"]) {
 			[self debug:@"Could not load Msgbox.nib"];
 		}
-		return nil;
+		return NO;
 	}
-    
+    return YES;
+}
+
+- (void) createControlWithOptions:(CDOptions *)options {
     // Add extra control
     [controlItems addObject:text];
-
-	
 	// add the main bold text
 	if ([options optValue:@"alert"]) {
 		[text setStringValue:[options optValue:@"alert"]];
 	}
-
 	[self setTitleButtonsLabel:[options optValue:@"label"]];
-
 	[self setTimeout];
-
 	[self runAndSetRv];
-
-	// set returnString
-	if ([options hasOpt:@"string-output"]) {
-		if (rv == 1) {
-			returnString = [button1 title];
-		} else if (rv == 2) {
-			returnString = [button2 title];
-		} else if (rv == 3) {
-			returnString = [button3 title];
-		} else if (rv == 0) {
-			returnString = @"timeout";
-		}
-	} else {
-		returnString = [NSString stringWithFormat:@"%d",rv];
-	}
-	if (returnString == nil) {
-		returnString = @"";
-	}
-	return [NSArray arrayWithObject:returnString];
 }
 
 @end

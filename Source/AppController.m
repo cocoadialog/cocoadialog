@@ -127,8 +127,8 @@
         // Choose the control
         [self chooseControl:runMode useOptions:options addExtraOptionsTo:extraOptions];
         if (currentControl != nil) {
+            // Initialize the currentControl
             [currentControl init];
-            [NSApp setDelegate:self];
             globalKeys = [currentControl globalAvailableKeys];
             // Now that we have the control, we can re-get the options to
             // include the local options for that control.
@@ -154,36 +154,27 @@
             while (key = [en nextObject]) {
                 [options setOption:[extraOptions objectForKey:key] forKey:key];
             }
-            // Set options for the control sub-class
+            // Reload the options for currentControl
             [currentControl setOptions:options];
-            // Run the control (a modal window)
-            NSArray *rv;
-            rv = [currentControl runControlFromOptions:options];
-            // print all the returned lines
-            if (rv != nil) {
-                unsigned i;
-                NSFileHandle *fh = [NSFileHandle fileHandleWithStandardOutput];
-                for (i = 0; i < [rv count]; i++) {
-                    if (fh) {
-                        [fh writeData:[[rv objectAtIndex:i] dataUsingEncoding:NSUTF8StringEncoding]];
-                    }
-                    if (![options hasOpt:@"no-newline"] || i+1 < [rv count]) 
-                    {
-                        if (fh) {
-                            [fh writeData:[[NSString stringWithString:@"\n"] dataUsingEncoding:NSUTF8StringEncoding]];
-                        }
-                    }
+            // Validate currentControl's options
+            if ([currentControl controlValidateOptions:options]) {
+                // Create the control
+                [currentControl createControlWithOptions:options];
+                // Run the control. It is now responsible for terminating cocoaDialog. It must invoke the method finishWithResults:exitStatus: inside the method controlHasFinished:
+                [NSApp run];
+            } else {
+                if ([options hasOpt:@"debug"]) {
+                    [CDOptions printOpts:[options allOptions] forRunMode:runMode];
                 }
-            } else if ([options hasOpt:@"debug"]) {
-                [currentControl debug:@"Control returned nil."];
+                exit(255);
             }
-        } else if ([options hasOpt:@"debug"]
-               || [runMode isEqualToString:@"--debug"]) 
-        {
-            [currentControl debug:@"No run-mode, or invalid runmode provided as first argument."];
+        } else {
+            if ([options hasOpt:@"debug"] || [runMode isEqualToString:@"--debug"]) {
+                [currentControl debug:@"No run-mode, or invalid runmode provided as first argument."];
+            }
+            exit(255);
         }
     }
-    [NSApp terminate:self];
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
@@ -238,7 +229,7 @@
         
     }
     else if ([runMode caseInsensitiveCompare:@"CDNotifyControl"] == NSOrderedSame) {
-        CDControl * notify = [[[CDNotifyControl alloc] init] autorelease];
+        CDControl * notify = [[[CDNotifyControl alloc] initWithOptions:options] autorelease];
         NSDictionary * notifyGlobalKeys = [notify globalAvailableKeys];
         CDOptions * notifyOptions = [notify controlOptionsFromArgs:arguments withGlobalKeys:notifyGlobalKeys];
         NSString * notifyClass = [GrowlApplicationBridge isGrowlInstalled]

@@ -10,8 +10,7 @@
 
 @implementation CDCheckboxControl
 
-- (NSDictionary *) availableKeys
-{
+- (NSDictionary *) availableKeys {
 	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
 	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
     
@@ -24,9 +23,33 @@
             vMul, @"disabled",
             nil];
 }
+- (BOOL)isReturnValueEmpty {
+    if ([checkboxes count] > 0) {
+        NSEnumerator *en = [checkboxes objectEnumerator];
+        BOOL hasChecked = NO;
+        id obj;
+        while (obj = [en nextObject]) {
+            if ([obj state] == NSOnState){
+                hasChecked = YES;
+                break;
+            }
+        }
+        return !hasChecked;
+    }
+    else {
+        return NO;
+    }
+}
+- (NSString *) returnValueEmptyText {
+    if ([checkboxes count] > 1) {
+        return @"You must check at least one item before continuing.";
+    }
+    else {
+        return [NSString stringWithFormat: @"You must check the item \"%@\" before continuing.", [[checkboxes objectAtIndex:0] title]];
+    }
+}
 
-- (BOOL) validateControl:(CDOptions *)options
-{
+- (BOOL)controlValidateOptions:(CDOptions *)options {
     // Check that we're in the right sub-class
     if (![self isMemberOfClass:[CDCheckboxControl class]]) {
         if ([options hasOpt:@"debug"]) {
@@ -52,62 +75,23 @@
     // Load nib
 	if (![NSBundle loadNibNamed:@"tbc" owner:self]) {
 		if ([options hasOpt:@"debug"]) {
-			[self debug:@"Could not load tbc.nib"];
+			[self debug:@"Coulld not load tbc.nib"];
 		}
 		return NO;
 	}
     // Everything passed
     return YES;
 }
-
-- (BOOL)isReturnValueEmpty
-{
-    if ([checkboxes count] > 0) {
-        NSEnumerator *en = [checkboxes objectEnumerator];
-        BOOL hasChecked = NO;
-        id obj;
-        while (obj = [en nextObject]) {
-            if ([obj state] == NSOnState){
-                hasChecked = YES;
-                break;
-            }
-        }
-        return !hasChecked;
-    }
-    else {
-        return NO;
-    }
-}
-
-- (NSString *) returnValueEmptyText
-{
-    if ([checkboxes count] > 1) {
-        return @"You must check at least one item before continuing.";
-    }
-    else {
-        return [NSString stringWithFormat: @"You must check the item \"%@\" before continuing.", [[checkboxes objectAtIndex:0] title]];
-    }
-}
-
-- (NSArray *) runControlFromOptions:(CDOptions *)options
-{
-    // Validate control before continuing
-	if (![self validateControl:options]) {
-        return nil;
-    }
-    
+- (void) createControlWithOptions:(CDOptions *)options {
     NSString * labelText = @"";
     if ([options hasOpt:@"label"] && [options optValue:@"label"] != nil) {
         labelText = [options optValue:@"label"];
     }
-    
 	[self setTitleButtonsLabel:labelText];
 	[self setTimeout];
-    
 	// set return values 
     NSArray * cells = [controlMatrix cells];
     NSMutableArray *tmpValues = [[[NSMutableArray alloc] init] autorelease];
-
     NSEnumerator *en = [cells objectEnumerator];
     id obj;
     while (obj = [en nextObject]) {
@@ -115,56 +99,39 @@
             [tmpValues addObject:obj];
         } 
     }
-    
     checkboxes = [[NSMutableArray arrayWithArray:tmpValues] autorelease];
     en = [tmpValues objectEnumerator];
     while (obj = [en nextObject]) {
         [checkboxes replaceObjectAtIndex:[obj tag] withObject:obj];
     }
-    
     [self runAndSetRv];
+}
 
-    NSString *buttonRv = nil;
-	NSString *itemRv   = nil;
-
-	if ([options hasOpt:@"string-output"]) {
-		if (rv == 1) {
-			buttonRv = [button1 title];
-		} else if (rv == 2) {
-			buttonRv = [button2 title];
-		} else if (rv == 3) {
-			buttonRv = [button3 title];
-		} else if (rv == 4) {
-			buttonRv = @"4";
-		} else if (rv == 0) {
-			buttonRv = @"timeout";
-		}
+- (void) controlHasFinished {
+    NSMutableArray *checkboxesArray = [[[NSMutableArray alloc] init] autorelease];
+    NSEnumerator *en = [checkboxes objectEnumerator];
+    id obj;
+	if ([[self options] hasOpt:@"string-output"]) {
         if (checkboxes != nil && [checkboxes count]) {
-            NSMutableArray *itemRvArray = [[[NSMutableArray alloc] init] autorelease];
-            en = [checkboxes objectEnumerator];
             unsigned long state;
             while (obj = [en nextObject]) {
                 state = [obj state];
                 switch (state) {
-                    case NSOffState: [itemRvArray addObject: @"off"]; break;
-                    case NSOnState: [itemRvArray addObject: @"on"]; break;
-                    case NSMixedState: [itemRvArray addObject: @"mixed"]; break;
+                    case NSOffState: [checkboxesArray addObject: @"off"]; break;
+                    case NSOnState: [checkboxesArray addObject: @"on"]; break;
+                    case NSMixedState: [checkboxesArray addObject: @"mixed"]; break;
                 }
             }
-            itemRv = [itemRvArray componentsJoinedByString:@" "];
+            [controlReturnValues addObject:[checkboxesArray componentsJoinedByString:@" "]];
         }
 	} else {
-		buttonRv = [NSString stringWithFormat:@"%d",rv];
         if (checkboxes != nil && [checkboxes count]) {
-            NSMutableArray *itemRvArray = [[[NSMutableArray alloc] init] autorelease];
-            en = [checkboxes objectEnumerator];
             while (obj = [en nextObject]) {
-                [itemRvArray addObject: [NSString stringWithFormat:@"%i", [obj state]]];
+                [checkboxesArray addObject: [NSString stringWithFormat:@"%i", [obj state]]];
             }
-            itemRv = [itemRvArray componentsJoinedByString:@" "];
+            [controlReturnValues addObject:[checkboxesArray componentsJoinedByString:@" "]];
         }
 	}
-	return [NSArray arrayWithObjects:buttonRv, itemRv, nil];
 }
 
 
@@ -282,12 +249,5 @@
         }
     }
 }
-
-
-- (void) dealloc
-{
-	[super dealloc];
-}
-
 
 @end

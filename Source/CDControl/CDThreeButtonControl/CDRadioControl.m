@@ -90,71 +90,40 @@
     }
 }
 
-- (NSArray *) runControlFromOptions:(CDOptions *)options
-{
+- (void) createControlWithOptions:(CDOptions *)options {
     // Validate control before continuing
 	if (![self validateControl:options]) {
-        return nil;
+        return;
     }
     
     NSString * labelText = @"";
     if ([options hasOpt:@"label"] && [options optValue:@"label"] != nil) {
         labelText = [options optValue:@"label"];
     }
-    
 	[self setTitleButtonsLabel:labelText];
-	
 	[self setTimeout];
-    
 	[self runAndSetRv];
+}
 
-    
-    NSString *buttonRv = nil;
-	NSString *itemRv   = nil;
-
-	// set return values 
-	if ([options hasOpt:@"string-output"]) {
-		if (rv == 1) {
-			buttonRv = [button1 title];
-		} else if (rv == 2) {
-			buttonRv = [button2 title];
-		} else if (rv == 3) {
-			buttonRv = [button3 title];
-		} else if (rv == 4) {
-			buttonRv = @"4";
-		} else if (rv == 0) {
-			buttonRv = @"timeout";
-		}
-        NSArray * items = [controlMatrix cells];
-        if (items != nil && [items count]) {
-            NSCell * selectedCell = [controlMatrix selectedCell];
-            if (selectedCell != nil) {
-                itemRv = [selectedCell title];
+- (void) controlHasFinished {
+    NSArray * radioArray = [controlMatrix cells];
+    if (radioArray != nil && [radioArray count]) {
+        NSCell * selectedCell = [controlMatrix selectedCell];
+        if (selectedCell != nil) {
+            if ([[self options] hasOpt:@"string-output"]) {
+                [controlReturnValues addObject:[selectedCell title]];
             }
             else {
-                itemRv = [NSString stringWithFormat:@"%d", -1];
+                [controlReturnValues addObject:[NSString stringWithFormat:@"%d", [[controlMatrix selectedCell] tag]]];
             }
         }
         else {
-            itemRv = [NSString stringWithFormat:@"%d", -1];
+            [controlReturnValues addObject:[NSString stringWithFormat:@"%d", -1]];
         }
-	} else {
-		buttonRv = [NSString stringWithFormat:@"%d",rv];
-        NSArray * items = [controlMatrix cells];
-        if (items != nil && [items count]) {
-            NSCell * selectedCell = [controlMatrix selectedCell];
-            if (selectedCell != nil) {
-                itemRv = [NSString stringWithFormat:@"%d", [[controlMatrix selectedCell] tag]];
-            }
-            else {
-                itemRv = [NSString stringWithFormat:@"%d", -1];
-            }
-        }
-        else {
-            itemRv = [NSString stringWithFormat:@"%d", -1];
-        }
-	}
-	return [NSArray arrayWithObjects:buttonRv, itemRv, nil];
+    }
+    else {
+        [controlReturnValues addObject:[NSString stringWithFormat:@"%d", -1]];
+    }
 }
 
 - (void) setControl:(id)sender

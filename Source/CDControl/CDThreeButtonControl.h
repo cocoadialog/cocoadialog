@@ -28,17 +28,13 @@
 	IBOutlet NSButton       *button2;
 	IBOutlet NSButton       *button3;
     int                     cancelButton;
-    int                     rv;
 }
 
-- (IBAction) timeout:(id)sender;
 - (IBAction) button1Pressed:(id)sender;
 - (IBAction) button2Pressed:(id)sender;
 - (IBAction) button3Pressed:(id)sender;
 
 - (void) runAndSetRv;
-
-- (void) setTimeout;
 
 - (IBAction)setControl:(id)sender;
 - (void) setControl: (id)sender matrixRows:(NSInteger)rows matrixColumns:(NSInteger)columns items:(NSArray *)items precedence:(int)precedence;

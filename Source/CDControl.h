@@ -1,7 +1,7 @@
 /*
 	CDControl.h
-	CocoaDialog
-	Copyright (C) 2004 Mark A. Stratman <mark@sporkstorms.org>
+	cocoaDialog
+	Copyright (C) 2004-2011 Mark A. Stratman <mark@sporkstorms.org>
  
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 #import <Foundation/Foundation.h>
 #import "CDOptions.h"
 
-// All control objects must include a runControlFromOptions: method.
+// All controls must include a createControlWithOptions: method.
 // This should look at the options and display a control (dialog with message,
 // inputbox, or whatever) to the user, get any necessary info from it, and
 // return an NSArray of NSString objects.
@@ -30,58 +30,61 @@
 // on error.
 @class NSObject;
 @protocol CDControlProtocol
-- (NSArray *) runControlFromOptions:(CDOptions *)options;
-- (NSArray *) runControl;
+- (void) createControlWithOptions:(CDOptions *)options;
+- (void) controlHasFinished;
+- (BOOL) controlValidateOptions:(CDOptions *)options;
 @end
 
 // CDControl provides a runControl method.  It invokes
 // runControlFromOptions: with the options specified in initWithOptions:
 // You must override runControlFromOptions.
 @interface CDControl : NSObject <CDControlProtocol,NSApplicationDelegate> {
-	CDOptions                   *_options;
-    IBOutlet NSPanel            *panel;
+    int                         controlExitStatus;
+    NSString                    *controlExitStatusString;
     IBOutlet NSImageView        *controlIcon;
     NSMutableArray              *controlItems;
+    NSMutableArray              *controlReturnValues;
     BOOL                        hasFinished;
+    IBOutlet NSPanel            *panel;
+    int                         timeout;
+    IBOutlet NSTextField        *timeoutLabel;
+    NSTimer                     *timer;
+@private
+    CDOptions                   *options;
 }
 @property BOOL hasFinished;
+@property (retain) CDOptions *options;
 
-- (id)initWithOptions:(CDOptions *)options;
-
-// This must be sub-classed if you want options local to your control
-- (NSDictionary *) availableKeys;
-// This must be sub-classed if you want specify local depreciated keys for your control
-- (NSDictionary *) depreciatedKeys;
-// This must be sub-classed if you want validate local options for your control
-- (BOOL) validateControl:(CDOptions *)options;
-
-- (NSDictionary *) globalAvailableKeys;
-
+#pragma mark - Internal Control Methods -
 - (CDOptions *) controlOptionsFromArgs:(NSArray *)args;
 - (CDOptions *) controlOptionsFromArgs:(NSArray *)args withGlobalKeys:(NSDictionary *)globalKeys;
-- (CDOptions *) options;
-- (void) setOptions:(CDOptions *)options;
-
+- (NSSize) findNewSizeForWindow:(NSWindow *)window;
+- (void) findPositionForWindow:(NSWindow *)window;
 - (NSImage *) getIcon;
 - (NSImage *) getIconFromFile:(NSString *)aFile;
 - (NSImage *) getIconWithName:(NSString *)aName;
-
+- (id) initWithOptions:(CDOptions *)newOptions;
++ (void) printHelpTo:(NSFileHandle *)fh;
+- (void) runControl;
 - (void) setIconForWindow:(NSWindow *)aWindow;
 - (void) setIconForWindow:(NSWindow *)aWindow withImage:(NSImage *)anImage withSize:(NSSize)aSize;
 - (void) setIconForWindow:(NSWindow *)aWindow withImage:(NSImage *)anImage withSize:(NSSize)aSize withControls:(NSArray *)anArray;
-
-
-// Looks at the --width and --height options and determines if the window
-// needs to be resized.  If so, return NSSize, otherwise returns an NSSize
-// with 0.0 as width and height. But you shouldn't worry about that, just do:
-// if ([control windowNeedsResize:window]) { NSSize newSize = findNewSize...
-- (NSSize) findNewSizeForWindow:(NSWindow *)window;
+- (void) setTimeout;
+- (void) timeout;
 - (BOOL) windowNeedsResize:(NSWindow *)window;
 
-// Reposition window
-- (void) findPositionForWindow:(NSWindow *)window;
-
+#pragma mark - Subclassable Control Methods -
+// This must be sub-classed if you want options local to your control
+- (NSDictionary *) availableKeys;
+- (void) createControlWithOptions:(CDOptions *)options;
+- (void) controlHasFinished;
+- (BOOL) controlValidateOptions:(CDOptions *)options;
 - (void) debug:(NSString *)message;
-+ (void) printHelpTo:(NSFileHandle *)fh;
+// This must be sub-classed if you want specify local depreciated keys for your control
+- (NSDictionary *) depreciatedKeys;
+// This must be overridden if you want local global options for your control
+- (NSDictionary *) globalAvailableKeys;
+// This must be sub-classed if you want validate local options for your control
+- (BOOL) validateControl:(CDOptions *)options;
 
 @end

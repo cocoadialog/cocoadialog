@@ -3,7 +3,7 @@
 //  CocoaDialog
 //
 //  Created by Mark Carver on 10/1/11.
-//  Copyright (c) 2011 Mark Carver. All rights reserved.
+//  Copyright (c) 2011 Mark Whitaker. All rights reserved.
 //
 
 #import "CDGrowlControl.h"
@@ -22,10 +22,34 @@
             nil];
 }
 
-- (NSArray *) runControlFromOptions:(CDOptions *)options
-{
+- (id) init {
+    self = [super init];
     [GrowlApplicationBridge setGrowlDelegate:self];
-    
+    return self;
+}
+
+- (BOOL) controlValidateOptions:(CDOptions *)options {
+    BOOL pass = YES;
+    if ([options hasOpt:@"title"]) {
+        if (![options hasOpt:@"description"]) {
+            pass = NO;
+        }
+    }
+    else if ([options hasOpt:@"titles"]) {
+        if (![options hasOpt:@"descriptions"]) {
+            pass = NO;
+        }
+    }
+    else {
+        pass = NO;
+    }
+    if (!pass && [options hasOpt:@"debug"]) {
+        [self debug:@"You must specify either --title and --description, or --titles and --descriptions (with the same number of args)"];
+    }
+    return pass;
+}
+
+- (void) createControlWithOptions:(CDOptions *)options {
     NSString *clickPath = @"";
     if ([options hasOpt:@"click-path"]) {
         clickPath = [options optValue:@"click-path"];
@@ -95,13 +119,6 @@
                               clickArg:clickArg
          ];
     }
-    // Error
-    else {
-        if ([options hasOpt:@"debug"]) {
-            [self debug:@"You must specify either --title and --description, or --titles and --descriptions (with the same number of args)"];
-        }
-        return [NSArray array];
-    }
     
     NSEnumerator *en = [notifications objectEnumerator];
     id obj;
@@ -117,7 +134,6 @@
          clickContext:[NSString stringWithFormat:@"%d", activeNotifications]];
         activeNotifications++;
     }
-	return [NSArray array];
 }
 
 - (void) debug:(NSString *)message
@@ -151,8 +167,8 @@
     // Terminate cocoaDialog once all the notifications are complete
     if (activeNotifications <= 0) {
         hasFinished = YES;
-        [self dealloc];
-        [NSApp replyToApplicationShouldTerminate: YES];
+        [super dealloc];
+        [self controlHasFinished];
     }
 }
 
@@ -161,7 +177,8 @@
     activeNotifications--;
     if (activeNotifications <= 0) {
         hasFinished = YES;
-        [NSApp replyToApplicationShouldTerminate: YES];
+        [super dealloc];
+        [self controlHasFinished];
     }
 }
 

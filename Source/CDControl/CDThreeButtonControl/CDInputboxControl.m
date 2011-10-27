@@ -45,8 +45,7 @@
             nil];
 }
 
-- (BOOL) validateControl:(CDOptions *)options
-{
+- (BOOL)controlValidateOptions:(CDOptions *)options {
     // Check that we're in the right sub-class
     if (![self isMemberOfClass:[CDInputboxControl class]]) {
         if (![self isMemberOfClass:[CDStandardInputboxControl class]]) {
@@ -74,8 +73,7 @@
     return YES;
 }
 
-- (BOOL)isReturnValueEmpty
-{
+- (BOOL)isReturnValueEmpty {
     NSString *value = [[controlMatrix cellAtRow:0 column:0] stringValue];
     return [value isEqualToString:@""];
 }
@@ -85,41 +83,18 @@
     return @"The text field can cannot be empty, please enter some text.";
 }
 
-- (NSArray *) runControlFromOptions:(CDOptions *)options
-{
-    // Validate control before continuing
-	if (![self validateControl:options]) {
-        return nil;
-    }
-    
+- (void) createControlWithOptions:(CDOptions *)options {
     NSString * labelText = @"";
     if ([options hasOpt:@"label"] && [options optValue:@"label"] != nil) {
         labelText = [options optValue:@"label"];
     }
-    
 	[self setTitleButtonsLabel:labelText];
-	
 	[self setTimeout];
-    
 	[self runAndSetRv];
+}
 
-	NSString *returnString = nil;
-
-	// set returnString
-	if ([options hasOpt:@"string-output"]) {
-		if (rv == 1) {
-			returnString = [button1 title];
-		} else if (rv == 2) {
-			returnString = [button2 title];
-		} else if (rv == 3) {
-			returnString = [button3 title];
-		} else if (rv == 0) {
-			returnString = @"timeout";
-		}
-	} else {
-		returnString = [NSString stringWithFormat:@"%d",rv];
-	}
-	return [NSArray arrayWithObjects:returnString, [[controlMatrix cellAtRow:0 column:0] stringValue], nil];
+- (void) controlHasFinished {
+    [controlReturnValues addObject:[[controlMatrix cellAtRow:0 column:0] stringValue]];
 }
 
 - (void) setControl:(id)sender
@@ -149,7 +124,6 @@
         [inputbox setStringValue:@""];
     }
     [controlMatrix putCell:[inputbox cell] atRow:0 column:0];
-
     
     // select all the text
 	if ([options hasOpt:@"selected"]) {

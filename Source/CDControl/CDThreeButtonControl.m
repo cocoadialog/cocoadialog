@@ -45,6 +45,7 @@
 	return [NSDictionary dictionaryWithObjectsAndKeys:
             vNone, @"help",
             vNone, @"debug",
+            vNone, @"quiet",
             vOne,  @"title",
             vOne,  @"width",
             vOne,  @"height",
@@ -300,46 +301,6 @@
 	}
 }
 
-- (void) setTimeout
-{
-	CDOptions *options = [self options];
-	if ([options hasOpt:@"timeout"]) {
-		NSTimeInterval t;
-		if ([[NSScanner scannerWithString:[options optValue:@"timeout"]] scanDouble:&t]) {
-			[self performSelector:@selector(timeout:) withObject:panel afterDelay:t];
-		} else {
-			if ([options hasOpt:@"debug"]) {
-				[self debug:@"Could not parse the timeout option"];
-			}
-		}
-	}
-}
-
-// TODO - this needs to return a value properly
-- (IBAction) timeout:(id)sender
-{
-	rv = 0;
-	// For some reason, this doesn't return the run loop until the mouse is moved over the window or something. I think it has something to do with threading.
-	[NSApp stop:self];
-	// So termination is needed or it won't return
-	// But since that doesn't return, we have to put the exit stuff here.
-	// Bah.
-	NSFileHandle *fh = [NSFileHandle fileHandleWithStandardOutput];
-	if ([[self options] hasOpt:@"string-output"]) {
-		if (fh) {
-			[fh writeData:[@"timeout" dataUsingEncoding:NSUTF8StringEncoding]];
-		}
-	} else {
-		if (fh) {
-			[fh writeData:[@"0" dataUsingEncoding:NSUTF8StringEncoding]];
-		}
-	}
-	if (![[self options] hasOpt:@"no-newline"]) {
-		[fh writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
-	}
-	[NSApp terminate:nil];
-}
-
 - (BOOL)allowEmptyReturn
 {
     CDOptions *options = [self options];
@@ -371,43 +332,72 @@
     [alertSheet beginSheetModalForWindow:panel modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
+- (void) controlHasFinished {
+    [super controlHasFinished];
+}
+
 - (void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-    [NSApp endSheet:[alert window]];
-    [alert release];
+    [panel makeKeyAndOrderFront:nil];
+    if (controlItems != nil && [controlItems count]) {
+        [[controlItems objectAtIndex:0] becomeFirstResponder];
+    }
+    else if ([[controlMatrix cells] count]) {
+        if ([controlMatrix selectedCell]) {
+            [[controlMatrix selectedCell] becomeFirstResponder];
+        }
+        else {
+            [[controlMatrix cellAtRow:0 column:0] becomeFirstResponder];
+        }
+    }
 }
 
-- (IBAction) button1Pressed:(id)sender
-{
-	rv = 1;
-    if (![self allowEmptyReturn] && [self isReturnValueEmpty] && cancelButton != 1) {
-        [self returnValueEmptySheet];
-        return;
+- (IBAction) button1Pressed:(id)sender {
+    [self controlHasFinished];
+    controlExitStatus = 1;
+    controlExitStatusString = [button1 title];
+    if (cancelButton == 1) {
+        controlReturnValues = [NSMutableArray array];
     }
-    [NSApp stop:nil];
-	return;
+    else {
+        if (![self allowEmptyReturn] && [self isReturnValueEmpty]) {
+            [self returnValueEmptySheet];
+            return;
+        }
+    }
+    [super controlHasFinished];
 }
 
-- (IBAction) button2Pressed:(id)sender
-{
-	rv = 2;
-    if (![self allowEmptyReturn] && [self isReturnValueEmpty] && cancelButton != 2) {
-        [self returnValueEmptySheet];
-        return;
+- (IBAction) button2Pressed:(id)sender {
+    [self controlHasFinished];
+    controlExitStatus = 2;
+    controlExitStatusString = [button2 title];
+    if (cancelButton == 2) {
+        controlReturnValues = [NSMutableArray array];
     }
-    [NSApp stop:nil];
-	return;
+    else {
+        if (![self allowEmptyReturn] && [self isReturnValueEmpty]) {
+            [self returnValueEmptySheet];
+            return;
+        }
+    }
+    [super controlHasFinished];
 }
 
-- (IBAction) button3Pressed:(id)sender
-{
-	rv = 3;
-    if (![self allowEmptyReturn] && [self isReturnValueEmpty] && cancelButton != 3) {
-        [self returnValueEmptySheet];
-        return;
+- (IBAction) button3Pressed:(id)sender {
+    [self controlHasFinished];
+    controlExitStatus = 3;
+    controlExitStatusString = [button3 title];
+    if (cancelButton == 3) {
+        controlReturnValues = [NSMutableArray array];
     }
-    [NSApp stop:nil];
-	return;
+    else {
+        if (![self allowEmptyReturn] && [self isReturnValueEmpty]) {
+            [self returnValueEmptySheet];
+            return;
+        }
+    }
+    [super controlHasFinished];
 }
 
 @end

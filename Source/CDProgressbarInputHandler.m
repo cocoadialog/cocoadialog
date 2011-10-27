@@ -144,7 +144,7 @@
 
 -(void) main
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSAutoreleasePool *pool;
 
     NSFileHandle *stdinFH = [NSFileHandle fileHandleWithStandardInput];
 
@@ -156,8 +156,6 @@
     }
 
     [self invokeOnMainQueueWithTarget:delegate selector:@selector(finish) object:nil];
-
-    [pool drain];
 }
 
 - (void) dealloc

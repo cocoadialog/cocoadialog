@@ -23,9 +23,29 @@
 
 @implementation CDBubbleControl
 
-- (NSArray *) runControlFromOptions:(CDOptions *)options
-{
-	float timeout = 4.;
+- (BOOL) controlValidateOptions:(CDOptions *)options {
+    BOOL pass = YES;
+    if ([options hasOpt:@"title"]) {
+        if (![options hasOpt:@"description"]) {
+            pass = NO;
+        }
+    }
+    else if ([options hasOpt:@"titles"]) {
+        if (![options hasOpt:@"descriptions"]) {
+            pass = NO;
+        }
+    }
+    else {
+        pass = NO;
+    }
+    if (!pass && [options hasOpt:@"debug"]) {
+        [self debug:@"You must specify either --title and --description, or --titles and --descriptions (with the same number of args)"];
+    }
+    return YES;
+}
+
+- (void) createControlWithOptions:(CDOptions *)options {
+	float _timeout = 4.;
 	float alpha = 0.85;
 	int position = 0;
 
@@ -67,16 +87,16 @@
 	}	
 
 	if ([options hasOpt:@"timeout"]) {
-		if (![[NSScanner scannerWithString:[options optValue:@"timeout"]] scanFloat:&timeout]) {
+		if (![[NSScanner scannerWithString:[options optValue:@"timeout"]] scanFloat:&_timeout]) {
 			[self debug:@"Could not parse the timeout option."];
-			timeout = 4.;
+			_timeout = 4.;
 		}
 	}
 
 	if ([options hasOpt:@"alpha"]) {
 		if (![[NSScanner scannerWithString:[options optValue:@"alpha"]] scanFloat:&alpha]) {
 			[self debug:@"Could not parse the alpha option."];
-			timeout = .95;
+			_timeout = .95;
 		}
 	}
     BOOL sticky = [options hasOpt:@"sticky"];
@@ -85,10 +105,7 @@
 	NSArray *descriptions = [options optValues:@"descriptions"];
 
 	// Multiple bubbles
-	if (descriptions != nil && [descriptions count]
-	    && titles != nil && [titles count]
-	    && [titles count] == [descriptions count])
-	{
+	if (descriptions != nil && [descriptions count] && titles != nil && [titles count] && [titles count] == [descriptions count]) {
 		NSArray *givenIconImages = [self notificationIcons];
 		NSImage *fallbackIcon = nil;
 		NSMutableArray *icons = nil;
@@ -133,12 +150,7 @@
                              clickPath:clickPath
                               clickArg:clickArg
          ];
-	// Error
-	} else {
-		if ([options hasOpt:@"debug"]) {
-			[self debug:@"You must specify either --title and --description, or --titles and --descriptions (with the same number of args)"];
-		}
-	}
+    }
 
     NSEnumerator *en = [notifications objectEnumerator];
     id obj;
@@ -148,7 +160,7 @@
         KABubbleWindowController *bubble = [KABubbleWindowController
                                             bubbleWithTitle:[notification objectForKey:@"title"] text:[notification objectForKey:@"description"]
                                             icon:[notification objectForKey:@"icon"]
-                                            timeout:timeout
+                                            timeout:_timeout
                                             lightColor:[self _colorForBubble:i fromKey:@"background-tops" alpha:alpha]
                                             darkColor:[self _colorForBubble:i fromKey:@"background-bottoms" alpha:alpha]
                                             textColor:[self _colorForBubble:i fromKey:@"text-colors" alpha:alpha]
@@ -163,8 +175,6 @@
         activeNotifications++;
         i++;
     }
-	[NSApp run];
-	return [NSArray array];
 }
 
 - (void) debug:(NSString *)message
@@ -191,8 +201,7 @@
     activeNotifications--;
     if (activeNotifications <= 0) {
         hasFinished = YES;
-        [NSApp replyToApplicationShouldTerminate: YES];
-        [NSApp stop:self];
+        [self controlHasFinished];
     }
 }
 

@@ -44,6 +44,7 @@
             // General
             vNone, @"help",
             vNone, @"debug",
+            vNone, @"quiet",
             vOne,  @"title",
             vOne,  @"width",
             vOne,  @"height",
@@ -77,8 +78,8 @@
 }
 
 // Set options common to any file save panel
-- (void) setMisc:(NSSavePanel *)savePanel
-{
+- (void) setMisc {
+    [savePanel setDelegate:self];
     CDOptions *options = [self options];
     extensions = [[[NSMutableArray alloc] init] retain];
     NSArray *optionExtensions = [options optValues:@"with-extensions"];
@@ -107,8 +108,7 @@
 	}
 }
 
-- (BOOL)isExtensionAllowed:(NSString *)filename
-{
+- (BOOL)isExtensionAllowed:(NSString *)filename {
     if (extensions != nil && [extensions count]) {
         NSString* extension = [filename pathExtension];
         NSLog(@"%@: %@", extension, [extensions containsObject:extension] ? @"YES" : @"NO");

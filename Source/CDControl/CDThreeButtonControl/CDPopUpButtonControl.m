@@ -83,11 +83,10 @@
 }
 
 
-- (NSArray *) runControlFromOptions:(CDOptions *)options
-{
+- (void) createControlWithOptions:(CDOptions *)options {
     // Validate control before continuing
 	if (![self validateControl:options]) {
-        return nil;
+        return;
     }
     
     NSString * labelText = @"";
@@ -98,29 +97,14 @@
 	[self setTitleButtonsLabel:labelText];
 	[self setTimeout];
 	[self runAndSetRv];
+}
 
-    NSString *buttonRv = nil;
-	NSString *itemRv   = nil;
-
-	// set return values 
-	if ([options hasOpt:@"string-output"]) {
-		if (rv == 1) {
-			buttonRv = [button1 title];
-		} else if (rv == 2) {
-			buttonRv = [button2 title];
-		} else if (rv == 3) {
-			buttonRv = [button3 title];
-		} else if (rv == 4) {
-			buttonRv = @"4";
-		} else if (rv == 0) {
-			buttonRv = @"timeout";
-		}
-		itemRv = [[controlMatrix cellAtRow:0 column:0] titleOfSelectedItem];
+- (void) controlHasFinished {
+	if ([[self options] hasOpt:@"string-output"]) {
+        [controlReturnValues addObject:[[controlMatrix cellAtRow:0 column:0] titleOfSelectedItem]];
 	} else {
-		buttonRv = [NSString stringWithFormat:@"%d",rv];
-		itemRv   = [NSString stringWithFormat:@"%d", [[controlMatrix cellAtRow:0 column:0] indexOfSelectedItem]];
+        [controlReturnValues addObject:[NSString stringWithFormat:@"%d", [[controlMatrix cellAtRow:0 column:0] indexOfSelectedItem]]];
 	}
-	return [NSArray arrayWithObjects:buttonRv, itemRv, nil];
 }
 
 - (void) setControl:(id)sender
@@ -159,15 +143,11 @@
     NSPopUpButtonCell * popup = [controlMatrix cellAtRow:0 column:0];
     [popup synchronizeTitleAndSelectedItem];
 	if ([[self options] hasOpt:@"exit-onchange"]) {
-		rv = 4;
-		[NSApp stop:nil];
-		return;
+		controlExitStatus = 4;
+		controlExitStatusString = @"4";
+        [self controlHasFinished];
 	}
 }
 
-- (void) dealloc
-{
-	[super dealloc];
-}
 
 @end

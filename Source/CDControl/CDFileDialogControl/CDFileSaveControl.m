@@ -34,18 +34,15 @@
 		nil];
 }
 
-- (NSArray *) runControlFromOptions:(CDOptions *)options
-{
-	unsigned long result;
-	NSSavePanel *savePanel = [NSSavePanel savePanel];
-    [savePanel setDelegate:self];
+- (void) createControlWithOptions:(CDOptions *)options {
+	savePanel = [NSSavePanel savePanel];
     [savePanel setAllowedFileTypes:nil];
     
 	NSString *file = @"";
 	NSString *dir = nil;
 	
     [self setOptions:options];
-	[self setMisc:savePanel];
+	[self setMisc];
 
 	if ([options hasOpt:@"packages-as-directories"]) {
 		[savePanel setTreatsFilePackagesAsDirectories:YES];
@@ -77,6 +74,7 @@
     // Reposition Panel
     [self findPositionForWindow:savePanel];
 	
+    NSInteger result;
     if (kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber10_6) {
         result = [savePanel runModalForDirectory:dir file:file];
     }
@@ -92,11 +90,15 @@
         [savePanel setNameFieldStringValue:file];
         result = [savePanel runModal];
     }
-	if (result == NSFileHandlingPanelOKButton) {
-		return [NSArray arrayWithObject:[savePanel filename]];
-	} else {
-		return [NSArray array];
-	}
+    if (result == NSFileHandlingPanelOKButton) {
+        controlExitStatus = -1;
+        [controlReturnValues addObject:[savePanel filename]];
+    }
+    else {
+        controlExitStatus = -2;
+        controlReturnValues = [NSMutableArray array];
+    }
+    [super controlHasFinished];
 }
 
 @end
