@@ -160,7 +160,7 @@
             if ([currentControl controlValidateOptions:options]) {
                 // Create the control
                 [currentControl createControlWithOptions:options];
-                // Run the control. It is now responsible for terminating cocoaDialog. It must invoke the method finishWithResults:exitStatus: inside the method controlHasFinished:
+                // Run the control. The control is now responsible for terminating cocoaDialog. It must invoke the method controlHasFinished: inside control's action method. If the control wishes to sub-class controlHasFinished: it will need to invoke [super controlHasFinished] (CDControl's method) to properly return the return value(s), exit status and terminate cocoaDialog.
                 [NSApp run];
             } else {
                 if ([options hasOpt:@"debug"]) {
