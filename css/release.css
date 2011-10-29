@@ -236,3 +236,39 @@ margin-top: 3px;
       font-size: 12px !important;
       padding: 0 !important;
   }
+
+.notice {
+  padding: 5px 10px;
+  margin: 0 0 10px;
+  background: #FFFDB5;
+}
+
+.bug {
+  color: #fff;
+  cursor: default;
+  background: #aa0000;
+  background: -moz-linear-gradient(center top , #E80C02, #D90B01);
+  background: -webkit-linear-gradient(top, #E80C02 0%, #D90B01 100%);
+  font-size: 8pt;
+  font-weight: bold;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  padding: 2px 5px;
+  margin-right: 5px;
+}
+
+.feature {
+  color: #006605;
+  cursor: default;
+  background: #08D901;
+  background: -moz-linear-gradient(center top , #02E81D, #08D901);
+  background: -webkit-linear-gradient(top, #02E81D 0%, #08D901 100%);
+  font-size: 8pt;
+  font-weight: bold;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  padding: 2px 5px;
+  margin-right: 5px;
+}
