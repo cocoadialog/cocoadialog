@@ -7,10 +7,10 @@
 		<language>en</language>
 
 		<item>
-			<title>Version 3.0-beta4</title>
+			<title>Version 3.0-beta5</title>
 			<sparkle:releaseNotesLink>http://mstratman.github.com/cocoadialog/release.html</sparkle:releaseNotesLink>
-			<pubDate>Fri, 21 Oct 2011 11:14:17 CDT</pubDate>
-			<enclosure url="https://github.com/downloads/mstratman/cocoadialog/cocoaDialog_3.0.0-beta4.dmg" length="102" type="application/octet-stream" sparkle:version="3.0.0-beta4" sparkle:shortVersionString="3.0-beta4" sparkle:dsaSignature="MC0CFBYUQq8KXbHL4zfVJWEKIS68BI06AhUA2hAbqd3lhA6LwgYoSBcZCCdUo1w=" />
+			<pubDate>Sat, 29 Oct 2011 08:20:32 CDT</pubDate>
+			<enclosure url="https://github.com/downloads/mstratman/cocoadialog/cocoaDialog_3.0.0-beta5.tar.gz" length="927682" type="application/octet-stream" sparkle:version="3.0.0-beta5" sparkle:shortVersionString="3.0-beta5" sparkle:dsaSignature="MC0CFGHRCL+t1bMPedD1iQ4M6UUvJ26jAhUA2G5TxeqB/QZ9iREsXNUD9M97B7Q=" />
 		</item>
 	</channel>
 </rss>
