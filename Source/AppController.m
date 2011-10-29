@@ -154,17 +154,36 @@
             while (key = [en nextObject]) {
                 [options setOption:[extraOptions objectForKey:key] forKey:key];
             }
+            
             // Reload the options for currentControl
             [currentControl setOptions:options];
-            // Validate currentControl's options
-            if ([currentControl controlValidateOptions:options]) {
+            
+            // Validate currentControl's options and load interface nib
+            if ([currentControl validateOptions] && [currentControl loadControlNib:[currentControl controlNib]]) {
+                
                 // Create the control
-                [currentControl createControlWithOptions:options];
-                // Run the control. The control is now responsible for terminating cocoaDialog. It must invoke the method controlHasFinished: inside control's action method. If the control wishes to sub-class controlHasFinished: it will need to invoke [super controlHasFinished] (CDControl's method) to properly return the return value(s), exit status and terminate cocoaDialog.
-                [NSApp run];
+                [currentControl createControl];
+                
+                // Initialize the timer, if one exists
+                [currentControl setTimeout];
+                
+                // Run the control. The control is now responsible for terminating cocoaDialog, which should be invoked by calling the method [self stopControl] from the control's action method(s).
+                [currentControl runControl];
             } else {
                 if ([options hasOpt:@"debug"]) {
-                    [CDOptions printOpts:[options allOptions] forRunMode:runMode];
+                    NSMutableDictionary *allKeys;
+                    NSDictionary *localKeys = [currentControl availableKeys];
+                    if (localKeys != nil) {
+                        allKeys = [NSMutableDictionary dictionaryWithCapacity:
+                                   [globalKeys count]+[localKeys count]];
+                        [allKeys addEntriesFromDictionary:globalKeys];
+                        [allKeys addEntriesFromDictionary:localKeys];
+                    } else {
+                        allKeys = [NSMutableDictionary dictionaryWithCapacity:[globalKeys count]];
+                        [allKeys addEntriesFromDictionary:globalKeys];
+                        
+                    }
+                    [CDOptions printOpts:[allKeys allKeys] forRunMode:runMode];
                 }
                 exit(255);
             }
@@ -175,14 +194,6 @@
             exit(255);
         }
     }
-}
-
-- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
-{
-    if (currentControl != nil && ![currentControl hasFinished]) {
-        return NSTerminateLater;
-    }
-    return NSTerminateNow;
 }
 
 #pragma mark - CDControl

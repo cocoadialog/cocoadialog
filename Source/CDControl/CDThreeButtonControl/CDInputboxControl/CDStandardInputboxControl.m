@@ -36,9 +36,7 @@
             nil];
 }
 
-- (void) setButtons
-{
-	CDOptions *options = [self options];
+- (void) setButtons {
 	[button1 setTitle:@"Okay"];
 	if ([options hasOpt:@"no-cancel"]) {
 		[button2 setEnabled:NO];

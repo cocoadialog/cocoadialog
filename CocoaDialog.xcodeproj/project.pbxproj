@@ -48,6 +48,12 @@
 		0EC9B68409B1274100956684 /* CDFileSaveControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC9B68309B1274100956684 /* CDFileSaveControl.m */; };
 		0EE0B434096802B90070F494 /* CDThreeButtonControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EE0B433096802B90070F494 /* CDThreeButtonControl.m */; };
 		0EE0B436096802CF0070F494 /* CDThreeButtonControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EE0B435096802CF0070F494 /* CDThreeButtonControl.h */; };
+		614E5FD9145BAA4300130974 /* CDPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = 614E5FD7145BAA4100130974 /* CDPanel.h */; };
+		614E5FDA145BAA4300130974 /* CDPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 614E5FD8145BAA4200130974 /* CDPanel.m */; };
+		614E5FDE145BB09200130974 /* CDIcon.h in Headers */ = {isa = PBXBuildFile; fileRef = 614E5FDC145BB09100130974 /* CDIcon.h */; };
+		614E5FDF145BB09200130974 /* CDIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 614E5FDD145BB09100130974 /* CDIcon.m */; };
+		614E5FE2145BC23400130974 /* CDCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 614E5FE0145BC23200130974 /* CDCommon.h */; };
+		614E5FE3145BC23400130974 /* CDCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 614E5FE1145BC23300130974 /* CDCommon.m */; };
 		61FA9D2114518E97006E0674 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 61FA9D2014518E97006E0674 /* dsa_pub.pem */; };
 		89880CAD142AB364004E79A1 /* CDProgressbarInputHandlerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 89880CAC142AB364004E79A1 /* CDProgressbarInputHandlerDelegate.h */; };
 		89BE1C9F14270A540030D0FF /* CDProgressbarInputHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BE1C9D14270A540030D0FF /* CDProgressbarInputHandler.m */; };
@@ -148,6 +154,12 @@
 		0EE0B435096802CF0070F494 /* CDThreeButtonControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDThreeButtonControl.h; path = Source/CDControl/CDThreeButtonControl.h; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		614E5FD7145BAA4100130974 /* CDPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDPanel.h; path = Source/CDPanel.h; sourceTree = "<group>"; };
+		614E5FD8145BAA4200130974 /* CDPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDPanel.m; path = Source/CDPanel.m; sourceTree = "<group>"; };
+		614E5FDC145BB09100130974 /* CDIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDIcon.h; path = Source/CDIcon.h; sourceTree = "<group>"; };
+		614E5FDD145BB09100130974 /* CDIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDIcon.m; path = Source/CDIcon.m; sourceTree = "<group>"; };
+		614E5FE0145BC23200130974 /* CDCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDCommon.h; path = Source/CDCommon.h; sourceTree = "<group>"; };
+		614E5FE1145BC23300130974 /* CDCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDCommon.m; path = Source/CDCommon.m; sourceTree = "<group>"; };
 		61FA9D2014518E97006E0674 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
 		89880CAC142AB364004E79A1 /* CDProgressbarInputHandlerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDProgressbarInputHandlerDelegate.h; path = Source/CDProgressbarInputHandlerDelegate.h; sourceTree = "<group>"; };
 		89BE1C9D14270A540030D0FF /* CDProgressbarInputHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDProgressbarInputHandler.m; path = Source/CDProgressbarInputHandler.m; sourceTree = "<group>"; };
@@ -212,7 +224,10 @@
 			children = (
 				0E71D9EB0963B15300FF6F7C /* AppController.m */,
 				0E71D9EC0963B15300FF6F7C /* CDControl.m */,
+				614E5FE1145BC23300130974 /* CDCommon.m */,
+				614E5FDD145BB09100130974 /* CDIcon.m */,
 				0E71D9F10963B15300FF6F7C /* CDOptions.m */,
+				614E5FD8145BAA4200130974 /* CDPanel.m */,
 				89BE1C9D14270A540030D0FF /* CDProgressbarInputHandler.m */,
 				0E77E9B30963C46500D651A3 /* KABubbleWindow.m */,
 				0E77E9B40963C46500D651A3 /* KABubbleWindowController.m */,
@@ -227,7 +242,10 @@
 			children = (
 				0E71D9CF0963B12800FF6F7C /* AppController.h */,
 				0E71D9D00963B12800FF6F7C /* CDControl.h */,
+				614E5FE0145BC23200130974 /* CDCommon.h */,
+				614E5FDC145BB09100130974 /* CDIcon.h */,
 				0E71D9D50963B12800FF6F7C /* CDOptions.h */,
+				614E5FD7145BAA4100130974 /* CDPanel.h */,
 				89BE1CA114270EC80030D0FF /* CDProgressbarInputHandler.h */,
 				0E77E9B90963C47A00D651A3 /* KABubbleWindow.h */,
 				0E77E9BA0963C47A00D651A3 /* KABubbleWindowController.h */,
@@ -463,6 +481,9 @@
 				A78A8D341437C30C007AE363 /* CDBubbleControl.h in Headers */,
 				A78A8D351437C30C007AE363 /* CDGrowlControl.h in Headers */,
 				A78A8D3E1437C416007AE363 /* CDNotifyControl.h in Headers */,
+				614E5FD9145BAA4300130974 /* CDPanel.h in Headers */,
+				614E5FDE145BB09200130974 /* CDIcon.h in Headers */,
+				614E5FE2145BC23400130974 /* CDCommon.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -585,6 +606,9 @@
 				A78A8D391437C341007AE363 /* CDBubbleControl.m in Sources */,
 				A78A8D3A1437C341007AE363 /* CDGrowlControl.m in Sources */,
 				A78A8D3F1437C416007AE363 /* CDNotifyControl.m in Sources */,
+				614E5FDA145BAA4300130974 /* CDPanel.m in Sources */,
+				614E5FDF145BB09200130974 /* CDIcon.m in Sources */,
+				614E5FE3145BC23400130974 /* CDCommon.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

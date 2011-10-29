@@ -2,7 +2,7 @@
 //  CDNotifyControl.h
 //  CocoaDialog
 //
-//  Created by Mark Carver on 10/1/11.
+//  Created by Mark Whitaker on 10/1/11.
 //  Copyright (c) 2011 Mark Whitaker. All rights reserved.
 //
 
@@ -15,13 +15,12 @@
 
 - (void) addNotificationWithTitle:(NSString *)title
                       description:(NSString *)description
-                             icon:(NSImage *)icon
+                             icon:(NSImage *)_icon
                          priority:(NSNumber *)priority
                            sticky:(BOOL)sticky
                         clickPath:(NSString *)clickPath
                          clickArg:(NSString *)clickArg;
 
-- (NSImage *) notificationIcon;
 - (NSArray *) notificationIcons;
 
 - (void) notificationWasClicked:(id)clickContext;

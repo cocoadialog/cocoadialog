@@ -23,6 +23,10 @@
 
 @implementation CDTextboxControl
 
+- (NSString *)controlNib {
+    return @"Textbox";
+}
+
 - (NSDictionary *) availableKeys
 {
 	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
@@ -48,41 +52,42 @@
 }
 
 // Should be called after setButtons, and before resize
-- (void) setLabel:(NSString *)labelText
-{
-	if (labelText != nil) {
-		[expandingLabel setStringValue:labelText];
-	} else {
-		[expandingLabel setStringValue:@""];
-	}
-    
-    NSRect labelRect = [expandingLabel frame];
-    NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: labelText]autorelease];
-    NSTextContainer *textContainer = [[[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)] autorelease];
-    NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease];
-    [layoutManager addTextContainer: textContainer];
-    [textStorage addLayoutManager: layoutManager];
-    [textContainer setLineFragmentPadding:0];
-    [layoutManager glyphRangeForTextContainer:textContainer];
-    
-    float newHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
-    float heightDiff = newHeight - labelRect.size.height;
-    
-    // Set label's new width and height
-    NSRect l = NSMakeRect(labelRect.origin.x, labelRect.origin.y - heightDiff, labelRect.size.width, newHeight);
-    [expandingLabel setFrame: l];
-    
-    // Set panel's new width and height
-    NSSize p = [[panel contentView] frame].size;
-	p.height += heightDiff;
-	[panel setContentSize:p];
-    [panel center];
+- (void) setLabel:(NSString *)labelText {
+    if (expandingLabel != nil) {
+        if (labelText == nil) {
+            labelText = [NSString stringWithString:@""];
+        }
+        float labelNewHeight = -10.0f;
+        NSRect labelRect = [expandingLabel frame];
+        float labelHeightDiff = labelNewHeight - labelRect.size.height;
+        if (![labelText isEqualToString:@""]) {
+            [expandingLabel setStringValue:labelText];
+            NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: labelText]autorelease];
+            NSTextContainer *textContainer = [[[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)] autorelease];
+            NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease];
+            [layoutManager addTextContainer: textContainer];
+            [textStorage addLayoutManager: layoutManager];
+            [layoutManager glyphRangeForTextContainer:textContainer];
+            labelNewHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
+            labelHeightDiff = labelNewHeight - labelRect.size.height;
+            // Set label's new height
+            NSRect l = NSMakeRect(labelRect.origin.x, labelRect.origin.y - labelHeightDiff, labelRect.size.width, labelNewHeight);
+            [expandingLabel setFrame: l];
+        }
+        else {
+            [expandingLabel setHidden:YES];
+        }
+        // Set panel's new width and height
+        NSSize p = [[[panel panel] contentView] frame].size;
+        p.height += labelHeightDiff;
+        [[panel panel] setContentSize:p];
 
-    // Set scrollView's new height
-	NSSize s = [scrollView frame].size;
-    s.height -= heightDiff;
-	[scrollView setFrameSize:s];
+        // Set scrollView's new height
+        NSSize s = [scrollView frame].size;
+        s.height -= labelHeightDiff;
+        [scrollView setFrameSize:s];
 
+    }
 }
 
 - (BOOL)isReturnValueEmpty
@@ -95,28 +100,22 @@
     return @"The text box can cannot be empty, please enter some text.";
 }
 
-
-- (void) createControlWithOptions:(CDOptions *)options {
-	NSAttributedString *text;
-
+- (BOOL)validateOptions {
 	// check that they specified at least a button1
-	// return nil if not
 	if (![options optValue:@"button1"]) {
 		if ([options hasOpt:@"debug"]) {
 			[self debug:@"Must supply at least a --button1"];
 		}
-		return;
-	}	
-	
-	// Load Textbox.nib or return nil
-	if (![NSBundle loadNibNamed:@"Textbox" owner:self]) {
-		if ([options hasOpt:@"debug"]) {
-			[self debug:@"Could not load Textbox.nib"];
-		}
-		return;
+		return NO;
 	}
+    return YES;
+}
+
+
+- (void) createControl {
+	NSAttributedString *text;
     
-    [controlItems addObject:scrollView];
+    [icon addControl:scrollView];
 	
 	// set editable
 	if ([options hasOpt:@"editable"]) {
@@ -124,15 +123,15 @@
 	} else {
 		[textView setEditable:NO];
 	}
-	
+    
 	// Set initial text in textview
-	if ([options optValue:@"text"]) {
+	if ([options hasOpt:@"text"]) {
 		text = [[NSAttributedString alloc] initWithString:
 			[options optValue:@"text"]];
 		[[textView textStorage] setAttributedString:text];
 		[textView scrollRangeToVisible:NSMakeRange([text length], 0)];
 		[text release];
-	} else if ([options optValue:@"text-from-file"]) {
+	} else if ([options hasOpt:@"text-from-file"]) {
 		NSString *contents = [NSString stringWithContentsOfFile:
 			[options optValue:@"text-from-file"] encoding:NSUTF8StringEncoding error:nil];
 		if (contents == nil) {
@@ -146,10 +145,9 @@
 		[[textView textStorage] setAttributedString:text];
 		[text release];
 	} else {
-		[[textView textStorage] setAttributedString:
-			[[[NSAttributedString alloc] initWithString:@""] autorelease]];
+		[[textView textStorage] setAttributedString:[[[NSAttributedString alloc] initWithString:@""] autorelease]];
 	}
-		
+    
 	[self setTitleButtonsLabel:[options optValue:@"label"]];
 	
 	// scroll to top or bottom (do this AFTER resizing, setting the text, 
@@ -172,19 +170,17 @@
 	// Set first responder
 	// Why doesn't this work for the button?
 	if ([options hasOpt:@"focus-textbox"]) {
-		[panel makeFirstResponder:textView];
+		[[panel panel] makeFirstResponder:textView];
 	} else {
-		[panel makeFirstResponder:button1];
+		[[panel panel] makeFirstResponder:button1];
 	}
-	
-	[self setTimeout];
-	[self runAndSetRv];
 }
 
-- (void) controlHasFinished {
+- (void) controlHasFinished:(int)button {
 	if ([[self options] hasOpt:@"editable"]) {
         [controlReturnValues addObject:[[textView textStorage] string]];
 	}
+    [super controlHasFinished:button];
 }
 
 

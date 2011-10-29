@@ -22,20 +22,8 @@
 
 @implementation CDThreeButtonControl
 
-
-- (void) runAndSetRv
-{
-    // Reposition Panel
-    [self findPositionForWindow:panel];
-    
-	// Run modal
-	if ([[self options] hasOpt:@"float"]) {
-		[panel setFloatingPanel: YES];
-		[panel setLevel:NSScreenSaverWindowLevel];
-	}		
-	
-	[panel makeKeyAndOrderFront:nil];
-	[NSApp run];
+- (NSString *) controlNib {
+    return  @"tbc";
 }
 
 - (NSDictionary *) globalAvailableKeys
@@ -43,30 +31,37 @@
 	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
 	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
 	return [NSDictionary dictionaryWithObjectsAndKeys:
+            // General
             vNone, @"help",
             vNone, @"debug",
             vNone, @"quiet",
+            vOne,  @"timeout",
+            vOne,  @"timeout-format",
+            vNone, @"string-output",
+            vNone, @"no-newline",
+            // Panel
             vOne,  @"title",
             vOne,  @"width",
             vOne,  @"height",
             vOne,  @"posX",
             vOne,  @"posY",
+            vNone, @"no-float",
+            vNone, @"minimize",
+            vNone, @"resize",
+            // Icon
             vOne,  @"icon",
             vOne,  @"icon-bundle",
-            vOne,  @"icon-file",
             vOne,  @"icon-type",
+            vOne,  @"icon-file",
             vOne,  @"icon-size",
             vOne,  @"icon-width",
             vOne,  @"icon-height",
-            vNone, @"string-output",
-            vNone, @"no-newline",
+            // CDThreeButtonControl
             vOne,  @"label",
             vOne,  @"button1",
             vOne,  @"button2",
             vOne,  @"button3",
             vOne,  @"cancel",
-            vNone, @"float",
-            vOne,  @"timeout",
             vNone, @"value-required",
             vOne,  @"empty-text",
             nil];
@@ -159,31 +154,29 @@
 }
 
 // This resizes
-- (void) setTitleButtonsLabel:(NSString *)labelText
-{
+- (void) setTitleButtonsLabel:(NSString *)labelText {
 
-	[self setTitle];
+	[panel setTitle];
 
     // Add default controls
-    if (expandingLabel != nil && ![controlItems containsObject:expandingLabel]) {
-        [controlItems addObject:expandingLabel];
+    if (expandingLabel != nil && ![[icon controls] containsObject:expandingLabel]) {
+        [icon addControl:expandingLabel];
     }
-    if (controlMatrix != nil && ![controlItems containsObject:controlMatrix]) {
-        [controlItems addObject:controlMatrix];
+    if (controlMatrix != nil && ![[icon controls] containsObject:controlMatrix]) {
+        [icon addControl:controlMatrix];
+    }
+    if (timeoutLabel != nil && ![[icon controls] containsObject:timeoutLabel]) {
+        [icon addControl:timeoutLabel];
     }
 
-    [self setIconForWindow:panel];
+    [icon setIconFromOptions];
     
 	[self setButtons];
-	if ([self windowNeedsResize:panel]) {
-		[panel setContentSize:[self findNewSizeForWindow:panel]];
-	}
+    [panel resize];
     
     [self setLabel:labelText];
     
-	if ([self windowNeedsResize:panel]) {
-		[panel setContentSize:[self findNewSizeForWindow:panel]];
-	}
+    [panel resize];
     
     if (controlMatrix != nil) {
         // Remember old controlMatrix size
@@ -200,21 +193,17 @@
         m = [controlMatrix frame];
 
         // Set panel's new width and height
-        NSSize panelSize = [[panel contentView] frame].size;
+        NSSize panelSize = [[[panel panel] contentView] frame].size;
         panelSize.height += m.size.height - oldHeight;
         panelSize.width += m.size.width - oldWidth;
-        [panel setContentSize:panelSize];
-        [panel center];
-        
-        if ([self windowNeedsResize:panel]) {
-            [panel setContentSize:[self findNewSizeForWindow:panel]];
-        }
+        [[panel panel] setContentSize:panelSize];
+
+        [panel resize];
     }
 
 }
 
-- (void) setButtons
-{
+- (void) setButtons {
     cancelButton = 0;
 	unsigned i;
 	struct { NSString *key; NSButton *button; } const buttons[] = {
@@ -222,8 +211,6 @@
 		{ @"button2", button2 },
 		{ @"button3", button3 }
 	};
-
-	CDOptions *options = [self options];
 
 	float minWidth = 2 * 20.0f; // margin
 	for (i = 0; i != sizeof(buttons)/sizeof(buttons[0]); i++) {
@@ -252,18 +239,15 @@
 	[button3 setFrame:r];
 
 	// ensure that the buttons never gets clipped
-	NSSize s = [panel contentMinSize];
-    s.height += 40.0f; // 20 * 2 for margin + 20 for height
-	s.width += minWidth;
-	[panel setContentMinSize:s];
+    [panel addMinHeight:40.0f]; // 20 * 2 for margin + 20 for height
+    [panel addMinWidth:minWidth];
 }
 
 // Should be called after setButtons, and before resize
-- (void) setLabel:(NSString *)labelText
-{
+- (void) setLabel:(NSString *)labelText {
     if (expandingLabel != nil) {
         if (labelText == nil) {
-            labelText = @"";
+            labelText = [NSString stringWithString:@""];
         }
         float labelNewHeight = -10.0f;
         NSRect labelRect = [expandingLabel frame];
@@ -286,118 +270,116 @@
             [expandingLabel setHidden:YES];
         }
         // Set panel's new width and height
-        NSSize p = [[panel contentView] frame].size;
+        NSSize p = [[[panel panel] contentView] frame].size;
         p.height += labelHeightDiff;
-        [panel setContentSize:p];
+        [[panel panel] setContentSize:p];
     }
 }
 
-- (void) setTitle
-{
-	CDOptions *options = [self options];
-	// set title
-	if ([options optValue:@"title"] != nil) {
-		[panel setTitle:[options optValue:@"title"]];
-	}
+- (void) setTimeoutLabel {
+    if (timeoutLabel != nil) {
+        float labelNewHeight = -4.0f;
+        NSRect labelRect = [timeoutLabel frame];
+        float labelHeightDiff = labelNewHeight - labelRect.size.height;
+        [timeoutLabel setStringValue:[self formatSecondsForString:(int)timeout]];
+        if (![[timeoutLabel stringValue] isEqualToString:@""] && timeout != 0.0f) {
+            NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: [timeoutLabel stringValue]]autorelease];
+            NSTextContainer *textContainer = [[[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)] autorelease];
+            NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease];
+            [layoutManager addTextContainer: textContainer];
+            [textStorage addLayoutManager: layoutManager];
+            [layoutManager glyphRangeForTextContainer:textContainer];
+            labelNewHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
+            labelHeightDiff = labelNewHeight - labelRect.size.height;
+            // Set label's new height
+            NSRect l = NSMakeRect(labelRect.origin.x, labelRect.origin.y - labelHeightDiff, labelRect.size.width, labelNewHeight);
+            [timeoutLabel setFrame: l];
+        }
+        else {
+            [timeoutLabel setHidden:YES];
+        }
+        // Set panel's new width and height
+        NSSize p = [[[panel panel] contentView] frame].size;
+        p.height += labelHeightDiff;
+        [[panel panel] setContentSize:p];
+        
+        if (controlMatrix != nil) {
+            // Set controlMatrix's new Y
+            NSPoint m = [controlMatrix frame].origin;
+            m.y += labelHeightDiff;
+            [controlMatrix setFrameOrigin:m];
+        }
+    }
 }
 
-- (BOOL)allowEmptyReturn
-{
-    CDOptions *options = [self options];
+- (BOOL)allowEmptyReturn {
     return ![options hasOpt:@"value-required"];
 }
 
 // This must be subclassed for each control. Each control must provide additional logic pertaining to their specific return values
-- (BOOL) isReturnValueEmpty
-{
+- (BOOL) isReturnValueEmpty {
     return NO;
 }
 
-- (NSString *) returnValueEmptyText
-{
+- (NSString *) returnValueEmptyText {
     return @"An input is required, please try again.";
 }
 
-- (void) returnValueEmptySheet
-{
-    CDOptions *options = [self options];
+- (void) returnValueEmptySheet {
     NSString *message = [self returnValueEmptyText];
     if ([options hasOpt:@"empty-text"]) {
         message = [options optValue:@"empty-text"];
     }
     NSAlert *alertSheet = [[NSAlert alloc] init];
     [alertSheet addButtonWithTitle:@"Okay"];
-    [alertSheet setIcon:[self getIconWithName:@"caution"]];
+    [alertSheet setIcon:[icon iconFromName:@"caution"]];
     [alertSheet setMessageText:message];
-    [alertSheet beginSheetModalForWindow:panel modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
+    [alertSheet beginSheetModalForWindow:[panel panel] modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
-- (void) controlHasFinished {
-    [super controlHasFinished];
-}
-
-- (void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
-{
-    [panel makeKeyAndOrderFront:nil];
-    if (controlItems != nil && [controlItems count]) {
-        [[controlItems objectAtIndex:0] becomeFirstResponder];
+- (void) controlHasFinished:(int)button {
+    controlExitStatus = button;
+    switch (button) {
+        case 1: controlExitStatusString = [button1 title]; break;
+        case 2: controlExitStatusString = [button2 title]; break;
+        case 3: controlExitStatusString = [button3 title]; break;
     }
-    else if ([[controlMatrix cells] count]) {
+    if (button == cancelButton) {
+        controlReturnValues = [NSMutableArray array];
+    }
+    else {
+        if (![self allowEmptyReturn] && [self isReturnValueEmpty]) {
+            [self returnValueEmptySheet];
+            return;
+        }
+    }
+    [self stopControl];
+}
+
+- (void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
+    if (controlMatrix != nil && [[controlMatrix cells] count]) {
         if ([controlMatrix selectedCell]) {
-            [[controlMatrix selectedCell] becomeFirstResponder];
+            [controlMatrix selectCellAtRow:[controlMatrix selectedRow] column:[controlMatrix selectedColumn]];
         }
-        else {
-            [[controlMatrix cellAtRow:0 column:0] becomeFirstResponder];
-        }
+    }
+    else if (controlItems != nil && [controlItems count]) {
+        [[panel panel] makeFirstResponder:[controlItems objectAtIndex:0]];
     }
 }
 
 - (IBAction) button1Pressed:(id)sender {
-    [self controlHasFinished];
-    controlExitStatus = 1;
-    controlExitStatusString = [button1 title];
-    if (cancelButton == 1) {
-        controlReturnValues = [NSMutableArray array];
-    }
-    else {
-        if (![self allowEmptyReturn] && [self isReturnValueEmpty]) {
-            [self returnValueEmptySheet];
-            return;
-        }
-    }
-    [super controlHasFinished];
+    [controlReturnValues removeAllObjects];
+    [self controlHasFinished:1];
 }
 
 - (IBAction) button2Pressed:(id)sender {
-    [self controlHasFinished];
-    controlExitStatus = 2;
-    controlExitStatusString = [button2 title];
-    if (cancelButton == 2) {
-        controlReturnValues = [NSMutableArray array];
-    }
-    else {
-        if (![self allowEmptyReturn] && [self isReturnValueEmpty]) {
-            [self returnValueEmptySheet];
-            return;
-        }
-    }
-    [super controlHasFinished];
+    [controlReturnValues removeAllObjects];
+    [self controlHasFinished:2];
 }
 
 - (IBAction) button3Pressed:(id)sender {
-    [self controlHasFinished];
-    controlExitStatus = 3;
-    controlExitStatusString = [button3 title];
-    if (cancelButton == 3) {
-        controlReturnValues = [NSMutableArray array];
-    }
-    else {
-        if (![self allowEmptyReturn] && [self isReturnValueEmpty]) {
-            [self returnValueEmptySheet];
-            return;
-        }
-    }
-    [super controlHasFinished];
+    [controlReturnValues removeAllObjects];
+    [self controlHasFinished:3];
 }
 
 @end

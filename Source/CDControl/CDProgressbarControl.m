@@ -24,6 +24,10 @@
 
 @implementation CDProgressbarControl
 
+- (NSString *) controlNib {
+	return @"Progressbar";
+}
+
 - (NSDictionary *) availableKeys
 {
 	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
@@ -70,7 +74,7 @@
 	[confirmationSheet addButtonWithTitle:@"Stop"];
 	[confirmationSheet addButtonWithTitle:@"Cancel"];
 	[confirmationSheet setMessageText:@"Are you sure you want to stop?"];
-	[confirmationSheet beginSheetModalForWindow:panel modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
+	[confirmationSheet beginSheetModalForWindow:[panel panel] modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
 - (void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
@@ -95,35 +99,16 @@
 	[stopButton setEnabled:stopEnabled];
 }
 
-- (BOOL) controlValidateOptions:(CDOptions *)options {
-	// Load nib or return nil
-	if (![NSBundle loadNibNamed:@"Progressbar" owner:self]) {
-		if ([options hasOpt:@"debug"]) {
-			[self debug:@"Could not load Progressbar.nib"];
-		}
-		return NO;
-	}
+- (BOOL) validateOptions {
 	return YES;
 }
 
-- (void) createControlWithOptions:(CDOptions *)options {
+- (void) createControl {
 	stopEnabled = YES;
 	
-	// Add the progressbar width to the panel's minimum content size
-	NSSize panelContent = [panel contentMinSize];
-	panelContent.width += [progressBar frame].size.width + 30.0f;
-	[panel setContentMinSize:panelContent];
-
-	
-	[controlItems addObject:expandingLabel];
-	[controlItems addObject:progressBar];
-	[self setIconForWindow:panel];
-	
-	
-	panelContent = [panel contentMinSize];
-	panelContent.width += 500.0f;
-	[panel setContentMaxSize:panelContent];
-
+	[panel addMinWidth:[progressBar frame].size.width + 30.0f];
+	[icon addControl:expandingLabel];
+	[icon addControl:progressBar];
 
 	// set text label
 	if ([options optValue:@"text"]) {
@@ -136,23 +121,19 @@
 	if (![options hasOpt:@"stoppable"]) {
 		NSRect progressBarFrame = [progressBar frame];
 
-		NSRect currentWindowFrame = [panel frame];
+		NSRect currentWindowFrame = [[panel panel] frame];
 		CGFloat stopButtonWidth = [stopButton frame].size.width;
 		NSRect newWindowFrame = {
 			.origin = currentWindowFrame.origin,
 			.size = NSMakeSize(currentWindowFrame.size.width - stopButtonWidth + 2, currentWindowFrame.size.height)
 		};
-		[panel setFrame:newWindowFrame display:NO];
+		[[panel panel] setFrame:newWindowFrame display:NO];
 
 		[progressBar setFrame:progressBarFrame];
 		[stopButton setHidden:YES];
 	}
 
-
-	// resize if necessary
-	if ([self windowNeedsResize:panel]) {
-		[panel setContentSize:[self findNewSizeForWindow:panel]];
-	}
+	[panel resize];
 	
 	CDProgressbarInputHandler *inputHandler = [[CDProgressbarInputHandler alloc] init];
 	[inputHandler setDelegate:self];
@@ -170,7 +151,7 @@
 		
 	//set window title
 	if ([options optValue:@"title"]) {
-		[panel setTitle:[options optValue:@"title"]];
+		[[panel panel] setTitle:[options optValue:@"title"]];
 	}
 
 	// set indeterminate
@@ -181,17 +162,7 @@
 		[progressBar setIndeterminate:NO];
 	}
 
-    // Reposition Panel
-    [self findPositionForWindow:panel];
-
-	if ([[self options] hasOpt:@"float"]) {
-		[panel setLevel:NSScreenSaverWindowLevel];
-	}
-
 	NSOperationQueue* queue = [[NSOperationQueue new] autorelease];
-
-	[panel makeKeyAndOrderFront:nil];
-
 	[queue addOperation:inputHandler];
 	[inputHandler release];
 }

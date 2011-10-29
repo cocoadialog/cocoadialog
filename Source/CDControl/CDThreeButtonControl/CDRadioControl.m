@@ -2,8 +2,8 @@
 //  CDRadioControl.m
 //  CocoaDialog
 //
-//  Created by Mark Carver on 9/23/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Created by Mark Whitaker on 9/23/11.
+//  Copyright (c) 2011 Mark Whitaker. All rights reserved.
 //
 
 #import "CDRadioControl.h"
@@ -27,8 +27,7 @@
             nil];
 }
 
-- (BOOL) validateControl:(CDOptions *)options
-{
+- (BOOL) validateOptions {
     // Check that we're in the right sub-class
     if (![self isMemberOfClass:[CDRadioControl class]]) {
         if ([options hasOpt:@"debug"]) {
@@ -90,7 +89,7 @@
     }
 }
 
-- (void) createControlWithOptions:(CDOptions *)options {
+- (void) createControl {
     // Validate control before continuing
 	if (![self validateControl:options]) {
         return;
@@ -101,11 +100,9 @@
         labelText = [options optValue:@"label"];
     }
 	[self setTitleButtonsLabel:labelText];
-	[self setTimeout];
-	[self runAndSetRv];
 }
 
-- (void) controlHasFinished {
+- (void) controlHasFinished:(int)button {
     NSArray * radioArray = [controlMatrix cells];
     if (radioArray != nil && [radioArray count]) {
         NSCell * selectedCell = [controlMatrix selectedCell];
@@ -124,14 +121,10 @@
     else {
         [controlReturnValues addObject:[NSString stringWithFormat:@"%d", -1]];
     }
+    [super controlHasFinished:button];
 }
 
-- (void) setControl:(id)sender
-{
- 
-    CDOptions *options = [self options];
-    
-    
+- (void) setControl:(id)sender {
     // Setup the control
     NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
     unsigned long selected = -1;
@@ -233,12 +226,6 @@
             }
         }
     }
-}
-
-
-- (void) dealloc
-{
-	[super dealloc];
 }
 
 @end

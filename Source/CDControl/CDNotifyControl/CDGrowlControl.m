@@ -2,7 +2,7 @@
 //  CDGrowl.m
 //  CocoaDialog
 //
-//  Created by Mark Carver on 10/1/11.
+//  Created by Mark Whitaker on 10/1/11.
 //  Copyright (c) 2011 Mark Whitaker. All rights reserved.
 //
 
@@ -28,7 +28,7 @@
     return self;
 }
 
-- (BOOL) controlValidateOptions:(CDOptions *)options {
+- (BOOL) validateOptions {
     BOOL pass = YES;
     if ([options hasOpt:@"title"]) {
         if (![options hasOpt:@"description"]) {
@@ -49,7 +49,9 @@
     return pass;
 }
 
-- (void) createControlWithOptions:(CDOptions *)options {
+- (void) createControl {
+    [panel setPanelEmpty];
+
     NSString *clickPath = @"";
     if ([options hasOpt:@"click-path"]) {
         clickPath = [options optValue:@"click-path"];
@@ -77,14 +79,14 @@
 		// See what icons we got at the command line, or set a fallback
 		// icon to use for all bubbles
 		if (givenIconImages == nil) {
-			fallbackIcon = [self notificationIcon];
+			fallbackIcon = [icon iconWithDefault];
 		} else {
 			icons = [NSMutableArray arrayWithArray:givenIconImages];
 		}
 		// If we were given less icons than we have bubbles, use a default
 		// for any extra bubbles
 		if ([icons count] < [descriptions count]) {
-			NSImage *defaultIcon = [self notificationIcon];
+			NSImage *defaultIcon = [icon iconWithDefault];
 			unsigned long numToAdd = [descriptions count] - [icons count];
 			for (i = 0; i < numToAdd; i++) {
 				[icons addObject:defaultIcon];
@@ -95,10 +97,10 @@
         NSArray * clickArgs = [NSArray arrayWithArray:[options optValues:@"click-args"]];
 		// Create the bubbles
 		for (i = 0; i < [descriptions count]; i++) {
-			NSImage *icon = fallbackIcon == nil ? (NSImage *)[icons objectAtIndex:i] : fallbackIcon;
+			NSImage *_icon = fallbackIcon == nil ? (NSImage *)[icons objectAtIndex:i] : fallbackIcon;
             [self addNotificationWithTitle:[titles objectAtIndex:i]
                                description:[descriptions objectAtIndex:i]
-                                      icon:icon
+                                      icon:_icon
                                   priority:[priorities count] ? [priorities objectAtIndex:i] : priority
                                     sticky:sticky
                                  clickPath:[clickPaths count] ? [clickPaths objectAtIndex:i] : clickPath
@@ -109,10 +111,10 @@
     }
     // Single notification
     else if ([options hasOpt:@"title"] && [options hasOpt:@"description"]) {
-        NSImage * icon = [self notificationIcon];
+        NSImage * _icon = [icon iconWithDefault];
         [self addNotificationWithTitle:[options optValue:@"title"]
                            description:[options optValue:@"description"]
-                                  icon:icon
+                                  icon:_icon
                               priority:priority
                                 sticky:sticky
                              clickPath:clickPath
@@ -142,7 +144,7 @@
      notifyWithTitle:@"cocoaDialog Debug"
      description:message
      notificationName:@"General Notification"
-     iconData:[[self getIconWithName:@"caution"] TIFFRepresentation]
+     iconData:[[icon iconFromName:@"caution"] TIFFRepresentation]
      priority:2
      isSticky:YES
      clickContext:nil];
@@ -166,9 +168,8 @@
     activeNotifications--;
     // Terminate cocoaDialog once all the notifications are complete
     if (activeNotifications <= 0) {
-        hasFinished = YES;
         [super dealloc];
-        [self controlHasFinished];
+        [self stopControl];
     }
 }
 
@@ -176,9 +177,8 @@
 {
     activeNotifications--;
     if (activeNotifications <= 0) {
-        hasFinished = YES;
         [super dealloc];
-        [self controlHasFinished];
+        [self stopControl];
     }
 }
 

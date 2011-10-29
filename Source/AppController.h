@@ -39,22 +39,19 @@
 #import "CDTextboxControl.h"
 #import "CDYesNoMsgboxControl.h"
 
-@interface AppController : NSObject <NSApplicationDelegate> {
+@interface AppController : NSObject {
     CDControl               *currentControl;
     IBOutlet NSPanel        *aboutPanel;
     IBOutlet NSTextField    *aboutAppLink;
     IBOutlet NSTextField    *aboutText;
     NSMutableArray          *arguments;
 }
-
-+ (NSDictionary *) availableControls;
-- (NSString *) appVersion;
-- (void) chooseControl:(NSString *)runMode useOptions:options addExtraOptionsTo:(NSMutableDictionary *)extraOptions;
--(void)setHyperlinkForTextField:(NSTextField*)aTextField replaceString:(NSString *)aString withURL:(NSString *)aURL;
+    + (NSDictionary *) availableControls;
+    - (NSString *) appVersion;
+    - (void) chooseControl:(NSString *)runMode useOptions:options addExtraOptionsTo:(NSMutableDictionary *)extraOptions;
+    -(void)setHyperlinkForTextField:(NSTextField*)aTextField replaceString:(NSString *)aString withURL:(NSString *)aURL;
 @end
 
 @interface NSAttributedString (Hyperlink)
-
-+(id)hyperlinkFromString:(NSString*)inString withURL:(NSURL*)aURL withFont:(NSFont *)aFont;
-
+    +(id)hyperlinkFromString:(NSString*)inString withURL:(NSURL*)aURL withFont:(NSFont *)aFont;
 @end

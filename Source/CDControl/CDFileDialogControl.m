@@ -22,15 +22,13 @@
 
 @implementation CDFileDialogControl
 
-- (id)init
-{
+- (id)init {
     self = [self initWithOptions:nil];
     extensions = [[[NSMutableArray alloc] init] retain];
     return self;
 }
 
-- (void) dealloc
-{
+- (void) dealloc {
     [extensions release];
 	[super dealloc];
 }
@@ -45,13 +43,20 @@
             vNone, @"help",
             vNone, @"debug",
             vNone, @"quiet",
+            vOne,  @"timeout",
+            vOne,  @"timeout-format",
+            vNone, @"string-output",
+            vNone, @"no-newline",
+            // Panel
             vOne,  @"title",
             vOne,  @"width",
             vOne,  @"height",
             vOne,  @"posX",
             vOne,  @"posY",
+            vNone, @"no-float",
             vNone, @"minimize",
             vNone, @"resize",
+            // Icon
             vOne,  @"icon",
             vOne,  @"icon-bundle",
             vOne,  @"icon-type",
@@ -59,9 +64,8 @@
             vOne,  @"icon-size",
             vOne,  @"icon-width",
             vOne,  @"icon-height",
-            vNone, @"string-output",
-            vNone, @"no-newline",
-            // Open/Save
+
+            // CDFileDialogs
             vOne,  @"label",
             vNone, @"packages-as-directories",
             vMul,  @"with-extensions",
@@ -70,8 +74,7 @@
             nil];
 }
 
-- (NSDictionary *) depreciatedKeys
-{
+- (NSDictionary *) depreciatedKeys {
 	return [NSDictionary dictionaryWithObjectsAndKeys:
             @"label", @"text",
             nil];
@@ -80,7 +83,6 @@
 // Set options common to any file save panel
 - (void) setMisc {
     [savePanel setDelegate:self];
-    CDOptions *options = [self options];
     extensions = [[[NSMutableArray alloc] init] retain];
     NSArray *optionExtensions = [options optValues:@"with-extensions"];
 	if (optionExtensions != nil && [optionExtensions count]) {
@@ -120,7 +122,6 @@
 }
 
 - (BOOL)panel:(id)sender shouldShowFilename:(NSString *)filename {
-    CDOptions *options = [self options];
     BOOL packageAsDir = [options hasOpt:@"packages‑as‑directories"];
     BOOL isPackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:filename];
     BOOL isDir;

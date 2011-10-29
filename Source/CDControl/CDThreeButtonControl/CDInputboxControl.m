@@ -45,7 +45,7 @@
             nil];
 }
 
-- (BOOL)controlValidateOptions:(CDOptions *)options {
+- (BOOL) validateOptions {    
     // Check that we're in the right sub-class
     if (![self isMemberOfClass:[CDInputboxControl class]]) {
         if (![self isMemberOfClass:[CDStandardInputboxControl class]]) {
@@ -59,13 +59,6 @@
 	if (![options optValue:@"button1"] && ![self isMemberOfClass:[CDStandardInputboxControl class]])	{
 		if ([options hasOpt:@"debug"]) {
 			[self debug:@"Must supply at least --button1"];
-		}
-		return NO;
-	}
-    // Load nib
-	if (![NSBundle loadNibNamed:@"tbc" owner:self]) {
-		if ([options hasOpt:@"debug"]) {
-			[self debug:@"Could not load tbc.nib"];
 		}
 		return NO;
 	}
@@ -83,24 +76,20 @@
     return @"The text field can cannot be empty, please enter some text.";
 }
 
-- (void) createControlWithOptions:(CDOptions *)options {
+- (void) createControl {
     NSString * labelText = @"";
     if ([options hasOpt:@"label"] && [options optValue:@"label"] != nil) {
         labelText = [options optValue:@"label"];
     }
 	[self setTitleButtonsLabel:labelText];
-	[self setTimeout];
-	[self runAndSetRv];
 }
 
-- (void) controlHasFinished {
+- (void) controlHasFinished:(int)button {
     [controlReturnValues addObject:[[controlMatrix cellAtRow:0 column:0] stringValue]];
+    [super controlHasFinished:button];
 }
 
-- (void) setControl:(id)sender
-{
-    CDOptions *options = [self options];
-
+- (void) setControl:(id)sender {
     // Set other attributes of matrix
     [controlMatrix setCellSize:NSMakeSize([controlMatrix frame].size.width, 20.0f)];
     [controlMatrix renewRows:1 columns:1];

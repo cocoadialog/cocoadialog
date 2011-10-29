@@ -38,12 +38,11 @@
 		nil];
 }
 
-- (void) createControlWithOptions:(CDOptions *)options {
+- (void) createControl {
     savePanel = [NSOpenPanel openPanel];
 	NSString *file = nil;
 	NSString *dir = nil;
 	
-	[self setOptions:options];
 	[self setMisc];
 
     NSOpenPanel *openPanel = (NSOpenPanel *)savePanel;
@@ -81,14 +80,18 @@
 	if ([options optValue:@"with-directory"] != nil) {
 		dir = [options optValue:@"with-directory"];
 	}
+    
+    [panel setPanel:openPanel];
 
 	// resize window if user specified alternate width/height
-	if ([self windowNeedsResize:openPanel]) {
-		[openPanel setContentSize:[self findNewSizeForWindow:openPanel]];
+    if ([panel needsResize]) {
+		[openPanel setContentSize:[panel findNewSize]];
 	}
 	
     // Reposition Panel
-    [self findPositionForWindow:openPanel];
+    [panel setPosition];
+    
+    [self setTimeout];
     
     NSInteger result;
     
@@ -114,12 +117,10 @@
         controlExitStatus = -2;
         controlReturnValues = [NSMutableArray array];
     }
-    [super controlHasFinished];
+    [super stopControl];
 }
 
-- (BOOL)isExtensionAllowed:(NSString *)filename
-{
-    CDOptions *options = [self options];
+- (BOOL)isExtensionAllowed:(NSString *)filename {
     BOOL extensionAllowed = YES;
     if (extensions != nil && [extensions count]) {
         NSString* extension = [filename pathExtension];

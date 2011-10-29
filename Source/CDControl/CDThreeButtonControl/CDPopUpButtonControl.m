@@ -45,8 +45,7 @@
             nil];
 }
 
-- (BOOL) validateControl:(CDOptions *)options
-{
+- (BOOL) validateOptions {
     // Check that we're in the right sub-class
     if (![self isMemberOfClass:[CDPopUpButtonControl class]]) {
         if (![self isMemberOfClass:[CDStandardPopUpButtonControl class]]) {
@@ -83,34 +82,20 @@
 }
 
 
-- (void) createControlWithOptions:(CDOptions *)options {
-    // Validate control before continuing
-	if (![self validateControl:options]) {
-        return;
-    }
-    
-    NSString * labelText = @"";
-    if ([options hasOpt:@"label"] && [options optValue:@"label"] != nil) {
-        labelText = [options optValue:@"label"];
-    }
-    
-	[self setTitleButtonsLabel:labelText];
-	[self setTimeout];
-	[self runAndSetRv];
+- (void) createControl {
+	[self setTitleButtonsLabel:[options optValue:@"label"]];
 }
 
-- (void) controlHasFinished {
+- (void) controlHasFinished:(int)button {
 	if ([[self options] hasOpt:@"string-output"]) {
         [controlReturnValues addObject:[[controlMatrix cellAtRow:0 column:0] titleOfSelectedItem]];
 	} else {
         [controlReturnValues addObject:[NSString stringWithFormat:@"%d", [[controlMatrix cellAtRow:0 column:0] indexOfSelectedItem]]];
 	}
+    [super controlHasFinished:button];
 }
 
-- (void) setControl:(id)sender
-{
-    CDOptions *options = [self options];
-    
+- (void) setControl:(id)sender {
     // Setup control matrix
     [controlMatrix setAutosizesCells:NO];
     [controlMatrix renewRows:1 columns:1];
@@ -138,14 +123,13 @@
     [controlMatrix putCell:[popup cell] atRow:0 column:0];
 }
      
-- (void) selectionChanged:(id)sender
-{
+- (void) selectionChanged:(id)sender {
     NSPopUpButtonCell * popup = [controlMatrix cellAtRow:0 column:0];
     [popup synchronizeTitleAndSelectedItem];
 	if ([[self options] hasOpt:@"exit-onchange"]) {
 		controlExitStatus = 4;
 		controlExitStatusString = @"4";
-        [self controlHasFinished];
+        [self stopControl];
 	}
 }
 

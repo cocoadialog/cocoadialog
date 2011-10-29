@@ -2,7 +2,7 @@
 //  CDNotifyControl.m
 //  CocoaDialog
 //
-//  Created by Mark Carver on 10/1/11.
+//  Created by Mark Whitaker on 10/1/11.
 //  Copyright (c) 2011 Mark Whitaker. All rights reserved.
 //
 
@@ -14,7 +14,6 @@
 {
     self = [self initWithOptions:nil];
     activeNotifications = 0;
-    hasFinished = NO;
     notifications = [[[NSMutableArray alloc] init] retain];
 	return self;
 }
@@ -25,19 +24,20 @@
 	[super dealloc];
 }
 
-
 // This must be overridden if you want local global options for your control
 - (NSDictionary *) globalAvailableKeys {
     NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
 	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
     NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
     return [NSDictionary dictionaryWithObjectsAndKeys:
-             // General
-             vNone, @"help",
-             vNone, @"debug",
-             vNone, @"quiet",
-             vNone, @"sticky",
+            // General
+            vNone, @"help",
+            vNone, @"debug",
+            vNone, @"quiet",
+
+            // CDNotifyControls
              vNone, @"no-growl",
+             vNone, @"sticky",
              // Text
              vOne,  @"title",
              vOne,  @"description",
@@ -55,7 +55,6 @@
              vOne,  @"click-arg",
              vMul,  @"click-paths",
              vMul,  @"click-args",
-             
              
    // CDBubbleControl Options (they're not used by CDGrowlControl, but need to be recognized as possible keys for backwards compatability support and so CDGrowlControl doesn't interpret them as values)
 
@@ -93,13 +92,13 @@
 }
 
 
-- (void)addNotificationWithTitle:(NSString *)title description:(NSString *)description icon:(NSImage *)icon priority:(NSNumber *)priority sticky:(BOOL)sticky clickPath:(NSString *)clickPath clickArg:(NSString *)clickArg
+- (void)addNotificationWithTitle:(NSString *)title description:(NSString *)description icon:(NSImage *)_icon priority:(NSNumber *)priority sticky:(BOOL)sticky clickPath:(NSString *)clickPath clickArg:(NSString *)clickArg
 {
     NSMutableDictionary * notification = [NSMutableDictionary dictionary];
     [notification setObject:title forKey:@"title"];
     [notification setObject:description forKey:@"description"];
-    [notification setObject:icon forKey:@"icon"];
-    NSData *iconData = [NSData dataWithData:[icon TIFFRepresentation]];
+    [notification setObject:_icon forKey:@"icon"];
+    NSData *iconData = [NSData dataWithData:[_icon TIFFRepresentation]];
     if (iconData == nil) {
         iconData = [NSData data];
     }
@@ -120,30 +119,8 @@
     [notifications addObject:notification];
 }
 
-// Should always return an image
-- (NSImage *) notificationIcon
-{
-	CDOptions *options = [self options];
-	NSImage *icon = nil;
-    
-	if ([options hasOpt:@"icon-file"]) {
-        icon = [self getIconFromFile:[options optValue:@"icon-file"]];
-        
-	} else if ([options hasOpt:@"icon"]) {
-        icon = [self getIconWithName:[options optValue:@"icon"]];
-	}
-    
-	if (icon == nil) {
-		icon = [NSApp applicationIconImage];
-	}
-	return icon;
-}
-
-
 // returns an NSArray of NSImage's or nil if there's only one.
-- (NSArray *) notificationIcons
-{
-	CDOptions *options = [self options];
+- (NSArray *) notificationIcons {
 	NSMutableArray *icons = [NSMutableArray array];
 	NSArray *iconArgs;
 	NSEnumerator *en;
@@ -153,11 +130,11 @@
 		en = [iconArgs objectEnumerator];
 		NSString *iconName;
 		while (iconName = (NSString *)[en nextObject]) {
-            NSImage * icon = [self getIconWithName:iconName];
-			if (icon == nil) {
-				icon = [NSApp applicationIconImage];
+            NSImage * _icon = [icon iconFromName:iconName];
+			if (_icon == nil) {
+				_icon = [NSApp applicationIconImage];
 			}
-			[icons addObject:icon];
+			[icons addObject:_icon];
 		}
         
 	} else if ([options hasOpt:@"icon-files"]
@@ -167,11 +144,11 @@
 		en = [iconArgs objectEnumerator];
 		NSString *fileName;
 		while (fileName = (NSString *)[en nextObject]) {
-            NSImage * icon = [self getIconFromFile:fileName];
-			if (icon == nil) {
-				icon = [NSApp applicationIconImage];
+            NSImage * _icon = [icon iconFromFile:fileName];
+			if (_icon == nil) {
+				_icon = [NSApp applicationIconImage];
 			}
-			[icons addObject:icon];
+			[icons addObject:_icon];
 		}
         
 	} else {

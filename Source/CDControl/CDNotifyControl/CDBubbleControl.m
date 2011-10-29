@@ -23,7 +23,7 @@
 
 @implementation CDBubbleControl
 
-- (BOOL) controlValidateOptions:(CDOptions *)options {
+- (BOOL) validateOptions {
     BOOL pass = YES;
     if ([options hasOpt:@"title"]) {
         if (![options hasOpt:@"description"]) {
@@ -44,7 +44,9 @@
     return YES;
 }
 
-- (void) createControlWithOptions:(CDOptions *)options {
+- (void) createControl {
+    [panel setPanelEmpty];
+
 	float _timeout = 4.;
 	float alpha = 0.85;
 	int position = 0;
@@ -113,14 +115,14 @@
 		// See what icons we got at the command line, or set a fallback
 		// icon to use for all bubbles
 		if (givenIconImages == nil) {
-			fallbackIcon = [self notificationIcon];
+			fallbackIcon = [icon iconWithDefault];
 		} else {
 			icons = [NSMutableArray arrayWithArray:givenIconImages];
 		}
 		// If we were given less icons than we have bubbles, use a default
 		// for any extra bubbles
 		if ([icons count] < [descriptions count]) {
-			NSImage *defaultIcon = [self notificationIcon];
+			NSImage *defaultIcon = [icon iconWithDefault];
 			unsigned long numToAdd = [descriptions count] - [icons count];
 			for (i = 0; i < numToAdd; i++) {
 				[icons addObject:defaultIcon];
@@ -130,10 +132,10 @@
         NSArray * clickArgs = [NSArray arrayWithArray:[options optValues:@"click-args"]];
 		// Create the bubbles
 		for (i = 0; i < [descriptions count]; i++) {
-			NSImage *icon = fallbackIcon == nil ? (NSImage *)[icons objectAtIndex:i] : fallbackIcon;
+			NSImage *_icon = fallbackIcon == nil ? (NSImage *)[icons objectAtIndex:i] : fallbackIcon;
             [self addNotificationWithTitle:[titles objectAtIndex:i]
                                description:[descriptions objectAtIndex:i]
-                                      icon:icon
+                                      icon:_icon
                                   priority:nil
                                     sticky:sticky
                                  clickPath:[clickPaths count] ? [clickPaths objectAtIndex:i] : clickPath
@@ -144,7 +146,7 @@
 	} else if ([options hasOpt:@"title"] && [options hasOpt:@"description"]) {
         [self addNotificationWithTitle:[options optValue:@"title"]
                            description:[options optValue:@"description"]
-                                  icon:[self notificationIcon]
+                                  icon:[icon iconWithDefault]
                               priority:nil
                                 sticky:sticky
                              clickPath:clickPath
@@ -181,7 +183,7 @@
 {
     [self addNotificationWithTitle:@"cocoaDialog Debug"
                        description:message
-                              icon:[self getIconWithName:@"caution"]
+                              icon:[icon iconFromName:@"caution"]
                           priority:0
                             sticky:YES
                          clickPath:nil
@@ -200,8 +202,7 @@
     // Terminate cocoaDialog once all the notifications are complete
     activeNotifications--;
     if (activeNotifications <= 0) {
-        hasFinished = YES;
-        [self controlHasFinished];
+        [self stopControl];
     }
 }
 
@@ -220,9 +221,7 @@
 }
 
 // the `i` index is zero based.
-- (NSColor *) _colorForBubble:(unsigned long)i fromKey:(NSString *)key alpha:(CGFloat)alpha
-{
-	CDOptions *options = [self options];
+- (NSColor *) _colorForBubble:(unsigned long)i fromKey:(NSString *)key alpha:(CGFloat)alpha {
 	NSArray *colorArgs = nil;
 	NSString *myKey = key;
 	// first check to see if this key returns multiple values

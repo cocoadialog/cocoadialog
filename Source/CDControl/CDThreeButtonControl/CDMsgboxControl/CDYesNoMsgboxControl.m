@@ -35,9 +35,7 @@
 		nil];
 }
 
-- (void) setButtons
-{
-	CDOptions *options = [self options];
+- (void) setButtons {
 	[button1 setTitle:@"Yes"];
 	[button2 setEnabled:YES];
 	[button2 setHidden:NO];

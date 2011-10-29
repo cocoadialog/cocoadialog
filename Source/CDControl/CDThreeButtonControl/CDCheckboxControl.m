@@ -2,8 +2,8 @@
 //  CDCheckboxControl.m
 //  CocoaDialog
 //
-//  Created by Mark Carver on 9/20/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Created by Mark Whitaker on 9/20/11.
+//  Copyright (c) 2011 Mark Whitaker. All rights reserved.
 //
 
 #import "CDCheckboxControl.h"
@@ -49,7 +49,7 @@
     }
 }
 
-- (BOOL)controlValidateOptions:(CDOptions *)options {
+- (BOOL) validateOptions {
     // Check that we're in the right sub-class
     if (![self isMemberOfClass:[CDCheckboxControl class]]) {
         if ([options hasOpt:@"debug"]) {
@@ -72,23 +72,12 @@
 		}
 		return NO;
 	}
-    // Load nib
-	if (![NSBundle loadNibNamed:@"tbc" owner:self]) {
-		if ([options hasOpt:@"debug"]) {
-			[self debug:@"Coulld not load tbc.nib"];
-		}
-		return NO;
-	}
     // Everything passed
     return YES;
 }
-- (void) createControlWithOptions:(CDOptions *)options {
-    NSString * labelText = @"";
-    if ([options hasOpt:@"label"] && [options optValue:@"label"] != nil) {
-        labelText = [options optValue:@"label"];
-    }
-	[self setTitleButtonsLabel:labelText];
-	[self setTimeout];
+- (void) createControl {
+	[self setTitleButtonsLabel:[options optValue:@"label"]];
+
 	// set return values 
     NSArray * cells = [controlMatrix cells];
     NSMutableArray *tmpValues = [[[NSMutableArray alloc] init] autorelease];
@@ -104,10 +93,9 @@
     while (obj = [en nextObject]) {
         [checkboxes replaceObjectAtIndex:[obj tag] withObject:obj];
     }
-    [self runAndSetRv];
 }
 
-- (void) controlHasFinished {
+- (void) controlHasFinished:(int)button {
     NSMutableArray *checkboxesArray = [[[NSMutableArray alloc] init] autorelease];
     NSEnumerator *en = [checkboxes objectEnumerator];
     id obj;
@@ -131,14 +119,12 @@
             }
             [controlReturnValues addObject:[checkboxesArray componentsJoinedByString:@" "]];
         }
-	}
+	}    
+    [super controlHasFinished:button];
 }
 
 
-- (void) setControl:(id)sender
-{
-    CDOptions *options = [self options];
-    
+- (void) setControl:(id)sender {
     // Setup the control
     NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
     NSArray *checked = [[[NSArray alloc] init] autorelease];

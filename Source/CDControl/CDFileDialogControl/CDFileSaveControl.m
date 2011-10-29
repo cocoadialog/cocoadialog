@@ -20,7 +20,6 @@
 
 #import "CDFileSaveControl.h"
 
-
 @implementation CDFileSaveControl
 
 - (NSDictionary *) availableKeys
@@ -34,7 +33,7 @@
 		nil];
 }
 
-- (void) createControlWithOptions:(CDOptions *)options {
+- (void) createControl {
 	savePanel = [NSSavePanel savePanel];
     [savePanel setAllowedFileTypes:nil];
     
@@ -65,14 +64,18 @@
 	if ([options optValue:@"with-directory"] != nil) {
 		dir = [options optValue:@"with-directory"];
 	}
+    
+    [panel setPanel:savePanel];
 
 	// resize window if user specified alternate width/height
-	if ([self windowNeedsResize:savePanel]) {
-		[savePanel setContentSize:[self findNewSizeForWindow:savePanel]];
+    if ([panel needsResize]) {
+		[savePanel setContentSize:[panel findNewSize]];
 	}
-    
+	
     // Reposition Panel
-    [self findPositionForWindow:savePanel];
+    [panel setPosition];
+    
+    [self setTimeout];
 	
     NSInteger result;
     if (kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber10_6) {
@@ -98,7 +101,7 @@
         controlExitStatus = -2;
         controlReturnValues = [NSMutableArray array];
     }
-    [super controlHasFinished];
+    [super stopControl];
 }
 
 @end

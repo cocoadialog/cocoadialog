@@ -42,26 +42,22 @@
             nil];
 }
 
-- (BOOL) controlValidateOptions:(CDOptions *)options {
-	if (![NSBundle loadNibNamed:@"Msgbox" owner:self]) {
-		if ([options hasOpt:@"debug"]) {
-			[self debug:@"Could not load Msgbox.nib"];
-		}
-		return NO;
-	}
+- (NSString *)controlNib {
+    return @"Msgbox";
+}
+
+- (BOOL) validateOptions {
     return YES;
 }
 
-- (void) createControlWithOptions:(CDOptions *)options {
+- (void) createControl {
     // Add extra control
-    [controlItems addObject:text];
+    [icon addControl:text];
 	// add the main bold text
 	if ([options optValue:@"alert"]) {
 		[text setStringValue:[options optValue:@"alert"]];
 	}
 	[self setTitleButtonsLabel:[options optValue:@"label"]];
-	[self setTimeout];
-	[self runAndSetRv];
 }
 
 @end

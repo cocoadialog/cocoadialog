@@ -22,10 +22,9 @@
 #import "CDControl.h"
 
 @implementation CDControl
-@synthesize hasFinished;
-@synthesize options;
 
 #pragma mark - Internal Control Methods -
+- (NSString *) controlNib { return @""; }
 - (CDOptions *) controlOptionsFromArgs:(NSArray *)args {
 	return [CDOptions getOpts:args availableKeys:[self availableKeys] depreciatedKeys:[self depreciatedKeys]];
 }
@@ -41,419 +40,112 @@
 	return [CDOptions getOpts:args availableKeys:allKeys depreciatedKeys:depreciatedKeys];
 }
 - (void) dealloc {
+    [panel release];
+    [icon release];
     [controlExitStatusString release];
     [controlItems release];
     [controlReturnValues release];
 	[options release];
+    if (timer != nil) {
+        [timer invalidate];
+        [timer release];
+    }
 	[super dealloc];
 }
-- (NSSize) findNewSizeForWindow:(NSWindow *)window {
-	NSSize size = NSZeroSize;
-	NSSize oldSize;
-	NSString *width, *height;
-	if (options == nil || window == nil) {
-		return size;
-	}
-	size = [[window contentView] frame].size;
-	oldSize.width = size.width;
-	oldSize.height = size.height;
-	if ([options hasOpt:@"width"]) {
-		width = [options optValue:@"width"];
-		if ([width floatValue] != 0.0) {
-			size.width = [width floatValue];
-		}
-	}
-	if ([options hasOpt:@"height"]) {
-		height = [options optValue:@"height"];
-		if ([height floatValue] != 0.0) {
-			size.height = [height floatValue];
-		}
-	}
-	NSSize minSize = [window contentMinSize];
-	if (size.height < minSize.height) {
-		size.height = minSize.height;
-	}
-	if (size.width < minSize.width) {
-		size.width = minSize.width;
-	}
-	if (size.width != oldSize.width || size.height != oldSize.height) {
-		return size;
-	} else {
-		return NSMakeSize(0.0,0.0);
-	}
-}
-- (void) findPositionForWindow:(NSWindow *)window {
-    NSRect screen = [[NSScreen mainScreen] visibleFrame];
-    CGFloat leftPoint = 0.0;
-	CGFloat topPoint = 0.0;
-    CGFloat padding = 10.0;
-    id posX;
-    id posY;
-    // Has posX option
-	if ([options hasOpt:@"posX"]) {
-		posX = [options optValue:@"posX"];
-        // Left
-		if ([posX caseInsensitiveCompare:@"left"] == NSOrderedSame) {
-            leftPoint = padding;
-		}
-        // Right
-        else if ([posX caseInsensitiveCompare:@"right"] == NSOrderedSame) {
-            leftPoint = NSWidth(screen) - NSWidth([window frame]) - padding;
-		}
-        // Manual posX coords
-        else if ([posX floatValue] > 0.0) {
-            leftPoint = [posX floatValue];
+- (NSString *) formatSecondsForString:(NSInteger)timeInSeconds {
+    static NSString *timerFormat = nil;
+    if (timerFormat == nil) {
+        if ([options hasOpt:@"timeout-format"]) {
+            timerFormat = [options optValue:@"timeout-format"];
         }
-        // Center
         else {
-            leftPoint = (NSWidth(screen)-NSWidth([window frame]))/2 - padding;
-		}
-	}
-    // Center
-    else {
-        leftPoint = (NSWidth(screen)-NSWidth([window frame]))/2 - padding;
-	}
-    // Has posY option
-	if ([options hasOpt:@"posY"]) {
-		posY = [options optValue:@"posY"];
-        // Bottom
-		if ([posY caseInsensitiveCompare:@"bottom"] == NSOrderedSame) {
-            topPoint = NSMinY(screen) + padding + NSHeight([window frame]);
-		}
-        // Top
-        else if ([posY caseInsensitiveCompare:@"top"] == NSOrderedSame) {
-            topPoint = NSMaxY(screen) - padding;
-		}
-        // Manual posY coords
-        else if ([posY floatValue] > 0.0) {
-            topPoint = NSMaxY(screen) - [posY floatValue];
+            timerFormat = @"Time remaining: %r...";
         }
-        // Center
+    }
+    NSString *returnString = timerFormat;
+    
+    NSInteger seconds = timeInSeconds % 60; 
+    NSInteger minutes = (timeInSeconds / 60) % 60; 
+    NSInteger hours = timeInSeconds / 3600;     
+    NSInteger days = timeInSeconds / (3600 * 24);
+    NSString *relative = @"unknown";
+    if (days > 0) {
+        if (days > 1) {
+            relative = [NSString stringWithFormat:@"%d days", days];
+        }
         else {
-            topPoint = NSMaxY(screen)/1.8 + NSHeight([window frame]);
-		}
-	}
-    // Center
+            relative = [NSString stringWithFormat:@"%d day", days];
+        }
+    }
     else {
-		topPoint = NSMaxY(screen)/1.8 + NSHeight([window frame]);
-	}
-	[window setFrameTopLeftPoint:NSMakePoint(leftPoint, topPoint)];
-}
-- (NSImage *)getIcon {
-    NSImage *icon = [[[NSImage alloc] initWithData:nil] autorelease];
-    if ([options hasOpt:@"icon-file"]) {
-        icon = [self getIconFromFile:[options optValue:@"icon-file"]];
-    }
-    else if ([options hasOpt:@"icon"]) {
-        icon = [self getIconWithName:[options optValue:@"icon"]];
-    }
-    if (icon == nil) {
-        icon = [NSApp applicationIconImage];
-    }
-    return icon;
-}
-- (NSImage *)getIconFromFile:(NSString *)aFile {
-    NSImage *image = nil;
-    image = [[[NSImage alloc] initWithContentsOfFile:aFile] autorelease];
-    if (image == nil && [options hasOpt:@"debug"]) {
-        [self debug:[NSString stringWithFormat:@"Could not get image from specified icon file '%@'.", aFile]];
-    }
-    return image;
-}
-- (NSImage *)getIconWithName:(NSString *)aName {
-    NSImage *image = [[[NSImage alloc] initWithData:nil] autorelease];
-    NSString *bundle = nil;
-    NSString *path = nil;
-    NSString *iconType = @"icns";
-    if ([options hasOpt:@"icon-type"]) {
-        iconType = [options optValue:@"icon-type"];
-    }
-    // Use bundle identifier
-    if ([options hasOpt:@"icon-bundle"]) {
-        bundle = [options optValue:@"icon-bundle"];
-    }
-    // Set default bundle identifier
-    if (bundle == nil) {
-        // Application icon
-        if ([aName caseInsensitiveCompare:@"cocoadialog"] == NSOrderedSame) {
-            image = [NSApp applicationIconImage];
-        }
-        // User specific computer image
-        else if ([aName caseInsensitiveCompare:@"computer"] == NSOrderedSame) {
-            image = [NSImage imageNamed: NSImageNameComputer];
-        }
-        // Bundle Identifications
-        else if ([aName caseInsensitiveCompare:@"addressbook"] == NSOrderedSame) {
-            aName = @"AppIcon";
-            bundle = @"com.apple.AddressBook";
-        }
-        else if ([aName caseInsensitiveCompare:@"airport"] == NSOrderedSame) {
-            aName = @"AirPort";
-            bundle = @"com.apple.AirPortBaseStationAgent";
-        }
-        else if ([aName caseInsensitiveCompare:@"airport2"] == NSOrderedSame) {
-            aName = @"AirPort";
-            bundle = @"com.apple.wifi.diagnostics";
-        }
-        else if ([aName caseInsensitiveCompare:@"archive"] == NSOrderedSame) {
-            aName = @"bah";
-            bundle = @"com.apple.archiveutility";
-        }
-        else if ([aName caseInsensitiveCompare:@"bluetooth"] == NSOrderedSame) {
-            aName = @"AppIcon";
-            bundle = @"com.apple.BluetoothAudioAgent";
-        }
-        else if ([aName caseInsensitiveCompare:@"application"] == NSOrderedSame) {
-            aName = @"GenericApplicationIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";
-        }
-        else if ([aName caseInsensitiveCompare:@"bonjour"] == NSOrderedSame || [aName caseInsensitiveCompare:@"atom"] == NSOrderedSame) {
-            aName = @"Bonjour";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"burn"] == NSOrderedSame || [aName caseInsensitiveCompare:@"hazard"] == NSOrderedSame) {
-            aName = @"BurningIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"caution"] == NSOrderedSame) {
-            aName = @"AlertCautionIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"document"] == NSOrderedSame) {
-            aName = @"GenericDocumentIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"documents"] == NSOrderedSame) {
-            aName = @"ToolbarDocumentsFolderIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"download"] == NSOrderedSame) {
-            aName = @"ToolbarDownloadsFolderIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"eject"] == NSOrderedSame) {
-            aName = @"EjectMediaIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"everyone"] == NSOrderedSame) {
-            aName = @"Everyone";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"executable"] == NSOrderedSame) {
-            aName = @"ExecutableBinaryIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"favorite"] == NSOrderedSame || [aName caseInsensitiveCompare:@"heart"] == NSOrderedSame) {
-            aName = @"ToolbarFavoritesIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"fileserver"] == NSOrderedSame) {
-            aName = @"GenericFileServerIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"filevault"] == NSOrderedSame) {
-            aName = @"FileVaultIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"finder"] == NSOrderedSame) {
-            aName = @"FinderIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"folder"] == NSOrderedSame) {
-            aName = @"GenericFolderIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"folderopen"] == NSOrderedSame) {
-            aName = @"OpenFolderIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"foldersmart"] == NSOrderedSame) {
-            aName = @"SmartFolderIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"gear"] == NSOrderedSame) {
-            aName = @"ToolbarAdvanced";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"general"] == NSOrderedSame) {
-            aName = @"General";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"globe"] == NSOrderedSame) {
-            aName = @"BookmarkIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"group"] == NSOrderedSame) {
-            aName = @"GroupIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"home"] == NSOrderedSame) {
-            aName = @"HomeFolderIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"info"] == NSOrderedSame) {
-            aName = @"ToolbarInfo";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"ipod"] == NSOrderedSame) {
-            aName = @"com.apple.ipod-touch-4";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"movie"] == NSOrderedSame) {
-            aName = @"ToolbarMovieFolderIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"music"] == NSOrderedSame) {
-            aName = @"ToolbarMusicFolderIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"network"] == NSOrderedSame) {
-            aName = @"GenericNetworkIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"notice"] == NSOrderedSame) {
-            aName = @"AlertNoteIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"stop"] == NSOrderedSame || [aName caseInsensitiveCompare:@"x"] == NSOrderedSame) {
-            aName = @"AlertStopIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"sync"] == NSOrderedSame) {
-            aName = @"Sync";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"trash"] == NSOrderedSame) {
-            aName = @"TrashIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"trashfull"] == NSOrderedSame) {
-            aName = @"FullTrashIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"url"] == NSOrderedSame) {
-            aName = @"GenericURLIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"user"] == NSOrderedSame || [aName caseInsensitiveCompare:@"person"] == NSOrderedSame) {
-            aName = @"UserIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"utilities"] == NSOrderedSame) {
-            aName = @"ToolbarUtilitiesFolderIcon";
-            path = @"/System/Library/CoreServices/CoreTypes.bundle";							
-        }
-        else if ([aName caseInsensitiveCompare:@"dashboard"] == NSOrderedSame) {
-            aName = @"Dashboard";
-            bundle = @"com.apple.dashboard.installer";
-        }
-        else if ([aName caseInsensitiveCompare:@"dock"] == NSOrderedSame) {
-            aName = @"Dock";
-            bundle = @"com.apple.dock";
-        }
-        else if ([aName caseInsensitiveCompare:@"widget"] == NSOrderedSame) {
-            aName = @"widget";
-            bundle = @"com.apple.dock";
-        }
-        else if ([aName caseInsensitiveCompare:@"help"] == NSOrderedSame) {
-            aName = @"HelpViewer";
-            bundle = @"com.apple.helpviewer";
-        }
-        else if ([aName caseInsensitiveCompare:@"installer"] == NSOrderedSame) {
-            aName = @"Installer";
-            bundle = @"com.apple.installer";
-        }
-        else if ([aName caseInsensitiveCompare:@"package"] == NSOrderedSame) {
-            aName = @"package";
-            bundle = @"com.apple.installer";
-        }
-        else if ([aName caseInsensitiveCompare:@"firewire"] == NSOrderedSame) {
-            aName = @"FireWireHD";
-            bundle = @"com.apple.iokit.IOSCSIArchitectureModelFamily";
-            path = @"/System/Library/Extensions/IOSCSIArchitectureModelFamily.kext";
-        }
-        else if ([aName caseInsensitiveCompare:@"usb"] == NSOrderedSame) {
-            aName = @"USBHD";
-            bundle = @"com.apple.iokit.IOSCSIArchitectureModelFamily";
-            path = @"/System/Library/Extensions/IOSCSIArchitectureModelFamily.kext";
-        }
-        else if ([aName caseInsensitiveCompare:@"cd"] == NSOrderedSame) {
-            aName = @"CD";
-            bundle = @"com.apple.ODSAgent";
-        }
-        else if ([aName caseInsensitiveCompare:@"sound"] == NSOrderedSame) {
-            aName = @"SoundPref";
-            path = @"/System/Library/PreferencePanes/Sound.prefPane";
-        }
-        else if ([aName caseInsensitiveCompare:@"printer"] == NSOrderedSame) {
-            aName = @"Printer";
-            bundle = @"com.apple.print.PrintCenter";
-        }
-        else if ([aName caseInsensitiveCompare:@"screenshare"] == NSOrderedSame) {
-            aName = @"ScreenSharing";
-            bundle = @"com.apple.ScreenSharing";
-        }
-        else if ([aName caseInsensitiveCompare:@"security"] == NSOrderedSame) {
-            aName = @"Security";
-            bundle = @"com.apple.securityagent";
-        }
-        else if ([aName caseInsensitiveCompare:@"update"] == NSOrderedSame) {
-            aName = @"Software Update";
-            bundle = @"com.apple.SoftwareUpdate";
-        }
-        else if ([aName caseInsensitiveCompare:@"search"] == NSOrderedSame || [aName caseInsensitiveCompare:@"find"] == NSOrderedSame) {
-            aName = @"Spotlight";
-            path = @"/System/Library/CoreServices/Search.bundle";
-        }
-        else if ([aName caseInsensitiveCompare:@"preferences"] == NSOrderedSame) {
-            aName = @"PrefApp";
-            bundle = @"com.apple.systempreferences";
-        }
-    }
-    // Process bundle image path only if image has not already been set from above
-    if (image == nil) {
-        if (bundle != nil || path != nil) {
-            NSString * fileName = nil;
-            if (path == nil) {
-                NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
-                fileName = [[NSBundle bundleWithPath:[workspace absolutePathForAppBundleWithIdentifier:bundle]] pathForResource:aName ofType:iconType];
+        if (hours > 0) {
+            if (hours > 1) {
+                relative = [NSString stringWithFormat:@"%d hours", hours];
             }
             else {
-                fileName = [[NSBundle bundleWithPath:path] pathForResource:aName ofType:iconType];
-            }
-            if (fileName != nil) {
-                image = [[[NSImage alloc] initWithContentsOfFile:fileName] autorelease];
-                if (image == nil && [options hasOpt:@"debug"]) {
-                    [self debug:[NSString stringWithFormat:@"Could not get image from specified icon file '%@'.", fileName]];
-                }
-            }
-            else if ([options hasOpt:@"debug"]) {
-                [self debug:[NSString stringWithFormat:@"Cannot find icon '%@' in bundle '%@'.", aName, bundle]];
+                relative = [NSString stringWithFormat:@"%d hour", hours];
             }
         }
         else {
-            if ([options hasOpt:@"debug"]) {
-                [self debug:[NSString stringWithFormat:@"Unknown icon '%@'. No --icon-bundle specified.", aName]];
+            if (minutes > 0) {
+                if (minutes > 1) {
+                    relative = [NSString stringWithFormat:@"%d minutes", minutes];
+                }
+                else {
+                    relative = [NSString stringWithFormat:@"%d minute", minutes];
+                }
+            }
+            else {
+                if (seconds > 0) {
+                    if (seconds > 1) {
+                        relative = [NSString stringWithFormat:@"%d seconds", seconds];
+                    }
+                    else {
+                        relative = [NSString stringWithFormat:@"%d second", seconds];
+                    }
+                }
             }
         }
     }
-    return image;
+    returnString = [returnString stringByReplacingOccurrencesOfString:@"%s" withString:[NSString stringWithFormat:@"%d", seconds]];
+    returnString = [returnString stringByReplacingOccurrencesOfString:@"%m" withString:[NSString stringWithFormat:@"%d", minutes]];
+    returnString = [returnString stringByReplacingOccurrencesOfString:@"%h" withString:[NSString stringWithFormat:@"%d", hours]];
+    returnString = [returnString stringByReplacingOccurrencesOfString:@"%d" withString:[NSString stringWithFormat:@"%d", days]];
+    returnString = [returnString stringByReplacingOccurrencesOfString:@"%r" withString:relative];
+    return returnString;
 }
-- (id)init {
-	return [self initWithOptions:nil];
-}
-- (id)initWithOptions:(CDOptions *)newOptions {
-	self = [super init];
+- (id)initWithOptions:(CDOptions *)opts {
+	self = [super initWithOptions:opts];
     controlExitStatus = -1;
     controlExitStatusString = nil;
     controlReturnValues = [[[NSMutableArray alloc] init] retain];
-    hasFinished = YES;
-    [self setOptions:nil];
     controlItems = [[[NSMutableArray alloc] init] retain];
-    if (newOptions != nil) {
-        [self setOptions:newOptions];
-    }
 	return self;
+}
+- (BOOL) loadControlNib:(NSString *)nib {
+    // Load nib
+    if (nib != nil) {
+        if (![nib isEqualToString:@""] && ![NSBundle loadNibNamed:nib owner:self]) {
+            if ([options hasOpt:@"debug"]) {
+                [self debug:[NSString stringWithFormat:@"Could not load control interface: \"%@.nib\"", nib]];
+            }
+            return NO;
+        }
+    }
+    else {
+        [self debug:@"Control did not specify a NIB interface file to load."];
+        return NO;
+    }
+    panel = [[[CDPanel alloc] initWithOptions:options] retain];
+    icon = [[[CDIcon alloc] initWithOptions:options] retain];
+    if (controlPanel != nil) {
+        [panel setPanel:controlPanel];
+        [icon setPanel:panel];
+    }
+    if (controlIcon != nil) {
+        [icon setControl:controlIcon];
+    }
+    return YES;
 }
 + (void) printHelpTo:(NSFileHandle *)fh {
 	if (fh) {
@@ -484,191 +176,104 @@
 	}
 }
 - (void) runControl {
-
-}
-- (void) setIconForWindow:(NSWindow *)aWindow {
-    if (controlIcon != nil) {
-        NSImage *image = [[[NSImage alloc] initWithData:nil] autorelease];
-        if ([options hasOpt:@"icon-file"]) {
-            image = [self getIconFromFile:[options optValue:@"icon-file"]];
+    // The control must either: 1) sub-class -(NSString *) controlNib, return the name of the NIB, and then connect "controlPanel" in IB or 2) set the panel manually with [panel setPanel:(NSPanel *)]  when creating the control. 
+    if ([panel panel] != nil) {
+        // Set icon
+        if ([icon control] != nil) {
+            [icon setIconFromOptions];
         }
-        else if ([options hasOpt:@"icon"]) {
-            image = [self getIconWithName:[options optValue:@"icon"]];
-        }
-        
-        // Set default icon sizes
-        float iconWidth = [controlIcon frame].size.width;
-        float iconHeight = [controlIcon frame].size.height;
-        NSSize resize = NSMakeSize(iconWidth, iconHeight);
-        
-        // Control should display icon, process image.
-        if (image != nil) {
-            // Set default icon height
-            // Get icon sizes from user options
-            if ([options hasOpt:@"icon-size"]) {
-                int iconSize = [[options optValue:@"icon-size"] intValue];
-                switch (iconSize) {
-                    case 256: iconWidth = 256.0; iconHeight = 256.0; break;
-                    case 128: iconWidth = 128.0; iconHeight = 128.0; break;
-                    case 48: iconWidth = 48.0; iconHeight = 48.0; break;
-                    case 32: iconWidth = 32.0; iconHeight = 32.0; break;
-                    case 16: iconWidth = 16.0; iconHeight = 16.0; break;
-                }
-            }
-            else {
-                if ([options hasOpt:@"icon-width"]) {
-                    iconWidth = [[options optValue:@"icon-width"] floatValue];
-                }
-                if ([options hasOpt:@"icon-height"]) {
-                    iconHeight = [[options optValue:@"icon-height"] floatValue];
-                }
-            }
-            // Set sizes
-            resize = NSMakeSize(iconWidth, iconHeight);
-            [self setIconForWindow:aWindow withImage:image withSize:resize withControls:controlItems];
-        }
-        // Control shouldn't display icon, remove it and resize.
-        else {
-            [self setIconForWindow:aWindow withImage:nil withSize:resize withControls:controlItems];
-        }
+        // Reposition Panel
+        [panel setPosition];
+        [panel setFloat];
+        [NSApp run];
     }
-}
-- (void) setIconForWindow:(NSWindow *)aWindow withImage:(NSImage *)anImage withSize:(NSSize)aSize {
-    if (anImage != nil) {
-        NSSize originalSize = [anImage size];
-        // Resize Icon
-        if (originalSize.width != aSize.width || originalSize.height != aSize.height) {
-            NSImage *resizedImage = [[[NSImage alloc] initWithSize: aSize] autorelease];
-            [resizedImage lockFocus];
-            [anImage drawInRect: NSMakeRect(0, 0, aSize.width, aSize.height) fromRect: NSMakeRect(0, 0, originalSize.width, originalSize.height) operation: NSCompositeSourceOver fraction: 1.0];
-            [resizedImage unlockFocus];
-            [controlIcon setImage:resizedImage];
-        }
-        else {
-            [controlIcon setImage:anImage];
-        }
-        // Resize icon frame
-        NSRect iconFrame = [controlIcon frame];
-        float iconHeightDiff = aSize.height - iconFrame.size.height;
-        NSRect newIconFrame = NSMakeRect(iconFrame.origin.x, iconFrame.origin.y - iconHeightDiff, aSize.width, aSize.height);
-        [controlIcon setFrame:newIconFrame];
-        iconFrame = [controlIcon frame];
-        
-        // Add the icon to the panel's minimum content size
-        NSSize windowContent = [aWindow contentMinSize];
-        windowContent.height += iconFrame.size.height + 40.0f;
-        windowContent.width += iconFrame.size.width + 30.0f;
-        [aWindow setContentMinSize:windowContent];
-    }
-}
-- (void) setIconForWindow:(NSWindow *)aWindow withImage:(NSImage *)anImage withSize:(NSSize)aSize withControls:(NSArray *)anArray {
-    // Icon has image
-    if (anImage != nil) {
-        // Set current icon frame
-        NSRect iconFrame = [controlIcon frame];
-        
-        // Set image and resize icon
-        [self setIconForWindow:aWindow withImage:anImage withSize:aSize];
-        
-        float iconWidthDiff = [controlIcon frame].size.width - iconFrame.size.width;
-        NSEnumerator *en = [anArray objectEnumerator];
-        id control;
-        while (control = [en nextObject]) {
-            // Make sure the control exists
-            if (control != nil) {
-                NSRect controlFrame = [control frame];
-                NSRect newControlFrame = NSMakeRect(controlFrame.origin.x + iconWidthDiff, controlFrame.origin.y, controlFrame.size.width - iconWidthDiff, controlFrame.size.height);
-                [control setFrame:newControlFrame];
-            }
-        }
-        
-    }
-    // Icon does not have image
     else {
-        // Set current icon frame
-        NSRect iconFrame = [controlIcon frame];
-        // Remove the icon
-        [controlIcon removeFromSuperview];
-        controlIcon = nil;
-        // Move the controls to the left and increase their width
-        NSEnumerator *en = [anArray objectEnumerator];
-        id control;
-        while (control = [en nextObject]) {
-            // Make sure the control exists
-            if (control != nil) {
-                NSRect controlFrame = [control frame];
-                float newControlWidth = controlFrame.size.width + (controlFrame.origin.x - iconFrame.origin.x);
-                NSRect newControlFrame = NSMakeRect(iconFrame.origin.x, controlFrame.origin.y, newControlWidth, controlFrame.size.height);
-                [control setFrame:newControlFrame];
-            }
+        if ([options hasOpt:@"debug"]) {
+            [self debug:@"The control has not specified the panel it is to use and cocoaDialog cannot continue."];
         }
+        exit(255);
     }
 }
 - (void) setTimeout {
+    timeout = 0.0f;
+    timer = nil;
+    // Only initialize timeout if the option is provided
 	if ([options hasOpt:@"timeout"]) {
-		NSTimeInterval _timeout;
-		if ([[NSScanner scannerWithString:[options optValue:@"timeout"]] scanDouble:&_timeout]) {
-			[self performSelector:@selector(timeout:) withObject:panel afterDelay:_timeout];
-		} else {
-			if ([options hasOpt:@"debug"]) {
-				[self debug:@"Could not parse the timeout option"];
-			}
+		if ([[NSScanner scannerWithString:[options optValue:@"timeout"]] scanFloat:&timeout]) {
+            mainThread = [NSThread currentThread];
+            [NSThread detachNewThreadSelector:@selector(createTimer) toTarget:self withObject:nil];
+		} else if ([options hasOpt:@"debug"]) {
+            [self debug:@"Could not parse the timeout option."];
 		}
-        timer = [[NSTimer scheduledTimerWithTimeInterval:_timeout target:self selector:@selector( startFadeOut ) userInfo:nil repeats:NO] retain];
-        
-        if (timeoutLabel != nil) {
-            
-        }
-        
 	}
-    else {
-        if (timeoutLabel != nil) {
-            [timeoutLabel setHidden:YES];
-            [timeoutLabel setEnabled:NO];
-            timeoutLabel = nil;
+    [self setTimeoutLabel];
+}
+- (void) setTimeoutLabel {
+    if (timeoutLabel != nil) {
+        float labelNewHeight = -4.0f;
+        NSRect labelRect = [timeoutLabel frame];
+        float labelHeightDiff = labelNewHeight - labelRect.size.height;
+        [timeoutLabel setStringValue:[self formatSecondsForString:(int)timeout]];
+        if (![[timeoutLabel stringValue] isEqualToString:@""] && timeout != 0.0f) {
+            NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: [timeoutLabel stringValue]]autorelease];
+            NSTextContainer *textContainer = [[[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)] autorelease];
+            NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease];
+            [layoutManager addTextContainer: textContainer];
+            [textStorage addLayoutManager: layoutManager];
+            [layoutManager glyphRangeForTextContainer:textContainer];
+            labelNewHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
+            labelHeightDiff = labelNewHeight - labelRect.size.height;
+            // Set label's new height
+            NSRect l = NSMakeRect(labelRect.origin.x, labelRect.origin.y - labelHeightDiff, labelRect.size.width, labelNewHeight);
+            [timeoutLabel setFrame: l];
         }
+        else {
+            [timeoutLabel setHidden:YES];
+        }
+        // Set panel's new width and height
+        NSSize p = [[[panel panel] contentView] frame].size;
+        p.height += labelHeightDiff;
+        [[panel panel] setContentSize:p];
     }
 }
-
-// TODO - this needs to return a value properly
-- (void) timeout {
-	controlExitStatus = -4;
-	// For some reason, this doesn't return the run loop until the mouse is moved over the window or something. I think it has something to do with threading.
-	[NSApp stop:self];
-	// So termination is needed or it won't return
-	// But since that doesn't return, we have to put the exit stuff here.
-	// Bah.
-	NSFileHandle *fh = [NSFileHandle fileHandleWithStandardOutput];
-	if ([options hasOpt:@"string-output"]) {
-		if (fh) {
-			[fh writeData:[@"timeout" dataUsingEncoding:NSUTF8StringEncoding]];
-		}
-	} else {
-		if (fh) {
-			[fh writeData:[@"0" dataUsingEncoding:NSUTF8StringEncoding]];
-		}
-	}
-	if (![options hasOpt:@"no-newline"]) {
-		[fh writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
-	}
-	[NSApp terminate:nil];
+- (void) createTimer {
+    NSAutoreleasePool *timerPool = [[NSAutoreleasePool alloc] init];
+    timerThread = [NSThread currentThread];
+    NSRunLoop *_runLoop = [NSRunLoop currentRunLoop];
+    timer = [[NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(processTimer) userInfo:nil repeats:YES] retain];
+    [_runLoop addTimer:timer forMode:NSRunLoopCommonModes];
+    [_runLoop run];
+    [timerPool release];
 }
-- (BOOL) windowNeedsResize:(NSWindow *)window {
-	NSSize size = [self findNewSizeForWindow:window];
-	if (size.width != 0.0 || size.height != 0.0) {
-		return YES;
-	} else {
-		return NO;
-	}
+- (void) stopTimer {
+    [timer invalidate];
+    [timer release];
+    timer = nil;
+    [self performSelector:@selector(stopControl) onThread:mainThread withObject:nil waitUntilDone:YES];
 }
-
-
-#pragma mark - Subclassable Control Methods -
-- (NSDictionary *) availableKeys {return nil;}
-- (void) createControlWithOptions:(CDOptions *)options {}
-- (void) controlHasFinished {
+- (void) processTimer {
+    // Decrease timeout value
+    timeout = timeout - 1.0f;
+    // Update and position the label if it exists
+    if (timeout > 0.0f) {
+        if (timeoutLabel != nil) {
+            [timeoutLabel setStringValue:[self formatSecondsForString:(int)timeout]];
+        }
+    }
+    else {
+        controlExitStatus = 0;
+        controlExitStatusString = @"timeout";
+        controlReturnValues = [NSMutableArray array];
+        [self stopTimer];
+    }
+}
+- (void) stopControl {
+    // Stop timer
+    if (timerThread != nil) {
+        [timerThread cancel];
+    }
     // Stop any modal windows currently running
-    [NSApp stop:nil];
+    [NSApp stop:self];
     if (![options hasOpt:@"quiet"] && controlExitStatus != -1 && controlExitStatus != -2) {
         if ([options hasOpt:@"string-output"]) {
             if (controlExitStatusString == nil) {
@@ -700,33 +305,38 @@
     } else if ([options hasOpt:@"debug"]) {
         [self debug:@"Control returned nil."];
     }
+    [self dealloc];
     // Return the exit status
     exit(controlExitStatus);
 }
-- (BOOL) controlValidateOptions:(CDOptions *)options { return YES; }
-- (void) debug:(NSString *)message {
-	NSString *output = [NSString stringWithFormat:@"ERROR: %@\n", message]; 
-    // Output to stdErr
-	NSFileHandle *fh = [NSFileHandle fileHandleWithStandardError];
-	if (fh) {
-		[fh writeData:[output dataUsingEncoding:NSUTF8StringEncoding]];
-	}
-}
+
+#pragma mark - Subclassable Control Methods -
+- (NSDictionary *) availableKeys {return nil;}
+- (void) createControl {};
+- (BOOL) validateOptions { return YES; }
 - (NSDictionary *) depreciatedKeys {return nil;}
 - (NSDictionary *) globalAvailableKeys {
     NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
 	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
     return [NSDictionary dictionaryWithObjectsAndKeys:
+            // General
             vNone, @"help",
             vNone, @"debug",
             vNone, @"quiet",
+            vOne,  @"timeout",
+            vOne,  @"timeout-format",
+            vNone, @"string-output",
+            vNone, @"no-newline",
+            // Panel
             vOne,  @"title",
             vOne,  @"width",
             vOne,  @"height",
             vOne,  @"posX",
             vOne,  @"posY",
+            vNone, @"no-float",
             vNone, @"minimize",
             vNone, @"resize",
+            // Icon
             vOne,  @"icon",
             vOne,  @"icon-bundle",
             vOne,  @"icon-type",
@@ -734,8 +344,6 @@
             vOne,  @"icon-size",
             vOne,  @"icon-width",
             vOne,  @"icon-height",
-            vNone, @"string-output",
-            vNone, @"no-newline",
             nil];
 }
 - (BOOL) validateControl:(CDOptions *)options {return YES;}

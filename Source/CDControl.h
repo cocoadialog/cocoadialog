@@ -19,67 +19,67 @@
 */
 
 #import <Foundation/Foundation.h>
+#import "CDCommon.h"
 #import "CDOptions.h"
+#import "CDIcon.h"
+#import "CDPanel.h"
 
-// All controls must include a createControlWithOptions: method.
+// All controls must include the methods createControl and validateOptions.
 // This should look at the options and display a control (dialog with message,
 // inputbox, or whatever) to the user, get any necessary info from it, and
 // return an NSArray of NSString objects.
 // Each NSString is printed to stdout on its own line.
 // Return an empty NSArray if there is no output to be printed, or nil
 // on error.
-@class NSObject;
 @protocol CDControlProtocol
-- (void) createControlWithOptions:(CDOptions *)options;
-- (void) controlHasFinished;
-- (BOOL) controlValidateOptions:(CDOptions *)options;
+- (void) createControl;
+- (BOOL) validateOptions;
 @end
 
 // CDControl provides a runControl method.  It invokes
 // runControlFromOptions: with the options specified in initWithOptions:
 // You must override runControlFromOptions.
-@interface CDControl : NSObject <CDControlProtocol,NSApplicationDelegate> {
+@interface CDControl : CDCommon <CDControlProtocol> {
+// Classes
+    CDIcon                      *icon;
+    CDPanel                     *panel;
+// Outlets
+    IBOutlet NSPanel            *controlPanel;
+    IBOutlet NSImageView        *controlIcon;
+    IBOutlet NSTextField        *timeoutLabel;
+// Variables
     int                         controlExitStatus;
     NSString                    *controlExitStatusString;
-    IBOutlet NSImageView        *controlIcon;
     NSMutableArray              *controlItems;
     NSMutableArray              *controlReturnValues;
-    BOOL                        hasFinished;
-    IBOutlet NSPanel            *panel;
-    int                         timeout;
-    IBOutlet NSTextField        *timeoutLabel;
+
+// Timer
+    NSThread                    *mainThread;
     NSTimer                     *timer;
-@private
-    CDOptions                   *options;
+    NSThread                    *timerThread;
+    float                       timeout;
 }
-@property BOOL hasFinished;
-@property (retain) CDOptions *options;
 
 #pragma mark - Internal Control Methods -
+- (NSString *) controlNib;
 - (CDOptions *) controlOptionsFromArgs:(NSArray *)args;
 - (CDOptions *) controlOptionsFromArgs:(NSArray *)args withGlobalKeys:(NSDictionary *)globalKeys;
-- (NSSize) findNewSizeForWindow:(NSWindow *)window;
-- (void) findPositionForWindow:(NSWindow *)window;
-- (NSImage *) getIcon;
-- (NSImage *) getIconFromFile:(NSString *)aFile;
-- (NSImage *) getIconWithName:(NSString *)aName;
-- (id) initWithOptions:(CDOptions *)newOptions;
+- (void) createTimer;
+- (NSString *) formatSecondsForString:(NSInteger)timeInSeconds;
+- (BOOL) loadControlNib:(NSString *)nib;
 + (void) printHelpTo:(NSFileHandle *)fh;
+- (void) processTimer;
 - (void) runControl;
-- (void) setIconForWindow:(NSWindow *)aWindow;
-- (void) setIconForWindow:(NSWindow *)aWindow withImage:(NSImage *)anImage withSize:(NSSize)aSize;
-- (void) setIconForWindow:(NSWindow *)aWindow withImage:(NSImage *)anImage withSize:(NSSize)aSize withControls:(NSArray *)anArray;
 - (void) setTimeout;
-- (void) timeout;
-- (BOOL) windowNeedsResize:(NSWindow *)window;
+- (void) setTimeoutLabel;
+- (void) stopControl;
+- (void) stopTimer;
 
 #pragma mark - Subclassable Control Methods -
 // This must be sub-classed if you want options local to your control
 - (NSDictionary *) availableKeys;
-- (void) createControlWithOptions:(CDOptions *)options;
-- (void) controlHasFinished;
-- (BOOL) controlValidateOptions:(CDOptions *)options;
-- (void) debug:(NSString *)message;
+- (void) createControl;
+- (BOOL) validateOptions;
 // This must be sub-classed if you want specify local depreciated keys for your control
 - (NSDictionary *) depreciatedKeys;
 // This must be overridden if you want local global options for your control
