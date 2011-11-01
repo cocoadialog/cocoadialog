@@ -37,12 +37,10 @@
 }
 
 - (void) updaterAborted {
-    [NSApp terminate:self];
     exit(1);
 }
 
 - (void) updaterDidNotFindUpdate:(SUUpdater *)update {
-    [NSApp terminate:self];
     exit(0);
 }
 
