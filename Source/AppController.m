@@ -22,10 +22,8 @@
 
 @implementation AppController
 
-- (NSString *) appVersion
-{
+- (NSString *) appVersion {
     return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-    
 }
 
 - (BOOL) updaterShouldPromptInstall:(SUUpdater *)updater {
@@ -41,11 +39,10 @@
 }
 
 - (void) updaterDidNotFindUpdate:(SUUpdater *)update {
-    exit(0);
+    exit(2);
 }
 
-- (void)dealloc
-{
+- (void) dealloc {
     [super dealloc];
 }
 
