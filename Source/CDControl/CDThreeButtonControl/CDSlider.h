@@ -14,8 +14,22 @@
     double      min;
     int         ticks;
     double      value;
+    NSTextField *sliderLabel;
+    NSTextField *valueLabel;
 }
 
-- (void) updateLabel;
+- (void) sliderChanged;
+
+@end
+
+@interface CDSliderCell : NSSliderCell {
+    BOOL        alwaysShowValue;
+    id          delegate;
+    NSTextField *valueLabel;
+    BOOL        tracking;
+}
+@property BOOL alwaysShowValue;
+@property (retain) id delegate;
+@property (retain) NSTextField *valueLabel;
 
 @end
