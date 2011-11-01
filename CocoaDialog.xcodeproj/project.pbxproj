@@ -69,6 +69,8 @@
 		61EC90E6145FACF8003ADF05 /* CDUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC90AA145FACF8003ADF05 /* CDUpdate.m */; };
 		61EC90E7145FACF8003ADF05 /* CocoaDialog_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 61EC90AB145FACF8003ADF05 /* CocoaDialog_Prefix.pch */; };
 		61EC90E9145FAD58003ADF05 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC90E8145FAD58003ADF05 /* main.m */; };
+		61EC90EC145FB0A0003ADF05 /* CDSlider.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC90EA145FB0A0003ADF05 /* CDSlider.h */; };
+		61EC90ED145FB0A0003ADF05 /* CDSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC90EB145FB0A0003ADF05 /* CDSlider.m */; };
 		61FA9D2114518E97006E0674 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 61FA9D2014518E97006E0674 /* dsa_pub.pem */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		A78A8CD414376C42007AE363 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB5143759ED007AE363 /* InfoPlist.strings */; };
@@ -176,6 +178,8 @@
 		61EC90AA145FACF8003ADF05 /* CDUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDUpdate.m; path = Source/CDUpdate.m; sourceTree = "<group>"; };
 		61EC90AB145FACF8003ADF05 /* CocoaDialog_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CocoaDialog_Prefix.pch; path = Source/CocoaDialog_Prefix.pch; sourceTree = "<group>"; };
 		61EC90E8145FAD58003ADF05 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Source/main.m; sourceTree = "<group>"; };
+		61EC90EA145FB0A0003ADF05 /* CDSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDSlider.h; sourceTree = "<group>"; };
+		61EC90EB145FB0A0003ADF05 /* CDSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDSlider.m; sourceTree = "<group>"; };
 		61FA9D2014518E97006E0674 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* cocoaDialog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cocoaDialog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A78A8C9514375704007AE363 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
@@ -370,6 +374,8 @@
 				61EC909A145FACF8003ADF05 /* CDPopUpButtonControl.m */,
 				61EC909B145FACF8003ADF05 /* CDRadioControl.h */,
 				61EC909C145FACF8003ADF05 /* CDRadioControl.m */,
+				61EC90EA145FB0A0003ADF05 /* CDSlider.h */,
+				61EC90EB145FB0A0003ADF05 /* CDSlider.m */,
 				61EC909D145FACF8003ADF05 /* CDStandardInputboxControl.h */,
 				61EC909E145FACF8003ADF05 /* CDStandardInputboxControl.m */,
 				61EC909F145FACF8003ADF05 /* CDStandardPopUpButtonControl.h */,
@@ -432,6 +438,7 @@
 				61EC90E3145FACF8003ADF05 /* CDOptions.h in Headers */,
 				61EC90E5145FACF8003ADF05 /* CDUpdate.h in Headers */,
 				61EC90E7145FACF8003ADF05 /* CocoaDialog_Prefix.pch in Headers */,
+				61EC90EC145FB0A0003ADF05 /* CDSlider.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -558,6 +565,7 @@
 				61EC90E4145FACF8003ADF05 /* CDOptions.m in Sources */,
 				61EC90E6145FACF8003ADF05 /* CDUpdate.m in Sources */,
 				61EC90E9145FAD58003ADF05 /* main.m in Sources */,
+				61EC90ED145FB0A0003ADF05 /* CDSlider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

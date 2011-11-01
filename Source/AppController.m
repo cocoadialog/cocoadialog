@@ -175,6 +175,7 @@
             [CDOkMsgboxControl class],              @"ok-msgbox",
             [CDProgressbarControl class],           @"progressbar",
             [CDRadioControl class],                 @"radio",
+            [CDSlider class],                       @"slider",
             [CDInputboxControl class],              @"secure-inputbox",           
             [CDStandardInputboxControl class],      @"secure-standard-inputbox",
             [CDStandardPopUpButtonControl class],   @"standard-dropdown",         

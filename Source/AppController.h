@@ -34,6 +34,7 @@
 #import "CDPopUpButtonControl.h"
 #import "CDProgressbarControl.h"
 #import "CDRadioControl.h"
+#import "CDSlider.h"
 #import "CDStandardInputboxControl.h"
 #import "CDStandardPopUpButtonControl.h"
 #import "CDTextboxControl.h"
