@@ -28,14 +28,22 @@
     
 }
 
-- (void)updaterDidNotFindUpdate:(SUUpdater *)update
-{
-    [NSApp terminate:self];
+- (BOOL) updaterShouldPromptInstall:(SUUpdater *)updater {
+    return NO;
 }
 
-- (void)updaterWillRelaunchApplication:(SUUpdater *)updater
-{
+- (BOOL) updaterShouldRelaunchApplication:(SUUpdater *)updater {
+    return NO;
+}
+
+- (void) updaterAborted {
     [NSApp terminate:self];
+    exit(1);
+}
+
+- (void) updaterDidNotFindUpdate:(SUUpdater *)update {
+    [NSApp terminate:self];
+    exit(0);
 }
 
 - (void)dealloc
@@ -47,19 +55,20 @@
 #pragma mark - Initialization
 - (void) awakeFromNib
 {
-    SUUpdater * updater = [SUUpdater sharedUpdater];
-    [updater setDelegate:self];
-    [updater setFeedURL:[NSURL URLWithString:@"https://raw.github.com/mstratman/cocoadialog/master/sparkle-release/appcast.xml"]];
-
 	NSString *runMode = nil;
-
+    // Assign arguments
 	arguments = [[[NSMutableArray alloc] initWithArray:[[NSProcessInfo processInfo] arguments]] autorelease];
+    // Initialize control
+    currentControl = [[[CDControl alloc] init] autorelease];
+    // Setup containers
+    NSDictionary *globalKeys = [[[NSDictionary alloc] initWithDictionary:[currentControl globalAvailableKeys]] autorelease];
+    NSDictionary *depreciatedKeys = [[[NSDictionary alloc] initWithDictionary:[currentControl depreciatedKeys]] autorelease];
+    CDOptions *options = [CDOptions getOpts:arguments availableKeys:globalKeys depreciatedKeys:depreciatedKeys];
 	if ([arguments count] >= 2) {
 		[arguments removeObjectAtIndex:0]; // Remove program name.
 		runMode = [arguments objectAtIndex:0];
 		[arguments removeObjectAtIndex:0]; // Remove the run-mode
 	}
-    
     // runMode is either the PID of a GUI initialization or "about", show the about dialog
     if ([[runMode substringToIndex:4] isEqualToString:@"-psn"] || [runMode caseInsensitiveCompare:@"about"] == NSOrderedSame) {
         [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
@@ -102,27 +111,30 @@
         [NSApp terminate:self];
     }
     else if ([runMode caseInsensitiveCompare:@"update"] == NSOrderedSame) {
-        [updater setAutomaticallyChecksForUpdates:YES];
-        [updater setAutomaticallyDownloadsUpdates:NO];
+        SUUpdater * updater = [SUUpdater sharedUpdater];
+        [updater setDelegate:self];
+        NSURL *appcastURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"SUFeedURL"]];
+        if (appcastURL != nil) {
+            [updater setFeedURL:appcastURL];
+        }
+        else {
+            [updater setFeedURL:[NSURL URLWithString:@"https://raw.github.com/mstratman/cocoadialog/master/sparkle-release/appcast.xml"]];
+        }
+        [updater setSendsSystemProfile:YES];
         [updater resetUpdateCycle];
-        [updater checkForUpdates:nil];
-        [NSApp run];
-    }
-    else if ([runMode caseInsensitiveCompare:@"update-automatic"] == NSOrderedSame) {
         [updater setAutomaticallyChecksForUpdates:YES];
-        [updater setAutomaticallyDownloadsUpdates:YES];
-        [updater resetUpdateCycle];
-        [updater checkForUpdatesInBackground];
+        if ([options hasOpt:@"quiet"]) {
+            [updater setAutomaticallyDownloadsUpdates:YES];
+            [updater checkForUpdatesInBackground];
+        }
+        else {
+            [updater setAutomaticallyDownloadsUpdates:NO];
+            [updater checkForUpdates:nil];
+        }
         [NSApp run];
     }
     // runMode needs to run through control logic
     else {
-        // Initialize control
-        currentControl = [[[CDControl alloc] init] autorelease];
-        // Setup containers
-        NSDictionary *globalKeys = [[[NSDictionary alloc] initWithDictionary:[currentControl globalAvailableKeys]] autorelease];
-        NSDictionary *depreciatedKeys = [[[NSDictionary alloc] initWithDictionary:[currentControl depreciatedKeys]] autorelease];
-        CDOptions *options = [CDOptions getOpts:arguments availableKeys:globalKeys depreciatedKeys:depreciatedKeys];
         NSMutableDictionary *extraOptions = [[[NSMutableDictionary alloc] init] autorelease];
         // Choose the control
         [self chooseControl:runMode useOptions:options addExtraOptionsTo:extraOptions];
