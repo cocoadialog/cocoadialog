@@ -12,7 +12,7 @@
 @synthesize options;
 
 - (void) debug:(NSString *)message {
-	NSString *output = [NSString stringWithFormat:@"ERROR: %@\n", message]; 
+	NSString *output = [NSString stringWithFormat:@"cocoaDialog Error: %@\n", message]; 
     // Output to stdErr
 	NSFileHandle *fh = [NSFileHandle fileHandleWithStandardError];
 	if (fh) {

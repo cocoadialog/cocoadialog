@@ -19,9 +19,9 @@
 */
 
 #import <Foundation/Foundation.h>
-#import <Sparkle/Sparkle.h>
 #import "CDOptions.h"
 #import "CDControl.h"
+#import "CDUpdate.h"
 #import "CDBubbleControl.h"
 #import "CDCheckboxControl.h"
 #import "CDFileSelectControl.h"

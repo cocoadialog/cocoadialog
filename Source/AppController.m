@@ -26,27 +26,6 @@
     return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
 }
 
-- (BOOL) updaterShouldPromptInstall:(SUUpdater *)updater {
-    return NO;
-}
-
-- (BOOL) updaterShouldRelaunchApplication:(SUUpdater *)updater {
-    return NO;
-}
-
-- (void) updaterAborted {
-    exit(1);
-}
-
-- (void) updaterDidNotFindUpdate:(SUUpdater *)update {
-    exit(2);
-}
-
-- (void) dealloc {
-    [super dealloc];
-}
-
-
 #pragma mark - Initialization
 - (void) awakeFromNib
 {
@@ -106,27 +85,7 @@
         [NSApp terminate:self];
     }
     else if ([runMode caseInsensitiveCompare:@"update"] == NSOrderedSame) {
-        SUUpdater * updater = [SUUpdater sharedUpdater];
-        [updater setDelegate:self];
-        NSURL *appcastURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"SUFeedURL"]];
-        if (appcastURL != nil) {
-            [updater setFeedURL:appcastURL];
-        }
-        else {
-            [updater setFeedURL:[NSURL URLWithString:@"https://raw.github.com/mstratman/cocoadialog/master/sparkle-release/appcast.xml"]];
-        }
-        [updater setSendsSystemProfile:YES];
-        [updater resetUpdateCycle];
-        [updater setAutomaticallyChecksForUpdates:YES];
-        if ([options hasOpt:@"quiet"]) {
-            [updater setAutomaticallyDownloadsUpdates:YES];
-            [updater checkForUpdatesInBackground];
-        }
-        else {
-            [updater setAutomaticallyDownloadsUpdates:NO];
-            [updater checkForUpdates:nil];
-        }
-        [NSApp run];
+        [[[[CDUpdate alloc] initWithOptions:options] autorelease] update];
     }
     // runMode needs to run through control logic
     else {
