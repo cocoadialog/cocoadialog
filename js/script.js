@@ -88,6 +88,43 @@
       scrollToHash(array);
     }
   }
+  
+  function number_format(number, decimals, dec_point, thousands_sep) {
+      // http://kevin.vanzonneveld.net
+      // + original by: Jonas Raoni Soares Silva (http://www.jsfromhell.com)
+      // + improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+      // + bugfix by: Michael White (http://crestidg.com)
+      // + bugfix by: Benjamin Lupton
+      // + bugfix by: Allan Jensen (http://www.winternet.no)
+      // + revised by: Jonas Raoni Soares Silva (http://www.jsfromhell.com)
+      // * example 1: number_format(1234.5678, 2, '.', '');
+      // * returns 1: 1234.57
+      var n = number,
+      c = isNaN(decimals = Math.abs(decimals)) ? 2: decimals;
+      var d = dec_point == undefined ? ",": dec_point;
+      var t = thousands_sep == undefined ? ".": thousands_sep,
+      s = n < 0 ? "-": "";
+      var i = parseInt(n = Math.abs( + n || 0).toFixed(c)) + "",
+      j = (j = i.length) > 3 ? j % 3: 0;
+      return s + (j ? i.substr(0, j) + t: "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+  }
+  
+  function formatFileSize(filesize) {
+      if (filesize >= 1073741824) {
+          filesize = number_format(filesize / 1073741824, 2, '.', '') + ' GB';
+      } else {
+          if (filesize >= 1048576) {
+              filesize = number_format(filesize / 1048576, 2, '.', '') + ' MB';
+          } else {
+              if (filesize >= 1024) {
+                  filesize = number_format(filesize / 1024, 0) + ' KB';
+              } else {
+                  filesize = number_format(filesize, 0) + ' bytes';
+              };
+          };
+      };
+      return filesize;
+  };
 
   $(document).ready(function() {
     pageSections($("#content"));
@@ -122,6 +159,59 @@
     var gh_user="mstratman";
     var gh_repo="cocoadialog";
     var gh_url = "https://github.com/"+gh_user+"/"+gh_repo;
+    // Downloads
+    gh("/repos/"+gh_user+"/"+gh_repo + "/downloads", function(downloads){
+      var stable, dev;
+      var stableVersion = '2.1.1';
+      var stableReleased = 'April 26, 2006';
+      var devVersion = '3.0.0-beta5';
+      if(downloads) {
+        $.each(downloads, function(index,download){
+          var replacements = [ 'cocoaDialog-', 'cocoaDialog_', 'CocoaDialog-', '.dmg', '.tar.gz' ];
+          download.version = download.name;
+          $.each(replacements, function(index,replacement){
+            download.version = download.version.replace(replacement, '');
+          });
+          if (stableVersion == download.version) {
+            stable = download;
+          }
+          if (devVersion == download.version) {
+            dev = download;
+          }
+          download.released = $.format.date(download.created_at.replace('T', ' '), "MMMM dd, yyyy");
+          console.log(download);
+        });
+      }
+      var stableDiv = $('.sidebar .download.stable');
+      var devDiv = $('.sidebar .download.dev');
+      if (!stable) {
+        stableDiv.hide();
+      }
+      else {
+        stableDiv.find('.version .value').text(stable.version);
+        if (stableReleased) {
+          stableDiv.find('.released .value').text(stableReleased);
+        }
+        else {
+          stableDiv.find('.released .value').text(stable.released);
+        }
+        stableDiv.find('.downloadCount .value').text(stable.download_count);        
+        stableDiv.find('a.button').attr('href', stable.html_url);
+        stableDiv.find('a.button .size').text(formatFileSize(stable.size));
+      }
+      if (!dev) {
+        devDiv.hide();
+      }
+      else {
+        devDiv.find('.version .value').text(dev.version);
+        devDiv.find('.released .value').text(dev.released);
+        devDiv.find('.downloadCount .value').text(dev.download_count);
+        devDiv.find('a.button').attr('href', dev.html_url);
+        devDiv.find('a.button .size').text(formatFileSize(dev.size));
+      }
+    });
+    
+    // Watchers & Forks
     gh("/repos/"+gh_user+"/"+gh_repo, function(json){
       if(json) {
         $('.stats .watchers .value').html($('<a>').addClass('watchers').attr('href', gh_url+'/watchers').text(json.watchers));

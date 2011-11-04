@@ -272,6 +272,7 @@ ol { margin: 0.75em 0 1.25em; padding: 0; }
 }
 
 #wrapper #center .sidebar .download .stats {
+  clear: both;
   text-align: right;
 }
 
@@ -286,7 +287,7 @@ ol { margin: 0.75em 0 1.25em; padding: 0; }
   margin: 0;
 }
 
-#wrapper #center .sidebar .download.beta h2 {
+#wrapper #center .sidebar .download.dev h2 {
   color: #3072b3;
 }
 
