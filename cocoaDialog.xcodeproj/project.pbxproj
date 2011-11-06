@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0E71DA1B0963B19500FF6F7C /* cocoadialog.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E71DA0A0963B19500FF6F7C /* cocoadialog.icns */; };
+		6187E60114664988005067DB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6187E60014664988005067DB /* main.m */; };
 		61EC90AC145FACF8003ADF05 /* AppController.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC906B145FACF8003ADF05 /* AppController.h */; };
 		61EC90AD145FACF8003ADF05 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC906C145FACF8003ADF05 /* AppController.m */; };
 		61EC90AE145FACF8003ADF05 /* CDCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC906D145FACF8003ADF05 /* CDCommon.h */; };
@@ -67,7 +68,7 @@
 		61EC90E4145FACF8003ADF05 /* CDOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC90A8145FACF8003ADF05 /* CDOptions.m */; };
 		61EC90E5145FACF8003ADF05 /* CDUpdate.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC90A9145FACF8003ADF05 /* CDUpdate.h */; };
 		61EC90E6145FACF8003ADF05 /* CDUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC90AA145FACF8003ADF05 /* CDUpdate.m */; };
-		61EC90E7145FACF8003ADF05 /* CocoaDialog_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 61EC90AB145FACF8003ADF05 /* CocoaDialog_Prefix.pch */; };
+		61EC90E7145FACF8003ADF05 /* cocoaDialog_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 61EC90AB145FACF8003ADF05 /* cocoaDialog_Prefix.pch */; };
 		61EC90E9145FAD58003ADF05 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC90E8145FAD58003ADF05 /* main.m */; };
 		61EC90EC145FB0A0003ADF05 /* CDSlider.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC90EA145FB0A0003ADF05 /* CDSlider.h */; };
 		61EC90ED145FB0A0003ADF05 /* CDSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC90EB145FB0A0003ADF05 /* CDSlider.m */; };
@@ -90,7 +91,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		A7BABB3E1445828300D3F168 /* PBXContainerItemProxy */ = {
+		6187E5FD14664856005067DB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
@@ -117,6 +118,7 @@
 		0E71DA0A0963B19500FF6F7C /* cocoadialog.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = cocoadialog.icns; path = Resources/cocoadialog.icns; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		6187E60014664988005067DB /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		61EC906B145FACF8003ADF05 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = Source/AppController.h; sourceTree = "<group>"; };
 		61EC906C145FACF8003ADF05 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppController.m; path = Source/AppController.m; sourceTree = "<group>"; };
 		61EC906D145FACF8003ADF05 /* CDCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDCommon.h; path = Source/CDCommon.h; sourceTree = "<group>"; };
@@ -176,7 +178,7 @@
 		61EC90A8145FACF8003ADF05 /* CDOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDOptions.m; path = Source/CDOptions.m; sourceTree = "<group>"; };
 		61EC90A9145FACF8003ADF05 /* CDUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDUpdate.h; path = Source/CDUpdate.h; sourceTree = "<group>"; };
 		61EC90AA145FACF8003ADF05 /* CDUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDUpdate.m; path = Source/CDUpdate.m; sourceTree = "<group>"; };
-		61EC90AB145FACF8003ADF05 /* CocoaDialog_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CocoaDialog_Prefix.pch; path = Source/CocoaDialog_Prefix.pch; sourceTree = "<group>"; };
+		61EC90AB145FACF8003ADF05 /* cocoaDialog_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cocoaDialog_Prefix.pch; path = Source/cocoaDialog_Prefix.pch; sourceTree = "<group>"; };
 		61EC90E8145FAD58003ADF05 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Source/main.m; sourceTree = "<group>"; };
 		61EC90EA145FB0A0003ADF05 /* CDSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDSlider.h; sourceTree = "<group>"; };
 		61EC90EB145FB0A0003ADF05 /* CDSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDSlider.m; sourceTree = "<group>"; };
@@ -247,28 +249,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		29B97314FDCFA39411CA2CEA /* CocoaDialog */ = {
+		29B97314FDCFA39411CA2CEA /* cocoaDialog */ = {
 			isa = PBXGroup;
 			children = (
 				A78A8CDF14377610007AE363 /* LICENSE */,
 				A78A8CDE14377610007AE363 /* CHANGELOG */,
-				61EC906B145FACF8003ADF05 /* AppController.h */,
-				61EC906C145FACF8003ADF05 /* AppController.m */,
-				61EC906D145FACF8003ADF05 /* CDCommon.h */,
-				61EC906E145FACF8003ADF05 /* CDCommon.m */,
-				61EC906F145FACF8003ADF05 /* CDControl */,
-				61EC90A7145FACF8003ADF05 /* CDOptions.h */,
-				61EC90A8145FACF8003ADF05 /* CDOptions.m */,
-				61EC90A9145FACF8003ADF05 /* CDUpdate.h */,
-				61EC90AA145FACF8003ADF05 /* CDUpdate.m */,
-				61EC90AB145FACF8003ADF05 /* CocoaDialog_Prefix.pch */,
-				61EC90E8145FAD58003ADF05 /* main.m */,
 				A78A8C9414375703007AE363 /* Configurations */,
-				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				6187E60D146651CA005067DB /* Source */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
-			name = CocoaDialog;
+			name = cocoaDialog;
 			sourceTree = "<group>";
 		};
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
@@ -295,6 +287,34 @@
 				1058C7A0FEA54F0111CA2CBB /* Apple Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6187E5FF14664987005067DB /* relaunch */ = {
+			isa = PBXGroup;
+			children = (
+				6187E60014664988005067DB /* main.m */,
+			);
+			name = relaunch;
+			path = Source/relaunch;
+			sourceTree = "<group>";
+		};
+		6187E60D146651CA005067DB /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				61EC906B145FACF8003ADF05 /* AppController.h */,
+				61EC906C145FACF8003ADF05 /* AppController.m */,
+				61EC906D145FACF8003ADF05 /* CDCommon.h */,
+				61EC906E145FACF8003ADF05 /* CDCommon.m */,
+				61EC906F145FACF8003ADF05 /* CDControl */,
+				61EC90A7145FACF8003ADF05 /* CDOptions.h */,
+				61EC90A8145FACF8003ADF05 /* CDOptions.m */,
+				61EC90A9145FACF8003ADF05 /* CDUpdate.h */,
+				61EC90AA145FACF8003ADF05 /* CDUpdate.m */,
+				61EC90AB145FACF8003ADF05 /* cocoaDialog_Prefix.pch */,
+				61EC90E8145FAD58003ADF05 /* main.m */,
+				6187E5FF14664987005067DB /* relaunch */,
+			);
+			name = Source;
 			sourceTree = "<group>";
 		};
 		61EC906F145FACF8003ADF05 /* CDControl */ = {
@@ -437,7 +457,7 @@
 				61EC90E1145FACF8003ADF05 /* CDYesNoMsgboxControl.h in Headers */,
 				61EC90E3145FACF8003ADF05 /* CDOptions.h in Headers */,
 				61EC90E5145FACF8003ADF05 /* CDUpdate.h in Headers */,
-				61EC90E7145FACF8003ADF05 /* CocoaDialog_Prefix.pch in Headers */,
+				61EC90E7145FACF8003ADF05 /* cocoaDialog_Prefix.pch in Headers */,
 				61EC90EC145FB0A0003ADF05 /* CDSlider.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -458,11 +478,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				A7BABB3F1445828300D3F168 /* PBXTargetDependency */,
+				6187E5FE14664856005067DB /* PBXTargetDependency */,
 			);
 			name = cocoaDialog;
 			productInstallPath = "$(HOME)/Applications";
-			productName = CocoaDialog;
+			productName = cocoaDialog;
 			productReference = 8D1107320486CEB800E47090 /* cocoaDialog.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -490,7 +510,7 @@
 			attributes = {
 				LastUpgradeCheck = 0420;
 			};
-			buildConfigurationList = 0E77E9A30963C37C00D651A3 /* Build configuration list for PBXProject "CocoaDialog" */;
+			buildConfigurationList = 0E77E9A30963C37C00D651A3 /* Build configuration list for PBXProject "cocoaDialog" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -499,7 +519,7 @@
 				English,
 				"en-US",
 			);
-			mainGroup = 29B97314FDCFA39411CA2CEA /* CocoaDialog */;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* cocoaDialog */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -573,16 +593,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6187E60114664988005067DB /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		A7BABB3F1445828300D3F168 /* PBXTargetDependency */ = {
+		6187E5FE14664856005067DB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A7BABB2D1445817B00D3F168 /* relaunch */;
-			targetProxy = A7BABB3E1445828300D3F168 /* PBXContainerItemProxy */;
+			targetProxy = 6187E5FD14664856005067DB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -708,7 +729,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0E77E9A30963C37C00D651A3 /* Build configuration list for PBXProject "CocoaDialog" */ = {
+		0E77E9A30963C37C00D651A3 /* Build configuration list for PBXProject "cocoaDialog" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0E77E9A60963C37C00D651A3 /* Debug */,

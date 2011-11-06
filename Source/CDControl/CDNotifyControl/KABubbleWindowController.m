@@ -1,5 +1,5 @@
 /* KABubbleWindowController.m from Colloquy (colloquy.info).
- * Modified for CocoaDialog (cocoadialog.sf.net).
+ * Modified for cocoaDialog (cocoadialog.sf.net).
  * I think they got this from an old version of Growl (growl.info).
  */
 #import "KABubbleWindowController.h"
@@ -166,7 +166,7 @@ static unsigned int bubbleWindowDepth = 0;
 }
 
 - (void) _applicationDidSwitch:(NSNotification *) notification {
-	// We're commenting this out for CocoaDialog, since this gets
+	// We're commenting this out for cocoaDialog, since this gets
 	// called immediately after we fire it up, due to our
 	// non-standard way of running the app.
 	//[self startFadeOut];

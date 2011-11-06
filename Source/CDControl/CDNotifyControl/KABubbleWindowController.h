@@ -1,5 +1,5 @@
 /* KABubbleWindowController.h from Colloquy (colloquy.info).
- * Modified for CocoaDialog (cocoadialog.sf.net).
+ * Modified for cocoaDialog (cocoadialog.sf.net).
  * I think they got this from an old version of Growl (growl.info).
  */
 

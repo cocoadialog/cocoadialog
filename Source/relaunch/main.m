@@ -2,8 +2,8 @@
 //  main.m
 //  relaunch
 //
-//  Created by Mark Carver on 10/12/11.
-//  Copyright (c) 2011 Mark Carver. All rights reserved.
+//  Created by Mark Whitaker on 10/12/11.
+//  Copyright (c) 2011 Mark Whitaker. All rights reserved.
 
 
 #import <Cocoa/Cocoa.h>

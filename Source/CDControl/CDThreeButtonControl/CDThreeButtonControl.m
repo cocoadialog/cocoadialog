@@ -1,6 +1,6 @@
 /*
 	CDThreeButtonControl.m
-	CocoaDialog
+	cocoaDialog
 	Copyright (C) 2004-2006 Mark A. Stratman <mark@sporkstorms.org>
  
 	This program is free software; you can redistribute it and/or modify
