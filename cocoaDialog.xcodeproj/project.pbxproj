@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		0E71DA1B0963B19500FF6F7C /* cocoadialog.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E71DA0A0963B19500FF6F7C /* cocoadialog.icns */; };
 		6187E60114664988005067DB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6187E60014664988005067DB /* main.m */; };
+		61C9A9D014665F5B0054DD91 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		61C9A9D114665F680054DD91 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78A8CE8143784A8007AE363 /* Growl.framework */; };
+		61C9A9D214665F680054DD91 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78A8D2E1437AC29007AE363 /* Sparkle.framework */; };
+		61C9A9D314665F680054DD91 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		61C9A9D414665F780054DD91 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A78A8CE8143784A8007AE363 /* Growl.framework */; };
+		61C9A9D514665F780054DD91 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A78A8D2E1437AC29007AE363 /* Sparkle.framework */; };
 		61EC90AC145FACF8003ADF05 /* AppController.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC906B145FACF8003ADF05 /* AppController.h */; };
 		61EC90AD145FACF8003ADF05 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC906C145FACF8003ADF05 /* AppController.m */; };
 		61EC90AE145FACF8003ADF05 /* CDCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC906D145FACF8003ADF05 /* CDCommon.h */; };
@@ -73,7 +79,6 @@
 		61EC90EC145FB0A0003ADF05 /* CDSlider.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC90EA145FB0A0003ADF05 /* CDSlider.h */; };
 		61EC90ED145FB0A0003ADF05 /* CDSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC90EB145FB0A0003ADF05 /* CDSlider.m */; };
 		61FA9D2114518E97006E0674 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 61FA9D2014518E97006E0674 /* dsa_pub.pem */; };
-		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		A78A8CD414376C42007AE363 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB5143759ED007AE363 /* InfoPlist.strings */; };
 		A78A8CD514376C42007AE363 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB7143759ED007AE363 /* MainMenu.xib */; };
 		A78A8CD614376C42007AE363 /* Msgbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB9143759ED007AE363 /* Msgbox.xib */; };
@@ -82,16 +87,11 @@
 		A78A8CD914376C42007AE363 /* Textbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CBF143759ED007AE363 /* Textbox.xib */; };
 		A78A8CE014377610007AE363 /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CDE14377610007AE363 /* CHANGELOG */; };
 		A78A8CE114377610007AE363 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CDF14377610007AE363 /* LICENSE */; };
-		A78A8CE9143784A8007AE363 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78A8CE8143784A8007AE363 /* Growl.framework */; };
-		A78A8CEB143784C5007AE363 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A78A8CE8143784A8007AE363 /* Growl.framework */; };
-		A78A8D2F1437AC29007AE363 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78A8D2E1437AC29007AE363 /* Sparkle.framework */; };
-		A78A8D301437AC33007AE363 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A78A8D2E1437AC29007AE363 /* Sparkle.framework */; };
 		A7BABB401445829B00D3F168 /* relaunch in Resources */ = {isa = PBXBuildFile; fileRef = A7BABB2E1445817B00D3F168 /* relaunch */; };
-		A7BABB5814458FD200D3F168 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		6187E5FD14664856005067DB /* PBXContainerItemProxy */ = {
+		61C9A9D614665F7E0054DD91 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
@@ -107,8 +107,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				A78A8CEB143784C5007AE363 /* Growl.framework in CopyFiles */,
-				A78A8D301437AC33007AE363 /* Sparkle.framework in CopyFiles */,
+				61C9A9D414665F780054DD91 /* Growl.framework in CopyFiles */,
+				61C9A9D514665F780054DD91 /* Sparkle.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,9 +210,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
-				A78A8CE9143784A8007AE363 /* Growl.framework in Frameworks */,
-				A78A8D2F1437AC29007AE363 /* Sparkle.framework in Frameworks */,
+				61C9A9D114665F680054DD91 /* Growl.framework in Frameworks */,
+				61C9A9D214665F680054DD91 /* Sparkle.framework in Frameworks */,
+				61C9A9D314665F680054DD91 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,7 +220,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A7BABB5814458FD200D3F168 /* Cocoa.framework in Frameworks */,
+				61C9A9D014665F5B0054DD91 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,7 +478,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				6187E5FE14664856005067DB /* PBXTargetDependency */,
+				61C9A9D714665F7E0054DD91 /* PBXTargetDependency */,
 			);
 			name = cocoaDialog;
 			productInstallPath = "$(HOME)/Applications";
@@ -600,10 +600,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		6187E5FE14664856005067DB /* PBXTargetDependency */ = {
+		61C9A9D714665F7E0054DD91 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A7BABB2D1445817B00D3F168 /* relaunch */;
-			targetProxy = 6187E5FD14664856005067DB /* PBXContainerItemProxy */;
+			targetProxy = 61C9A9D614665F7E0054DD91 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
