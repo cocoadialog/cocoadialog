@@ -9,11 +9,11 @@
 /* Begin PBXBuildFile section */
 		0E71DA1B0963B19500FF6F7C /* cocoadialog.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E71DA0A0963B19500FF6F7C /* cocoadialog.icns */; };
 		6187E60114664988005067DB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6187E60014664988005067DB /* main.m */; };
+		6190D1D8146CAFB30083364D /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78A8CE8143784A8007AE363 /* Growl.framework */; };
+		6190D1D9146CAFC20083364D /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A78A8CE8143784A8007AE363 /* Growl.framework */; };
 		61C9A9D014665F5B0054DD91 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		61C9A9D114665F680054DD91 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78A8CE8143784A8007AE363 /* Growl.framework */; };
 		61C9A9D214665F680054DD91 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78A8D2E1437AC29007AE363 /* Sparkle.framework */; };
 		61C9A9D314665F680054DD91 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		61C9A9D414665F780054DD91 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A78A8CE8143784A8007AE363 /* Growl.framework */; };
 		61C9A9D514665F780054DD91 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A78A8D2E1437AC29007AE363 /* Sparkle.framework */; };
 		61EC90AC145FACF8003ADF05 /* AppController.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC906B145FACF8003ADF05 /* AppController.h */; };
 		61EC90AD145FACF8003ADF05 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC906C145FACF8003ADF05 /* AppController.m */; };
@@ -107,7 +107,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				61C9A9D414665F780054DD91 /* Growl.framework in CopyFiles */,
+				6190D1D9146CAFC20083364D /* Growl.framework in CopyFiles */,
 				61C9A9D514665F780054DD91 /* Sparkle.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -210,9 +210,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				61C9A9D114665F680054DD91 /* Growl.framework in Frameworks */,
-				61C9A9D214665F680054DD91 /* Sparkle.framework in Frameworks */,
 				61C9A9D314665F680054DD91 /* Cocoa.framework in Frameworks */,
+				6190D1D8146CAFB30083364D /* Growl.framework in Frameworks */,
+				61C9A9D214665F680054DD91 /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

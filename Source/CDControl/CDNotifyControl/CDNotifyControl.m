@@ -10,9 +10,8 @@
 
 @implementation CDNotifyControl
 
-- (id)init
-{
-    self = [self initWithOptions:nil];
+- (id)initWithOptions:(CDOptions *)opts {
+	self = [super initWithOptions:opts];
     activeNotifications = 0;
     notifications = [[[NSMutableArray alloc] init] retain];
 	return self;
@@ -36,6 +35,7 @@
             vNone, @"quiet",
 
             // CDNotifyControls
+             vOne,  @"fh",
              vNone, @"no-growl",
              vNone, @"sticky",
              // Text

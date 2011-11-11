@@ -22,10 +22,17 @@
             nil];
 }
 
-- (id) init {
-    self = [super init];
-    [GrowlApplicationBridge setGrowlDelegate:self];
-    return self;
+- (id)initWithOptions:(CDOptions *)opts {
+	self = [super initWithOptions:opts];
+    NSBundle *growlBundle = [NSBundle bundleWithPath:[[[NSBundle mainBundle] privateFrameworksPath] stringByAppendingPathComponent:@"Growl.framework"]];
+    if (growlBundle && [growlBundle load]) {
+        // Register ourselves as a Growl delegate
+        [GrowlApplicationBridge setShouldUseBuiltInNotifications:NO];
+        [GrowlApplicationBridge setGrowlDelegate:self];
+    } else {
+        [self debug:@"Could not load Growl.framework"];
+    }
+	return self;
 }
 
 - (BOOL) validateOptions {
@@ -168,7 +175,6 @@
     activeNotifications--;
     // Terminate cocoaDialog once all the notifications are complete
     if (activeNotifications <= 0) {
-        [super dealloc];
         [self stopControl];
     }
 }
@@ -177,7 +183,6 @@
 {
     activeNotifications--;
     if (activeNotifications <= 0) {
-        [super dealloc];
         [self stopControl];
     }
 }

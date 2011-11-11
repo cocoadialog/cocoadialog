@@ -77,8 +77,8 @@
         [[NSFileManager defaultManager] copyItemAtPath:launcherSource toPath:launcherTarget error:NULL];
         NSTask *task = [[[NSTask alloc] init] autorelease];
         // Output must be silenced to not hang this process
-        [task setStandardError:[NSPipe pipe]];
-        [task setStandardOutput:[NSPipe pipe]];
+        [task setStandardError:[NSFileHandle fileHandleWithNullDevice]];
+        [task setStandardOutput:[NSFileHandle fileHandleWithNullDevice]];
         [task setLaunchPath:@"/usr/bin/arch"];
         [task setArguments:arguments];
         [task launch];
@@ -210,8 +210,7 @@
         CDControl * notify = [[[CDNotifyControl alloc] initWithOptions:options] autorelease];
         NSDictionary * notifyGlobalKeys = [notify globalAvailableKeys];
         CDOptions * notifyOptions = [notify controlOptionsFromArgs:arguments withGlobalKeys:notifyGlobalKeys];
-        NSString * notifyClass = [GrowlApplicationBridge isGrowlInstalled]
-                                && [GrowlApplicationBridge isGrowlRunning]
+        NSString * notifyClass = [GrowlApplicationBridge isGrowlRunning]
                                 && ![notifyOptions hasOpt:@"no-growl"]
                                 ? @"CDGrowlControl" : @"CDBubbleControl";
         currentControl = [[(CDControl *)[NSClassFromString(notifyClass) alloc] initWithOptions:options] autorelease];
