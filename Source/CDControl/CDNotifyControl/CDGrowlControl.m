@@ -27,7 +27,6 @@
     NSBundle *growlBundle = [NSBundle bundleWithPath:[[[NSBundle mainBundle] privateFrameworksPath] stringByAppendingPathComponent:@"Growl.framework"]];
     if (growlBundle && [growlBundle load]) {
         // Register ourselves as a Growl delegate
-        [GrowlApplicationBridge setShouldUseBuiltInNotifications:NO];
         [GrowlApplicationBridge setGrowlDelegate:self];
     } else {
         [self debug:@"Could not load Growl.framework"];

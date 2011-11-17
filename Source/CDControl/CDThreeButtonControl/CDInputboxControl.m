@@ -32,7 +32,7 @@
 	
 	return [NSDictionary dictionaryWithObjectsAndKeys:
 		vOne,   @"value",
-        vNone,  @"selected",
+        vNone,  @"not-selected",
 		vNone,  @"no-show",
 		nil];
 }
@@ -115,11 +115,11 @@
     [controlMatrix putCell:[inputbox cell] atRow:0 column:0];
     
     // select all the text
-	if ([options hasOpt:@"selected"]) {
-        [controlMatrix selectTextAtRow:0 column:0];
+	if ([options hasOpt:@"not-selected"]) {
+        [controlMatrix deselectAllCells];
 	}
     else {
-        [controlMatrix deselectAllCells];
+        [controlMatrix selectTextAtRow:0 column:0];
     }
 
 }

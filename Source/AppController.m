@@ -210,8 +210,7 @@
         CDControl * notify = [[[CDNotifyControl alloc] initWithOptions:options] autorelease];
         NSDictionary * notifyGlobalKeys = [notify globalAvailableKeys];
         CDOptions * notifyOptions = [notify controlOptionsFromArgs:arguments withGlobalKeys:notifyGlobalKeys];
-        NSString * notifyClass = [GrowlApplicationBridge isGrowlRunning]
-                                && ![notifyOptions hasOpt:@"no-growl"]
+        NSString * notifyClass = ![notifyOptions hasOpt:@"no-growl"]
                                 ? @"CDGrowlControl" : @"CDBubbleControl";
         currentControl = [[(CDControl *)[NSClassFromString(notifyClass) alloc] initWithOptions:options] autorelease];
     }
