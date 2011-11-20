@@ -39,7 +39,7 @@
 // CDControl provides a runControl method.  It invokes
 // runControlFromOptions: with the options specified in initWithOptions:
 // You must override runControlFromOptions.
-@interface CDControl : CDCommon <CDControlProtocol> {
+@interface CDControl : CDCommon <NSWindowDelegate, CDControlProtocol> {
 // Classes
     CDIcon                      *icon;
     CDPanel                     *panel;

@@ -17,5 +17,6 @@
 
 - (void) debug:(NSString *)message;
 - (id) initWithOptions:(CDOptions *)newOptions;
+- (NSRect) screen;
 
 @end

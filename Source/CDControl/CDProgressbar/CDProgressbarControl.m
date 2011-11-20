@@ -34,12 +34,12 @@
 	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
 	
 	return [NSDictionary dictionaryWithObjectsAndKeys:
-		vOne,  @"text",
-		vOne,  @"percent",
-		vNone, @"indeterminate",
-		vNone, @"float",
-		vNone, @"stoppable",
-		nil];
+            vNone, @"indeterminate",
+            vNone, @"no-resize",
+            vOne,  @"percent",
+            vNone, @"stoppable",
+            vOne,  @"text",
+            nil];
 }
 
 -(void) updateProgress:(NSNumber*)newProgress
@@ -106,7 +106,6 @@
 - (void) createControl {
 	stopEnabled = YES;
 	
-	[panel addMinWidth:[progressBar frame].size.width + 30.0f];
 	[icon addControl:expandingLabel];
 	[icon addControl:progressBar];
 
@@ -132,8 +131,13 @@
 		[progressBar setFrame:progressBarFrame];
 		[stopButton setHidden:YES];
 	}
+    
+    if (![options hasOpt:@"no-resize"]) {
+        [options setOption:[NSNumber numberWithBool:YES] forKey:@"resize"];
+    }
 
-	[panel resize];
+    [panel setMaxWidth:[self screen].size.width / 2];
+    [panel setMaxHeight:0];
 	
 	CDProgressbarInputHandler *inputHandler = [[CDProgressbarInputHandler alloc] init];
 	[inputHandler setDelegate:self];
