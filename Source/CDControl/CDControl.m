@@ -373,7 +373,6 @@
         newFrame.origin.y += y;
         if (newFrame.origin.x < NSMinX(screen))  newFrame.origin.x = NSMinX(screen);
         if (newFrame.origin.y < NSMinY(screen)) newFrame.origin.y = NSMinY(screen);
-        NSLog(@"%@", NSStringFromRect(newFrame));
         [window setFrame:newFrame display:YES animate:YES];
         [window setIsZoomed:YES];
         return NO;
