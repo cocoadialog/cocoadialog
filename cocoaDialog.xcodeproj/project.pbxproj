@@ -84,7 +84,6 @@
 		A78A8CD614376C42007AE363 /* Msgbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB9143759ED007AE363 /* Msgbox.xib */; };
 		A78A8CD714376C42007AE363 /* Progressbar.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CBB143759ED007AE363 /* Progressbar.xib */; };
 		A78A8CD814376C42007AE363 /* tbc.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CBD143759ED007AE363 /* tbc.xib */; };
-		A78A8CD914376C42007AE363 /* Textbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CBF143759ED007AE363 /* Textbox.xib */; };
 		A78A8CE014377610007AE363 /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CDE14377610007AE363 /* CHANGELOG */; };
 		A78A8CE114377610007AE363 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CDF14377610007AE363 /* LICENSE */; };
 		A7BABB401445829B00D3F168 /* relaunch in Resources */ = {isa = PBXBuildFile; fileRef = A7BABB2E1445817B00D3F168 /* relaunch */; };
@@ -192,7 +191,6 @@
 		A78A8CBA143759ED007AE363 /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "Resources/en-US.lproj/Msgbox.xib"; sourceTree = "<group>"; };
 		A78A8CBC143759ED007AE363 /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "Resources/en-US.lproj/Progressbar.xib"; sourceTree = "<group>"; };
 		A78A8CBE143759ED007AE363 /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "Resources/en-US.lproj/tbc.xib"; sourceTree = "<group>"; };
-		A78A8CC0143759ED007AE363 /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "Resources/en-US.lproj/Textbox.xib"; sourceTree = "<group>"; };
 		A78A8CD2143761E5007AE363 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
 		A78A8CDE14377610007AE363 /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
 		A78A8CDF14377610007AE363 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -273,7 +271,6 @@
 				A78A8CB9143759ED007AE363 /* Msgbox.xib */,
 				A78A8CBB143759ED007AE363 /* Progressbar.xib */,
 				A78A8CBD143759ED007AE363 /* tbc.xib */,
-				A78A8CBF143759ED007AE363 /* Textbox.xib */,
 				0E71DA0A0963B19500FF6F7C /* cocoadialog.icns */,
 			);
 			name = Resources;
@@ -541,7 +538,6 @@
 				A78A8CD614376C42007AE363 /* Msgbox.xib in Resources */,
 				A78A8CD714376C42007AE363 /* Progressbar.xib in Resources */,
 				A78A8CD814376C42007AE363 /* tbc.xib in Resources */,
-				A78A8CD914376C42007AE363 /* Textbox.xib in Resources */,
 				A78A8CE014377610007AE363 /* CHANGELOG in Resources */,
 				A78A8CE114377610007AE363 /* LICENSE in Resources */,
 				61FA9D2114518E97006E0674 /* dsa_pub.pem in Resources */,
@@ -646,14 +642,6 @@
 				A78A8CBE143759ED007AE363 /* en-US */,
 			);
 			name = tbc.xib;
-			sourceTree = "<group>";
-		};
-		A78A8CBF143759ED007AE363 /* Textbox.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A78A8CC0143759ED007AE363 /* en-US */,
-			);
-			name = Textbox.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

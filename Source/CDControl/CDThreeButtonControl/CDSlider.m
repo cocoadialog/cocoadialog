@@ -130,14 +130,14 @@
     [super controlHasFinished:button];
 }
 
-- (void) setControl:(id)sender {
+- (void) setControl:(id)sender {    
     NSWindow *_panel = [panel panel];
     NSRect cmFrame = [controlMatrix frame];
     
     NSView *sliderView = [[NSView alloc] initWithFrame:NSMakeRect(cmFrame.origin.x, (cmFrame.origin.y + cmFrame.size.height) - 17.0f, cmFrame.size.width, 14.0f)];
-    [sliderView setAutoresizingMask:NSViewMinXMargin | NSViewMaxXMargin | NSViewMinYMargin];
-
-    NSString *_sliderLabel = @"Choose a value:";
+    [sliderView setAutoresizingMask:NSViewMinYMargin|NSViewWidthSizable];
+    
+    NSString *_sliderLabel = @"Choose value:";
     if ([options hasOpt:@"slider-label"] && ![[options optValue:@"slider-label"] isEqualToString:@""]) {
         _sliderLabel = [options optValue:@"slider-label"];
     }
@@ -148,8 +148,9 @@
     [sliderLabel setSelectable:NO];
     [sliderLabel setAlignment:NSLeftTextAlignment];
     [sliderLabel setStringValue:_sliderLabel];
+    [sliderLabel setAutoresizingMask:NSViewMinYMargin|NSViewWidthSizable];
     [sliderView addSubview:sliderLabel];
-
+    
     valueLabel = [[[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, cmFrame.size.width, 14.0f)] autorelease];
     [valueLabel setBezeled:NO];
     [valueLabel setDrawsBackground:NO];
@@ -157,22 +158,12 @@
     [valueLabel setSelectable:NO];
     [valueLabel setAlignment:NSRightTextAlignment];
     [valueLabel setFont:[NSFont fontWithName:[[valueLabel font] fontName] size:10.0f]];
+    [valueLabel setAutoresizingMask:NSViewMinYMargin|NSViewWidthSizable];
     if (![options hasOpt:@"always-show-value"])
         [valueLabel setHidden:YES];
     [sliderView addSubview:valueLabel];
     
-    [[_panel contentView] addSubview:sliderView];
-    
-    // Move controlMatrix to make room for valueView
-    NSPoint cmOrigin = cmFrame.origin;
-    cmOrigin.y -= [sliderView frame].size.height - 8.0f;
-    [controlMatrix setFrameOrigin:cmOrigin];
-    
-    // Add the valueView to the panel height
-    NSSize panelSize = [[[panel panel] contentView] frame].size;
-    panelSize.height += [sliderView frame].size.height + 4.0f;
-    [[panel panel] setContentSize:panelSize];
-    [panel resize];
+    [[_panel contentView] addSubview:sliderView];    
     
     // Set other attributes of matrix
     [controlMatrix setCellSize:NSMakeSize(cmFrame.size.width, 22.0f)];
@@ -200,41 +191,48 @@
     // Resize controlMatrix
     [controlMatrix sizeToCells];
     cmFrame = [controlMatrix frame];
+    
+    [icon addControl:sliderView];
+    [icon addControl:controlMatrix];
         
     if (ticks > 0) {
-        NSView *tickView = [[NSView alloc] initWithFrame:NSMakeRect(0.0f, cmFrame.origin.y - (cmFrame.size.height - oldHeight) - 17.0f, [_panel frame].size.width, 18.0f)];
-        [tickView setAutoresizingMask:NSViewMinYMargin];
+        NSView *tickView = [[NSView alloc] initWithFrame:NSMakeRect(cmFrame.origin.x, cmFrame.origin.y - (cmFrame.size.height - oldHeight) - 17.0f, cmFrame.size.width, 18.0f)];
+        [tickView setAutoresizesSubviews:YES];
+        [tickView setAutoresizingMask:NSViewMinYMargin|NSViewWidthSizable];
             
         NSUInteger count = [slider numberOfTickMarks];
         for (NSUInteger i = 0; i < count; i++) {
-            CGFloat  length=cmFrame.size.width-2*10;
+            CGFloat  length=cmFrame.size.width-2*6;
             CGFloat  position=floor((count==1)?length/2:i*(length/(count-1)));
-            NSTextField *tickLabel = [[[NSTextField alloc] initWithFrame:NSMakeRect(cmFrame.origin.x + 10.0f + position, 0, 0, 0)] autorelease];
+            NSTextField *tickLabel = [[[NSTextField alloc] initWithFrame:NSMakeRect(6.0f + position, 0, 0, 0)] autorelease];
             [tickLabel setBezeled:NO];
             [tickLabel setDrawsBackground:NO];
             [tickLabel setEditable:NO];
             [tickLabel setSelectable:NO];
             [tickLabel setStringValue:[NSString stringWithFormat:@"%i", (int)[slider tickMarkValueAtIndex:i]]];
             [tickLabel setFont:[NSFont fontWithName:[[tickLabel font] fontName] size:10.0f]];
+            [tickLabel setAlignment:NSRightTextAlignment];
             [tickLabel sizeToFit];
             // Center the label on the tick
             NSPoint labelOrigin = [tickLabel frame].origin;
-            labelOrigin.x -= floor([tickLabel frame].size.width / 2.0f);
+            if (i == 0) {
+                labelOrigin.x = 6.0f;
+                [tickLabel setAutoresizingMask:NSViewMinYMargin];
+            }
+            else if (i == (count - 1)) {
+                labelOrigin.x = [tickView frame].size.width - [tickLabel frame].size.width - 6.0f;
+                [tickLabel setAutoresizingMask:NSViewWidthSizable];
+            }
+            else {
+                labelOrigin.x -= floor([tickLabel frame].size.width / 2.0f);
+                [tickLabel setAutoresizingMask:NSViewMinXMargin|NSViewMaxXMargin];
+            }
             [tickLabel setFrameOrigin:labelOrigin];
             [tickView addSubview:tickLabel];
         }
+        [icon addControl:tickView];
         [[_panel contentView] addSubview:tickView];
-        
-        // Move controlMatrix to make room for tickView
-        cmOrigin = cmFrame.origin;
-        cmOrigin.y += [tickView frame].size.height + 4.0f;
-        [controlMatrix setFrameOrigin:cmOrigin];
-        
-        // Add the tickView to the panel height
-        panelSize = [[[panel panel] contentView] frame].size;
-        panelSize.height += [tickView frame].size.height + 4.0f;
-        [[panel panel] setContentSize:panelSize];
-        [panel resize];
+                
     }
 
     [self sliderChanged];

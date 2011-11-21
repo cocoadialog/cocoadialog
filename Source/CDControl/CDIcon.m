@@ -431,14 +431,19 @@
         
         float iconWidthDiff = [control frame].size.width - iconFrame.size.width;
         NSEnumerator *en = [anArray objectEnumerator];
-        id _control;
+        id _control = nil, _previous = nil;
         while (_control = [en nextObject]) {
             // Make sure the control exists
             if (_control != nil) {
                 NSRect controlFrame = [_control frame];
-                NSRect newControlFrame = NSMakeRect(controlFrame.origin.x + iconWidthDiff, controlFrame.origin.y, controlFrame.size.width - iconWidthDiff, controlFrame.size.height);
+                CGFloat y = controlFrame.origin.y;
+                if (_previous != nil) {
+                    y = [_previous frame].origin.y - controlFrame.size.height - 8.0f;
+                }
+                NSRect newControlFrame = NSMakeRect(controlFrame.origin.x + iconWidthDiff, y, controlFrame.size.width - iconWidthDiff, controlFrame.size.height);
                 minHeight += newControlFrame.size.height + 8.0f;
                 [_control setFrame:newControlFrame];
+                _previous = _control;
             }
         }
         CGFloat iconHeight = [control frame].size.height;
@@ -456,15 +461,20 @@
         control = nil;
         // Move the controls to the left and increase their width
         NSEnumerator *en = [anArray objectEnumerator];
-        id _control;
+        id _control = nil, _previous = nil;
         while (_control = [en nextObject]) {
             // Make sure the control exists
             if (_control != nil) {
                 NSRect controlFrame = [_control frame];
+                CGFloat y = controlFrame.origin.y;
+                if (_previous != nil) {
+                    y = [_previous frame].origin.y - controlFrame.size.height - 8.0f;
+                }
                 float newControlWidth = controlFrame.size.width + (controlFrame.origin.x - iconFrame.origin.x);
-                NSRect newControlFrame = NSMakeRect(iconFrame.origin.x, controlFrame.origin.y, newControlWidth, controlFrame.size.height);
+                NSRect newControlFrame = NSMakeRect(iconFrame.origin.x, y, newControlWidth, controlFrame.size.height);
                 minHeight += newControlFrame.size.height + 8.0f;
                 [_control setFrame:newControlFrame];
+                _previous = _control;
             }
         }
         [panel addMinHeight:minHeight];

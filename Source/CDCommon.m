@@ -32,7 +32,7 @@
 	return self;
 }
 - (NSRect) screen {
-    NSRect screen = [[NSScreen mainScreen] visibleFrame];
+    NSRect screen = [[NSScreen mainScreen] frame];
     int screenNumber = 1;
     if ([options hasOpt:@"screen"]) {
         if (![[NSScanner scannerWithString:[options optValue:@"screen"]] scanInt:&screenNumber]) {
