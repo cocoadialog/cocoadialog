@@ -12,7 +12,8 @@
   	<li><a href="#examples/progressbar4">progressbar Python class</a></li>
   	<li><a href="#examples/progressbar">progressbar Perl script</a></li>
   	<li><a href="#examples/progressbar2">progressbar shell script</a></li>
-  	<li><a href="#examples/progressbar3">Ideas and help for working with the progressbar in a shell</a></li>
+  	<li><a href="#examples/progressbar3">progressbar ruby script</a></li>
+  	<li><a href="#examples/progressbar4">Ideas and help for working with the progressbar in a shell</a></li>
   	<li><a href="#examples/textbox">textbox Perl script</a></li>
   	<li><a href="#examples/fileselect">fileselect shell script</a></li>
   	<li><a href="#examples/dropdown">dropdown Perl script</a></li>
@@ -349,6 +350,37 @@ exit 0
 <p style="text-align:right"><a href="#examples/top">back to the top</a></p>
 
 <a name="progressbar3"></a>
+<h2>Progressbar with Ruby using the open4 gem</h2>
+<p><a href="examples/progressbar.rb.txt">download</a></p>
+<div class="code">
+<pre>
+  # the open4 rubygem makes using the progressbar extremely simple... get it here
+  # http://rubygems.org/gems/open4
+
+  require "rubygems"
+  require "open4"
+  
+  # Initial invocation of you progressbar
+  cocoaProgressString = '/Applications/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Your Title" --text "Initial Message text"'
+  
+  pid, stdin, stdout, stderr = Open4::popen4 cocoaProgressString 
+  sleep 2
+  
+  stdin.puts '10 update 1'
+  sleep 2
+  
+  stdin.puts '20 update 2'
+  sleep 2
+  
+  # don't wanna write all that!
+  (3..10).each {|i| stdin.puts "#{i}0 update #{i}"; sleep 2; i+1}
+</pre>
+<p style="text-align:right"><a href="#examples/top">back to the top</a></p>
+
+
+
+
+<a name="progressbar4"></a>
 <h2>Ideas and help for working with the progressbar</h2>
 <p> Written by Allan Odgaard </p>
 <p>
