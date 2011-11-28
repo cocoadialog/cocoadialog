@@ -9,14 +9,20 @@
 #import <Foundation/Foundation.h>
 #import "CDCommon.h"
 
-@class NSObject;
 
-@interface CDPanel : CDCommon <NSWindowDelegate> {
-    IBOutlet NSPanel    *panel;
+extern CGFloat const CD_CONTROL_PADDING;
+extern CGFloat const CD_WINDOW_Y_PADDING;
+extern CGFloat const CD_WINDOW_X_PADDING;
+
+@class NSWindow;
+
+@interface CDWindow : CDCommon <NSWindowDelegate> {
+    IBOutlet NSWindow   *window;
     NSMutableArray      *controls;
+    NSView              *controlView;
     NSNumber *minWidth, *minHeight, *maxWidth, *maxHeight;
 }
-@property (retain) NSPanel *panel;
+@property (nonatomic,retain) NSWindow *window;
 
 - (void) addControl:(id)control;
 - (void) addControlView:(NSView *)view;

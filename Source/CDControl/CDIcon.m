@@ -15,7 +15,7 @@
 
 @implementation CDIcon
 @synthesize control;
-@synthesize panel;
+@synthesize window;
 
 - (id) initWithOptions:(CDOptions *)opts {
     self = [super initWithOptions:opts];
@@ -416,7 +416,7 @@
         NSRect newIconFrame = NSMakeRect(iconFrame.origin.x, iconFrame.origin.y - iconHeightDiff, aSize.width, aSize.height);
         [control setFrame:newIconFrame];
         iconFrame = [control frame];
-        [panel addMinWidth:iconFrame.size.width + 14.0f];
+        [window addMinWidth:iconFrame.size.width + 14.0f];
     }
 }
 - (void) setIconWithImage:(NSImage *)anImage withSize:(NSSize)aSize withControls:(NSArray *)anArray {
@@ -450,7 +450,7 @@
         if (iconHeight > minHeight) {
             minHeight = iconHeight;
         }
-        [panel addMinHeight:minHeight];
+        [window addMinHeight:minHeight];
     }
     // Icon does not have image
     else {
@@ -477,7 +477,7 @@
                 _previous = _control;
             }
         }
-        [panel addMinHeight:minHeight];
+        [window addMinHeight:minHeight];
     }
 }
 

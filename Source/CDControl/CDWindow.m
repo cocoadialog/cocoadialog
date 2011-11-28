@@ -1,15 +1,19 @@
 //
-//  CDPanel.m
+//  CDWindow.m
 //  cocoaDialog
 //
 //  Created by Mark Whitaker on 10/28/11.
 //  Copyright (c) 2011 Mark Whitaker. All rights reserved.
 //
 
-#import "CDPanel.h"
+#import "CDWindow.h"
 
-@implementation CDPanel
-@synthesize  panel;
+CGFloat const CD_CONTROL_PADDING = 8.0f;
+CGFloat const CD_WINDOW_Y_PADDING = 12.0f;
+CGFloat const CD_WINDOW_X_PADDING = 14.0f;
+
+@implementation CDWindow
+@synthesize window;
 
 - (id)initWithOptions:(CDOptions *)opts {
 	self = [super initWithOptions:opts];
@@ -19,76 +23,114 @@
 
 - (void) addControl:(id)control {
     if (control != nil) {
-        [self addMinHeight:[control frame].size.height + 8.0f];
+//        [self addMinHeight:[control frame].size.height + 8.0f];
         [controls addObject:control];
     }
 }
-- (void) addControlView:(NSView *)view {
-    [self addHeight:[view frame].size.height + 8.0f];
-    CGFloat maxControlWidth = 0.0f;
+
+- (void) setWindow:(NSWindow *)aWindow {
+    window = aWindow;
+    NSSize size = [[window contentView] frame].size;
+    size.height += CD_WINDOW_Y_PADDING * 2.0f;
+    size.width += CD_WINDOW_X_PADDING * 2.0f;
+    [window setContentSize:size];
+    
+    controlView = [[NSView alloc] initWithFrame:NSMakeRect(CD_WINDOW_X_PADDING, CD_WINDOW_Y_PADDING, [[window contentView] frame].size.width - (CD_WINDOW_X_PADDING * 2.0f), [[window contentView] frame].size.height - (CD_WINDOW_Y_PADDING * 2.0f))];
+    
+    NSTextField *label = [[[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, [controlView frame].size.width, [controlView frame].size.height)] autorelease];
+    [label setEditable:NO];
+    [label setBordered:NO];
+    [label setBezeled:NO];
+    [label setBackgroundColor:[NSColor redColor]];
+    [label setDrawsBackground:YES];
+    [label setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+
+    [controlView addSubview:label];
+    
+    [controlView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+
+    [[window contentView] addSubview:controlView];
+}
+- (void) addControlView:(NSView *)view {    
+    CGFloat viewHeight = [view frame].size.height;
+
+    // Set defaults to window width/height - padding
+    CGFloat maxControlWidth = [controlView frame].size.width;
     // Set default position if no controls exist
-    CGFloat x = 76;
-    CGFloat y = NSHeight([panel frame]) - 40.f - [view frame].size.height;
-    // Add the new control below any existing controls, using the last control as position reference points
+    CGFloat x = 0.0f;
+    CGFloat y = 0.0f;
+    // Add the new control below any existing controls, using the last control as a reference point
     if ([controls count]) {
         id _control = nil;
         NSEnumerator *en = [controls objectEnumerator];
         while (_control = [en nextObject]) {
             if ([_control frame].size.width > maxControlWidth) maxControlWidth = [_control frame].size.width;
         }
+        [self addHeight:viewHeight + CD_CONTROL_PADDING];
         id _lastControl = [controls lastObject];
         x = [_lastControl frame].origin.x;
-        y = [_lastControl frame].origin.y - 8.0f - [view frame].size.height;
+        y = [_lastControl frame].origin.y - [view frame].size.height;
+        // Move the last control if it has sizeable height
+        if (y < 0.0f) {
+            NSRect r = [_lastControl frame];
+            r.origin.y += viewHeight + CD_CONTROL_PADDING;
+            r.size.height -= viewHeight + CD_CONTROL_PADDING;
+            [_lastControl setFrame:r];
+            y = 0.0f;
+        }
     }
-    [view setFrameSize:NSMakeSize(maxControlWidth, [view frame].size.height)];
+    else {
+        NSLog(@"Using default reference point");
+        [self addHeight:viewHeight];
+    }
+    [view setAlphaValue:0.75f];
+    [view setFrameSize:NSMakeSize(maxControlWidth, viewHeight)];
     [view setFrameOrigin:NSMakePoint(x, y)];
+    NSLog(@"view frame: %@", NSStringFromRect([view frame]));
 
-    [[panel contentView] addSubview:view];
-    [panel setViewsNeedDisplay:YES];
+    [controlView addSubview:view];
     [controls addObject:view];
 }
 - (void) addHeight:(CGFloat)height {
-    NSSize size = [panel frame].size;
+    NSSize size = [[window contentView] frame].size;
     size.height += height;
-    [panel setContentSize:size];
+    [window setContentSize:size];
 }
 - (void) addMinHeight:(CGFloat)height {
-	NSSize minSize = [panel minSize];
+	NSSize minSize = [window minSize];
 	minSize.height += height;
-	[panel setMinSize:minSize];
+	[window setMinSize:minSize];
 }
 - (void) addMinWidth:(CGFloat)width {
-	NSSize minSize = [panel minSize];
+	NSSize minSize = [window minSize];
 	minSize.width += width;
-	[panel setMinSize:minSize];
+	[window setMinSize:minSize];
 }
 - (void) configure {
-    if (panel != nil) {
+    if (window != nil) {
         // Set title
         [self setTitle];
-        // Resize panel
+        // Resize window
         [self resize];
-        // Reposition Panel
+        // Reposition window
         [self setPosition];
         // Determine float
         if ([options hasOpt:@"no-float"]) {
-            [panel setFloatingPanel:NO];
-            [panel setLevel:NSNormalWindowLevel];
+            [window setLevel:NSNormalWindowLevel];
         }
         else {
-            [panel setFloatingPanel: YES];
-            [panel setLevel:NSScreenSaverWindowLevel];
+            [window setLevel:NSScreenSaverWindowLevel];
         }
-        // Determine panel title buttons
+        // Determine window title buttons
         if (![options hasOpt:@"close"]) {
-            [[panel standardWindowButton:NSWindowCloseButton] setEnabled:NO];
+            [[window standardWindowButton:NSWindowCloseButton] setEnabled:NO];
         }
         if (![options hasOpt:@"minimize"]) {
-            [[panel standardWindowButton:NSWindowMiniaturizeButton] setEnabled:NO];
+            [[window standardWindowButton:NSWindowMiniaturizeButton] setEnabled:NO];
         }
         if (![options hasOpt:@"resize"]) {
-            [panel setStyleMask:panel.styleMask^NSResizableWindowMask];
-            [[panel standardWindowButton:NSWindowZoomButton] setEnabled:NO];
+            [window setStyleMask:window.styleMask^NSResizableWindowMask];
+            [[window standardWindowButton:NSWindowZoomButton] setEnabled:NO];
         }
         else {
             if ([options hasOpt:@"min-width"]) {
@@ -137,40 +179,40 @@
             }
             NSRect screen = [self screen];
             // Set defaults if not set by options or control
-            if (minWidth == nil || [minWidth floatValue] < [panel frame].size.width) {
-                minWidth = [NSNumber numberWithFloat:[panel frame].size.width];
+            if (minWidth == nil || [minWidth floatValue] < [window frame].size.width) {
+                minWidth = [NSNumber numberWithFloat:[window frame].size.width];
             }
-            if (minHeight == nil || [minHeight floatValue] < [panel frame].size.height) {
-                minHeight = [NSNumber numberWithFloat:[panel frame].size.height];
+            if (minHeight == nil || [minHeight floatValue] < [window frame].size.height) {
+                minHeight = [NSNumber numberWithFloat:[window frame].size.height];
             }
             if (maxWidth == nil) maxWidth = [NSNumber numberWithFloat:screen.size.width];
             if (maxHeight == nil) maxHeight = [NSNumber numberWithFloat:screen.size.height];
-            if ([maxWidth floatValue] < [panel frame].size.width) {
+            if ([maxWidth floatValue] < [window frame].size.width) {
                 maxWidth = [NSNumber numberWithFloat:screen.size.width];
             }
-            if ([maxHeight floatValue] < [panel frame].size.height) {
-                maxHeight = [NSNumber numberWithFloat:[panel frame].size.height];
+            if ([maxHeight floatValue] < [window frame].size.height) {
+                maxHeight = [NSNumber numberWithFloat:[window frame].size.height];
             }
-            // Set panel min and max sizes
-            [panel setMinSize:NSMakeSize([minWidth floatValue], [minHeight floatValue])];
-            [panel setMaxSize:NSMakeSize([maxWidth floatValue], [maxHeight floatValue])];
+            // Set window min and max sizes
+            [window setMinSize:NSMakeSize([minWidth floatValue], [minHeight floatValue])];
+            [window setMaxSize:NSMakeSize([maxWidth floatValue], [maxHeight floatValue])];
         }
         if (![options hasOpt:@"close"] && ![options hasOpt:@"minimize"] && ![options hasOpt:@"resize"]) {
-            [[panel standardWindowButton:NSWindowCloseButton] setHidden:YES];
-            [[panel standardWindowButton:NSWindowMiniaturizeButton] setHidden:YES];
-            [[panel standardWindowButton:NSWindowZoomButton] setHidden:YES];
+            [[window standardWindowButton:NSWindowCloseButton] setHidden:YES];
+            [[window standardWindowButton:NSWindowMiniaturizeButton] setHidden:YES];
+            [[window standardWindowButton:NSWindowZoomButton] setHidden:YES];
         }
         if (![options hasOpt:@"fullscreen"]) {
-            [[panel standardWindowButton:NSWindowFullScreenButton] setHidden:YES];
+            [[window standardWindowButton:NSWindowFullScreenButton] setHidden:YES];
         }
-        [panel makeKeyAndOrderFront:nil];
+        [window makeKeyAndOrderFront:nil];
         
     }
 }
 
 - (void) dealloc {
     [controls release];
-    [panel release];
+    [window release];
     [super dealloc];
 }
 
@@ -178,10 +220,10 @@
 	NSSize size = NSZeroSize;
 	NSSize oldSize;
 	NSString *width, *height;
-	if (options == nil || panel == nil) {
+	if (options == nil || window == nil) {
 		return size;
 	}
-	size = [[panel contentView] frame].size;
+	size = [[window contentView] frame].size;
 	oldSize.width = size.width;
 	oldSize.height = size.height;
 	if ([options hasOpt:@"width"]) {
@@ -196,7 +238,7 @@
 			size.height = [height floatValue];
 		}
 	}
-	NSSize minSize = [panel contentMinSize];
+	NSSize minSize = [window contentMinSize];
 	if (size.height < minSize.height) {
 		size.height = minSize.height;
 	}
@@ -220,7 +262,7 @@
 - (void) resize {
     // resize if necessary
 	if ([self needsResize]) {
-		[panel setContentSize:[self findNewSize]];
+		[window setContentSize:[self findNewSize]];
 	}
 }
 - (void)setMaxHeight:(float)height {
@@ -236,7 +278,7 @@
     minWidth = [NSNumber numberWithFloat:width];
 }
 - (void) setPanelEmpty {
-    panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect(0, 0, 0, 0)
+    window = [[[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, 0, 0)
                                                 styleMask:NSBorderlessWindowMask
                                                   backing:NSBackingStoreBuffered
                                                     defer:NO] autorelease];
@@ -249,7 +291,7 @@
     id posX;
     id posY;
     // Center horizontally
-    leftPoint = ((NSWidth(screen)-NSWidth([panel frame]))/2) + NSMinX(screen);
+    leftPoint = ((NSWidth(screen)-NSWidth([window frame]))/2) + NSMinX(screen);
     // Has posX option
 	if ([options hasOpt:@"posX"]) {
 		posX = [options optValue:@"posX"];
@@ -259,7 +301,7 @@
 		}
         // Right
         else if ([posX caseInsensitiveCompare:@"right"] == NSOrderedSame) {
-            leftPoint = NSMaxX(screen) - NSWidth([panel frame]) - padding;
+            leftPoint = NSMaxX(screen) - NSWidth([window frame]) - padding;
 		}
         // Manual posX coords
         else if ([posX floatValue] > 0.0) {
@@ -270,13 +312,13 @@
         }
 	}
     // Center vertically
-    topPoint = NSMaxY(screen) - ((NSHeight(screen)-NSHeight([panel frame]))/2);
+    topPoint = NSMaxY(screen) - ((NSHeight(screen)-NSHeight([window frame]))/2);
     // Has posY option
 	if ([options hasOpt:@"posY"]) {
 		posY = [options optValue:@"posY"];
         // Bottom
 		if ([posY caseInsensitiveCompare:@"bottom"] == NSOrderedSame) {
-            topPoint = NSMinY(screen) + padding + NSHeight([panel frame]);
+            topPoint = NSMinY(screen) + padding + NSHeight([window frame]);
 		}
         // Top
         else if ([posY caseInsensitiveCompare:@"top"] == NSOrderedSame) {
@@ -290,25 +332,25 @@
             [self debug:@"Unable to parse option --posY, centering"];
         }
 	}
-	[panel setFrameTopLeftPoint:NSMakePoint(leftPoint, topPoint)];
+	[window setFrameTopLeftPoint:NSMakePoint(leftPoint, topPoint)];
 }
 
 - (void)setTitle {
     // set title
 	if ([options optValue:@"title"] != nil) {
-		[panel setTitle:[options optValue:@"title"]];
+		[window setTitle:[options optValue:@"title"]];
 	}
     else {
-        [panel setTitle:@"cocoaDialog"];
+        [window setTitle:@"cocoaDialog"];
     }
 }
 
 - (void) setTitle:(NSString *)string {
     if (string != nil && ![string isEqualToString:@""]) {
-        [panel setTitle:string];
+        [window setTitle:string];
     }
     else {
-        [panel setTitle:@"cocoaDialog"];
+        [window setTitle:@"cocoaDialog"];
     }
 }
 

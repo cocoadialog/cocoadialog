@@ -8,17 +8,17 @@
 
 #import <Foundation/Foundation.h>
 #import "CDCommon.h"
-#import "CDPanel.h"
+#import "CDWindow.h"
 
 @interface CDIcon : CDCommon {
 @private
     NSImageView                 *control;
     NSMutableArray              *controls;
     NSImage                     *iconImage;
-    CDPanel                     *panel;
+    CDWindow                    *window;
 }
 @property (retain) NSImageView *control;
-@property (retain) CDPanel *panel;
+@property (retain) CDWindow    *window;
 
 - (void) addControl:(id)control;
 - (NSArray *) controls;

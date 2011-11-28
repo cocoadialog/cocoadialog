@@ -39,7 +39,7 @@
             vOne,  @"timeout-format",
             vNone, @"string-output",
             vNone, @"no-newline",
-            // Panel
+            // Window
             vNone, @"close",
             vOne,  @"height",
             vOne,  @"max-height",
@@ -161,9 +161,9 @@
 
 // This resizes
 - (void) setTitleButtonsLabel:(NSString *)labelText {
-    [panel setMaxHeight:0];
-    [panel setMaxWidth:[self screen].size.width / 2];
-    [panel resize];
+    [window setMaxHeight:0];
+    [window setMaxWidth:[self screen].size.width / 2];
+    [window resize];
 
 	[self setButtons];
     [self setLabel:labelText];
@@ -189,19 +189,19 @@
         if (timeoutLabel != nil) {
             [timeoutLabel setFrameOrigin:NSMakePoint([timeoutLabel frame].origin.x, [timeoutLabel frame].origin.y - (m.size.height - oldHeight))];
         }
-        // Set panel's new width and height
-        NSSize panelSize = [[[panel panel] contentView] frame].size;
-        panelSize.height += m.size.height - oldHeight;
-        panelSize.width += m.size.width - oldWidth;
-        [[panel panel] setContentSize:panelSize];
+        // Set window's new width and height
+        NSSize windowSize = [[[window window] contentView] frame].size;
+        windowSize.height += m.size.height - oldHeight;
+        windowSize.width += m.size.width - oldWidth;
+        [[window window] setContentSize:windowSize];
         
-        [panel addMinWidth:[controlMatrix frame].size.width + 8.0f];
+        [window addMinWidth:[controlMatrix frame].size.width + 8.0f];
     }
     else if (expandingLabel != nil) {
-        [panel addMinWidth:[expandingLabel frame].size.width];
+        [window addMinWidth:[expandingLabel frame].size.width];
     }
     else if (timeoutLabel != nil) {
-        [panel addMinWidth:[timeoutLabel frame].size.width];
+        [window addMinWidth:[timeoutLabel frame].size.width];
     }
     // Add default controls
     if (controlMatrix != nil && ![[icon controls] containsObject:controlMatrix]) {
@@ -210,40 +210,86 @@
 }
 
 - (void) setButtons {
-    cancelButton = 0;
-	unsigned i;
-	struct { NSString *key; NSButton *button; } const buttons[] = {
-		{ @"button1", button1 },
-		{ @"button2", button2 },
-		{ @"button3", button3 }
-	};
-
-	float minWidth = 2 * 20.0f; // margin
-	for (i = 0; i != sizeof(buttons)/sizeof(buttons[0]); i++) {
-		[self setTitle:[options optValue:buttons[i].key] forButton:buttons[i].button];
-        if ([[self options] hasOpt:@"cancel"] && [[options optValue:@"cancel"] isEqualToString:buttons[i].key]) {
-            [buttons[i].button setKeyEquivalent:@"\e"];
-            cancelButton = i+1;
+    if ([options hasOpt:@"button1"] || [options hasOpt:@"button2"] || [options hasOpt:@"button3"]) {
+        
+        float buttonHeight = 0.f;
+        
+        cancelButton = 0;
+        struct { NSString *key; NSButton *button; } buttons[] = {
+            { @"button1", button1 },
+            { @"button2", button2 },
+            { @"button3", button3 }
+        };
+        
+        unsigned i;
+        for (i = 0; i != sizeof(buttons)/sizeof(buttons[0]); i++) {
+            buttons[i].button = nil;
+            if ([options hasOpt:buttons[i].key]) {
+                buttons[i].button = [self createButton];
+                [buttons[i].button setTarget:self];
+                [buttons[i].button setAction:NSSelectorFromString([NSString stringWithFormat:@"%@Pressed:", buttons[i].key])];
+                [self setTitle:[options optValue:buttons[i].key] forButton:buttons[i].button];
+                if ([buttons[i].button frame].size.height > buttonHeight) {
+                    buttonHeight = [buttons[i].button frame].size.height;
+                }
+                if ([[self options] hasOpt:@"cancel"] && [[options optValue:@"cancel"] isEqualToString:buttons[i].key]) {
+                    [buttons[i].button setKeyEquivalent:@"\e"];
+                    cancelButton = i+1;
+                }
+                else if ([[options optValue:buttons[i].key] isEqualToString:@"Cancel"]) {
+                    [buttons[i].button setKeyEquivalent:@"\e"];
+                    cancelButton = i+1;
+                }
+            }
         }
-        else if ([[options optValue:buttons[i].key] isEqualToString:@"Cancel"]) {
-            [buttons[i].button setKeyEquivalent:@"\e"];
-            cancelButton = i+1;
+        
+        // Create button view
+        NSView *buttonView = [[[NSView alloc] initWithFrame:NSMakeRect(0.0f, 0.0f, [[window window] frame].size.width, buttonHeight - 11.0f)] autorelease];
+        [buttonView setAutoresizingMask:NSViewWidthSizable];
+        
+        NSTextField *label = [[[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, [buttonView frame].size.width, [buttonView frame].size.height)] autorelease];
+        [label setEditable:NO];
+        [label setBordered:NO];
+        [label setBezeled:NO];
+        [label setBackgroundColor:[NSColor greenColor]];
+        [label setDrawsBackground:YES];
+        [label setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+        [label setAlphaValue:0.5f];
+        [buttonView addSubview:label];
+        
+        for (i = 0; i != sizeof(buttons)/sizeof(buttons[0]); i++) {
+            if (buttons[i].button != nil) {
+                if ([buttons[i].key isEqualToString:@"button1"]) {
+                    [buttons[i].button setAutoresizingMask:NSViewMinXMargin];
+                    [buttons[i].button setKeyEquivalent:@"\r"];
+                    // Move button1 so it aligns to the right of the view
+                    NSRect r = [buttons[i].button frame];
+                    r.origin.x = NSMaxX([buttonView frame]) - NSWidth(r) + 6.0f;
+                    [buttons[i].button setFrame:r];
+                    button1 = buttons[i].button;
+                }
+                else if ([buttons[i].key isEqualToString:@"button2"]) {
+                    [buttons[i].button setAutoresizingMask:NSViewMinXMargin];
+                    // move button2 so that it aligns with button1
+                    NSRect r = [buttons[i].button frame];
+                    r.origin.x = NSMinX([buttons[i - 1].button frame]) - NSWidth(r);
+                    [buttons[i].button setFrame:r];
+                    button2 = buttons[i].button;
+                }
+                else if ([buttons[i].key isEqualToString:@"button3"]) {
+                    // move button3 to the left
+                    NSRect r = [buttons[i].button frame];
+                    r.origin.x = 12.0f;
+                    [buttons[i].button setFrame:r];
+                    button3 = buttons[i].button;
+                }
+                [buttonView addSubview:buttons[i].button];
+            }
         }
-		if ([buttons[i].button isHidden] == NO) {
-			minWidth += NSWidth([buttons[i].button frame]);
-		}
-	}
 
-	// move button2 so that it aligns with button1
-	NSRect r = [button2 frame];
-	r.origin.x = NSMinX([button1 frame]) - NSWidth(r);
-	[button2 setFrame:r];
-
-	// move button3 to the left
-	r = [button3 frame];
-	r.origin.x = 12.0f;
-	[button3 setFrame:r];
-    [panel addMinHeight:28.0f];
+        [buttonView setNeedsDisplay:YES];
+        [window addControlView:buttonView];
+    }
 }
 
 // Should be called after setButtons, and before resize
@@ -267,7 +313,7 @@
             labelHeightDiff = labelNewHeight - labelRect.size.height;
             // Set label's new height
             NSRect l = NSMakeRect(labelRect.origin.x, labelRect.origin.y - labelHeightDiff, labelRect.size.width, labelNewHeight);
-            [panel addControl:expandingLabel];
+            [window addControl:expandingLabel];
             [expandingLabel setFrame: l];
         }
         else {
@@ -280,10 +326,10 @@
         if (timeoutLabel != nil) {
             [timeoutLabel setFrameOrigin:NSMakePoint([timeoutLabel frame].origin.x, [timeoutLabel frame].origin.y - labelHeightDiff)];
         }
-        // Set panel's new width and height
-        NSSize p = [[[panel panel] contentView] frame].size;
+        // Set window's new width and height
+        NSSize p = [[[window window] contentView] frame].size;
         p.height += labelHeightDiff;
-        [[panel panel] setContentSize:p];
+        [[window window] setContentSize:p];
     }
 }
 
@@ -313,10 +359,10 @@
             [timeoutLabel setHidden:YES];
             timeoutLabel = nil;
         }
-        // Set panel's new width and height
-        NSSize p = [[[panel panel] contentView] frame].size;
+        // Set window's new width and height
+        NSSize p = [[[window window] contentView] frame].size;
         p.height += labelHeightDiff;
-        [[panel panel] setContentSize:p];
+        [[window window] setContentSize:p];
     }
 }
 
@@ -342,7 +388,7 @@
     [alertSheet addButtonWithTitle:@"Okay"];
     [alertSheet setIcon:[icon iconFromName:@"caution"]];
     [alertSheet setMessageText:message];
-    [alertSheet beginSheetModalForWindow:[panel panel] modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
+    [alertSheet beginSheetModalForWindow:[window window] modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
 - (void) controlHasFinished:(int)button {
@@ -371,7 +417,7 @@
         }
     }
     else if (controlItems != nil && [controlItems count]) {
-        [[panel panel] makeFirstResponder:[controlItems objectAtIndex:0]];
+        [[window window] makeFirstResponder:[controlItems objectAtIndex:0]];
     }
 }
 

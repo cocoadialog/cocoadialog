@@ -46,6 +46,7 @@
     IBOutlet NSTextField    *aboutAppLink;
     IBOutlet NSTextField    *aboutText;
     NSMutableArray          *arguments;
+    IBOutlet NSWindow       *controlWindow;
 }
     + (NSDictionary *) availableControls;
     - (NSString *) appVersion;

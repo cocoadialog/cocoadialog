@@ -125,7 +125,11 @@
             [currentControl setOptions:options];
             
             // Validate currentControl's options and load interface nib
-            if ([currentControl validateOptions] && [currentControl loadControlNib:[currentControl controlNib]]) {
+            if ([currentControl validateOptions]) {
+                // Set the window of the control
+                CDWindow *window = [[[CDWindow alloc] initWithOptions:options] autorelease];
+                [window setWindow:controlWindow];
+                [currentControl setWindow:window];
                 
                 // Create the control
                 [currentControl createControl];

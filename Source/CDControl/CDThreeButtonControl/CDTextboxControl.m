@@ -72,15 +72,21 @@
 
 - (void) createControl {
     controlMatrix = nil;
-    [self setTitleButtonsLabel:[options optValue:@"label"]];
-    
+
     scrollView = [[[NSScrollView alloc] initWithFrame:NSMakeRect(0.0f, 0.0f, 300.0f, 450.0f)] autorelease];
     [scrollView setHasVerticalScroller:YES];
     [scrollView setHasHorizontalScroller:YES];
+    [scrollView setFindBarVisible:YES];
+    [scrollView setFindBarPosition:NSScrollViewFindBarPositionAboveContent];
     [scrollView setBorderType:NSBezelBorder];
     [scrollView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     
-    textView = [[[NSTextView alloc] initWithFrame:[scrollView bounds]] autorelease];
+    NSRect textFrame = [scrollView bounds];
+    textFrame.size.width -= 8.0f;
+    textFrame.size.height -= 8.0f;
+    
+    textView = [[[NSTextView alloc] initWithFrame:textFrame] autorelease];
+    [textView setRichText:NO];
     [textView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     
     NSAttributedString *text;
@@ -132,20 +138,25 @@
 		[textView setSelectedRange:
          NSMakeRange(0, [[textView textStorage] length])];
 	}
-	
-	// Set first responder
+	    
+    [scrollView setDocumentView:textView];
+    [window addControlView:scrollView];
+    
+    [self setTitleButtonsLabel:[options optValue:@"label"]];
+    
+    [button1 setKeyEquivalent:@"\r"];
+    [button1 setKeyEquivalentModifierMask:NSCommandKeyMask];
+    
+    // Set first responder
 	// Why doesn't this work for the button?
 	if ([options hasOpt:@"focus-textbox"]) {
-		[[panel panel] makeFirstResponder:textView];
+		[[window window] makeFirstResponder:textView];
 	} else {
-		[[panel panel] makeFirstResponder:button1];
+		[[window window] makeFirstResponder:button1];
 	}
     
-    [scrollView setDocumentView:textView];
-    [panel addControlView:scrollView];
-    
-    [panel setMaxHeight:[self screen].size.height];
-    [panel setMaxWidth:[self screen].size.width];
+    [window setMaxHeight:[self screen].size.height];
+    [window setMaxWidth:[self screen].size.width];
 //    [icon addControl:textView];
 
 }

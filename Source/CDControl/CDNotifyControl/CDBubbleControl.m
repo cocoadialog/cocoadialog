@@ -45,7 +45,7 @@
 }
 
 - (void) createControl {
-    [panel setPanelEmpty];
+    [window setPanelEmpty];
 
 	float _timeout = 4.;
 	float alpha = 0.85;

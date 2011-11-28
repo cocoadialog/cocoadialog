@@ -22,7 +22,7 @@
 #import "CDCommon.h"
 #import "CDOptions.h"
 #import "CDIcon.h"
-#import "CDPanel.h"
+#import "CDWindow.h"
 
 // All controls must include the methods createControl and validateOptions.
 // This should look at the options and display a control (dialog with message,
@@ -42,11 +42,8 @@
 @interface CDControl : CDCommon <NSWindowDelegate, CDControlProtocol> {
 // Classes
     CDIcon                      *icon;
-    CDPanel                     *panel;
-// Outlets
-    IBOutlet NSPanel            *controlPanel;
-    IBOutlet NSImageView        *controlIcon;
-    IBOutlet NSTextField        *timeoutLabel;
+    CDWindow                    *window;
+    IBOutlet NSTextField *timeoutLabel;
 // Variables
     int                         controlExitStatus;
     NSString                    *controlExitStatusString;
@@ -59,6 +56,8 @@
     NSThread                    *timerThread;
     float                       timeout;
 }
+@property (retain) CDIcon   *icon;
+@property (retain) CDWindow *window;
 
 #pragma mark - Internal Control Methods -
 - (NSString *) controlNib;
@@ -66,7 +65,6 @@
 - (CDOptions *) controlOptionsFromArgs:(NSArray *)args withGlobalKeys:(NSDictionary *)globalKeys;
 - (void) createTimer;
 - (NSString *) formatSecondsForString:(NSInteger)timeInSeconds;
-- (BOOL) loadControlNib:(NSString *)nib;
 + (void) printHelpTo:(NSFileHandle *)fh;
 - (void) processTimer;
 - (void) runControl;
