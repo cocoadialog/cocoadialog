@@ -41,8 +41,8 @@
 		61EC90C3145FACF8003ADF05 /* KABubbleWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC9085145FACF8003ADF05 /* KABubbleWindowController.m */; };
 		61EC90C4145FACF8003ADF05 /* KABubbleWindowView.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC9086145FACF8003ADF05 /* KABubbleWindowView.h */; };
 		61EC90C5145FACF8003ADF05 /* KABubbleWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC9087145FACF8003ADF05 /* KABubbleWindowView.m */; };
-		61EC90C6145FACF8003ADF05 /* CDWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC9088145FACF8003ADF05 /* CDWindow.h */; };
-		61EC90C7145FACF8003ADF05 /* CDWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC9089145FACF8003ADF05 /* CDWindow.m */; };
+		61EC90C6145FACF8003ADF05 /* CDPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC9088145FACF8003ADF05 /* CDPanel.h */; };
+		61EC90C7145FACF8003ADF05 /* CDPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC9089145FACF8003ADF05 /* CDPanel.m */; };
 		61EC90C8145FACF8003ADF05 /* CDProgressbarControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC908B145FACF8003ADF05 /* CDProgressbarControl.h */; };
 		61EC90C9145FACF8003ADF05 /* CDProgressbarControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC908C145FACF8003ADF05 /* CDProgressbarControl.m */; };
 		61EC90CA145FACF8003ADF05 /* CDProgressbarInputHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC908D145FACF8003ADF05 /* CDProgressbarInputHandler.h */; };
@@ -83,6 +83,7 @@
 		A78A8CD514376C42007AE363 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB7143759ED007AE363 /* MainMenu.xib */; };
 		A78A8CD614376C42007AE363 /* Msgbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB9143759ED007AE363 /* Msgbox.xib */; };
 		A78A8CD714376C42007AE363 /* Progressbar.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CBB143759ED007AE363 /* Progressbar.xib */; };
+		A78A8CD814376C42007AE363 /* tbc.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CBD143759ED007AE363 /* tbc.xib */; };
 		A78A8CE014377610007AE363 /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CDE14377610007AE363 /* CHANGELOG */; };
 		A78A8CE114377610007AE363 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CDF14377610007AE363 /* LICENSE */; };
 		A7BABB401445829B00D3F168 /* relaunch in Resources */ = {isa = PBXBuildFile; fileRef = A7BABB2E1445817B00D3F168 /* relaunch */; };
@@ -143,8 +144,8 @@
 		61EC9085145FACF8003ADF05 /* KABubbleWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KABubbleWindowController.m; sourceTree = "<group>"; };
 		61EC9086145FACF8003ADF05 /* KABubbleWindowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KABubbleWindowView.h; sourceTree = "<group>"; };
 		61EC9087145FACF8003ADF05 /* KABubbleWindowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KABubbleWindowView.m; sourceTree = "<group>"; };
-		61EC9088145FACF8003ADF05 /* CDWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDWindow.h; sourceTree = "<group>"; };
-		61EC9089145FACF8003ADF05 /* CDWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDWindow.m; sourceTree = "<group>"; };
+		61EC9088145FACF8003ADF05 /* CDPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDPanel.h; sourceTree = "<group>"; };
+		61EC9089145FACF8003ADF05 /* CDPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDPanel.m; sourceTree = "<group>"; };
 		61EC908B145FACF8003ADF05 /* CDProgressbarControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDProgressbarControl.h; sourceTree = "<group>"; };
 		61EC908C145FACF8003ADF05 /* CDProgressbarControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDProgressbarControl.m; sourceTree = "<group>"; };
 		61EC908D145FACF8003ADF05 /* CDProgressbarInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDProgressbarInputHandler.h; sourceTree = "<group>"; };
@@ -189,6 +190,7 @@
 		A78A8CB8143759ED007AE363 /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "Resources/en-US.lproj/MainMenu.xib"; sourceTree = "<group>"; };
 		A78A8CBA143759ED007AE363 /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "Resources/en-US.lproj/Msgbox.xib"; sourceTree = "<group>"; };
 		A78A8CBC143759ED007AE363 /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "Resources/en-US.lproj/Progressbar.xib"; sourceTree = "<group>"; };
+		A78A8CBE143759ED007AE363 /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "Resources/en-US.lproj/tbc.xib"; sourceTree = "<group>"; };
 		A78A8CD2143761E5007AE363 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
 		A78A8CDE14377610007AE363 /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
 		A78A8CDF14377610007AE363 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 				A78A8CB7143759ED007AE363 /* MainMenu.xib */,
 				A78A8CB9143759ED007AE363 /* Msgbox.xib */,
 				A78A8CBB143759ED007AE363 /* Progressbar.xib */,
+				A78A8CBD143759ED007AE363 /* tbc.xib */,
 				0E71DA0A0963B19500FF6F7C /* cocoadialog.icns */,
 			);
 			name = Resources;
@@ -320,8 +323,8 @@
 				61EC9079145FACF8003ADF05 /* CDIcon.h */,
 				61EC907A145FACF8003ADF05 /* CDIcon.m */,
 				61EC907B145FACF8003ADF05 /* CDNotifyControl */,
-				61EC9088145FACF8003ADF05 /* CDWindow.h */,
-				61EC9089145FACF8003ADF05 /* CDWindow.m */,
+				61EC9088145FACF8003ADF05 /* CDPanel.h */,
+				61EC9089145FACF8003ADF05 /* CDPanel.m */,
 				61EC908A145FACF8003ADF05 /* CDProgressbar */,
 				61EC9090145FACF8003ADF05 /* CDThreeButtonControl */,
 			);
@@ -434,7 +437,7 @@
 				61EC90C0145FACF8003ADF05 /* KABubbleWindow.h in Headers */,
 				61EC90C2145FACF8003ADF05 /* KABubbleWindowController.h in Headers */,
 				61EC90C4145FACF8003ADF05 /* KABubbleWindowView.h in Headers */,
-				61EC90C6145FACF8003ADF05 /* CDWindow.h in Headers */,
+				61EC90C6145FACF8003ADF05 /* CDPanel.h in Headers */,
 				61EC90C8145FACF8003ADF05 /* CDProgressbarControl.h in Headers */,
 				61EC90CA145FACF8003ADF05 /* CDProgressbarInputHandler.h in Headers */,
 				61EC90CC145FACF8003ADF05 /* CDProgressbarInputHandlerDelegate.h in Headers */,
@@ -534,6 +537,7 @@
 				A78A8CD514376C42007AE363 /* MainMenu.xib in Resources */,
 				A78A8CD614376C42007AE363 /* Msgbox.xib in Resources */,
 				A78A8CD714376C42007AE363 /* Progressbar.xib in Resources */,
+				A78A8CD814376C42007AE363 /* tbc.xib in Resources */,
 				A78A8CE014377610007AE363 /* CHANGELOG in Resources */,
 				A78A8CE114377610007AE363 /* LICENSE in Resources */,
 				61FA9D2114518E97006E0674 /* dsa_pub.pem in Resources */,
@@ -560,7 +564,7 @@
 				61EC90C1145FACF8003ADF05 /* KABubbleWindow.m in Sources */,
 				61EC90C3145FACF8003ADF05 /* KABubbleWindowController.m in Sources */,
 				61EC90C5145FACF8003ADF05 /* KABubbleWindowView.m in Sources */,
-				61EC90C7145FACF8003ADF05 /* CDWindow.m in Sources */,
+				61EC90C7145FACF8003ADF05 /* CDPanel.m in Sources */,
 				61EC90C9145FACF8003ADF05 /* CDProgressbarControl.m in Sources */,
 				61EC90CB145FACF8003ADF05 /* CDProgressbarInputHandler.m in Sources */,
 				61EC90CE145FACF8003ADF05 /* CDCheckboxControl.m in Sources */,
@@ -630,6 +634,14 @@
 				A78A8CBC143759ED007AE363 /* en-US */,
 			);
 			name = Progressbar.xib;
+			sourceTree = "<group>";
+		};
+		A78A8CBD143759ED007AE363 /* tbc.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A78A8CBE143759ED007AE363 /* en-US */,
+			);
+			name = tbc.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

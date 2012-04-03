@@ -22,8 +22,6 @@
 #import "CDControl.h"
 
 @implementation CDControl
-@synthesize icon;
-@synthesize window;
 
 #pragma mark - Internal Control Methods -
 - (NSString *) controlNib { return @""; }
@@ -42,7 +40,7 @@
 	return [CDOptions getOpts:args availableKeys:allKeys depreciatedKeys:depreciatedKeys];
 }
 - (void) dealloc {
-    [window release];
+    [panel release];
     [icon release];
     [controlExitStatusString release];
     [controlItems release];
@@ -124,6 +122,33 @@
     controlItems = [[[NSMutableArray alloc] init] retain];
 	return self;
 }
+- (BOOL) loadControlNib:(NSString *)nib {
+    // Load nib
+    if (nib != nil) {
+        if (![nib isEqualToString:@""] && ![NSBundle loadNibNamed:nib owner:self]) {
+            if ([options hasOpt:@"debug"]) {
+                [self debug:[NSString stringWithFormat:@"Could not load control interface: \"%@.nib\"", nib]];
+            }
+            return NO;
+        }
+    }
+    else {
+        [self debug:@"Control did not specify a NIB interface file to load."];
+        return NO;
+    }
+    panel = [[[CDPanel alloc] initWithOptions:options] retain];
+    icon = [[[CDIcon alloc] initWithOptions:options] retain];
+    if (controlPanel != nil) {
+        [panel setPanel:controlPanel];
+        [panel addMinHeight:40.0f];
+        [panel addMinWidth:40.0f];
+        [icon setPanel:panel];
+    }
+    if (controlIcon != nil) {
+        [icon setControl:controlIcon];
+    }
+    return YES;
+}
 + (void) printHelpTo:(NSFileHandle *)fh {
 	if (fh) {
         [fh writeData:[@"Usage: cocoaDialog <run-mode> [options]\n\tAvailable run-modes:\n" dataUsingEncoding:NSUTF8StringEncoding]];
@@ -153,20 +178,20 @@
 	}
 }
 - (void) runControl {
-    // The control must either: 1) sub-class -(NSString *) controlNib, return the name of the NIB, and then connect "controlWindow" in IB or 2) set the window manually with [window setWindow:(NSWindow *)]  when creating the control. 
-    if ([window window] != nil) {
-        [[window window] setDelegate:self];
+    // The control must either: 1) sub-class -(NSString *) controlNib, return the name of the NIB, and then connect "controlPanel" in IB or 2) set the panel manually with [panel setPanel:(NSPanel *)]  when creating the control. 
+    if ([panel panel] != nil) {
+        [[panel panel] setDelegate:self];
         // Set icon
         if ([icon control] != nil) {
             [icon setIconFromOptions];
         }
-        // Configure window with options
-        [window configure];
+        // Configure panel with options
+        [panel configure];
         [NSApp run];
     }
     else {
         if ([options hasOpt:@"debug"]) {
-            [self debug:@"The control has not specified the window it is to use and cocoaDialog cannot continue."];
+            [self debug:@"The control has not specified the panel it is to use and cocoaDialog cannot continue."];
         }
         exit(255);
     }
@@ -207,10 +232,10 @@
         else {
             [timeoutLabel setHidden:YES];
         }
-        // Set window's new width and height
-        NSSize p = [[[window window] contentView] frame].size;
+        // Set panel's new width and height
+        NSSize p = [[[panel panel] contentView] frame].size;
         p.height += labelHeightDiff;
-        [[window window] setContentSize:p];
+        [[panel panel] setContentSize:p];
     }
 }
 - (void) createTimer {
@@ -305,7 +330,7 @@
             vOne,  @"timeout-format",            
             vNone, @"string-output",
             vNone, @"no-newline",
-            // Window
+            // Panel
             vNone, @"close",
             vOne,  @"height",
             vOne,  @"max-height",
@@ -339,17 +364,17 @@
     [self stopControl];
 }
 
-- (BOOL)windowShouldZoom:(NSWindow *)aWindow toFrame:(NSRect)newFrame {
-    if (![aWindow isZoomed]) {
+- (BOOL)windowShouldZoom:(NSWindow *)window toFrame:(NSRect)newFrame {
+    if (![window isZoomed]) {
         NSRect screen = [self screen];
-        CGFloat x = (NSWidth(newFrame) / 2) - (NSWidth([aWindow frame]) / 2);
-        CGFloat y = (NSHeight(newFrame) / 2) - (NSHeight([aWindow frame]) / 2);
+        CGFloat x = (NSWidth(newFrame) / 2) - (NSWidth([window frame]) / 2);
+        CGFloat y = (NSHeight(newFrame) / 2) - (NSHeight([window frame]) / 2);
         newFrame.origin.x -= x;
         newFrame.origin.y += y;
         if (newFrame.origin.x < NSMinX(screen))  newFrame.origin.x = NSMinX(screen);
         if (newFrame.origin.y < NSMinY(screen)) newFrame.origin.y = NSMinY(screen);
-        [aWindow setFrame:newFrame display:YES animate:YES];
-        [aWindow setIsZoomed:YES];
+        [window setFrame:newFrame display:YES animate:YES];
+        [window setIsZoomed:YES];
         return NO;
     }
     return YES;

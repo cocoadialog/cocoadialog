@@ -131,7 +131,7 @@
 }
 
 - (void) setControl:(id)sender {    
-    NSWindow *_window = [window window];
+    NSWindow *_panel = [panel panel];
     NSRect cmFrame = [controlMatrix frame];
     
     NSView *sliderView = [[NSView alloc] initWithFrame:NSMakeRect(cmFrame.origin.x, (cmFrame.origin.y + cmFrame.size.height) - 17.0f, cmFrame.size.width, 14.0f)];
@@ -163,7 +163,7 @@
         [valueLabel setHidden:YES];
     [sliderView addSubview:valueLabel];
     
-    [[_window contentView] addSubview:sliderView];    
+    [[_panel contentView] addSubview:sliderView];    
     
     // Set other attributes of matrix
     [controlMatrix setCellSize:NSMakeSize(cmFrame.size.width, 22.0f)];
@@ -231,7 +231,7 @@
             [tickView addSubview:tickLabel];
         }
         [icon addControl:tickView];
-        [[_window contentView] addSubview:tickView];
+        [[_panel contentView] addSubview:tickView];
                 
     }
 

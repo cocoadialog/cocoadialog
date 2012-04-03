@@ -11,17 +11,6 @@
 @implementation CDCommon
 @synthesize options;
 
-- (NSButton *) createButton {
-    NSButton *button = [[[NSButton alloc] initWithFrame:NSMakeRect(0.0f, 0.0f, MAXFLOAT, MAXFLOAT)] autorelease];
-    [button setBezelStyle:NSRoundedBezelStyle];
-    [button setButtonType:NSMomentaryPushInButton];
-    [button sizeToFit];
-    NSPoint origin = [button frame].origin;
-    origin.y -= 7.0f;
-    [button setFrameOrigin:origin];
-    return button;
-}
-
 - (void) debug:(NSString *)message {
 	NSString *output = [NSString stringWithFormat:@"cocoaDialog Error: %@\n", message]; 
     // Output to stdErr

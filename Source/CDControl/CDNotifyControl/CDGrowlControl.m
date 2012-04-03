@@ -56,7 +56,7 @@
 }
 
 - (void) createControl {
-    [window setPanelEmpty];
+    [panel setPanelEmpty];
 
     NSString *clickPath = @"";
     if ([options hasOpt:@"click-path"]) {

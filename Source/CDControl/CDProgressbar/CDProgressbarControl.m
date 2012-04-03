@@ -74,7 +74,7 @@
 	[confirmationSheet addButtonWithTitle:@"Stop"];
 	[confirmationSheet addButtonWithTitle:@"Cancel"];
 	[confirmationSheet setMessageText:@"Are you sure you want to stop?"];
-	[confirmationSheet beginSheetModalForWindow:[window window] modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
+	[confirmationSheet beginSheetModalForWindow:[panel panel] modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
 - (void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
@@ -120,13 +120,13 @@
 	if (![options hasOpt:@"stoppable"]) {
 		NSRect progressBarFrame = [progressBar frame];
 
-		NSRect currentWindowFrame = [[window window] frame];
+		NSRect currentWindowFrame = [[panel panel] frame];
 		CGFloat stopButtonWidth = [stopButton frame].size.width;
 		NSRect newWindowFrame = {
 			.origin = currentWindowFrame.origin,
 			.size = NSMakeSize(currentWindowFrame.size.width - stopButtonWidth + 2, currentWindowFrame.size.height)
 		};
-		[[window window] setFrame:newWindowFrame display:NO];
+		[[panel panel] setFrame:newWindowFrame display:NO];
 
 		[progressBar setFrame:progressBarFrame];
 		[stopButton setHidden:YES];
@@ -136,8 +136,8 @@
         [options setOption:[NSNumber numberWithBool:YES] forKey:@"resize"];
     }
 
-    [window setMaxWidth:[self screen].size.width / 2];
-    [window setMaxHeight:0];
+    [panel setMaxWidth:[self screen].size.width / 2];
+    [panel setMaxHeight:0];
 	
 	CDProgressbarInputHandler *inputHandler = [[CDProgressbarInputHandler alloc] init];
 	[inputHandler setDelegate:self];
@@ -155,7 +155,7 @@
 		
 	//set window title
 	if ([options optValue:@"title"]) {
-		[window setTitle:[options optValue:@"title"]];
+		[[panel panel] setTitle:[options optValue:@"title"]];
 	}
 
 	// set indeterminate

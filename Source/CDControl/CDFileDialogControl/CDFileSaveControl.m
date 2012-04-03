@@ -65,15 +65,15 @@
 		dir = [options optValue:@"with-directory"];
 	}
     
-    [window setWindow:savePanel];
+    [panel setPanel:savePanel];
 
 	// resize window if user specified alternate width/height
-    if ([window needsResize]) {
-		[savePanel setContentSize:[window findNewSize]];
+    if ([panel needsResize]) {
+		[savePanel setContentSize:[panel findNewSize]];
 	}
 	
-    // Reposition window
-    [window setPosition];
+    // Reposition Panel
+    [panel setPosition];
     
     [self setTimeout];
 	

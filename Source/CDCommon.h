@@ -15,7 +15,6 @@
 }
 @property (retain) CDOptions *options;
 
-- (NSButton *) createButton;
 - (void) debug:(NSString *)message;
 - (id) initWithOptions:(CDOptions *)newOptions;
 - (NSRect) screen;
