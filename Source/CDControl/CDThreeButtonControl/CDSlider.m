@@ -177,7 +177,7 @@
     // Set other attributes of matrix
     [controlMatrix setCellSize:NSMakeSize(cmFrame.size.width, 22.0f)];
     [controlMatrix renewRows:1 columns:1];
-    [controlMatrix setAutosizesCells:YES];
+    [controlMatrix setAutosizesCells:NO];
     [controlMatrix setMode:NSTrackModeMatrix];
     [controlMatrix setAllowsEmptySelection:YES];
     

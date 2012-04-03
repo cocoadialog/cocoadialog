@@ -11,22 +11,17 @@
 
 @class NSObject;
 
-@interface CDPanel : CDCommon <NSWindowDelegate> {
+@interface CDPanel : CDCommon {
     IBOutlet NSPanel    *panel;
-    NSNumber *minWidth, *minHeight, *maxWidth, *maxHeight;
 }
 @property (retain) NSPanel *panel;
 
 - (void) addMinHeight:(CGFloat)height;
 - (void) addMinWidth:(CGFloat)width;
-- (void) configure;
 - (NSSize) findNewSize;
 - (BOOL) needsResize;
 - (void) resize;
-- (void) setMaxHeight:(float)height;
-- (void) setMaxWidth:(float)width;
-- (void) setMinHeight:(float)height;
-- (void) setMinWidth:(float)width;
+- (void) setFloat;
 - (void) setPanelEmpty;
 - (void) setPosition;
 - (void) setTitle;

@@ -200,7 +200,7 @@
     }
     
     // Set other attributes of matrix
-    [controlMatrix setAutosizesCells:YES];
+    [controlMatrix setAutosizesCells:NO];
     [controlMatrix setCellSize:NSMakeSize(cellWidth, 18.0f)];
     [controlMatrix setAllowsEmptySelection:YES];
     [controlMatrix deselectAllCells];

@@ -91,10 +91,9 @@
 
 - (void) setControl:(id)sender {
     // Set other attributes of matrix
-    [controlMatrix setFrameSize:NSMakeSize([controlMatrix frame].size.width, 20.0f)];
     [controlMatrix setCellSize:NSMakeSize([controlMatrix frame].size.width, 20.0f)];
     [controlMatrix renewRows:1 columns:1];
-    [controlMatrix setAutosizesCells:YES];
+    [controlMatrix setAutosizesCells:NO];
     [controlMatrix setMode:NSRadioModeMatrix];
     [controlMatrix setAllowsEmptySelection:NO];
     

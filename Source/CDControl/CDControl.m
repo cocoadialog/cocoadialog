@@ -140,8 +140,6 @@
     icon = [[[CDIcon alloc] initWithOptions:options] retain];
     if (controlPanel != nil) {
         [panel setPanel:controlPanel];
-        [panel addMinHeight:40.0f];
-        [panel addMinWidth:40.0f];
         [icon setPanel:panel];
     }
     if (controlIcon != nil) {
@@ -180,13 +178,13 @@
 - (void) runControl {
     // The control must either: 1) sub-class -(NSString *) controlNib, return the name of the NIB, and then connect "controlPanel" in IB or 2) set the panel manually with [panel setPanel:(NSPanel *)]  when creating the control. 
     if ([panel panel] != nil) {
-        [[panel panel] setDelegate:self];
         // Set icon
         if ([icon control] != nil) {
             [icon setIconFromOptions];
         }
-        // Configure panel with options
-        [panel configure];
+        // Reposition Panel
+        [panel setPosition];
+        [panel setFloat];
         [NSApp run];
     }
     else {
@@ -276,7 +274,7 @@
     }
     // Stop any modal windows currently running
     [NSApp stop:self];
-    if (![options hasOpt:@"quiet"] && controlExitStatus > 0) {
+    if (![options hasOpt:@"quiet"] && controlExitStatus != -1 && controlExitStatus != -2) {
         if ([options hasOpt:@"string-output"]) {
             if (controlExitStatusString == nil) {
                 controlExitStatusString = [NSString stringWithFormat:@"%d", controlExitStatus];
@@ -287,9 +285,8 @@
             [controlReturnValues insertObject:[NSString stringWithFormat:@"%d", controlExitStatus] atIndex:0];
         }
     }
-    if (controlExitStatus < 0) {
-        controlExitStatus = controlExitStatus * -1;
-    }
+    if (controlExitStatus == -1) controlExitStatus = 0;
+    if (controlExitStatus == -2) controlExitStatus = 1;
     // Print all the returned lines
     if (controlReturnValues != nil) {
         unsigned i;
@@ -327,24 +324,18 @@
             vNone, @"debug",
             vNone, @"quiet",
             vOne,  @"timeout",
-            vOne,  @"timeout-format",            
+            vOne,  @"timeout-format",
             vNone, @"string-output",
             vNone, @"no-newline",
             // Panel
-            vNone, @"close",
-            vOne,  @"height",
-            vOne,  @"max-height",
-            vOne,  @"max-width",
-            vOne,  @"min-height",
-            vOne,  @"min-width",
-            vNone, @"minimize",
-            vNone, @"no-float",
-            vOne,  @"posX",
-            vOne,  @"posY",
-            vNone, @"resize",
-            vOne,  @"screen",
             vOne,  @"title",
             vOne,  @"width",
+            vOne,  @"height",
+            vOne,  @"posX",
+            vOne,  @"posY",
+            vNone, @"no-float",
+            vNone, @"minimize",
+            vNone, @"resize",
             // Icon
             vOne,  @"icon",
             vOne,  @"icon-bundle",
@@ -356,29 +347,5 @@
             nil];
 }
 - (BOOL) validateControl:(CDOptions *)options {return YES;}
-
-#pragma mark - NSWindowDelegate Methods
-
-- (void)windowWillClose:(NSNotification *)notification {
-    controlExitStatus = -255;
-    [self stopControl];
-}
-
-- (BOOL)windowShouldZoom:(NSWindow *)window toFrame:(NSRect)newFrame {
-    if (![window isZoomed]) {
-        NSRect screen = [self screen];
-        CGFloat x = (NSWidth(newFrame) / 2) - (NSWidth([window frame]) / 2);
-        CGFloat y = (NSHeight(newFrame) / 2) - (NSHeight([window frame]) / 2);
-        newFrame.origin.x -= x;
-        newFrame.origin.y += y;
-        if (newFrame.origin.x < NSMinX(screen))  newFrame.origin.x = NSMinX(screen);
-        if (newFrame.origin.y < NSMinY(screen)) newFrame.origin.y = NSMinY(screen);
-        NSLog(@"%@", NSStringFromRect(newFrame));
-        [window setFrame:newFrame display:YES animate:YES];
-        [window setIsZoomed:YES];
-        return NO;
-    }
-    return YES;
-}
 
 @end

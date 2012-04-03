@@ -40,20 +40,14 @@
             vNone, @"string-output",
             vNone, @"no-newline",
             // Panel
-            vNone, @"close",
-            vOne,  @"height",
-            vOne,  @"max-height",
-            vOne,  @"max-width",
-            vOne,  @"min-height",
-            vOne,  @"min-width",
-            vNone, @"minimize",
-            vNone, @"no-float",
-            vOne,  @"posX",
-            vOne,  @"posY",
-            vNone, @"resize",
-            vOne,  @"screen",
             vOne,  @"title",
             vOne,  @"width",
+            vOne,  @"height",
+            vOne,  @"posX",
+            vOne,  @"posY",
+            vNone, @"no-float",
+            vNone, @"minimize",
+            vNone, @"resize",
             // Icon
             vOne,  @"icon",
             vOne,  @"icon-bundle",
@@ -161,41 +155,9 @@
 
 // This resizes
 - (void) setTitleButtonsLabel:(NSString *)labelText {
-	[self setButtons];
-    [self setLabel:labelText];
-        
-    if (controlMatrix != nil) {
-        // Remember old controlMatrix size
-        NSRect m = [controlMatrix frame];
-        float oldHeight = m.size.height;
-        float oldWidth = m.size.width;
-        // Call the control
-        [self setControl:self];
-        // Resize
-        [controlMatrix sizeToCells];
-        [[controlMatrix superview] setNeedsDisplay:YES];
-        // Position
-        m = [controlMatrix frame];
-        m.origin.y -= m.size.height - oldHeight;
-        [controlMatrix setFrameOrigin:m.origin];
-        // Position Timeout Label
-        if (timeoutLabel != nil) {
-            [timeoutLabel setFrameOrigin:NSMakePoint([timeoutLabel frame].origin.x, [timeoutLabel frame].origin.y - (m.size.height - oldHeight))];
-        }
-        // Set panel's new width and height
-        NSSize panelSize = [[[panel panel] contentView] frame].size;
-        panelSize.height += m.size.height - oldHeight;
-        panelSize.width += m.size.width - oldWidth;
-        [[panel panel] setContentSize:panelSize];
-        
-        [panel addMinWidth:[controlMatrix frame].size.width + 8.0f];
-    }
-    else if (expandingLabel != nil) {
-        [panel addMinWidth:[expandingLabel frame].size.width];
-    }
-    else if (timeoutLabel != nil) {
-        [panel addMinWidth:[timeoutLabel frame].size.width];
-    }
+
+	[panel setTitle];
+
     // Add default controls
     if (expandingLabel != nil && ![[icon controls] containsObject:expandingLabel]) {
         [icon addControl:expandingLabel];
@@ -206,6 +168,39 @@
     if (timeoutLabel != nil && ![[icon controls] containsObject:timeoutLabel]) {
         [icon addControl:timeoutLabel];
     }
+
+    [icon setIconFromOptions];
+    
+	[self setButtons];
+    [panel resize];
+    
+    [self setLabel:labelText];
+    
+    [panel resize];
+    
+    if (controlMatrix != nil) {
+        // Remember old controlMatrix size
+        NSRect m = [controlMatrix frame];
+        float oldHeight = m.size.height;
+        float oldWidth = m.size.width;
+        
+        // Call the control
+        [self setControl:self];
+
+        // Resize
+        [controlMatrix sizeToCells];
+        [[controlMatrix superview] setNeedsDisplay:YES];
+        m = [controlMatrix frame];
+
+        // Set panel's new width and height
+        NSSize panelSize = [[[panel panel] contentView] frame].size;
+        panelSize.height += m.size.height - oldHeight;
+        panelSize.width += m.size.width - oldWidth;
+        [[panel panel] setContentSize:panelSize];
+
+        [panel resize];
+    }
+
 }
 
 - (void) setButtons {
@@ -242,7 +237,10 @@
 	r = [button3 frame];
 	r.origin.x = 12.0f;
 	[button3 setFrame:r];
-    [panel addMinHeight:28.0f];
+
+	// ensure that the buttons never gets clipped
+    [panel addMinHeight:40.0f]; // 20 * 2 for margin + 20 for height
+    [panel addMinWidth:minWidth];
 }
 
 // Should be called after setButtons, and before resize
@@ -251,7 +249,7 @@
         if (labelText == nil) {
             labelText = [NSString stringWithString:@""];
         }
-        float labelNewHeight = -8.0f;
+        float labelNewHeight = -10.0f;
         NSRect labelRect = [expandingLabel frame];
         float labelHeightDiff = labelNewHeight - labelRect.size.height;
         if (![labelText isEqualToString:@""]) {
@@ -270,13 +268,6 @@
         }
         else {
             [expandingLabel setHidden:YES];
-            expandingLabel = nil;
-        }
-        if (controlMatrix != nil) {
-            [controlMatrix setFrameOrigin:NSMakePoint([controlMatrix frame].origin.x, [controlMatrix frame].origin.y - labelHeightDiff)];
-        }
-        if (timeoutLabel != nil) {
-            [timeoutLabel setFrameOrigin:NSMakePoint([timeoutLabel frame].origin.x, [timeoutLabel frame].origin.y - labelHeightDiff)];
         }
         // Set panel's new width and height
         NSSize p = [[[panel panel] contentView] frame].size;
@@ -306,12 +297,18 @@
         }
         else {
             [timeoutLabel setHidden:YES];
-            timeoutLabel = nil;
         }
         // Set panel's new width and height
         NSSize p = [[[panel panel] contentView] frame].size;
         p.height += labelHeightDiff;
         [[panel panel] setContentSize:p];
+        
+        if (controlMatrix != nil) {
+            // Set controlMatrix's new Y
+            NSPoint m = [controlMatrix frame].origin;
+            m.y += labelHeightDiff;
+            [controlMatrix setFrameOrigin:m];
+        }
     }
 }
 

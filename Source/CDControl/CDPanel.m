@@ -9,119 +9,17 @@
 #import "CDPanel.h"
 
 @implementation CDPanel
-@synthesize  panel;
+@synthesize panel;
 
 - (void)addMinHeight:(CGFloat)height {
-	NSSize minSize = [panel minSize];
-	minSize.height += height;
-	[panel setMinSize:minSize];
+	NSSize panelMinSize = [panel contentMinSize];
+	panelMinSize.height += height;
+	[panel setContentMinSize:panelMinSize];
 }
 - (void)addMinWidth:(CGFloat)width {
-	NSSize minSize = [panel minSize];
-	minSize.width += width;
-	[panel setMinSize:minSize];
-}
-
-- (void) configure {
-    if (panel != nil) {
-        // Set title
-        [self setTitle];
-        // Resize panel
-        [self resize];
-        // Reposition Panel
-        [self setPosition];
-        // Determine float
-        if ([options hasOpt:@"no-float"]) {
-            [panel setFloatingPanel:NO];
-            [panel setLevel:NSNormalWindowLevel];
-        }
-        else {
-            [panel setFloatingPanel: YES];
-            [panel setLevel:NSScreenSaverWindowLevel];
-        }
-        // Determine panel title buttons
-        if (![options hasOpt:@"close"]) {
-            [[panel standardWindowButton:NSWindowCloseButton] setEnabled:NO];
-        }
-        if (![options hasOpt:@"minimize"]) {
-            [[panel standardWindowButton:NSWindowMiniaturizeButton] setEnabled:NO];
-        }
-        if (![options hasOpt:@"resize"]) {
-            [panel setStyleMask:panel.styleMask^NSResizableWindowMask];
-            [[panel standardWindowButton:NSWindowZoomButton] setEnabled:NO];
-        }
-        else {
-            if ([options hasOpt:@"min-width"]) {
-                float num;
-                if (![[NSScanner scannerWithString:[options optValue:@"min-width"]] scanFloat:&num]) {
-                    if ([options hasOpt:@"debug"]) {
-                        [self debug:@"Unable to parse the --min-width option."];
-                    }
-                }
-                else {
-                    minWidth = [NSNumber numberWithFloat:num];
-                }
-            }
-            if ([options hasOpt:@"min-height"]) {
-                float num;
-                if (![[NSScanner scannerWithString:[options optValue:@"min-height"]] scanFloat:&num]) {
-                    if ([options hasOpt:@"debug"]) {
-                        [self debug:@"Unable to parse the --min-height option."];
-                    }
-                }
-                else {
-                    minHeight = [NSNumber numberWithFloat:num];
-                }
-            }
-            if ([options hasOpt:@"max-width"]) {
-                float num;
-                if (![[NSScanner scannerWithString:[options optValue:@"max-width"]] scanFloat:&num]) {
-                    if ([options hasOpt:@"debug"]) {
-                        [self debug:@"Unable to parse the --max-width option."];
-                    }
-                }
-                else {
-                    maxWidth = [NSNumber numberWithFloat:num];
-                }
-            }
-            if ([options hasOpt:@"max-height"]) {
-                float num;
-                if (![[NSScanner scannerWithString:[options optValue:@"max-height"]] scanFloat:&num]) {
-                    if ([options hasOpt:@"debug"]) {
-                        [self debug:@"Unable to parse the --max-height option."];
-                    }
-                }
-                else {
-                    maxHeight = [NSNumber numberWithFloat:num];
-                }
-            }
-            NSRect screen = [self screen];
-            // Set defaults if not set by options or control
-            if (minWidth == nil || [minWidth floatValue] < [panel frame].size.width) {
-                minWidth = [NSNumber numberWithFloat:[panel frame].size.width];
-            }
-            if (minHeight == nil || [minHeight floatValue] < [panel frame].size.height) {
-                minHeight = [NSNumber numberWithFloat:[panel frame].size.height];
-            }
-            if (maxWidth == nil) maxWidth = [NSNumber numberWithFloat:screen.size.width];
-            if (maxHeight == nil) maxHeight = [NSNumber numberWithFloat:screen.size.height];
-            if ([maxWidth floatValue] < [panel frame].size.width) {
-                maxWidth = [NSNumber numberWithFloat:screen.size.width];
-            }
-            if ([maxHeight floatValue] < [panel frame].size.height) {
-                maxHeight = [NSNumber numberWithFloat:[panel frame].size.height];
-            }
-            // Set panel min and max sizes
-            [panel setMinSize:NSMakeSize([minWidth floatValue], [minHeight floatValue])];
-            [panel setMaxSize:NSMakeSize([maxWidth floatValue], [maxHeight floatValue])];
-        }
-        if (![options hasOpt:@"close"] && ![options hasOpt:@"minimize"] && ![options hasOpt:@"resize"]) {
-            [[panel standardWindowButton:NSWindowCloseButton] setHidden:YES];
-            [[panel standardWindowButton:NSWindowMiniaturizeButton] setHidden:YES];
-            [[panel standardWindowButton:NSWindowZoomButton] setHidden:YES];
-        }
-        [panel makeKeyAndOrderFront:nil];
-    }
+	NSSize panelMinSize = [panel contentMinSize];
+	panelMinSize.width += width;
+	[panel setContentMinSize:panelMinSize];
 }
 
 - (void) dealloc {
@@ -178,17 +76,18 @@
 		[panel setContentSize:[self findNewSize]];
 	}
 }
-- (void)setMaxHeight:(float)height {
-    maxHeight = [NSNumber numberWithFloat:height];
-}
-- (void)setMaxWidth:(float)width {
-    maxWidth = [NSNumber numberWithFloat:width];
-}
-- (void)setMinHeight:(float)height {
-    minHeight = [NSNumber numberWithFloat:height];
-}
-- (void)setMinWidth:(float)width {
-    minWidth = [NSNumber numberWithFloat:width];
+- (void) setFloat {
+    if (panel != nil) {
+        if ([options hasOpt:@"no-float"]) {
+            [panel setFloatingPanel:NO];
+            [panel setLevel:NSNormalWindowLevel];
+        }
+        else {
+            [panel setFloatingPanel: YES];
+            [panel setLevel:NSScreenSaverWindowLevel];
+        }		
+        [panel makeKeyAndOrderFront:nil];
+    }
 }
 - (void) setPanelEmpty {
     panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect(0, 0, 0, 0)
@@ -197,35 +96,36 @@
                                                     defer:NO] autorelease];
 }
 - (void) setPosition {
-    NSRect screen = [self screen];
+    NSRect screen = [[NSScreen mainScreen] visibleFrame];
     CGFloat leftPoint = 0.0;
 	CGFloat topPoint = 0.0;
     CGFloat padding = 10.0;
     id posX;
     id posY;
-    // Center horizontally
-    leftPoint = ((NSWidth(screen)-NSWidth([panel frame]))/2) + NSMinX(screen);
     // Has posX option
 	if ([options hasOpt:@"posX"]) {
 		posX = [options optValue:@"posX"];
         // Left
 		if ([posX caseInsensitiveCompare:@"left"] == NSOrderedSame) {
-            leftPoint = NSMinX(screen) + padding;
+            leftPoint = padding;
 		}
         // Right
         else if ([posX caseInsensitiveCompare:@"right"] == NSOrderedSame) {
-            leftPoint = NSMaxX(screen) - NSWidth([panel frame]) - padding;
+            leftPoint = NSWidth(screen) - NSWidth([panel frame]) - padding;
 		}
         // Manual posX coords
         else if ([posX floatValue] > 0.0) {
-            leftPoint = NSMinX(screen) + [posX floatValue];
+            leftPoint = [posX floatValue];
         }
-        else if ([options hasOpt:@"debug"]) {
-            [self debug:@"Unable to parse option --posX, centering"];
-        }
+        // Center
+        else {
+            leftPoint = (NSWidth(screen)-NSWidth([panel frame]))/2 - padding;
+		}
 	}
-    // Center vertically
-    topPoint = NSMaxY(screen) - ((NSHeight(screen)-NSHeight([panel frame]))/2);
+    // Center
+    else {
+        leftPoint = (NSWidth(screen)-NSWidth([panel frame]))/2 - padding;
+	}
     // Has posY option
 	if ([options hasOpt:@"posY"]) {
 		posY = [options optValue:@"posY"];
@@ -241,9 +141,14 @@
         else if ([posY floatValue] > 0.0) {
             topPoint = NSMaxY(screen) - [posY floatValue];
         }
-        else if ([options hasOpt:@"debug"]) {
-            [self debug:@"Unable to parse option --posY, centering"];
-        }
+        // Center
+        else {
+            topPoint = NSMaxY(screen)/1.8 + NSHeight([panel frame]);
+		}
+	}
+    // Center
+    else {
+		topPoint = NSMaxY(screen)/1.8 + NSHeight([panel frame]);
 	}
 	[panel setFrameTopLeftPoint:NSMakePoint(leftPoint, topPoint)];
 }

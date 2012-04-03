@@ -97,7 +97,7 @@
 
 - (void) setControl:(id)sender {
     // Setup control matrix
-    [controlMatrix setAutosizesCells:YES];
+    [controlMatrix setAutosizesCells:NO];
     [controlMatrix renewRows:1 columns:1];
     [controlMatrix setCellSize:NSMakeSize([controlMatrix frame].size.width, 22.0f)];
     [controlMatrix setMode:NSHighlightModeMatrix];

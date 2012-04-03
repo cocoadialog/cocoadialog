@@ -416,11 +416,15 @@
         NSRect newIconFrame = NSMakeRect(iconFrame.origin.x, iconFrame.origin.y - iconHeightDiff, aSize.width, aSize.height);
         [control setFrame:newIconFrame];
         iconFrame = [control frame];
-        [panel addMinWidth:iconFrame.size.width + 14.0f];
+        
+        // Add the icon to the panel's minimum content size
+        NSSize panelMinSize = [[panel panel] contentMinSize];
+        panelMinSize.height += iconFrame.size.height + 40.0f;
+        panelMinSize.width += iconFrame.size.width + 30.0f;
+        [[panel panel] setContentMinSize:panelMinSize];
     }
 }
 - (void) setIconWithImage:(NSImage *)anImage withSize:(NSSize)aSize withControls:(NSArray *)anArray {
-    CGFloat minHeight = 0.0f;
     // Icon has image
     if (anImage != nil) {
         // Set current icon frame
@@ -437,15 +441,10 @@
             if (_control != nil) {
                 NSRect controlFrame = [_control frame];
                 NSRect newControlFrame = NSMakeRect(controlFrame.origin.x + iconWidthDiff, controlFrame.origin.y, controlFrame.size.width - iconWidthDiff, controlFrame.size.height);
-                minHeight += newControlFrame.size.height + 8.0f;
                 [_control setFrame:newControlFrame];
             }
         }
-        CGFloat iconHeight = [control frame].size.height;
-        if (iconHeight > minHeight) {
-            minHeight = iconHeight;
-        }
-        [panel addMinHeight:minHeight];
+        
     }
     // Icon does not have image
     else {
@@ -463,11 +462,9 @@
                 NSRect controlFrame = [_control frame];
                 float newControlWidth = controlFrame.size.width + (controlFrame.origin.x - iconFrame.origin.x);
                 NSRect newControlFrame = NSMakeRect(iconFrame.origin.x, controlFrame.origin.y, newControlWidth, controlFrame.size.height);
-                minHeight += newControlFrame.size.height + 8.0f;
                 [_control setFrame:newControlFrame];
             }
         }
-        [panel addMinHeight:minHeight];
     }
 }
 
