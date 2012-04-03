@@ -22,8 +22,11 @@
 #import "CDThreeButtonControl.h"
 
 @interface CDTextboxControl : CDThreeButtonControl {
-    NSScrollView *scrollView;
-    NSTextView *textView;
+	IBOutlet NSTextView  *textView;
+	IBOutlet NSScrollView  *scrollView;
 }
+
+- (void) setLabel:(NSString *)labelText;
+
 
 @end

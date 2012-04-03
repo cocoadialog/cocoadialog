@@ -13,14 +13,10 @@
 
 @interface CDPanel : CDCommon <NSWindowDelegate> {
     IBOutlet NSPanel    *panel;
-    NSMutableArray      *controls;
     NSNumber *minWidth, *minHeight, *maxWidth, *maxHeight;
 }
 @property (retain) NSPanel *panel;
 
-- (void) addControl:(id)control;
-- (void) addControlView:(NSView *)view;
-- (void) addHeight:(CGFloat)height;
 - (void) addMinHeight:(CGFloat)height;
 - (void) addMinWidth:(CGFloat)width;
 - (void) configure;

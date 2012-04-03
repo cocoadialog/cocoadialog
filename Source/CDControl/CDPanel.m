@@ -11,57 +11,17 @@
 @implementation CDPanel
 @synthesize  panel;
 
-- (id)initWithOptions:(CDOptions *)opts {
-	self = [super initWithOptions:opts];
-    controls = [[[NSMutableArray alloc] init] retain];
-	return self;
-}
-
-- (void) addControl:(id)control {
-    if (control != nil) {
-        [self addMinHeight:[control frame].size.height + 8.0f];
-        [controls addObject:control];
-    }
-}
-- (void) addControlView:(NSView *)view {
-    [self addHeight:[view frame].size.height + 8.0f];
-    CGFloat maxControlWidth = 0.0f;
-    // Set default position if no controls exist
-    CGFloat x = 76;
-    CGFloat y = NSHeight([panel frame]) - 40.f - [view frame].size.height;
-    // Add the new control below any existing controls, using the last control as position reference points
-    if ([controls count]) {
-        id _control = nil;
-        NSEnumerator *en = [controls objectEnumerator];
-        while (_control = [en nextObject]) {
-            if ([_control frame].size.width > maxControlWidth) maxControlWidth = [_control frame].size.width;
-        }
-        id _lastControl = [controls lastObject];
-        x = [_lastControl frame].origin.x;
-        y = [_lastControl frame].origin.y - 8.0f - [view frame].size.height;
-    }
-    [view setFrameSize:NSMakeSize(maxControlWidth, [view frame].size.height)];
-    [view setFrameOrigin:NSMakePoint(x, y)];
-
-    [[panel contentView] addSubview:view];
-    [panel setViewsNeedDisplay:YES];
-    [controls addObject:view];
-}
-- (void) addHeight:(CGFloat)height {
-    NSSize size = [panel frame].size;
-    size.height += height;
-    [panel setContentSize:size];
-}
-- (void) addMinHeight:(CGFloat)height {
+- (void)addMinHeight:(CGFloat)height {
 	NSSize minSize = [panel minSize];
 	minSize.height += height;
 	[panel setMinSize:minSize];
 }
-- (void) addMinWidth:(CGFloat)width {
+- (void)addMinWidth:(CGFloat)width {
 	NSSize minSize = [panel minSize];
 	minSize.width += width;
 	[panel setMinSize:minSize];
 }
+
 - (void) configure {
     if (panel != nil) {
         // Set title
@@ -160,16 +120,11 @@
             [[panel standardWindowButton:NSWindowMiniaturizeButton] setHidden:YES];
             [[panel standardWindowButton:NSWindowZoomButton] setHidden:YES];
         }
-        if (![options hasOpt:@"fullscreen"]) {
-            [[panel standardWindowButton:NSWindowFullScreenButton] setHidden:YES];
-        }
         [panel makeKeyAndOrderFront:nil];
-        
     }
 }
 
 - (void) dealloc {
-    [controls release];
     [panel release];
     [super dealloc];
 }

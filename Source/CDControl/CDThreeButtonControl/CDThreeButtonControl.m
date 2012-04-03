@@ -161,15 +161,8 @@
 
 // This resizes
 - (void) setTitleButtonsLabel:(NSString *)labelText {
-    [panel setMaxHeight:0];
-    [panel setMaxWidth:[self screen].size.width / 2];
-    [panel resize];
-
 	[self setButtons];
     [self setLabel:labelText];
-    if (expandingLabel != nil && ![[icon controls] containsObject:expandingLabel]) {
-        [icon addControl:expandingLabel];
-    }
         
     if (controlMatrix != nil) {
         // Remember old controlMatrix size
@@ -204,8 +197,14 @@
         [panel addMinWidth:[timeoutLabel frame].size.width];
     }
     // Add default controls
+    if (expandingLabel != nil && ![[icon controls] containsObject:expandingLabel]) {
+        [icon addControl:expandingLabel];
+    }
     if (controlMatrix != nil && ![[icon controls] containsObject:controlMatrix]) {
         [icon addControl:controlMatrix];
+    }
+    if (timeoutLabel != nil && ![[icon controls] containsObject:timeoutLabel]) {
+        [icon addControl:timeoutLabel];
     }
 }
 
@@ -267,7 +266,6 @@
             labelHeightDiff = labelNewHeight - labelRect.size.height;
             // Set label's new height
             NSRect l = NSMakeRect(labelRect.origin.x, labelRect.origin.y - labelHeightDiff, labelRect.size.width, labelNewHeight);
-            [panel addControl:expandingLabel];
             [expandingLabel setFrame: l];
         }
         else {
@@ -303,11 +301,8 @@
             labelNewHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
             labelHeightDiff = labelNewHeight - labelRect.size.height;
             // Set label's new height
-            NSRect l = NSMakeRect(labelRect.origin.x, 48.0f, labelRect.size.width, labelNewHeight);
+            NSRect l = NSMakeRect(labelRect.origin.x, labelRect.origin.y - labelHeightDiff, labelRect.size.width, labelNewHeight);
             [timeoutLabel setFrame: l];
-            if (![[icon controls] containsObject:timeoutLabel]) {
-                [icon addControl:timeoutLabel];
-            }
         }
         else {
             [timeoutLabel setHidden:YES];
