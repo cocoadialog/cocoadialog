@@ -113,6 +113,7 @@
 - (BOOL)isExtensionAllowed:(NSString *)filename {
     if (extensions != nil && [extensions count]) {
         NSString* extension = [filename pathExtension];
+        NSLog(@"%@: %@", extension, [extensions containsObject:extension] ? @"YES" : @"NO");
         return [extensions containsObject:extension];
     }
     else {
