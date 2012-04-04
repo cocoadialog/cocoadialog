@@ -56,7 +56,7 @@
         }
     }
 	// Check that at least button1 has been specified
-	if (![options optValue:@"button1"])	{
+	if (![options optValue:@"button1"] && ![self isMemberOfClass:[CDStandardPopUpButtonControl class]])	{
 		if ([options hasOpt:@"debug"]) {
 			[self debug:@"Must supply at least --button1"];
 		}
