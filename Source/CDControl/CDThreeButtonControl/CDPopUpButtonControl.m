@@ -103,6 +103,7 @@
     [controlMatrix setMode:NSHighlightModeMatrix];
     // Setup the control
     NSPopUpButton *popup = [[[NSPopUpButton alloc] init] autorelease];
+    [popup setKeyEquivalent:@" "];
     [popup setTarget:self];
     [popup setAction:@selector(selectionChanged:)];
 	[popup removeAllItems];
@@ -121,6 +122,7 @@
 	[popup selectItemAtIndex:selected];
     // Add control to matrix
     [controlMatrix putCell:[popup cell] atRow:0 column:0];
+    [[panel panel] makeFirstResponder:controlMatrix];
 }
      
 - (void) selectionChanged:(id)sender {
