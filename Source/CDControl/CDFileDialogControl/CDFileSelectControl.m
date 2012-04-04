@@ -111,7 +111,11 @@
     }
     if (result == NSFileHandlingPanelOKButton) {
         controlExitStatus = -1;
-        [controlReturnValues addObject:[savePanel filename]];
+        NSEnumerator *en = [[openPanel URLs] objectEnumerator];
+        id key;
+        while (key = [en nextObject]) {
+            [controlReturnValues addObject:[key path]];
+        }
     }
     else {
         controlExitStatus = -2;
