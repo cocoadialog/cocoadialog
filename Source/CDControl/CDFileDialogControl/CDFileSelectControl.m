@@ -81,6 +81,27 @@
 		dir = [options optValue:@"with-directory"];
 	}
     
+    // Only check for dir or file path existance if debug is enabled.
+    if ([options hasOpt:@"debug"]) {
+        NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+        // Directory
+        if (dir != nil && ![fm fileExistsAtPath:dir]) {
+            [self debug:[NSString stringWithFormat:@"Option --with-directory specifies a directory that does not exist: %@", dir]];
+        }
+        // File
+        if (file != nil) {
+            NSString *path = dir;
+            if (path == nil) {
+                path = [openPanel directory];
+            }
+            path = [path stringByAppendingString:@"/"];
+            path = [path stringByAppendingString:file];
+            if (![fm fileExistsAtPath:path]) {
+                [self debug:[NSString stringWithFormat:@"Option --with-file specifies a file that does not exist: %@", path]];
+            }
+        }
+    }
+    
     [panel setPanel:openPanel];
 
 	// resize window if user specified alternate width/height
