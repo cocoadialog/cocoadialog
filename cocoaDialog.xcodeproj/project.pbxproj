@@ -88,6 +88,7 @@
 		A78A8CE014377610007AE363 /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CDE14377610007AE363 /* CHANGELOG */; };
 		A78A8CE114377610007AE363 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CDF14377610007AE363 /* LICENSE */; };
 		A7BABB401445829B00D3F168 /* relaunch in Resources */ = {isa = PBXBuildFile; fileRef = A7BABB2E1445817B00D3F168 /* relaunch */; };
+		A7D40438153C2BC3005FA3CD /* popup.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7D40436153C2BC3005FA3CD /* popup.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -203,6 +204,7 @@
 		A7BABADA1445809700D3F168 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		A7BABB051445810000D3F168 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		A7BABB2E1445817B00D3F168 /* relaunch */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = relaunch; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7D40437153C2BC3005FA3CD /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "Resources/en-US.lproj/popup.xib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -271,6 +273,7 @@
 				A78A8CB5143759ED007AE363 /* InfoPlist.strings */,
 				A78A8CB7143759ED007AE363 /* MainMenu.xib */,
 				A78A8CB9143759ED007AE363 /* Msgbox.xib */,
+				A7D40436153C2BC3005FA3CD /* popup.xib */,
 				A78A8CBB143759ED007AE363 /* Progressbar.xib */,
 				A78A8CBD143759ED007AE363 /* tbc.xib */,
 				A78A8CBF143759ED007AE363 /* Textbox.xib */,
@@ -545,6 +548,7 @@
 				A78A8CE014377610007AE363 /* CHANGELOG in Resources */,
 				A78A8CE114377610007AE363 /* LICENSE in Resources */,
 				61FA9D2114518E97006E0674 /* dsa_pub.pem in Resources */,
+				A7D40438153C2BC3005FA3CD /* popup.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -654,6 +658,14 @@
 				A78A8CC0143759ED007AE363 /* en-US */,
 			);
 			name = Textbox.xib;
+			sourceTree = "<group>";
+		};
+		A7D40436153C2BC3005FA3CD /* popup.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A7D40437153C2BC3005FA3CD /* en-US */,
+			);
+			name = popup.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

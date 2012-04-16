@@ -71,9 +71,9 @@
 		return NO;
 	}
     // Load nib
-	if (![NSBundle loadNibNamed:@"tbc" owner:self]) {
+	if (![NSBundle loadNibNamed:@"popup" owner:self]) {
 		if ([options hasOpt:@"debug"]) {
-			[self debug:@"Could not load tbc.nib"];
+			[self debug:@"Could not load popup.nib"];
 		}
 		return NO;
 	}
@@ -81,56 +81,54 @@
     return YES;
 }
 
+- (NSString *)controlNib {
+    return @"popup";
+}
 
 - (void) createControl {
-	[self setTitleButtonsLabel:[options optValue:@"label"]];
-}
-
-- (void) controlHasFinished:(int)button {
-	if ([[self options] hasOpt:@"string-output"]) {
-        [controlReturnValues addObject:[[controlMatrix cellAtRow:0 column:0] titleOfSelectedItem]];
-	} else {
-        [controlReturnValues addObject:[NSString stringWithFormat:@"%d", [[controlMatrix cellAtRow:0 column:0] indexOfSelectedItem]]];
-	}
-    [super controlHasFinished:button];
-}
-
-- (void) setControl:(id)sender {
-    // Setup control matrix
-    [controlMatrix setAutosizesCells:NO];
-    [controlMatrix renewRows:1 columns:1];
-    [controlMatrix setCellSize:NSMakeSize([controlMatrix frame].size.width, 22.0f)];
-    [controlMatrix setMode:NSHighlightModeMatrix];
+    [panel addMinWidth:[popupControl frame].size.width];
+    [controlItems addObject:popupControl];
+    [icon addControl:popupControl];
     // Setup the control
-    NSPopUpButton *popup = [[[NSPopUpButton alloc] init] autorelease];
-    [popup setKeyEquivalent:@" "];
-    [popup setTarget:self];
-    [popup setAction:@selector(selectionChanged:)];
-	[popup removeAllItems];
+    [popupControl setKeyEquivalent:@" "];
+    [popupControl setTarget:self];
+    [popupControl setAction:@selector(selectionChanged:)];
+	[popupControl removeAllItems];
     // Set popup/pulldown style
-    [popup setPullsDown:[options hasOpt:@"pulldown"] ? YES : NO];
+    [popupControl setPullsDown:[options hasOpt:@"pulldown"] ? YES : NO];
     // Populate menu
     NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
 	if (items != nil && [items count]) {
 		NSEnumerator *en = [items objectEnumerator];
 		id obj;
 		while (obj = [en nextObject]) {
-			[popup addItemWithTitle:(NSString *)obj];
+			[popupControl addItemWithTitle:(NSString *)obj];
 		}
+        NSInteger selected = [options hasOpt:@"selected"] ? [[options optValue:@"selected"] integerValue] : 0;
+        [popupControl selectItemAtIndex:selected];
 	}
-    NSInteger selected = [options hasOpt:@"selected"] ? [[options optValue:@"selected"] integerValue] : 0;
-	[popup selectItemAtIndex:selected];
-    // Add control to matrix
-    [controlMatrix putCell:[popup cell] atRow:0 column:0];
-    [[panel panel] makeFirstResponder:controlMatrix];
+	[self setTitleButtonsLabel:[options optValue:@"label"]];
 }
-     
+
+- (void) controlHasFinished:(int)button {
+	if ([[self options] hasOpt:@"string-output"]) {
+        [controlReturnValues addObject:[popupControl titleOfSelectedItem]];
+	} else {
+        [controlReturnValues addObject:[NSString stringWithFormat:@"%d", [popupControl indexOfSelectedItem]]];
+	}
+    [super controlHasFinished:button];
+}
+
 - (void) selectionChanged:(id)sender {
-    NSPopUpButtonCell * popup = [controlMatrix cellAtRow:0 column:0];
-    [popup synchronizeTitleAndSelectedItem];
+    [popupControl synchronizeTitleAndSelectedItem];
 	if ([[self options] hasOpt:@"exit-onchange"]) {
 		controlExitStatus = 4;
 		controlExitStatusString = @"4";
+        if ([[self options] hasOpt:@"string-output"]) {
+            [controlReturnValues addObject:[popupControl titleOfSelectedItem]];
+        } else {
+            [controlReturnValues addObject:[NSString stringWithFormat:@"%d", [popupControl indexOfSelectedItem]]];
+        }
         [self stopControl];
 	}
 }
