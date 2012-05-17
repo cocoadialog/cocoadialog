@@ -64,17 +64,16 @@
         [arguments replaceObjectAtIndex:1 withObject:@"CDNotifyControl"];
         // Relaunch cocoaDialog with the new runMode
         NSString *launcherSource = [[NSBundle mainBundle] pathForResource:@"relaunch" ofType:@""];
-        NSString *launcherTarget = [NSTemporaryDirectory() stringByAppendingPathComponent:[launcherSource lastPathComponent]];
-        NSString *pid = [NSString stringWithFormat:@"%d", [[NSProcessInfo processInfo] processIdentifier]];
-        [arguments insertObject:pid atIndex:1];
-        [arguments insertObject:launcherTarget atIndex:0];
-#if defined __ppc__ || defined __i368__
-        [arguments insertObject:@"-32" atIndex:0];
-#elif defined __ppc64__ || defined __x86_64__
-        [arguments insertObject:@"-64" atIndex:0];
+        [arguments insertObject:launcherSource atIndex:0];
+#if defined __ppc__
+        [arguments insertObject:@"-ppc" atIndex:0];
+#elif defined __i368__
+        [arguments insertObject:@"-i386" atIndex:0];
+#elif defined __ppc64__
+        [arguments insertObject:@"-ppc64" atIndex:0];
+#elif defined __x86_64__
+        [arguments insertObject:@"-x86_64" atIndex:0];
 #endif
-        [[NSFileManager defaultManager] removeItemAtPath:launcherTarget error:NULL];
-        [[NSFileManager defaultManager] copyItemAtPath:launcherSource toPath:launcherTarget error:NULL];
         NSTask *task = [[[NSTask alloc] init] autorelease];
         // Output must be silenced to not hang this process
         [task setStandardError:[NSFileHandle fileHandleWithNullDevice]];
