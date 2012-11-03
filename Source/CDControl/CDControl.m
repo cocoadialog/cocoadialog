@@ -2,17 +2,17 @@
 	CDControl.m
 	cocoaDialog
 	Copyright (C) 2004 Mark A. Stratman <mark@sporkstorms.org>
- 
+
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 2 of the License, or
 	(at your option) any later version.
- 
+
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
- 
+
 	You should have received a copy of the GNU General Public License
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -31,7 +31,7 @@
 - (CDOptions *) controlOptionsFromArgs:(NSArray *)args withGlobalKeys:(NSDictionary *)globalKeys {
 	NSMutableDictionary *allKeys = [[[NSMutableDictionary alloc] init] autorelease];
     [allKeys addEntriesFromDictionary:globalKeys];
-    
+
 	NSDictionary *localKeys = [self availableKeys];
 	if (localKeys != nil) {
 		[allKeys addEntriesFromDictionary:localKeys];
@@ -63,10 +63,10 @@
         }
     }
     NSString *returnString = timerFormat;
-    
-    NSInteger seconds = timeInSeconds % 60; 
-    NSInteger minutes = (timeInSeconds / 60) % 60; 
-    NSInteger hours = timeInSeconds / 3600;     
+
+    NSInteger seconds = timeInSeconds % 60;
+    NSInteger minutes = (timeInSeconds / 60) % 60;
+    NSInteger hours = timeInSeconds / 3600;
     NSInteger days = timeInSeconds / (3600 * 24);
     NSString *relative = @"unknown";
     if (days > 0) {
@@ -151,12 +151,12 @@
 	if (fh) {
         [fh writeData:[@"Usage: cocoaDialog <run-mode> [options]\n\tAvailable run-modes:\n" dataUsingEncoding:NSUTF8StringEncoding]];
         NSArray *sortedAvailableKeys = [NSArray arrayWithArray:[[[AppController availableControls] allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
-        
+
         NSEnumerator *en = [sortedAvailableKeys objectEnumerator];
         id key;
         unsigned i = 0;
         unsigned currKey = 0;
-        while (key = [en nextObject]) {
+        while ((key = [en nextObject])) {
             if (i == 0) {
                 [fh writeData:[@"\t\t" dataUsingEncoding:NSUTF8StringEncoding]];
             }
@@ -171,12 +171,12 @@
             }
             currKey++;
         }
-        
+
         [fh writeData:[@"\n\tGlobal Options:\n\t\t--help, --debug, --title, --width, --height,\n\t\t--string-output, --no-newline\n\nSee http://mstratman.github.com/cocoadialog/#documentation\nfor detailed documentation.\n" dataUsingEncoding:NSUTF8StringEncoding]];
 	}
 }
 - (void) runControl {
-    // The control must either: 1) sub-class -(NSString *) controlNib, return the name of the NIB, and then connect "controlPanel" in IB or 2) set the panel manually with [panel setPanel:(NSPanel *)]  when creating the control. 
+    // The control must either: 1) sub-class -(NSString *) controlNib, return the name of the NIB, and then connect "controlPanel" in IB or 2) set the panel manually with [panel setPanel:(NSPanel *)]  when creating the control.
     if ([panel panel] != nil) {
         // Set icon
         if ([icon control] != nil) {
@@ -295,7 +295,7 @@
             if (fh) {
                 [fh writeData:[[controlReturnValues objectAtIndex:i] dataUsingEncoding:NSUTF8StringEncoding]];
             }
-            if (![options hasOpt:@"no-newline"] || i+1 < [controlReturnValues count]) 
+            if (![options hasOpt:@"no-newline"] || i+1 < [controlReturnValues count])
             {
                 if (fh) {
                     [fh writeData:[[NSString stringWithString:@"\n"] dataUsingEncoding:NSUTF8StringEncoding]];

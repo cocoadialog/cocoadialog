@@ -2,7 +2,7 @@
 	AppController.m
 	cocoaDialog
 	Copyright (C) 2004 Mark A. Stratman <mark@sporkstorms.org>
- 
+
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 2 of the License, or
@@ -109,29 +109,29 @@
                 } else {
                     allKeys = [NSMutableDictionary dictionaryWithCapacity:[globalKeys count]];
                     [allKeys addEntriesFromDictionary:globalKeys];
-                    
+
                 }
                 [CDOptions printOpts:[allKeys allKeys] forRunMode:runMode];
             }
             // Add any extras chooseControl came up with
             NSEnumerator *en = [extraOptions keyEnumerator];
             NSString *key;
-            while (key = [en nextObject]) {
+            while ((key = [en nextObject])) {
                 [options setOption:[extraOptions objectForKey:key] forKey:key];
             }
-            
+
             // Reload the options for currentControl
             [currentControl setOptions:options];
-            
+
             // Validate currentControl's options and load interface nib
             if ([currentControl validateOptions] && [currentControl loadControlNib:[currentControl controlNib]]) {
-                
+
                 // Create the control
                 [currentControl createControl];
-                
+
                 // Initialize the timer, if one exists
                 [currentControl setTimeout];
-                
+
                 // Run the control. The control is now responsible for terminating cocoaDialog, which should be invoked by calling the method [self stopControl] from the control's action method(s).
                 [currentControl runControl];
             } else {
@@ -146,7 +146,7 @@
                     } else {
                         allKeys = [NSMutableDictionary dictionaryWithCapacity:[globalKeys count]];
                         [allKeys addEntriesFromDictionary:globalKeys];
-                        
+
                     }
                     [CDOptions printOpts:[allKeys allKeys] forRunMode:runMode];
                 }
@@ -175,9 +175,9 @@
             [CDProgressbarControl class],           @"progressbar",
             [CDRadioControl class],                 @"radio",
             [CDSlider class],                       @"slider",
-            [CDInputboxControl class],              @"secure-inputbox",           
+            [CDInputboxControl class],              @"secure-inputbox",
             [CDStandardInputboxControl class],      @"secure-standard-inputbox",
-            [CDStandardPopUpButtonControl class],   @"standard-dropdown",         
+            [CDStandardPopUpButtonControl class],   @"standard-dropdown",
             [CDStandardInputboxControl class],      @"standard-inputbox",
             [CDTextboxControl class],               @"textbox",
             [CDYesNoMsgboxControl class],           @"yesno-msgbox",
@@ -203,7 +203,7 @@
             [fh writeData:[[self appVersion] dataUsingEncoding:NSUTF8StringEncoding]];
         }
         exit(0);
-        
+
     }
     else if ([runMode caseInsensitiveCompare:@"CDNotifyControl"] == NSOrderedSame) {
         CDControl * notify = [[[CDNotifyControl alloc] initWithOptions:options] autorelease];
@@ -229,7 +229,7 @@
             return;
         }
         NSFileHandle *fh = [NSFileHandle fileHandleWithStandardError];
-        NSString *output = [NSString stringWithFormat:@"Unknown dialog type: %@\n", runMode]; 
+        NSString *output = [NSString stringWithFormat:@"Unknown dialog type: %@\n", runMode];
         if (fh) {
             [fh writeData:[output dataUsingEncoding:NSUTF8StringEncoding]];
         }
@@ -243,16 +243,16 @@
 {
     NSMutableAttributedString *textFieldString = [[[aTextField attributedStringValue] mutableCopy] autorelease];
     NSRange range = [[textFieldString string] rangeOfString:aString];
-    
+
     // both are needed, otherwise hyperlink won't accept mousedown
     [aTextField setAllowsEditingTextAttributes: YES];
     [aTextField setSelectable: YES];
-    
+
     NSMutableAttributedString* replacement = [[[NSMutableAttributedString alloc] init] autorelease];
     [replacement setAttributedString: [NSAttributedString hyperlinkFromString:aString withURL:[NSURL URLWithString:aURL] withFont:[aTextField font]]];
-    
+
     [textFieldString replaceCharactersInRange:range withAttributedString:replacement];
-    
+
     // set the attributed string to the NSTextField
     [aTextField setAttributedStringValue: textFieldString];
     // Refresh the text field
@@ -267,22 +267,22 @@
 {
     NSMutableAttributedString* attrString = [[NSMutableAttributedString alloc] initWithString: inString];
     NSRange range = NSMakeRange(0, [attrString length]);
-    
+
     [attrString beginEditing];
     [attrString addAttribute:NSFontAttributeName value:aFont range:range];
     [attrString addAttribute:NSLinkAttributeName value:[aURL absoluteString] range:range];
-    
+
     // make the text appear in blue
     [attrString addAttribute:NSForegroundColorAttributeName value:[NSColor blueColor] range:range];
-    
+
     [attrString addAttribute:NSCursorAttributeName value:[NSCursor pointingHandCursor]range:range];
-    
+
     // next make the text appear with an underline
     [attrString addAttribute:
      NSUnderlineStyleAttributeName value:[NSNumber numberWithInt:NSSingleUnderlineStyle] range:range];
-    
+
     [attrString endEditing];
-    
+
     return [attrString autorelease];
 }
 @end

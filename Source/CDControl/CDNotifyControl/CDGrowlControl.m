@@ -15,7 +15,7 @@
 	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
 //	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
 	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
-    
+
 	return [NSDictionary dictionaryWithObjectsAndKeys:
             vOne, @"priority",
             vMul, @"priorities",
@@ -62,15 +62,15 @@
     if ([options hasOpt:@"click-path"]) {
         clickPath = [options optValue:@"click-path"];
     }
-    
+
     NSString *clickArg = @"";
     if ([options hasOpt:@"click-arg"]) {
         clickArg = [options optValue:@"click-arg"];
     }
-    
+
 	NSArray *titles = [options optValues:@"titles"];
     NSArray *descriptions = [options optValues:@"descriptions"];
-    
+
     NSNumber * priority = [NSNumber numberWithInt:0];
     if ([options hasOpt:@"priority"]) {
         priority = [NSNumber numberWithInt:[[options optValue:@"priority"] intValue]];
@@ -127,10 +127,10 @@
                               clickArg:clickArg
          ];
     }
-    
+
     NSEnumerator *en = [notifications objectEnumerator];
     id obj;
-    while (obj = [en nextObject]) {
+    while ((obj = [en nextObject])) {
         NSDictionary * notification = [NSDictionary dictionaryWithDictionary:obj];
         [GrowlApplicationBridge
          notifyWithTitle:[notification objectForKey:@"title"]

@@ -558,16 +558,16 @@
 /* Begin PBXShellScriptBuildPhase section */
 		A7D4043E153C38E0005FA3CD /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "/server/repositories/github/sparkle-release/src/sparkle-release";
+			shellScript = "mkdir -p /server/repositories/github/\ncp sparkle-release /server/repositories/github/sparkle-release/\nmkdir -p /server/repositories/github/sparkle-release/src\n/server/repositories/github/sparkle-release/src/sparkle-release";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -698,6 +698,22 @@
 				);
 				OTHER_LDFLAGS = "";
 				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wno-unused-parameter",
+					"-Wundef",
+					"-Wendif-labels",
+					"-Wpointer-arith",
+					"-Wcast-align",
+					"-Wwrite-strings",
+					"-Wmissing-format-attribute",
+					"-Wpacked",
+					"-Wredundant-decls",
+					"-Winline",
+					"-Wdisabled-optimization",
+					"-Wformat=2",
+					"-Winvalid-pch",
+				);
 			};
 			name = Debug;
 		};
@@ -705,7 +721,45 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_OPENMP_SUPPORT = YES;
+				GCC_ENABLE_EXCEPTIONS = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_WARN_ABOUT_GLOBAL_CONSTRUCTORS = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_POINTER_SIGNEDNESS = YES;
+				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = YES;
+				GCC_WARN_PEDANTIC = YES;
+				GCC_WARN_PROTOTYPE_CONVERSION = YES;
+				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_PKGINFO_FILE = YES;
+				GENERATE_PROFILING_CODE = YES;
 				HEADER_SEARCH_PATHS = "";
+				LD_GENERATE_MAP_FILE = YES;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "i386 x86_64";
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wno-unused-parameter",
+					"-Wundef",
+					"-Wendif-labels",
+					"-Wpointer-arith",
+					"-Wcast-align",
+					"-Wwrite-strings",
+					"-Wmissing-format-attribute",
+					"-Wpacked",
+					"-Wredundant-decls",
+					"-Winline",
+					"-Wdisabled-optimization",
+					"-Wformat=2",
+					"-Winvalid-pch",
+				);
 			};
 			name = Debug;
 		};

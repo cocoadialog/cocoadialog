@@ -15,7 +15,7 @@
 	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
 	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
 //	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
-    
+
 	return [NSDictionary dictionaryWithObjectsAndKeys:
             vOne,   @"empty-value",
             vOne,   @"max",
@@ -133,7 +133,7 @@
 - (void) setControl:(id)sender {
     NSWindow *_panel = [panel panel];
     NSRect cmFrame = [controlMatrix frame];
-    
+
     NSView *sliderView = [[NSView alloc] initWithFrame:NSMakeRect(cmFrame.origin.x, (cmFrame.origin.y + cmFrame.size.height) - 17.0f, cmFrame.size.width, 14.0f)];
     [sliderView setAutoresizingMask:NSViewMinXMargin | NSViewMaxXMargin | NSViewMinYMargin];
 
@@ -160,27 +160,27 @@
     if (![options hasOpt:@"always-show-value"])
         [valueLabel setHidden:YES];
     [sliderView addSubview:valueLabel];
-    
+
     [[_panel contentView] addSubview:sliderView];
-    
+
     // Move controlMatrix to make room for valueView
     NSPoint cmOrigin = cmFrame.origin;
     cmOrigin.y -= [sliderView frame].size.height - 8.0f;
     [controlMatrix setFrameOrigin:cmOrigin];
-    
+
     // Add the valueView to the panel height
     NSSize panelSize = [[[panel panel] contentView] frame].size;
     panelSize.height += [sliderView frame].size.height + 4.0f;
     [[panel panel] setContentSize:panelSize];
     [panel resize];
-    
+
     // Set other attributes of matrix
     [controlMatrix setCellSize:NSMakeSize(cmFrame.size.width, 22.0f)];
     [controlMatrix renewRows:1 columns:1];
     [controlMatrix setAutosizesCells:NO];
     [controlMatrix setMode:NSTrackModeMatrix];
     [controlMatrix setAllowsEmptySelection:YES];
-    
+
     CDSliderCell *slider = [[[CDSliderCell alloc] init] autorelease];
     [slider setAlwaysShowValue:[options hasOpt:@"always-show-value"]];
     [slider setDelegate:self];
@@ -193,18 +193,18 @@
     [slider setTarget:self];
     [slider setAction:@selector(sliderChanged)];
     [controlMatrix putCell:slider atRow:0 column:0];
-    
+
     // Save controlMatrix height
     CGFloat oldHeight = cmFrame.size.height;
 
     // Resize controlMatrix
     [controlMatrix sizeToCells];
     cmFrame = [controlMatrix frame];
-        
+
     if (ticks > 0) {
         NSView *tickView = [[NSView alloc] initWithFrame:NSMakeRect(0.0f, cmFrame.origin.y - (cmFrame.size.height - oldHeight) - 17.0f, [_panel frame].size.width, 18.0f)];
         [tickView setAutoresizingMask:NSViewMinYMargin];
-            
+
         NSUInteger count = [slider numberOfTickMarks];
         for (NSUInteger i = 0; i < count; i++) {
             CGFloat  length=cmFrame.size.width-2*10;
@@ -224,12 +224,12 @@
             [tickView addSubview:tickLabel];
         }
         [[_panel contentView] addSubview:tickView];
-        
+
         // Move controlMatrix to make room for tickView
         cmOrigin = cmFrame.origin;
         cmOrigin.y += [tickView frame].size.height + 4.0f;
         [controlMatrix setFrameOrigin:cmOrigin];
-        
+
         // Add the tickView to the panel height
         panelSize = [[[panel panel] contentView] frame].size;
         panelSize.height += [tickView frame].size.height + 4.0f;
@@ -250,7 +250,7 @@
     else {
         label = [NSString stringWithFormat:@"%i", [slider intValue]];
     }
-    [valueLabel setStringValue:label];    
+    [valueLabel setStringValue:label];
 }
 
 @end
@@ -272,7 +272,7 @@
     return [super startTrackingAt:startPoint inView:controlView];
 }
 
-- (BOOL)continueTracking:(NSPoint)lastPoint at:(NSPoint)currentPoint 
+- (BOOL)continueTracking:(NSPoint)lastPoint at:(NSPoint)currentPoint
                   inView:(NSView *)controlView {
     if (tracking) {
         NSUInteger count = [self numberOfTickMarks];
@@ -281,7 +281,7 @@
             NSRect tickMarkRect = [self rectOfTickMarkAtIndex:i];
             if (ABS(tickMarkRect.origin.x - currentPoint.x) <= snapFlexibility) {
                 [self setAllowsTickMarkValuesOnly:YES];
-                
+
             } else if (ABS(tickMarkRect.origin.x - currentPoint.x) >= snapFlexibility &&
                        ABS(tickMarkRect.origin.x - currentPoint.x) <= snapFlexibility * 2) {
                 [self setAllowsTickMarkValuesOnly:NO];

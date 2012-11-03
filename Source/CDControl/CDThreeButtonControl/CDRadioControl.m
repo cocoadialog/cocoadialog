@@ -15,7 +15,7 @@
 	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
 	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
 	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
-    
+
 	return [NSDictionary dictionaryWithObjectsAndKeys:
             vNone,@"allow-mixed",
             vMul, @"items",
@@ -44,7 +44,7 @@
 	}
     // Check that at least one item has been specified
     NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
-    if (![items count]) { 
+    if (![items count]) {
 		if ([options hasOpt:@"debug"]) {
 			[self debug:@"Must supply at least one --items"];
 		}
@@ -94,7 +94,7 @@
 	if (![self validateControl:options]) {
         return;
     }
-    
+
     NSString * labelText = @"";
     if ([options hasOpt:@"label"] && [options optValue:@"label"] != nil) {
         labelText = [options optValue:@"label"];
@@ -138,10 +138,10 @@
     if ([options hasOpt:@"disabled"]) {
         disabled = [options optValues:@"disabled"];
     }
-    
+
     // Set default precedence: columns, if both are present or neither are present
     int matrixPrecedence = 0;
-    
+
     // Set default number of columns
     unsigned long columns = 1;
     // Set specified number of columns
@@ -151,7 +151,7 @@
             columns = 1;
         }
     }
-    
+
     // Set default number of rows
     unsigned long rows = 1;
     // Set specified number of rows
@@ -173,15 +173,15 @@
     [self setControl: self matrixRows:rows matrixColumns:columns items:items precedence:matrixPrecedence];
     rows = [controlMatrix numberOfRows];
     columns = [controlMatrix numberOfColumns];
-    
+
     NSMutableArray * controls = [[[NSMutableArray alloc] init] autorelease];
-    
+
     // Create the control for each item
     unsigned long currItem = 0;
     NSEnumerator *en = [items objectEnumerator];
     float cellWidth = 0.0;
     id obj;
-    while (obj = [en nextObject]) {
+    while ((obj = [en nextObject])) {
         NSButton * button = [[[NSButton alloc] init] autorelease];
         [button setButtonType:NSRadioButton];
         [button setTitle:[items objectAtIndex:currItem]];
@@ -198,14 +198,14 @@
         [controls addObject:[button cell]];
         currItem++;
     }
-    
+
     // Set other attributes of matrix
     [controlMatrix setAutosizesCells:NO];
     [controlMatrix setCellSize:NSMakeSize(cellWidth, 18.0f)];
     [controlMatrix setAllowsEmptySelection:YES];
     [controlMatrix deselectAllCells];
     [controlMatrix setMode:NSRadioModeMatrix];
-    
+
     // Populate the matrix
     currItem = 0;
     for (unsigned long currColumn = 0; currColumn <= columns - 1; currColumn++) {

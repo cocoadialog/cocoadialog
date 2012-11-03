@@ -2,17 +2,17 @@
 	CDOptions.m
 	cocoaDialog
 	Copyright (C) 2004 Mark A. Stratman <mark@sporkstorms.org>
- 
+
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 2 of the License, or
 	(at your option) any later version.
- 
+
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
- 
+
 	You should have received a copy of the GNU General Public License
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -36,7 +36,7 @@
 
 + (BOOL) _argIsKey:(NSString *)arg availableKeys:(NSDictionary *)availableKeys depreciatedKeys:(NSDictionary *)depreciatedKeys
 {
-	if ([arg length] > 2 && [[arg substringWithRange:NSMakeRange(0,2)] isEqualToString:@"--"] && 
+	if ([arg length] > 2 && [[arg substringWithRange:NSMakeRange(0,2)] isEqualToString:@"--"] &&
         ([availableKeys objectForKey:[arg substringFromIndex:2]] != nil || [depreciatedKeys objectForKey:[arg substringFromIndex:2]] != nil))
 	{
 		return YES;
@@ -62,13 +62,13 @@
 		if ([CDOptions _argIsKey:arg availableKeys:availableKeys depreciatedKeys:depreciatedKeys]) {
 			// strip leading '--'
 			arg = [arg substringFromIndex:2];
-            
+
             // Replace the argument with the newer one if it's depreciated
             NSString * depreciatedArg = [depreciatedKeys objectForKey:arg];
             if (depreciatedArg != nil) {
                 arg = depreciatedArg;
             }
-            
+
             argType = [[availableKeys objectForKey:arg] intValue];
 
 			// If it's a no-value option, store the bool NO to indicate
@@ -98,7 +98,7 @@
                 else if (argType == CDOptionsMultipleValues && ![CDOptions _argIsKey:[args objectAtIndex:i+1] availableKeys:availableKeys depreciatedKeys:depreciatedKeys]) {
 					[values addObject:nextArg];
 					i++;
-					
+
 				// Programmer supplied an invalid type for this
 				// available key.
 				} else {
@@ -127,12 +127,12 @@
         [fh writeData:[@" [options]\n\tAvailable options:\n" dataUsingEncoding:NSUTF8StringEncoding]];
 
         NSArray *sortedAvailableKeys = [NSArray arrayWithArray:[availableOptions sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
-        
+
         NSEnumerator *en = [sortedAvailableKeys objectEnumerator];
         id key;
         unsigned i = 0;
         unsigned currKey = 0;
-        while (key = [en nextObject]) {
+        while ((key = [en nextObject])) {
             if (i == 0) {
                 [fh writeData:[@"\t\t" dataUsingEncoding:NSUTF8StringEncoding]];
             }

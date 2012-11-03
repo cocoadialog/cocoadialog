@@ -13,7 +13,7 @@
 - (NSDictionary *) availableKeys {
 	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
 	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
-    
+
 	return [NSDictionary dictionaryWithObjectsAndKeys:
             vOne, @"rows",
             vOne, @"columns",
@@ -28,7 +28,7 @@
         NSEnumerator *en = [checkboxes objectEnumerator];
         BOOL hasChecked = NO;
         id obj;
-        while (obj = [en nextObject]) {
+        while ((obj = [en nextObject])) {
             if ([obj state] == NSOnState){
                 hasChecked = YES;
                 break;
@@ -66,7 +66,7 @@
 	}
     // Check that at least one item has been specified
     NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
-    if (![items count]) { 
+    if (![items count]) {
 		if ([options hasOpt:@"debug"]) {
 			[self debug:@"Must supply at least one --items"];
 		}
@@ -78,19 +78,19 @@
 - (void) createControl {
 	[self setTitleButtonsLabel:[options optValue:@"label"]];
 
-	// set return values 
+	// set return values
     NSArray * cells = [controlMatrix cells];
     NSMutableArray *tmpValues = [[[NSMutableArray alloc] init] autorelease];
     NSEnumerator *en = [cells objectEnumerator];
     id obj;
-    while (obj = [en nextObject]) {
+    while ((obj = [en nextObject])) {
         if ([[obj className] isEqualToString:@"NSButtonCell"]) {
             [tmpValues addObject:obj];
-        } 
+        }
     }
     checkboxes = [[NSMutableArray arrayWithArray:tmpValues] autorelease];
     en = [tmpValues objectEnumerator];
-    while (obj = [en nextObject]) {
+    while (obj == [en nextObject]) {
         [checkboxes replaceObjectAtIndex:[obj tag] withObject:obj];
     }
 }
@@ -102,7 +102,7 @@
 	if ([[self options] hasOpt:@"string-output"]) {
         if (checkboxes != nil && [checkboxes count]) {
             unsigned long state;
-            while (obj = [en nextObject]) {
+            while ((obj = [en nextObject])) {
                 state = [obj state];
                 switch (state) {
                     case NSOffState: [checkboxesArray addObject: @"off"]; break;
@@ -114,12 +114,12 @@
         }
 	} else {
         if (checkboxes != nil && [checkboxes count]) {
-            while (obj = [en nextObject]) {
+            while ((obj = [en nextObject])) {
                 [checkboxesArray addObject: [NSString stringWithFormat:@"%i", [obj state]]];
             }
             [controlReturnValues addObject:[checkboxesArray componentsJoinedByString:@" "]];
         }
-	}    
+	}
     [super controlHasFinished:button];
 }
 
@@ -130,7 +130,7 @@
     NSArray *checked = [[[NSArray alloc] init] autorelease];
     NSArray *mixed = [[[NSArray alloc] init] autorelease];
     NSArray *disabled = [[[NSArray alloc] init] autorelease];
-    
+
     if ([options hasOpt:@"checked"]) {
         checked = [options optValues:@"checked"];
     }
@@ -140,10 +140,10 @@
     if ([options hasOpt:@"disabled"]) {
         disabled = [options optValues:@"disabled"];
     }
-    
+
     // Set default precedence: columns, if both are present or neither are present
     int matrixPrecedence = 0;
-    
+
     // Set default number of columns
     unsigned long columns = 1;
     // Set specified number of columns
@@ -153,7 +153,7 @@
             columns = 1;
         }
     }
-    
+
     // Set default number of rows
     unsigned long rows = 1;
     // Set specified number of rows
@@ -171,19 +171,19 @@
             matrixPrecedence = 1;
         }
     }
-    
+
     [self setControl: self matrixRows:rows matrixColumns:columns items:items precedence:matrixPrecedence];
     rows = [controlMatrix numberOfRows];
     columns = [controlMatrix numberOfColumns];
-    
+
     NSMutableArray * controls = [[[NSMutableArray alloc] init] autorelease];
-    
+
     // Create the control for each item
     unsigned long currItem = 0;
     NSEnumerator *en = [items objectEnumerator];
     float cellWidth = 0.0;
     id obj;
-    while (obj = [en nextObject]) {
+    while ((obj = [en nextObject])) {
         NSButton * button = [[[NSButton alloc] init] autorelease];
         [button setButtonType:NSSwitchButton];
         [button setTitle:[items objectAtIndex:currItem]];
@@ -211,12 +211,12 @@
         [controls addObject:[button cell]];
         currItem++;
     }
-    
+
     // Set other attributes of matrix
     [controlMatrix setAutosizesCells:NO];
     [controlMatrix setCellSize:NSMakeSize(cellWidth, 18.0f)];
     [controlMatrix setMode:NSHighlightModeMatrix];
-    
+
     // Populate the matrix
     currItem = 0;
     for (unsigned long currColumn = 0; currColumn <= columns - 1; currColumn++) {

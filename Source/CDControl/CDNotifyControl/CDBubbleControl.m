@@ -2,17 +2,17 @@
 	CDBubbleControl.m
 	cocoaDialog
 	Copyright (C) 2004-2006 Mark A. Stratman <mark@sporkstorms.org>
- 
+
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 2 of the License, or
 	(at your option) any later version.
- 
+
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
- 
+
 	You should have received a copy of the GNU General Public License
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -57,12 +57,12 @@
     if ([options hasOpt:@"click-path"]) {
         clickPath = [options optValue:@"click-path"];
     }
-    
+
     NSString *clickArg = @"";
     if ([options hasOpt:@"click-arg"]) {
         clickArg = [options optValue:@"click-arg"];
     }
-	
+
 	if ([options hasOpt:@"posX"]) {
 		NSString *xplace = [options optValue:@"posX"];
 		if ([xplace isEqualToString:@"left"]) {
@@ -86,7 +86,7 @@
 		}
 	} else {
 		position |= BUBBLE_VERT_TOP;
-	}	
+	}
 
 	if ([options hasOpt:@"timeout"]) {
 		if (![[NSScanner scannerWithString:[options optValue:@"timeout"]] scanFloat:&_timeout]) {
@@ -157,7 +157,7 @@
     NSEnumerator *en = [notifications objectEnumerator];
     id obj;
     int i = 0;
-    while (obj = [en nextObject]) {
+    while ((obj = [en nextObject])) {
         NSDictionary * notification = [NSDictionary dictionaryWithDictionary:obj];
         KABubbleWindowController *bubble = [KABubbleWindowController
                                             bubbleWithTitle:[notification objectForKey:@"title"] text:[notification objectForKey:@"description"]
@@ -169,7 +169,7 @@
                                             borderColor:[self _colorForBubble:i fromKey:@"border-colors" alpha:alpha]
                                             numExpectedBubbles:(unsigned)[notifications count]
                                             bubblePosition:position];
-        
+
         [bubble setAutomaticallyFadesOut:![[notification objectForKey:@"sticky"] boolValue]];
         [bubble setDelegate:self];
         [bubble setClickContext:[NSString stringWithFormat:@"%d", activeNotifications]];
@@ -239,7 +239,7 @@
 		}
 		colorArgs = optValue ? [NSArray arrayWithObject:optValue] : [NSArray array];
 	}
-	// If user don't specify enough colors,  use the last 
+	// If user don't specify enough colors,  use the last
 	// given color for any bubbles past that.
 	if (i >= [colorArgs count] && [colorArgs count]) {
 		i = [colorArgs count] - 1;

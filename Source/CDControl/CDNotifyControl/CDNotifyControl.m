@@ -55,7 +55,7 @@
              vOne,  @"click-arg",
              vMul,  @"click-paths",
              vMul,  @"click-args",
-             
+
    // CDBubbleControl Options (they're not used by CDGrowlControl, but need to be recognized as possible keys for backwards compatability support and so CDGrowlControl doesn't interpret them as values)
 
              // Options for one bubble
@@ -63,14 +63,14 @@
              vOne, @"border-color",
              vOne, @"background-top",
              vOne, @"background-bottom",
-             
+
              // Options for multiple bubble
              vMul, @"text-colors",
              vMul, @"border-colors",
              vMul, @"background-tops",
              vMul, @"background-bottoms",
              vNone, @"independent", // With this set, clicking one bubble won't kill the rest.
-             
+
              // General options, apply to all scenarios
              vOne, @"posX",
              vOne, @"posY",
@@ -124,37 +124,37 @@
 	NSMutableArray *icons = [NSMutableArray array];
 	NSArray *iconArgs;
 	NSEnumerator *en;
-    
+
 	if ([options hasOpt:@"icons"] && [[options optValues:@"icons"] count]) {
 		iconArgs = [options optValues:@"icons"];
 		en = [iconArgs objectEnumerator];
 		NSString *iconName;
-		while (iconName = (NSString *)[en nextObject]) {
+		while ((iconName = (NSString *)[en nextObject])) {
             NSImage * _icon = [icon iconFromName:iconName];
 			if (_icon == nil) {
 				_icon = [NSApp applicationIconImage];
 			}
 			[icons addObject:_icon];
 		}
-        
+
 	} else if ([options hasOpt:@"icon-files"]
 	           && [[options optValues:@"icon-files"] count])
 	{
 		iconArgs = [options optValues:@"icon-files"];
 		en = [iconArgs objectEnumerator];
 		NSString *fileName;
-		while (fileName = (NSString *)[en nextObject]) {
+		while ((fileName = (NSString *)[en nextObject])) {
             NSImage * _icon = [icon iconFromFile:fileName];
 			if (_icon == nil) {
 				_icon = [NSApp applicationIconImage];
 			}
 			[icons addObject:_icon];
 		}
-        
+
 	} else {
 		return nil;
 	}
-    
+
 	return icons;
 }
 
@@ -197,7 +197,7 @@
     BOOL inQuote = NO;
     NSEnumerator *en = [quotedArray objectEnumerator];
     id arg;
-    while (arg = [en nextObject]) {
+    while ((arg = [en nextObject])) {
         NSMutableArray* spacedArray = [NSMutableArray arrayWithArray:nil];
         // Determine which quote state we're in
         if ([[arg substringToIndex:1] isEqualToString:@"\""]) {
