@@ -312,7 +312,7 @@
 
 #pragma mark - Subclassable Control Methods -
 - (NSDictionary *) availableKeys {return nil;}
-- (void) createControl {};
+- (void) createControl {}
 - (BOOL) validateOptions { return YES; }
 - (NSDictionary *) depreciatedKeys {return nil;}
 - (NSDictionary *) globalAvailableKeys {
