@@ -1,10 +1,3 @@
-//
-//  Dialogs.h>
-//  Dialogs
-//
-//  Created by Alex Gray on 4/25/15.
-//
-//
 
 @import AppKit;
 

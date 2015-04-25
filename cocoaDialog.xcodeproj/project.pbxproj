@@ -103,7 +103,6 @@
 		A78A8CD414376C42007AE363 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB5143759ED007AE363 /* InfoPlist.strings */; };
 		A78A8CD514376C42007AE363 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB7143759ED007AE363 /* MainMenu.xib */; };
 		A78A8CE014377610007AE363 /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CDE14377610007AE363 /* CHANGELOG */; };
-		A78A8CE114377610007AE363 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CDF14377610007AE363 /* LICENSE */; };
 		A7BABB401445829B00D3F168 /* relaunch in Resources */ = {isa = PBXBuildFile; fileRef = A7BABB2E1445817B00D3F168 /* relaunch */; };
 /* End PBXBuildFile section */
 
@@ -232,7 +231,6 @@
 		A78A8CBE143759ED007AE363 /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "Resources/en-US.lproj/tbc.xib"; sourceTree = "<group>"; };
 		A78A8CC0143759ED007AE363 /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "Resources/en-US.lproj/Textbox.xib"; sourceTree = "<group>"; };
 		A78A8CDE14377610007AE363 /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
-		A78A8CDF14377610007AE363 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		A78A8CE8143784A8007AE363 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
 		A78A8CF21437938D007AE363 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		A78A8D2E1437AC29007AE363 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
@@ -329,7 +327,6 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				A78A8C9414375703007AE363 /* Configurations */,
 				A78A8CDE14377610007AE363 /* CHANGELOG */,
-				A78A8CDF14377610007AE363 /* LICENSE */,
 				61FA9D2014518E97006E0674 /* dsa_pub.pem */,
 				A78A8CB5143759ED007AE363 /* InfoPlist.strings */,
 				A78A8CB7143759ED007AE363 /* MainMenu.xib */,
@@ -651,7 +648,6 @@
 				A78A8CD414376C42007AE363 /* InfoPlist.strings in Resources */,
 				A78A8CD514376C42007AE363 /* MainMenu.xib in Resources */,
 				A78A8CE014377610007AE363 /* CHANGELOG in Resources */,
-				A78A8CE114377610007AE363 /* LICENSE in Resources */,
 				61FA9D2114518E97006E0674 /* dsa_pub.pem in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -693,12 +689,14 @@
 			files = (
 			);
 			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(PROJECT_NAME).app/Contents/MacOS/$(PROJECT_NAME)",
 			);
 			outputPaths = (
+				/usr/local/bin,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# /server/repositories/github/sparkle-release/src/sparkle-release";
+			shellPath = /bin/zsh;
+			shellScript = "# /server/repositories/github/sparkle-release/src/sparkle-release\n\nCLI_NAME=cocoa-dialog\n\nmkdir -p \"${SCRIPT_OUTPUT_FILE_0}\"\n\nEXE=\"${SCRIPT_OUTPUT_FILE_0}/$CLI_NAME\"\n\n# This installs a simple launcher to /usr/local/bin\necho \"#!/bin/zsh\nexec ${SCRIPT_INPUT_FILE_0} \\\"\\$@\\\"\"> \"$EXE\"\n\nchmod +x \"$EXE\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
