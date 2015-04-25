@@ -12,20 +12,18 @@
 
 - (NSDictionary *) availableKeys
 {
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
-	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
+	NSNumber *vNone = @CDOptionsNoValues;
+	NSNumber *vOne = @CDOptionsOneValue;
 //	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
     
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-            vOne,   @"empty-value",
-            vOne,   @"max",
-            vOne,   @"min",
-            vNone,  @"return-float",
-            vOne,   @"ticks",
-            vNone,  @"always-show-value",
-            vOne,   @"slider-label",
-            vOne,   @"value",
-            nil];
+	return @{@"empty-value": vOne,
+            @"max": vOne,
+            @"min": vOne,
+            @"return-float": vNone,
+            @"ticks": vOne,
+            @"always-show-value": vNone,
+            @"slider-label": vOne,
+            @"value": vOne};
 }
 
 - (BOOL) validateOptions {

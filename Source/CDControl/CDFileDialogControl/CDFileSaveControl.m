@@ -26,11 +26,9 @@
 {
 //	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
 //	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
+	NSNumber *vNone = @CDOptionsNoValues;
 
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-		vNone, @"no-create-directories",
-		nil];
+	return @{@"no-create-directories": vNone};
 }
 
 - (void) createControl {

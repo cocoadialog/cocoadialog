@@ -47,9 +47,9 @@
 
 - (void) setTitle:(NSString*)aTitle forButton:(NSButton*)aButton;
 
-- (BOOL) allowEmptyReturn;
-- (BOOL) isReturnValueEmpty;
-- (NSString *) returnValueEmptyText;
+@property (readonly) BOOL allowEmptyReturn;
+@property (getter=isReturnValueEmpty, readonly) BOOL returnValueEmpty;
+@property (readonly, copy) NSString *returnValueEmptyText;
 
 - (void) returnValueEmptySheet;
 - (void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;

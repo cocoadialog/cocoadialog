@@ -18,8 +18,8 @@
 
 - (void) addMinHeight:(CGFloat)height;
 - (void) addMinWidth:(CGFloat)width;
-- (NSSize) findNewSize;
-- (BOOL) needsResize;
+@property (readonly) NSSize findNewSize;
+@property (readonly) BOOL needsResize;
 - (void) resize;
 - (void) setFloat;
 - (void) setPanelEmpty;

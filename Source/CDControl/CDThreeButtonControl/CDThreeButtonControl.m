@@ -28,43 +28,40 @@
 
 - (NSDictionary *) globalAvailableKeys
 {
-	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-            // General
-            vNone, @"help",
-            vNone, @"debug",
-            vNone, @"quiet",
-            vOne,  @"timeout",
-            vOne,  @"timeout-format",
-            vNone, @"string-output",
-            vNone, @"no-newline",
+	NSNumber *vOne = @CDOptionsOneValue;
+	NSNumber *vNone = @CDOptionsNoValues;
+	return @{@"help": vNone,
+            @"debug": vNone,
+            @"quiet": vNone,
+            @"timeout": vOne,
+            @"timeout-format": vOne,
+            @"string-output": vNone,
+            @"no-newline": vNone,
             // Panel
-            vOne,  @"title",
-            vOne,  @"width",
-            vOne,  @"height",
-            vOne,  @"posX",
-            vOne,  @"posY",
-            vNone, @"no-float",
-            vNone, @"minimize",
-            vNone, @"resize",
+            @"title": vOne,
+            @"width": vOne,
+            @"height": vOne,
+            @"posX": vOne,
+            @"posY": vOne,
+            @"no-float": vNone,
+            @"minimize": vNone,
+            @"resize": vNone,
             // Icon
-            vOne,  @"icon",
-            vOne,  @"icon-bundle",
-            vOne,  @"icon-type",
-            vOne,  @"icon-file",
-            vOne,  @"icon-size",
-            vOne,  @"icon-width",
-            vOne,  @"icon-height",
+            @"icon": vOne,
+            @"icon-bundle": vOne,
+            @"icon-type": vOne,
+            @"icon-file": vOne,
+            @"icon-size": vOne,
+            @"icon-width": vOne,
+            @"icon-height": vOne,
             // CDThreeButtonControl
-            vOne,  @"label",
-            vOne,  @"button1",
-            vOne,  @"button2",
-            vOne,  @"button3",
-            vOne,  @"cancel",
-            vNone, @"value-required",
-            vOne,  @"empty-text",
-            nil];
+            @"label": vOne,
+            @"button1": vOne,
+            @"button2": vOne,
+            @"button3": vOne,
+            @"cancel": vOne,
+            @"value-required": vNone,
+            @"empty-text": vOne};
 }
 
 
@@ -363,7 +360,7 @@
         }
     }
     else if (controlItems != nil && [controlItems count]) {
-        [[panel panel] makeFirstResponder:[controlItems objectAtIndex:0]];
+        [[panel panel] makeFirstResponder:controlItems[0]];
     }
 }
 

@@ -19,7 +19,7 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 #pragma mark -
 
 @implementation KABubbleWindowView
-- (id) initWithFrame:(NSRect) frame {
+- (instancetype) initWithFrame:(NSRect) frame {
 	if( self = [super initWithFrame:frame] ) {
 		_icon = nil;
 		_title = nil;
@@ -94,7 +94,7 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 	[[self borderColor] set];
 	[path stroke];
 
-	[_title drawAtPoint:NSMakePoint( 55., 40. ) withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSFont boldSystemFontOfSize:13.], NSFontAttributeName, [self textColor], NSForegroundColorAttributeName, nil]];
+	[_title drawAtPoint:NSMakePoint( 55., 40. ) withAttributes:@{NSFontAttributeName: [NSFont boldSystemFontOfSize:13.], NSForegroundColorAttributeName: [self textColor]}];
 	[_text drawInRect:NSMakeRect( 55., 10., 200., 30. )];
 
 	if( [_icon size].width > 32. || [_icon size].height > 32. ) { // Assume a square image.
@@ -141,7 +141,7 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 	} else {
 		color = [NSColor controlTextColor];
 	}
-	_text = [[NSAttributedString alloc] initWithString:text attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSFont messageFontOfSize:11.], NSFontAttributeName, color, NSForegroundColorAttributeName, nil]];
+	_text = [[NSAttributedString alloc] initWithString:text attributes:@{NSFontAttributeName: [NSFont messageFontOfSize:11.], NSForegroundColorAttributeName: color}];
 	[self setNeedsDisplay:YES];
 }
 

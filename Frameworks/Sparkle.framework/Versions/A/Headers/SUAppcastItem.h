@@ -33,26 +33,26 @@
 }
 
 // Initializes with data from a dictionary provided by the RSS class.
-- initWithDictionary:(NSDictionary *)dict;
-- initWithDictionary:(NSDictionary *)dict failureReason:(NSString**)error;
+- (instancetype) initWithDictionary:(NSDictionary *)dict;
+- (instancetype) initWithDictionary:(NSDictionary *)dict failureReason:(NSString**)error;
 
-- (NSString *)title;
-- (NSString *)versionString;
-- (NSString *)displayVersionString;
-- (NSDate *)date;
-- (NSString *)itemDescription;
-- (NSURL *)releaseNotesURL;
-- (NSURL *)fileURL;
-- (NSString *)DSASignature;
-- (NSString *)minimumSystemVersion;
-- (NSDictionary *)deltaUpdates;
-- (BOOL)isDeltaUpdate;
-- (BOOL)isCriticalUpdate;
+@property (readonly, copy) NSString *title;
+@property (readonly, copy) NSString *versionString;
+@property (readonly, copy) NSString *displayVersionString;
+@property (readonly, copy) NSDate *date;
+@property (readonly, copy) NSString *itemDescription;
+@property (readonly, copy) NSURL *releaseNotesURL;
+@property (readonly, copy) NSURL *fileURL;
+@property (readonly, copy) NSString *DSASignature;
+@property (readonly, copy) NSString *minimumSystemVersion;
+@property (readonly, copy) NSDictionary *deltaUpdates;
+@property (getter=isDeltaUpdate, readonly) BOOL deltaUpdate;
+@property (getter=isCriticalUpdate, readonly) BOOL criticalUpdate;
 
 // Returns the dictionary provided in initWithDictionary; this might be useful later for extensions.
-- (NSDictionary *)propertiesDictionary;
+@property (readonly, copy) NSDictionary *propertiesDictionary;
 
-- (NSURL *)infoURL;						// UK 2007-08-31
+@property (readonly, copy) NSURL *infoURL;						// UK 2007-08-31
 
 @end
 

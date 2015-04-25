@@ -25,14 +25,12 @@
 
 - (NSDictionary *) availableKeys
 {
-	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
+	NSNumber *vOne = @CDOptionsOneValue;
+	NSNumber *vNone = @CDOptionsNoValues;
 
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-            vOne, @"alert",
-            vOne, @"label",
-		vNone, @"no-cancel",
-		nil];
+	return @{@"alert": vOne,
+            @"label": vOne,
+		@"no-cancel": vNone};
 }
 
 - (void) setButtons {

@@ -10,7 +10,7 @@
 
 @implementation CDNotifyControl
 
-- (id)initWithOptions:(CDOptions *)opts {
+- (instancetype)initWithOptions:(CDOptions *)opts {
 	self = [super initWithOptions:opts];
     activeNotifications = 0;
     notifications = [[NSMutableArray alloc] init];
@@ -20,97 +20,91 @@
 
 // This must be overridden if you want local global options for your control
 - (NSDictionary *) globalAvailableKeys {
-    NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
-    NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-            // General
-            vNone, @"help",
-            vNone, @"debug",
-            vNone, @"quiet",
+    NSNumber *vOne = @CDOptionsOneValue;
+	NSNumber *vNone = @CDOptionsNoValues;
+    NSNumber *vMul = @CDOptionsMultipleValues;
+    return @{@"help": vNone,
+            @"debug": vNone,
+            @"quiet": vNone,
 
             // CDNotifyControls
-             vOne,  @"fh",
-             vNone, @"no-growl",
-             vNone, @"sticky",
+             @"fh": vOne,
+             @"no-growl": vNone,
+             @"sticky": vNone,
              // Text
-             vOne,  @"title",
-             vOne,  @"description",
-             vMul,  @"titles",
-             vMul,  @"descriptions",
+             @"title": vOne,
+             @"description": vOne,
+             @"titles": vMul,
+             @"descriptions": vMul,
              // Icons
-             vOne,  @"icon",
-             vOne,  @"icon-bundle",
-             vOne,  @"icon-type",
-             vOne,  @"icon-file",
-             vMul,  @"icons",
-             vMul,  @"icon-files",
+             @"icon": vOne,
+             @"icon-bundle": vOne,
+             @"icon-type": vOne,
+             @"icon-file": vOne,
+             @"icons": vMul,
+             @"icon-files": vMul,
              // Click
-             vOne,  @"click-path",
-             vOne,  @"click-arg",
-             vMul,  @"click-paths",
-             vMul,  @"click-args",
+             @"click-path": vOne,
+             @"click-arg": vOne,
+             @"click-paths": vMul,
+             @"click-args": vMul,
              
    // CDBubbleControl Options (they're not used by CDGrowlControl, but need to be recognized as possible keys for backwards compatability support and so CDGrowlControl doesn't interpret them as values)
 
              // Options for one bubble
-             vOne, @"text-color",
-             vOne, @"border-color",
-             vOne, @"background-top",
-             vOne, @"background-bottom",
+             @"text-color": vOne,
+             @"border-color": vOne,
+             @"background-top": vOne,
+             @"background-bottom": vOne,
              
              // Options for multiple bubble
-             vMul, @"text-colors",
-             vMul, @"border-colors",
-             vMul, @"background-tops",
-             vMul, @"background-bottoms",
-             vNone, @"independent", // With this set, clicking one bubble won't kill the rest.
+             @"text-colors": vMul,
+             @"border-colors": vMul,
+             @"background-tops": vMul,
+             @"background-bottoms": vMul,
+             @"independent": vNone, // With this set, clicking one bubble won't kill the rest.
              
              // General options, apply to all scenarios
-             vOne, @"posX",
-             vOne, @"posY",
-             vOne, @"alpha",
-             vOne, @"timeout",
-
-             nil];
+             @"posX": vOne,
+             @"posY": vOne,
+             @"alpha": vOne,
+             @"timeout": vOne};
 }
 
 - (NSDictionary *) depreciatedKeys
 {
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-            @"description", @"text",
-            @"descriptions", @"texts",
-            @"sticky", @"no-timeout",
-            @"posX", @"x-placement",
-            @"posY", @"y-placement",
-            nil];
+	return @{@"text": @"description",
+            @"texts": @"descriptions",
+            @"no-timeout": @"sticky",
+            @"x-placement": @"posX",
+            @"y-placement": @"posY"};
 }
 
 
 - (void)addNotificationWithTitle:(NSString *)title description:(NSString *)description icon:(NSImage *)_icon priority:(NSNumber *)priority sticky:(BOOL)sticky clickPath:(NSString *)clickPath clickArg:(NSString *)clickArg
 {
     NSMutableDictionary * notification = [NSMutableDictionary dictionary];
-    [notification setObject:title forKey:@"title"];
-    [notification setObject:description forKey:@"description"];
-    [notification setObject:_icon forKey:@"icon"];
+    notification[@"title"] = title;
+    notification[@"description"] = description;
+    notification[@"icon"] = _icon;
     NSData *iconData = [NSData dataWithData:[_icon TIFFRepresentation]];
     if (iconData == nil) {
         iconData = [NSData data];
     }
-    [notification setObject:iconData forKey:@"iconData"];
+    notification[@"iconData"] = iconData;
     if (priority == nil) {
-        priority = [NSNumber numberWithInt:0];
+        priority = @0;
     }
-    [notification setObject:priority forKey:@"priority"];
-    [notification setObject:[NSNumber numberWithBool:sticky] forKey:@"sticky"];
+    notification[@"priority"] = priority;
+    notification[@"sticky"] = @(sticky);
     if (clickPath == nil) {
         clickPath = @"";
     }
-    [notification setObject:clickPath forKey:@"clickPath"];
+    notification[@"clickPath"] = clickPath;
     if (clickArg == nil) {
         clickArg = @"";
     }
-    [notification setObject:clickArg forKey:@"clickArg"];
+    notification[@"clickArg"] = clickArg;
     [notifications addObject:notification];
 }
 
@@ -155,14 +149,14 @@
 
 - (void) notificationWasClicked:(id)clickContext
 {
-    NSDictionary * notification = [NSDictionary dictionaryWithDictionary:[notifications objectAtIndex:[clickContext intValue]]];
-    NSString * path = [notification objectForKey:@"clickPath"];
+    NSDictionary * notification = [NSDictionary dictionaryWithDictionary:notifications[[clickContext intValue]]];
+    NSString * path = notification[@"clickPath"];
     if ([path caseInsensitiveCompare:@"cocoaDialog"] == NSOrderedSame) {
-        path = [[[NSProcessInfo processInfo] arguments] objectAtIndex:0];
+        path = [[NSProcessInfo processInfo] arguments][0];
     }
     NSArray *arguments = nil;
-    if (![[notification objectForKey:@"clickArg"] isEqualToString:@""]) {
-        arguments = [NSArray arrayWithArray:[self parseTextForArguments:[notification objectForKey:@"clickArg"]]];
+    if (![notification[@"clickArg"] isEqualToString:@""]) {
+        arguments = [NSArray arrayWithArray:[self parseTextForArguments:notification[@"clickArg"]]];
     }
     NSMutableArray * args = [NSMutableArray arrayWithArray:arguments];
     // Check to ensure the file exists before launching the command

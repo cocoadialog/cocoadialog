@@ -23,12 +23,12 @@
 	float _timeout;
 }
 
-- (id) initWithTextColor:(NSColor *)textColor 
+- (instancetype) initWithTextColor:(NSColor *)textColor 
 			   darkColor:(NSColor *)darkColor 
 			  lightColor:(NSColor *)lightColor 
 			 borderColor:(NSColor *)borderColor
 	  numExpectedBubbles:(int)numExpected 
-		  bubblePosition:(unsigned int)position;
+		  bubblePosition:(unsigned int)position NS_DESIGNATED_INITIALIZER;
 
 // position is a bitmask of the BUBBLE_* defines
 + (KABubbleWindowController *) bubbleWithTitle:(NSString *) title
@@ -45,26 +45,19 @@
 - (void) startFadeIn;
 - (void) startFadeOut;
 
-- (BOOL) automaticallyFadesOut;
-- (void) setAutomaticallyFadesOut:(BOOL) autoFade;
+@property  BOOL automaticallyFadesOut;
 
-- (id) target;
-- (void) setTarget:(id) object;
+@property (assign) id target;
 
-- (SEL) action;
-- (void) setAction:(SEL) selector;
+@property  SEL action;
 
-- (id) clickContext;
-- (void) setClickContext:(id) object;
+@property (strong) id clickContext;
 
-- (id) representedObject;
-- (void) setRepresentedObject:(id) object;
+@property (strong) id representedObject;
 
-- (id) delegate;
-- (void) setDelegate:(id) delegate;
+@property (assign) id delegate;
 
-- (void) setTimeout:(float) timeout;
-- (float) timeout;
+@property  float timeout;
 
 @end
 

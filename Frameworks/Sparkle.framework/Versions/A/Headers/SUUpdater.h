@@ -27,30 +27,23 @@
 
 + (SUUpdater *)sharedUpdater;
 + (SUUpdater *)updaterForBundle:(NSBundle *)bundle;
-- initForBundle:(NSBundle *)bundle;
+- (instancetype) initForBundle:(NSBundle *)bundle;
 
-- (NSBundle *)hostBundle;
+@property (readonly, strong) NSBundle *hostBundle;
 
-- (void)setDelegate:(id)delegate;
-- delegate;
+@property (assign) id delegate;
 
-- (void)setAutomaticallyChecksForUpdates:(BOOL)automaticallyChecks;
-- (BOOL)automaticallyChecksForUpdates;
+@property  BOOL automaticallyChecksForUpdates;
 
-- (void)setUpdateCheckInterval:(NSTimeInterval)interval;
-- (NSTimeInterval)updateCheckInterval;
+@property  NSTimeInterval updateCheckInterval;
 
-- (void)setFeedURL:(NSURL *)feedURL;
-- (NSURL *)feedURL;	// *** MUST BE CALLED ON MAIN THREAD ***
+@property (copy) NSURL *feedURL;	// *** MUST BE CALLED ON MAIN THREAD ***
 
-- (void)setUserAgentString:(NSString *)userAgent;
-- (NSString *)userAgentString;
+@property (copy) NSString *userAgentString;
 
-- (void)setSendsSystemProfile:(BOOL)sendsSystemProfile;
-- (BOOL)sendsSystemProfile;
+@property  BOOL sendsSystemProfile;
 
-- (void)setAutomaticallyDownloadsUpdates:(BOOL)automaticallyDownloadsUpdates;
-- (BOOL)automaticallyDownloadsUpdates;
+@property  BOOL automaticallyDownloadsUpdates;
 
 // This IBAction is meant for a main menu item. Hook up any menu item to this action,
 // and Sparkle will check for updates and report back its findings verbosely.
@@ -62,7 +55,7 @@
 - (void)checkForUpdatesInBackground;
 
 // Date of last update check. Returns nil if no check has been performed.
-- (NSDate*)lastUpdateCheckDate;
+@property (readonly, copy) NSDate *lastUpdateCheckDate;
 
 // This begins a "probing" check for updates which will not actually offer to update to that version. The delegate methods, though,
 // (up to updater:didFindValidUpdate: and updaterDidNotFindUpdate:), are called, so you can use that information in your UI.
@@ -71,7 +64,7 @@
 // Call this to appropriately schedule or cancel the update checking timer according to the preferences for time interval and automatic checks. This call does not change the date of the next check, but only the internal NSTimer.
 - (void)resetUpdateCycle;
 
-- (BOOL)updateInProgress;
+@property (readonly) BOOL updateInProgress;
 
 @end
 

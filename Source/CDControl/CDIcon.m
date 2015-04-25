@@ -17,7 +17,7 @@
 @synthesize control;
 @synthesize panel;
 
-- (id) initWithOptions:(CDOptions *)opts {
+- (instancetype) initWithOptions:(CDOptions *)opts {
     self = [super initWithOptions:opts];
     controls = [[NSMutableArray alloc] init];
     return self;
