@@ -23,7 +23,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		0E71DA1B0963B19500FF6F7C /* cocoadialog.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E71DA0A0963B19500FF6F7C /* cocoadialog.icns */; };
 		6187E60114664988005067DB /* relaunch.m in Sources */ = {isa = PBXBuildFile; fileRef = 6187E60014664988005067DB /* relaunch.m */; };
 		6190D1D8146CAFB30083364D /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78A8CE8143784A8007AE363 /* Growl.framework */; };
 		6190D1D9146CAFC20083364D /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A78A8CE8143784A8007AE363 /* Growl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -165,7 +164,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0E71DA0A0963B19500FF6F7C /* cocoadialog.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = cocoadialog.icns; path = Resources/cocoadialog.icns; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		6187E60014664988005067DB /* relaunch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = relaunch.m; path = ../Source/relaunch.m; sourceTree = "<group>"; };
@@ -347,7 +345,6 @@
 				A78A8CB5143759ED007AE363 /* InfoPlist.strings */,
 				A78A8CB7143759ED007AE363 /* MainMenu.xib */,
 				7BF9CC971AEBF91D0058B25F /* Framework */,
-				0E71DA0A0963B19500FF6F7C /* cocoadialog.icns */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -667,7 +664,6 @@
 			files = (
 				A7BABB401445829B00D3F168 /* relaunch in Resources */,
 				7BF9CCCA1AEBFBAA0058B25F /* Images.xcassets in Resources */,
-				0E71DA1B0963B19500FF6F7C /* cocoadialog.icns in Resources */,
 				A78A8CD414376C42007AE363 /* InfoPlist.strings in Resources */,
 				A78A8CD514376C42007AE363 /* MainMenu.xib in Resources */,
 				A78A8CE014377610007AE363 /* CHANGELOG in Resources */,
