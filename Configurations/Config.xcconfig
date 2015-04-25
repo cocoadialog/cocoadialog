@@ -51,7 +51,6 @@ WARNING_CFLAGS = -w -Wall -Wno-unused-parameter -Werror -Wundef -Wendif-labels -
 
 PRODUCT_NAME = cocoaDialog
 INFOPLIST_FILE = Resources/Info.plist
-GCC_PREFIX_HEADER = Source/cocoaDialog_Prefix.pch
 
 FRAMEWORK_SEARCH_PATHS = ${SRCROOT}/Frameworks
 HEADER_SEARCH_PATHS = ${SRCROOT}/Source/*
