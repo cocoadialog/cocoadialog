@@ -100,8 +100,8 @@
 		7BF9CC621AEBE7BC0058B25F /* KABubbleWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC9084145FACF8003ADF05 /* KABubbleWindowController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7BF9CC631AEBE7BC0058B25F /* KABubbleWindowView.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC9086145FACF8003ADF05 /* KABubbleWindowView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7BF9CC641AEBE8330058B25F /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78A8CE8143784A8007AE363 /* Growl.framework */; };
-		7BF9CC661AEBE9400058B25F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BF9CC651AEBE9400058B25F /* Images.xcassets */; };
 		7BF9CC761AEBED350058B25F /* dialogsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BF9CC751AEBED350058B25F /* dialogsTest.m */; };
+		7BF9CCCA1AEBFBAA0058B25F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BF9CCC91AEBFBAA0058B25F /* Images.xcassets */; };
 		A78A8CD414376C42007AE363 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB5143759ED007AE363 /* InfoPlist.strings */; };
 		A78A8CD514376C42007AE363 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB7143759ED007AE363 /* MainMenu.xib */; };
 		A78A8CE014377610007AE363 /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CDE14377610007AE363 /* CHANGELOG */; };
@@ -168,7 +168,7 @@
 		0E71DA0A0963B19500FF6F7C /* cocoadialog.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = cocoadialog.icns; path = Resources/cocoadialog.icns; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
-		6187E60014664988005067DB /* relaunch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = relaunch.m; path = ../Source/relaunch/relaunch.m; sourceTree = "<group>"; };
+		6187E60014664988005067DB /* relaunch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = relaunch.m; path = ../Source/relaunch.m; sourceTree = "<group>"; };
 		61EC906C145FACF8003ADF05 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppController.m; path = ../Source/AppController.m; sourceTree = "<group>"; };
 		61EC906D145FACF8003ADF05 /* CDCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDCommon.h; path = Source/CDCommon.h; sourceTree = "<group>"; };
 		61EC906E145FACF8003ADF05 /* CDCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDCommon.m; path = Source/CDCommon.m; sourceTree = "<group>"; };
@@ -231,11 +231,10 @@
 		61EC90EB145FB0A0003ADF05 /* CDSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDSlider.m; sourceTree = "<group>"; };
 		61FA9D2014518E97006E0674 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
 		7BDF56271AEBE163004812DE /* Dialogs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Dialogs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7BDF562A1AEBE163004812DE /* Dialogs-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Dialogs-Info.plist"; path = "Dialogs/Dialogs-Info.plist"; sourceTree = "<group>"; };
-		7BDF562B1AEBE163004812DE /* Dialogs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Dialogs.h; path = Dialogs/Dialogs.h; sourceTree = "<group>"; };
-		7BF9CC651AEBE9400058B25F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = cocoaDialog/Images.xcassets; sourceTree = "<group>"; };
+		7BDF562B1AEBE163004812DE /* Dialogs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Dialogs.h; path = Source/Dialogs.h; sourceTree = "<group>"; };
 		7BF9CC731AEBED350058B25F /* dialogsTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = dialogsTest; sourceTree = BUILT_PRODUCTS_DIR; };
-		7BF9CC751AEBED350058B25F /* dialogsTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = dialogsTest.m; path = ../dialogsTest/dialogsTest.m; sourceTree = "<group>"; };
+		7BF9CC751AEBED350058B25F /* dialogsTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = dialogsTest.m; path = ../Source/dialogsTest.m; sourceTree = "<group>"; };
+		7BF9CCC91AEBFBAA0058B25F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Resources/Images.xcassets; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* cocoaDialog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cocoaDialog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A78A8C9514375704007AE363 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ConfigDebug.xcconfig; sourceTree = "<group>"; };
@@ -246,7 +245,6 @@
 		A78A8CBC143759ED007AE363 /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "Resources/en-US.lproj/Progressbar.xib"; sourceTree = "<group>"; };
 		A78A8CBE143759ED007AE363 /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "Resources/en-US.lproj/tbc.xib"; sourceTree = "<group>"; };
 		A78A8CC0143759ED007AE363 /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "Resources/en-US.lproj/Textbox.xib"; sourceTree = "<group>"; };
-		A78A8CD2143761E5007AE363 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
 		A78A8CDE14377610007AE363 /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
 		A78A8CDF14377610007AE363 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		A78A8CE8143784A8007AE363 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
@@ -331,7 +329,6 @@
 				61EC90A8145FACF8003ADF05 /* CDOptions.m */,
 				61EC906F145FACF8003ADF05 /* Controls */,
 				7BDF56281AEBE163004812DE /* App + Relaunch + Demo */,
-				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -341,19 +338,15 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7BF9CCC91AEBFBAA0058B25F /* Images.xcassets */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				A78A8C9414375703007AE363 /* Configurations */,
 				A78A8CDE14377610007AE363 /* CHANGELOG */,
 				A78A8CDF14377610007AE363 /* LICENSE */,
-				7BDF562A1AEBE163004812DE /* Dialogs-Info.plist */,
-				7BF9CC651AEBE9400058B25F /* Images.xcassets */,
 				61FA9D2014518E97006E0674 /* dsa_pub.pem */,
-				A78A8CD2143761E5007AE363 /* Info.plist */,
 				A78A8CB5143759ED007AE363 /* InfoPlist.strings */,
 				A78A8CB7143759ED007AE363 /* MainMenu.xib */,
-				A78A8CB9143759ED007AE363 /* Msgbox.xib */,
-				A7D40436153C2BC3005FA3CD /* popup.xib */,
-				A78A8CBB143759ED007AE363 /* Progressbar.xib */,
-				A78A8CBD143759ED007AE363 /* tbc.xib */,
-				A78A8CBF143759ED007AE363 /* Textbox.xib */,
+				7BF9CC971AEBF91D0058B25F /* Framework */,
 				0E71DA0A0963B19500FF6F7C /* cocoadialog.icns */,
 			);
 			name = Resources;
@@ -362,7 +355,6 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A78A8C9414375703007AE363 /* Configurations */,
 				A78A8CE8143784A8007AE363 /* Growl.framework */,
 				A78A8D2E1437AC29007AE363 /* Sparkle.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Apple Frameworks */,
@@ -474,6 +466,18 @@
 			);
 			name = "App + Relaunch + Demo";
 			path = Dialogs;
+			sourceTree = "<group>";
+		};
+		7BF9CC971AEBF91D0058B25F /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				A78A8CB9143759ED007AE363 /* Msgbox.xib */,
+				A7D40436153C2BC3005FA3CD /* popup.xib */,
+				A78A8CBB143759ED007AE363 /* Progressbar.xib */,
+				A78A8CBD143759ED007AE363 /* tbc.xib */,
+				A78A8CBF143759ED007AE363 /* Textbox.xib */,
+			);
+			name = Framework;
 			sourceTree = "<group>";
 		};
 		A78A8C9414375703007AE363 /* Configurations */ = {
@@ -662,7 +666,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7BABB401445829B00D3F168 /* relaunch in Resources */,
-				7BF9CC661AEBE9400058B25F /* Images.xcassets in Resources */,
+				7BF9CCCA1AEBFBAA0058B25F /* Images.xcassets in Resources */,
 				0E71DA1B0963B19500FF6F7C /* cocoadialog.icns in Resources */,
 				A78A8CD414376C42007AE363 /* InfoPlist.strings in Resources */,
 				A78A8CD514376C42007AE363 /* MainMenu.xib in Resources */,
@@ -879,6 +883,7 @@
 					"$(BUILT_PRODUCTS_DIR)",
 				);
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
 				SECTORDER_FLAGS = "";
@@ -955,7 +960,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "Dialogs/Dialogs-Info.plist";
+				INFOPLIST_FILE = "Resources/Dialogs-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
@@ -1009,7 +1014,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "Dialogs/Dialogs-Info.plist";
+				INFOPLIST_FILE = "Resources/Dialogs-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
@@ -1129,6 +1134,7 @@
 					"$(BUILT_PRODUCTS_DIR)",
 				);
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
 				SECTORDER_FLAGS = "";
