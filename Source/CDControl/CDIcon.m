@@ -19,14 +19,10 @@
 
 - (id) initWithOptions:(CDOptions *)opts {
     self = [super initWithOptions:opts];
-    controls = [[[NSMutableArray alloc] init] retain];
+    controls = [[NSMutableArray alloc] init];
     return self;
 }
 
-- (void) dealloc {
-    [control release];
-    [super dealloc];
-}
 
 - (void) addControl:(id)obj {
     if (obj != nil) {
@@ -35,7 +31,7 @@
 }
 
 - (NSArray *)controls {
-    return [[controls copy] autorelease];
+    return [controls copy];
 }
 
 - (NSImage *)icon {
@@ -63,14 +59,14 @@
 
 - (NSImage *)iconFromFile:(NSString *)file {
     NSImage *image = nil;
-    image = [[[NSImage alloc] initWithContentsOfFile:file] autorelease];
+    image = [[NSImage alloc] initWithContentsOfFile:file];
     if (image == nil && [options hasOpt:@"debug"]) {
         [self debug:[NSString stringWithFormat:@"Could not return icon from specified file: \"%@\".", file]];
     }
     return image;
 }
 - (NSImage *)iconFromName:(NSString *)name {
-    NSImage *image = [[[NSImage alloc] initWithData:nil] autorelease];
+    NSImage *image = [[NSImage alloc] initWithData:nil];
     NSString *bundle = nil;
     NSString *path = nil;
     NSString *iconType = @"icns";
@@ -331,7 +327,7 @@
                 fileName = [[NSBundle bundleWithPath:path] pathForResource:name ofType:iconType];
             }
             if (fileName != nil) {
-                image = [[[NSImage alloc] initWithContentsOfFile:fileName] autorelease];
+                image = [[NSImage alloc] initWithContentsOfFile:fileName];
                 if (image == nil && [options hasOpt:@"debug"]) {
                     [self debug:[NSString stringWithFormat:@"Could not get image from specified icon file '%@'.", fileName]];
                 }
@@ -401,7 +397,7 @@
         NSSize originalSize = [anImage size];
         // Resize Icon
         if (originalSize.width != aSize.width || originalSize.height != aSize.height) {
-            NSImage *resizedImage = [[[NSImage alloc] initWithSize: aSize] autorelease];
+            NSImage *resizedImage = [[NSImage alloc] initWithSize: aSize];
             [resizedImage lockFocus];
             [anImage drawInRect: NSMakeRect(0, 0, aSize.width, aSize.height) fromRect: NSMakeRect(0, 0, originalSize.width, originalSize.height) operation: NSCompositeSourceOver fraction: 1.0];
             [resizedImage unlockFocus];

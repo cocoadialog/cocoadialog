@@ -80,7 +80,7 @@
 
 	// set return values 
     NSArray * cells = [controlMatrix cells];
-    NSMutableArray *tmpValues = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray *tmpValues = [[NSMutableArray alloc] init];
     NSEnumerator *en = [cells objectEnumerator];
     id obj;
     while (obj = [en nextObject]) {
@@ -88,7 +88,7 @@
             [tmpValues addObject:obj];
         } 
     }
-    checkboxes = [[NSMutableArray arrayWithArray:tmpValues] autorelease];
+    checkboxes = [NSMutableArray arrayWithArray:tmpValues];
     en = [tmpValues objectEnumerator];
     while (obj = [en nextObject]) {
         [checkboxes replaceObjectAtIndex:[obj tag] withObject:obj];
@@ -96,7 +96,7 @@
 }
 
 - (void) controlHasFinished:(int)button {
-    NSMutableArray *checkboxesArray = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray *checkboxesArray = [[NSMutableArray alloc] init];
     NSEnumerator *en = [checkboxes objectEnumerator];
     id obj;
 	if ([[self options] hasOpt:@"string-output"]) {
@@ -127,9 +127,9 @@
 - (void) setControl:(id)sender {
     // Setup the control
     NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
-    NSArray *checked = [[[NSArray alloc] init] autorelease];
-    NSArray *mixed = [[[NSArray alloc] init] autorelease];
-    NSArray *disabled = [[[NSArray alloc] init] autorelease];
+    NSArray *checked = [[NSArray alloc] init];
+    NSArray *mixed = [[NSArray alloc] init];
+    NSArray *disabled = [[NSArray alloc] init];
     
     if ([options hasOpt:@"checked"]) {
         checked = [options optValues:@"checked"];
@@ -176,7 +176,7 @@
     rows = [controlMatrix numberOfRows];
     columns = [controlMatrix numberOfColumns];
     
-    NSMutableArray * controls = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray * controls = [[NSMutableArray alloc] init];
     
     // Create the control for each item
     unsigned long currItem = 0;
@@ -184,7 +184,7 @@
     float cellWidth = 0.0;
     id obj;
     while (obj = [en nextObject]) {
-        NSButton * button = [[[NSButton alloc] init] autorelease];
+        NSButton * button = [[NSButton alloc] init];
         [button setButtonType:NSSwitchButton];
         [button setTitle:[items objectAtIndex:currItem]];
         if (checked != nil && [checked count]) {
@@ -227,7 +227,7 @@
                 currItem++;
             }
             else {
-                NSCell * blankCell = [[[NSCell alloc] init] autorelease];
+                NSCell * blankCell = [[NSCell alloc] init];
                 [blankCell setType:NSNullCellType];
                 [blankCell setEnabled:NO];
                 [controlMatrix putCell:blankCell atRow:currRow column:currColumn];

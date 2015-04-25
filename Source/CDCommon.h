@@ -13,7 +13,7 @@
 @interface CDCommon : NSObject {
     CDOptions *options;
 }
-@property (retain) CDOptions *options;
+@property (strong) CDOptions *options;
 
 - (void) debug:(NSString *)message;
 - (id) initWithOptions:(CDOptions *)newOptions;

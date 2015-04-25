@@ -34,6 +34,7 @@
 @protocol CDControlProtocol
 - (void) createControl;
 - (BOOL) validateOptions;
++ (NSDictionary*) availableControls;
 @end
 
 // CDControl provides a runControl method.  It invokes

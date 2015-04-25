@@ -19,26 +19,7 @@
 */
 
 #import <Foundation/Foundation.h>
-#import "CDOptions.h"
-#import "CDControl.h"
-#import "CDUpdate.h"
-#import "CDBubbleControl.h"
-#import "CDCheckboxControl.h"
-#import "CDFileSelectControl.h"
-#import "CDFileSaveControl.h"
-#import "CDGrowlControl.h"
-#import "CDInputboxControl.h"
-#import "CDMsgboxControl.h"
-#import "CDNotifyControl.h"
-#import "CDOkMsgboxControl.h"
-#import "CDPopUpButtonControl.h"
-#import "CDProgressbarControl.h"
-#import "CDRadioControl.h"
-#import "CDSlider.h"
-#import "CDStandardInputboxControl.h"
-#import "CDStandardPopUpButtonControl.h"
-#import "CDTextboxControl.h"
-#import "CDYesNoMsgboxControl.h"
+#import <Dialogs/Dialogs.h>
 
 @interface AppController : NSObject {
     CDControl               *currentControl;
@@ -47,7 +28,7 @@
     IBOutlet NSTextField    *aboutText;
     NSMutableArray          *arguments;
 }
-    + (NSDictionary *) availableControls;
+
     - (NSString *) appVersion;
     - (void) chooseControl:(NSString *)runMode useOptions:options addExtraOptionsTo:(NSMutableDictionary *)extraOptions;
     -(void)setHyperlinkForTextField:(NSTextField*)aTextField replaceString:(NSString *)aString withURL:(NSString *)aURL;

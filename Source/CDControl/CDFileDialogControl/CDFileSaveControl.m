@@ -67,7 +67,7 @@
     
     // Only check for dir or file path existance if debug is enabled.
     if ([options hasOpt:@"debug"]) {
-        NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+        NSFileManager *fm = [[NSFileManager alloc] init];
         // Directory
         if (dir != nil && ![fm fileExistsAtPath:dir]) {
             [self debug:[NSString stringWithFormat:@"Option --with-directory specifies a directory that does not exist: %@", dir]];
@@ -92,7 +92,7 @@
     }
     else {
         if (dir != nil) {
-            NSURL * url = [[[NSURL alloc] initFileURLWithPath:dir] autorelease];
+            NSURL * url = [[NSURL alloc] initFileURLWithPath:dir];
             [savePanel setDirectoryURL:url];
         }
         [savePanel setNameFieldStringValue:file];

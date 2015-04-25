@@ -6,8 +6,6 @@
 	<string>en_US</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIconFile</key>
-	<string>cocoadialog</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.cocoaDialog</string>
 	<key>CFBundleInfoDictionaryVersion</key>

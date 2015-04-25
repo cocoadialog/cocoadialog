@@ -99,10 +99,10 @@
     
     id inputbox;
     if ([options hasOpt:@"no-show"]) {
-        inputbox = [[[NSSecureTextField alloc] init] autorelease];
+        inputbox = [[NSSecureTextField alloc] init];
     }
     else {
-        inputbox = [[[NSTextField alloc] init] autorelease];
+        inputbox = [[NSTextField alloc] init];
     }
     [inputbox setRefusesFirstResponder:YES];
     // Set initial text in textfield

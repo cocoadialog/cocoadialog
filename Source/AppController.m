@@ -18,6 +18,7 @@
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
+#import "CDUpdate.h"
 #import "AppController.h"
 
 @implementation AppController
@@ -161,32 +162,10 @@
     }
 }
 
-#pragma mark - CDControl
-+ (NSDictionary *) availableControls {
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-            [CDCheckboxControl class],              @"checkbox",
-            [CDPopUpButtonControl class],           @"dropdown",
-            [CDFileSelectControl class],            @"fileselect",
-            [CDFileSaveControl class],              @"filesave",
-            [CDInputboxControl class],              @"inputbox",
-            [CDMsgboxControl class],                @"msgbox",
-            [CDNotifyControl class],                @"notify",
-            [CDOkMsgboxControl class],              @"ok-msgbox",
-            [CDProgressbarControl class],           @"progressbar",
-            [CDRadioControl class],                 @"radio",
-            [CDSlider class],                       @"slider",
-            [CDInputboxControl class],              @"secure-inputbox",           
-            [CDStandardInputboxControl class],      @"secure-standard-inputbox",
-            [CDStandardPopUpButtonControl class],   @"standard-dropdown",         
-            [CDStandardInputboxControl class],      @"standard-inputbox",
-            [CDTextboxControl class],               @"textbox",
-            [CDYesNoMsgboxControl class],           @"yesno-msgbox",
-            nil];
-}
 
 - (void) chooseControl:(NSString *)runMode useOptions:options addExtraOptionsTo:(NSMutableDictionary *)extraOptions
 {
-    NSDictionary *controls = [AppController availableControls];
+    NSDictionary *controls = [CDControl availableControls];
 
 	if (runMode == nil) {
         currentControl = nil;

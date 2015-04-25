@@ -24,14 +24,10 @@
 
 - (id)init {
     self = [self initWithOptions:nil];
-    extensions = [[[NSMutableArray alloc] init] retain];
+    extensions = [[NSMutableArray alloc] init];
     return self;
 }
 
-- (void) dealloc {
-    [extensions release];
-	[super dealloc];
-}
 
 // This must be overridden if you want local global options for your control
 - (NSDictionary *) globalAvailableKeys {
@@ -83,7 +79,7 @@
 // Set options common to any file save panel
 - (void) setMisc {
     [savePanel setDelegate:self];
-    extensions = [[[NSMutableArray alloc] init] retain];
+    extensions = [[NSMutableArray alloc] init];
     NSArray *optionExtensions = [options optValues:@"with-extensions"];
 	if (optionExtensions != nil && [optionExtensions count]) {
 		NSString *extension;
