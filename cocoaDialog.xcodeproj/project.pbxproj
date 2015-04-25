@@ -701,7 +701,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /usr/bin/python;
-			shellScript = "\"\"\"ProgressBar -- for use with CocoaDialog (http://cocoadialog.sourceforge.net/)\"\"\"\n\n__author__ = \"Paul Bissex <pb@e-scribe.com>\"\n__version__ = \"0.2.1\"\n__license__ = \"MIT\"\n\nimport os\n\nclass ProgressBar:\n    \"\"\"Simple class for displaying progress bars using CocoaDialog\"\"\"\n\n    # Change CD_BASE to reflect the location of Cocoadialog on your system\n    CD_BASE = \"${BUILT_PRODUCTS_DIR}\"\n    CD_PATH = os.path.join(CD_BASE, \"${PROJECT_NAME}.app/Contents/MacOS/${PROJECT_NAME}\")\n    \n    def __init__(self, title=\"Progress\", message=\"\", percent=0):\n        \"\"\"Create progress bar dialog\"\"\"\n        template = \"%s progressbar --title '%s' --text '%s' --percent %d\"\n        self.percent = percent\n        self.pipe = os.popen(template % (ProgressBar.CD_PATH, title, message, percent), \"w\")\n        self.message = message\n            \n    def update(self, percent, message=False):\n        \"\"\"Update progress bar (and message if desired)\"\"\"\n        if message:\n            self.message = message  # store message for persistence\n        self.pipe.write(\"%d %s\\n\" % (percent, self.message))\n        self.pipe.flush()\n        \n    def finish(self):\n        \"\"\"Close progress bar window\"\"\"\n        self.pipe.close()\n\n\nif __name__ == \"__main__\":\n    # Sample usage\n    import time\n    bar = ProgressBar(title=\"ProgressBar.py Test\")\n    \n    for percent in range(25):\n        time.sleep(.15)\n        bar.update(percent, \"Test Starting...\")\n        \n    for percent in range(25,100):\n        time.sleep(.02)\n        bar.update(percent, \"Test Finishing...\")\n     \n    time.sleep(.5)\n    bar.finish()";
+			shellScript = "\"\"\"ProgressBar -- for use with CocoaDialog (http://cocoadialog.sourceforge.net/)\"\"\"\n\n__author__ = \"Paul Bissex <pb@e-scribe.com>\"\n__version__ = \"0.2.1\"\n__license__ = \"MIT\"\n\nimport os\n\nclass ProgressBar:\n    \"\"\"Simple class for displaying progress bars using CocoaDialog\"\"\"\n\n    # Change CD_BASE to reflect the location of Cocoadialog on your system\n    CD_BASE = \"${BUILT_PRODUCTS_DIR}\"\n    CD_PATH = os.path.join(CD_BASE, \"${PROJECT_NAME}.app/Contents/MacOS/${PROJECT_NAME}\")\n    \n    def __init__(self, title=\"Progress\", message=\"\", percent=0):\n        \"\"\"Create progress bar dialog\"\"\"\n        template = \"%s progressbar --title '%s' --text '%s' --percent %d --stoppable\"\n        self.percent = percent\n        self.pipe = os.popen(template % (ProgressBar.CD_PATH, title, message, percent), \"w\")\n        self.message = message\n            \n    def update(self, percent, message=False):\n        \"\"\"Update progress bar (and message if desired)\"\"\"\n        if message:\n            self.message = message  # store message for persistence\n        self.pipe.write(\"%d %s\\n\" % (percent, self.message))\n        self.pipe.flush()\n        \n    def finish(self):\n        \"\"\"Close progress bar window\"\"\"\n        self.pipe.close()\n\n\nif __name__ == \"__main__\":\n    # Sample usage\n    import time\n    bar = ProgressBar(title=\"ProgressBar.py Test\")\n    \n    for percent in range(25):\n        time.sleep(.15)\n        bar.update(percent, \"Test Starting...\")\n        \n    for percent in range(25,100):\n        time.sleep(.02)\n        bar.update(percent, \"Test Finishing...\")\n     \n    time.sleep(.5)\n    bar.finish()";
 		};
 		A7D4043E153C38E0005FA3CD /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -870,6 +870,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1119,6 +1120,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
