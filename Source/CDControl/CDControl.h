@@ -18,29 +18,47 @@
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#import <Foundation/Foundation.h>
 #import "CDCommon.h"
 #import "CDOptions.h"
-#import "CDIcon.h"
 #import "CDPanel.h"
+#import "CDIcon.h"
 
-// All controls must include the methods createControl and validateOptions.
-// This should look at the options and display a control (dialog with message,
-// inputbox, or whatever) to the user, get any necessary info from it, and
-// return an NSArray of NSString objects.
-// Each NSString is printed to stdout on its own line.
-// Return an empty NSArray if there is no output to be printed, or nil
-// on error.
-@protocol CDControlProtocol
+
+/*! All controls must include the methods createControl and validateOptions.
+    This should look at the options and display a control (dialog with message, inputbox, or whatever) to the user, 
+    get any necessary info from it, and return an NSArray of NSString objects.
+    Each NSString is printed to stdout on its own line.
+    @return an empty NSArray if there is no output to be printed, or nil on error.
+ */
+@protocol CDControl
+
 - (void) createControl;
 - (BOOL) validateOptions;
-+ (NSDictionary*) availableControls;
+
+- (CDOptions *) controlOptionsFromArgs:(NSArray *)args;
+- (CDOptions *) controlOptionsFromArgs:(NSArray *)args withGlobalKeys:(NSDictionary *)globalKeys;
+
+@property (readonly) BOOL validateOptions;
+
+#pragma mark - Internal Control Methods
+@required
+@property (readonly, copy) NSString *controlNib;
+
+#pragma mark - Subclassable Control Methods -
+// This must be sub-classed if you want options local to your control
+@property (readonly, copy) NSDictionary *availableKeys;
+// This must be sub-classed if you want specify local depreciated keys for your control
+@property (readonly, copy) NSDictionary *depreciatedKeys;
+// This must be overridden if you want local global options for your control
+@property (readonly, copy) NSDictionary *globalAvailableKeys;
+// This must be sub-classed if you want validate local options for your control
+- (BOOL) validateControl:(CDOptions *)options;
 @end
 
 // CDControl provides a runControl method.  It invokes
 // runControlFromOptions: with the options specified in initWithOptions:
 // You must override runControlFromOptions.
-@interface CDControl : CDCommon <CDControlProtocol> {
+@interface CDControl : CDCommon <CDControl> {
 // Classes
     CDIcon                      *icon;
     CDPanel                     *panel;
@@ -51,20 +69,16 @@
 // Variables
     int                         controlExitStatus;
     NSString                    *controlExitStatusString;
-    NSMutableArray              *controlItems;
-    NSMutableArray              *controlReturnValues;
+    NSMutableArray              *controlItems,
+                                *controlReturnValues;
 
 // Timer
-    NSThread                    *mainThread;
+    NSThread                    *mainThread,
+                                *timerThread;
     NSTimer                     *timer;
-    NSThread                    *timerThread;
     float                       timeout;
 }
 
-#pragma mark - Internal Control Methods -
-@property (readonly, copy) NSString *controlNib;
-- (CDOptions *) controlOptionsFromArgs:(NSArray *)args;
-- (CDOptions *) controlOptionsFromArgs:(NSArray *)args withGlobalKeys:(NSDictionary *)globalKeys;
 - (void) createTimer;
 - (NSString *) formatSecondsForString:(NSInteger)timeInSeconds;
 - (BOOL) loadControlNib:(NSString *)nib;
@@ -76,16 +90,6 @@
 - (void) stopControl;
 - (void) stopTimer;
 
-#pragma mark - Subclassable Control Methods -
-// This must be sub-classed if you want options local to your control
-@property (readonly, copy) NSDictionary *availableKeys;
-- (void) createControl;
-@property (readonly) BOOL validateOptions;
-// This must be sub-classed if you want specify local depreciated keys for your control
-@property (readonly, copy) NSDictionary *depreciatedKeys;
-// This must be overridden if you want local global options for your control
-@property (readonly, copy) NSDictionary *globalAvailableKeys;
-// This must be sub-classed if you want validate local options for your control
-- (BOOL) validateControl:(CDOptions *)options;
++ (NSDictionary*) availableControls;
 
 @end

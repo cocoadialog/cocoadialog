@@ -89,8 +89,6 @@
 		7BDF56781AEBE37D004812DE /* Progressbar.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CBB143759ED007AE363 /* Progressbar.xib */; };
 		7BDF56791AEBE37D004812DE /* tbc.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CBD143759ED007AE363 /* tbc.xib */; };
 		7BDF567A1AEBE37D004812DE /* Textbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CBF143759ED007AE363 /* Textbox.xib */; };
-		7BF9CC551AEBE7720058B25F /* CDFileSelectControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC9077145FACF8003ADF05 /* CDFileSelectControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7BF9CC561AEBE7900058B25F /* CDFileSaveControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC9075145FACF8003ADF05 /* CDFileSaveControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7BF9CC581AEBE7B00058B25F /* CDFileDialogControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC9073145FACF8003ADF05 /* CDFileDialogControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7BF9CC5E1AEBE7BC0058B25F /* CDBubbleControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC907C145FACF8003ADF05 /* CDBubbleControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7BF9CC5F1AEBE7BC0058B25F /* CDGrowlControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC907E145FACF8003ADF05 /* CDGrowlControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -101,6 +99,7 @@
 		7BF9CC641AEBE8330058B25F /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78A8CE8143784A8007AE363 /* Growl.framework */; };
 		7BF9CC761AEBED350058B25F /* dialogsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BF9CC751AEBED350058B25F /* dialogsTest.m */; };
 		7BF9CCCA1AEBFBAA0058B25F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BF9CCC91AEBFBAA0058B25F /* Images.xcassets */; };
+		7BF9CCCB1AEC03B40058B25F /* Dialogs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BDF56271AEBE163004812DE /* Dialogs.framework */; };
 		A78A8CD414376C42007AE363 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB5143759ED007AE363 /* InfoPlist.strings */; };
 		A78A8CD514376C42007AE363 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB7143759ED007AE363 /* MainMenu.xib */; };
 		A78A8CE014377610007AE363 /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CDE14377610007AE363 /* CHANGELOG */; };
@@ -140,15 +139,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		7BF9CC711AEBED350058B25F /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
 		A78A8CEA143784BD007AE363 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -174,9 +164,7 @@
 		61EC9071145FACF8003ADF05 /* CDControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDControl.m; sourceTree = "<group>"; };
 		61EC9073145FACF8003ADF05 /* CDFileDialogControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDFileDialogControl.h; sourceTree = "<group>"; };
 		61EC9074145FACF8003ADF05 /* CDFileDialogControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDFileDialogControl.m; sourceTree = "<group>"; };
-		61EC9075145FACF8003ADF05 /* CDFileSaveControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDFileSaveControl.h; sourceTree = "<group>"; };
 		61EC9076145FACF8003ADF05 /* CDFileSaveControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDFileSaveControl.m; sourceTree = "<group>"; };
-		61EC9077145FACF8003ADF05 /* CDFileSelectControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDFileSelectControl.h; sourceTree = "<group>"; };
 		61EC9078145FACF8003ADF05 /* CDFileSelectControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDFileSelectControl.m; sourceTree = "<group>"; };
 		61EC9079145FACF8003ADF05 /* CDIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDIcon.h; sourceTree = "<group>"; };
 		61EC907A145FACF8003ADF05 /* CDIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDIcon.m; sourceTree = "<group>"; };
@@ -268,6 +256,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BF9CCCB1AEC03B40058B25F /* Dialogs.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -382,9 +371,7 @@
 			children = (
 				61EC9073145FACF8003ADF05 /* CDFileDialogControl.h */,
 				61EC9074145FACF8003ADF05 /* CDFileDialogControl.m */,
-				61EC9075145FACF8003ADF05 /* CDFileSaveControl.h */,
 				61EC9076145FACF8003ADF05 /* CDFileSaveControl.m */,
-				61EC9077145FACF8003ADF05 /* CDFileSelectControl.h */,
 				61EC9078145FACF8003ADF05 /* CDFileSelectControl.m */,
 			);
 			path = CDFileDialogControl;
@@ -496,7 +483,6 @@
 			files = (
 				7BDF56621AEBE199004812DE /* CDCommon.h in Headers */,
 				7BF9CC601AEBE7BC0058B25F /* CDNotifyControl.h in Headers */,
-				7BF9CC561AEBE7900058B25F /* CDFileSaveControl.h in Headers */,
 				7BDF56631AEBE199004812DE /* CDControl.h in Headers */,
 				7BDF56641AEBE199004812DE /* CDIcon.h in Headers */,
 				7BDF56651AEBE199004812DE /* CDPanel.h in Headers */,
@@ -517,7 +503,6 @@
 				7BDF566F1AEBE199004812DE /* CDSlider.h in Headers */,
 				7BF9CC631AEBE7BC0058B25F /* KABubbleWindowView.h in Headers */,
 				7BDF56701AEBE199004812DE /* CDStandardInputboxControl.h in Headers */,
-				7BF9CC551AEBE7720058B25F /* CDFileSelectControl.h in Headers */,
 				7BDF56711AEBE199004812DE /* CDStandardPopUpButtonControl.h in Headers */,
 				7BDF56721AEBE199004812DE /* CDTextboxControl.h in Headers */,
 				7BDF56731AEBE199004812DE /* CDThreeButtonControl.h in Headers */,
@@ -554,7 +539,6 @@
 			buildPhases = (
 				7BF9CC6F1AEBED350058B25F /* Sources */,
 				7BF9CC701AEBED350058B25F /* Frameworks */,
-				7BF9CC711AEBED350058B25F /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -868,7 +852,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -892,6 +875,7 @@
 			baseConfigurationReference = A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -899,7 +883,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_UNREACHABLE_CODE = NO;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -960,7 +944,6 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1014,7 +997,6 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1040,16 +1022,11 @@
 		7BF9CC781AEBED350058B25F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1061,35 +1038,24 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
 		7BF9CC791AEBED350058B25F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -1098,6 +1064,7 @@
 			baseConfigurationReference = A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -1105,7 +1072,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_UNREACHABLE_CODE = NO;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1119,7 +1086,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;

@@ -29,5 +29,5 @@
 #import <Dialogs/CDYesNoMsgboxControl.h>
 #import <Dialogs/CDOptions.h>
 #import <Dialogs/CDNotifyControl.h>
-#import <Dialogs/CDFileSelectControl.h>
-#import <Dialogs/CDFileSaveControl.h>
+
+#import <Dialogs/CDFileDialogControl.h>

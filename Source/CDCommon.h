@@ -6,9 +6,7 @@
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "CDOptions.h"
-@class NSObject;
 
 @interface CDCommon : NSObject {
     CDOptions *options;

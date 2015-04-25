@@ -18,11 +18,10 @@
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#import <Foundation/Foundation.h>
 #import "CDControl.h"
 
-
-@interface CDFileDialogControl : CDControl <NSOpenSavePanelDelegate> {
+@interface CDFileDialogControl : CDControl <NSOpenSavePanelDelegate>
+{
     NSSavePanel *savePanel;
     NSMutableArray * extensions;
 }
@@ -33,3 +32,7 @@
 - (void) setMisc;
 
 @end
+
+@interface CDFileSaveControl   : CDFileDialogControl @end
+@interface CDFileSelectControl : CDFileDialogControl @end
+

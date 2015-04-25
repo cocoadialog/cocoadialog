@@ -24,25 +24,23 @@
 #define CDOptionsOneValue       1
 #define CDOptionsMultipleValues 2
 
-// Simple wrapper for commandline options.
-// Easily used with [CDOptions getOpts:[[NSProcessInfo processInfo] arguments]]
+/// Simple wrapper for commandline options. Easily used with [CDOptions getOpts:[[NSProcessInfo processInfo] arguments]]
 
-@interface CDOptions : NSObject {
-	NSMutableDictionary *_options;
-}
+@interface CDOptions : NSObject
 
-// availableKeys should be an NSString key, and an NSNumber int value using
-// one of the constants defined above.
-+ (CDOptions *) getOpts:(NSArray *)args availableKeys:(NSDictionary *)availableKeys depreciatedKeys:(NSDictionary *)depreciatedKeys;
-+ (void)printOpts:(NSArray *)availableOptions forRunMode:(NSString *)runMode;
+/// availableKeys should be an NSString key, and an NSNumber int value using one of the constants defined above.
 
-- (BOOL) hasOpt:(NSString *)key;
-- (NSString *) optValue:(NSString *)key;
-- (NSArray *) optValues:(NSString *)key;
-- (id) optValueOrValues:(NSString *)key;
-@property (readonly, copy) NSArray *allOptions;
-@property (readonly, copy) NSArray *allOptValues;
++ (instancetype) getOpts:(NSArray*)args availableKeys:(NSDictionary*)aks depreciatedKeys:(NSDictionary *)dks;
 
-- (void) setOption:(id)value forKey:(NSString *)key;
++ (void) printOpts:(NSArray*)availableOptions forRunMode:(NSString*)m;
+
+- (BOOL)         hasOpt:(NSString*)key;
+- (NSString*)  optValue:(NSString*)key;
+- (NSArray*)  optValues:(NSString*)key;
+-      optValueOrValues:(NSString*)key;
+
+@property (readonly, copy) NSArray *allOptions, *allOptValues;
+
+- (void) setOption:val forKey:(NSString*)key;
 
 @end
