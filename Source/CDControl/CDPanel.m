@@ -80,13 +80,19 @@
     if (panel != nil) {
         if ([options hasOpt:@"no-float"]) {
             [panel setFloatingPanel:NO];
-            [panel setLevel:NSNormalWindowLevel];
+            // [panel setLevel:NSNormalWindowLevel];
+            [panel setLevel:NSStatusWindowLevel];
+        	[panel setCanBecomeVisibleWithoutLogin: YES];
+        
         }
         else {
             [panel setFloatingPanel: YES];
-            [panel setLevel:NSScreenSaverWindowLevel];
+            [panel setLevel:NSStatusWindowLevel];
+        	[panel setCanBecomeVisibleWithoutLogin: YES];
         }		
         [panel makeKeyAndOrderFront:nil];
+        [panel setLevel:NSStatusWindowLevel];
+    	[panel setCanBecomeVisibleWithoutLogin: YES];
     }
 }
 - (void) setPanelEmpty {
