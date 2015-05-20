@@ -2,12 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleDisplayName</key>
-	<string>cocoaDialog</string>
-	<key>NSHumanReadableCopyright</key>
-	<string>GPL</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en_US</string>
+	<key>CFBundleDisplayName</key>
+	<string>cocoaDialog</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
@@ -21,13 +19,13 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.0-beta7</string>
+	<string>3.0.99999</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>3.0.0-beta7</string>
+	<string>3.0.99999</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>10.4</string>
+	<string>10.9</string>
 	<key>LSMinimumSystemVersionByArchitecture</key>
 	<dict>
 		<key>i386</key>
@@ -41,6 +39,8 @@
 	</dict>
 	<key>LSUIElement</key>
 	<integer>1</integer>
+	<key>NSHumanReadableCopyright</key>
+	<string>GPL</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
