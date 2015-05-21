@@ -19,11 +19,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.0.99999</string>
+	<string>3.0.999</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>3.0.99999</string>
+	<string>3.0.999</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.9</string>
 	<key>LSMinimumSystemVersionByArchitecture</key>
