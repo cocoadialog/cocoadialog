@@ -71,46 +71,46 @@
     NSString *relative = @"unknown";
     if (days > 0) {
         if (days > 1) {
-            relative = [NSString stringWithFormat:@"%d days", days];
+            relative = [NSString stringWithFormat:@"%ld days", (long)days];
         }
         else {
-            relative = [NSString stringWithFormat:@"%d day", days];
+            relative = [NSString stringWithFormat:@"%ld day", (long)days];
         }
     }
     else {
         if (hours > 0) {
             if (hours > 1) {
-                relative = [NSString stringWithFormat:@"%d hours", hours];
+                relative = [NSString stringWithFormat:@"%ld hours", (long)hours];
             }
             else {
-                relative = [NSString stringWithFormat:@"%d hour", hours];
+                relative = [NSString stringWithFormat:@"%ld hour", (long)hours];
             }
         }
         else {
             if (minutes > 0) {
                 if (minutes > 1) {
-                    relative = [NSString stringWithFormat:@"%d minutes", minutes];
+                    relative = [NSString stringWithFormat:@"%ld minutes", (long)minutes];
                 }
                 else {
-                    relative = [NSString stringWithFormat:@"%d minute", minutes];
+                    relative = [NSString stringWithFormat:@"%ld minute", (long)minutes];
                 }
             }
             else {
                 if (seconds > 0) {
                     if (seconds > 1) {
-                        relative = [NSString stringWithFormat:@"%d seconds", seconds];
+                        relative = [NSString stringWithFormat:@"%ld seconds", (long)seconds];
                     }
                     else {
-                        relative = [NSString stringWithFormat:@"%d second", seconds];
+                        relative = [NSString stringWithFormat:@"%ld second", (long)seconds];
                     }
                 }
             }
         }
     }
-    returnString = [returnString stringByReplacingOccurrencesOfString:@"%s" withString:[NSString stringWithFormat:@"%d", seconds]];
-    returnString = [returnString stringByReplacingOccurrencesOfString:@"%m" withString:[NSString stringWithFormat:@"%d", minutes]];
-    returnString = [returnString stringByReplacingOccurrencesOfString:@"%h" withString:[NSString stringWithFormat:@"%d", hours]];
-    returnString = [returnString stringByReplacingOccurrencesOfString:@"%d" withString:[NSString stringWithFormat:@"%d", days]];
+    returnString = [returnString stringByReplacingOccurrencesOfString:@"%s" withString:[NSString stringWithFormat:@"%ld", (long)seconds]];
+    returnString = [returnString stringByReplacingOccurrencesOfString:@"%m" withString:[NSString stringWithFormat:@"%ld", (long)minutes]];
+    returnString = [returnString stringByReplacingOccurrencesOfString:@"%h" withString:[NSString stringWithFormat:@"%ld", (long)hours]];
+    returnString = [returnString stringByReplacingOccurrencesOfString:@"%d" withString:[NSString stringWithFormat:@"%ld", (long)days]];
     returnString = [returnString stringByReplacingOccurrencesOfString:@"%r" withString:relative];
     return returnString;
 }
@@ -298,7 +298,7 @@
             if (![options hasOpt:@"no-newline"] || i+1 < [controlReturnValues count])
             {
                 if (fh) {
-                    [fh writeData:[[NSString stringWithString:@"\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+                    [fh writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
                 }
             }
         }
