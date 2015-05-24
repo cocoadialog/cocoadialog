@@ -114,7 +114,7 @@
 	if ([[self options] hasOpt:@"string-output"]) {
         [controlReturnValues addObject:[popupControl titleOfSelectedItem]];
 	} else {
-        [controlReturnValues addObject:[NSString stringWithFormat:@"%d", [popupControl indexOfSelectedItem]]];
+        [controlReturnValues addObject:[NSString stringWithFormat:@"%ld", (long)[popupControl indexOfSelectedItem]]];
 	}
     [super controlHasFinished:button];
 }
@@ -127,7 +127,7 @@
         if ([[self options] hasOpt:@"string-output"]) {
             [controlReturnValues addObject:[popupControl titleOfSelectedItem]];
         } else {
-            [controlReturnValues addObject:[NSString stringWithFormat:@"%d", [popupControl indexOfSelectedItem]]];
+            [controlReturnValues addObject:[NSString stringWithFormat:@"%ld", (long)[popupControl indexOfSelectedItem]]];
         }
         [self stopControl];
 	}
