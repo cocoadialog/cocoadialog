@@ -111,7 +111,7 @@
                 [controlReturnValues addObject:[selectedCell title]];
             }
             else {
-                [controlReturnValues addObject:[NSString stringWithFormat:@"%d", [[controlMatrix selectedCell] tag]]];
+                [controlReturnValues addObject:[NSString stringWithFormat:@"%ld", (long)[[controlMatrix selectedCell] tag]]];
             }
         }
         else {
@@ -186,7 +186,7 @@
         [button setButtonType:NSRadioButton];
         [button setTitle:[items objectAtIndex:currItem]];
         if (disabled != nil && [disabled count]) {
-            if ([disabled containsObject:[NSString stringWithFormat:@"%i", currItem]]) {
+            if ([disabled containsObject:[NSString stringWithFormat:@"%lu", currItem]]) {
                 [[button cell] setEnabled: NO];
             }
         }
