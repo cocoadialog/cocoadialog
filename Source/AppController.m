@@ -23,7 +23,7 @@
 @implementation AppController
 
 - (NSString *) appVersion {
-    return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    return [[NSBundle mainBundle] infoDictionary][@"CFBundleVersion"];
 }
 
 #pragma mark - Initialization
@@ -40,7 +40,7 @@
     CDOptions *options = [CDOptions getOpts:arguments availableKeys:globalKeys depreciatedKeys:depreciatedKeys];
 	if ([arguments count] >= 2) {
 		[arguments removeObjectAtIndex:0]; // Remove program name.
-		runMode = [arguments objectAtIndex:0];
+		runMode = arguments[0];
 		[arguments removeObjectAtIndex:0]; // Remove the run-mode
 	}
     // runMode is either the PID of a GUI initialization or "about", show the about dialog
@@ -61,7 +61,7 @@
         // Recapture the arguments
         arguments = [[[NSMutableArray alloc] initWithArray:[[NSProcessInfo processInfo] arguments]] autorelease];
         // Replace the runMode with the new one
-        [arguments replaceObjectAtIndex:1 withObject:@"CDNotifyControl"];
+        arguments[1] = @"CDNotifyControl";
         // Relaunch cocoaDialog with the new runMode
         NSString *launcherSource = [[NSBundle mainBundle] pathForResource:@"relaunch" ofType:@""];
         [arguments insertObject:launcherSource atIndex:0];
@@ -117,7 +117,7 @@
             NSEnumerator *en = [extraOptions keyEnumerator];
             NSString *key;
             while ((key = [en nextObject])) {
-                [options setOption:[extraOptions objectForKey:key] forKey:key];
+                [options setOption:extraOptions[key] forKey:key];
             }
 
             // Reload the options for currentControl
@@ -163,25 +163,23 @@
 
 #pragma mark - CDControl
 + (NSDictionary *) availableControls {
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-            [CDCheckboxControl class],              @"checkbox",
-            [CDPopUpButtonControl class],           @"dropdown",
-            [CDFileSelectControl class],            @"fileselect",
-            [CDFileSaveControl class],              @"filesave",
-            [CDInputboxControl class],              @"inputbox",
-            [CDMsgboxControl class],                @"msgbox",
-            [CDNotifyControl class],                @"notify",
-            [CDOkMsgboxControl class],              @"ok-msgbox",
-            [CDProgressbarControl class],           @"progressbar",
-            [CDRadioControl class],                 @"radio",
-            [CDSlider class],                       @"slider",
-            [CDInputboxControl class],              @"secure-inputbox",
-            [CDStandardInputboxControl class],      @"secure-standard-inputbox",
-            [CDStandardPopUpButtonControl class],   @"standard-dropdown",
-            [CDStandardInputboxControl class],      @"standard-inputbox",
-            [CDTextboxControl class],               @"textbox",
-            [CDYesNoMsgboxControl class],           @"yesno-msgbox",
-            nil];
+    return @{@"checkbox": [CDCheckboxControl class],
+            @"dropdown": [CDPopUpButtonControl class],
+            @"fileselect": [CDFileSelectControl class],
+            @"filesave": [CDFileSaveControl class],
+            @"inputbox": [CDInputboxControl class],
+            @"msgbox": [CDMsgboxControl class],
+            @"notify": [CDNotifyControl class],
+            @"ok-msgbox": [CDOkMsgboxControl class],
+            @"progressbar": [CDProgressbarControl class],
+            @"radio": [CDRadioControl class],
+            @"slider": [CDSlider class],
+            @"secure-inputbox": [CDInputboxControl class],
+            @"secure-standard-inputbox": [CDStandardInputboxControl class],
+            @"standard-dropdown": [CDStandardPopUpButtonControl class],
+            @"standard-inputbox": [CDStandardInputboxControl class],
+            @"textbox": [CDTextboxControl class],
+            @"yesno-msgbox": [CDYesNoMsgboxControl class]};
 }
 
 - (void) chooseControl:(NSString *)runMode useOptions:options addExtraOptionsTo:(NSMutableDictionary *)extraOptions
@@ -220,10 +218,10 @@
         // come to the front automatically.
         [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
 
-        id control = [controls objectForKey:[runMode lowercaseString]];
+        id control = controls[[runMode lowercaseString]];
         if (control != nil) {
             if ([runMode caseInsensitiveCompare:@"secure-standard-inputbox"] == NSOrderedSame || [runMode caseInsensitiveCompare:@"secure-inputbox"] == NSOrderedSame) {
-                [extraOptions setObject:[NSNumber numberWithBool:NO] forKey:@"no-show"];
+                extraOptions[@"no-show"] = @NO;
             }
             currentControl = [[(CDControl *)[control alloc] initWithOptions:options] autorelease];
             return;
@@ -279,7 +277,7 @@
 
     // next make the text appear with an underline
     [attrString addAttribute:
-     NSUnderlineStyleAttributeName value:[NSNumber numberWithInt:NSUnderlineStyleSingle] range:range];
+     NSUnderlineStyleAttributeName value:@(NSUnderlineStyleSingle) range:range];
 
     [attrString endEditing];
 

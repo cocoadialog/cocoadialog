@@ -36,7 +36,7 @@
 - (void) update {
     SUUpdater * updater = [SUUpdater sharedUpdater];
     [updater setDelegate:self];
-    NSURL *appcastURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"SUFeedURL"]];
+    NSURL *appcastURL = [NSURL URLWithString:[[NSBundle mainBundle] infoDictionary][@"SUFeedURL"]];
     if (appcastURL != nil) {
         [updater setFeedURL:appcastURL];
     }
