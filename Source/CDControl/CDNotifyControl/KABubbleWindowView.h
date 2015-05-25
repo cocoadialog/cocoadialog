@@ -20,21 +20,15 @@
 - (void) setAttributedText:(NSAttributedString *) text;
 - (void) setText:(NSString *) text;
 
-- (void) setDarkColor:(NSColor *)color;
-- (void) setLightColor:(NSColor *)color;
-- (void) setTextColor:(NSColor *)color;
-- (void) setBorderColor:(NSColor *)color;
-- (const CGFloat *) darkColorFloat; // returns { r, g, b, a }
-- (const CGFloat *) lightColorFloat; // returns { r, g, b, a }
-- (NSColor *) darkColor;
-- (NSColor *) lightColor;
-- (NSColor *) textColor;
-- (NSColor *) borderColor;
+@property (NS_NONATOMIC_IOSONLY, readonly) const CGFloat *darkColorFloat; // returns { r, g, b, a }
+@property (NS_NONATOMIC_IOSONLY, readonly) const CGFloat *lightColorFloat; // returns { r, g, b, a }
+@property (NS_NONATOMIC_IOSONLY, copy) NSColor *darkColor;
+@property (NS_NONATOMIC_IOSONLY, copy) NSColor *lightColor;
+@property (NS_NONATOMIC_IOSONLY, copy) NSColor *textColor;
+@property (NS_NONATOMIC_IOSONLY, copy) NSColor *borderColor;
 
-- (id) target;
-- (void) setTarget:(id) object;
+@property (NS_NONATOMIC_IOSONLY, assign) id target;
 
-- (SEL) action;
-- (void) setAction:(SEL) selector;
+@property (NS_NONATOMIC_IOSONLY) SEL action;
 
 @end

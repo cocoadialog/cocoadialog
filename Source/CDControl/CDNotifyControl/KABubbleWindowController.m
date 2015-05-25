@@ -38,7 +38,7 @@ static unsigned int bubbleWindowDepth = 0;
 	return ret;
 }
 
-- (id) initWithTextColor:(NSColor *)textColor 
+- (instancetype) initWithTextColor:(NSColor *)textColor 
 			   darkColor:(NSColor *)darkColor 
 			  lightColor:(NSColor *)lightColor 
 			 borderColor:(NSColor *)borderColor 

@@ -12,19 +12,17 @@
 
 - (NSDictionary *) availableKeys
 {
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
-	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
+	NSNumber *vNone = @CDOptionsNoValues;
+	NSNumber *vOne = @CDOptionsOneValue;
+	NSNumber *vMul = @CDOptionsMultipleValues;
 
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-            vNone,@"allow-mixed",
-            vMul, @"items",
-            vOne, @"selected",
-            vMul, @"mixed",
-            vMul, @"disabled",
-            vOne, @"rows",
-            vOne, @"columns",
-            nil];
+	return @{@"allow-mixed": vNone,
+            @"items": vMul,
+            @"selected": vOne,
+            @"mixed": vMul,
+            @"disabled": vMul,
+            @"rows": vOne,
+            @"columns": vOne};
 }
 
 - (BOOL) validateOptions {
@@ -184,7 +182,7 @@
     while ((obj = [en nextObject])) {
         NSButton * button = [[[NSButton alloc] init] autorelease];
         [button setButtonType:NSRadioButton];
-        [button setTitle:[items objectAtIndex:currItem]];
+        [button setTitle:items[currItem]];
         if (disabled != nil && [disabled count]) {
             if ([disabled containsObject:[NSString stringWithFormat:@"%lu", currItem]]) {
                 [[button cell] setEnabled: NO];
@@ -211,7 +209,7 @@
     for (unsigned long currColumn = 0; currColumn <= columns - 1; currColumn++) {
         for (unsigned long currRow = 0; currRow <= rows - 1; currRow++) {
             if (currItem <= [items count] - 1) {
-                NSButtonCell * cell = [controls objectAtIndex:currItem];
+                NSButtonCell * cell = controls[currItem];
                 [controlMatrix putCell:cell atRow:currRow column:currColumn];
                 if (selected == currItem) {
                     [controlMatrix selectCellAtRow:currRow column:currColumn];

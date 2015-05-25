@@ -24,18 +24,16 @@
 
 - (NSDictionary *) availableKeys
 {
-	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
+	NSNumber *vMul = @CDOptionsMultipleValues;
 //	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
+	NSNumber *vNone = @CDOptionsNoValues;
 
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-        vMul,  @"allowed-files",
-		vNone, @"select-directories",
-		vNone, @"select-only-directories",
-		vNone, @"no-select-directories",
-		vNone, @"select-multiple",
-		vNone, @"no-select-multiple",
-		nil];
+	return @{@"allowed-files": vMul,
+		@"select-directories": vNone,
+		@"select-only-directories": vNone,
+		@"no-select-directories": vNone,
+		@"select-multiple": vNone,
+		@"no-select-multiple": vNone};
 }
 
 - (void) createControl {

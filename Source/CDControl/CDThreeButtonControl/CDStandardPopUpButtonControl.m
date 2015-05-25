@@ -25,17 +25,15 @@
 
 - (NSDictionary *) availableKeys
 {
-    NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
-	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
+    NSNumber *vOne = @CDOptionsOneValue;
+	NSNumber *vNone = @CDOptionsNoValues;
+	NSNumber *vMul = @CDOptionsMultipleValues;
     
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-            vMul,   @"items",
-            vOne,   @"selected",
-            vNone,  @"exit-onchange",
-            vNone,  @"pulldown",
-            vNone,  @"no-cancel",
-            nil];
+	return @{@"items": vMul,
+            @"selected": vOne,
+            @"exit-onchange": vNone,
+            @"pulldown": vNone,
+            @"no-cancel": vNone};
 }
 
 - (void) setButtons {

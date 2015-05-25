@@ -22,7 +22,7 @@
 
 @implementation CDFileDialogControl
 
-- (id)init {
+- (instancetype)init {
     self = [self initWithOptions:nil];
     extensions = [[[NSMutableArray alloc] init] retain];
     return self;
@@ -35,49 +35,44 @@
 
 // This must be overridden if you want local global options for your control
 - (NSDictionary *) globalAvailableKeys {
-    NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
-    NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-            // General
-            vNone, @"help",
-            vNone, @"debug",
-            vNone, @"quiet",
-            vOne,  @"timeout",
-            vOne,  @"timeout-format",
-            vNone, @"string-output",
-            vNone, @"no-newline",
+    NSNumber *vOne = @CDOptionsOneValue;
+	NSNumber *vNone = @CDOptionsNoValues;
+    NSNumber *vMul = @CDOptionsMultipleValues;
+    return @{@"help": vNone,
+            @"debug": vNone,
+            @"quiet": vNone,
+            @"timeout": vOne,
+            @"timeout-format": vOne,
+            @"string-output": vNone,
+            @"no-newline": vNone,
             // Panel
-            vOne,  @"title",
-            vOne,  @"width",
-            vOne,  @"height",
-            vOne,  @"posX",
-            vOne,  @"posY",
-            vNone, @"no-float",
-            vNone, @"minimize",
-            vNone, @"resize",
+            @"title": vOne,
+            @"width": vOne,
+            @"height": vOne,
+            @"posX": vOne,
+            @"posY": vOne,
+            @"no-float": vNone,
+            @"minimize": vNone,
+            @"resize": vNone,
             // Icon
-            vOne,  @"icon",
-            vOne,  @"icon-bundle",
-            vOne,  @"icon-type",
-            vOne,  @"icon-file",
-            vOne,  @"icon-size",
-            vOne,  @"icon-width",
-            vOne,  @"icon-height",
+            @"icon": vOne,
+            @"icon-bundle": vOne,
+            @"icon-type": vOne,
+            @"icon-file": vOne,
+            @"icon-size": vOne,
+            @"icon-width": vOne,
+            @"icon-height": vOne,
 
             // CDFileDialogs
-            vOne,  @"label",
-            vNone, @"packages-as-directories",
-            vMul,  @"with-extensions",
-            vOne,  @"with-directory",
-            vOne,  @"with-file",
-            nil];
+            @"label": vOne,
+            @"packages-as-directories": vNone,
+            @"with-extensions": vMul,
+            @"with-directory": vOne,
+            @"with-file": vOne};
 }
 
 - (NSDictionary *) depreciatedKeys {
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-            @"label", @"text",
-            nil];
+	return @{@"text": @"label"};
 }
 
 // Set options common to any file save panel

@@ -9,7 +9,7 @@
 
 @implementation CDProgressbarInputHandler
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self) {
@@ -90,7 +90,7 @@
 {
     if (currentProgress != newProgress) {
         currentProgress = newProgress;
-        [self invokeOnMainQueueWithTarget:delegate selector:@selector(updateProgress:) object:[NSNumber numberWithDouble:newProgress]];
+        [self invokeOnMainQueueWithTarget:delegate selector:@selector(updateProgress:) object:@(newProgress)];
     }
 }
 
@@ -112,12 +112,12 @@
     NSArray *lines = [str componentsSeparatedByString:@"\n"];
 
     for (NSUInteger i = 0; i < [lines count]; i++) {
-        NSString *line = [lines objectAtIndex:i];
+        NSString *line = lines[i];
         if ([line length] != 0) {
             if ([line isEqualToString:@"stop enable"]) {
-                [self invokeOnMainQueueWithTarget:delegate selector:@selector(setStopEnabled:) object:[NSNumber numberWithBool:YES]];
+                [self invokeOnMainQueueWithTarget:delegate selector:@selector(setStopEnabled:) object:@YES];
             } else if ([line isEqualToString:@"stop disable"]) {
-                [self invokeOnMainQueueWithTarget:delegate selector:@selector(setStopEnabled:) object:[NSNumber numberWithBool:NO]];
+                [self invokeOnMainQueueWithTarget:delegate selector:@selector(setStopEnabled:) object:@NO];
             } else {
                 NSScanner *scanner = [NSScanner scannerWithString:line];
 

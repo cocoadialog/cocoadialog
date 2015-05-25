@@ -132,14 +132,14 @@
         NSArray * clickArgs = [NSArray arrayWithArray:[options optValues:@"click-args"]];
 		// Create the bubbles
 		for (i = 0; i < [descriptions count]; i++) {
-			NSImage *_icon = fallbackIcon == nil ? (NSImage *)[icons objectAtIndex:i] : fallbackIcon;
-            [self addNotificationWithTitle:[titles objectAtIndex:i]
-                               description:[descriptions objectAtIndex:i]
+			NSImage *_icon = fallbackIcon == nil ? (NSImage *)icons[i] : fallbackIcon;
+            [self addNotificationWithTitle:titles[i]
+                               description:descriptions[i]
                                       icon:_icon
                                   priority:nil
                                     sticky:sticky
-                                 clickPath:[clickPaths count] ? [clickPaths objectAtIndex:i] : clickPath
-                                  clickArg:[clickArgs count] ? [clickArgs objectAtIndex:i] : clickArg
+                                 clickPath:[clickPaths count] ? clickPaths[i] : clickPath
+                                  clickArg:[clickArgs count] ? clickArgs[i] : clickArg
              ];
 		}
 	// Single bubble
@@ -160,8 +160,8 @@
     while ((obj = [en nextObject])) {
         NSDictionary * notification = [NSDictionary dictionaryWithDictionary:obj];
         KABubbleWindowController *bubble = [KABubbleWindowController
-                                            bubbleWithTitle:[notification objectForKey:@"title"] text:[notification objectForKey:@"description"]
-                                            icon:[notification objectForKey:@"icon"]
+                                            bubbleWithTitle:notification[@"title"] text:notification[@"description"]
+                                            icon:notification[@"icon"]
                                             timeout:_timeout
                                             lightColor:[self _colorForBubble:i fromKey:@"background-tops" alpha:alpha]
                                             darkColor:[self _colorForBubble:i fromKey:@"background-bottoms" alpha:alpha]
@@ -170,7 +170,7 @@
                                             numExpectedBubbles:(unsigned)[notifications count]
                                             bubblePosition:position];
 
-        [bubble setAutomaticallyFadesOut:![[notification objectForKey:@"sticky"] boolValue]];
+        [bubble setAutomaticallyFadesOut:![notification[@"sticky"] boolValue]];
         [bubble setDelegate:self];
         [bubble setClickContext:[NSString stringWithFormat:@"%d", activeNotifications]];
         [bubble startFadeIn];
@@ -237,7 +237,7 @@
 			myKey = [key substringToIndex:([key length] - 1)];
 			optValue = [options optValue:myKey];
 		}
-		colorArgs = optValue ? [NSArray arrayWithObject:optValue] : [NSArray array];
+		colorArgs = optValue ? @[optValue] : @[];
 	}
 	// If user don't specify enough colors,  use the last
 	// given color for any bubbles past that.
@@ -245,7 +245,7 @@
 		i = [colorArgs count] - 1;
 	}
 	NSString *hexValue = i < [colorArgs count] ?
-		[colorArgs objectAtIndex:i] : nil;
+		colorArgs[i] : nil;
 
 	if ([myKey hasPrefix:@"text-color"]) {
 		return hexValue
