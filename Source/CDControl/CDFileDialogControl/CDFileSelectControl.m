@@ -90,7 +90,7 @@
         if (file != nil) {
             NSString *path = dir;
             if (path == nil) {
-                path = [openPanel directory];
+                path = [NSString stringWithContentsOfURL:[openPanel URL] encoding:NSUTF8StringEncoding error:nil];
             }
             path = [path stringByAppendingString:@"/"];
             path = [path stringByAppendingString:file];
@@ -114,10 +114,6 @@
 
     NSInteger result;
 
-    if (kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber10_6) {
-        result = [openPanel runModalForDirectory:dir file:file];
-    }
-    else {
         if (dir != nil) {
             if (file != nil) {
                 dir = [dir stringByAppendingString:@"/"];
@@ -127,7 +123,7 @@
             [openPanel setDirectoryURL:url];
         }
         result = [openPanel runModal];
-    }
+    
     if (result == NSFileHandlingPanelOKButton) {
         controlExitStatus = -1;
         NSEnumerator *en = [[openPanel URLs] objectEnumerator];
