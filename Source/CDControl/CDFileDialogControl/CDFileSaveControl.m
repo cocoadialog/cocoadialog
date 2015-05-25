@@ -85,20 +85,17 @@
     [self setTimeout];
 	
     NSInteger result;
-    if (kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber10_6) {
-        result = [savePanel runModalForDirectory:dir file:file];
-    }
-    else {
+    
         if (dir != nil) {
             NSURL * url = [[[NSURL alloc] initFileURLWithPath:dir] autorelease];
             [savePanel setDirectoryURL:url];
         }
         [savePanel setNameFieldStringValue:file];
         result = [savePanel runModal];
-    }
+    
     if (result == NSFileHandlingPanelOKButton) {
         controlExitStatus = -1;
-        [controlReturnValues addObject:[savePanel filename]];
+        [controlReturnValues addObject:[NSString stringWithContentsOfURL:[savePanel URL] encoding:NSUTF8StringEncoding error:nil]];
     }
     else {
         controlExitStatus = -2;
