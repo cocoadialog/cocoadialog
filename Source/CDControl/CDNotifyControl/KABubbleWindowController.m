@@ -1,17 +1,17 @@
-/* KABubbleWindowController.m from Colloquy (colloquy.info).
- * Modified for cocoaDialog (cocoadialog.sf.net).
- * I think they got this from an old version of Growl (growl.info).
+/* KABubbleWindowController.m from Colloquy <colloquy.info>.
+ * Modified for cocoaDialog <cocoadialog.sf.net>.
+ * I think they got this from an old version of Growl <growl.info>.
  */
 #import "KABubbleWindowController.h"
 #import "KABubbleWindowView.h"
 
-static unsigned int bubbleWindowDepth = 0;
+static unsigned int bubbleWindowDepth = 0U;
 
 @implementation KABubbleWindowController
 
-#define TIMER_INTERVAL ( 1. / 30. )
-#define FADE_INCREMENT 0.05
-#define KABubblePadding 10.
+#define TIMER_INTERVAL (1.0f / 30.0f)
+#define FADE_INCREMENT 0.05f
+#define KABubblePadding 10.0f
 
 #pragma mark -
 
@@ -38,21 +38,26 @@ static unsigned int bubbleWindowDepth = 0;
 	return ret;
 }
 
-- (id) initWithTextColor:(NSColor *)textColor 
-			   darkColor:(NSColor *)darkColor 
-			  lightColor:(NSColor *)lightColor 
-			 borderColor:(NSColor *)borderColor 
+#if 0
+extern unsigned int bubbleWindowDepth;
+#endif /* 0 */
+
+- (id) initWithTextColor:(NSColor *)textColor
+			   darkColor:(NSColor *)darkColor
+			  lightColor:(NSColor *)lightColor
+			 borderColor:(NSColor *)borderColor
 	  numExpectedBubbles:(int)numExpected
 		  bubblePosition:(unsigned int)position
 {
-	extern unsigned int bubbleWindowDepth;
-
-	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0., 0., 270., 65. ) styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO] autorelease];
+	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect(0.0f, 0.0f, 270.0f, 65.0f)
+                                                 styleMask:NSBorderlessWindowMask
+                                                   backing:NSBackingStoreBuffered
+                                                     defer:NO] autorelease];
 	[panel setBecomesKeyOnlyIfNeeded:YES];
 	[panel setHidesOnDeactivate:NO];
 	[panel setBackgroundColor:[NSColor clearColor]];
 	[panel setLevel:NSStatusWindowLevel];
-	[panel setAlphaValue:0.];
+	[panel setAlphaValue:0.0f];
 	[panel setOpaque:NO];
 	[panel setHasShadow:YES];
 	[panel setCanHide:NO];
@@ -70,31 +75,46 @@ static unsigned int bubbleWindowDepth = 0;
 	[panel setContentView:view];
 
 	NSRect screen = [[NSScreen mainScreen] visibleFrame];
-	
-	float leftPoint = 0.;
-	float topPoint = 0.;
-	// Find left position for bubble
+
+	float leftPoint = 0.0f;
+	float topPoint = 0.0f;
+	// Find left position for bubble:
 	if (position & BUBBLE_HORIZ_LEFT) {
-		leftPoint = NSMinX(screen) + KABubblePadding;
+		leftPoint = (float)(NSMinX(screen) + KABubblePadding);
 	} else if (position & BUBBLE_HORIZ_CENTER) {
-		leftPoint = (NSWidth(screen)-NSWidth([panel frame]))/2 - KABubblePadding;
+		leftPoint = (float)(((NSWidth(screen) - NSWidth([panel frame]))
+                             / 2.0f) - KABubblePadding);
 	} else if (position & BUBBLE_HORIZ_RIGHT) {
-		leftPoint = NSWidth(screen) - NSWidth([panel frame]) - KABubblePadding;
+		leftPoint = (float)(NSWidth(screen) - NSWidth([panel frame])
+                            - KABubblePadding);
 	}
-	// Find top position for bubble
+	// Find top position for bubble:
 	if (position & BUBBLE_VERT_TOP) {
-		topPoint = NSMaxY(screen) - KABubblePadding - (NSHeight([panel frame])*bubbleWindowDepth);
+		topPoint = (float)(NSMaxY(screen) - KABubblePadding
+                           - (NSHeight([panel frame])
+                              * bubbleWindowDepth));
 	} else if (position & BUBBLE_VERT_CENTER) {
-		topPoint = NSMaxY(screen)/1.8 - (NSHeight([panel frame])*bubbleWindowDepth) + (NSHeight([panel frame])*numExpected)/2;
+		topPoint = (float)((NSMaxY(screen) / 1.8f)
+                           - (NSHeight([panel frame]) * bubbleWindowDepth)
+                           + ((NSHeight([panel frame]) * numExpected)
+                              / 2.0f));
 	} else if (position & BUBBLE_VERT_BOTTOM) {
-		topPoint = NSMinY(screen) + KABubblePadding + NSHeight([panel frame])*(bubbleWindowDepth+1);
+		topPoint = (float)(NSMinY(screen) + KABubblePadding
+                           + (NSHeight([panel frame])
+                              * (bubbleWindowDepth + 1)));
 	}
-	
+
 	[panel setFrameTopLeftPoint:NSMakePoint(leftPoint, topPoint)];
 
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( _applicationDidSwitch: ) name:NSApplicationDidBecomeActiveNotification object:[NSApplication sharedApplication]];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( _applicationDidSwitch: ) name:NSApplicationDidHideNotification object:[NSApplication sharedApplication]];
-    
+	[(NSNotificationCenter *)[NSNotificationCenter defaultCenter] addObserver:self
+                                                                     selector:@selector(_applicationDidSwitch:)
+                                                                         name:NSApplicationDidBecomeActiveNotification
+                                                                       object:[NSApplication sharedApplication]];
+	[(NSNotificationCenter *)[NSNotificationCenter defaultCenter] addObserver:self
+                                                                     selector:@selector(_applicationDidSwitch:)
+                                                                         name:NSApplicationDidHideNotification
+                                                                       object:[NSApplication sharedApplication]];
+
     self = [super initWithWindow:panel];
 
 	_depth = ++bubbleWindowDepth;
@@ -123,8 +143,7 @@ static unsigned int bubbleWindowDepth = 0;
 	_delegate = nil;
 	_animationTimer = nil;
 
-	extern unsigned int bubbleWindowDepth;
-	if( _depth == bubbleWindowDepth ) bubbleWindowDepth = 0;
+	if (_depth == bubbleWindowDepth) bubbleWindowDepth = 0;
 
 	[super dealloc];
 }
@@ -143,21 +162,21 @@ static unsigned int bubbleWindowDepth = 0;
 }
 
 - (void) _fadeIn:(NSTimer *) inTimer {
-	if( [[self window] alphaValue] < 1. ) {
+	if ([[self window] alphaValue] < 1.0f) {
 		[[self window] setAlphaValue:[[self window] alphaValue] + FADE_INCREMENT];
-	} else if( _autoFadeOut ) {
-		if( [_delegate respondsToSelector:@selector( bubbleDidFadeIn: )] )
+	} else if (_autoFadeOut) {
+		if ([_delegate respondsToSelector:@selector(bubbleDidFadeIn:)])
 			[_delegate bubbleDidFadeIn:self];
 		[self _waitBeforeFadeOut];
 	}
 }
 
 - (void) _fadeOut:(NSTimer *) inTimer {
-	if( [[self window] alphaValue] > 0. ) {
+	if ([[self window] alphaValue] > 0.0f) {
 		[[self window] setAlphaValue:[[self window] alphaValue] - FADE_INCREMENT];
 	} else {
 		[self _stopTimer];
-		if( [_delegate respondsToSelector:@selector( bubbleDidFadeOut: )] ) {
+		if ([_delegate respondsToSelector:@selector(bubbleDidFadeOut:)]) {
 			[_delegate bubbleDidFadeOut:self];
         }
 		[self close];
@@ -166,14 +185,16 @@ static unsigned int bubbleWindowDepth = 0;
 }
 
 - (void) _applicationDidSwitch:(NSNotification *) notification {
-	// We're commenting this out for cocoaDialog, since this gets
+	// We are ifdef-ing this out for cocoaDialog, since this gets
 	// called immediately after we fire it up, due to our
-	// non-standard way of running the app.
-	//[self startFadeOut];
+	// non-standard way of running the app:
+#if 0
+	[self startFadeOut];
+#endif /* 0 */
 }
 
 - (void) _bubbleClicked:(id) sender {
-    if (_clickContext != nil && [_delegate respondsToSelector:@selector( bubbleWasClicked: )]) {
+    if ((_clickContext != nil) && [_delegate respondsToSelector:@selector(bubbleWasClicked:)]) {
         [_delegate bubbleWasClicked:_clickContext];
     }
 	[self startFadeOut];
@@ -182,20 +203,28 @@ static unsigned int bubbleWindowDepth = 0;
 #pragma mark -
 
 - (void) startFadeIn {
-	if( [_delegate respondsToSelector:@selector( bubbleWillFadeIn: )] )
+	if( [_delegate respondsToSelector:@selector(bubbleWillFadeIn:)])
 		[_delegate bubbleWillFadeIn:self];
 	[self retain]; // Retain, after fade out we release.
 	[self showWindow:nil];
 	[self _stopTimer];
-	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector( _fadeIn: ) userInfo:nil repeats:YES] retain];
+	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL
+                                                        target:self
+                                                      selector:@selector(_fadeIn:)
+                                                      userInfo:nil
+                                                       repeats:YES] retain];
 }
 
 - (void) startFadeOut {
-	if( [_delegate respondsToSelector:@selector( bubbleWillFadeOut: )] ) {
-     [_delegate bubbleWillFadeOut:self];   
+	if ([_delegate respondsToSelector:@selector(bubbleWillFadeOut:)]) {
+        [_delegate bubbleWillFadeOut:self];
     }
 	[self _stopTimer];
-	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector( _fadeOut: ) userInfo:nil repeats:YES] retain];
+	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL
+                                                        target:self
+                                                      selector:@selector(_fadeOut:)
+                                                      userInfo:nil
+                                                       repeats:YES] retain];
 }
 
 #pragma mark -
@@ -263,18 +292,18 @@ static unsigned int bubbleWindowDepth = 0;
 #pragma mark -
 
 - (BOOL) respondsToSelector:(SEL) selector {
-	if( [[[self window] contentView] respondsToSelector:selector] ) return YES;
+	if ([[[self window] contentView] respondsToSelector:selector]) return YES;
 	else return [super respondsToSelector:selector];
 }
 
 - (void) forwardInvocation:(NSInvocation *) invocation {
-	if( [[[self window] contentView] respondsToSelector:[invocation selector]] )
+	if ([[[self window] contentView] respondsToSelector:[invocation selector]])
 		[invocation invokeWithTarget:[[self window] contentView]];
 	else [super forwardInvocation:invocation];
 }
 
 - (NSMethodSignature *) methodSignatureForSelector:(SEL) selector {
-	if( [[[self window] contentView] respondsToSelector:selector] )
+	if ([[[self window] contentView] respondsToSelector:selector])
 		return [(NSObject *)[[self window] contentView] methodSignatureForSelector:selector];
 	else return [super methodSignatureForSelector:selector];
 }
@@ -291,3 +320,5 @@ static unsigned int bubbleWindowDepth = 0;
 }
 
 @end
+
+/* EOF */

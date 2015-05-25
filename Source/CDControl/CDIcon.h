@@ -20,6 +20,7 @@
 @property (retain) NSImageView *control;
 @property (retain) CDPanel *panel;
 
+- (id) initWithOptions:(CDOptions *)opts;
 - (void) addControl:(id)control;
 - (NSArray *) controls;
 - (NSImage *) icon;
@@ -30,3 +31,5 @@
 - (NSImage *) iconFromName:(NSString *)name;
 - (void) setIconFromOptions;
 @end
+
+/* EOF */

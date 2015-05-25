@@ -14,7 +14,9 @@
 {
 	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
 	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-//	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
+#if 0
+	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
+#endif /* 0 */
 
 	return [NSDictionary dictionaryWithObjectsAndKeys:
             vOne,   @"empty-value",
@@ -29,21 +31,21 @@
 }
 
 - (BOOL) validateOptions {
-    // Check that we're in the right sub-class
+    // Check that we are in the right sub-class:
     if (![self isMemberOfClass:[CDSlider class]]) {
         if ([options hasOpt:@"debug"]) {
 			[self debug:@"This run-mode is not properly classed."];
 		}
         return NO;
     }
-	// Check that at least button1 has been specified
+	// Check that at least button1 has been specified:
 	if (![options optValue:@"button1"])	{
 		if ([options hasOpt:@"debug"]) {
 			[self debug:@"Must supply at least --button1"];
 		}
 		return NO;
 	}
-    // Check that the --min value has been specified
+    // Check that the --min value has been specified:
 	if (![options optValue:@"min"])	{
 		if ([options hasOpt:@"debug"]) {
 			[self debug:@"Must supply the --min value for the slider"];
@@ -53,7 +55,7 @@
     else {
         min = [[options optValue:@"min"] doubleValue];
     }
-    // Check that the --max value has been specified
+    // Check that the --max value has been specified:
 	if (![options optValue:@"max"])	{
 		if ([options hasOpt:@"debug"]) {
 			[self debug:@"Must supply the --max value for the slider"];
@@ -101,10 +103,10 @@
             ticks = 5;
         }
         else {
-            ticks = max;
+            ticks = (int)max;
         }
     }
-    // Everything passed
+    // Everything passed:
     return YES;
 }
 
@@ -134,7 +136,8 @@
     NSWindow *_panel = [panel panel];
     NSRect cmFrame = [controlMatrix frame];
 
-    NSView *sliderView = [[NSView alloc] initWithFrame:NSMakeRect(cmFrame.origin.x, (cmFrame.origin.y + cmFrame.size.height) - 17.0f, cmFrame.size.width, 14.0f)];
+    NSView *sliderView = [[NSView alloc] initWithFrame:NSMakeRect(cmFrame.origin.x, ((cmFrame.origin.y + cmFrame.size.height) - 17.0f),
+                                                                  cmFrame.size.width, 14.0f)];
     [sliderView setAutoresizingMask:NSViewMinXMargin | NSViewMaxXMargin | NSViewMinYMargin];
 
     NSString *_sliderLabel = @"Choose a value:";
@@ -163,18 +166,18 @@
 
     [[_panel contentView] addSubview:sliderView];
 
-    // Move controlMatrix to make room for valueView
+    // Move controlMatrix to make room for valueView:
     NSPoint cmOrigin = cmFrame.origin;
-    cmOrigin.y -= [sliderView frame].size.height - 8.0f;
+    cmOrigin.y -= ([sliderView frame].size.height - 8.0f);
     [controlMatrix setFrameOrigin:cmOrigin];
 
-    // Add the valueView to the panel height
-    NSSize panelSize = [[[panel panel] contentView] frame].size;
-    panelSize.height += [sliderView frame].size.height + 4.0f;
+    // Add the valueView to the panel height:
+    NSSize panelSize = [(NSView *)[[panel panel] contentView] frame].size;
+    panelSize.height += ([sliderView frame].size.height + 4.0f);
     [[panel panel] setContentSize:panelSize];
     [panel resize];
 
-    // Set other attributes of matrix
+    // Set other attributes of matrix:
     [controlMatrix setCellSize:NSMakeSize(cmFrame.size.width, 22.0f)];
     [controlMatrix renewRows:1 columns:1];
     [controlMatrix setAutosizesCells:NO];
@@ -194,55 +197,60 @@
     [slider setAction:@selector(sliderChanged)];
     [controlMatrix putCell:slider atRow:0 column:0];
 
-    // Save controlMatrix height
+    // Save controlMatrix height:
     CGFloat oldHeight = cmFrame.size.height;
 
-    // Resize controlMatrix
+    // Resize controlMatrix:
     [controlMatrix sizeToCells];
     cmFrame = [controlMatrix frame];
 
     if (ticks > 0) {
-        NSView *tickView = [[NSView alloc] initWithFrame:NSMakeRect(0.0f, cmFrame.origin.y - (cmFrame.size.height - oldHeight) - 17.0f, [_panel frame].size.width, 18.0f)];
+        NSView *tickView = [[NSView alloc] initWithFrame:NSMakeRect(0.0f, (cmFrame.origin.y - (cmFrame.size.height - oldHeight) - 17.0f),
+                                                                    [_panel frame].size.width, 18.0f)];
         [tickView setAutoresizingMask:NSViewMinYMargin];
 
-        NSUInteger count = [slider numberOfTickMarks];
+        NSUInteger count = (NSUInteger)[slider numberOfTickMarks];
         for (NSUInteger i = 0; i < count; i++) {
-            CGFloat  length=cmFrame.size.width-2*10;
-            CGFloat  position=floor((count==1)?length/2:i*(length/(count-1)));
+            CGFloat length = (cmFrame.size.width - 2 * 10);
+            CGFloat position = (CGFloat)floor((count == 1)
+                                              ? (length / 2)
+                                              : (i * (length / (count - 1))));
             NSTextField *tickLabel = [[[NSTextField alloc] initWithFrame:NSMakeRect(cmFrame.origin.x + 10.0f + position, 0, 0, 0)] autorelease];
             [tickLabel setBezeled:NO];
             [tickLabel setDrawsBackground:NO];
             [tickLabel setEditable:NO];
             [tickLabel setSelectable:NO];
-            [tickLabel setStringValue:[NSString stringWithFormat:@"%i", (int)[slider tickMarkValueAtIndex:i]]];
+            [tickLabel setStringValue:[NSString stringWithFormat:@"%i", (int)[slider tickMarkValueAtIndex:(NSInteger)i]]];
             [tickLabel setFont:[NSFont fontWithName:[[tickLabel font] fontName] size:10.0f]];
             [tickLabel sizeToFit];
-            // Center the label on the tick
+            // Center the label on the tick:
             NSPoint labelOrigin = [tickLabel frame].origin;
-            labelOrigin.x -= floor([tickLabel frame].size.width / 2.0f);
+            labelOrigin.x -= (CGFloat)floor([tickLabel frame].size.width / 2.0f);
             [tickLabel setFrameOrigin:labelOrigin];
             [tickView addSubview:tickLabel];
         }
         [[_panel contentView] addSubview:tickView];
 
-        // Move controlMatrix to make room for tickView
+        // Move controlMatrix to make room for tickView:
         cmOrigin = cmFrame.origin;
-        cmOrigin.y += [tickView frame].size.height + 4.0f;
+        cmOrigin.y += ([tickView frame].size.height + 4.0f);
         [controlMatrix setFrameOrigin:cmOrigin];
 
-        // Add the tickView to the panel height
-        panelSize = [[[panel panel] contentView] frame].size;
-        panelSize.height += [tickView frame].size.height + 4.0f;
+        // Add the tickView to the panel height:
+        panelSize = ([(NSView *)[[panel panel] contentView] frame].size);
+        panelSize.height += ([tickView frame].size.height + 4.0f);
         [[panel panel] setContentSize:panelSize];
         [panel resize];
+        [tickView release];
     }
 
     [self sliderChanged];
+    [sliderView release];
 }
 
 - (void) sliderChanged {
     NSSlider *slider = [controlMatrix cellAtRow:0 column:0];
-    // Update the label
+    // Update the label:
     NSString *label = @"";
     if ([options hasOpt:@"return-float"]) {
         label = [NSString stringWithFormat:@"%.2f", [slider doubleValue]];
@@ -275,15 +283,15 @@
 - (BOOL)continueTracking:(NSPoint)lastPoint at:(NSPoint)currentPoint
                   inView:(NSView *)controlView {
     if (tracking) {
-        NSUInteger count = [self numberOfTickMarks];
+        NSUInteger count = (NSUInteger)[self numberOfTickMarks];
         CGFloat snapFlexibility = (100 / count) / 2;
         for (NSUInteger i = 0; i < count; i++) {
-            NSRect tickMarkRect = [self rectOfTickMarkAtIndex:i];
+            NSRect tickMarkRect = [self rectOfTickMarkAtIndex:(NSInteger)i];
             if (ABS(tickMarkRect.origin.x - currentPoint.x) <= snapFlexibility) {
                 [self setAllowsTickMarkValuesOnly:YES];
 
-            } else if (ABS(tickMarkRect.origin.x - currentPoint.x) >= snapFlexibility &&
-                       ABS(tickMarkRect.origin.x - currentPoint.x) <= snapFlexibility * 2) {
+            } else if ((ABS(tickMarkRect.origin.x - currentPoint.x) >= snapFlexibility) &&
+                       (ABS(tickMarkRect.origin.x - currentPoint.x) <= (snapFlexibility * 2))) {
                 [self setAllowsTickMarkValuesOnly:NO];
             }
         }
@@ -298,5 +306,6 @@
     [super stopTracking:lastPoint at:stopPoint inView:controlView mouseIsUp:flag];
 }
 
-
 @end
+
+/* EOF */

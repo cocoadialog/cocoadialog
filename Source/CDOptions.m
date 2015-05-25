@@ -31,7 +31,7 @@
 }
 - init
 {
-	return [self initWithOpts:[NSDictionary dictionary]];
+	return [self initWithOpts:[NSMutableDictionary dictionary]];
 }
 
 + (BOOL) _argIsKey:(NSString *)arg availableKeys:(NSDictionary *)availableKeys depreciatedKeys:(NSDictionary *)depreciatedKeys
@@ -164,7 +164,7 @@
 	id value = [_options objectForKey:key];
 	// value will be an NSNumber (set in getOpts) if there is no value
 	// for that key, NSString of the value, or nil if that key didn't exist
-	if (value == nil || ![value isKindOfClass:[NSString class]]) {
+	if ((value == nil) || ![value isKindOfClass:[NSString class]]) {
 		return nil;
 	} else {
 		return value;
@@ -198,4 +198,10 @@
 	[_options release];
 	[super dealloc];
 }
+
+- (NSComparisonResult)localizedCaseInsensitiveCompare:(NSString *)string
+{
+    return [string localizedCaseInsensitiveCompare:string];
+}
+
 @end

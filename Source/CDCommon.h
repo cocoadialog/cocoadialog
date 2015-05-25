@@ -19,3 +19,5 @@
 - (id) initWithOptions:(CDOptions *)newOptions;
 
 @end
+
+/* EOF */

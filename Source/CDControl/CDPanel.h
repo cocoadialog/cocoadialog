@@ -26,5 +26,6 @@
 - (void) setPosition;
 - (void) setTitle;
 - (void) setTitle:(NSString *)string;
+- (id) initWithOptions:(CDOptions *)newOptions;
 
 @end

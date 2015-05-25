@@ -1,26 +1,27 @@
-/* KABubbleWindowView.m from Colloquy (colloquy.info).
- * Modified for cocoaDialog (cocoadialog.sf.net).
- * I think they got this from an old version of Growl (growl.info).
+/* KABubbleWindowView.m from Colloquy <colloquy.info>.
+ * Modified for cocoaDialog <cocoadialog.sf.net>.
+ * I think they got this from an old version of Growl <growl.info>.
  */
 #import "KABubbleWindowView.h"
 
-// info needs to be a KABubbleWindowView with rgb+alpha set.
-void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outData ) {
-	// These 2 will always return an array of 4 floats
+// info needs to be a KABubbleWindowView with rgb+alpha set:
+void KABubbleShadeInterpolate(void *info, CGFloat const *inData, CGFloat *outData) {
+	// These 2 will always return an array of 4 floats:
 	const CGFloat *dark = [(KABubbleWindowView *)info darkColorFloat];
 	const CGFloat *light = [(KABubbleWindowView *)info lightColorFloat];
 	CGFloat a = inData[0];
 	int i = 0;
 
-	for( i = 0; i < 4; i++ )
-		outData[i] = ( 1. - a ) * dark[i] + a * light[i];
+	for (i = 0; i < 4; i++) {
+		outData[i] = (((1.0f - a) * dark[i]) + (a * light[i]));
+    }
 }
 
 #pragma mark -
 
 @implementation KABubbleWindowView
 - (id) initWithFrame:(NSRect) frame {
-	if( self == [super initWithFrame:frame] ) {
+	if (self == [super initWithFrame:frame]) {
 		_icon = nil;
 		_title = nil;
 		_text = nil;
@@ -57,57 +58,87 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 
 - (void) drawRect:(NSRect) rect {
 	[[NSColor clearColor] set];
-	NSRectFill( [self frame] );
+	NSRectFill([self frame]);
 
-	float lineWidth = 4.;
+	float lineWidth = 4.0f;
 	NSBezierPath *path = [NSBezierPath bezierPath];
 	[path setLineWidth:lineWidth];
 
-	float radius = 9.;
-	NSRect irect = NSInsetRect( [self bounds], radius + lineWidth, radius + lineWidth );
-	[path appendBezierPathWithArcWithCenter:NSMakePoint( NSMinX( irect ), NSMinY( irect ) ) radius:radius startAngle:180. endAngle:270.];
-	[path appendBezierPathWithArcWithCenter:NSMakePoint( NSMaxX( irect ), NSMinY( irect ) ) radius:radius startAngle:270. endAngle:360.];
-	[path appendBezierPathWithArcWithCenter:NSMakePoint( NSMaxX( irect ), NSMaxY( irect ) ) radius:radius startAngle:0. endAngle:90.];
-	[path appendBezierPathWithArcWithCenter:NSMakePoint( NSMinX( irect ), NSMaxY( irect ) ) radius:radius startAngle:90. endAngle:180.];
+	float radius = 9.0f;
+	NSRect irect = NSInsetRect([self bounds], (radius + lineWidth),
+                               (radius + lineWidth));
+	[path appendBezierPathWithArcWithCenter:NSMakePoint(NSMinX(irect),
+                                                        NSMinY(irect))
+                                     radius:radius
+                                 startAngle:180.0f
+                                   endAngle:270.0f];
+	[path appendBezierPathWithArcWithCenter:NSMakePoint(NSMaxX(irect),
+                                                        NSMinY(irect))
+                                     radius:radius
+                                 startAngle:270.0f
+                                   endAngle:360.0f];
+	[path appendBezierPathWithArcWithCenter:NSMakePoint(NSMaxX(irect),
+                                                        NSMaxY(irect))
+                                     radius:radius
+                                 startAngle:0.0f
+                                   endAngle:90.0f];
+	[path appendBezierPathWithArcWithCenter:NSMakePoint(NSMinX(irect),
+                                                        NSMaxY(irect))
+                                     radius:radius
+                                 startAngle:90.0f
+                                   endAngle:180.0f];
 	[path closePath];
 
 	[[NSGraphicsContext currentContext] saveGraphicsState];
 
 	[path setClip];
 
-	struct CGFunctionCallbacks callbacks = { 0, (void *)KABubbleShadeInterpolate, NULL };
-	CGFunctionRef function = CGFunctionCreate( self, 1, NULL, 4, NULL, &callbacks );
+	struct CGFunctionCallbacks callbacks = {
+        0U, (CGFunctionEvaluateCallback)KABubbleShadeInterpolate,
+        (CGFunctionReleaseInfoCallback)NULL
+    };
+	CGFunctionRef function = CGFunctionCreate(self, 1, NULL, 4, NULL,
+                                              &callbacks);
 	CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
 
-	float srcX = NSMinX( [self bounds] ), srcY = NSMinY( [self bounds] );
-	float dstX = NSMinX( [self bounds] ), dstY = NSMaxY( [self bounds] );
-	CGShadingRef shading = CGShadingCreateAxial( cspace, CGPointMake( srcX, srcY ), CGPointMake( dstX, dstY ), function, false, false );
+	float srcX = (float)NSMinX([self bounds]);
+    float srcY = (float)NSMinY([self bounds]);
+	float dstX = (float)NSMinX([self bounds]);
+    float dstY = (float)NSMaxY([self bounds]);
+	CGShadingRef shading = CGShadingCreateAxial(cspace,
+                                                CGPointMake(srcX, srcY),
+                                                CGPointMake(dstX, dstY),
+                                                function, false, false);
 
-	CGContextDrawShading( [[NSGraphicsContext currentContext] graphicsPort], shading );
+	CGContextDrawShading([[NSGraphicsContext currentContext] graphicsPort],
+                         shading);
 
-	CGShadingRelease( shading );
-	CGColorSpaceRelease( cspace );
-	CGFunctionRelease( function );
+	CGShadingRelease(shading);
+	CGColorSpaceRelease(cspace);
+	CGFunctionRelease(function);
 
 	[[NSGraphicsContext currentContext] restoreGraphicsState];
 
 	[[self borderColor] set];
 	[path stroke];
 
-	[_title drawAtPoint:NSMakePoint( 55., 40. ) withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSFont boldSystemFontOfSize:13.], NSFontAttributeName, [self textColor], NSForegroundColorAttributeName, nil]];
-	[_text drawInRect:NSMakeRect( 55., 10., 200., 30. )];
+	[_title drawAtPoint:NSMakePoint(55.0f, 40.0f)
+         withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSFont boldSystemFontOfSize:13.0f], NSFontAttributeName, [self textColor], NSForegroundColorAttributeName, nil]];
+	[_text drawInRect:NSMakeRect(55.0f, 10.0f, 200.0f, 30.0f)];
 
-	if( [_icon size].width > 32. || [_icon size].height > 32. ) { // Assume a square image.
+	if (([_icon size].width > 32.0f) || ([_icon size].height > 32.0f)) { // Assume a square image:
 		NSImageRep *sourceImageRep = [_icon bestRepresentationForDevice:nil];
 		[_icon autorelease];
-		_icon = [[NSImage alloc] initWithSize:NSMakeSize( 32., 32. )];
+		_icon = [[NSImage alloc] initWithSize:NSMakeSize(32.0f, 32.0f)];
 		[_icon lockFocus];
-		[[NSGraphicsContext currentContext] setImageInterpolation: NSImageInterpolationHigh];
-		[sourceImageRep drawInRect:NSMakeRect( 0., 0., 32., 32. )];
+		[[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
+		[sourceImageRep drawInRect:NSMakeRect(0.0f, 0.0f, 32.0f, 32.0f)];
 		[_icon unlockFocus];
 	}
 
-	[_icon compositeToPoint:NSMakePoint( 15., 20. ) operation:NSCompositeSourceAtop fraction:1.];
+	[_icon compositeToPoint:NSMakePoint(15.0f, 20.0f)
+                  operation:NSCompositeSourceAtop
+                   fraction:1.0f];
 
 	[[self window] invalidateShadow];
 }
@@ -141,11 +172,12 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 	} else {
 		color = [NSColor controlTextColor];
 	}
-	_text = [[NSAttributedString alloc] initWithString:text attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSFont messageFontOfSize:11.], NSFontAttributeName, color, NSForegroundColorAttributeName, nil]];
+	_text = [[NSAttributedString alloc] initWithString:text
+                                            attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSFont messageFontOfSize:11.0f], NSFontAttributeName, color, NSForegroundColorAttributeName, nil]];
 	[self setNeedsDisplay:YES];
 }
 
-- (void) setDarkColor:(NSColor *)color;
+- (void) setDarkColor:(NSColor *)color
 {
 	[color retain];
 	[_darkColor release];
@@ -159,15 +191,18 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 	_darkColorFloat[2] = b;
 	_darkColorFloat[3] = alpha;
 }
+
 - (NSColor *) darkColor
 {
 	return _darkColor;
 }
+
 - (const CGFloat *) darkColorFloat
 {
 	return _darkColorFloat;
 }
-- (void) setLightColor:(NSColor *)color;
+
+- (void) setLightColor:(NSColor *)color
 {
 	[color retain];
 	[_lightColor release];
@@ -181,30 +216,36 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 	_lightColorFloat[2] = b;
 	_lightColorFloat[3] = alpha;
 }
+
 - (NSColor *) lightColor
 {
 	return _lightColor;
 }
+
 - (const CGFloat *) lightColorFloat
 {
 	return _lightColorFloat;
 }
-- (void) setTextColor:(NSColor *)color;
+
+- (void) setTextColor:(NSColor *)color
 {
 	[color retain];
 	[_textColor release];
 	_textColor = color;
 }
+
 - (NSColor *) textColor
 {
 	return _textColor;
 }
-- (void) setBorderColor:(NSColor *)color;
+
+- (void) setBorderColor:(NSColor *)color
 {
 	[color retain];
 	[_borderColor release];
 	_borderColor = color;
 }
+
 - (NSColor *) borderColor
 {
 	return _borderColor;
@@ -234,7 +275,9 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 #pragma mark -
 
 - (void) mouseUp:(NSEvent *) event {
-	if( _target && _action && [_target respondsToSelector:_action] )
+	if (_target && _action && [_target respondsToSelector:_action])
 		[_target performSelector:_action withObject:self];
 }
 @end
+
+/* EOF */

@@ -16,6 +16,7 @@
 	panelMinSize.height += height;
 	[panel setContentMinSize:panelMinSize];
 }
+
 - (void)addMinWidth:(CGFloat)width {
 	NSSize panelMinSize = [panel contentMinSize];
 	panelMinSize.width += width;
@@ -31,21 +32,21 @@
 	NSSize size = NSZeroSize;
 	NSSize oldSize;
 	NSString *width, *height;
-	if (options == nil || panel == nil) {
+	if ((options == nil) || (panel == nil)) {
 		return size;
 	}
-	size = [[panel contentView] frame].size;
+	size = [(NSView *)[panel contentView] frame].size;
 	oldSize.width = size.width;
 	oldSize.height = size.height;
 	if ([options hasOpt:@"width"]) {
 		width = [options optValue:@"width"];
-		if ([width floatValue] != 0.0) {
+		if ([width floatValue] != 0.0f) {
 			size.width = [width floatValue];
 		}
 	}
 	if ([options hasOpt:@"height"]) {
 		height = [options optValue:@"height"];
-		if ([height floatValue] != 0.0) {
+		if ([height floatValue] != 0.0f) {
 			size.height = [height floatValue];
 		}
 	}
@@ -56,105 +57,131 @@
 	if (size.width < minSize.width) {
 		size.width = minSize.width;
 	}
-	if (size.width != oldSize.width || size.height != oldSize.height) {
+	if ((size.width != oldSize.width) || (size.height != oldSize.height)) {
 		return size;
 	} else {
-		return NSMakeSize(0.0,0.0);
+		return NSMakeSize(0.0f, 0.0f);
 	}
 }
+
 - (BOOL) needsResize {
 	NSSize size = [self findNewSize];
-	if (size.width != 0.0 || size.height != 0.0) {
+	if ((size.width != 0.0f) || (size.height != 0.0f)) {
 		return YES;
 	} else {
 		return NO;
 	}
 }
 - (void) resize {
-    // resize if necessary
+    // resize if necessary:
 	if ([self needsResize]) {
 		[panel setContentSize:[self findNewSize]];
 	}
 }
+
 - (void) setFloat {
     if (panel != nil) {
         if ([options hasOpt:@"no-float"]) {
             [panel setFloatingPanel:NO];
+#ifdef NSNormalWindowLevel
             [panel setLevel:NSNormalWindowLevel];
+#else
+# ifdef NSStatusWindowLevel
+           [panel setLevel:NSStatusWindowLevel];
+           [panel setCanBecomeVisibleWithoutLogin: YES];
+# endif /* NSStatusWindowLevel */
+#endif /* NSNormalWindowLevel */
         }
         else {
             [panel setFloatingPanel: YES];
+#ifdef NSScreenSaverWindowLevel
             [panel setLevel:NSScreenSaverWindowLevel];
-        }		
+#else
+# ifdef NSStatusWindowLevel
+            [panel setLevel:NSStatusWindowLevel];
+            [panel setCanBecomeVisibleWithoutLogin: YES];
+# endif /* NSStatusWindowLevel */
+#endif /* NSScreenSaverWindowLevel */
+        }
         [panel makeKeyAndOrderFront:nil];
+#ifdef NSStatusWindowLevel
+        [panel setLevel:NSStatusWindowLevel];
+        [panel setCanBecomeVisibleWithoutLogin: YES];
+#endif /* NSStatusWindowLevel */
     }
 }
+
 - (void) setPanelEmpty {
     panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect(0, 0, 0, 0)
                                                 styleMask:NSBorderlessWindowMask
                                                   backing:NSBackingStoreBuffered
                                                     defer:NO] autorelease];
 }
+
 - (void) setPosition {
     NSRect screen = [[NSScreen mainScreen] visibleFrame];
-    CGFloat leftPoint = 0.0;
-	CGFloat topPoint = 0.0;
-    CGFloat padding = 10.0;
+    CGFloat leftPoint = 0.0f;
+	CGFloat topPoint = 0.0f;
+    CGFloat padding = 10.0f;
     id posX;
     id posY;
-    // Has posX option
+    // Has posX option:
 	if ([options hasOpt:@"posX"]) {
 		posX = [options optValue:@"posX"];
-        // Left
+        // Left:
 		if ([posX caseInsensitiveCompare:@"left"] == NSOrderedSame) {
             leftPoint = padding;
 		}
-        // Right
+        // Right:
         else if ([posX caseInsensitiveCompare:@"right"] == NSOrderedSame) {
-            leftPoint = NSWidth(screen) - NSWidth([panel frame]) - padding;
+            leftPoint = (NSWidth(screen) - NSWidth([panel frame])
+                         - padding);
 		}
-        // Manual posX coords
-        else if ([posX floatValue] > 0.0) {
+        // Manual posX coords:
+        else if ([posX floatValue] > 0.0f) {
             leftPoint = [posX floatValue];
         }
-        // Center
+        // Center:
         else {
-            leftPoint = (NSWidth(screen)-NSWidth([panel frame]))/2 - padding;
+            leftPoint = (((NSWidth(screen) - NSWidth([panel frame])) / 2)
+                         - padding);
 		}
 	}
-    // Center
+    // Center:
     else {
-        leftPoint = (NSWidth(screen)-NSWidth([panel frame]))/2 - padding;
+        leftPoint = (((NSWidth(screen) - NSWidth([panel frame])) / 2)
+                     - padding);
 	}
-    // Has posY option
+    // Has posY option:
 	if ([options hasOpt:@"posY"]) {
 		posY = [options optValue:@"posY"];
-        // Bottom
+        // Bottom:
 		if ([posY caseInsensitiveCompare:@"bottom"] == NSOrderedSame) {
-            topPoint = NSMinY(screen) + padding + NSHeight([panel frame]);
+            topPoint = (NSMinY(screen) + padding
+                        + NSHeight([panel frame]));
 		}
-        // Top
+        // Top:
         else if ([posY caseInsensitiveCompare:@"top"] == NSOrderedSame) {
-            topPoint = NSMaxY(screen) - padding;
+            topPoint = (NSMaxY(screen) - padding);
 		}
-        // Manual posY coords
-        else if ([posY floatValue] > 0.0) {
-            topPoint = NSMaxY(screen) - [posY floatValue];
+        // Manual posY coords:
+        else if ([posY floatValue] > 0.0f) {
+            topPoint = (NSMaxY(screen) - [posY floatValue]);
         }
-        // Center
+        // Center:
         else {
-            topPoint = NSMaxY(screen)/1.8 + NSHeight([panel frame]);
+            topPoint = ((NSMaxY(screen) / 1.8f) + NSHeight([panel frame]));
 		}
 	}
-    // Center
+    // Center:
     else {
-		topPoint = NSMaxY(screen)/1.8 + NSHeight([panel frame]);
+		topPoint = ((NSMaxY(screen) / 1.8f) + NSHeight([panel frame]));
 	}
 	[panel setFrameTopLeftPoint:NSMakePoint(leftPoint, topPoint)];
 }
 
 - (void)setTitle {
-    // set title
+    // set title:
 	if ([options optValue:@"title"] != nil) {
 		[panel setTitle:[options optValue:@"title"]];
 	}
@@ -164,7 +191,7 @@
 }
 
 - (void) setTitle:(NSString *)string {
-    if (string != nil && ![string isEqualToString:@""]) {
+    if ((string != nil) && ![string isEqualToString:@""]) {
         [panel setTitle:string];
     }
     else {
@@ -172,4 +199,12 @@
     }
 }
 
+- (id) initWithOptions:(CDOptions *)newOptions
+{
+    self = [super initWithOptions:newOptions];
+    return self;
+}
+
 @end
+
+/* EOF */

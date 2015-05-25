@@ -1,7 +1,10 @@
-/* KABubbleWindowView.h from Colloquy (colloquy.info).
- * Modified for cocoaDialog (cocoadialog.sf.net).
- * I think they got this from an old version of Growl (growl.info).
+/* KABubbleWindowView.h from Colloquy <colloquy.info>.
+ * Modified for cocoaDialog <cocoadialog.sf.net>.
+ * I think they got this from an old version of Growl <growl.info>.
  */
+
+void KABubbleShadeInterpolate(void *info, CGFloat const *inData, CGFloat *outData);
+
 @interface KABubbleWindowView : NSView {
 	NSImage *_icon;
 	NSString *_title;
@@ -38,3 +41,5 @@
 - (void) setAction:(SEL) selector;
 
 @end
+
+/* EOF */

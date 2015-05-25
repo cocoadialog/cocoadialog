@@ -34,7 +34,7 @@
 }
 
 - (void) update {
-    SUUpdater * updater = [SUUpdater sharedUpdater];
+    SUUpdater *updater = [SUUpdater sharedUpdater];
     [updater setDelegate:self];
     NSURL *appcastURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"SUFeedURL"]];
     if (appcastURL != nil) {
@@ -57,4 +57,12 @@
     [NSApp run];
 }
 
+- (id) initWithOptions:(CDOptions *)newOptions
+{
+    self = [super initWithOptions:newOptions];
+    return self;
+}
+
 @end
+
+/* EOF */

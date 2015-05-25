@@ -160,8 +160,8 @@
 
 - (void) notificationWasClicked:(id)clickContext
 {
-    NSDictionary * notification = [NSDictionary dictionaryWithDictionary:[notifications objectAtIndex:[clickContext intValue]]];
-    NSString * path = [notification objectForKey:@"clickPath"];
+    NSDictionary *notification = [NSDictionary dictionaryWithDictionary:[notifications objectAtIndex:(NSUInteger)[clickContext intValue]]];
+    NSString *path = [notification objectForKey:@"clickPath"];
     if ([path caseInsensitiveCompare:@"cocoaDialog"] == NSOrderedSame) {
         path = [[[NSProcessInfo processInfo] arguments] objectAtIndex:0];
     }
@@ -169,14 +169,18 @@
     if (![[notification objectForKey:@"clickArg"] isEqualToString:@""]) {
         arguments = [NSArray arrayWithArray:[self parseTextForArguments:[notification objectForKey:@"clickArg"]]];
     }
-    NSMutableArray * args = [NSMutableArray arrayWithArray:arguments];
-    // Check to ensure the file exists before launching the command
+    NSMutableArray *args = [NSMutableArray arrayWithArray:arguments];
+    // Check to ensure the file exists before launching the command:
     if (![path isEqualToString:@""] && [[NSFileManager defaultManager] fileExistsAtPath:path]) {
         [args insertObject:path atIndex:0];
-#if defined __ppc__ || defined __i368__
+#if defined(__ppc__) || defined(__i386__)
         [args insertObject:@"-32" atIndex:0];
-#elif defined __ppc64__ || defined __x86_64__
+#elif defined(__ppc64__) || defined(__x86_64__) || defined(__LP64__)
         [args insertObject:@"-64" atIndex:0];
+#else
+# if defined(__GNUC__) && !defined(__STRICT_ANSI__)
+#  warning "unrecognized architecture"
+# endif /* __GNUC__ && !__STRICT_ANSI__ */
 #endif
         NSTask *task = [[[NSTask alloc] init] autorelease];
         // Output must be silenced to not hang this process
@@ -191,27 +195,28 @@
 - (NSArray *) parseTextForArguments:(NSString *)string
 {
     NSMutableArray* masterArray = [NSMutableArray arrayWithArray:nil];
-    // Make quotes on their own lines
-    string = [string stringByReplacingOccurrencesOfString:@"\"" withString:[NSString stringWithFormat: @"\n\"\n"]];
-    NSArray * quotedArray = [string componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    // Make quotes on their own lines:
+    string = [string stringByReplacingOccurrencesOfString:@"\""
+                                               withString:[NSString stringWithFormat: @"\n\"\n"]];
+    NSArray *quotedArray = [string componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
     BOOL inQuote = NO;
     NSEnumerator *en = [quotedArray objectEnumerator];
     id arg;
     while ((arg = [en nextObject])) {
         NSMutableArray* spacedArray = [NSMutableArray arrayWithArray:nil];
-        // Determine which quote state we're in
+        // Determine which quote state we are in:
         if ([[arg substringToIndex:1] isEqualToString:@"\""]) {
             inQuote = !inQuote;
             continue;
         }
-        if (![arg isEqualToString:@""] || arg != nil) {
+        if (![arg isEqualToString:@""] || (arg != nil)) {
             if (inQuote) {
                 [spacedArray addObject:arg];
             }
             else {
-                // Trim any spaces or newlines from the beginning or end
+                // Trim any spaces or newlines from the beginning or end:
                 arg = [arg stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-                [spacedArray addObjectsFromArray: [arg componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+                [spacedArray addObjectsFromArray:[arg componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
             }
             [masterArray addObjectsFromArray:spacedArray];
         }
@@ -220,3 +225,5 @@
 }
 
 @end
+
+/* EOF */

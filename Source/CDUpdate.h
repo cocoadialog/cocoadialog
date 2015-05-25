@@ -12,5 +12,8 @@
 @interface CDUpdate : CDCommon
 
 - (void) update;
+- (id) initWithOptions:(CDOptions *)newOptions;
 
 @end
+
+/* EOF */

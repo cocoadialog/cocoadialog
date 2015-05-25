@@ -125,107 +125,123 @@
 }
 
 - (void) setControl:(id)sender {
-    // Setup the control
+    // Setup the control:
     NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
-    unsigned long selected = -1;
+    unsigned long selected = (unsigned long)-1L;
     NSArray *disabled = [[[NSArray alloc] init] autorelease];
 
 
     if ([options hasOpt:@"selected"]) {
-        selected = [[options optValue:@"selected"] intValue];
+        selected = (unsigned long)[[options optValue:@"selected"] intValue];
     }
 
     if ([options hasOpt:@"disabled"]) {
         disabled = [options optValues:@"disabled"];
     }
 
-    // Set default precedence: columns, if both are present or neither are present
+    // Set default precedence: columns, if both are present or neither are present:
     int matrixPrecedence = 0;
 
-    // Set default number of columns
-    unsigned long columns = 1;
-    // Set specified number of columns
+    // Set default number of columns:
+    unsigned long columns = 1UL;
+    // Set specified number of columns:
     if ([options hasOpt:@"columns"]) {
-        columns = [[options optValue:@"columns"] intValue];
-        if (columns < 1) {
-            columns = 1;
+        columns = (unsigned long)[[options optValue:@"columns"] intValue];
+        if (columns < 1UL) {
+            columns = 1UL;
         }
     }
 
-    // Set default number of rows
-    unsigned long rows = 1;
-    // Set specified number of rows
+    // Set default number of rows:
+    unsigned long rows = 1UL;
+    // Set specified number of rows:
     if ([options hasOpt:@"rows"]) {
-        rows = [[options optValue:@"rows"] intValue];
-        if (rows < 1) {
-            rows = 1;
+        rows = (unsigned long)[[options optValue:@"rows"] intValue];
+        if (rows < 1UL) {
+            rows = 1UL;
         }
         if (rows > [items count]){
             rows = [items count];
         }
         // User has specified number of rows, but not columns.
-        // Set precedence to expand columns, not rows
+        // Set precedence to expand columns, not rows:
         if (![options hasOpt:@"columns"]) {
             matrixPrecedence = 1;
         }
     }
 
-    [self setControl: self matrixRows:rows matrixColumns:columns items:items precedence:matrixPrecedence];
-    rows = [controlMatrix numberOfRows];
-    columns = [controlMatrix numberOfColumns];
+    [self setControl:self
+          matrixRows:(NSInteger)rows
+       matrixColumns:(NSInteger)columns
+               items:items
+          precedence:matrixPrecedence];
+    rows = (unsigned long)[controlMatrix numberOfRows];
+    columns = (unsigned long)[controlMatrix numberOfColumns];
 
-    NSMutableArray * controls = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray *controls = [[[NSMutableArray alloc] init] autorelease];
 
-    // Create the control for each item
-    unsigned long currItem = 0;
+    // Create the control for each item:
+    unsigned long currItem = 0UL;
     NSEnumerator *en = [items objectEnumerator];
-    float cellWidth = 0.0;
+    float cellWidth = 0.0f;
     id obj;
     while ((obj = [en nextObject])) {
-        NSButton * button = [[[NSButton alloc] init] autorelease];
+        NSButton *button = [[[NSButton alloc] init] autorelease];
         [button setButtonType:NSRadioButton];
         [button setTitle:[items objectAtIndex:currItem]];
-        if (disabled != nil && [disabled count]) {
+        if ((disabled != nil) && [disabled count]) {
             if ([disabled containsObject:[NSString stringWithFormat:@"%i", currItem]]) {
                 [[button cell] setEnabled: NO];
             }
         }
-        [[button cell] setTag:currItem];
+        [[button cell] setTag:(NSInteger)currItem];
         [button sizeToFit];
         if ([button frame].size.width > cellWidth) {
-            cellWidth = [button frame].size.width;
+            cellWidth = (float)[button frame].size.width;
         }
         [controls addObject:[button cell]];
         currItem++;
     }
 
-    // Set other attributes of matrix
+    // Set other attributes of matrix:
     [controlMatrix setAutosizesCells:NO];
     [controlMatrix setCellSize:NSMakeSize(cellWidth, 18.0f)];
     [controlMatrix setAllowsEmptySelection:YES];
     [controlMatrix deselectAllCells];
     [controlMatrix setMode:NSRadioModeMatrix];
 
-    // Populate the matrix
+    // Populate the matrix:
     currItem = 0;
-    for (unsigned long currColumn = 0; currColumn <= columns - 1; currColumn++) {
-        for (unsigned long currRow = 0; currRow <= rows - 1; currRow++) {
+    for (unsigned long currColumn = 0UL; currColumn <= (columns - 1UL); currColumn++) {
+        for (unsigned long currRow = 0UL; currRow <= (rows - 1UL); currRow++) {
             if (currItem <= [items count] - 1) {
-                NSButtonCell * cell = [controls objectAtIndex:currItem];
-                [controlMatrix putCell:cell atRow:currRow column:currColumn];
+                NSButtonCell *cell = [controls objectAtIndex:currItem];
+                [controlMatrix putCell:cell
+                                 atRow:(NSInteger)currRow
+                                column:(NSInteger)currColumn];
                 if (selected == currItem) {
-                    [controlMatrix selectCellAtRow:currRow column:currColumn];
+                    [controlMatrix selectCellAtRow:(NSInteger)currRow
+                                            column:(NSInteger)currColumn];
                 }
                 currItem++;
             }
             else {
-                NSCell * blankCell = [[[NSCell alloc] init] autorelease];
+                NSCell *blankCell = [[[NSCell alloc] init] autorelease];
                 [blankCell setType:NSNullCellType];
                 [blankCell setEnabled:NO];
-                [controlMatrix putCell:blankCell atRow:currRow column:currColumn];
+                [controlMatrix putCell:blankCell
+                                 atRow:(NSInteger)currRow
+                                column:(NSInteger)currColumn];
             }
         }
     }
+
+    if (obj != NULL) {
+        return;
+    }
+    /* else return by falling off the end; it is the same either way */
 }
 
 @end
+
+/* EOF */

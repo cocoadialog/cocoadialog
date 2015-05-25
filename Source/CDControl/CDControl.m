@@ -19,15 +19,20 @@
 */
 
 #import "AppController.h"
+#import "CDCommon.h"
 #import "CDControl.h"
 
 @implementation CDControl
 
 #pragma mark - Internal Control Methods -
 - (NSString *) controlNib { return @""; }
+
 - (CDOptions *) controlOptionsFromArgs:(NSArray *)args {
-	return [CDOptions getOpts:args availableKeys:[self availableKeys] depreciatedKeys:[self depreciatedKeys]];
+	return [CDOptions getOpts:args
+                availableKeys:[self availableKeys]
+              depreciatedKeys:[self depreciatedKeys]];
 }
+
 - (CDOptions *) controlOptionsFromArgs:(NSArray *)args withGlobalKeys:(NSDictionary *)globalKeys {
 	NSMutableDictionary *allKeys = [[[NSMutableDictionary alloc] init] autorelease];
     [allKeys addEntriesFromDictionary:globalKeys];
@@ -37,8 +42,11 @@
 		[allKeys addEntriesFromDictionary:localKeys];
 	}
     NSDictionary *depreciatedKeys = [self depreciatedKeys];
-	return [CDOptions getOpts:args availableKeys:allKeys depreciatedKeys:depreciatedKeys];
+	return [CDOptions getOpts:args
+                availableKeys:allKeys
+              depreciatedKeys:depreciatedKeys];
 }
+
 - (void) dealloc {
     [panel release];
     [icon release];
@@ -52,6 +60,7 @@
     }
 	[super dealloc];
 }
+
 - (NSString *) formatSecondsForString:(NSInteger)timeInSeconds {
     static NSString *timerFormat = nil;
     if (timerFormat == nil) {
@@ -64,10 +73,10 @@
     }
     NSString *returnString = timerFormat;
 
-    NSInteger seconds = timeInSeconds % 60;
-    NSInteger minutes = (timeInSeconds / 60) % 60;
-    NSInteger hours = timeInSeconds / 3600;
-    NSInteger days = timeInSeconds / (3600 * 24);
+    NSInteger seconds = (timeInSeconds % 60);
+    NSInteger minutes = ((timeInSeconds / 60) % 60);
+    NSInteger hours = (timeInSeconds / 3600);
+    NSInteger days = (timeInSeconds / (3600 * 24));
     NSString *relative = @"unknown";
     if (days > 0) {
         if (days > 1) {
@@ -107,13 +116,19 @@
             }
         }
     }
-    returnString = [returnString stringByReplacingOccurrencesOfString:@"%s" withString:[NSString stringWithFormat:@"%d", seconds]];
-    returnString = [returnString stringByReplacingOccurrencesOfString:@"%m" withString:[NSString stringWithFormat:@"%d", minutes]];
-    returnString = [returnString stringByReplacingOccurrencesOfString:@"%h" withString:[NSString stringWithFormat:@"%d", hours]];
-    returnString = [returnString stringByReplacingOccurrencesOfString:@"%d" withString:[NSString stringWithFormat:@"%d", days]];
-    returnString = [returnString stringByReplacingOccurrencesOfString:@"%r" withString:relative];
+    returnString = [returnString stringByReplacingOccurrencesOfString:@"%s"
+                                                           withString:[NSString stringWithFormat:@"%d", seconds]];
+    returnString = [returnString stringByReplacingOccurrencesOfString:@"%m"
+                                                           withString:[NSString stringWithFormat:@"%d", minutes]];
+    returnString = [returnString stringByReplacingOccurrencesOfString:@"%h"
+                                                           withString:[NSString stringWithFormat:@"%d", hours]];
+    returnString = [returnString stringByReplacingOccurrencesOfString:@"%d"
+                                                           withString:[NSString stringWithFormat:@"%d", days]];
+    returnString = [returnString stringByReplacingOccurrencesOfString:@"%r"
+                                                           withString:relative];
     return returnString;
 }
+
 - (id)initWithOptions:(CDOptions *)opts {
 	self = [super initWithOptions:opts];
     controlExitStatus = -1;
@@ -122,8 +137,9 @@
     controlItems = [[[NSMutableArray alloc] init] retain];
 	return self;
 }
+
 - (BOOL) loadControlNib:(NSString *)nib {
-    // Load nib
+    // Load nib:
     if (nib != nil) {
         if (![nib isEqualToString:@""] && ![NSBundle loadNibNamed:nib owner:self]) {
             if ([options hasOpt:@"debug"]) {
@@ -136,8 +152,8 @@
         [self debug:@"Control did not specify a NIB interface file to load."];
         return NO;
     }
-    panel = [[[CDPanel alloc] initWithOptions:options] retain];
-    icon = [[[CDIcon alloc] initWithOptions:options] retain];
+    panel = [[(CDCommon *)[CDPanel alloc] initWithOptions:options] retain];
+    icon = [[(CDCommon *)[CDIcon alloc] initWithOptions:options] retain];
     if (controlPanel != nil) {
         [panel setPanel:controlPanel];
         [icon setPanel:panel];
@@ -147,6 +163,7 @@
     }
     return YES;
 }
+
 + (void) printHelpTo:(NSFileHandle *)fh {
 	if (fh) {
         [fh writeData:[@"Usage: cocoaDialog <run-mode> [options]\n\tAvailable run-modes:\n" dataUsingEncoding:NSUTF8StringEncoding]];
@@ -154,20 +171,20 @@
 
         NSEnumerator *en = [sortedAvailableKeys objectEnumerator];
         id key;
-        unsigned i = 0;
-        unsigned currKey = 0;
+        unsigned int i = 0U;
+        unsigned int currKey = 0U;
         while ((key = [en nextObject])) {
-            if (i == 0) {
+            if (i == 0U) {
                 [fh writeData:[@"\t\t" dataUsingEncoding:NSUTF8StringEncoding]];
             }
             [fh writeData:[key dataUsingEncoding:NSUTF8StringEncoding]];
-            if (i <= 6 && currKey != [sortedAvailableKeys count] - 1) {
+            if ((i <= 6U) && (currKey != ([sortedAvailableKeys count] - 1))) {
                 [fh writeData:[@", " dataUsingEncoding:NSUTF8StringEncoding]];
                 i++;
             }
-            if (i == 6) {
+            if (i == 6U) {
                 [fh writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
-                i = 0;
+                i = 0U;
             }
             currKey++;
         }
@@ -175,14 +192,17 @@
         [fh writeData:[@"\n\tGlobal Options:\n\t\t--help, --debug, --title, --width, --height,\n\t\t--string-output, --no-newline\n\nSee http://mstratman.github.com/cocoadialog/#documentation\nfor detailed documentation.\n" dataUsingEncoding:NSUTF8StringEncoding]];
 	}
 }
+
 - (void) runControl {
-    // The control must either: 1) sub-class -(NSString *) controlNib, return the name of the NIB, and then connect "controlPanel" in IB or 2) set the panel manually with [panel setPanel:(NSPanel *)]  when creating the control.
+    // The control must either:
+    //  1) sub-class -(NSString *) controlNib, return the name of the NIB, and then connect "controlPanel" in IB, or
+    //  2) set the panel manually with [panel setPanel:(NSPanel *)]  when creating the control.
     if ([panel panel] != nil) {
-        // Set icon
+        // Set icon:
         if ([icon control] != nil) {
             [icon setIconFromOptions];
         }
-        // Reposition Panel
+        // Reposition Panel:
         [panel setPosition];
         [panel setFloat];
         [NSApp run];
@@ -194,67 +214,83 @@
         exit(255);
     }
 }
+
 - (void) setTimeout {
     timeout = 0.0f;
     timer = nil;
-    // Only initialize timeout if the option is provided
+    // Only initialize timeout if the option is provided:
 	if ([options hasOpt:@"timeout"]) {
 		if ([[NSScanner scannerWithString:[options optValue:@"timeout"]] scanFloat:&timeout]) {
             mainThread = [NSThread currentThread];
-            [NSThread detachNewThreadSelector:@selector(createTimer) toTarget:self withObject:nil];
+            [NSThread detachNewThreadSelector:@selector(createTimer)
+                                     toTarget:self
+                                   withObject:nil];
 		} else if ([options hasOpt:@"debug"]) {
             [self debug:@"Could not parse the timeout option."];
 		}
 	}
     [self setTimeoutLabel];
 }
+
 - (void) setTimeoutLabel {
     if (timeoutLabel != nil) {
         float labelNewHeight = -4.0f;
         NSRect labelRect = [timeoutLabel frame];
-        float labelHeightDiff = labelNewHeight - labelRect.size.height;
+        float labelHeightDiff = (float)(labelNewHeight - labelRect.size.height);
         [timeoutLabel setStringValue:[self formatSecondsForString:(int)timeout]];
-        if (![[timeoutLabel stringValue] isEqualToString:@""] && timeout != 0.0f) {
-            NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: [timeoutLabel stringValue]]autorelease];
+        if (![[timeoutLabel stringValue] isEqualToString:@""] && (timeout != 0.0f)) {
+            NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString:[timeoutLabel stringValue]] autorelease];
             NSTextContainer *textContainer = [[[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)] autorelease];
             NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease];
-            [layoutManager addTextContainer: textContainer];
-            [textStorage addLayoutManager: layoutManager];
+            [layoutManager addTextContainer:textContainer];
+            [textStorage addLayoutManager:layoutManager];
             [layoutManager glyphRangeForTextContainer:textContainer];
-            labelNewHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
-            labelHeightDiff = labelNewHeight - labelRect.size.height;
-            // Set label's new height
-            NSRect l = NSMakeRect(labelRect.origin.x, labelRect.origin.y - labelHeightDiff, labelRect.size.width, labelNewHeight);
+            labelNewHeight = (float)[layoutManager usedRectForTextContainer:textContainer].size.height;
+            labelHeightDiff = (float)(labelNewHeight - labelRect.size.height);
+            // Set label's new height:
+            NSRect l = NSMakeRect(labelRect.origin.x,
+                                  (labelRect.origin.y - labelHeightDiff),
+                                  labelRect.size.width, labelNewHeight);
             [timeoutLabel setFrame: l];
         }
         else {
             [timeoutLabel setHidden:YES];
         }
-        // Set panel's new width and height
-        NSSize p = [[[panel panel] contentView] frame].size;
+        // Set panel's new width and height:
+        NSSize p = [(NSView *)[[panel panel] contentView] frame].size;
         p.height += labelHeightDiff;
         [[panel panel] setContentSize:p];
     }
 }
+
 - (void) createTimer {
     NSAutoreleasePool *timerPool = [[NSAutoreleasePool alloc] init];
     timerThread = [NSThread currentThread];
     NSRunLoop *_runLoop = [NSRunLoop currentRunLoop];
-    timer = [[NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(processTimer) userInfo:nil repeats:YES] retain];
+    timer = [[NSTimer timerWithTimeInterval:1.0f
+                                     target:self
+                                   selector:@selector(processTimer)
+                                   userInfo:nil
+                                    repeats:YES] retain];
     [_runLoop addTimer:timer forMode:NSRunLoopCommonModes];
     [_runLoop run];
     [timerPool release];
 }
+
 - (void) stopTimer {
     [timer invalidate];
     [timer release];
     timer = nil;
-    [self performSelector:@selector(stopControl) onThread:mainThread withObject:nil waitUntilDone:YES];
+    [self performSelector:@selector(stopControl)
+                 onThread:mainThread
+               withObject:nil
+            waitUntilDone:YES];
 }
+
 - (void) processTimer {
-    // Decrease timeout value
+    // Decrease timeout value:
     timeout = timeout - 1.0f;
-    // Update and position the label if it exists
+    // Update and position the label if it exists:
     if (timeout > 0.0f) {
         if (timeoutLabel != nil) {
             [timeoutLabel setStringValue:[self formatSecondsForString:(int)timeout]];
@@ -268,26 +304,28 @@
     }
 }
 - (void) stopControl {
-    // Stop timer
+    // Stop timer:
     if (timerThread != nil) {
         [timerThread cancel];
     }
-    // Stop any modal windows currently running
+    // Stop any modal windows currently running:
     [NSApp stop:self];
-    if (![options hasOpt:@"quiet"] && controlExitStatus != -1 && controlExitStatus != -2) {
+    if (![options hasOpt:@"quiet"] && (controlExitStatus != -1) && (controlExitStatus != -2)) {
         if ([options hasOpt:@"string-output"]) {
             if (controlExitStatusString == nil) {
                 controlExitStatusString = [NSString stringWithFormat:@"%d", controlExitStatus];
             }
-            [controlReturnValues insertObject:controlExitStatusString atIndex:0];
+            [controlReturnValues insertObject:controlExitStatusString
+                                      atIndex:0];
         }
         else {
-            [controlReturnValues insertObject:[NSString stringWithFormat:@"%d", controlExitStatus] atIndex:0];
+            [controlReturnValues insertObject:[NSString stringWithFormat:@"%d", controlExitStatus]
+                                      atIndex:0];
         }
     }
     if (controlExitStatus == -1) controlExitStatus = 0;
     if (controlExitStatus == -2) controlExitStatus = 1;
-    // Print all the returned lines
+    // Print all the returned lines:
     if (controlReturnValues != nil) {
         unsigned i;
         NSFileHandle *fh = [NSFileHandle fileHandleWithStandardOutput];
@@ -295,8 +333,7 @@
             if (fh) {
                 [fh writeData:[[controlReturnValues objectAtIndex:i] dataUsingEncoding:NSUTF8StringEncoding]];
             }
-            if (![options hasOpt:@"no-newline"] || i+1 < [controlReturnValues count])
-            {
+            if (![options hasOpt:@"no-newline"] || ((i + 1) < [controlReturnValues count])) {
                 if (fh) {
                     [fh writeData:[[NSString stringWithString:@"\n"] dataUsingEncoding:NSUTF8StringEncoding]];
                 }
@@ -306,20 +343,20 @@
         [self debug:@"Control returned nil."];
     }
     [self dealloc];
-    // Return the exit status
+    // Return the exit status:
     exit(controlExitStatus);
 }
 
 #pragma mark - Subclassable Control Methods -
-- (NSDictionary *) availableKeys {return nil;}
-- (void) createControl {}
+- (NSDictionary *) availableKeys { return nil; }
+- (void) createControl { return; }
 - (BOOL) validateOptions { return YES; }
-- (NSDictionary *) depreciatedKeys {return nil;}
+- (NSDictionary *) depreciatedKeys { return nil; }
 - (NSDictionary *) globalAvailableKeys {
     NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
 	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
     return [NSDictionary dictionaryWithObjectsAndKeys:
-            // General
+            // General:
             vNone, @"help",
             vNone, @"debug",
             vNone, @"quiet",
@@ -327,7 +364,7 @@
             vOne,  @"timeout-format",
             vNone, @"string-output",
             vNone, @"no-newline",
-            // Panel
+            // Panel:
             vOne,  @"title",
             vOne,  @"width",
             vOne,  @"height",
@@ -336,7 +373,7 @@
             vNone, @"no-float",
             vNone, @"minimize",
             vNone, @"resize",
-            // Icon
+            // Icon:
             vOne,  @"icon",
             vOne,  @"icon-bundle",
             vOne,  @"icon-type",
@@ -346,6 +383,14 @@
             vOne,  @"icon-height",
             nil];
 }
-- (BOOL) validateControl:(CDOptions *)options {return YES;}
+
+- (BOOL) validateControl:(CDOptions *)options { return YES; }
+
+- (NSComparisonResult)localizedCaseInsensitiveCompare:(NSString *)string
+{
+    return [string localizedCaseInsensitiveCompare:string];
+}
 
 @end
+
+/* EOF */

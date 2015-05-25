@@ -2,17 +2,17 @@
 	CDControl.h
 	cocoaDialog
 	Copyright (C) 2004-2011 Mark A. Stratman <mark@sporkstorms.org>
- 
+
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 2 of the License, or
 	(at your option) any later version.
- 
+
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
- 
+
 	You should have received a copy of the GNU General Public License
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -66,6 +66,7 @@
 - (CDOptions *) controlOptionsFromArgs:(NSArray *)args withGlobalKeys:(NSDictionary *)globalKeys;
 - (void) createTimer;
 - (NSString *) formatSecondsForString:(NSInteger)timeInSeconds;
+- (id)initWithOptions:(CDOptions *)opts;
 - (BOOL) loadControlNib:(NSString *)nib;
 + (void) printHelpTo:(NSFileHandle *)fh;
 - (void) processTimer;
@@ -76,15 +77,21 @@
 - (void) stopTimer;
 
 #pragma mark - Subclassable Control Methods -
-// This must be sub-classed if you want options local to your control
+// This must be sub-classed if you want options local to your control:
 - (NSDictionary *) availableKeys;
 - (void) createControl;
 - (BOOL) validateOptions;
-// This must be sub-classed if you want specify local depreciated keys for your control
+// This must be sub-classed if you want specify local depreciated keys for your control:
 - (NSDictionary *) depreciatedKeys;
-// This must be overridden if you want local global options for your control
+// This must be overridden if you want local global options for your control:
 - (NSDictionary *) globalAvailableKeys;
-// This must be sub-classed if you want validate local options for your control
+// This must be sub-classed if you want validate local options for your control:
 - (BOOL) validateControl:(CDOptions *)options;
 
+#pragma mark - Other Junk -
+/* */
+- (NSComparisonResult)localizedCaseInsensitiveCompare:(NSString *)string;
+
 @end
+
+/* EOF */

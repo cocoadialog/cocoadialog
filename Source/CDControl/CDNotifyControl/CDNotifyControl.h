@@ -13,6 +13,8 @@
     NSMutableArray  *notifications;
 }
 
+- (id)initWithOptions:(CDOptions *)opts;
+
 - (void) addNotificationWithTitle:(NSString *)title
                       description:(NSString *)description
                              icon:(NSImage *)_icon
@@ -27,3 +29,5 @@
 - (NSArray *) parseTextForArguments:(NSString *)string;
 
 @end
+
+/* EOF */

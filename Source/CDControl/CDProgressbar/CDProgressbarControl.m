@@ -2,17 +2,17 @@
 	CDProgressbarControl.m
 	cocoaDialog
 	Copyright (C) 2004 Mark A. Stratman <mark@sporkstorms.org>
- 
+
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 2 of the License, or
 	(at your option) any later version.
- 
+
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
- 
+
 	You should have received a copy of the GNU General Public License
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -32,7 +32,7 @@
 {
 	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
 	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
-	
+
 	return [NSDictionary dictionaryWithObjectsAndKeys:
 		vOne,  @"text",
 		vOne,  @"percent",
@@ -93,7 +93,7 @@
 	[self confirmStop];
 }
 
--(void) setStopEnabled:(NSNumber*)enabled
+-(void) setStopEnabled:(NSNumber *)enabled
 {
 	stopEnabled = [enabled boolValue];
 	[stopButton setEnabled:stopEnabled];
@@ -105,7 +105,7 @@
 
 - (void) createControl {
 	stopEnabled = YES;
-	
+
 	[panel addMinWidth:[progressBar frame].size.width + 30.0f];
 	[icon addControl:expandingLabel];
 	[icon addControl:progressBar];
@@ -116,7 +116,7 @@
 	} else {
 		[expandingLabel setStringValue:@""];
 	}
-	
+
 	// hide stop button if not stoppable and resize window/controls
 	if (![options hasOpt:@"stoppable"]) {
 		NSRect progressBarFrame = [progressBar frame];
@@ -134,13 +134,13 @@
 	}
 
 	[panel resize];
-	
+
 	CDProgressbarInputHandler *inputHandler = [[CDProgressbarInputHandler alloc] init];
 	[inputHandler setDelegate:self];
 
 	[progressBar setMinValue:CDProgressbarMIN];
 	[progressBar setMaxValue:CDProgressbarMAX];
-	
+
 	// set initial percent
 	if ([options optValue:@"percent"]) {
 		double initialPercent;
@@ -148,7 +148,7 @@
 			[progressBar setDoubleValue:initialPercent];
 		}
 	}
-		
+
 	//set window title
 	if ([options optValue:@"title"]) {
 		[[panel panel] setTitle:[options optValue:@"title"]];

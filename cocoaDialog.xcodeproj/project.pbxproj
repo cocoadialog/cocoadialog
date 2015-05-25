@@ -571,7 +571,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p /server/repositories/github/\ncp sparkle-release /server/repositories/github/sparkle-release/\nmkdir -p /server/repositories/github/sparkle-release/src\n/server/repositories/github/sparkle-release/src/sparkle-release";
+			shellScript = "if test -w /; then\n  mkdir -pv /server/repositories/github/\n  cp -v sparkle-release /server/repositories/github/sparkle-release/\n  mkdir -pv /server/repositories/github/sparkle-release/src\n  /server/repositories/github/sparkle-release/src/sparkle-release\nelse\n  echo \"this script needs to be run as root\" >&2\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -701,11 +701,19 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
 				);
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_POINTER_SIGNEDNESS = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_PROFILING_CODE = NO;
 				OTHER_LDFLAGS = "";
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wall",
+					"-Wextra",
 					"-Wno-unused-parameter",
+					"-Wunused-macros",
 					"-Wundef",
 					"-Wendif-labels",
 					"-Wpointer-arith",
@@ -727,10 +735,22 @@
 			baseConfigurationReference = A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_OPENMP_SUPPORT = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_EXCEPTIONS = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_PASCAL_STRINGS = YES;
+				"GCC_ENABLE_SSE3_EXTENSIONS[arch=i386]" = YES;
+				"GCC_ENABLE_SSE3_EXTENSIONS[arch=x86_64]" = YES;
+				"GCC_ENABLE_SSE41_EXTENSIONS[arch=i386]" = YES;
+				"GCC_ENABLE_SSE41_EXTENSIONS[arch=x86_64]" = YES;
+				"GCC_ENABLE_SSE42_EXTENSIONS[arch=i386]" = YES;
+				"GCC_ENABLE_SSE42_EXTENSIONS[arch=x86_64]" = YES;
+				"GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS[arch=i386]" = YES;
+				"GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS[arch=x86_64]" = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_ABOUT_GLOBAL_CONSTRUCTORS = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_POINTER_SIGNEDNESS = YES;
@@ -745,10 +765,15 @@
 				GENERATE_PROFILING_CODE = YES;
 				HEADER_SEARCH_PATHS = "";
 				LD_GENERATE_MAP_FILE = YES;
+				OTHER_LDFLAGS = "-headerpad_max_install_names";
+				PRESERVE_DEAD_CODE_INITS_AND_TERMS = YES;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+				STRIP_STYLE = "non-global";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "i386 x86_64";
+				VERSIONING_SYSTEM = "apple-generic";
 				WARNING_CFLAGS = (
 					"-Wall",
 					"-Wno-unused-parameter",
@@ -772,7 +797,27 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */;
 			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				"GCC_ALTIVEC_EXTENSIONS[arch=ppc64]" = YES;
+				GCC_AUTO_VECTORIZATION = YES;
+				GCC_CHECK_RETURN_VALUE_OF_OPERATOR_NEW = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DEBUGGING_SYMBOLS = used;
+				GCC_ENABLE_EXCEPTIONS = YES;
+				GCC_ENABLE_PASCAL_STRINGS = YES;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_ENABLE_SSE41_EXTENSIONS = YES;
+				GCC_ENABLE_SSE42_EXTENSIONS = YES;
+				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
+				"GCC_MODEL_PPC64[arch=ppc64]" = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_STRICT_ALIASING = YES;
 				HEADER_SEARCH_PATHS = "";
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.5;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
@@ -780,12 +825,36 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */;
 			buildSettings = {
+				ARCHS = (
+					i386,
+					x86_64,
+				);
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
 				);
+				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.5;
 				OTHER_LDFLAGS = "";
 				SECTORDER_FLAGS = "";
+				VALID_ARCHS = "i386 x86_64";
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wno-unused-parameter",
+					"-Wundef",
+					"-Wendif-labels",
+					"-Wpointer-arith",
+					"-Wcast-align",
+					"-Wwrite-strings",
+					"-Wmissing-format-attribute",
+					"-Wpacked",
+					"-Wredundant-decls",
+					"-Winline",
+					"-Wdisabled-optimization",
+					"-Wformat=2",
+					"-Winvalid-pch",
+				);
 			};
 			name = Release;
 		};
