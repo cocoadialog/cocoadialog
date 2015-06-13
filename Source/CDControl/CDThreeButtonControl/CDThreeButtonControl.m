@@ -213,11 +213,11 @@
 	for (i = 0; i != sizeof(buttons)/sizeof(buttons[0]); i++) {
 		[self setTitle:[options optValue:buttons[i].key] forButton:buttons[i].button];
         if ([[self options] hasOpt:@"cancel"] && [[options optValue:@"cancel"] isEqualToString:buttons[i].key]) {
-            [buttons[i].button setKeyEquivalent:@"\e"];
+            [buttons[i].button setKeyEquivalent:@"\033"];
             cancelButton = i+1;
         }
         else if ([[options optValue:buttons[i].key] isEqualToString:@"Cancel"]) {
-            [buttons[i].button setKeyEquivalent:@"\e"];
+            [buttons[i].button setKeyEquivalent:@"\033"];
             cancelButton = i+1;
         }
 		if ([buttons[i].button isHidden] == NO) {
