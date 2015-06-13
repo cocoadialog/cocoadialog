@@ -98,16 +98,21 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 	[_text drawInRect:NSMakeRect( 55., 10., 200., 30. )];
 
 	if( [_icon size].width > 32. || [_icon size].height > 32. ) { // Assume a square image.
-		NSImageRep *sourceImageRep = [_icon bestRepresentationForDevice:nil];
+                                                                  //NSImageRep *sourceImageRep = [_icon bestRepresentationForDevice:nil];
+        NSRect rect3 = NSMakeRect(0, 0, 32, 32);
+        NSImageRep *sourceImageRep2 = [_icon bestRepresentationForRect:rect3 context:nil hints:nil];
+        
 		[_icon autorelease];
 		_icon = [[NSImage alloc] initWithSize:NSMakeSize( 32., 32. )];
 		[_icon lockFocus];
 		[[NSGraphicsContext currentContext] setImageInterpolation: NSImageInterpolationHigh];
-		[sourceImageRep drawInRect:NSMakeRect( 0., 0., 32., 32. )];
+		[sourceImageRep2 drawInRect:NSMakeRect( 0., 0., 32., 32. )];
 		[_icon unlockFocus];
 	}
 
-	[_icon compositeToPoint:NSMakePoint( 15., 20. ) operation:NSCompositeSourceAtop fraction:1.];
+    NSRect rect2 = NSMakeRect(0, 0, 0, 0);
+    //[_icon compositeToPoint:NSMakePoint( 15., 20. ) operation:NSCompositeSourceAtop fraction:1.];
+    [_icon drawAtPoint:NSMakePoint(15, 20) fromRect:rect2 operation:NSCompositeSourceAtop fraction:1];
 
 	[[self window] invalidateShadow];
 }
