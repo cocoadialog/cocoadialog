@@ -67,7 +67,7 @@
 		return NO;
 	}
     // Load nib
-	if (![NSBundle loadNibNamed:@"popup" owner:self]) {
+    if (![[NSBundle mainBundle] loadNibNamed:@"popup" owner:self topLevelObjects:nil]) {
 		if ([options hasOpt:@"debug"]) {
 			[self debug:@"Could not load popup.nib"];
 		}
