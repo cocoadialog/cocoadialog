@@ -49,7 +49,8 @@
 		return NO;
 	}
     // Load nib
-	if (![NSBundle loadNibNamed:@"tbc" owner:self]) {
+	if (![[NSBundle mainBundle] loadNibNamed:@"tbc" owner:self topLevelObjects:nil])
+    {
 		if ([options hasOpt:@"debug"]) {
 			[self debug:@"Could not load tbc.nib"];
 		}
