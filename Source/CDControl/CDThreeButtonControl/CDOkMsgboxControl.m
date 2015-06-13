@@ -39,7 +39,7 @@
 		[button2 setHidden:YES];
 	} else {
 		[button2 setTitle:@"Cancel"];
-		[button2 setKeyEquivalent:@"\e"];
+		[button2 setKeyEquivalent:@"\033"];
 		[button2 setEnabled:YES];
 		[button2 setHidden:NO];
 	}
