@@ -125,7 +125,10 @@
 - (BOOL) loadControlNib:(NSString *)nib {
     // Load nib
     if (nib != nil) {
-        if (![nib isEqualToString:@""] && ![NSBundle loadNibNamed:nib owner:self]) {
+        NSBundle *appBundle = [NSBundle mainBundle];
+        if (![nib isEqualToString:@""] && ![appBundle loadNibNamed:nib owner:self topLevelObjects:nil])
+        {
+  
             if ([options hasOpt:@"debug"]) {
                 [self debug:[NSString stringWithFormat:@"Could not load control interface: \"%@.nib\"", nib]];
             }
