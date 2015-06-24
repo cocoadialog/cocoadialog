@@ -31,12 +31,12 @@
 {
 	NSString *runMode = nil;
     // Assign arguments
-	arguments = [[[NSMutableArray alloc] initWithArray:[[NSProcessInfo processInfo] arguments]] autorelease];
+	arguments = [[NSMutableArray alloc] initWithArray:[[NSProcessInfo processInfo] arguments]];
     // Initialize control
-    currentControl = [[[CDControl alloc] init] autorelease];
+    currentControl = [[CDControl alloc] init];
     // Setup containers
-    NSDictionary *globalKeys = [[[NSDictionary alloc] initWithDictionary:[currentControl globalAvailableKeys]] autorelease];
-    NSDictionary *depreciatedKeys = [[[NSDictionary alloc] initWithDictionary:[currentControl depreciatedKeys]] autorelease];
+    NSDictionary *globalKeys = [[NSDictionary alloc] initWithDictionary:[currentControl globalAvailableKeys]];
+    NSDictionary *depreciatedKeys = [[NSDictionary alloc] initWithDictionary:[currentControl depreciatedKeys]];
     CDOptions *options = [CDOptions getOpts:arguments availableKeys:globalKeys depreciatedKeys:depreciatedKeys];
 	if ([arguments count] >= 2) {
 		[arguments removeObjectAtIndex:0]; // Remove program name.
@@ -59,7 +59,7 @@
     else if ([runMode caseInsensitiveCompare:@"notify"] == NSOrderedSame || [runMode caseInsensitiveCompare:@"bubble"] == NSOrderedSame) {
         // Determine which notification type to use
         // Recapture the arguments
-        arguments = [[[NSMutableArray alloc] initWithArray:[[NSProcessInfo processInfo] arguments]] autorelease];
+        arguments = [[NSMutableArray alloc] initWithArray:[[NSProcessInfo processInfo] arguments]];
         // Replace the runMode with the new one
         arguments[1] = @"CDNotifyControl";
         // Relaunch cocoaDialog with the new runMode
@@ -74,7 +74,7 @@
 #elif defined __x86_64__
         [arguments insertObject:@"-x86_64" atIndex:0];
 #endif
-        NSTask *task = [[[NSTask alloc] init] autorelease];
+        NSTask *task = [[NSTask alloc] init];
         // Output must be silenced to not hang this process
         [task setStandardError:[NSFileHandle fileHandleWithNullDevice]];
         [task setStandardOutput:[NSFileHandle fileHandleWithNullDevice]];
@@ -84,11 +84,11 @@
         [NSApp terminate:self];
     }
     else if ([runMode caseInsensitiveCompare:@"update"] == NSOrderedSame) {
-        [[[[CDUpdate alloc] initWithOptions:options] autorelease] update];
+        [[[CDUpdate alloc] initWithOptions:options] update];
     }
     // runMode needs to run through control logic
     else {
-        NSMutableDictionary *extraOptions = [[[NSMutableDictionary alloc] init] autorelease];
+        NSMutableDictionary *extraOptions = [[NSMutableDictionary alloc] init];
         // Choose the control
         [self chooseControl:runMode useOptions:options addExtraOptionsTo:extraOptions];
         if (currentControl != nil) {
@@ -204,12 +204,12 @@
 
     }
     else if ([runMode caseInsensitiveCompare:@"CDNotifyControl"] == NSOrderedSame) {
-        CDControl * notify = [[[CDNotifyControl alloc] initWithOptions:options] autorelease];
+        CDControl * notify = [[CDNotifyControl alloc] initWithOptions:options];
         NSDictionary * notifyGlobalKeys = [notify globalAvailableKeys];
         CDOptions * notifyOptions = [notify controlOptionsFromArgs:arguments withGlobalKeys:notifyGlobalKeys];
         NSString * notifyClass = ![notifyOptions hasOpt:@"no-growl"]
                                 ? @"CDGrowlControl" : @"CDBubbleControl";
-        currentControl = [[(CDControl *)[NSClassFromString(notifyClass) alloc] initWithOptions:options] autorelease];
+        currentControl = [(CDControl *)[NSClassFromString(notifyClass) alloc] initWithOptions:options];
     }
     else {
         // Bring application into focus.
@@ -223,7 +223,7 @@
             if ([runMode caseInsensitiveCompare:@"secure-standard-inputbox"] == NSOrderedSame || [runMode caseInsensitiveCompare:@"secure-inputbox"] == NSOrderedSame) {
                 extraOptions[@"no-show"] = @NO;
             }
-            currentControl = [[(CDControl *)[control alloc] initWithOptions:options] autorelease];
+            currentControl = [(CDControl *)[control alloc] initWithOptions:options];
             return;
         }
         NSFileHandle *fh = [NSFileHandle fileHandleWithStandardError];
@@ -239,14 +239,14 @@
 #pragma mark - Label Hyperlinks
 -(void)setHyperlinkForTextField:(NSTextField*)aTextField replaceString:(NSString *)aString withURL:(NSString *)aURL
 {
-    NSMutableAttributedString *textFieldString = [[[aTextField attributedStringValue] mutableCopy] autorelease];
+    NSMutableAttributedString *textFieldString = [[aTextField attributedStringValue] mutableCopy];
     NSRange range = [[textFieldString string] rangeOfString:aString];
 
     // both are needed, otherwise hyperlink won't accept mousedown
     [aTextField setAllowsEditingTextAttributes: YES];
     [aTextField setSelectable: YES];
 
-    NSMutableAttributedString* replacement = [[[NSMutableAttributedString alloc] init] autorelease];
+    NSMutableAttributedString* replacement = [[NSMutableAttributedString alloc] init];
     [replacement setAttributedString: [NSAttributedString hyperlinkFromString:aString withURL:[NSURL URLWithString:aURL] withFont:[aTextField font]]];
 
     [textFieldString replaceCharactersInRange:range withAttributedString:replacement];
@@ -281,6 +281,6 @@
 
     [attrString endEditing];
 
-    return [attrString autorelease];
+    return attrString;
 }
 @end

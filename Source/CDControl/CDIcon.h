@@ -17,8 +17,8 @@
     NSImage                     *iconImage;
     CDPanel                     *panel;
 }
-@property (retain) NSImageView *control;
-@property (retain) CDPanel *panel;
+@property (strong) NSImageView *control;
+@property (strong) CDPanel *panel;
 
 - (void) addControl:(id)control;
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *controls;

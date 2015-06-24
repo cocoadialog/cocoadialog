@@ -27,7 +27,7 @@
 @property (NS_NONATOMIC_IOSONLY, copy) NSColor *textColor;
 @property (NS_NONATOMIC_IOSONLY, copy) NSColor *borderColor;
 
-@property (NS_NONATOMIC_IOSONLY, assign) id target;
+@property (NS_NONATOMIC_IOSONLY, unsafe_unretained) id target;
 
 @property (NS_NONATOMIC_IOSONLY) SEL action;
 

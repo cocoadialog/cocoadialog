@@ -13,15 +13,10 @@
 - (instancetype)initWithOptions:(CDOptions *)opts {
 	self = [super initWithOptions:opts];
     activeNotifications = 0;
-    notifications = [[[NSMutableArray alloc] init] retain];
+    notifications = [[NSMutableArray alloc] init];
 	return self;
 }
 
-- (void) dealloc
-{
-    [notifications release];
-	[super dealloc];
-}
 
 // This must be overridden if you want local global options for your control
 - (NSDictionary *) globalAvailableKeys {
@@ -172,7 +167,7 @@
 #elif defined __ppc64__ || defined __x86_64__
         [args insertObject:@"-64" atIndex:0];
 #endif
-        NSTask *task = [[[NSTask alloc] init] autorelease];
+        NSTask *task = [[NSTask alloc] init];
         // Output must be silenced to not hang this process
         [task setStandardError:[NSPipe pipe]];
         [task setStandardOutput:[NSPipe pipe]];

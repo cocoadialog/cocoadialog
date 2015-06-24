@@ -26,7 +26,7 @@
 - (instancetype) initWithOpts:(NSMutableDictionary *)opts
 {
 	self = [super init];
-	_options = [opts retain];
+	_options = opts;
 	return self;
 }
 - (instancetype) init
@@ -52,7 +52,7 @@
 	NSMutableArray *values;
 	int argType;
 
-	options = [[[NSMutableDictionary alloc] init] autorelease];
+	options = [[NSMutableDictionary alloc] init];
 
 	unsigned i = 0;
 	while (i < [args count]) {
@@ -81,7 +81,7 @@
 			// Control reaches here there should be one or more
 			// values for key.
             if (argType == CDOptionsMultipleValues) {
-                values = [[[NSMutableArray alloc] init] autorelease];
+                values = [[NSMutableArray alloc] init];
             }
 			while (i+1 < [args count]) {
 				NSString *nextArg = args[i+1];
@@ -113,7 +113,7 @@
 		i++;
 	} // End processing all args
 
-	return [[[CDOptions alloc] initWithOpts:options] autorelease];
+	return [[CDOptions alloc] initWithOpts:options];
 }
 
 + (void) printOpts:(NSArray *)availableOptions forRunMode:(NSString *)runMode
@@ -192,9 +192,4 @@
 	_options[key] = value;
 }
 
-- (void) dealloc
-{
-	[_options release];
-	[super dealloc];
-}
 @end

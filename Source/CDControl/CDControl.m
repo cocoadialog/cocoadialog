@@ -29,7 +29,7 @@
 	return [CDOptions getOpts:args availableKeys:[self availableKeys] depreciatedKeys:[self depreciatedKeys]];
 }
 - (CDOptions *) controlOptionsFromArgs:(NSArray *)args withGlobalKeys:(NSDictionary *)globalKeys {
-	NSMutableDictionary *allKeys = [[[NSMutableDictionary alloc] init] autorelease];
+	NSMutableDictionary *allKeys = [[NSMutableDictionary alloc] init];
     [allKeys addEntriesFromDictionary:globalKeys];
 
 	NSDictionary *localKeys = [self availableKeys];
@@ -40,17 +40,9 @@
 	return [CDOptions getOpts:args availableKeys:allKeys depreciatedKeys:depreciatedKeys];
 }
 - (void) dealloc {
-    [panel release];
-    [icon release];
-    [controlExitStatusString release];
-    [controlItems release];
-    [controlReturnValues release];
-	[options release];
     if (timer != nil) {
         [timer invalidate];
-        [timer release];
     }
-	[super dealloc];
 }
 - (NSString *) formatSecondsForString:(NSInteger)timeInSeconds {
     static NSString *timerFormat = nil;
@@ -118,8 +110,8 @@
 	self = [super initWithOptions:opts];
     controlExitStatus = -1;
     controlExitStatusString = nil;
-    controlReturnValues = [[[NSMutableArray alloc] init] retain];
-    controlItems = [[[NSMutableArray alloc] init] retain];
+    controlReturnValues = [[NSMutableArray alloc] init];
+    controlItems = [[NSMutableArray alloc] init];
 	return self;
 }
 - (BOOL) loadControlNib:(NSString *)nib {
@@ -139,8 +131,8 @@
         [self debug:@"Control did not specify a NIB interface file to load."];
         return NO;
     }
-    panel = [[[CDPanel alloc] initWithOptions:options] retain];
-    icon = [[[CDIcon alloc] initWithOptions:options] retain];
+    panel = [[CDPanel alloc] initWithOptions:options];
+    icon = [[CDIcon alloc] initWithOptions:options];
     if (controlPanel != nil) {
         [panel setPanel:controlPanel];
         [icon setPanel:panel];
@@ -218,9 +210,9 @@
         float labelHeightDiff = labelNewHeight - labelRect.size.height;
         [timeoutLabel setStringValue:[self formatSecondsForString:(int)timeout]];
         if (![[timeoutLabel stringValue] isEqualToString:@""] && timeout != 0.0f) {
-            NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: [timeoutLabel stringValue]]autorelease];
-            NSTextContainer *textContainer = [[[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)] autorelease];
-            NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease];
+            NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString: [timeoutLabel stringValue]];
+            NSTextContainer *textContainer = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)];
+            NSLayoutManager *layoutManager = [[NSLayoutManager alloc]init];
             [layoutManager addTextContainer: textContainer];
             [textStorage addLayoutManager: layoutManager];
             [layoutManager glyphRangeForTextContainer:textContainer];
@@ -240,17 +232,16 @@
     }
 }
 - (void) createTimer {
-    NSAutoreleasePool *timerPool = [[NSAutoreleasePool alloc] init];
-    timerThread = [NSThread currentThread];
-    NSRunLoop *_runLoop = [NSRunLoop currentRunLoop];
-    timer = [[NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(processTimer) userInfo:nil repeats:YES] retain];
-    [_runLoop addTimer:timer forMode:NSRunLoopCommonModes];
-    [_runLoop run];
-    [timerPool release];
+    @autoreleasepool {
+        timerThread = [NSThread currentThread];
+        NSRunLoop *_runLoop = [NSRunLoop currentRunLoop];
+        timer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(processTimer) userInfo:nil repeats:YES];
+        [_runLoop addTimer:timer forMode:NSRunLoopCommonModes];
+        [_runLoop run];
+    }
 }
 - (void) stopTimer {
     [timer invalidate];
-    [timer release];
     timer = nil;
     [self performSelector:@selector(stopControl) onThread:mainThread withObject:nil waitUntilDone:YES];
 }
@@ -308,7 +299,6 @@
     } else if ([options hasOpt:@"debug"]) {
         [self debug:@"Control returned nil."];
     }
-    [self dealloc];
     // Return the exit status
     exit(controlExitStatus);
 }

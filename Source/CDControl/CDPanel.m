@@ -22,10 +22,6 @@
 	[panel setContentMinSize:panelMinSize];
 }
 
-- (void) dealloc {
-    [panel release];
-    [super dealloc];
-}
 
 - (NSSize) findNewSize {
 	NSSize size = NSZeroSize;
@@ -95,10 +91,10 @@
     }
 }
 - (void) setPanelEmpty {
-    panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect(0, 0, 0, 0)
+    panel = [[NSPanel alloc] initWithContentRect:NSMakeRect(0, 0, 0, 0)
                                                 styleMask:NSBorderlessWindowMask
                                                   backing:NSBackingStoreBuffered
-                                                    defer:NO] autorelease];
+                                                    defer:NO];
 }
 - (void) setPosition {
     NSRect screen = [[NSScreen mainScreen] visibleFrame];

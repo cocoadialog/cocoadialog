@@ -139,7 +139,7 @@
     if ([options hasOpt:@"slider-label"] && ![[options optValue:@"slider-label"] isEqualToString:@""]) {
         _sliderLabel = [options optValue:@"slider-label"];
     }
-    sliderLabel = [[[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, cmFrame.size.width, 14.0f)] autorelease];
+    sliderLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, cmFrame.size.width, 14.0f)];
     [sliderLabel setBezeled:NO];
     [sliderLabel setDrawsBackground:NO];
     [sliderLabel setEditable:NO];
@@ -148,7 +148,7 @@
     [sliderLabel setStringValue:_sliderLabel];
     [sliderView addSubview:sliderLabel];
 
-    valueLabel = [[[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, cmFrame.size.width, 14.0f)] autorelease];
+    valueLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, cmFrame.size.width, 14.0f)];
     [valueLabel setBezeled:NO];
     [valueLabel setDrawsBackground:NO];
     [valueLabel setEditable:NO];
@@ -179,7 +179,7 @@
     [controlMatrix setMode:NSTrackModeMatrix];
     [controlMatrix setAllowsEmptySelection:YES];
 
-    CDSliderCell *slider = [[[CDSliderCell alloc] init] autorelease];
+    CDSliderCell *slider = [[CDSliderCell alloc] init];
     [slider setAlwaysShowValue:[options hasOpt:@"always-show-value"]];
     [slider setDelegate:self];
     [slider setValueLabel:valueLabel];
@@ -207,7 +207,7 @@
         for (NSUInteger i = 0; i < count; i++) {
             CGFloat  length=cmFrame.size.width-2*10;
             CGFloat  position=floor((count==1)?length/2:i*(length/(count-1)));
-            NSTextField *tickLabel = [[[NSTextField alloc] initWithFrame:NSMakeRect(cmFrame.origin.x + 10.0f + position, 0, 0, 0)] autorelease];
+            NSTextField *tickLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(cmFrame.origin.x + 10.0f + position, 0, 0, 0)];
             [tickLabel setBezeled:NO];
             [tickLabel setDrawsBackground:NO];
             [tickLabel setEditable:NO];

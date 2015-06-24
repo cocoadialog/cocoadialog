@@ -47,7 +47,7 @@
 
 @property (NS_NONATOMIC_IOSONLY) BOOL automaticallyFadesOut;
 
-@property (NS_NONATOMIC_IOSONLY, assign) id target;
+@property (NS_NONATOMIC_IOSONLY, unsafe_unretained) id target;
 
 @property (NS_NONATOMIC_IOSONLY) SEL action;
 
@@ -55,7 +55,7 @@
 
 @property (NS_NONATOMIC_IOSONLY, strong) id representedObject;
 
-@property (NS_NONATOMIC_IOSONLY, assign) id delegate;
+@property (NS_NONATOMIC_IOSONLY, unsafe_unretained) id delegate;
 
 @property (NS_NONATOMIC_IOSONLY) float timeout;
 

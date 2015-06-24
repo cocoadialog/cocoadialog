@@ -7,8 +7,8 @@
 // info needs to be a KABubbleWindowView with rgb+alpha set.
 void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outData ) {
 	// These 2 will always return an array of 4 floats
-	const CGFloat *dark = [(KABubbleWindowView *)info darkColorFloat];
-	const CGFloat *light = [(KABubbleWindowView *)info lightColorFloat];
+	const CGFloat *dark = [(__bridge KABubbleWindowView *)info darkColorFloat];
+	const CGFloat *light = [(__bridge KABubbleWindowView *)info lightColorFloat];
 	CGFloat a = inData[0];
 	int i = 0;
 
@@ -35,13 +35,6 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 }
 
 - (void) dealloc {
-	[_icon release];
-	[_title release];
-	[_text release];
-	[_darkColor release];
-	[_lightColor release];
-	[_textColor release];
-	[_borderColor release];
 
 	_icon = nil;
 	_title = nil;
@@ -52,7 +45,6 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 	_textColor = nil;
 	_borderColor = nil;
 
-	[super dealloc];
 }
 
 - (void) drawRect:(NSRect) rect {
@@ -76,7 +68,7 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 	[path setClip];
 
 	struct CGFunctionCallbacks callbacks = { 0, (void *)KABubbleShadeInterpolate, NULL };
-	CGFunctionRef function = CGFunctionCreate( self, 1, NULL, 4, NULL, &callbacks );
+	CGFunctionRef function = CGFunctionCreate( (__bridge void *)(self), 1, NULL, 4, NULL, &callbacks );
 	CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
 
 	float srcX = NSMinX( [self bounds] ), srcY = NSMinY( [self bounds] );
@@ -102,7 +94,6 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
         NSRect rect3 = NSMakeRect(0, 0, 32, 32);
         NSImageRep *sourceImageRep2 = [_icon bestRepresentationForRect:rect3 context:nil hints:nil];
         
-		[_icon autorelease];
 		_icon = [[NSImage alloc] initWithSize:NSMakeSize( 32., 32. )];
 		[_icon lockFocus];
 		[[NSGraphicsContext currentContext] setImageInterpolation: NSImageInterpolationHigh];
@@ -120,26 +111,23 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 #pragma mark -
 
 - (void) setIcon:(NSImage *) icon {
-	[_icon autorelease];
-	_icon = [icon retain];
+	_icon = icon;
 	[self setNeedsDisplay:YES];
 }
 
 - (void) setTitle:(NSString *) title {
-	[_title autorelease];
 	_title = [title copy];
 	[self setNeedsDisplay:YES];
 }
 
 - (void) setAttributedText:(NSAttributedString *) text {
-	[_text autorelease];
 	_text = [text copy];
 	[self setNeedsDisplay:YES];
 }
 
 // Either use setAttributedText, or setTextColor THEN setText (in order)
 - (void) setText:(NSString *) text {
-	[_text autorelease];
+    //[_text autorelease];
 	NSColor *color = nil;
 	if ([self textColor] != nil) {
 		color = [self textColor];
@@ -152,8 +140,6 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 
 - (void) setDarkColor:(NSColor *)color;
 {
-	[color retain];
-	[_darkColor release];
 	_darkColor = color;
 
 	CGFloat r, g, b, alpha;
@@ -174,8 +160,6 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 }
 - (void) setLightColor:(NSColor *)color;
 {
-	[color retain];
-	[_lightColor release];
 	_lightColor = color;
 
 	CGFloat r, g, b, alpha;
@@ -196,8 +180,6 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 }
 - (void) setTextColor:(NSColor *)color;
 {
-	[color retain];
-	[_textColor release];
 	_textColor = color;
 }
 - (NSColor *) textColor
@@ -206,8 +188,6 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 }
 - (void) setBorderColor:(NSColor *)color;
 {
-	[color retain];
-	[_borderColor release];
 	_borderColor = color;
 }
 - (NSColor *) borderColor

@@ -29,7 +29,7 @@
     BOOL        tracking;
 }
 @property BOOL alwaysShowValue;
-@property (retain) id delegate;
-@property (retain) NSTextField *valueLabel;
+@property (strong) id delegate;
+@property (strong) NSTextField *valueLabel;
 
 @end
