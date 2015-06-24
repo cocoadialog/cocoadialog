@@ -200,11 +200,7 @@
 		A78A8CDE14377610007AE363 /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
 		A78A8CDF14377610007AE363 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		A78A8CE8143784A8007AE363 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
-		A78A8CF21437938D007AE363 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		A78A8D2E1437AC29007AE363 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
-		A7BABA9714456CC800D3F168 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		A7BABADA1445809700D3F168 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		A7BABB051445810000D3F168 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		A7BABB2E1445817B00D3F168 /* relaunch */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = relaunch; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7D40437153C2BC3005FA3CD /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "Resources/en-US.lproj/popup.xib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -236,10 +232,6 @@
 			children = (
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
-				A7BABADA1445809700D3F168 /* CoreData.framework */,
-				A78A8CF21437938D007AE363 /* CoreFoundation.framework */,
-				A7BABB051445810000D3F168 /* CoreServices.framework */,
-				A7BABA9714456CC800D3F168 /* Foundation.framework */,
 			);
 			name = "Apple Frameworks";
 			sourceTree = "<group>";
@@ -697,6 +689,7 @@
 			baseConfigurationReference = A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -807,6 +800,7 @@
 			baseConfigurationReference = A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
