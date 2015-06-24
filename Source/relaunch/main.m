@@ -31,7 +31,7 @@ int main (int argc, const char * argv[]) {
 
 - (instancetype) init {
 	self = [super init];
-	if (self != nil) {
+	if (self) {
         executableArguments = [[[NSMutableArray alloc] initWithArray:[[NSProcessInfo processInfo] arguments]] autorelease];
         // Remove the first three arguments
         if ([executableArguments count] >= 2) {
