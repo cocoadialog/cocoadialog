@@ -65,12 +65,8 @@
         // Relaunch cocoaDialog with the new runMode
         NSString *launcherSource = [[NSBundle mainBundle] pathForResource:@"relaunch" ofType:@""];
         [arguments insertObject:launcherSource atIndex:0];
-#if defined __ppc__
-        [arguments insertObject:@"-ppc" atIndex:0];
-#elif defined __i368__
+#if defined __i368__
         [arguments insertObject:@"-i386" atIndex:0];
-#elif defined __ppc64__
-        [arguments insertObject:@"-ppc64" atIndex:0];
 #elif defined __x86_64__
         [arguments insertObject:@"-x86_64" atIndex:0];
 #endif
@@ -91,7 +87,7 @@
         NSMutableDictionary *extraOptions = [[NSMutableDictionary alloc] init];
         // Choose the control
         [self chooseControl:runMode useOptions:options addExtraOptionsTo:extraOptions];
-        if (currentControl != nil) {
+        if (currentControl) {
             // Initialize the currentControl
             [currentControl init];
             globalKeys = [currentControl globalAvailableKeys];
@@ -101,7 +97,7 @@
             if ([options hasOpt:@"help"]) {
                 NSMutableDictionary *allKeys;
                 NSDictionary *localKeys = [currentControl availableKeys];
-                if (localKeys != nil) {
+                if (localKeys) {
                     allKeys = [NSMutableDictionary dictionaryWithCapacity:
                                [globalKeys count]+[localKeys count]];
                     [allKeys addEntriesFromDictionary:globalKeys];
@@ -138,7 +134,7 @@
                 if ([options hasOpt:@"debug"]) {
                     NSMutableDictionary *allKeys;
                     NSDictionary *localKeys = [currentControl availableKeys];
-                    if (localKeys != nil) {
+                    if (localKeys) {
                         allKeys = [NSMutableDictionary dictionaryWithCapacity:
                                    [globalKeys count]+[localKeys count]];
                         [allKeys addEntriesFromDictionary:globalKeys];
@@ -186,7 +182,7 @@
 {
     NSDictionary *controls = [AppController availableControls];
 
-	if (runMode == nil) {
+	if (!runMode) {
         currentControl = nil;
 		[CDControl printHelpTo:[NSFileHandle fileHandleWithStandardError]];
 	}
@@ -219,7 +215,7 @@
         [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
 
         id control = controls[[runMode lowercaseString]];
-        if (control != nil) {
+        if (control) {
             if ([runMode caseInsensitiveCompare:@"secure-standard-inputbox"] == NSOrderedSame || [runMode caseInsensitiveCompare:@"secure-inputbox"] == NSOrderedSame) {
                 extraOptions[@"no-show"] = @NO;
             }
