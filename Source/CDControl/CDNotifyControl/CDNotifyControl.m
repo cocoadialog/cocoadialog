@@ -88,20 +88,20 @@
     notification[@"description"] = description;
     notification[@"icon"] = _icon;
     NSData *iconData = [NSData dataWithData:[_icon TIFFRepresentation]];
-    if (iconData == nil) {
+    if (!iconData) {
         iconData = [NSData data];
     }
     notification[@"iconData"] = iconData;
-    if (priority == nil) {
+    if (!priority) {
         priority = @0;
     }
     notification[@"priority"] = priority;
     notification[@"sticky"] = @(sticky);
-    if (clickPath == nil) {
+    if (!clickPath) {
         clickPath = @"";
     }
     notification[@"clickPath"] = clickPath;
-    if (clickArg == nil) {
+    if (!clickArg) {
         clickArg = @"";
     }
     notification[@"clickArg"] = clickArg;
@@ -120,7 +120,7 @@
 		NSString *iconName;
 		while ((iconName = (NSString *)[en nextObject])) {
             NSImage * _icon = [icon iconFromName:iconName];
-			if (_icon == nil) {
+			if (!_icon) {
 				_icon = [NSApp applicationIconImage];
 			}
 			[icons addObject:_icon];
@@ -134,7 +134,7 @@
 		NSString *fileName;
 		while ((fileName = (NSString *)[en nextObject])) {
             NSImage * _icon = [icon iconFromFile:fileName];
-			if (_icon == nil) {
+			if (!_icon) {
 				_icon = [NSApp applicationIconImage];
 			}
 			[icons addObject:_icon];
@@ -193,7 +193,7 @@
             inQuote = !inQuote;
             continue;
         }
-        if (![arg isEqualToString:@""] || arg != nil) {
+        if (![arg isEqualToString:@""] || arg) {
             if (inQuote) {
                 [spacedArray addObject:arg];
             }

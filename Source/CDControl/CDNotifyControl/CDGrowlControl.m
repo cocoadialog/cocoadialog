@@ -75,14 +75,14 @@
     }
     BOOL sticky = [options hasOpt:@"sticky"];
     // Multiple notifications
-	if (descriptions != nil && [descriptions count] && titles != nil && [titles count] && [titles count] == [descriptions count]) {
+	if (descriptions && [descriptions count] && titles && [titles count] && [titles count] == [descriptions count]) {
 		NSArray *givenIconImages = [self notificationIcons];
 		NSImage *fallbackIcon = nil;
 		NSMutableArray *icons = nil;
 		unsigned i;
 		// See what icons we got at the command line, or set a fallback
 		// icon to use for all bubbles
-		if (givenIconImages == nil) {
+		if (!givenIconImages) {
 			fallbackIcon = [icon iconWithDefault];
 		} else {
 			icons = [NSMutableArray arrayWithArray:givenIconImages];
@@ -101,7 +101,7 @@
         NSArray * clickArgs = [NSArray arrayWithArray:[options optValues:@"click-args"]];
 		// Create the bubbles
 		for (i = 0; i < [descriptions count]; i++) {
-			NSImage *_icon = fallbackIcon == nil ? (NSImage *)icons[i] : fallbackIcon;
+			NSImage *_icon = !fallbackIcon ? (NSImage *)icons[i] : fallbackIcon;
             [self addNotificationWithTitle:titles[i]
                                description:descriptions[i]
                                       icon:_icon

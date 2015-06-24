@@ -33,20 +33,20 @@
     [allKeys addEntriesFromDictionary:globalKeys];
 
 	NSDictionary *localKeys = [self availableKeys];
-	if (localKeys != nil) {
+	if (localKeys) {
 		[allKeys addEntriesFromDictionary:localKeys];
 	}
     NSDictionary *depreciatedKeys = [self depreciatedKeys];
 	return [CDOptions getOpts:args availableKeys:allKeys depreciatedKeys:depreciatedKeys];
 }
 - (void) dealloc {
-    if (timer != nil) {
+    if (timer) {
         [timer invalidate];
     }
 }
 - (NSString *) formatSecondsForString:(NSInteger)timeInSeconds {
     static NSString *timerFormat = nil;
-    if (timerFormat == nil) {
+    if (!timerFormat) {
         if ([options hasOpt:@"timeout-format"]) {
             timerFormat = [options optValue:@"timeout-format"];
         }
@@ -116,7 +116,7 @@
 }
 - (BOOL) loadControlNib:(NSString *)nib {
     // Load nib
-    if (nib != nil) {
+    if (nib) {
         NSBundle *appBundle = [NSBundle mainBundle];
         if (![nib isEqualToString:@""] && ![appBundle loadNibNamed:nib owner:self topLevelObjects:nil])
         {
@@ -133,11 +133,11 @@
     }
     panel = [[CDPanel alloc] initWithOptions:options];
     icon = [[CDIcon alloc] initWithOptions:options];
-    if (controlPanel != nil) {
+    if (controlPanel) {
         [panel setPanel:controlPanel];
         [icon setPanel:panel];
     }
-    if (controlIcon != nil) {
+    if (controlIcon) {
         [icon setControl:controlIcon];
     }
     return YES;
@@ -172,9 +172,9 @@
 }
 - (void) runControl {
     // The control must either: 1) sub-class -(NSString *) controlNib, return the name of the NIB, and then connect "controlPanel" in IB or 2) set the panel manually with [panel setPanel:(NSPanel *)]  when creating the control.
-    if ([panel panel] != nil) {
+    if ([panel panel]) {
         // Set icon
-        if ([icon control] != nil) {
+        if ([icon control]) {
             [icon setIconFromOptions];
         }
         // Reposition Panel
@@ -204,7 +204,7 @@
     [self setTimeoutLabel];
 }
 - (void) setTimeoutLabel {
-    if (timeoutLabel != nil) {
+    if (timeoutLabel) {
         float labelNewHeight = -4.0f;
         NSRect labelRect = [timeoutLabel frame];
         float labelHeightDiff = labelNewHeight - labelRect.size.height;
@@ -250,7 +250,7 @@
     timeout = timeout - 1.0f;
     // Update and position the label if it exists
     if (timeout > 0.0f) {
-        if (timeoutLabel != nil) {
+        if (timeoutLabel) {
             [timeoutLabel setStringValue:[self formatSecondsForString:(int)timeout]];
         }
     }
@@ -263,14 +263,14 @@
 }
 - (void) stopControl {
     // Stop timer
-    if (timerThread != nil) {
+    if (timerThread) {
         [timerThread cancel];
     }
     // Stop any modal windows currently running
     [NSApp stop:self];
     if (![options hasOpt:@"quiet"] && controlExitStatus != -1 && controlExitStatus != -2) {
         if ([options hasOpt:@"string-output"]) {
-            if (controlExitStatusString == nil) {
+            if (!controlExitStatusString) {
                 controlExitStatusString = [NSString stringWithFormat:@"%d", controlExitStatus];
             }
             [controlReturnValues insertObject:controlExitStatusString atIndex:0];
@@ -282,7 +282,7 @@
     if (controlExitStatus == -1) controlExitStatus = 0;
     if (controlExitStatus == -2) controlExitStatus = 1;
     // Print all the returned lines
-    if (controlReturnValues != nil) {
+    if (controlReturnValues) {
         unsigned i;
         NSFileHandle *fh = [NSFileHandle fileHandleWithStandardOutput];
         for (i = 0; i < [controlReturnValues count]; i++) {

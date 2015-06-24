@@ -62,7 +62,7 @@
 
 -(BOOL) parseString:(NSString*)str intoProgress:(double*)value
 {
-    if (str == nil) {
+    if (!str) {
         return NO;
     } else {
         NSScanner *scanner = [NSScanner scannerWithString:str];

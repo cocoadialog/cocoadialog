@@ -37,7 +37,7 @@
 + (BOOL) _argIsKey:(NSString *)arg availableKeys:(NSDictionary *)availableKeys depreciatedKeys:(NSDictionary *)depreciatedKeys
 {
 	if ([arg length] > 2 && [[arg substringWithRange:NSMakeRange(0,2)] isEqualToString:@"--"] &&
-        (availableKeys[[arg substringFromIndex:2]] != nil || depreciatedKeys[[arg substringFromIndex:2]] != nil))
+        (availableKeys[[arg substringFromIndex:2]] || depreciatedKeys[[arg substringFromIndex:2]]))
 	{
 		return YES;
 	} else {
@@ -65,7 +65,7 @@
 
             // Replace the argument with the newer one if it's depreciated
             NSString * depreciatedArg = depreciatedKeys[arg];
-            if (depreciatedArg != nil) {
+            if (depreciatedArg) {
                 arg = depreciatedArg;
             }
 
@@ -156,14 +156,14 @@
 
 - (BOOL) hasOpt:(NSString *)key
 {
-	return _options[key] != nil;
+	return _options[key];
 }
 - (NSString *) optValue:(NSString *)key
 {
 	id value = _options[key];
 	// value will be an NSNumber (set in getOpts) if there is no value
 	// for that key, NSString of the value, or nil if that key didn't exist
-	if (value == nil || ![value isKindOfClass:[NSString class]]) {
+	if (!value || ![value isKindOfClass:[NSString class]]) {
 		return nil;
 	} else {
 		return value;
@@ -172,7 +172,7 @@
 - (NSArray *) optValues:(NSString *)key
 {
 	id value = _options[key];
-	if (value == nil || ![value isKindOfClass:[NSArray class]]) {
+	if (!value || ![value isKindOfClass:[NSArray class]]) {
 		return nil;
 	} else {
 		return value;

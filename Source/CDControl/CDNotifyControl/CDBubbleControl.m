@@ -107,14 +107,14 @@
 	NSArray *descriptions = [options optValues:@"descriptions"];
 
 	// Multiple bubbles
-	if (descriptions != nil && [descriptions count] && titles != nil && [titles count] && [titles count] == [descriptions count]) {
+	if (descriptions && [descriptions count] && titles && [titles count] && [titles count] == [descriptions count]) {
 		NSArray *givenIconImages = [self notificationIcons];
 		NSImage *fallbackIcon = nil;
 		NSMutableArray *icons = nil;
 		unsigned i;
 		// See what icons we got at the command line, or set a fallback
 		// icon to use for all bubbles
-		if (givenIconImages == nil) {
+		if (!givenIconImages) {
 			fallbackIcon = [icon iconWithDefault];
 		} else {
 			icons = [NSMutableArray arrayWithArray:givenIconImages];
@@ -132,7 +132,7 @@
         NSArray * clickArgs = [NSArray arrayWithArray:[options optValues:@"click-args"]];
 		// Create the bubbles
 		for (i = 0; i < [descriptions count]; i++) {
-			NSImage *_icon = fallbackIcon == nil ? (NSImage *)icons[i] : fallbackIcon;
+			NSImage *_icon = !fallbackIcon ? (NSImage *)icons[i] : fallbackIcon;
             [self addNotificationWithTitle:titles[i]
                                description:descriptions[i]
                                       icon:_icon
@@ -226,14 +226,14 @@
 	NSString *myKey = key;
 	// first check to see if this key returns multiple values
 	colorArgs = [options optValues:myKey];
-	if (colorArgs == nil) {
+	if (!colorArgs) {
 		// It didn't return an array, so see if it returns a single value
 		NSString *optValue = [options optValue:myKey];
 
 		// Failing that...
 		// If we were looking for text-colors and didn't find it, try
 		// text-color instead (for example).
-		if (optValue == nil && [myKey hasSuffix:@"s"]) {
+		if (!optValue && [myKey hasSuffix:@"s"]) {
 			myKey = [key substringToIndex:([key length] - 1)];
 			optValue = [options optValue:myKey];
 		}

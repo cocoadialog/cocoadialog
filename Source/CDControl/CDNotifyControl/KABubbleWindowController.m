@@ -168,7 +168,7 @@ static unsigned int bubbleWindowDepth = 0;
 }
 
 - (void) _bubbleClicked:(id) sender {
-    if (_clickContext != nil && [_delegate respondsToSelector:@selector( bubbleWasClicked: )]) {
+    if (_clickContext && [_delegate respondsToSelector:@selector( bubbleWasClicked: )]) {
         [_delegate bubbleWasClicked:_clickContext];
     }
 	[self startFadeOut];

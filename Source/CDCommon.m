@@ -26,7 +26,7 @@
 - (instancetype)initWithOptions:(CDOptions *)opts {
 	self = [super init];
     [self setOptions:nil];
-    if (opts != nil) {
+    if (opts) {
         [self setOptions:opts];
     }
 	return self;

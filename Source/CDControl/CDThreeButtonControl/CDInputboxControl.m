@@ -74,7 +74,7 @@
 
 - (void) createControl {
     NSString * labelText = @"";
-    if ([options hasOpt:@"label"] && [options optValue:@"label"] != nil) {
+    if ([options hasOpt:@"label"] && [options optValue:@"label"]) {
         labelText = [options optValue:@"label"];
     }
 	[self setTitleButtonsLabel:labelText];

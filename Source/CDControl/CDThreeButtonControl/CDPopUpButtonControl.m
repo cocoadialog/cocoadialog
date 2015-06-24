@@ -94,7 +94,7 @@
     [popupControl setPullsDown:[options hasOpt:@"pulldown"] ? YES : NO];
     // Populate menu
     NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
-	if (items != nil && [items count]) {
+	if (items && [items count]) {
 		NSEnumerator *en = [items objectEnumerator];
 		id obj;
 		while ((obj = [en nextObject])) {

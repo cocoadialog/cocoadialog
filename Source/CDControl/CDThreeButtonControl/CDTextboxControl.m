@@ -49,8 +49,8 @@
 
 // Should be called after setButtons, and before resize
 - (void) setLabel:(NSString *)labelText {
-    if (expandingLabel != nil) {
-        if (labelText == nil) {
+    if (expandingLabel) {
+        if (!labelText) {
             labelText = @"";
         }
         float labelNewHeight = -10.0f;
@@ -129,7 +129,7 @@
 	} else if ([options hasOpt:@"text-from-file"]) {
 		NSString *contents = [NSString stringWithContentsOfFile:
 			[options optValue:@"text-from-file"] encoding:NSUTF8StringEncoding error:nil];
-		if (contents == nil) {
+		if (!contents) {
 			if ([options hasOpt:@"debug"]) {
 				[self debug:@"Could not read file"];
 			}

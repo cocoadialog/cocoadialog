@@ -129,7 +129,7 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 - (void) setText:(NSString *) text {
     //[_text autorelease];
 	NSColor *color = nil;
-	if ([self textColor] != nil) {
+	if ([self textColor]) {
 		color = [self textColor];
 	} else {
 		color = [NSColor controlTextColor];

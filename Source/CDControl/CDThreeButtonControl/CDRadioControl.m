@@ -63,9 +63,9 @@
 - (BOOL)isReturnValueEmpty
 {
     NSArray * items = [controlMatrix cells];
-    if (items != nil && [items count]) {
+    if (items && [items count]) {
         NSCell * selectedCell = [controlMatrix selectedCell];
-        if (selectedCell != nil) {
+        if (selectedCell) {
             return NO;
         }
         else {
@@ -95,7 +95,7 @@
     }
 
     NSString * labelText = @"";
-    if ([options hasOpt:@"label"] && [options optValue:@"label"] != nil) {
+    if ([options hasOpt:@"label"] && [options optValue:@"label"]) {
         labelText = [options optValue:@"label"];
     }
 	[self setTitleButtonsLabel:labelText];
@@ -103,9 +103,9 @@
 
 - (void) controlHasFinished:(int)button {
     NSArray * radioArray = [controlMatrix cells];
-    if (radioArray != nil && [radioArray count]) {
+    if (radioArray && [radioArray count]) {
         NSCell * selectedCell = [controlMatrix selectedCell];
-        if (selectedCell != nil) {
+        if (selectedCell) {
             if ([[self options] hasOpt:@"string-output"]) {
                 [controlReturnValues addObject:[selectedCell title]];
             }
@@ -184,7 +184,7 @@
         NSButton * button = [[NSButton alloc] init];
         [button setButtonType:NSRadioButton];
         [button setTitle:items[currItem]];
-        if (disabled != nil && [disabled count]) {
+        if (disabled && [disabled count]) {
             if ([disabled containsObject:[NSString stringWithFormat:@"%lu", currItem]]) {
                 [[button cell] setEnabled: NO];
             }

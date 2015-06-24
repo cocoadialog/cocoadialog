@@ -27,7 +27,7 @@
 	NSSize size = NSZeroSize;
 	NSSize oldSize;
 	NSString *width, *height;
-	if (options == nil || panel == nil) {
+	if (!options || !panel) {
 		return size;
 	}
 	size = [[panel contentView] frame].size;
@@ -73,7 +73,7 @@
 	}
 }
 - (void) setFloat {
-    if (panel != nil) {
+    if (panel) {
         if ([options hasOpt:@"no-float"]) {
             [panel setFloatingPanel:NO];
             [panel setLevel:NSNormalWindowLevel];
@@ -156,7 +156,7 @@
 
 - (void)setTitle {
     // set title
-	if ([options optValue:@"title"] != nil) {
+	if ([options optValue:@"title"]) {
 		[panel setTitle:[options optValue:@"title"]];
 	}
     else {
@@ -165,7 +165,7 @@
 }
 
 - (void) setTitle:(NSString *)string {
-    if (string != nil && ![string isEqualToString:@""]) {
+    if (string && ![string isEqualToString:@""]) {
         [panel setTitle:string];
     }
     else {
