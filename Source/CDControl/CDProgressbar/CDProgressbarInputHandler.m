@@ -51,10 +51,9 @@
             if ([self getLastNewlinePosition:&lastNewline inData:buffer]) {
                 NSData* readStrings = [buffer subdataWithRange:NSMakeRange(0, lastNewline + 1)];
                 NSData* rest = [buffer subdataWithRange:NSMakeRange(lastNewline + 1, [buffer length] - (lastNewline + 1))];
-                [buffer release];
                 buffer = [[NSMutableData alloc] initWithData:rest];
 
-                NSString* result = [[[NSString alloc] initWithData:readStrings encoding:NSUTF8StringEncoding] autorelease];
+                NSString* result = [[NSString alloc] initWithData:readStrings encoding:NSUTF8StringEncoding];
                 return result;
             }
         }
@@ -83,7 +82,6 @@
 	NSOperationQueue* mainQueue = [NSOperationQueue mainQueue];
 	NSInvocationOperation* operation = [[NSInvocationOperation alloc] initWithTarget:target selector:selector object:object];
 	[mainQueue addOperation:operation];
-	[operation release];
 }
 
 -(void) updateProgress:(double)newProgress
@@ -97,9 +95,7 @@
 -(void) updateLabel:(NSString*)newLabel
 {
     if (![currentLabel isEqualToString:newLabel]) {
-        [currentLabel release];
 
-        [newLabel retain];
         currentLabel = newLabel;
 
         [self invokeOnMainQueueWithTarget:delegate selector:@selector(updateLabel:) object:newLabel];
@@ -144,25 +140,18 @@
 
 -(void) main
 {
-    NSAutoreleasePool *pool;
 
     NSFileHandle *stdinFH = [NSFileHandle fileHandleWithStandardInput];
 
     while (!finished) {
-        pool = [[NSAutoreleasePool alloc] init];
-        NSString* lines = [self readLines:stdinFH];
-        [self parseLines:lines];
-        [pool drain];
+        @autoreleasepool {
+            NSString* lines = [self readLines:stdinFH];
+            [self parseLines:lines];
+        }
     }
 
     [self invokeOnMainQueueWithTarget:delegate selector:@selector(finish) object:nil];
 }
 
-- (void) dealloc
-{
-    [currentLabel release];
-    [buffer release];
-    [super dealloc];
-}
 
 @end
