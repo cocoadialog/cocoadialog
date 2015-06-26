@@ -162,9 +162,9 @@
     // Check to ensure the file exists before launching the command
     if (![path isEqualToString:@""] && [[NSFileManager defaultManager] fileExistsAtPath:path]) {
         [args insertObject:path atIndex:0];
-#if defined __ppc__ || defined __i368__
+#if defined __i368__
         [args insertObject:@"-32" atIndex:0];
-#elif defined __ppc64__ || defined __x86_64__
+#elif defined __x86_64__
         [args insertObject:@"-64" atIndex:0];
 #endif
         NSTask *task = [[NSTask alloc] init];
