@@ -44,12 +44,8 @@ int main (int argc, const char * argv[]) {
                 NSTask *task = [[NSTask alloc] init];
                 [task setLaunchPath:@"/usr/bin/arch"];
                 [executableArguments insertObject:executablePath atIndex:0];
-#if defined __ppc__
-                [executableArguments insertObject:@"-ppc" atIndex:0];
-#elif defined __i368__
+#if defined __i368__
                 [executableArguments insertObject:@"-i386" atIndex:0];
-#elif defined __ppc64__
-                [executableArguments insertObject:@"-ppc64" atIndex:0];
 #elif defined __x86_64__
                 [executableArguments insertObject:@"-x86_64" atIndex:0];
 #endif
