@@ -446,7 +446,7 @@
 				6187E60014664988005067DB /* relaunch.m */,
 			);
 			name = "App + Relaunch + Demo";
-			path = Dialogs;
+			path = Source;
 			sourceTree = "<group>";
 		};
 		7BF9CC971AEBF91D0058B25F /* Framework */ = {
@@ -1157,6 +1157,7 @@
 				7BF9CC6A1AEBEBAF0058B25F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7BF9CC771AEBED350058B25F /* Build configuration list for PBXNativeTarget "dialogsTest" */ = {
 			isa = XCConfigurationList;
@@ -1165,6 +1166,7 @@
 				7BF9CC791AEBED350058B25F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A7BABB381445817B00D3F168 /* Build configuration list for PBXNativeTarget "relaunch" */ = {
 			isa = XCConfigurationList;
