@@ -38,7 +38,7 @@
 	NSString *file = @"";
 	NSString *dir = nil;
 	
-    [self setOptions:options];
+  [self setOptions:options];
 	[self setMisc];
 
 	if ([options hasOpt:@"packages-as-directories"]) {

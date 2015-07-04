@@ -26,62 +26,15 @@ NSAttributedString * hyperlinkFromStringWithURLWithFont(NSString* inString, NSUR
 @interface       AppController : NSObject
 
 @property IBOutlet     NSPanel * aboutPanel;
-@property IBOutlet NSTextField * aboutAppLink,
-                               * aboutText;
+@property IBOutlet NSTextField * aboutAppLink, * aboutText;
 @property       NSMutableArray * arguments;
 @property            CDControl * currentControl;
 @end
 
 @implementation AppController
 
-- (NSString *) appVersion {
-    return [[NSBundle mainBundle] infoDictionary][@"CFBundleVersion"];
-}
+- (void) awakeFromNib {
 
-#pragma mark - Initialization
-
-- (void) showAboutBox {
-    [NSApplication.sharedApplication activateIgnoringOtherApps:YES];
-    [self setHyperlinkForTextField:aboutAppLink replaceString:@"http://mstratman.github.com/cocoadialog/" withURL:@"http://mstratman.github.com/cocoadialog/"];
-    [self setHyperlinkForTextField:aboutText replaceString:@"command line interface" withURL:@"http://en.wikipedia.org/wiki/Command-line_interface"];
-    [self setHyperlinkForTextField:aboutText replaceString:@"documentation" withURL:@"http://mstratman.github.com/cocoadialog/#documentation"];
-    [aboutPanel setFloatingPanel: YES];
-    [aboutPanel setLevel:NSFloatingWindowLevel];
-    [aboutPanel center];
-    [aboutPanel makeKeyAndOrderFront:nil];
-    [NSApp run];
-}
-- (void) notifyOrBubble {
-
-
-    // Determine which notification type to use & Recapture the arguments
-    arguments = NSProcessInfo.processInfo.arguments.mutableCopy;
-    // Replace the runMode with the new one
-    arguments[1] = @"CDNotifyControl";
-    // Relaunch cocoaDialog with the new runMode
-    NSString *launcherSource = [NSBundle.mainBundle pathForResource:@"relaunch" ofType:@""];
-    [arguments insertObject:launcherSource atIndex:0];
-#if defined __ppc__
-    [arguments insertObject:@"-ppc" atIndex:0];
-#elif defined __i368__
-    [arguments insertObject:@"-i386" atIndex:0];
-#elif defined __ppc64__
-    [arguments insertObject:@"-ppc64" atIndex:0];
-#elif defined __x86_64__
-    [arguments insertObject:@"-x86_64" atIndex:0];
-#endif
-    NSTask *task        = NSTask.new;
-    // Output must be silenced to not hang this process
-    task.standardError  = NSFileHandle.fileHandleWithNullDevice;
-    task.standardOutput = NSFileHandle.fileHandleWithNullDevice;
-    task.launchPath     = @"/usr/bin/arch";
-    task.arguments      = arguments;
-    [task launch];
-    [NSApp terminate:self];
-}
-
-- (void) awakeFromNib
-{
   NSString *runMode = nil;
   // Assign arguments
   arguments = NSProcessInfo.processInfo.arguments.mutableCopy;
@@ -89,16 +42,17 @@ NSAttributedString * hyperlinkFromStringWithURLWithFont(NSString* inString, NSUR
   currentControl = CDControl.new;
 
   CDOptions *options = [CDOptions getOpts:arguments availableKeys:currentControl.globalAvailableKeys ?: @{}
-                                                  depreciatedKeys:currentControl.depreciatedKeys ?: @{}];
+                          depreciatedKeys:currentControl.depreciatedKeys ?: @{}];
   if (arguments.count >= 2) {
     [arguments removeObjectAtIndex:0]; // Remove program name.
     runMode = arguments[0];
     [arguments removeObjectAtIndex:0]; // Remove the run-mode
   }
   // runMode is either the PID of a GUI initialization or "about", show the about dialog
-  if ([[runMode substringToIndex:4] isEqualToString:@"-psn"] || [runMode caseInsensitiveCompare:@"about"] == NSOrderedSame)
-    [self showAboutBox];
-
+  if ([[runMode substringToIndex:4] isEqualToString:@"-psn"] || [runMode caseInsensitiveCompare:@"about"] == NSOrderedSame) {
+    NSLog(@"args: %@ isatty:%i ", arguments, isatty(0));
+    if (isatty(0)) [self showAboutBox];
+  }
   // runMode is a notification, these need to be handled much differently
   else if ([runMode caseInsensitiveCompare:@"notify"] == NSOrderedSame || [runMode caseInsensitiveCompare:@"bubble"] == NSOrderedSame)
     [self notifyOrBubble];
@@ -106,35 +60,35 @@ NSAttributedString * hyperlinkFromStringWithURLWithFont(NSString* inString, NSUR
   else if ([runMode caseInsensitiveCompare:@"update"] == NSOrderedSame) [[CDUpdate.alloc initWithOptions:options] update];
 
   // runMode needs to run through control logic
-  else {
-    [self runInMode:runMode withOptions:options];
-  }
+  else [self runInMode:runMode withOptions:options];
 }
 
-- (void) runInMode:(NSString *)runMode withOptions:(CDOptions*)options {
+- (void) runInMode:(NSString*)runMode withOptions:(CDOptions*)options {
 
   NSMutableDictionary *extraOptions = @{}.mutableCopy;
+
   // Choose the control
+
   [self chooseControl:runMode useOptions:options addExtraOptionsTo:extraOptions];
-  if (currentControl != nil) {
+
+  if (currentControl) {
+
     // Initialize the currentControl
     [currentControl init];
-    // Now that we have the control, we can re-get the options to
-    // include the local options for that control.
+
+    // Now that we have the control, we can re-get the options to include the local options for that control.
+
     options = [currentControl controlOptionsFromArgs:arguments	withGlobalKeys:currentControl.globalAvailableKeys];
+
     if ([options hasOpt:@"help"]) {
-      NSMutableDictionary *allKeys;
-      NSDictionary *localKeys = currentControl.availableKeys;
-      if (localKeys != nil) {
-        allKeys = @{}.mutableCopy;
-        //[NSMutableDictionary dictionaryWithCapacity: currentControl.globalAvailableKeys.count+[localKeys count]];
-        [allKeys addEntriesFromDictionary:currentControl.globalAvailableKeys];
-        [allKeys addEntriesFromDictionary:localKeys];
-      } else
-        allKeys = currentControl.globalAvailableKeys.mutableCopy;
+
+      NSMutableDictionary *allKeys = !currentControl.availableKeys ? currentControl.globalAvailableKeys.mutableCopy : ({
+
+        id x = currentControl.globalAvailableKeys.mutableCopy; [x addEntriesFromDictionary:currentControl.availableKeys]; x; });
 
       [CDOptions printOpts:allKeys.allKeys forRunMode:runMode];
     }
+
     // Add any extras chooseControl came up with
     [extraOptions enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
       [options setOption:obj forKey:key];
@@ -144,7 +98,7 @@ NSAttributedString * hyperlinkFromStringWithURLWithFont(NSString* inString, NSUR
     [currentControl setOptions:options];
 
     // Validate currentControl's options and load interface nib
-    if ([currentControl validateOptions] && [currentControl loadControlNib:[currentControl controlNib]]) {
+    if (currentControl.validateOptions && [currentControl loadControlNib:currentControl.controlNib]) {
 
       // Create the control
       [currentControl createControl];
@@ -155,28 +109,30 @@ NSAttributedString * hyperlinkFromStringWithURLWithFont(NSString* inString, NSUR
       // Run the control. The control is now responsible for terminating cocoaDialog, which should be invoked by calling the method [self stopControl] from the control's action method(s).
       [currentControl runControl];
     } else {
+
       if ([options hasOpt:@"debug"]) {
-        NSMutableDictionary *allKeys;
-        NSDictionary *localKeys = [currentControl availableKeys];
-        if (localKeys != nil) {
-          allKeys = @{}.mutableCopy;
-          [allKeys addEntriesFromDictionary:currentControl.globalAvailableKeys];
-          [allKeys addEntriesFromDictionary:localKeys];
-        } else
-          allKeys = currentControl.globalAvailableKeys.mutableCopy;
+
+        NSMutableDictionary *allKeys = !currentControl.availableKeys ? currentControl.globalAvailableKeys.mutableCopy : ({
+
+          id x = currentControl.globalAvailableKeys.mutableCopy; [x addEntriesFromDictionary:currentControl.availableKeys]; x; });
 
         [CDOptions printOpts:allKeys.allKeys forRunMode:runMode];
       }
       exit(255);
     }
-  } else {
+  }
+
+  else { // No currentControl !!
+
     if ([options hasOpt:@"debug"] || [runMode isEqualToString:@"--debug"])
+
       [currentControl debug:@"No run-mode, or invalid runmode provided as first argument."];
+
     exit(255);
   }
 }
 
-- (void) chooseControl:(NSString *)runMode useOptions:options addExtraOptionsTo:(NSMutableDictionary *)extraOptions
+- (void) chooseControl:(NSString*)runMode useOptions:options addExtraOptionsTo:(NSMutableDictionary *)extraOptions
 {
   NSDictionary *controls = CDControl.availableControls;
 
@@ -187,7 +143,7 @@ NSAttributedString * hyperlinkFromStringWithURLWithFont(NSString* inString, NSUR
     NSFileHandle * fh = !runMode ? NSFileHandle.fileHandleWithStandardError : NSFileHandle.fileHandleWithStandardOutput;
 
     [runMode caseInsensitiveCompare:@"version"] != NSOrderedSame ? [CDControl printHelpTo:fh]:
-                      [fh writeData:[self.appVersion dataUsingEncoding:NSUTF8StringEncoding]];
+    [fh writeData:[self.appVersion dataUsingEncoding:NSUTF8StringEncoding]];
     exit(0);
 
   }
@@ -202,8 +158,8 @@ NSAttributedString * hyperlinkFromStringWithURLWithFont(NSString* inString, NSUR
   else {
 
     /*! Bring application into focus. Because this application isn't going to be double-clicked,
-        or launched with the "open" command-line tool, it won't necessarily come to the front automatically.
-    */
+     or launched with the "open" command-line tool, it won't necessarily come to the front automatically.
+     */
     [NSApplication.sharedApplication activateIgnoringOtherApps:YES];
 
     id control;
@@ -227,57 +183,95 @@ NSAttributedString * hyperlinkFromStringWithURLWithFont(NSString* inString, NSUR
   }
 }
 
+- (NSString *) appVersion {
+  return NSBundle.mainBundle.infoDictionary[@"CFBundleVersion"];
+}
+
+#pragma mark - Initialization
+
+- (void) notifyOrBubble {
+
+  // Determine which notification type to use & Recapture the arguments
+  arguments = NSProcessInfo.processInfo.arguments.mutableCopy;
+  // Replace the runMode with the new one
+  arguments[1] = @"CDNotifyControl";
+  // Relaunch cocoaDialog with the new runMode
+  NSString *launcherSource = [NSBundle.mainBundle pathForResource:@"relaunch" ofType:@""];
+  [arguments insertObject:launcherSource atIndex:0];
+#if defined __ppc__
+  [arguments insertObject:@"-ppc" atIndex:0];
+#elif defined __i368__
+  [arguments insertObject:@"-i386" atIndex:0];
+#elif defined __ppc64__
+  [arguments insertObject:@"-ppc64" atIndex:0];
+#elif defined __x86_64__
+  [arguments insertObject:@"-x86_64" atIndex:0];
+#endif
+  NSTask *task        = NSTask.new;
+  // Output must be silenced to not hang this process
+  task.standardError  = NSFileHandle.fileHandleWithNullDevice;
+  task.standardOutput = NSFileHandle.fileHandleWithNullDevice;
+  task.launchPath     = @"/usr/bin/arch";
+  task.arguments      = arguments;
+  [task launch];
+  [NSApp terminate:self];
+}
+
 #pragma mark - Label Hyperlinks
 
--(void)setHyperlinkForTextField:(NSTextField*)aTextField replaceString:(NSString *)aString withURL:(NSString *)aURL
-{
-  NSMutableAttributedString *textFieldString = [[aTextField attributedStringValue] mutableCopy];
-  NSRange range = [[textFieldString string] rangeOfString:aString];
+- (void) setHyperlinkForTextField:(NSTextField*)aTextField replaceString:(NSString *)aString withURL:(NSString *)aURL {
+
+  NSMutableAttributedString *textFieldString = aTextField.attributedStringValue.mutableCopy;
+  NSRange range = [textFieldString.string rangeOfString:aString];
 
   // both are needed, otherwise hyperlink won't accept mousedown
   [aTextField setAllowsEditingTextAttributes: YES];
   [aTextField setSelectable: YES];
 
-  NSMutableAttributedString* replacement = [[NSMutableAttributedString alloc] init];
+  NSMutableAttributedString* replacement = NSMutableAttributedString.new;
   [replacement setAttributedString: hyperlinkFromStringWithURLWithFont(aString,[NSURL URLWithString:aURL],[aTextField font])];
-
   [textFieldString replaceCharactersInRange:range withAttributedString:replacement];
-
   // set the attributed string to the NSTextField
   [aTextField setAttributedStringValue: textFieldString];
   // Refresh the text field
   [aTextField selectText:self];
-  [[aTextField currentEditor] setSelectedRange:NSMakeRange(0, 0)];
+  [aTextField.currentEditor setSelectedRange:NSMakeRange(0, 0)];
+}
+
+- (void) showAboutBox {
+
+  [NSApplication.sharedApplication activateIgnoringOtherApps:YES];
+  [self setHyperlinkForTextField:aboutAppLink replaceString:@"http://mstratman.github.com/cocoadialog/" withURL:@"http://mstratman.github.com/cocoadialog/"];
+  [self setHyperlinkForTextField:aboutText    replaceString:@"command line interface" withURL:@"http://en.wikipedia.org/wiki/Command-line_interface"];
+  [self setHyperlinkForTextField:aboutText    replaceString:@"documentation" withURL:@"http://mstratman.github.com/cocoadialog/#documentation"];
+  [aboutPanel setFloatingPanel: YES];
+  [aboutPanel setLevel:NSFloatingWindowLevel];
+  [aboutPanel center];
+  [aboutPanel makeKeyAndOrderFront:nil];
+  [NSApp run];
 }
 
 @synthesize arguments, currentControl, aboutAppLink, aboutText, aboutPanel;
 
 @end
 
-NSAttributedString * hyperlinkFromStringWithURLWithFont(NSString* inString, NSURL* aURL, NSFont *aFont)
-{
-  NSMutableAttributedString* attrString = [[NSMutableAttributedString alloc] initWithString: inString];
-  NSRange range = NSMakeRange(0, [attrString length]);
+NSAttributedString * hyperlinkFromStringWithURLWithFont(NSString* inString, NSURL* aURL, NSFont *aFont) {
+
+  NSMutableAttributedString* attrString = [NSMutableAttributedString.alloc initWithString: inString];
+  NSRange range = NSMakeRange(0,attrString.length);
 
   [attrString beginEditing];
   [attrString addAttribute:NSFontAttributeName value:aFont range:range];
-  [attrString addAttribute:NSLinkAttributeName value:[aURL absoluteString] range:range];
-
+  [attrString addAttribute:NSLinkAttributeName value:aURL.absoluteString range:range];
   // make the text appear in blue
-  [attrString addAttribute:NSForegroundColorAttributeName value:[NSColor blueColor] range:range];
-
-  [attrString addAttribute:NSCursorAttributeName value:[NSCursor pointingHandCursor]range:range];
-
+  [attrString addAttribute:NSForegroundColorAttributeName value:NSColor.blueColor range:range];
+  [attrString addAttribute:NSCursorAttributeName value:NSCursor.pointingHandCursor range:range];
   // next make the text appear with an underline
-  [attrString addAttribute:
-   NSUnderlineStyleAttributeName value:@(NSSingleUnderlineStyle) range:range];
-
+  [attrString addAttribute:NSUnderlineStyleAttributeName value:@(NSSingleUnderlineStyle) range:range];
   [attrString endEditing];
 
   return attrString;
 }
 
-int main(int argc, const char *argv[])
-{
-  return NSApplicationMain(argc, argv);
-}
+int main(int argc, const char *argv[]) { return NSApplicationMain(argc, argv); }
+

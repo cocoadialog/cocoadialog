@@ -9,28 +9,14 @@
 #import "CDCommon.h"
 
 @implementation CDCommon
-@synthesize options;
 
 - (void) debug:(NSString *)message {
-	NSString *output = [NSString stringWithFormat:@"cocoaDialog Error: %@\n", message]; 
-    // Output to stdErr
-	NSFileHandle *fh = [NSFileHandle fileHandleWithStandardError];
-	if (fh) {
-		[fh writeData:[output dataUsingEncoding:NSUTF8StringEncoding]];
-	}
+
+  if (NSFileHandle.fileHandleWithStandardError) // Output to stdErr
+    [NSFileHandle.fileHandleWithStandardError writeData:[[NSString stringWithFormat:@"cocoaDialog Error: %@\n", message]
+                                                         dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
-- (instancetype)init {
-	return [self initWithOptions:nil];
-}
-- (instancetype)initWithOptions:(CDOptions *)opts {
-	self = [super init];
-    [self setOptions:nil];
-    if (opts != nil) {
-        [self setOptions:opts];
-    }
-	return self;
-}
-
+- initWithOptions:(CDOptions *)opts { return self = super.init ? ({ if (opts) options = opts; }), self : nil; }
 
 @end

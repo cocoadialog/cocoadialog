@@ -125,42 +125,25 @@
   exit(1);
 }
 
-- (BOOL) hasOpt:(NSString *)key
-{
-  return _options[key] != nil;
-}
-- (NSString *) optValue:(NSString *)key
-{
+- (BOOL) hasOpt:(NSString*)key { return _options[key] != nil; }
+
+- (NSString *) optValue:(NSString *)key {
+
   id value = _options[key];
-  // value will be an NSNumber (set in getOpts) if there is no value
-  // for that key, NSString of the value, or nil if that key didn't exist
-  if (value == nil || ![value isKindOfClass:[NSString class]]) {
-    return nil;
-  } else {
-    return value;
-  }
+  // value will be an NSNumber (set in getOpts) if there is no value for that key, NSString of the value, or nil if that key didn't exist
+  return value || [value isKindOfClass:NSString.class] ? value : nil;
 }
-- (NSArray *) optValues:(NSString *)key
-{
+- (NSArray*) optValues:(NSString*)key {
+
   id value = _options[key];
-  if (value == nil || ![value isKindOfClass:[NSArray class]]) {
-    return nil;
-  } else {
-    return value;
-  }
-}
-- (id) optValueOrValues:(NSString *)key
-{
-  return _options[key];
+  return value && [value isKindOfClass:NSArray.class] ? value : nil;
 }
 
+- optValueOrValues:(NSString*)key { return _options[key]; }
 
-- (NSArray *) allOptions    { return [_options allKeys]; }
-- (NSArray *) allOptValues  { return [_options allValues]; }
+- (NSArray*) allOptions    { return _options.allKeys; }
+- (NSArray*) allOptValues  { return _options.allValues; }
 
-- (void) setOption:(id)value forKey:(NSString *)key
-{
-  _options[key] = value;
-}
+- (void) setOption:(id)value forKey:(NSString *)key { _options[key] = value; }
 
 @end
