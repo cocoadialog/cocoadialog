@@ -41,8 +41,9 @@ NSAttributedString * hyperlinkFromStringWithURLWithFont(NSString* inString, NSUR
   // Initialize control
   currentControl = CDControl.new;
 
-  CDOptions *options = [CDOptions getOpts:arguments availableKeys:currentControl.globalAvailableKeys ?: @{}
-                          depreciatedKeys:currentControl.depreciatedKeys ?: @{}];
+  CDOptions *options = [CDOptions getOpts:arguments
+                            availableKeys:currentControl.globalAvailableKeys  ?: @{}
+                          depreciatedKeys:currentControl.depreciatedKeys      ?: @{}];
   if (arguments.count >= 2) {
     [arguments removeObjectAtIndex:0]; // Remove program name.
     runMode = arguments[0];
@@ -54,10 +55,12 @@ NSAttributedString * hyperlinkFromStringWithURLWithFont(NSString* inString, NSUR
     if (isatty(0)) [self showAboutBox];
   }
   // runMode is a notification, these need to be handled much differently
-  else if ([runMode caseInsensitiveCompare:@"notify"] == NSOrderedSame || [runMode caseInsensitiveCompare:@"bubble"] == NSOrderedSame)
+  else if ([runMode caseInsensitiveCompare:@"notify"] == NSOrderedSame ||
+           [runMode caseInsensitiveCompare:@"bubble"] == NSOrderedSame)
     [self notifyOrBubble];
 
-  else if ([runMode caseInsensitiveCompare:@"update"] == NSOrderedSame) [[CDUpdate.alloc initWithOptions:options] update];
+  else if ([runMode caseInsensitiveCompare:@"update"] == NSOrderedSame)
+    [[CDUpdate.alloc initWithOptions:options] update];
 
   // runMode needs to run through control logic
   else [self runInMode:runMode withOptions:options];

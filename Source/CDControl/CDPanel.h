@@ -6,7 +6,7 @@
 //  Copyright (c) 2011 Mark Whitaker. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import AppKit;
 #import "CDCommon.h"
 
 @class NSObject;

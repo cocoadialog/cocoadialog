@@ -45,19 +45,21 @@
 @property (readonly, copy) NSString *controlNib;
 
 #pragma mark - Subclassable Control Methods -
-// This must be sub-classed if you want options local to your control
-@property (readonly, copy) NSDictionary *availableKeys;
-// This must be sub-classed if you want specify local depreciated keys for your control
-@property (readonly, copy) NSDictionary *depreciatedKeys;
-// This must be overridden if you want local global options for your control
-@property (readonly, copy) NSDictionary *globalAvailableKeys;
+
+@property (readonly, copy) NSDictionary
+
+* availableKeys,        // must be sub-classed if you want options local to your control
+* depreciatedKeys,      // must be sub-classed if you want specify local depreciated keys for your control
+* globalAvailableKeys;  // must be overridden if you want local global options for your control
+
 // This must be sub-classed if you want validate local options for your control
 - (BOOL) validateControl:(CDOptions *)options;
 @end
 
-// CDControl provides a runControl method.  It invokes
-// runControlFromOptions: with the options specified in initWithOptions:
-// You must override runControlFromOptions.
+/*! CDControl provides a runControl method.
+    It invokes runControlFromOptions: with the options specified in initWithOptions:
+    @note You must override runControlFromOptions.
+ */
 @interface CDControl : CDCommon <CDControl> {
 // Classes
     CDIcon                      *icon;
