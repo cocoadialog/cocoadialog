@@ -667,14 +667,14 @@
 			files = (
 			);
 			inputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(PROJECT_NAME).app/Contents/MacOS/$(PROJECT_NAME)",
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
 			);
 			outputPaths = (
-				/usr/local/bin,
+				"/usr/local/bin/cocoa-dialog",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "# /server/repositories/github/sparkle-release/src/sparkle-release\n\nCLI_NAME=cocoa-dialog\n\nmkdir -p \"${SCRIPT_OUTPUT_FILE_0}\"\n\nEXE=\"${SCRIPT_OUTPUT_FILE_0}/$CLI_NAME\"\n\n# This installs a simple launcher to /usr/local/bin\necho \"#!/bin/zsh\nexec ${SCRIPT_INPUT_FILE_0} \\\"\\$@\\\"\"> \"$EXE\"\n\nchmod +x \"$EXE\"\n\n/xbin/finder reveal \"$EXE\"\n";
+			shellScript = "# /server/repositories/github/sparkle-release/src/sparkle-release\n\nCLI_NAME=cocoa-dialog\n\n# mkdir -p \"${SCRIPT_OUTPUT_FILE_0}\"\n\nEXE=\"${SCRIPT_OUTPUT_FILE_0}\"\n\n# This installs a simple launcher to /usr/local/bin\necho \"#!/bin/zsh\nexec ${SCRIPT_INPUT_FILE_0} \\\"\\$@\\\"\"> \"$EXE\" && chmod +x \"$EXE\"\n\n/xbin/finder reveal \"$EXE\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
