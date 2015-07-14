@@ -156,8 +156,9 @@
 
 - (BOOL) hasOpt:(NSString *)key
 {
-	return _options[key];
+	return (BOOL)_options[key];
 }
+
 - (NSString *) optValue:(NSString *)key
 {
 	id value = _options[key];
