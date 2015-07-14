@@ -89,8 +89,11 @@
     }
     checkboxes = [NSMutableArray arrayWithArray:tmpValues];
     en = [tmpValues objectEnumerator];
-    while (obj == [en nextObject]) {
-        checkboxes[[obj tag]] = obj;
+    while (obj == [en nextObject])
+    {
+        if (obj) {
+            checkboxes[[obj tag]] = obj;
+        }
     }
 }
 
