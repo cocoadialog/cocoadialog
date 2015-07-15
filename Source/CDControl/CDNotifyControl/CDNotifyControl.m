@@ -126,8 +126,8 @@
 			[icons addObject:_icon];
 		}
 
-	} else if ([options hasOpt:@"icon-files"]
-	           && [[options optValues:@"icon-files"] count])
+	}
+    else if ([options hasOpt:@"icon-files"] && [[options optValues:@"icon-files"] count])
 	{
 		iconArgs = [options optValues:@"icon-files"];
 		en = [iconArgs objectEnumerator];
@@ -184,10 +184,14 @@
     string = [string stringByReplacingOccurrencesOfString:@"\"" withString:[NSString stringWithFormat: @"\n\"\n"]];
     NSArray * quotedArray = [string componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
     BOOL inQuote = NO;
-    NSEnumerator *en = [quotedArray objectEnumerator];
-    id arg;
-    while ((arg = [en nextObject])) {
-        NSMutableArray* spacedArray = [NSMutableArray arrayWithArray:nil];
+
+    
+    __strong id arg;
+    
+    NSMutableArray* spacedArray = [NSMutableArray arrayWithArray:nil];
+
+    for (arg in quotedArray)
+    {
         // Determine which quote state we're in
         if ([[arg substringToIndex:1] isEqualToString:@"\""]) {
             inQuote = !inQuote;
@@ -205,6 +209,7 @@
             [masterArray addObjectsFromArray:spacedArray];
         }
     }
+    
     return masterArray;
 }
 
