@@ -78,15 +78,16 @@
     NSArray *optionExtensions = [options optValues:@"with-extensions"];
 	if (optionExtensions && [optionExtensions count]) {
 		NSString *extension;
-		NSEnumerator *en = [optionExtensions objectEnumerator];
-		while ((extension = [en nextObject])) {
-			if ([extension isEqualToString:@"."]) {
+        for (extension in optionExtensions)
+        {
+            if ([extension isEqualToString:@"."])
+            {
                 extension = @"";
             }
             // Strip leading '.' from each extension
             else if ([extension length] > 1 && [[extension substringWithRange:NSMakeRange(0,1)] isEqualToString:@"."]) {
-				extension = [extension substringFromIndex:1];
-			}
+                extension = [extension substringFromIndex:1];
+            }
             [extensions addObject:extension];
         }
 	}
