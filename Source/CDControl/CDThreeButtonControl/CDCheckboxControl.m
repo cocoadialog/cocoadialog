@@ -80,20 +80,22 @@
 	// set return values
     NSArray * cells = [controlMatrix cells];
     NSMutableArray *tmpValues = [[NSMutableArray alloc] init];
-    NSEnumerator *en = [cells objectEnumerator];
-    id obj;
-    while ((obj = [en nextObject])) {
-        if ([[obj className] isEqualToString:@"NSButtonCell"]) {
-            [tmpValues addObject:obj];
+    id object;
+    for (object in cells)
+    {
+        if ([[object className] isEqualToString:@"NSButtonCell"]) {
+            [tmpValues addObject:object];
         }
     }
+    
     checkboxes = [NSMutableArray arrayWithArray:tmpValues];
-    en = [tmpValues objectEnumerator];
-    while (obj == [en nextObject])
+    for (object in tmpValues)
     {
-        if (obj) {
-            checkboxes[[obj tag]] = obj;
+        if (object)
+        {
+            checkboxes[[object tag]] = object;
         }
+
     }
 }
 
@@ -188,43 +190,40 @@
     NSMutableArray * controls = [[NSMutableArray alloc] init];
 
     // Create the control for each item
-    unsigned long currItem = 0;
-    NSEnumerator *en = [items objectEnumerator];
     float cellWidth = 0.0;
-    id obj;
-    while ((obj = [en nextObject])) {
+
+    NSUInteger index = 0;
+    for (id object in items)
+    {
         NSButton * button = [[NSButton alloc] init];
         [button setButtonType:NSSwitchButton];
-        [button setTitle:items[currItem]];
+        [button setTitle:items[index]];
         if (checked && [checked count]) {
-            if ([checked containsObject:[NSString stringWithFormat:@"%lu", currItem]]) {
+            if ([checked containsObject:[NSString stringWithFormat:@"%lu", index]])
+            {
                 [[button cell] setState:NSOnState];
             }
         }
         if (mixed && [mixed count]) {
-            if ([mixed containsObject:[NSString stringWithFormat:@"%lu", currItem]]) {
+            if ([mixed containsObject:[NSString stringWithFormat:@"%lu", index]])
+            {
                 [[button cell] setAllowsMixedState:YES];
                 [[button cell] setState:NSMixedState];
             }
         }
         if (disabled && [disabled count]) {
-            if ([disabled containsObject:[NSString stringWithFormat:@"%lu", currItem]]) {
+            if ([disabled containsObject:[NSString stringWithFormat:@"%lu", index]])
+            {
                 [[button cell] setEnabled: NO];
             }
         }
-        [[button cell] setTag:currItem];
+        [[button cell] setTag:index];
         [button sizeToFit];
         if ([button frame].size.width > cellWidth) {
             cellWidth = [button frame].size.width;
         }
         [controls addObject:[button cell]];
-        currItem++;
     }
-
-    
-    
-    
-    
     
     // Set other attributes of matrix
     [controlMatrix setAutosizesCells:NO];
@@ -232,7 +231,7 @@
     [controlMatrix setMode:NSHighlightModeMatrix];
 
     // Populate the matrix
-    currItem = 0;
+    int currItem = 0;
     for (unsigned long currColumn = 0; currColumn <= columns - 1; currColumn++) {
         for (unsigned long currRow = 0; currRow <= rows - 1; currRow++) {
             if (currItem <= [items count] - 1) {
