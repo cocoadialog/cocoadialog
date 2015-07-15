@@ -153,30 +153,30 @@
                               clickArg:clickArg
          ];
     }
-
-    NSEnumerator *en = [notifications objectEnumerator];
-    id obj;
-    int i = 0;
-    while ((obj = [en nextObject])) {
-        NSDictionary * notification = [NSDictionary dictionaryWithDictionary:obj];
+    NSUInteger index = 0;
+    for (id object in notifications)
+    {
+        NSDictionary * notification = [NSDictionary dictionaryWithDictionary:object];
         KABubbleWindowController *bubble = [KABubbleWindowController
                                             bubbleWithTitle:notification[@"title"] text:notification[@"description"]
                                             icon:notification[@"icon"]
                                             timeout:_timeout
-                                            lightColor:[self _colorForBubble:i fromKey:@"background-tops" alpha:alpha]
-                                            darkColor:[self _colorForBubble:i fromKey:@"background-bottoms" alpha:alpha]
-                                            textColor:[self _colorForBubble:i fromKey:@"text-colors" alpha:alpha]
-                                            borderColor:[self _colorForBubble:i fromKey:@"border-colors" alpha:alpha]
+                                            lightColor:[self _colorForBubble:index fromKey:@"background-tops" alpha:alpha]
+                                            darkColor:[self _colorForBubble:index fromKey:@"background-bottoms" alpha:alpha]
+                                            textColor:[self _colorForBubble:index fromKey:@"text-colors" alpha:alpha]
+                                            borderColor:[self _colorForBubble:index fromKey:@"border-colors" alpha:alpha]
                                             numExpectedBubbles:(unsigned)[notifications count]
                                             bubblePosition:position];
-
+        
         [bubble setAutomaticallyFadesOut:![notification[@"sticky"] boolValue]];
         [bubble setDelegate:self];
         [bubble setClickContext:[NSString stringWithFormat:@"%d", activeNotifications]];
         [bubble startFadeIn];
         activeNotifications++;
-        i++;
+        index++;
     }
+    
+    
 }
 
 - (void) debug:(NSString *)message
