@@ -126,13 +126,13 @@
     
     if (result == NSFileHandlingPanelOKButton) {
         controlExitStatus = -1;
-        NSEnumerator *en = [[openPanel URLs] objectEnumerator];
-        id key;
-        while ((key = [en nextObject])) {
+        for (id key in [openPanel URLs])
+        {
             [controlReturnValues addObject:[key path]];
         }
     }
-    else {
+    else
+    {
         controlExitStatus = -2;
         controlReturnValues = [NSMutableArray array];
     }
