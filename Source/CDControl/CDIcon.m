@@ -430,17 +430,16 @@
         [self setIconWithImage:anImage withSize:aSize];
 
         float iconWidthDiff = [control frame].size.width - iconFrame.size.width;
-        NSEnumerator *en = [anArray objectEnumerator];
-        id _control;
-        while ((_control = [en nextObject])) {
-            // Make sure the control exists
+        
+        for (id _control in anArray)
+        {
             if (_control) {
                 NSRect controlFrame = [_control frame];
                 NSRect newControlFrame = NSMakeRect(controlFrame.origin.x + iconWidthDiff, controlFrame.origin.y, controlFrame.size.width - iconWidthDiff, controlFrame.size.height);
                 [_control setFrame:newControlFrame];
             }
         }
-
+        
     }
     // Icon does not have image
     else {
@@ -450,10 +449,11 @@
         [control removeFromSuperview];
         control = nil;
         // Move the controls to the left and increase their width
-        NSEnumerator *en = [anArray objectEnumerator];
+
         id _control;
-        while ((_control = [en nextObject])) {
-            // Make sure the control exists
+        
+        for (_control in anArray)
+        {
             if (_control) {
                 NSRect controlFrame = [_control frame];
                 float newControlWidth = controlFrame.size.width + (controlFrame.origin.x - iconFrame.origin.x);
