@@ -176,27 +176,27 @@
     NSMutableArray * controls = [[NSMutableArray alloc] init];
 
     // Create the control for each item
-    unsigned long currItem = 0;
-    NSEnumerator *en = [items objectEnumerator];
     float cellWidth = 0.0;
-    id obj;
-    while ((obj = [en nextObject])) {
+
+    NSUInteger index = 0;
+    for (id object in items)
+    {
         NSButton * button = [[NSButton alloc] init];
         [button setButtonType:NSRadioButton];
-        [button setTitle:items[currItem]];
+        [button setTitle:items[index]];
         if (disabled && [disabled count]) {
-            if ([disabled containsObject:[NSString stringWithFormat:@"%lu", currItem]]) {
+            if ([disabled containsObject:[NSString stringWithFormat:@"%lu", index]]) {
                 [[button cell] setEnabled: NO];
             }
         }
-        [[button cell] setTag:currItem];
+        [[button cell] setTag:index];
         [button sizeToFit];
         if ([button frame].size.width > cellWidth) {
             cellWidth = [button frame].size.width;
         }
         [controls addObject:[button cell]];
-        currItem++;
     }
+    
 
     // Set other attributes of matrix
     [controlMatrix setAutosizesCells:NO];
@@ -206,16 +206,16 @@
     [controlMatrix setMode:NSRadioModeMatrix];
 
     // Populate the matrix
-    currItem = 0;
+    int x = 0;
     for (unsigned long currColumn = 0; currColumn <= columns - 1; currColumn++) {
         for (unsigned long currRow = 0; currRow <= rows - 1; currRow++) {
-            if (currItem <= [items count] - 1) {
-                NSButtonCell * cell = controls[currItem];
+            if (x <= [items count] - 1) {
+                NSButtonCell * cell = controls[x];
                 [controlMatrix putCell:cell atRow:currRow column:currColumn];
-                if (selected == currItem) {
+                if (selected == x) {
                     [controlMatrix selectCellAtRow:currRow column:currColumn];
                 }
-                currItem++;
+                x++;
             }
             else {
                 NSCell * blankCell = [[NSCell alloc] init];
