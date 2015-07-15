@@ -125,11 +125,9 @@
                               clickArg:clickArg
          ];
     }
-
-    NSEnumerator *en = [notifications objectEnumerator];
-    id obj;
-    while ((obj = [en nextObject])) {
-        NSDictionary * notification = [NSDictionary dictionaryWithDictionary:obj];
+    for (id object in notifications)
+    {
+        NSDictionary * notification = [NSDictionary dictionaryWithDictionary:object];
         [GrowlApplicationBridge
          notifyWithTitle:notification[@"title"]
          description:notification[@"description"]
