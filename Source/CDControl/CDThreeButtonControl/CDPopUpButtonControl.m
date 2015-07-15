@@ -94,12 +94,13 @@
     [popupControl setPullsDown:[options hasOpt:@"pulldown"] ? YES : NO];
     // Populate menu
     NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
-	if (items && [items count]) {
-		NSEnumerator *en = [items objectEnumerator];
-		id obj;
-		while ((obj = [en nextObject])) {
-			[popupControl addItemWithTitle:(NSString *)obj];
-		}
+	if (items && [items count])
+    {
+        for (id object in items)
+        {
+            [popupControl addItemWithTitle:(NSString *)object];
+        }
+        
         NSInteger selected = [options hasOpt:@"selected"] ? [[options optValue:@"selected"] integerValue] : 0;
         [popupControl selectItemAtIndex:selected];
 	}
