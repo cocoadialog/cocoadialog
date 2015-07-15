@@ -110,9 +110,8 @@
                 [CDOptions printOpts:[allKeys allKeys] forRunMode:runMode];
             }
             // Add any extras chooseControl came up with
-            NSEnumerator *en = [extraOptions keyEnumerator];
-            NSString *key;
-            while ((key = [en nextObject])) {
+            for (NSString *key in extraOptions)
+            {
                 [options setOption:extraOptions[key] forKey:key];
             }
 
