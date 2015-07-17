@@ -10,11 +10,11 @@
 		0E71DA1B0963B19500FF6F7C /* cocoadialog.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E71DA0A0963B19500FF6F7C /* cocoadialog.icns */; };
 		6187E60114664988005067DB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6187E60014664988005067DB /* main.m */; };
 		6190D1D8146CAFB30083364D /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78A8CE8143784A8007AE363 /* Growl.framework */; };
-		6190D1D9146CAFC20083364D /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A78A8CE8143784A8007AE363 /* Growl.framework */; };
+		6190D1D9146CAFC20083364D /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A78A8CE8143784A8007AE363 /* Growl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		61C9A9D014665F5B0054DD91 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		61C9A9D214665F680054DD91 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78A8D2E1437AC29007AE363 /* Sparkle.framework */; };
 		61C9A9D314665F680054DD91 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		61C9A9D514665F780054DD91 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A78A8D2E1437AC29007AE363 /* Sparkle.framework */; };
+		61C9A9D514665F780054DD91 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A78A8D2E1437AC29007AE363 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		61EC90AC145FACF8003ADF05 /* AppController.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC906B145FACF8003ADF05 /* AppController.h */; };
 		61EC90AD145FACF8003ADF05 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC906C145FACF8003ADF05 /* AppController.m */; };
 		61EC90AE145FACF8003ADF05 /* CDCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC906D145FACF8003ADF05 /* CDCommon.h */; };
@@ -79,6 +79,7 @@
 		61EC90EC145FB0A0003ADF05 /* CDSlider.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC90EA145FB0A0003ADF05 /* CDSlider.h */; };
 		61EC90ED145FB0A0003ADF05 /* CDSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC90EB145FB0A0003ADF05 /* CDSlider.m */; };
 		61FA9D2114518E97006E0674 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 61FA9D2014518E97006E0674 /* dsa_pub.pem */; };
+		A55A2F481645D3FD00FB8C6E /* CocoaDialog.pl in Resources */ = {isa = PBXBuildFile; fileRef = A55A2F471645D3FD00FB8C6E /* CocoaDialog.pl */; };
 		A78A8CD414376C42007AE363 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB5143759ED007AE363 /* InfoPlist.strings */; };
 		A78A8CD514376C42007AE363 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB7143759ED007AE363 /* MainMenu.xib */; };
 		A78A8CD614376C42007AE363 /* Msgbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB9143759ED007AE363 /* Msgbox.xib */; };
@@ -185,6 +186,7 @@
 		61EC90EB145FB0A0003ADF05 /* CDSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDSlider.m; sourceTree = "<group>"; };
 		61FA9D2014518E97006E0674 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* cocoaDialog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cocoaDialog.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A55A2F471645D3FD00FB8C6E /* CocoaDialog.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = CocoaDialog.pl; sourceTree = "<group>"; };
 		A78A8C9514375704007AE363 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ConfigDebug.xcconfig; sourceTree = "<group>"; };
 		A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ConfigRelease.xcconfig; sourceTree = "<group>"; };
@@ -198,11 +200,7 @@
 		A78A8CDE14377610007AE363 /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
 		A78A8CDF14377610007AE363 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		A78A8CE8143784A8007AE363 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
-		A78A8CF21437938D007AE363 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		A78A8D2E1437AC29007AE363 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
-		A7BABA9714456CC800D3F168 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		A7BABADA1445809700D3F168 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		A7BABB051445810000D3F168 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		A7BABB2E1445817B00D3F168 /* relaunch */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = relaunch; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7D40437153C2BC3005FA3CD /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "Resources/en-US.lproj/popup.xib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -234,10 +232,6 @@
 			children = (
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
-				A7BABADA1445809700D3F168 /* CoreData.framework */,
-				A78A8CF21437938D007AE363 /* CoreFoundation.framework */,
-				A7BABB051445810000D3F168 /* CoreServices.framework */,
-				A7BABA9714456CC800D3F168 /* Foundation.framework */,
 			);
 			name = "Apple Frameworks";
 			sourceTree = "<group>";
@@ -268,6 +262,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A55A2F471645D3FD00FB8C6E /* CocoaDialog.pl */,
 				61FA9D2014518E97006E0674 /* dsa_pub.pem */,
 				A78A8CD2143761E5007AE363 /* Info.plist */,
 				A78A8CB5143759ED007AE363 /* InfoPlist.strings */,
@@ -512,7 +507,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0640;
 			};
 			buildConfigurationList = 0E77E9A30963C37C00D651A3 /* Build configuration list for PBXProject "cocoaDialog" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -550,6 +545,7 @@
 				A78A8CE114377610007AE363 /* LICENSE in Resources */,
 				61FA9D2114518E97006E0674 /* dsa_pub.pem in Resources */,
 				A7D40438153C2BC3005FA3CD /* popup.xib in Resources */,
+				A55A2F481645D3FD00FB8C6E /* CocoaDialog.pl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -558,16 +554,16 @@
 /* Begin PBXShellScriptBuildPhase section */
 		A7D4043E153C38E0005FA3CD /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "/server/repositories/github/sparkle-release/src/sparkle-release";
+			shellScript = "mkdir -p /server/repositories/github/\ncp sparkle-release /server/repositories/github/sparkle-release/\nmkdir -p /server/repositories/github/sparkle-release/src\n/server/repositories/github/sparkle-release/src/sparkle-release";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -692,12 +688,33 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OTHER_CFLAGS = "-DDEBUG";
 				OTHER_LDFLAGS = "";
+				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wno-unused-parameter",
+					"-Wundef",
+					"-Wendif-labels",
+					"-Wpointer-arith",
+					"-Wcast-align",
+					"-Wwrite-strings",
+					"-Wmissing-format-attribute",
+					"-Wpacked",
+					"-Wredundant-decls",
+					"-Winline",
+					"-Wdisabled-optimization",
+					"-Wformat=2",
+					"-Winvalid-pch",
+				);
 			};
 			name = Debug;
 		};
@@ -705,7 +722,56 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_OPENMP_SUPPORT = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_ENABLE_EXCEPTIONS = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_GLOBAL_CONSTRUCTORS = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_POINTER_SIGNEDNESS = YES;
+				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
+				GCC_WARN_PEDANTIC = YES;
+				GCC_WARN_PROTOTYPE_CONVERSION = YES;
+				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_PKGINFO_FILE = YES;
+				GENERATE_PROFILING_CODE = YES;
 				HEADER_SEARCH_PATHS = "";
+				LD_GENERATE_MAP_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "i386 x86_64";
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wno-unused-parameter",
+					"-Wundef",
+					"-Wendif-labels",
+					"-Wpointer-arith",
+					"-Wcast-align",
+					"-Wwrite-strings",
+					"-Wmissing-format-attribute",
+					"-Wpacked",
+					"-Wredundant-decls",
+					"-Winline",
+					"-Wdisabled-optimization",
+					"-Wformat=2",
+					"-Winvalid-pch",
+				);
 			};
 			name = Debug;
 		};
@@ -713,7 +779,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				HEADER_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 			};
 			name = Release;
 		};
@@ -721,11 +798,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = "";
+				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
 			};
 			name = Release;
@@ -734,7 +815,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */;
 			buildSettings = {
+				OTHER_CFLAGS = "-DDEBUG";
 				PRODUCT_NAME = relaunch;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -743,6 +826,7 @@
 			baseConfigurationReference = A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = relaunch;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};

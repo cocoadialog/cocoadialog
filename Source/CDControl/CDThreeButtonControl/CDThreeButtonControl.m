@@ -28,43 +28,40 @@
 
 - (NSDictionary *) globalAvailableKeys
 {
-	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-            // General
-            vNone, @"help",
-            vNone, @"debug",
-            vNone, @"quiet",
-            vOne,  @"timeout",
-            vOne,  @"timeout-format",
-            vNone, @"string-output",
-            vNone, @"no-newline",
+	NSNumber *vOne = @CDOptionsOneValue;
+	NSNumber *vNone = @CDOptionsNoValues;
+	return @{@"help": vNone,
+            @"debug": vNone,
+            @"quiet": vNone,
+            @"timeout": vOne,
+            @"timeout-format": vOne,
+            @"string-output": vNone,
+            @"no-newline": vNone,
             // Panel
-            vOne,  @"title",
-            vOne,  @"width",
-            vOne,  @"height",
-            vOne,  @"posX",
-            vOne,  @"posY",
-            vNone, @"no-float",
-            vNone, @"minimize",
-            vNone, @"resize",
+            @"title": vOne,
+            @"width": vOne,
+            @"height": vOne,
+            @"posX": vOne,
+            @"posY": vOne,
+            @"no-float": vNone,
+            @"minimize": vNone,
+            @"resize": vNone,
             // Icon
-            vOne,  @"icon",
-            vOne,  @"icon-bundle",
-            vOne,  @"icon-type",
-            vOne,  @"icon-file",
-            vOne,  @"icon-size",
-            vOne,  @"icon-width",
-            vOne,  @"icon-height",
+            @"icon": vOne,
+            @"icon-bundle": vOne,
+            @"icon-type": vOne,
+            @"icon-file": vOne,
+            @"icon-size": vOne,
+            @"icon-width": vOne,
+            @"icon-height": vOne,
             // CDThreeButtonControl
-            vOne,  @"label",
-            vOne,  @"button1",
-            vOne,  @"button2",
-            vOne,  @"button3",
-            vOne,  @"cancel",
-            vNone, @"value-required",
-            vOne,  @"empty-text",
-            nil];
+            @"label": vOne,
+            @"button1": vOne,
+            @"button2": vOne,
+            @"button3": vOne,
+            @"cancel": vOne,
+            @"value-required": vNone,
+            @"empty-text": vOne};
 }
 
 
@@ -73,7 +70,7 @@
 
 - (void) setControl: (id)sender matrixRows:(NSInteger)rows matrixColumns:(NSInteger)columns items:(NSArray *)items precedence:(int)precedence
 {
-    if (controlMatrix != nil) {
+    if (controlMatrix) {
         // Default exact columns/rows
         unsigned long exactColumns = [items count] / rows;
         float exactColumnsFloat = (float) [items count] / (float)rows;
@@ -159,13 +156,13 @@
 	[panel setTitle];
 
     // Add default controls
-    if (expandingLabel != nil && ![[icon controls] containsObject:expandingLabel]) {
+    if (expandingLabel && ![[icon controls] containsObject:expandingLabel]) {
         [icon addControl:expandingLabel];
     }
-    if (controlMatrix != nil && ![[icon controls] containsObject:controlMatrix]) {
+    if (controlMatrix && ![[icon controls] containsObject:controlMatrix]) {
         [icon addControl:controlMatrix];
     }
-    if (timeoutLabel != nil && ![[icon controls] containsObject:timeoutLabel]) {
+    if (timeoutLabel && ![[icon controls] containsObject:timeoutLabel]) {
         [icon addControl:timeoutLabel];
     }
 
@@ -178,7 +175,7 @@
     
     [panel resize];
     
-    if (controlMatrix != nil) {
+    if (controlMatrix) {
         // Remember old controlMatrix size
         NSRect m = [controlMatrix frame];
         float oldHeight = m.size.height;
@@ -206,7 +203,12 @@
 - (void) setButtons {
     cancelButton = 0;
 	unsigned i;
-	struct { NSString *key; NSButton *button; } const buttons[] = {
+	struct { 
+        __unsafe_unretained NSString *key;
+        __unsafe_unretained NSButton *button;
+    } 
+    const buttons[] = 
+    {
 		{ @"button1", button1 },
 		{ @"button2", button2 },
 		{ @"button3", button3 }
@@ -216,11 +218,11 @@
 	for (i = 0; i != sizeof(buttons)/sizeof(buttons[0]); i++) {
 		[self setTitle:[options optValue:buttons[i].key] forButton:buttons[i].button];
         if ([[self options] hasOpt:@"cancel"] && [[options optValue:@"cancel"] isEqualToString:buttons[i].key]) {
-            [buttons[i].button setKeyEquivalent:@"\e"];
+            [buttons[i].button setKeyEquivalent:@"\033"];
             cancelButton = i+1;
         }
         else if ([[options optValue:buttons[i].key] isEqualToString:@"Cancel"]) {
-            [buttons[i].button setKeyEquivalent:@"\e"];
+            [buttons[i].button setKeyEquivalent:@"\033"];
             cancelButton = i+1;
         }
 		if ([buttons[i].button isHidden] == NO) {
@@ -245,18 +247,18 @@
 
 // Should be called after setButtons, and before resize
 - (void) setLabel:(NSString *)labelText {
-    if (expandingLabel != nil) {
-        if (labelText == nil) {
-            labelText = [NSString stringWithString:@""];
+    if (expandingLabel) {
+        if (!labelText) {
+            labelText = @"";
         }
         float labelNewHeight = -10.0f;
         NSRect labelRect = [expandingLabel frame];
         float labelHeightDiff = labelNewHeight - labelRect.size.height;
         if (![labelText isEqualToString:@""]) {
             [expandingLabel setStringValue:labelText];
-            NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: labelText]autorelease];
-            NSTextContainer *textContainer = [[[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)] autorelease];
-            NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease];
+            NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString: labelText];
+            NSTextContainer *textContainer = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)];
+            NSLayoutManager *layoutManager = [[NSLayoutManager alloc]init];
             [layoutManager addTextContainer: textContainer];
             [textStorage addLayoutManager: layoutManager];
             [layoutManager glyphRangeForTextContainer:textContainer];
@@ -277,15 +279,15 @@
 }
 
 - (void) setTimeoutLabel {
-    if (timeoutLabel != nil) {
+    if (timeoutLabel) {
         float labelNewHeight = -4.0f;
         NSRect labelRect = [timeoutLabel frame];
         float labelHeightDiff = labelNewHeight - labelRect.size.height;
         [timeoutLabel setStringValue:[self formatSecondsForString:(int)timeout]];
         if (![[timeoutLabel stringValue] isEqualToString:@""] && timeout != 0.0f) {
-            NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: [timeoutLabel stringValue]]autorelease];
-            NSTextContainer *textContainer = [[[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)] autorelease];
-            NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease];
+            NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString: [timeoutLabel stringValue]];
+            NSTextContainer *textContainer = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)];
+            NSLayoutManager *layoutManager = [[NSLayoutManager alloc]init];
             [layoutManager addTextContainer: textContainer];
             [textStorage addLayoutManager: layoutManager];
             [layoutManager glyphRangeForTextContainer:textContainer];
@@ -303,7 +305,7 @@
         p.height += labelHeightDiff;
         [[panel panel] setContentSize:p];
         
-        if (controlMatrix != nil) {
+        if (controlMatrix) {
             // Set controlMatrix's new Y
             NSPoint m = [controlMatrix frame].origin;
             m.y += labelHeightDiff;
@@ -357,13 +359,13 @@
 }
 
 - (void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
-    if (controlMatrix != nil && [[controlMatrix cells] count]) {
+    if (controlMatrix && [[controlMatrix cells] count]) {
         if ([controlMatrix selectedCell]) {
             [controlMatrix selectCellAtRow:[controlMatrix selectedRow] column:[controlMatrix selectedColumn]];
         }
     }
-    else if (controlItems != nil && [controlItems count]) {
-        [[panel panel] makeFirstResponder:[controlItems objectAtIndex:0]];
+    else if (controlItems && [controlItems count]) {
+        [[panel panel] makeFirstResponder:controlItems[0]];
     }
 }
 

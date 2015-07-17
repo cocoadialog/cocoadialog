@@ -26,11 +26,9 @@
 {
 //	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
 //	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
+	NSNumber *vNone = @CDOptionsNoValues;
 
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-		vNone, @"no-create-directories",
-		nil];
+	return @{@"no-create-directories": vNone};
 }
 
 - (void) createControl {
@@ -57,19 +55,19 @@
 
 	// set starting file (to be used later with 
 	// runModal...) - doesn't work.
-	if ([options optValue:@"with-file"] != nil) {
+	if ([options optValue:@"with-file"]) {
 		file = [options optValue:@"with-file"];
 	}
 	// set starting directory (to be used later with runModal...)
-	if ([options optValue:@"with-directory"] != nil) {
+	if ([options optValue:@"with-directory"]) {
 		dir = [options optValue:@"with-directory"];
 	}
     
     // Only check for dir or file path existance if debug is enabled.
     if ([options hasOpt:@"debug"]) {
-        NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+        NSFileManager *fm = [[NSFileManager alloc] init];
         // Directory
-        if (dir != nil && ![fm fileExistsAtPath:dir]) {
+        if (dir && ![fm fileExistsAtPath:dir]) {
             [self debug:[NSString stringWithFormat:@"Option --with-directory specifies a directory that does not exist: %@", dir]];
         }
     }
@@ -87,20 +85,17 @@
     [self setTimeout];
 	
     NSInteger result;
-    if (kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber10_6) {
-        result = [savePanel runModalForDirectory:dir file:file];
-    }
-    else {
-        if (dir != nil) {
-            NSURL * url = [[[NSURL alloc] initFileURLWithPath:dir] autorelease];
+    
+        if (dir) {
+            NSURL * url = [[NSURL alloc] initFileURLWithPath:dir];
             [savePanel setDirectoryURL:url];
         }
         [savePanel setNameFieldStringValue:file];
         result = [savePanel runModal];
-    }
+    
     if (result == NSFileHandlingPanelOKButton) {
         controlExitStatus = -1;
-        [controlReturnValues addObject:[savePanel filename]];
+        [controlReturnValues addObject:[NSString stringWithContentsOfURL:[savePanel URL] encoding:NSUTF8StringEncoding error:nil]];
     }
     else {
         controlExitStatus = -2;

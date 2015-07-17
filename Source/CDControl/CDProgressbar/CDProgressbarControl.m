@@ -30,16 +30,14 @@
 
 - (NSDictionary *) availableKeys
 {
-	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
+	NSNumber *vOne = @CDOptionsOneValue;
+	NSNumber *vNone = @CDOptionsNoValues;
 	
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-		vOne,  @"text",
-		vOne,  @"percent",
-		vNone, @"indeterminate",
-		vNone, @"float",
-		vNone, @"stoppable",
-		nil];
+	return @{@"text": vOne,
+		@"percent": vOne,
+		@"indeterminate": vNone,
+		@"float": vNone,
+		@"stoppable": vNone};
 }
 
 -(void) updateProgress:(NSNumber*)newProgress
@@ -56,7 +54,6 @@
 {
 	if (confirmationSheet) {
 		[NSApp endSheet:[confirmationSheet window]];
-		[confirmationSheet release];
 		confirmationSheet = nil;
 	}
 
@@ -80,7 +77,6 @@
 - (void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	if (confirmationSheet == alert) {
-		[confirmationSheet release];
 		confirmationSheet = nil;
 	}
 	if (returnCode == NSAlertFirstButtonReturn && stopEnabled) {
@@ -162,9 +158,8 @@
 		[progressBar setIndeterminate:NO];
 	}
 
-	NSOperationQueue* queue = [[NSOperationQueue new] autorelease];
+	NSOperationQueue* queue = [NSOperationQueue new];
 	[queue addOperation:inputHandler];
-	[inputHandler release];
 }
 
 @end

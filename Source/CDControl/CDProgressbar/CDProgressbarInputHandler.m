@@ -9,7 +9,7 @@
 
 @implementation CDProgressbarInputHandler
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self) {
@@ -51,10 +51,9 @@
             if ([self getLastNewlinePosition:&lastNewline inData:buffer]) {
                 NSData* readStrings = [buffer subdataWithRange:NSMakeRange(0, lastNewline + 1)];
                 NSData* rest = [buffer subdataWithRange:NSMakeRange(lastNewline + 1, [buffer length] - (lastNewline + 1))];
-                [buffer release];
                 buffer = [[NSMutableData alloc] initWithData:rest];
 
-                NSString* result = [[[NSString alloc] initWithData:readStrings encoding:NSUTF8StringEncoding] autorelease];
+                NSString* result = [[NSString alloc] initWithData:readStrings encoding:NSUTF8StringEncoding];
                 return result;
             }
         }
@@ -63,7 +62,7 @@
 
 -(BOOL) parseString:(NSString*)str intoProgress:(double*)value
 {
-    if (str == nil) {
+    if (!str) {
         return NO;
     } else {
         NSScanner *scanner = [NSScanner scannerWithString:str];
@@ -83,23 +82,20 @@
 	NSOperationQueue* mainQueue = [NSOperationQueue mainQueue];
 	NSInvocationOperation* operation = [[NSInvocationOperation alloc] initWithTarget:target selector:selector object:object];
 	[mainQueue addOperation:operation];
-	[operation release];
 }
 
 -(void) updateProgress:(double)newProgress
 {
     if (currentProgress != newProgress) {
         currentProgress = newProgress;
-        [self invokeOnMainQueueWithTarget:delegate selector:@selector(updateProgress:) object:[NSNumber numberWithDouble:newProgress]];
+        [self invokeOnMainQueueWithTarget:delegate selector:@selector(updateProgress:) object:@(newProgress)];
     }
 }
 
 -(void) updateLabel:(NSString*)newLabel
 {
     if (![currentLabel isEqualToString:newLabel]) {
-        [currentLabel release];
 
-        [newLabel retain];
         currentLabel = newLabel;
 
         [self invokeOnMainQueueWithTarget:delegate selector:@selector(updateLabel:) object:newLabel];
@@ -112,12 +108,12 @@
     NSArray *lines = [str componentsSeparatedByString:@"\n"];
 
     for (NSUInteger i = 0; i < [lines count]; i++) {
-        NSString *line = [lines objectAtIndex:i];
+        NSString *line = lines[i];
         if ([line length] != 0) {
             if ([line isEqualToString:@"stop enable"]) {
-                [self invokeOnMainQueueWithTarget:delegate selector:@selector(setStopEnabled:) object:[NSNumber numberWithBool:YES]];
+                [self invokeOnMainQueueWithTarget:delegate selector:@selector(setStopEnabled:) object:@YES];
             } else if ([line isEqualToString:@"stop disable"]) {
-                [self invokeOnMainQueueWithTarget:delegate selector:@selector(setStopEnabled:) object:[NSNumber numberWithBool:NO]];
+                [self invokeOnMainQueueWithTarget:delegate selector:@selector(setStopEnabled:) object:@NO];
             } else {
                 NSScanner *scanner = [NSScanner scannerWithString:line];
 
@@ -144,25 +140,18 @@
 
 -(void) main
 {
-    NSAutoreleasePool *pool;
 
     NSFileHandle *stdinFH = [NSFileHandle fileHandleWithStandardInput];
 
     while (!finished) {
-        pool = [[NSAutoreleasePool alloc] init];
-        NSString* lines = [self readLines:stdinFH];
-        [self parseLines:lines];
-        [pool drain];
+        @autoreleasepool {
+            NSString* lines = [self readLines:stdinFH];
+            [self parseLines:lines];
+        }
     }
 
     [self invokeOnMainQueueWithTarget:delegate selector:@selector(finish) object:nil];
 }
 
-- (void) dealloc
-{
-    [currentLabel release];
-    [buffer release];
-    [super dealloc];
-}
 
 @end

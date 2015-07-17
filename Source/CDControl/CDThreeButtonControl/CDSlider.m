@@ -12,20 +12,18 @@
 
 - (NSDictionary *) availableKeys
 {
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
-	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
+	NSNumber *vNone = @CDOptionsNoValues;
+	NSNumber *vOne = @CDOptionsOneValue;
 //	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
-    
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-            vOne,   @"empty-value",
-            vOne,   @"max",
-            vOne,   @"min",
-            vNone,  @"return-float",
-            vOne,   @"ticks",
-            vNone,  @"always-show-value",
-            vOne,   @"slider-label",
-            vOne,   @"value",
-            nil];
+
+	return @{@"empty-value": vOne,
+            @"max": vOne,
+            @"min": vOne,
+            @"return-float": vNone,
+            @"ticks": vOne,
+            @"always-show-value": vNone,
+            @"slider-label": vOne,
+            @"value": vOne};
 }
 
 - (BOOL) validateOptions {
@@ -133,7 +131,7 @@
 - (void) setControl:(id)sender {
     NSWindow *_panel = [panel panel];
     NSRect cmFrame = [controlMatrix frame];
-    
+
     NSView *sliderView = [[NSView alloc] initWithFrame:NSMakeRect(cmFrame.origin.x, (cmFrame.origin.y + cmFrame.size.height) - 17.0f, cmFrame.size.width, 14.0f)];
     [sliderView setAutoresizingMask:NSViewMinXMargin | NSViewMaxXMargin | NSViewMinYMargin];
 
@@ -141,7 +139,7 @@
     if ([options hasOpt:@"slider-label"] && ![[options optValue:@"slider-label"] isEqualToString:@""]) {
         _sliderLabel = [options optValue:@"slider-label"];
     }
-    sliderLabel = [[[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, cmFrame.size.width, 14.0f)] autorelease];
+    sliderLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, cmFrame.size.width, 14.0f)];
     [sliderLabel setBezeled:NO];
     [sliderLabel setDrawsBackground:NO];
     [sliderLabel setEditable:NO];
@@ -150,7 +148,7 @@
     [sliderLabel setStringValue:_sliderLabel];
     [sliderView addSubview:sliderLabel];
 
-    valueLabel = [[[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, cmFrame.size.width, 14.0f)] autorelease];
+    valueLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, cmFrame.size.width, 14.0f)];
     [valueLabel setBezeled:NO];
     [valueLabel setDrawsBackground:NO];
     [valueLabel setEditable:NO];
@@ -160,28 +158,28 @@
     if (![options hasOpt:@"always-show-value"])
         [valueLabel setHidden:YES];
     [sliderView addSubview:valueLabel];
-    
+
     [[_panel contentView] addSubview:sliderView];
-    
+
     // Move controlMatrix to make room for valueView
     NSPoint cmOrigin = cmFrame.origin;
     cmOrigin.y -= [sliderView frame].size.height - 8.0f;
     [controlMatrix setFrameOrigin:cmOrigin];
-    
+
     // Add the valueView to the panel height
     NSSize panelSize = [[[panel panel] contentView] frame].size;
     panelSize.height += [sliderView frame].size.height + 4.0f;
     [[panel panel] setContentSize:panelSize];
     [panel resize];
-    
+
     // Set other attributes of matrix
     [controlMatrix setCellSize:NSMakeSize(cmFrame.size.width, 22.0f)];
     [controlMatrix renewRows:1 columns:1];
     [controlMatrix setAutosizesCells:NO];
     [controlMatrix setMode:NSTrackModeMatrix];
     [controlMatrix setAllowsEmptySelection:YES];
-    
-    CDSliderCell *slider = [[[CDSliderCell alloc] init] autorelease];
+
+    CDSliderCell *slider = [[CDSliderCell alloc] init];
     [slider setAlwaysShowValue:[options hasOpt:@"always-show-value"]];
     [slider setDelegate:self];
     [slider setValueLabel:valueLabel];
@@ -193,23 +191,23 @@
     [slider setTarget:self];
     [slider setAction:@selector(sliderChanged)];
     [controlMatrix putCell:slider atRow:0 column:0];
-    
+
     // Save controlMatrix height
     CGFloat oldHeight = cmFrame.size.height;
 
     // Resize controlMatrix
     [controlMatrix sizeToCells];
     cmFrame = [controlMatrix frame];
-        
+
     if (ticks > 0) {
         NSView *tickView = [[NSView alloc] initWithFrame:NSMakeRect(0.0f, cmFrame.origin.y - (cmFrame.size.height - oldHeight) - 17.0f, [_panel frame].size.width, 18.0f)];
         [tickView setAutoresizingMask:NSViewMinYMargin];
-            
+
         NSUInteger count = [slider numberOfTickMarks];
         for (NSUInteger i = 0; i < count; i++) {
             CGFloat  length=cmFrame.size.width-2*10;
             CGFloat  position=floor((count==1)?length/2:i*(length/(count-1)));
-            NSTextField *tickLabel = [[[NSTextField alloc] initWithFrame:NSMakeRect(cmFrame.origin.x + 10.0f + position, 0, 0, 0)] autorelease];
+            NSTextField *tickLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(cmFrame.origin.x + 10.0f + position, 0, 0, 0)];
             [tickLabel setBezeled:NO];
             [tickLabel setDrawsBackground:NO];
             [tickLabel setEditable:NO];
@@ -224,12 +222,12 @@
             [tickView addSubview:tickLabel];
         }
         [[_panel contentView] addSubview:tickView];
-        
+
         // Move controlMatrix to make room for tickView
         cmOrigin = cmFrame.origin;
         cmOrigin.y += [tickView frame].size.height + 4.0f;
         [controlMatrix setFrameOrigin:cmOrigin];
-        
+
         // Add the tickView to the panel height
         panelSize = [[[panel panel] contentView] frame].size;
         panelSize.height += [tickView frame].size.height + 4.0f;
@@ -250,7 +248,7 @@
     else {
         label = [NSString stringWithFormat:@"%i", [slider intValue]];
     }
-    [valueLabel setStringValue:label];    
+    [valueLabel setStringValue:label];
 }
 
 @end
@@ -272,7 +270,7 @@
     return [super startTrackingAt:startPoint inView:controlView];
 }
 
-- (BOOL)continueTracking:(NSPoint)lastPoint at:(NSPoint)currentPoint 
+- (BOOL)continueTracking:(NSPoint)lastPoint at:(NSPoint)currentPoint
                   inView:(NSView *)controlView {
     if (tracking) {
         NSUInteger count = [self numberOfTickMarks];
@@ -281,7 +279,7 @@
             NSRect tickMarkRect = [self rectOfTickMarkAtIndex:i];
             if (ABS(tickMarkRect.origin.x - currentPoint.x) <= snapFlexibility) {
                 [self setAllowsTickMarkValuesOnly:YES];
-                
+
             } else if (ABS(tickMarkRect.origin.x - currentPoint.x) >= snapFlexibility &&
                        ABS(tickMarkRect.origin.x - currentPoint.x) <= snapFlexibility * 2) {
                 [self setAllowsTickMarkValuesOnly:NO];

@@ -9,8 +9,8 @@
 	NSPoint startingPoint;
 }
 
-- (id)initWithContentRect:(NSRect)contentRect
+- (instancetype)initWithContentRect:(NSRect)contentRect
 				styleMask:(unsigned long)aStyle
 				  backing:(NSBackingStoreType)bufferingType
-					defer:(BOOL)flag;
+					defer:(BOOL)flag NS_DESIGNATED_INITIALIZER;
 @end

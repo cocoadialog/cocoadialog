@@ -29,27 +29,23 @@ int main (int argc, const char * argv[]) {
 
 @implementation Relaunch
 
-- (id) init {
+- (instancetype) init {
 	self = [super init];
-	if (self != nil) {
+	if (self) {
         executableArguments = [[[NSMutableArray alloc] initWithArray:[[NSProcessInfo processInfo] arguments]] autorelease];
         // Remove the first three arguments
         if ([executableArguments count] >= 2) {
             // Remove relaunch path
             [executableArguments removeObjectAtIndex:0];
             // Set and remove executablePath
-            executablePath = [executableArguments objectAtIndex:0];
+            executablePath = executableArguments[0];
             [executableArguments removeObjectAtIndex:0];
             if ([[executablePath pathExtension] isEqualToString:@""]) {
                 NSTask *task = [[NSTask alloc] init];
                 [task setLaunchPath:@"/usr/bin/arch"];
                 [executableArguments insertObject:executablePath atIndex:0];
-#if defined __ppc__
-                [executableArguments insertObject:@"-ppc" atIndex:0];
-#elif defined __i368__
+#if defined __i368__
                 [executableArguments insertObject:@"-i386" atIndex:0];
-#elif defined __ppc64__
-                [executableArguments insertObject:@"-ppc64" atIndex:0];
 #elif defined __x86_64__
                 [executableArguments insertObject:@"-x86_64" atIndex:0];
 #endif

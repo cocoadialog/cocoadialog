@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en_US</string>
+	<key>CFBundleDisplayName</key>
+	<string>cocoaDialog</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
@@ -17,26 +19,24 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.0-beta7</string>
+	<string>3.0.999</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>3.0.0-beta7</string>
+	<string>3.0.999</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>10.4</string>
+	<string>10.9</string>
 	<key>LSMinimumSystemVersionByArchitecture</key>
 	<dict>
 		<key>i386</key>
-		<string>10.4</string>
-		<key>ppc</key>
-		<string>10.4</string>
-		<key>ppc64</key>
-		<string>10.5</string>
+		<string>10.9</string>
 		<key>x86_64</key>
-		<string>10.6</string>
+		<string>10.9</string>
 	</dict>
 	<key>LSUIElement</key>
 	<integer>1</integer>
+	<key>NSHumanReadableCopyright</key>
+	<string>GPL</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>

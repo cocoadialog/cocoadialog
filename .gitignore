@@ -10,3 +10,6 @@
 DerivedData/
 project.xcworkspace/
 xcuserdata/
+build/*
+*.build
+*.o

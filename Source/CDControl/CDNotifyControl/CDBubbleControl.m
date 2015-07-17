@@ -2,17 +2,17 @@
 	CDBubbleControl.m
 	cocoaDialog
 	Copyright (C) 2004-2006 Mark A. Stratman <mark@sporkstorms.org>
- 
+
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 2 of the License, or
 	(at your option) any later version.
- 
+
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
- 
+
 	You should have received a copy of the GNU General Public License
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -57,12 +57,12 @@
     if ([options hasOpt:@"click-path"]) {
         clickPath = [options optValue:@"click-path"];
     }
-    
+
     NSString *clickArg = @"";
     if ([options hasOpt:@"click-arg"]) {
         clickArg = [options optValue:@"click-arg"];
     }
-	
+
 	if ([options hasOpt:@"posX"]) {
 		NSString *xplace = [options optValue:@"posX"];
 		if ([xplace isEqualToString:@"left"]) {
@@ -86,7 +86,7 @@
 		}
 	} else {
 		position |= BUBBLE_VERT_TOP;
-	}	
+	}
 
 	if ([options hasOpt:@"timeout"]) {
 		if (![[NSScanner scannerWithString:[options optValue:@"timeout"]] scanFloat:&_timeout]) {
@@ -107,14 +107,14 @@
 	NSArray *descriptions = [options optValues:@"descriptions"];
 
 	// Multiple bubbles
-	if (descriptions != nil && [descriptions count] && titles != nil && [titles count] && [titles count] == [descriptions count]) {
+	if (descriptions && [descriptions count] && titles && [titles count] && [titles count] == [descriptions count]) {
 		NSArray *givenIconImages = [self notificationIcons];
 		NSImage *fallbackIcon = nil;
 		NSMutableArray *icons = nil;
 		unsigned i;
 		// See what icons we got at the command line, or set a fallback
 		// icon to use for all bubbles
-		if (givenIconImages == nil) {
+		if (!givenIconImages) {
 			fallbackIcon = [icon iconWithDefault];
 		} else {
 			icons = [NSMutableArray arrayWithArray:givenIconImages];
@@ -132,14 +132,14 @@
         NSArray * clickArgs = [NSArray arrayWithArray:[options optValues:@"click-args"]];
 		// Create the bubbles
 		for (i = 0; i < [descriptions count]; i++) {
-			NSImage *_icon = fallbackIcon == nil ? (NSImage *)[icons objectAtIndex:i] : fallbackIcon;
-            [self addNotificationWithTitle:[titles objectAtIndex:i]
-                               description:[descriptions objectAtIndex:i]
+			NSImage *_icon = !fallbackIcon ? (NSImage *)icons[i] : fallbackIcon;
+            [self addNotificationWithTitle:titles[i]
+                               description:descriptions[i]
                                       icon:_icon
                                   priority:nil
                                     sticky:sticky
-                                 clickPath:[clickPaths count] ? [clickPaths objectAtIndex:i] : clickPath
-                                  clickArg:[clickArgs count] ? [clickArgs objectAtIndex:i] : clickArg
+                                 clickPath:[clickPaths count] ? clickPaths[i] : clickPath
+                                  clickArg:[clickArgs count] ? clickArgs[i] : clickArg
              ];
 		}
 	// Single bubble
@@ -153,30 +153,30 @@
                               clickArg:clickArg
          ];
     }
-
-    NSEnumerator *en = [notifications objectEnumerator];
-    id obj;
-    int i = 0;
-    while (obj = [en nextObject]) {
-        NSDictionary * notification = [NSDictionary dictionaryWithDictionary:obj];
+    NSUInteger index = 0;
+    for (id object in notifications)
+    {
+        NSDictionary * notification = [NSDictionary dictionaryWithDictionary:object];
         KABubbleWindowController *bubble = [KABubbleWindowController
-                                            bubbleWithTitle:[notification objectForKey:@"title"] text:[notification objectForKey:@"description"]
-                                            icon:[notification objectForKey:@"icon"]
+                                            bubbleWithTitle:notification[@"title"] text:notification[@"description"]
+                                            icon:notification[@"icon"]
                                             timeout:_timeout
-                                            lightColor:[self _colorForBubble:i fromKey:@"background-tops" alpha:alpha]
-                                            darkColor:[self _colorForBubble:i fromKey:@"background-bottoms" alpha:alpha]
-                                            textColor:[self _colorForBubble:i fromKey:@"text-colors" alpha:alpha]
-                                            borderColor:[self _colorForBubble:i fromKey:@"border-colors" alpha:alpha]
+                                            lightColor:[self _colorForBubble:index fromKey:@"background-tops" alpha:alpha]
+                                            darkColor:[self _colorForBubble:index fromKey:@"background-bottoms" alpha:alpha]
+                                            textColor:[self _colorForBubble:index fromKey:@"text-colors" alpha:alpha]
+                                            borderColor:[self _colorForBubble:index fromKey:@"border-colors" alpha:alpha]
                                             numExpectedBubbles:(unsigned)[notifications count]
                                             bubblePosition:position];
         
-        [bubble setAutomaticallyFadesOut:![[notification objectForKey:@"sticky"] boolValue]];
+        [bubble setAutomaticallyFadesOut:![notification[@"sticky"] boolValue]];
         [bubble setDelegate:self];
         [bubble setClickContext:[NSString stringWithFormat:@"%d", activeNotifications]];
         [bubble startFadeIn];
         activeNotifications++;
-        i++;
+        index++;
     }
+    
+    
 }
 
 - (void) debug:(NSString *)message
@@ -226,26 +226,26 @@
 	NSString *myKey = key;
 	// first check to see if this key returns multiple values
 	colorArgs = [options optValues:myKey];
-	if (colorArgs == nil) {
+	if (!colorArgs) {
 		// It didn't return an array, so see if it returns a single value
 		NSString *optValue = [options optValue:myKey];
 
 		// Failing that...
 		// If we were looking for text-colors and didn't find it, try
 		// text-color instead (for example).
-		if (optValue == nil && [myKey hasSuffix:@"s"]) {
+		if (!optValue && [myKey hasSuffix:@"s"]) {
 			myKey = [key substringToIndex:([key length] - 1)];
 			optValue = [options optValue:myKey];
 		}
-		colorArgs = optValue ? [NSArray arrayWithObject:optValue] : [NSArray array];
+		colorArgs = optValue ? @[optValue] : @[];
 	}
-	// If user don't specify enough colors,  use the last 
+	// If user don't specify enough colors,  use the last
 	// given color for any bubbles past that.
 	if (i >= [colorArgs count] && [colorArgs count]) {
 		i = [colorArgs count] - 1;
 	}
 	NSString *hexValue = i < [colorArgs count] ?
-		[colorArgs objectAtIndex:i] : nil;
+		colorArgs[i] : nil;
 
 	if ([myKey hasPrefix:@"text-color"]) {
 		return hexValue

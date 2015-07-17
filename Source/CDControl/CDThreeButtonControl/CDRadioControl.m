@@ -12,19 +12,17 @@
 
 - (NSDictionary *) availableKeys
 {
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
-	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
-    
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-            vNone,@"allow-mixed",
-            vMul, @"items",
-            vOne, @"selected",
-            vMul, @"mixed",
-            vMul, @"disabled",
-            vOne, @"rows",
-            vOne, @"columns",
-            nil];
+	NSNumber *vNone = @CDOptionsNoValues;
+	NSNumber *vOne = @CDOptionsOneValue;
+	NSNumber *vMul = @CDOptionsMultipleValues;
+
+	return @{@"allow-mixed": vNone,
+            @"items": vMul,
+            @"selected": vOne,
+            @"mixed": vMul,
+            @"disabled": vMul,
+            @"rows": vOne,
+            @"columns": vOne};
 }
 
 - (BOOL) validateOptions {
@@ -44,14 +42,15 @@
 	}
     // Check that at least one item has been specified
     NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
-    if (![items count]) { 
+    if (![items count]) {
 		if ([options hasOpt:@"debug"]) {
 			[self debug:@"Must supply at least one --items"];
 		}
 		return NO;
 	}
     // Load nib
-	if (![NSBundle loadNibNamed:@"tbc" owner:self]) {
+	if (![[NSBundle mainBundle] loadNibNamed:@"tbc" owner:self topLevelObjects:nil])
+    {
 		if ([options hasOpt:@"debug"]) {
 			[self debug:@"Could not load tbc.nib"];
 		}
@@ -64,9 +63,9 @@
 - (BOOL)isReturnValueEmpty
 {
     NSArray * items = [controlMatrix cells];
-    if (items != nil && [items count]) {
+    if (items && [items count]) {
         NSCell * selectedCell = [controlMatrix selectedCell];
-        if (selectedCell != nil) {
+        if (selectedCell) {
             return NO;
         }
         else {
@@ -94,9 +93,9 @@
 	if (![self validateControl:options]) {
         return;
     }
-    
+
     NSString * labelText = @"";
-    if ([options hasOpt:@"label"] && [options optValue:@"label"] != nil) {
+    if ([options hasOpt:@"label"] && [options optValue:@"label"]) {
         labelText = [options optValue:@"label"];
     }
 	[self setTitleButtonsLabel:labelText];
@@ -104,14 +103,14 @@
 
 - (void) controlHasFinished:(int)button {
     NSArray * radioArray = [controlMatrix cells];
-    if (radioArray != nil && [radioArray count]) {
+    if (radioArray && [radioArray count]) {
         NSCell * selectedCell = [controlMatrix selectedCell];
-        if (selectedCell != nil) {
+        if (selectedCell) {
             if ([[self options] hasOpt:@"string-output"]) {
                 [controlReturnValues addObject:[selectedCell title]];
             }
             else {
-                [controlReturnValues addObject:[NSString stringWithFormat:@"%d", [[controlMatrix selectedCell] tag]]];
+                [controlReturnValues addObject:[NSString stringWithFormat:@"%ld", (long)[[controlMatrix selectedCell] tag]]];
             }
         }
         else {
@@ -128,7 +127,7 @@
     // Setup the control
     NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
     unsigned long selected = -1;
-    NSArray *disabled = [[[NSArray alloc] init] autorelease];
+    NSArray *disabled = [[NSArray alloc] init];
 
 
     if ([options hasOpt:@"selected"]) {
@@ -138,10 +137,10 @@
     if ([options hasOpt:@"disabled"]) {
         disabled = [options optValues:@"disabled"];
     }
-    
+
     // Set default precedence: columns, if both are present or neither are present
     int matrixPrecedence = 0;
-    
+
     // Set default number of columns
     unsigned long columns = 1;
     // Set specified number of columns
@@ -151,7 +150,7 @@
             columns = 1;
         }
     }
-    
+
     // Set default number of rows
     unsigned long rows = 1;
     // Set specified number of rows
@@ -173,53 +172,53 @@
     [self setControl: self matrixRows:rows matrixColumns:columns items:items precedence:matrixPrecedence];
     rows = [controlMatrix numberOfRows];
     columns = [controlMatrix numberOfColumns];
-    
-    NSMutableArray * controls = [[[NSMutableArray alloc] init] autorelease];
-    
+
+    NSMutableArray * controls = [[NSMutableArray alloc] init];
+
     // Create the control for each item
-    unsigned long currItem = 0;
-    NSEnumerator *en = [items objectEnumerator];
     float cellWidth = 0.0;
-    id obj;
-    while (obj = [en nextObject]) {
-        NSButton * button = [[[NSButton alloc] init] autorelease];
+
+    NSUInteger index = 0;
+    for (id object in items)
+    {
+        NSButton * button = [[NSButton alloc] init];
         [button setButtonType:NSRadioButton];
-        [button setTitle:[items objectAtIndex:currItem]];
-        if (disabled != nil && [disabled count]) {
-            if ([disabled containsObject:[NSString stringWithFormat:@"%i", currItem]]) {
+        [button setTitle:items[index]];
+        if (disabled && [disabled count]) {
+            if ([disabled containsObject:[NSString stringWithFormat:@"%lu", index]]) {
                 [[button cell] setEnabled: NO];
             }
         }
-        [[button cell] setTag:currItem];
+        [[button cell] setTag:index];
         [button sizeToFit];
         if ([button frame].size.width > cellWidth) {
             cellWidth = [button frame].size.width;
         }
         [controls addObject:[button cell]];
-        currItem++;
     }
     
+
     // Set other attributes of matrix
     [controlMatrix setAutosizesCells:NO];
     [controlMatrix setCellSize:NSMakeSize(cellWidth, 18.0f)];
     [controlMatrix setAllowsEmptySelection:YES];
     [controlMatrix deselectAllCells];
     [controlMatrix setMode:NSRadioModeMatrix];
-    
+
     // Populate the matrix
-    currItem = 0;
+    int x = 0;
     for (unsigned long currColumn = 0; currColumn <= columns - 1; currColumn++) {
         for (unsigned long currRow = 0; currRow <= rows - 1; currRow++) {
-            if (currItem <= [items count] - 1) {
-                NSButtonCell * cell = [controls objectAtIndex:currItem];
+            if (x <= [items count] - 1) {
+                NSButtonCell * cell = controls[x];
                 [controlMatrix putCell:cell atRow:currRow column:currColumn];
-                if (selected == currItem) {
+                if (selected == x) {
                     [controlMatrix selectCellAtRow:currRow column:currColumn];
                 }
-                currItem++;
+                x++;
             }
             else {
-                NSCell * blankCell = [[[NSCell alloc] init] autorelease];
+                NSCell * blankCell = [[NSCell alloc] init];
                 [blankCell setType:NSNullCellType];
                 [blankCell setEnabled:NO];
                 [controlMatrix putCell:blankCell atRow:currRow column:currColumn];

@@ -2,17 +2,17 @@
 	CDPopUpButtonControl.m
 	cocoaDialog
 	Copyright (C) 2004 Mark A. Stratman <mark@sporkstorms.org>
- 
+
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 2 of the License, or
 	(at your option) any later version.
- 
+
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
- 
+
 	You should have received a copy of the GNU General Public License
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -26,23 +26,19 @@
 
 - (NSDictionary *) availableKeys
 {
-    NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
-	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
+    NSNumber *vOne = @CDOptionsOneValue;
+	NSNumber *vNone = @CDOptionsNoValues;
+	NSNumber *vMul = @CDOptionsMultipleValues;
 
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-		vMul,   @"items",
-        vOne,   @"selected",
-		vNone,  @"exit-onchange",
-		vNone,  @"pulldown",
-		nil];
+	return @{@"items": vMul,
+        @"selected": vOne,
+		@"exit-onchange": vNone,
+		@"pulldown": vNone};
 }
 
 - (NSDictionary *) depreciatedKeys
 {
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-            @"label", @"text",
-            nil];
+	return @{@"text": @"label"};
 }
 
 - (BOOL) validateOptions {
@@ -64,14 +60,14 @@
 	}
     // Check that at least one item has been specified
     NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
-    if (![items count]) { 
+    if (![items count]) {
 		if ([options hasOpt:@"debug"]) {
 			[self debug:@"Must supply at least one --items"];
 		}
 		return NO;
 	}
     // Load nib
-	if (![NSBundle loadNibNamed:@"popup" owner:self]) {
+    if (![[NSBundle mainBundle] loadNibNamed:@"popup" owner:self topLevelObjects:nil]) {
 		if ([options hasOpt:@"debug"]) {
 			[self debug:@"Could not load popup.nib"];
 		}
@@ -98,12 +94,13 @@
     [popupControl setPullsDown:[options hasOpt:@"pulldown"] ? YES : NO];
     // Populate menu
     NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
-	if (items != nil && [items count]) {
-		NSEnumerator *en = [items objectEnumerator];
-		id obj;
-		while (obj = [en nextObject]) {
-			[popupControl addItemWithTitle:(NSString *)obj];
-		}
+	if (items && [items count])
+    {
+        for (id object in items)
+        {
+            [popupControl addItemWithTitle:(NSString *)object];
+        }
+        
         NSInteger selected = [options hasOpt:@"selected"] ? [[options optValue:@"selected"] integerValue] : 0;
         [popupControl selectItemAtIndex:selected];
 	}
@@ -114,7 +111,7 @@
 	if ([[self options] hasOpt:@"string-output"]) {
         [controlReturnValues addObject:[popupControl titleOfSelectedItem]];
 	} else {
-        [controlReturnValues addObject:[NSString stringWithFormat:@"%d", [popupControl indexOfSelectedItem]]];
+        [controlReturnValues addObject:[NSString stringWithFormat:@"%ld", (long)[popupControl indexOfSelectedItem]]];
 	}
     [super controlHasFinished:button];
 }
@@ -127,7 +124,7 @@
         if ([[self options] hasOpt:@"string-output"]) {
             [controlReturnValues addObject:[popupControl titleOfSelectedItem]];
         } else {
-            [controlReturnValues addObject:[NSString stringWithFormat:@"%d", [popupControl indexOfSelectedItem]]];
+            [controlReturnValues addObject:[NSString stringWithFormat:@"%ld", (long)[popupControl indexOfSelectedItem]]];
         }
         [self stopControl];
 	}

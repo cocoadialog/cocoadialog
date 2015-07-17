@@ -20,13 +20,13 @@
 	}
 }
 
-- (id)init {
+- (instancetype)init {
 	return [self initWithOptions:nil];
 }
-- (id)initWithOptions:(CDOptions *)opts {
+- (instancetype)initWithOptions:(CDOptions *)opts {
 	self = [super init];
     [self setOptions:nil];
-    if (opts != nil) {
+    if (opts) {
         [self setOptions:opts];
     }
 	return self;

@@ -25,21 +25,17 @@
 
 - (NSDictionary *) availableKeys
 {
-	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
+	NSNumber *vOne = @CDOptionsOneValue;
 //	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
 
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-		vOne, @"alert",
-		vOne, @"label",
-		nil];
+	return @{@"alert": vOne,
+		@"label": vOne};
 }
 
 - (NSDictionary *) depreciatedKeys
 {
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-            @"alert", @"text",
-            @"label", @"informative-text",
-            nil];
+	return @{@"text": @"alert",
+            @"informative-text": @"label"};
 }
 
 - (NSString *)controlNib {

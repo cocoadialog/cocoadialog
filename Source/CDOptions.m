@@ -2,17 +2,17 @@
 	CDOptions.m
 	cocoaDialog
 	Copyright (C) 2004 Mark A. Stratman <mark@sporkstorms.org>
- 
+
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 2 of the License, or
 	(at your option) any later version.
- 
+
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
- 
+
 	You should have received a copy of the GNU General Public License
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -23,21 +23,21 @@
 
 @implementation CDOptions
 
-- initWithOpts:(NSMutableDictionary *)opts
+- (instancetype) initWithOpts:(NSMutableDictionary *)opts
 {
 	self = [super init];
-	_options = [opts retain];
+	_options = opts;
 	return self;
 }
-- init
+- (instancetype) init
 {
-	return [self initWithOpts:[NSDictionary dictionary]];
+	return [self initWithOpts:[NSMutableDictionary dictionary]];
 }
 
 + (BOOL) _argIsKey:(NSString *)arg availableKeys:(NSDictionary *)availableKeys depreciatedKeys:(NSDictionary *)depreciatedKeys
 {
-	if ([arg length] > 2 && [[arg substringWithRange:NSMakeRange(0,2)] isEqualToString:@"--"] && 
-        ([availableKeys objectForKey:[arg substringFromIndex:2]] != nil || [depreciatedKeys objectForKey:[arg substringFromIndex:2]] != nil))
+	if ([arg length] > 2 && [[arg substringWithRange:NSMakeRange(0,2)] isEqualToString:@"--"] &&
+        (availableKeys[[arg substringFromIndex:2]] || depreciatedKeys[[arg substringFromIndex:2]]))
 	{
 		return YES;
 	} else {
@@ -52,53 +52,52 @@
 	NSMutableArray *values;
 	int argType;
 
-	options = [[[NSMutableDictionary alloc] init] autorelease];
+	options = [[NSMutableDictionary alloc] init];
 
 	unsigned i = 0;
 	while (i < [args count]) {
-		arg = [args objectAtIndex:i];
+		arg = args[i];
 
 		// If the arg is a key we specified above...
 		if ([CDOptions _argIsKey:arg availableKeys:availableKeys depreciatedKeys:depreciatedKeys]) {
 			// strip leading '--'
 			arg = [arg substringFromIndex:2];
-            
+
             // Replace the argument with the newer one if it's depreciated
-            NSString * depreciatedArg = [depreciatedKeys objectForKey:arg];
-            if (depreciatedArg != nil) {
+            NSString * depreciatedArg = depreciatedKeys[arg];
+            if (depreciatedArg) {
                 arg = depreciatedArg;
             }
-            
-            argType = [[availableKeys objectForKey:arg] intValue];
+
+            argType = [availableKeys[arg] intValue];
 
 			// If it's a no-value option, store the bool NO to indicate
 			// no values for this key, increment i and continue.
 			if (argType == CDOptionsNoValues) {
-				[options setObject:[NSNumber numberWithBool:NO] forKey:arg];
+				options[arg] = @NO;
 				i++;
 				continue;
 			}
 			// Control reaches here there should be one or more
 			// values for key.
             if (argType == CDOptionsMultipleValues) {
-                values = [[[NSMutableArray alloc] init] autorelease];
+                values = [[NSMutableArray alloc] init];
             }
 			while (i+1 < [args count]) {
-				NSString *nextArg = [args objectAtIndex:i+1];
+				NSString *nextArg = args[i+1];
 
 				// set single string value for this key,
 				// increment i and stop looking for more values
 				if (argType == CDOptionsOneValue) {
-					[options setObject:nextArg
-						    forKey:arg];
+					options[arg] = nextArg;
 					i++;
 					break;
 				}
 				// add a value to the values array
-                else if (argType == CDOptionsMultipleValues && ![CDOptions _argIsKey:[args objectAtIndex:i+1] availableKeys:availableKeys depreciatedKeys:depreciatedKeys]) {
+                else if (argType == CDOptionsMultipleValues && ![CDOptions _argIsKey:args[i+1] availableKeys:availableKeys depreciatedKeys:depreciatedKeys]) {
 					[values addObject:nextArg];
 					i++;
-					
+
 				// Programmer supplied an invalid type for this
 				// available key.
 				} else {
@@ -108,13 +107,13 @@
 
 			// set the array of values for this key
 			if (argType == CDOptionsMultipleValues) {
-				[options setObject:values forKey:arg];
+				options[arg] = values;
 			}
 		} // End "if arg was a key"
 		i++;
 	} // End processing all args
 
-	return [[[CDOptions alloc] initWithOpts:options] autorelease];
+	return [[CDOptions alloc] initWithOpts:options];
 }
 
 + (void) printOpts:(NSArray *)availableOptions forRunMode:(NSString *)runMode
@@ -127,12 +126,12 @@
         [fh writeData:[@" [options]\n\tAvailable options:\n" dataUsingEncoding:NSUTF8StringEncoding]];
 
         NSArray *sortedAvailableKeys = [NSArray arrayWithArray:[availableOptions sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
-        
+
         NSEnumerator *en = [sortedAvailableKeys objectEnumerator];
         id key;
         unsigned i = 0;
         unsigned currKey = 0;
-        while (key = [en nextObject]) {
+        while ((key = [en nextObject])) {
             if (i == 0) {
                 [fh writeData:[@"\t\t" dataUsingEncoding:NSUTF8StringEncoding]];
             }
@@ -157,14 +156,15 @@
 
 - (BOOL) hasOpt:(NSString *)key
 {
-	return [_options objectForKey:key] != nil;
+	return (BOOL)_options[key];
 }
+
 - (NSString *) optValue:(NSString *)key
 {
-	id value = [_options objectForKey:key];
+	id value = _options[key];
 	// value will be an NSNumber (set in getOpts) if there is no value
 	// for that key, NSString of the value, or nil if that key didn't exist
-	if (value == nil || ![value isKindOfClass:[NSString class]]) {
+	if (!value || ![value isKindOfClass:[NSString class]]) {
 		return nil;
 	} else {
 		return value;
@@ -172,8 +172,8 @@
 }
 - (NSArray *) optValues:(NSString *)key
 {
-	id value = [_options objectForKey:key];
-	if (value == nil || ![value isKindOfClass:[NSArray class]]) {
+	id value = _options[key];
+	if (!value || ![value isKindOfClass:[NSArray class]]) {
 		return nil;
 	} else {
 		return value;
@@ -181,7 +181,7 @@
 }
 - (id) optValueOrValues:(NSString *)key
 {
-	return [_options objectForKey:key];
+	return _options[key];
 }
 
 
@@ -190,12 +190,7 @@
 
 - (void) setOption:(id)value forKey:(NSString *)key
 {
-	[_options setObject:value forKey:key];
+	_options[key] = value;
 }
 
-- (void) dealloc
-{
-	[_options release];
-	[super dealloc];
-}
 @end

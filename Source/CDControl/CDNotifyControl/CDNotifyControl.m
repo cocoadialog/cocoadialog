@@ -10,112 +10,101 @@
 
 @implementation CDNotifyControl
 
-- (id)initWithOptions:(CDOptions *)opts {
+- (instancetype)initWithOptions:(CDOptions *)opts {
 	self = [super initWithOptions:opts];
     activeNotifications = 0;
-    notifications = [[[NSMutableArray alloc] init] retain];
+    notifications = [[NSMutableArray alloc] init];
 	return self;
 }
 
-- (void) dealloc
-{
-    [notifications release];
-	[super dealloc];
-}
 
 // This must be overridden if you want local global options for your control
 - (NSDictionary *) globalAvailableKeys {
-    NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
-    NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-            // General
-            vNone, @"help",
-            vNone, @"debug",
-            vNone, @"quiet",
+    NSNumber *vOne = @CDOptionsOneValue;
+	NSNumber *vNone = @CDOptionsNoValues;
+    NSNumber *vMul = @CDOptionsMultipleValues;
+    return @{@"help": vNone,
+            @"debug": vNone,
+            @"quiet": vNone,
 
             // CDNotifyControls
-             vOne,  @"fh",
-             vNone, @"no-growl",
-             vNone, @"sticky",
+             @"fh": vOne,
+             @"no-growl": vNone,
+             @"sticky": vNone,
              // Text
-             vOne,  @"title",
-             vOne,  @"description",
-             vMul,  @"titles",
-             vMul,  @"descriptions",
+             @"title": vOne,
+             @"description": vOne,
+             @"titles": vMul,
+             @"descriptions": vMul,
              // Icons
-             vOne,  @"icon",
-             vOne,  @"icon-bundle",
-             vOne,  @"icon-type",
-             vOne,  @"icon-file",
-             vMul,  @"icons",
-             vMul,  @"icon-files",
+             @"icon": vOne,
+             @"icon-bundle": vOne,
+             @"icon-type": vOne,
+             @"icon-file": vOne,
+             @"icons": vMul,
+             @"icon-files": vMul,
              // Click
-             vOne,  @"click-path",
-             vOne,  @"click-arg",
-             vMul,  @"click-paths",
-             vMul,  @"click-args",
-             
+             @"click-path": vOne,
+             @"click-arg": vOne,
+             @"click-paths": vMul,
+             @"click-args": vMul,
+
    // CDBubbleControl Options (they're not used by CDGrowlControl, but need to be recognized as possible keys for backwards compatability support and so CDGrowlControl doesn't interpret them as values)
 
              // Options for one bubble
-             vOne, @"text-color",
-             vOne, @"border-color",
-             vOne, @"background-top",
-             vOne, @"background-bottom",
-             
-             // Options for multiple bubble
-             vMul, @"text-colors",
-             vMul, @"border-colors",
-             vMul, @"background-tops",
-             vMul, @"background-bottoms",
-             vNone, @"independent", // With this set, clicking one bubble won't kill the rest.
-             
-             // General options, apply to all scenarios
-             vOne, @"posX",
-             vOne, @"posY",
-             vOne, @"alpha",
-             vOne, @"timeout",
+             @"text-color": vOne,
+             @"border-color": vOne,
+             @"background-top": vOne,
+             @"background-bottom": vOne,
 
-             nil];
+             // Options for multiple bubble
+             @"text-colors": vMul,
+             @"border-colors": vMul,
+             @"background-tops": vMul,
+             @"background-bottoms": vMul,
+             @"independent": vNone, // With this set, clicking one bubble won't kill the rest.
+
+             // General options, apply to all scenarios
+             @"posX": vOne,
+             @"posY": vOne,
+             @"alpha": vOne,
+             @"timeout": vOne};
 }
 
 - (NSDictionary *) depreciatedKeys
 {
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-            @"description", @"text",
-            @"descriptions", @"texts",
-            @"sticky", @"no-timeout",
-            @"posX", @"x-placement",
-            @"posY", @"y-placement",
-            nil];
+	return @{@"text": @"description",
+            @"texts": @"descriptions",
+            @"no-timeout": @"sticky",
+            @"x-placement": @"posX",
+            @"y-placement": @"posY"};
 }
 
 
 - (void)addNotificationWithTitle:(NSString *)title description:(NSString *)description icon:(NSImage *)_icon priority:(NSNumber *)priority sticky:(BOOL)sticky clickPath:(NSString *)clickPath clickArg:(NSString *)clickArg
 {
     NSMutableDictionary * notification = [NSMutableDictionary dictionary];
-    [notification setObject:title forKey:@"title"];
-    [notification setObject:description forKey:@"description"];
-    [notification setObject:_icon forKey:@"icon"];
+    notification[@"title"] = title;
+    notification[@"description"] = description;
+    notification[@"icon"] = _icon;
     NSData *iconData = [NSData dataWithData:[_icon TIFFRepresentation]];
-    if (iconData == nil) {
+    if (!iconData) {
         iconData = [NSData data];
     }
-    [notification setObject:iconData forKey:@"iconData"];
-    if (priority == nil) {
-        priority = [NSNumber numberWithInt:0];
+    notification[@"iconData"] = iconData;
+    if (!priority) {
+        priority = @0;
     }
-    [notification setObject:priority forKey:@"priority"];
-    [notification setObject:[NSNumber numberWithBool:sticky] forKey:@"sticky"];
-    if (clickPath == nil) {
+    notification[@"priority"] = priority;
+    notification[@"sticky"] = @(sticky);
+    if (!clickPath) {
         clickPath = @"";
     }
-    [notification setObject:clickPath forKey:@"clickPath"];
-    if (clickArg == nil) {
+    notification[@"clickPath"] = clickPath;
+    if (!clickArg) {
         clickArg = @"";
     }
-    [notification setObject:clickArg forKey:@"clickArg"];
+    notification[@"clickArg"] = clickArg;
     [notifications addObject:notification];
 }
 
@@ -124,61 +113,61 @@
 	NSMutableArray *icons = [NSMutableArray array];
 	NSArray *iconArgs;
 	NSEnumerator *en;
-    
+
 	if ([options hasOpt:@"icons"] && [[options optValues:@"icons"] count]) {
 		iconArgs = [options optValues:@"icons"];
 		en = [iconArgs objectEnumerator];
 		NSString *iconName;
-		while (iconName = (NSString *)[en nextObject]) {
+		while ((iconName = (NSString *)[en nextObject])) {
             NSImage * _icon = [icon iconFromName:iconName];
-			if (_icon == nil) {
+			if (!_icon) {
 				_icon = [NSApp applicationIconImage];
 			}
 			[icons addObject:_icon];
 		}
-        
-	} else if ([options hasOpt:@"icon-files"]
-	           && [[options optValues:@"icon-files"] count])
+
+	}
+    else if ([options hasOpt:@"icon-files"] && [[options optValues:@"icon-files"] count])
 	{
 		iconArgs = [options optValues:@"icon-files"];
 		en = [iconArgs objectEnumerator];
 		NSString *fileName;
-		while (fileName = (NSString *)[en nextObject]) {
+		while ((fileName = (NSString *)[en nextObject])) {
             NSImage * _icon = [icon iconFromFile:fileName];
-			if (_icon == nil) {
+			if (!_icon) {
 				_icon = [NSApp applicationIconImage];
 			}
 			[icons addObject:_icon];
 		}
-        
+
 	} else {
 		return nil;
 	}
-    
+
 	return icons;
 }
 
 - (void) notificationWasClicked:(id)clickContext
 {
-    NSDictionary * notification = [NSDictionary dictionaryWithDictionary:[notifications objectAtIndex:[clickContext intValue]]];
-    NSString * path = [notification objectForKey:@"clickPath"];
+    NSDictionary * notification = [NSDictionary dictionaryWithDictionary:notifications[[clickContext intValue]]];
+    NSString * path = notification[@"clickPath"];
     if ([path caseInsensitiveCompare:@"cocoaDialog"] == NSOrderedSame) {
-        path = [[[NSProcessInfo processInfo] arguments] objectAtIndex:0];
+        path = [[NSProcessInfo processInfo] arguments][0];
     }
     NSArray *arguments = nil;
-    if (![[notification objectForKey:@"clickArg"] isEqualToString:@""]) {
-        arguments = [NSArray arrayWithArray:[self parseTextForArguments:[notification objectForKey:@"clickArg"]]];
+    if (![notification[@"clickArg"] isEqualToString:@""]) {
+        arguments = [NSArray arrayWithArray:[self parseTextForArguments:notification[@"clickArg"]]];
     }
     NSMutableArray * args = [NSMutableArray arrayWithArray:arguments];
     // Check to ensure the file exists before launching the command
     if (![path isEqualToString:@""] && [[NSFileManager defaultManager] fileExistsAtPath:path]) {
         [args insertObject:path atIndex:0];
-#if defined __ppc__ || defined __i368__
+#if defined __i368__
         [args insertObject:@"-32" atIndex:0];
-#elif defined __ppc64__ || defined __x86_64__
+#elif defined __x86_64__
         [args insertObject:@"-64" atIndex:0];
 #endif
-        NSTask *task = [[[NSTask alloc] init] autorelease];
+        NSTask *task = [[NSTask alloc] init];
         // Output must be silenced to not hang this process
         [task setStandardError:[NSPipe pipe]];
         [task setStandardOutput:[NSPipe pipe]];
@@ -195,16 +184,20 @@
     string = [string stringByReplacingOccurrencesOfString:@"\"" withString:[NSString stringWithFormat: @"\n\"\n"]];
     NSArray * quotedArray = [string componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
     BOOL inQuote = NO;
-    NSEnumerator *en = [quotedArray objectEnumerator];
-    id arg;
-    while (arg = [en nextObject]) {
-        NSMutableArray* spacedArray = [NSMutableArray arrayWithArray:nil];
+
+    
+    __strong id arg;
+    
+    NSMutableArray* spacedArray = [NSMutableArray arrayWithArray:nil];
+
+    for (arg in quotedArray)
+    {
         // Determine which quote state we're in
         if ([[arg substringToIndex:1] isEqualToString:@"\""]) {
             inQuote = !inQuote;
             continue;
         }
-        if (![arg isEqualToString:@""] || arg != nil) {
+        if (![arg isEqualToString:@""] || arg) {
             if (inQuote) {
                 [spacedArray addObject:arg];
             }
@@ -216,6 +209,7 @@
             [masterArray addObjectsFromArray:spacedArray];
         }
     }
+    
     return masterArray;
 }
 

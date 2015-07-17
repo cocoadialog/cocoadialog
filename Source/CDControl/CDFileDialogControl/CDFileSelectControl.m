@@ -2,17 +2,17 @@
 	CDFileSelectControl.m
 	cocoaDialog
 	Copyright (C) 2004 Mark A. Stratman <mark@sporkstorms.org>
- 
+
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 2 of the License, or
 	(at your option) any later version.
- 
+
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
- 
+
 	You should have received a copy of the GNU General Public License
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -24,29 +24,27 @@
 
 - (NSDictionary *) availableKeys
 {
-	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
+	NSNumber *vMul = @CDOptionsMultipleValues;
 //	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
+	NSNumber *vNone = @CDOptionsNoValues;
 
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-        vMul,  @"allowed-files",
-		vNone, @"select-directories",
-		vNone, @"select-only-directories",
-		vNone, @"no-select-directories",
-		vNone, @"select-multiple",
-		vNone, @"no-select-multiple",
-		nil];
+	return @{@"allowed-files": vMul,
+		@"select-directories": vNone,
+		@"select-only-directories": vNone,
+		@"no-select-directories": vNone,
+		@"select-multiple": vNone,
+		@"no-select-multiple": vNone};
 }
 
 - (void) createControl {
     savePanel = [NSOpenPanel openPanel];
 	NSString *file = nil;
 	NSString *dir = nil;
-	
+
 	[self setMisc];
 
     NSOpenPanel *openPanel = (NSOpenPanel *)savePanel;
-    
+
 	// set select-multiple
 	if ([options hasOpt:@"select-multiple"]) {
 		[openPanel setAllowsMultipleSelection:YES];
@@ -64,35 +62,35 @@
 		[openPanel setCanChooseDirectories:YES];
 		[openPanel setCanChooseFiles:NO];
 	}
-	
+
 	if ([options hasOpt:@"packages-as-directories"]) {
 		[openPanel setTreatsFilePackagesAsDirectories:YES];
 	} else {
 		[openPanel setTreatsFilePackagesAsDirectories:NO];
 	}
 
-	// set starting file (to be used later with 
+	// set starting file (to be used later with
 	// runModal...) - doesn't work.
-	if ([options optValue:@"with-file"] != nil) {
+	if ([options optValue:@"with-file"]) {
 		file = [options optValue:@"with-file"];
 	}
 	// set starting directory (to be used later with runModal...)
-	if ([options optValue:@"with-directory"] != nil) {
+	if ([options optValue:@"with-directory"]) {
 		dir = [options optValue:@"with-directory"];
 	}
-    
+
     // Only check for dir or file path existance if debug is enabled.
     if ([options hasOpt:@"debug"]) {
-        NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+        NSFileManager *fm = [[NSFileManager alloc] init];
         // Directory
-        if (dir != nil && ![fm fileExistsAtPath:dir]) {
+        if (dir && ![fm fileExistsAtPath:dir]) {
             [self debug:[NSString stringWithFormat:@"Option --with-directory specifies a directory that does not exist: %@", dir]];
         }
         // File
-        if (file != nil) {
+        if (file) {
             NSString *path = dir;
-            if (path == nil) {
-                path = [openPanel directory];
+            if (!path) {
+                path = [NSString stringWithContentsOfURL:[openPanel URL] encoding:NSUTF8StringEncoding error:nil];
             }
             path = [path stringByAppendingString:@"/"];
             path = [path stringByAppendingString:file];
@@ -101,44 +99,40 @@
             }
         }
     }
-    
+
     [panel setPanel:openPanel];
 
 	// resize window if user specified alternate width/height
     if ([panel needsResize]) {
 		[openPanel setContentSize:[panel findNewSize]];
 	}
-	
+
     // Reposition Panel
     [panel setPosition];
-    
+
     [self setTimeout];
-    
+
     NSInteger result;
-    
-    if (kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber10_6) {
-        result = [openPanel runModalForDirectory:dir file:file];
-    }
-    else {
-        if (dir != nil) {
-            if (file != nil) {
+
+        if (dir) {
+            if (file) {
                 dir = [dir stringByAppendingString:@"/"];
                 dir = [dir stringByAppendingString:file];
             }
-            NSURL * url = [[[NSURL alloc] initFileURLWithPath:dir] autorelease];
+            NSURL * url = [[NSURL alloc] initFileURLWithPath:dir];
             [openPanel setDirectoryURL:url];
         }
         result = [openPanel runModal];
-    }
+    
     if (result == NSFileHandlingPanelOKButton) {
         controlExitStatus = -1;
-        NSEnumerator *en = [[openPanel URLs] objectEnumerator];
-        id key;
-        while (key = [en nextObject]) {
+        for (id key in [openPanel URLs])
+        {
             [controlReturnValues addObject:[key path]];
         }
     }
-    else {
+    else
+    {
         controlExitStatus = -2;
         controlReturnValues = [NSMutableArray array];
     }
@@ -147,13 +141,13 @@
 
 - (BOOL)isExtensionAllowed:(NSString *)filename {
     BOOL extensionAllowed = YES;
-    if (extensions != nil && [extensions count]) {
+    if (extensions && [extensions count]) {
         NSString* extension = [filename pathExtension];
         extensionAllowed = [extensions containsObject:extension];
     }
     if ([options hasOpt:@"allowed-files"]) {
         NSArray *allowedFiles = [options optValues:@"allowed-files"];
-        if (allowedFiles != nil && [allowedFiles count]) {
+        if (allowedFiles && [allowedFiles count]) {
             if ([allowedFiles containsObject:[filename lastPathComponent]]) {
                 return YES;
             }

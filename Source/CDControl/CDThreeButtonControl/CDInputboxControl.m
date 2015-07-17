@@ -27,22 +27,18 @@
 
 - (NSDictionary *) availableKeys
 {
-	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
+	NSNumber *vOne = @CDOptionsOneValue;
+	NSNumber *vNone = @CDOptionsNoValues;
 	
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-		vOne,   @"value",
-        vNone,  @"not-selected",
-		vNone,  @"no-show",
-		nil];
+	return @{@"value": vOne,
+        @"not-selected": vNone,
+		@"no-show": vNone};
 }
 
 - (NSDictionary *) depreciatedKeys
 {
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-            @"value", @"text",
-            @"label", @"informative-text",
-            nil];
+	return @{@"text": @"value",
+            @"informative-text": @"label"};
 }
 
 - (BOOL) validateOptions {    
@@ -78,7 +74,7 @@
 
 - (void) createControl {
     NSString * labelText = @"";
-    if ([options hasOpt:@"label"] && [options optValue:@"label"] != nil) {
+    if ([options hasOpt:@"label"] && [options optValue:@"label"]) {
         labelText = [options optValue:@"label"];
     }
 	[self setTitleButtonsLabel:labelText];
@@ -99,10 +95,10 @@
     
     id inputbox;
     if ([options hasOpt:@"no-show"]) {
-        inputbox = [[[NSSecureTextField alloc] init] autorelease];
+        inputbox = [[NSSecureTextField alloc] init];
     }
     else {
-        inputbox = [[[NSTextField alloc] init] autorelease];
+        inputbox = [[NSTextField alloc] init];
     }
     [inputbox setRefusesFirstResponder:YES];
     // Set initial text in textfield

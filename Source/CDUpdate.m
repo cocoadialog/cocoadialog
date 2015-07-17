@@ -21,7 +21,7 @@
 - (void) updater:(SUUpdater *)updater didAbortWithError:(NSError *)error {
     if ([options hasOpt:@"debug"]) {
         NSString *output = @"An unknown error occurred while trying to update.";
-        if (error != nil) {
+        if (error) {
             output = [error localizedDescription];
         }
         [self debug:output];
@@ -36,8 +36,8 @@
 - (void) update {
     SUUpdater * updater = [SUUpdater sharedUpdater];
     [updater setDelegate:self];
-    NSURL *appcastURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"SUFeedURL"]];
-    if (appcastURL != nil) {
+    NSURL *appcastURL = [NSURL URLWithString:[[NSBundle mainBundle] infoDictionary][@"SUFeedURL"]];
+    if (appcastURL) {
         [updater setFeedURL:appcastURL];
     }
     else {
