@@ -45,30 +45,30 @@
     // Check that we're in the right sub-class
     if (![self isMemberOfClass:[CDPopUpButtonControl class]]) {
         if (![self isMemberOfClass:[CDStandardPopUpButtonControl class]]) {
-            if ([options hasOpt:@"debug"]) {
+            if ([self.options hasOpt:@"debug"]) {
                 [self debug:@"This run-mode is not properly classed."];
             }
             return NO;
         }
     }
 	// Check that at least button1 has been specified
-	if (![options optValue:@"button1"] && ![self isMemberOfClass:[CDStandardPopUpButtonControl class]])	{
-		if ([options hasOpt:@"debug"]) {
+	if (![self.options optValue:@"button1"] && ![self isMemberOfClass:[CDStandardPopUpButtonControl class]])	{
+		if ([self.options hasOpt:@"debug"]) {
 			[self debug:@"Must supply at least --button1"];
 		}
 		return NO;
 	}
     // Check that at least one item has been specified
-    NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
+    NSArray *items = [NSArray arrayWithArray:[self.options optValues:@"items"]];
     if (![items count]) { 
-		if ([options hasOpt:@"debug"]) {
+		if ([self.options hasOpt:@"debug"]) {
 			[self debug:@"Must supply at least one --items"];
 		}
 		return NO;
 	}
     // Load nib
 	if (![NSBundle loadNibNamed:@"popup" owner:self]) {
-		if ([options hasOpt:@"debug"]) {
+		if ([self.options hasOpt:@"debug"]) {
 			[self debug:@"Could not load popup.nib"];
 		}
 		return NO;
@@ -91,19 +91,19 @@
     [popupControl setAction:@selector(selectionChanged:)];
 	[popupControl removeAllItems];
     // Set popup/pulldown style
-    [popupControl setPullsDown:[options hasOpt:@"pulldown"] ? YES : NO];
+    [popupControl setPullsDown:[self.options hasOpt:@"pulldown"] ? YES : NO];
     // Populate menu
-    NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
+    NSArray *items = [NSArray arrayWithArray:[self.options optValues:@"items"]];
 	if (items != nil && [items count]) {
 		NSEnumerator *en = [items objectEnumerator];
 		id obj;
 		while (obj = [en nextObject]) {
 			[popupControl addItemWithTitle:(NSString *)obj];
 		}
-        NSInteger selected = [options hasOpt:@"selected"] ? [[options optValue:@"selected"] integerValue] : 0;
+        NSInteger selected = [self.options hasOpt:@"selected"] ? [[self.options optValue:@"selected"] integerValue] : 0;
         [popupControl selectItemAtIndex:selected];
 	}
-	[self setTitleButtonsLabel:[options optValue:@"label"]];
+	[self setTitleButtonsLabel:[self.options optValue:@"label"]];
 }
 
 - (void) controlHasFinished:(int)button {

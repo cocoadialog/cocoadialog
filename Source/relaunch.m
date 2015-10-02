@@ -6,7 +6,7 @@
 //  Copyright (c) 2011 Mark Whitaker. All rights reserved.
 
 
-@import AtoZUniversal;
+@import AppKit;
 #import <unistd.h>
 
 @interface Relaunch : NSObject {

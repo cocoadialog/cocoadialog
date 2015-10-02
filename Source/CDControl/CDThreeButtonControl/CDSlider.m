@@ -29,42 +29,42 @@
 - (BOOL) validateOptions {
     // Check that we're in the right sub-class
     if (![self isMemberOfClass:[CDSlider class]]) {
-        if ([options hasOpt:@"debug"]) {
+        if ([self.options hasOpt:@"debug"]) {
 			[self debug:@"This run-mode is not properly classed."];
 		}
         return NO;
     }
 	// Check that at least button1 has been specified
-	if (![options optValue:@"button1"])	{
-		if ([options hasOpt:@"debug"]) {
+	if (![self.options optValue:@"button1"])	{
+		if ([self.options hasOpt:@"debug"]) {
 			[self debug:@"Must supply at least --button1"];
 		}
 		return NO;
 	}
     // Check that the --min value has been specified
-	if (![options optValue:@"min"])	{
-		if ([options hasOpt:@"debug"]) {
+	if (![self.options optValue:@"min"])	{
+		if ([self.options hasOpt:@"debug"]) {
 			[self debug:@"Must supply the --min value for the slider"];
 		}
 		return NO;
 	}
     else {
-        min = [[options optValue:@"min"] doubleValue];
+        min = [[self.options optValue:@"min"] doubleValue];
     }
     // Check that the --max value has been specified
-	if (![options optValue:@"max"])	{
-		if ([options hasOpt:@"debug"]) {
+	if (![self.options optValue:@"max"])	{
+		if ([self.options hasOpt:@"debug"]) {
 			[self debug:@"Must supply the --max value for the slider"];
 		}
 		return NO;
 	}
     else {
-        max = [[options optValue:@"max"] doubleValue];
+        max = [[self.options optValue:@"max"] doubleValue];
     }
-    if ([options hasOpt:@"value"]) {
-        value = [[options optValue:@"value"] doubleValue];
+    if ([self.options hasOpt:@"value"]) {
+        value = [[self.options optValue:@"value"] doubleValue];
         if (value < min || value > max) {
-            if ([options hasOpt:@"debug"]) {
+            if ([self.options hasOpt:@"debug"]) {
                 [self debug:@"The provided value for the option --value cannot be smaller than --min or greater than --max"];
             }
             return NO;
@@ -73,10 +73,10 @@
     else {
         value = min;
     }
-    if ([options hasOpt:@"empty-value"]) {
-        emptyValue = [[options optValue:@"empty-value"] doubleValue];
+    if ([self.options hasOpt:@"empty-value"]) {
+        emptyValue = [[self.options optValue:@"empty-value"] doubleValue];
         if (emptyValue < min || emptyValue > max) {
-            if ([options hasOpt:@"debug"]) {
+            if ([self.options hasOpt:@"debug"]) {
                 [self debug:@"The provided value for the option --empty-value cannot be smaller than --min or greater than --max"];
             }
             return NO;
@@ -85,10 +85,10 @@
     else {
         emptyValue = min;
     }
-    if ([options hasOpt:@"ticks"]) {
-        ticks = [[options optValue:@"ticks"] intValue];
+    if ([self.options hasOpt:@"ticks"]) {
+        ticks = [[self.options optValue:@"ticks"] intValue];
         if (ticks < min || ticks > max) {
-            if ([options hasOpt:@"debug"]) {
+            if ([self.options hasOpt:@"debug"]) {
                 [self debug:@"The provided value for the option --ticks cannot be smaller than --min or greater than --max"];
             }
             return NO;
@@ -115,11 +115,11 @@
 }
 
 - (void) createControl {
-	[self setTitleButtonsLabel:[options optValue:@"label"]];
+	[self setTitleButtonsLabel:[self.options optValue:@"label"]];
 }
 
 - (void) controlHasFinished:(int)button {
-    if ([options hasOpt:@"return-float"]) {
+    if ([self.options hasOpt:@"return-float"]) {
         [controlReturnValues addObject:[NSString stringWithFormat:@"%.2f", [[controlMatrix cellAtRow:0 column:0] doubleValue]]];
     }
     else {
@@ -132,14 +132,14 @@
     NSWindow *_panel = [panel panel];
     NSRect cmFrame = [controlMatrix frame];
     
-    NSView *sliderView = [[NSView alloc] initWithFrame:NSMakeRect(cmFrame.origin.x, (cmFrame.origin.y + cmFrame.size.height) - 17.0f, cmFrame.size.width, 14.0f)];
+    NSView *sliderView = [NSView.alloc initWithFrame:NSMakeRect(cmFrame.origin.x, (cmFrame.origin.y + cmFrame.size.height) - 17.0f, cmFrame.size.width, 14.0f)];
     [sliderView setAutoresizingMask:NSViewMinXMargin | NSViewMaxXMargin | NSViewMinYMargin];
 
     NSString *_sliderLabel = @"Choose a value:";
-    if ([options hasOpt:@"slider-label"] && ![[options optValue:@"slider-label"] isEqualToString:@""]) {
-        _sliderLabel = [options optValue:@"slider-label"];
+    if ([self.options hasOpt:@"slider-label"] && ![[self.options optValue:@"slider-label"] isEqualToString:@""]) {
+        _sliderLabel = [self.options optValue:@"slider-label"];
     }
-    sliderLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, cmFrame.size.width, 14.0f)];
+    sliderLabel = [NSTextField.alloc initWithFrame:NSMakeRect(0, 0, cmFrame.size.width, 14.0f)];
     [sliderLabel setBezeled:NO];
     [sliderLabel setDrawsBackground:NO];
     [sliderLabel setEditable:NO];
@@ -148,14 +148,14 @@
     [sliderLabel setStringValue:_sliderLabel];
     [sliderView addSubview:sliderLabel];
 
-    valueLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, cmFrame.size.width, 14.0f)];
+    valueLabel = [NSTextField.alloc initWithFrame:NSMakeRect(0, 0, cmFrame.size.width, 14.0f)];
     [valueLabel setBezeled:NO];
     [valueLabel setDrawsBackground:NO];
     [valueLabel setEditable:NO];
     [valueLabel setSelectable:NO];
     [valueLabel setAlignment:NSRightTextAlignment];
     [valueLabel setFont:[NSFont fontWithName:[[valueLabel font] fontName] size:10.0f]];
-    if (![options hasOpt:@"always-show-value"])
+    if (![self.options hasOpt:@"always-show-value"])
         [valueLabel setHidden:YES];
     [sliderView addSubview:valueLabel];
     
@@ -179,8 +179,8 @@
     [controlMatrix setMode:NSTrackModeMatrix];
     [controlMatrix setAllowsEmptySelection:YES];
     
-    CDSliderCell *slider = [[CDSliderCell alloc] init];
-    [slider setAlwaysShowValue:[options hasOpt:@"always-show-value"]];
+    CDSliderCell *slider = CDSliderCell.new;
+    [slider setAlwaysShowValue:[self.options hasOpt:@"always-show-value"]];
     [slider setDelegate:self];
     [slider setValueLabel:valueLabel];
     [slider setMinValue:min];
@@ -200,14 +200,14 @@
     cmFrame = [controlMatrix frame];
         
     if (ticks > 0) {
-        NSView *tickView = [[NSView alloc] initWithFrame:NSMakeRect(0.0f, cmFrame.origin.y - (cmFrame.size.height - oldHeight) - 17.0f, [_panel frame].size.width, 18.0f)];
+        NSView *tickView = [NSView.alloc initWithFrame:NSMakeRect(0.0f, cmFrame.origin.y - (cmFrame.size.height - oldHeight) - 17.0f, [_panel frame].size.width, 18.0f)];
         [tickView setAutoresizingMask:NSViewMinYMargin];
             
         NSUInteger count = [slider numberOfTickMarks];
         for (NSUInteger i = 0; i < count; i++) {
             CGFloat  length=cmFrame.size.width-2*10;
             CGFloat  position=floor((count==1)?length/2:i*(length/(count-1)));
-            NSTextField *tickLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(cmFrame.origin.x + 10.0f + position, 0, 0, 0)];
+            NSTextField *tickLabel = [NSTextField.alloc initWithFrame:NSMakeRect(cmFrame.origin.x + 10.0f + position, 0, 0, 0)];
             [tickLabel setBezeled:NO];
             [tickLabel setDrawsBackground:NO];
             [tickLabel setEditable:NO];
@@ -242,7 +242,7 @@
     NSSlider *slider = [controlMatrix cellAtRow:0 column:0];
     // Update the label
     NSString *label = @"";
-    if ([options hasOpt:@"return-float"]) {
+    if ([self.options hasOpt:@"return-float"]) {
         label = [NSString stringWithFormat:@"%.2f", [slider doubleValue]];
     }
     else {

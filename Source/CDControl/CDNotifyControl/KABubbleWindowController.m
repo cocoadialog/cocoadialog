@@ -29,7 +29,7 @@ static unsigned int bubbleWindowDepth = 0;
 							numExpectedBubbles:(int)numExpected
 								bubblePosition:(unsigned int)position
 {
-	id ret = [[[self alloc] initWithTextColor:textColor darkColor:darkColor lightColor:lightColor borderColor:borderColor numExpectedBubbles:numExpected bubblePosition:position] autorelease];
+	id ret = [[self.alloc initWithTextColor:textColor darkColor:darkColor lightColor:lightColor borderColor:borderColor numExpectedBubbles:numExpected bubblePosition:position] autorelease];
 	[ret setTitle:title];
 	[ret setTimeout:timeout];
 	if( [text isKindOfClass:[NSString class]] ) [ret setText:text];
@@ -47,7 +47,7 @@ static unsigned int bubbleWindowDepth = 0;
 {
 	extern unsigned int bubbleWindowDepth;
 
-	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0., 0., 270., 65. ) styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO] autorelease];
+	NSPanel *panel = [[NSPanel.alloc initWithContentRect:NSMakeRect( 0., 0., 270., 65. ) styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO] autorelease];
 	[panel setBecomesKeyOnlyIfNeeded:YES];
 	[panel setHidesOnDeactivate:NO];
 	[panel setBackgroundColor:[NSColor clearColor]];
@@ -59,7 +59,7 @@ static unsigned int bubbleWindowDepth = 0;
 	[panel setReleasedWhenClosed:YES];
 	[panel setDelegate:self];
 
-	KABubbleWindowView *view = [[[KABubbleWindowView alloc] initWithFrame:[panel frame]] autorelease];
+	KABubbleWindowView *view = [[KABubbleWindowView.alloc initWithFrame:[panel frame]] autorelease];
 	[view setTarget:self];
 	[view setAction:@selector( _bubbleClicked: )];
 	[view setDarkColor:darkColor];

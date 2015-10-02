@@ -13,7 +13,7 @@
 - (instancetype)initWithOptions:(CDOptions *)opts {
 	self = [super initWithOptions:opts];
     activeNotifications = 0;
-    notifications = [[NSMutableArray alloc] init];
+    notifications = @[].mutableCopy;
 	return self;
 }
 
@@ -114,8 +114,8 @@
 	NSArray *iconArgs;
 	NSEnumerator *en;
     
-	if ([options hasOpt:@"icons"] && [[options optValues:@"icons"] count]) {
-		iconArgs = [options optValues:@"icons"];
+	if ([self.options hasOpt:@"icons"] && [[self.options optValues:@"icons"] count]) {
+		iconArgs = [self.options optValues:@"icons"];
 		en = [iconArgs objectEnumerator];
 		NSString *iconName;
 		while (iconName = (NSString *)[en nextObject]) {
@@ -126,10 +126,10 @@
 			[icons addObject:_icon];
 		}
         
-	} else if ([options hasOpt:@"icon-files"]
-	           && [[options optValues:@"icon-files"] count])
+	} else if ([self.options hasOpt:@"icon-files"]
+	           && [[self.options optValues:@"icon-files"] count])
 	{
-		iconArgs = [options optValues:@"icon-files"];
+		iconArgs = [self.options optValues:@"icon-files"];
 		en = [iconArgs objectEnumerator];
 		NSString *fileName;
 		while (fileName = (NSString *)[en nextObject]) {
@@ -167,7 +167,7 @@
 #elif defined __ppc64__ || defined __x86_64__
         [args insertObject:@"-64" atIndex:0];
 #endif
-        NSTask *task = [[NSTask alloc] init];
+        NSTask *task = NSTask.new;
         // Output must be silenced to not hang this process
         [task setStandardError:[NSPipe pipe]];
         [task setStandardOutput:[NSPipe pipe]];

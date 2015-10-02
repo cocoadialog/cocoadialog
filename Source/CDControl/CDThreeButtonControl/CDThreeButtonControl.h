@@ -22,22 +22,27 @@
 #import "CDControl.h"
 
 @interface CDThreeButtonControl : CDControl {
-	IBOutlet NSTextField    *expandingLabel;
-    IBOutlet NSMatrix       *controlMatrix;
-	IBOutlet NSButton       *button1;
-	IBOutlet NSButton       *button2;
-	IBOutlet NSButton       *button3;
-    int                     cancelButton;
+
+  IBOutlet NSTextField    *expandingLabel;
+  IBOutlet NSMatrix       *controlMatrix;
+	IBOutlet NSButton       *button1, *button2, *button3;
+
+  int cancelButton;
 }
+
+@property (readonly) BOOL allowEmptyReturn;
+@property (getter=isReturnValueEmpty, readonly) BOOL returnValueEmpty;
+@property (readonly, copy) NSString *returnValueEmptyText;
+
 
 - (void) controlHasFinished:(int)button;
 
-- (IBAction) button1Pressed:(id)sender;
-- (IBAction) button2Pressed:(id)sender;
-- (IBAction) button3Pressed:(id)sender;
+- (IBAction) button1Pressed:b1;
+- (IBAction) button2Pressed:b2;
+- (IBAction) button3Pressed:b3;
 
-- (IBAction)setControl:(id)sender;
-- (void) setControl: (id)sender matrixRows:(NSInteger)rows matrixColumns:(NSInteger)columns items:(NSArray *)items precedence:(int)precedence;
+- (IBAction)setControl:sender;
+- (void) setControl:sender matrixRows:(NSInteger)rows matrixColumns:(NSInteger)columns items:(NSArray *)items precedence:(int)precedence;
 
 // This resizes too. Use it instead of the 3 contained method calls
 - (void) setTitleButtonsLabel:(NSString *)labelText;
@@ -46,10 +51,6 @@
 - (void) setLabel:(NSString *)labelText;
 
 - (void) setTitle:(NSString*)aTitle forButton:(NSButton*)aButton;
-
-@property (readonly) BOOL allowEmptyReturn;
-@property (getter=isReturnValueEmpty, readonly) BOOL returnValueEmpty;
-@property (readonly, copy) NSString *returnValueEmptyText;
 
 - (void) returnValueEmptySheet;
 - (void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;

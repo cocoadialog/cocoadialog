@@ -29,6 +29,7 @@ NSAttributedString * hyperlinkFromStringWithURLWithFont(NSString* inString, NSUR
 @property IBOutlet NSTextField * aboutAppLink, * aboutText;
 @property       NSMutableArray * arguments;
 @property            CDControl * currentControl;
+@property            CDOptions * options;
 @end
 
 @implementation AppController
@@ -41,7 +42,7 @@ NSAttributedString * hyperlinkFromStringWithURLWithFont(NSString* inString, NSUR
   // Initialize control
   currentControl = CDControl.new;
 
-  CDOptions *options = [CDOptions getOpts:arguments
+ [CDOptions getOpts:arguments
                             availableKeys:currentControl.globalAvailableKeys  ?: @{}
                           depreciatedKeys:currentControl.depreciatedKeys      ?: @{}];
   if (arguments.count >= 2) {
@@ -113,7 +114,7 @@ NSAttributedString * hyperlinkFromStringWithURLWithFont(NSString* inString, NSUR
       [currentControl runControl];
     } else {
 
-      if ([options hasOpt:@"debug"]) {
+      if ([self.options hasOpt:@"debug"]) {
 
         NSMutableDictionary *allKeys = !currentControl.availableKeys ? currentControl.globalAvailableKeys.mutableCopy : ({
 
@@ -127,7 +128,7 @@ NSAttributedString * hyperlinkFromStringWithURLWithFont(NSString* inString, NSUR
 
   else { // No currentControl !!
 
-    if ([options hasOpt:@"debug"] || [runMode isEqualToString:@"--debug"])
+    if ([self.options hasOpt:@"debug"] || [runMode isEqualToString:@"--debug"])
 
       [currentControl debug:@"No run-mode, or invalid runmode provided as first argument."];
 
@@ -254,7 +255,7 @@ NSAttributedString * hyperlinkFromStringWithURLWithFont(NSString* inString, NSUR
   [NSApp run];
 }
 
-@synthesize arguments, currentControl, aboutAppLink, aboutText, aboutPanel;
+@synthesize arguments, currentControl, aboutAppLink, aboutText, aboutPanel, options;
 
 @end
 

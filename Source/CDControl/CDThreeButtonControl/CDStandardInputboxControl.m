@@ -36,7 +36,7 @@
 
 - (void) setButtons {
 	[button1 setTitle:@"Okay"];
-	if ([options hasOpt:@"no-cancel"]) {
+	if ([self.options hasOpt:@"no-cancel"]) {
 		[button2 setEnabled:NO];
 		[button2 setHidden:YES];
 	} else {

@@ -8,7 +8,7 @@
 
 #import "CDCommon.h"
 
-@implementation CDCommon
+@implementation CDCommon @synthesize options;
 
 - (void) debug:(NSString *)message {
 
@@ -17,6 +17,6 @@
                                                          dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
-- initWithOptions:(CDOptions *)opts { return self = super.init ? ({ if (opts) options = opts; }), self : nil; }
+- initWithOptions:(CDOptions *)opts { return self = super.init ? options = opts, self : nil; }
 
 @end

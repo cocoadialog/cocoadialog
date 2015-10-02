@@ -46,24 +46,24 @@
     NSOpenPanel *openPanel = (NSOpenPanel *)savePanel;
     
 	// set select-multiple
-	if ([options hasOpt:@"select-multiple"]) {
+	if ([self.options hasOpt:@"select-multiple"]) {
 		[openPanel setAllowsMultipleSelection:YES];
 	} else {
 		[openPanel setAllowsMultipleSelection:NO];
 	}
 
 	// set select-directories
-	if ([options hasOpt:@"select-directories"]) {
+	if ([self.options hasOpt:@"select-directories"]) {
 		[openPanel setCanChooseDirectories:YES];
 	} else {
 		[openPanel setCanChooseDirectories:NO];
 	}
-	if ([options hasOpt:@"select-only-directories"]) {
+	if ([self.options hasOpt:@"select-only-directories"]) {
 		[openPanel setCanChooseDirectories:YES];
 		[openPanel setCanChooseFiles:NO];
 	}
 	
-	if ([options hasOpt:@"packages-as-directories"]) {
+	if ([self.options hasOpt:@"packages-as-directories"]) {
 		[openPanel setTreatsFilePackagesAsDirectories:YES];
 	} else {
 		[openPanel setTreatsFilePackagesAsDirectories:NO];
@@ -71,17 +71,17 @@
 
 	// set starting file (to be used later with 
 	// runModal...) - doesn't work.
-	if ([options optValue:@"with-file"] != nil) {
-		file = [options optValue:@"with-file"];
+	if ([self.options optValue:@"with-file"] != nil) {
+		file = [self.options optValue:@"with-file"];
 	}
 	// set starting directory (to be used later with runModal...)
-	if ([options optValue:@"with-directory"] != nil) {
-		dir = [options optValue:@"with-directory"];
+	if ([self.options optValue:@"with-directory"] != nil) {
+		dir = [self.options optValue:@"with-directory"];
 	}
     
     // Only check for dir or file path existance if debug is enabled.
-    if ([options hasOpt:@"debug"]) {
-        NSFileManager *fm = [[NSFileManager alloc] init];
+    if ([self.options hasOpt:@"debug"]) {
+        NSFileManager *fm = NSFileManager.new;
         // Directory
         if (dir != nil && ![fm fileExistsAtPath:dir]) {
             [self debug:[NSString stringWithFormat:@"Option --with-directory specifies a directory that does not exist: %@", dir]];
@@ -123,7 +123,7 @@
                 dir = [dir stringByAppendingString:@"/"];
                 dir = [dir stringByAppendingString:file];
             }
-            NSURL * url = [[NSURL alloc] initFileURLWithPath:dir];
+            NSURL * url = [NSURL.alloc initFileURLWithPath:dir];
             [openPanel setDirectoryURL:url];
         }
         result = [openPanel runModal];
@@ -149,8 +149,8 @@
         NSString* extension = [filename pathExtension];
         extensionAllowed = [extensions containsObject:extension];
     }
-    if ([options hasOpt:@"allowed-files"]) {
-        NSArray *allowedFiles = [options optValues:@"allowed-files"];
+    if ([self.options hasOpt:@"allowed-files"]) {
+        NSArray *allowedFiles = [self.options optValues:@"allowed-files"];
         if (allowedFiles != nil && [allowedFiles count]) {
             if ([allowedFiles containsObject:[filename lastPathComponent]]) {
                 return YES;

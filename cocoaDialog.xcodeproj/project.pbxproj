@@ -166,7 +166,7 @@
 		61EC906D145FACF8003ADF05 /* CDCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDCommon.h; path = Source/CDCommon.h; sourceTree = "<group>"; };
 		61EC906E145FACF8003ADF05 /* CDCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDCommon.m; path = Source/CDCommon.m; sourceTree = "<group>"; };
 		61EC9070145FACF8003ADF05 /* CDControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDControl.h; sourceTree = "<group>"; };
-		61EC9071145FACF8003ADF05 /* CDControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDControl.m; sourceTree = "<group>"; };
+		61EC9071145FACF8003ADF05 /* CDControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDControl.m; sourceTree = "<group>"; wrapsLines = 1; };
 		61EC9073145FACF8003ADF05 /* CDFileDialogControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDFileDialogControl.h; sourceTree = "<group>"; };
 		61EC9074145FACF8003ADF05 /* CDFileDialogControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDFileDialogControl.m; sourceTree = "<group>"; };
 		61EC9076145FACF8003ADF05 /* CDFileSaveControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDFileSaveControl.m; sourceTree = "<group>"; };
@@ -221,10 +221,12 @@
 		61EC90EA145FB0A0003ADF05 /* CDSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDSlider.h; sourceTree = "<group>"; };
 		61EC90EB145FB0A0003ADF05 /* CDSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDSlider.m; sourceTree = "<group>"; };
 		61FA9D2014518E97006E0674 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
+		7B22D90B1BBF25B800525FB5 /* progressbar.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; name = progressbar.py; path = Examples/progressbar.py; sourceTree = SOURCE_ROOT; };
+		7B22D90C1BBF260C00525FB5 /* progressbar.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = progressbar.sh; path = Examples/progressbar.sh; sourceTree = SOURCE_ROOT; };
 		7BDF56271AEBE163004812DE /* Dialogs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Dialogs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BDF562B1AEBE163004812DE /* Dialogs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Dialogs.h; path = Source/Dialogs.h; sourceTree = "<group>"; };
 		7BF9CC731AEBED350058B25F /* dialogsTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = dialogsTest; sourceTree = BUILT_PRODUCTS_DIR; };
-		7BF9CC751AEBED350058B25F /* dialogsTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = dialogsTest.m; path = ../Source/dialogsTest.m; sourceTree = "<group>"; };
+		7BF9CC751AEBED350058B25F /* dialogsTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = dialogsTest.m; path = ../Examples/dialogsTest.m; sourceTree = "<group>"; };
 		7BF9CCC91AEBFBAA0058B25F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Resources/Images.xcassets; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* cocoaDialog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cocoaDialog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A78A8C9514375704007AE363 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
@@ -292,6 +294,7 @@
 				61EC90A7145FACF8003ADF05 /* CDOptions.h */,
 				61EC90A8145FACF8003ADF05 /* CDOptions.m */,
 				61EC906F145FACF8003ADF05 /* Controls */,
+				7B22D90D1BBF2DBC00525FB5 /* Examples */,
 				7BDF56281AEBE163004812DE /* App + Relaunch + Demo */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -302,25 +305,12 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				7BF9CCC91AEBFBAA0058B25F /* Images.xcassets */,
-				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				7B22D90A1BBF249B00525FB5 /* App */,
 				A78A8C9414375703007AE363 /* Configurations */,
 				A78A8CDE14377610007AE363 /* CHANGELOG */,
-				61FA9D2014518E97006E0674 /* dsa_pub.pem */,
-				A78A8CB5143759ED007AE363 /* InfoPlist.strings */,
-				A78A8CB7143759ED007AE363 /* MainMenu.xib */,
-				A78A8CE8143784A8007AE363 /* Growl.framework */,
-				A78A8D2E1437AC29007AE363 /* Sparkle.framework */,
 				7BF9CC971AEBF91D0058B25F /* Framework */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		61EC906F145FACF8003ADF05 /* Controls */ = {
@@ -414,10 +404,33 @@
 			path = CDThreeButtonControl;
 			sourceTree = "<group>";
 		};
+		7B22D90A1BBF249B00525FB5 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				61FA9D2014518E97006E0674 /* dsa_pub.pem */,
+				A78A8CB5143759ED007AE363 /* InfoPlist.strings */,
+				7BF9CCC91AEBFBAA0058B25F /* Images.xcassets */,
+				A78A8CB7143759ED007AE363 /* MainMenu.xib */,
+				A78A8CE8143784A8007AE363 /* Growl.framework */,
+				A78A8D2E1437AC29007AE363 /* Sparkle.framework */,
+			);
+			name = App;
+			sourceTree = "<group>";
+		};
+		7B22D90D1BBF2DBC00525FB5 /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				7B22D90B1BBF25B800525FB5 /* progressbar.py */,
+				7B22D90C1BBF260C00525FB5 /* progressbar.sh */,
+				7BF9CC751AEBED350058B25F /* dialogsTest.m */,
+			);
+			name = Examples;
+			path = Source;
+			sourceTree = "<group>";
+		};
 		7BDF56281AEBE163004812DE /* App + Relaunch + Demo */ = {
 			isa = PBXGroup;
 			children = (
-				7BF9CC751AEBED350058B25F /* dialogsTest.m */,
 				61EC90A9145FACF8003ADF05 /* CDUpdate.h */,
 				61EC90AA145FACF8003ADF05 /* CDUpdate.m */,
 				61EC906C145FACF8003ADF05 /* AppController.m */,
@@ -645,7 +658,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# written by Kevin Hendricks\n\n# create a named pipe\nrm -f /tmp/hpipe\nmkfifo /tmp/hpipe\n\n# create a background job which takes its input     the named pipe\n\"${SCRIPT_INPUT_FILE_0}\" progressbar --indeterminate --title \"My Program\" --text \"Please wait...\" < /tmp/hpipe &\n\n# associate file descriptor 3 with that pipe and send a character through the pipe\nexec 3<> /tmp/hpipe\necho -n . >&3\n\n# do all of your work here\nsleep 4\n\n# now turn off the progress bar by closing file descriptor 3\nexec 3>&-\n\n# wait for all background jobs to exit\nwait\nrm -f /tmp/hpipe\nexit 0\n";
+			shellScript = "\nfor x in sh py; do\n    Resources/progressbar.${x} \"${SCRIPT_INPUT_FILE_0}\"\ndone\n";
 		};
 		7BF9CC6E1AEBEC6E0058B25F /* PYTHON progress bar */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -673,8 +686,8 @@
 				"/usr/local/bin/cocoa-dialog",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/zsh;
-			shellScript = "# /server/repositories/github/sparkle-release/src/sparkle-release\n\nCLI_NAME=cocoa-dialog\n\n# mkdir -p \"${SCRIPT_OUTPUT_FILE_0}\"\n\nEXE=\"${SCRIPT_OUTPUT_FILE_0}\"\n\n# This installs a simple launcher to /usr/local/bin\necho \"#!/bin/zsh\nexec ${SCRIPT_INPUT_FILE_0} \\\"\\$@\\\"\"> \"$EXE\" && chmod +x \"$EXE\"\n\n/xbin/finder reveal \"$EXE\"\n";
+			shellPath = /bin/sh;
+			shellScript = "\n# /server/repositories/github/sparkle-release/src/sparkle-release\n\nCLI_NAME=cocoa-dialog\n\n# mkdir -p \"${SCRIPT_OUTPUT_FILE_0}\"\n\nEXE=\"${SCRIPT_OUTPUT_FILE_0}\"\n\n# This installs a simple launcher to /usr/local/bin\necho \"#!/bin/sh\nexec ${SCRIPT_INPUT_FILE_0} \\\"\\$@\\\"\"> \"$EXE\" && chmod +x \"$EXE\"\n\nsay \"$(dirname $EXE)\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

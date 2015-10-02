@@ -34,20 +34,20 @@
 
 - (BOOL) validateOptions {
     BOOL pass = YES;
-    if ([options hasOpt:@"title"]) {
-        if (![options hasOpt:@"description"]) {
+    if ([self.options hasOpt:@"title"]) {
+        if (![self.options hasOpt:@"description"]) {
             pass = NO;
         }
     }
-    else if ([options hasOpt:@"titles"]) {
-        if (![options hasOpt:@"descriptions"]) {
+    else if ([self.options hasOpt:@"titles"]) {
+        if (![self.options hasOpt:@"descriptions"]) {
             pass = NO;
         }
     }
     else {
         pass = NO;
     }
-    if (!pass && [options hasOpt:@"debug"]) {
+    if (!pass && [self.options hasOpt:@"debug"]) {
         [self debug:@"You must specify either --title and --description, or --titles and --descriptions (with the same number of args)"];
     }
     return pass;
@@ -57,23 +57,23 @@
     [panel setPanelEmpty];
 
     NSString *clickPath = @"";
-    if ([options hasOpt:@"click-path"]) {
-        clickPath = [options optValue:@"click-path"];
+    if ([self.options hasOpt:@"click-path"]) {
+        clickPath = [self.options optValue:@"click-path"];
     }
     
     NSString *clickArg = @"";
-    if ([options hasOpt:@"click-arg"]) {
-        clickArg = [options optValue:@"click-arg"];
+    if ([self.options hasOpt:@"click-arg"]) {
+        clickArg = [self.options optValue:@"click-arg"];
     }
     
-	NSArray *titles = [options optValues:@"titles"];
-    NSArray *descriptions = [options optValues:@"descriptions"];
+	NSArray *titles = [self.options optValues:@"titles"];
+    NSArray *descriptions = [self.options optValues:@"descriptions"];
     
     NSNumber * priority = @0;
-    if ([options hasOpt:@"priority"]) {
-        priority = @([[options optValue:@"priority"] intValue]);
+    if ([self.options hasOpt:@"priority"]) {
+        priority = @([[self.options optValue:@"priority"] intValue]);
     }
-    BOOL sticky = [options hasOpt:@"sticky"];
+    BOOL sticky = [self.options hasOpt:@"sticky"];
     // Multiple notifications
 	if (descriptions != nil && [descriptions count] && titles != nil && [titles count] && [titles count] == [descriptions count]) {
 		NSArray *givenIconImages = [self notificationIcons];
@@ -96,9 +96,9 @@
 				[icons addObject:defaultIcon];
 			}
 		}
-        NSArray * priorities = [NSArray arrayWithArray:[options optValues:@"priorities"]];
-        NSArray * clickPaths = [NSArray arrayWithArray:[options optValues:@"click-paths"]];
-        NSArray * clickArgs = [NSArray arrayWithArray:[options optValues:@"click-args"]];
+        NSArray * priorities = [NSArray arrayWithArray:[self.options optValues:@"priorities"]];
+        NSArray * clickPaths = [NSArray arrayWithArray:[self.options optValues:@"click-paths"]];
+        NSArray * clickArgs = [NSArray arrayWithArray:[self.options optValues:@"click-args"]];
 		// Create the bubbles
 		for (i = 0; i < [descriptions count]; i++) {
 			NSImage *_icon = fallbackIcon == nil ? (NSImage *)icons[i] : fallbackIcon;
@@ -114,10 +114,10 @@
 		}
     }
     // Single notification
-    else if ([options hasOpt:@"title"] && [options hasOpt:@"description"]) {
+    else if ([self.options hasOpt:@"title"] && [self.options hasOpt:@"description"]) {
         NSImage * _icon = [icon iconWithDefault];
-        [self addNotificationWithTitle:[options optValue:@"title"]
-                           description:[options optValue:@"description"]
+        [self addNotificationWithTitle:[self.options optValue:@"title"]
+                           description:[self.options optValue:@"description"]
                                   icon:_icon
                               priority:priority
                                 sticky:sticky

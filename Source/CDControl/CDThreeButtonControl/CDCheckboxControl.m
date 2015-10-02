@@ -50,22 +50,22 @@
 - (BOOL) validateOptions {
     // Check that we're in the right sub-class
     if (![self isMemberOfClass:[CDCheckboxControl class]]) {
-        if ([options hasOpt:@"debug"]) {
+        if ([self.options hasOpt:@"debug"]) {
 			[self debug:@"This run-mode is not properly classed."];
 		}
         return NO;
     }
 	// Check that at least button1 has been specified
-	if (![options optValue:@"button1"])	{
-		if ([options hasOpt:@"debug"]) {
+	if (![self.options optValue:@"button1"])	{
+		if ([self.options hasOpt:@"debug"]) {
 			[self debug:@"Must supply at least --button1"];
 		}
 		return NO;
 	}
     // Check that at least one item has been specified
-    NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
+    NSArray *items = [NSArray arrayWithArray:[self.options optValues:@"items"]];
     if (![items count]) { 
-		if ([options hasOpt:@"debug"]) {
+		if ([self.options hasOpt:@"debug"]) {
 			[self debug:@"Must supply at least one --items"];
 		}
 		return NO;
@@ -74,11 +74,11 @@
     return YES;
 }
 - (void) createControl {
-	[self setTitleButtonsLabel:[options optValue:@"label"]];
+	[self setTitleButtonsLabel:[self.options optValue:@"label"]];
 
 	// set return values 
     NSArray * cells = [controlMatrix cells];
-    NSMutableArray *tmpValues = [[NSMutableArray alloc] init];
+    NSMutableArray *tmpValues = @[].mutableCopy;
     NSEnumerator *en = [cells objectEnumerator];
     id obj;
     while (obj = [en nextObject]) {
@@ -94,7 +94,7 @@
 }
 
 - (void) controlHasFinished:(int)button {
-    NSMutableArray *checkboxesArray = [[NSMutableArray alloc] init];
+    NSMutableArray *checkboxesArray = @[].mutableCopy;
     NSEnumerator *en = [checkboxes objectEnumerator];
     id obj;
 	if ([[self options] hasOpt:@"string-output"]) {
@@ -124,19 +124,19 @@
 
 - (void) setControl:(id)sender {
     // Setup the control
-    NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
-    NSArray *checked = [[NSArray alloc] init];
-    NSArray *mixed = [[NSArray alloc] init];
-    NSArray *disabled = [[NSArray alloc] init];
+    NSArray *items = [NSArray arrayWithArray:[self.options optValues:@"items"]];
+    NSArray *checked = NSArray.new;
+    NSArray *mixed = NSArray.new;
+    NSArray *disabled = NSArray.new;
     
-    if ([options hasOpt:@"checked"]) {
-        checked = [options optValues:@"checked"];
+    if ([self.options hasOpt:@"checked"]) {
+        checked = [self.options optValues:@"checked"];
     }
-    if ([options hasOpt:@"mixed"]) {
-        mixed = [options optValues:@"mixed"];
+    if ([self.options hasOpt:@"mixed"]) {
+        mixed = [self.options optValues:@"mixed"];
     }
-    if ([options hasOpt:@"disabled"]) {
-        disabled = [options optValues:@"disabled"];
+    if ([self.options hasOpt:@"disabled"]) {
+        disabled = [self.options optValues:@"disabled"];
     }
     
     // Set default precedence: columns, if both are present or neither are present
@@ -145,8 +145,8 @@
     // Set default number of columns
     unsigned long columns = 1;
     // Set specified number of columns
-    if ([options hasOpt:@"columns"]) {
-        columns = [[options optValue:@"columns"] intValue];
+    if ([self.options hasOpt:@"columns"]) {
+        columns = [[self.options optValue:@"columns"] intValue];
         if (columns < 1) {
             columns = 1;
         }
@@ -155,8 +155,8 @@
     // Set default number of rows
     unsigned long rows = 1;
     // Set specified number of rows
-    if ([options hasOpt:@"rows"]) {
-        rows = [[options optValue:@"rows"] intValue];
+    if ([self.options hasOpt:@"rows"]) {
+        rows = [[self.options optValue:@"rows"] intValue];
         if (rows < 1) {
             rows = 1;
         }
@@ -165,7 +165,7 @@
         }
         // User has specified number of rows, but not columns.
         // Set precedence to expand columns, not rows
-        if (![options hasOpt:@"columns"]) {
+        if (![self.options hasOpt:@"columns"]) {
             matrixPrecedence = 1;
         }
     }
@@ -174,7 +174,7 @@
     rows = [controlMatrix numberOfRows];
     columns = [controlMatrix numberOfColumns];
     
-    NSMutableArray * controls = [[NSMutableArray alloc] init];
+    NSMutableArray * controls = @[].mutableCopy;
     
     // Create the control for each item
     unsigned long currItem = 0;
@@ -182,7 +182,7 @@
     float cellWidth = 0.0;
     id obj;
     while (obj = [en nextObject]) {
-        NSButton * button = [[NSButton alloc] init];
+        NSButton * button = NSButton.new;
         [button setButtonType:NSSwitchButton];
         [button setTitle:items[currItem]];
         if (checked != nil && [checked count]) {
@@ -225,7 +225,7 @@
                 currItem++;
             }
             else {
-                NSCell * blankCell = [[NSCell alloc] init];
+                NSCell * blankCell = NSCell.new;
                 [blankCell setType:NSNullCellType];
                 [blankCell setEnabled:NO];
                 [controlMatrix putCell:blankCell atRow:currRow column:currColumn];

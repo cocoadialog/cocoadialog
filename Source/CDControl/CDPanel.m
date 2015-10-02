@@ -24,23 +24,24 @@
 
 
 - (NSSize) findNewSize {
-	NSSize size = NSZeroSize;
-	NSSize oldSize;
+
+	NSSize size = NSZeroSize, oldSize;
 	NSString *width, *height;
-	if (options == nil || panel == nil) {
-		return size;
-	}
-	size = [[panel contentView] frame].size;
+
+	if (!self.options || !panel) return size;
+
+	size = [panel.contentView frame].size;
+  
 	oldSize.width = size.width;
 	oldSize.height = size.height;
-	if ([options hasOpt:@"width"]) {
-		width = [options optValue:@"width"];
+	if ([self.options hasOpt:@"width"]) {
+		width = [self.options optValue:@"width"];
 		if ([width floatValue] != 0.0) {
 			size.width = [width floatValue];
 		}
 	}
-	if ([options hasOpt:@"height"]) {
-		height = [options optValue:@"height"];
+	if ([self.options hasOpt:@"height"]) {
+		height = [self.options optValue:@"height"];
 		if ([height floatValue] != 0.0) {
 			size.height = [height floatValue];
 		}
@@ -74,7 +75,7 @@
 }
 - (void) setFloat {
     if (panel != nil) {
-        if ([options hasOpt:@"no-float"]) {
+        if ([self.options hasOpt:@"no-float"]) {
             [panel setFloatingPanel:NO];
             [panel setLevel:NSNormalWindowLevel];
         }
@@ -86,7 +87,7 @@
     }
 }
 - (void) setPanelEmpty {
-    panel = [[NSPanel alloc] initWithContentRect:NSMakeRect(0, 0, 0, 0)
+    panel = [NSPanel.alloc initWithContentRect:NSMakeRect(0, 0, 0, 0)
                                                 styleMask:NSBorderlessWindowMask
                                                   backing:NSBackingStoreBuffered
                                                     defer:NO];
@@ -99,8 +100,8 @@
     id posX;
     id posY;
     // Has posX option
-	if ([options hasOpt:@"posX"]) {
-		posX = [options optValue:@"posX"];
+	if ([self.options hasOpt:@"posX"]) {
+		posX = [self.options optValue:@"posX"];
         // Left
 		if ([posX caseInsensitiveCompare:@"left"] == NSOrderedSame) {
             leftPoint = padding;
@@ -123,8 +124,8 @@
         leftPoint = (NSWidth(screen)-NSWidth([panel frame]))/2 - padding;
 	}
     // Has posY option
-	if ([options hasOpt:@"posY"]) {
-		posY = [options optValue:@"posY"];
+	if ([self.options hasOpt:@"posY"]) {
+		posY = [self.options optValue:@"posY"];
         // Bottom
 		if ([posY caseInsensitiveCompare:@"bottom"] == NSOrderedSame) {
             topPoint = NSMinY(screen) + padding + NSHeight([panel frame]);
@@ -151,8 +152,8 @@
 
 - (void)setTitle {
     // set title
-	if ([options optValue:@"title"] != nil) {
-		[panel setTitle:[options optValue:@"title"]];
+	if ([self.options optValue:@"title"] != nil) {
+		[panel setTitle:[self.options optValue:@"title"]];
 	}
     else {
         [panel setTitle:@"cocoaDialog"];

@@ -50,10 +50,10 @@
     // Add extra control
     [icon addControl:text];
 	// add the main bold text
-	if ([options optValue:@"alert"]) {
-		[text setStringValue:[options optValue:@"alert"]];
+	if ([self.options optValue:@"alert"]) {
+		[text setStringValue:[self.options optValue:@"alert"]];
 	}
-	[self setTitleButtonsLabel:[options optValue:@"label"]];
+	[self setTitleButtonsLabel:[self.options optValue:@"label"]];
 }
 
 @end

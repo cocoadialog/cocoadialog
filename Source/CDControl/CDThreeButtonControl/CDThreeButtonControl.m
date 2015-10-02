@@ -211,12 +211,12 @@
 
 	float minWidth = 2 * 20.0f; // margin
 	for (i = 0; i != sizeof(buttons)/sizeof(buttons[0]); i++) {
-		[self setTitle:[options optValue:buttons[i].key] forButton:buttons[i].button];
-        if ([[self options] hasOpt:@"cancel"] && [[options optValue:@"cancel"] isEqualToString:buttons[i].key]) {
+		[self setTitle:[self.options optValue:buttons[i].key] forButton:buttons[i].button];
+        if ([[self options] hasOpt:@"cancel"] && [[self.options optValue:@"cancel"] isEqualToString:buttons[i].key]) {
             [buttons[i].button setKeyEquivalent:@"\e"];
             cancelButton = i+1;
         }
-        else if ([[options optValue:buttons[i].key] isEqualToString:@"Cancel"]) {
+        else if ([[self.options optValue:buttons[i].key] isEqualToString:@"Cancel"]) {
             [buttons[i].button setKeyEquivalent:@"\e"];
             cancelButton = i+1;
         }
@@ -251,8 +251,8 @@
         float labelHeightDiff = labelNewHeight - labelRect.size.height;
         if (![labelText isEqualToString:@""]) {
             [expandingLabel setStringValue:labelText];
-            NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: labelText]autorelease];
-            NSTextContainer *textContainer = [[[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)] autorelease];
+            NSTextStorage *textStorage = [[NSTextStorage.alloc initWithString: labelText]autorelease];
+            NSTextContainer *textContainer = [[NSTextContainer.alloc initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)] autorelease];
             NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease];
             [layoutManager addTextContainer: textContainer];
             [textStorage addLayoutManager: layoutManager];
@@ -280,8 +280,8 @@
         float labelHeightDiff = labelNewHeight - labelRect.size.height;
         [timeoutLabel setStringValue:[self formatSecondsForString:(int)timeout]];
         if (![[timeoutLabel stringValue] isEqualToString:@""] && timeout != 0.0f) {
-            NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: [timeoutLabel stringValue]]autorelease];
-            NSTextContainer *textContainer = [[[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)] autorelease];
+            NSTextStorage *textStorage = [[NSTextStorage.alloc initWithString: [timeoutLabel stringValue]]autorelease];
+            NSTextContainer *textContainer = [[NSTextContainer.alloc initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)] autorelease];
             NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease];
             [layoutManager addTextContainer: textContainer];
             [textStorage addLayoutManager: layoutManager];
@@ -310,7 +310,7 @@
 }
 
 - (BOOL)allowEmptyReturn {
-    return ![options hasOpt:@"value-required"];
+    return ![self.options hasOpt:@"value-required"];
 }
 
 // This must be subclassed for each control. Each control must provide additional logic pertaining to their specific return values
@@ -324,10 +324,10 @@
 
 - (void) returnValueEmptySheet {
     NSString *message = [self returnValueEmptyText];
-    if ([options hasOpt:@"empty-text"]) {
-        message = [options optValue:@"empty-text"];
+    if ([self.options hasOpt:@"empty-text"]) {
+        message = [self.options optValue:@"empty-text"];
     }
-    NSAlert *alertSheet = [[NSAlert alloc] init];
+    NSAlert *alertSheet = NSAlert.new;
     [alertSheet addButtonWithTitle:@"Okay"];
     [alertSheet setIcon:[icon iconFromName:@"caution"]];
     [alertSheet setMessageText:message];

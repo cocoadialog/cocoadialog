@@ -100,7 +100,7 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 	if( [_icon size].width > 32. || [_icon size].height > 32. ) { // Assume a square image.
 		NSImageRep *sourceImageRep = [_icon bestRepresentationForDevice:nil];
 		[_icon autorelease];
-		_icon = [[NSImage alloc] initWithSize:NSMakeSize( 32., 32. )];
+		_icon = [NSImage.alloc initWithSize:NSMakeSize( 32., 32. )];
 		[_icon lockFocus];
 		[[NSGraphicsContext currentContext] setImageInterpolation: NSImageInterpolationHigh];
 		[sourceImageRep drawInRect:NSMakeRect( 0., 0., 32., 32. )];
@@ -141,7 +141,7 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 	} else {
 		color = [NSColor controlTextColor];
 	}
-	_text = [[NSAttributedString alloc] initWithString:text attributes:@{NSFontAttributeName: [NSFont messageFontOfSize:11.], NSForegroundColorAttributeName: color}];
+	_text = [NSAttributedString.alloc initWithString:text attributes:@{NSFontAttributeName: [NSFont messageFontOfSize:11.], NSForegroundColorAttributeName: color}];
 	[self setNeedsDisplay:YES];
 }
 

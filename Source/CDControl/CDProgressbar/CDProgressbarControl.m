@@ -67,7 +67,7 @@
 
 -(void) confirmStop
 {
-	confirmationSheet = [[NSAlert alloc] init];
+	confirmationSheet = NSAlert.new;
 	[confirmationSheet addButtonWithTitle:@"Stop"];
 	[confirmationSheet addButtonWithTitle:@"Cancel"];
 	[confirmationSheet setMessageText:@"Are you sure you want to stop?"];
@@ -107,14 +107,14 @@
 	[icon addControl:progressBar];
 
 	// set text label
-	if ([options optValue:@"text"]) {
-		[expandingLabel setStringValue:[options optValue:@"text"]];
+	if ([self.options optValue:@"text"]) {
+		[expandingLabel setStringValue:[self.options optValue:@"text"]];
 	} else {
 		[expandingLabel setStringValue:@""];
 	}
 	
 	// hide stop button if not stoppable and resize window/controls
-	if (![options hasOpt:@"stoppable"]) {
+	if (![self.options hasOpt:@"stoppable"]) {
 		NSRect progressBarFrame = [progressBar frame];
 
 		NSRect currentWindowFrame = [[panel panel] frame];
@@ -131,27 +131,27 @@
 
 	[panel resize];
 	
-	CDProgressbarInputHandler *inputHandler = [[CDProgressbarInputHandler alloc] init];
+	CDProgressbarInputHandler *inputHandler = CDProgressbarInputHandler.new;
 	[inputHandler setDelegate:self];
 
 	[progressBar setMinValue:CDProgressbarMIN];
 	[progressBar setMaxValue:CDProgressbarMAX];
 	
 	// set initial percent
-	if ([options optValue:@"percent"]) {
+	if ([self.options optValue:@"percent"]) {
 		double initialPercent;
-		if ([inputHandler parseString:[options optValue:@"percent"] intoProgress:&initialPercent]) {
+		if ([inputHandler parseString:[self.options optValue:@"percent"] intoProgress:&initialPercent]) {
 			[progressBar setDoubleValue:initialPercent];
 		}
 	}
 		
 	//set window title
-	if ([options optValue:@"title"]) {
-		[[panel panel] setTitle:[options optValue:@"title"]];
+	if ([self.options optValue:@"title"]) {
+		[[panel panel] setTitle:[self.options optValue:@"title"]];
 	}
 
 	// set indeterminate
-	if ([options hasOpt:@"indeterminate"]) {
+	if ([self.options hasOpt:@"indeterminate"]) {
 		[progressBar setIndeterminate:YES];
 		[progressBar startAnimation:self];
 	} else {

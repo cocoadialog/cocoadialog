@@ -38,16 +38,16 @@
 	NSString *file = @"";
 	NSString *dir = nil;
 	
-  [self setOptions:options];
+//  [self setOptions:options];
 	[self setMisc];
 
-	if ([options hasOpt:@"packages-as-directories"]) {
+	if ([self.options hasOpt:@"packages-as-directories"]) {
 		[savePanel setTreatsFilePackagesAsDirectories:YES];
 	} else {
 		[savePanel setTreatsFilePackagesAsDirectories:NO];
 	}
 
-	if ([options hasOpt:@"no-create-directories"]) {
+	if ([self.options hasOpt:@"no-create-directories"]) {
 		[savePanel setCanCreateDirectories:NO];
 	} else {
 		[savePanel setCanCreateDirectories:YES];
@@ -55,17 +55,17 @@
 
 	// set starting file (to be used later with 
 	// runModal...) - doesn't work.
-	if ([options optValue:@"with-file"] != nil) {
-		file = [options optValue:@"with-file"];
+	if ([self.options optValue:@"with-file"] != nil) {
+		file = [self.options optValue:@"with-file"];
 	}
 	// set starting directory (to be used later with runModal...)
-	if ([options optValue:@"with-directory"] != nil) {
-		dir = [options optValue:@"with-directory"];
+	if ([self.options optValue:@"with-directory"] != nil) {
+		dir = [self.options optValue:@"with-directory"];
 	}
     
     // Only check for dir or file path existance if debug is enabled.
-    if ([options hasOpt:@"debug"]) {
-        NSFileManager *fm = [[NSFileManager alloc] init];
+    if ([self.options hasOpt:@"debug"]) {
+        NSFileManager *fm = NSFileManager.new;
         // Directory
         if (dir != nil && ![fm fileExistsAtPath:dir]) {
             [self debug:[NSString stringWithFormat:@"Option --with-directory specifies a directory that does not exist: %@", dir]];
@@ -90,7 +90,7 @@
     }
     else {
         if (dir != nil) {
-            NSURL * url = [[NSURL alloc] initFileURLWithPath:dir];
+            NSURL * url = [NSURL.alloc initFileURLWithPath:dir];
             [savePanel setDirectoryURL:url];
         }
         [savePanel setNameFieldStringValue:file];

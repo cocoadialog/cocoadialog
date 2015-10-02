@@ -13,7 +13,7 @@
 {
     self = [super init];
     if (self) {
-        buffer = [[NSMutableData alloc] initWithCapacity:2048];
+        buffer = [NSMutableData.alloc initWithCapacity:2048];
     }
     
     return self;
@@ -51,9 +51,9 @@
             if ([self getLastNewlinePosition:&lastNewline inData:buffer]) {
                 NSData* readStrings = [buffer subdataWithRange:NSMakeRange(0, lastNewline + 1)];
                 NSData* rest = [buffer subdataWithRange:NSMakeRange(lastNewline + 1, [buffer length] - (lastNewline + 1))];
-                buffer = [[NSMutableData alloc] initWithData:rest];
+                buffer = [NSMutableData.alloc initWithData:rest];
 
-                NSString* result = [[NSString alloc] initWithData:readStrings encoding:NSUTF8StringEncoding];
+                NSString* result = [NSString.alloc initWithData:readStrings encoding:NSUTF8StringEncoding];
                 return result;
             }
         }
@@ -80,7 +80,7 @@
 -(void) invokeOnMainQueueWithTarget:(id)target selector:(SEL)selector object:(id)object
 {
 	NSOperationQueue* mainQueue = [NSOperationQueue mainQueue];
-	NSInvocationOperation* operation = [[NSInvocationOperation alloc] initWithTarget:target selector:selector object:object];
+	NSInvocationOperation* operation = [NSInvocationOperation.alloc initWithTarget:target selector:selector object:object];
 	[mainQueue addOperation:operation];
 }
 

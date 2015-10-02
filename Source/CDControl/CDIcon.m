@@ -19,7 +19,7 @@
 
 - (instancetype) initWithOptions:(CDOptions *)opts {
     self = [super initWithOptions:opts];
-    controls = [[NSMutableArray alloc] init];
+    controls = @[].mutableCopy;
     return self;
 }
 
@@ -35,11 +35,11 @@
 }
 
 - (NSImage *)icon {
-    if ([options hasOpt:@"icon-file"]) {
-        iconImage = [self iconFromFile:[options optValue:@"icon-file"]];
+    if ([self.options hasOpt:@"icon-file"]) {
+        iconImage = [self iconFromFile:[self.options optValue:@"icon-file"]];
     }
-    else if ([options hasOpt:@"icon"]) {
-        iconImage = [self iconFromName:[options optValue:@"icon"]];
+    else if ([self.options hasOpt:@"icon"]) {
+        iconImage = [self iconFromName:[self.options optValue:@"icon"]];
     }
     return iconImage;
 }
@@ -59,23 +59,23 @@
 
 - (NSImage *)iconFromFile:(NSString *)file {
     NSImage *image = nil;
-    image = [[NSImage alloc] initWithContentsOfFile:file];
-    if (image == nil && [options hasOpt:@"debug"]) {
+    image = [NSImage.alloc initWithContentsOfFile:file];
+    if (image == nil && [self.options hasOpt:@"debug"]) {
         [self debug:[NSString stringWithFormat:@"Could not return icon from specified file: \"%@\".", file]];
     }
     return image;
 }
 - (NSImage *)iconFromName:(NSString *)name {
-    NSImage *image = [[NSImage alloc] initWithData:nil];
+    NSImage *image = [NSImage.alloc initWithData:nil];
     NSString *bundle = nil;
     NSString *path = nil;
     NSString *iconType = @"icns";
-    if ([options hasOpt:@"icon-type"]) {
-        iconType = [options optValue:@"icon-type"];
+    if ([self.options hasOpt:@"icon-type"]) {
+        iconType = [self.options optValue:@"icon-type"];
     }
     // Use bundle identifier
-    if ([options hasOpt:@"icon-bundle"]) {
-        bundle = [options optValue:@"icon-bundle"];
+    if ([self.options hasOpt:@"icon-bundle"]) {
+        bundle = [self.options optValue:@"icon-bundle"];
     }
     // Set default bundle identifier
     if (bundle == nil) {
@@ -327,17 +327,17 @@
                 fileName = [[NSBundle bundleWithPath:path] pathForResource:name ofType:iconType];
             }
             if (fileName != nil) {
-                image = [[NSImage alloc] initWithContentsOfFile:fileName];
-                if (image == nil && [options hasOpt:@"debug"]) {
+                image = [NSImage.alloc initWithContentsOfFile:fileName];
+                if (image == nil && [self.options hasOpt:@"debug"]) {
                     [self debug:[NSString stringWithFormat:@"Could not get image from specified icon file '%@'.", fileName]];
                 }
             }
-            else if ([options hasOpt:@"debug"]) {
+            else if ([self.options hasOpt:@"debug"]) {
                 [self debug:[NSString stringWithFormat:@"Cannot find icon '%@' in bundle '%@'.", name, bundle]];
             }
         }
         else {
-            if ([options hasOpt:@"debug"]) {
+            if ([self.options hasOpt:@"debug"]) {
                 [self debug:[NSString stringWithFormat:@"Unknown icon '%@'. No --icon-bundle specified.", name]];
             }
         }
@@ -348,11 +348,11 @@
 - (void) setIconFromOptions {
     if (control != nil) {
         NSImage *image = [self icon];
-        if ([options hasOpt:@"icon-file"]) {
-            image = [self iconFromFile:[options optValue:@"icon-file"]];
+        if ([self.options hasOpt:@"icon-file"]) {
+            image = [self iconFromFile:[self.options optValue:@"icon-file"]];
         }
-        else if ([options hasOpt:@"icon"]) {
-            image = [self iconFromName:[options optValue:@"icon"]];
+        else if ([self.options hasOpt:@"icon"]) {
+            image = [self iconFromName:[self.options optValue:@"icon"]];
         }
         
         // Set default icon sizes
@@ -364,8 +364,8 @@
         if (image != nil) {
             // Set default icon height
             // Get icon sizes from user options
-            if ([options hasOpt:@"icon-size"]) {
-                int iconSize = [[options optValue:@"icon-size"] intValue];
+            if ([self.options hasOpt:@"icon-size"]) {
+                int iconSize = [[self.options optValue:@"icon-size"] intValue];
                 switch (iconSize) {
                     case 256: iconWidth = 256.0; iconHeight = 256.0; break;
                     case 128: iconWidth = 128.0; iconHeight = 128.0; break;
@@ -375,11 +375,11 @@
                 }
             }
             else {
-                if ([options hasOpt:@"icon-width"]) {
-                    iconWidth = [[options optValue:@"icon-width"] floatValue];
+                if ([self.options hasOpt:@"icon-width"]) {
+                    iconWidth = [[self.options optValue:@"icon-width"] floatValue];
                 }
-                if ([options hasOpt:@"icon-height"]) {
-                    iconHeight = [[options optValue:@"icon-height"] floatValue];
+                if ([self.options hasOpt:@"icon-height"]) {
+                    iconHeight = [[self.options optValue:@"icon-height"] floatValue];
                 }
             }
             // Set sizes
@@ -397,7 +397,7 @@
         NSSize originalSize = [anImage size];
         // Resize Icon
         if (originalSize.width != aSize.width || originalSize.height != aSize.height) {
-            NSImage *resizedImage = [[NSImage alloc] initWithSize: aSize];
+            NSImage *resizedImage = [NSImage.alloc initWithSize: aSize];
             [resizedImage lockFocus];
             [anImage drawInRect: NSMakeRect(0, 0, aSize.width, aSize.height) fromRect: NSMakeRect(0, 0, originalSize.width, originalSize.height) operation: NSCompositeSourceOver fraction: 1.0];
             [resizedImage unlockFocus];

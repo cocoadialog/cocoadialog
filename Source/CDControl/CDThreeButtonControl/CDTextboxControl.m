@@ -58,9 +58,9 @@
         float labelHeightDiff = labelNewHeight - labelRect.size.height;
         if (![labelText isEqualToString:@""]) {
             [expandingLabel setStringValue:labelText];
-            NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString: labelText];
-            NSTextContainer *textContainer = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)];
-            NSLayoutManager *layoutManager = [[NSLayoutManager alloc]init];
+            NSTextStorage *textStorage = [NSTextStorage.alloc initWithString: labelText];
+            NSTextContainer *textContainer = [NSTextContainer.alloc initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)];
+            NSLayoutManager *layoutManager = NSLayoutManager.new;
             [layoutManager addTextContainer: textContainer];
             [textStorage addLayoutManager: layoutManager];
             [layoutManager glyphRangeForTextContainer:textContainer];
@@ -98,8 +98,8 @@
 
 - (BOOL)validateOptions {
 	// check that they specified at least a button1
-	if (![options optValue:@"button1"]) {
-		if ([options hasOpt:@"debug"]) {
+	if (![self.options optValue:@"button1"]) {
+		if ([self.options hasOpt:@"debug"]) {
 			[self debug:@"Must supply at least a --button1"];
 		}
 		return NO;
@@ -114,67 +114,56 @@
     [icon addControl:scrollView];
 	
 	// set editable
-	if ([options hasOpt:@"editable"]) {
+	if ([self.options hasOpt:@"editable"]) {
 		[textView setEditable:YES];
 	} else {
 		[textView setEditable:NO];
 	}
     
 	// Set initial text in textview
-	if ([options hasOpt:@"text"]) {
-		text = [[NSAttributedString alloc] initWithString:
-			[options optValue:@"text"]];
+	if ([self.options hasOpt:@"text"]) {
+		text = [NSAttributedString.alloc initWithString:
+			[self.options optValue:@"text"]];
 		[[textView textStorage] setAttributedString:text];
 		[textView scrollRangeToVisible:NSMakeRange([text length], 0)];
-	} else if ([options hasOpt:@"text-from-file"]) {
+	} else if ([self.options hasOpt:@"text-from-file"]) {
 		NSString *contents = [NSString stringWithContentsOfFile:
-			[options optValue:@"text-from-file"] encoding:NSUTF8StringEncoding error:nil];
+			[self.options optValue:@"text-from-file"] encoding:NSUTF8StringEncoding error:nil];
 		if (contents == nil) {
-			if ([options hasOpt:@"debug"]) {
-				[self debug:@"Could not read file"];
-			}
+			if ([self.options hasOpt:@"debug"]) [self debug:@"Could not read file"];
 			return;
-		} else {
-			text = [[NSAttributedString alloc] initWithString:contents];
-		}
-		[[textView textStorage] setAttributedString:text];
+		} else
+			text = [NSAttributedString.alloc initWithString:contents];
+
+		[textView.textStorage setAttributedString:text];
 	} else {
-		[[textView textStorage] setAttributedString:[[NSAttributedString alloc] initWithString:@""]];
+		[textView.textStorage setAttributedString:[NSAttributedString.alloc initWithString:@""]];
 	}
     
-	[self setTitleButtonsLabel:[options optValue:@"label"]];
+	[self setTitleButtonsLabel:[self.options optValue:@"label"]];
 	
 	// scroll to top or bottom (do this AFTER resizing, setting the text, 
 	// etc). Default is top
-	if ([options optValue:@"scroll-to"] 
-	    && [[options optValue:@"scroll-to"] isCaseInsensitiveLike:@"bottom"]) 
-	{
-		[textView scrollRangeToVisible:
-			NSMakeRange([[textView textStorage] length]-1, 0)];
-	} else {
-		[textView scrollRangeToVisible:NSMakeRange(0, 0)];
-	}
+   [self.options optValue:@"scroll-to"] &&
+  [[self.options optValue:@"scroll-to"] isCaseInsensitiveLike:@"bottom"] ?
+    [textView scrollRangeToVisible:NSMakeRange(textView.textStorage.length-1, 0)] :
+    [textView scrollRangeToVisible:NSMakeRange(0, 0)];
 	
 	// select all the text
-	if ([options hasOpt:@"selected"]) {
-		[textView setSelectedRange:
-			NSMakeRange(0, [[textView textStorage] length])];
-	}
+	if ([self.options hasOpt:@"selected"])
+		[textView setSelectedRange:NSMakeRange(0, textView.textStorage.length)];
 	
 	// Set first responder
 	// Why doesn't this work for the button?
-	if ([options hasOpt:@"focus-textbox"]) {
-		[[panel panel] makeFirstResponder:textView];
-	} else {
-		[[panel panel] makeFirstResponder:button1];
-	}
+  [self.options hasOpt:@"focus-textbox"] ? [panel.panel makeFirstResponder:textView]
+                                         : [panel.panel makeFirstResponder:button1];
 }
 
 - (void) controlHasFinished:(int)button {
-	if ([[self options] hasOpt:@"editable"]) {
-        [controlReturnValues addObject:[[textView textStorage] string]];
-	}
-    [super controlHasFinished:button];
+
+	![self.options hasOpt:@"editable"] ?: [controlReturnValues addObject:textView.textStorage.string];
+
+  [super controlHasFinished:button];
 }
 
 

@@ -38,7 +38,7 @@
 	[button2 setEnabled:YES];
 	[button2 setHidden:NO];
 	[button2 setTitle:@"No"];
-	if ([options hasOpt:@"no-cancel"]) {
+	if ([self.options hasOpt:@"no-cancel"]) {
 		[button3 setEnabled:NO];
 		[button3 setHidden:YES];
 	} else {

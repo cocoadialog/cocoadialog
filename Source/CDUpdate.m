@@ -19,7 +19,7 @@
 }
 
 - (void) updater:(SUUpdater *)updater didAbortWithError:(NSError *)error {
-    if ([options hasOpt:@"debug"]) {
+    if ([self.options hasOpt:@"debug"]) {
         NSString *output = @"An unknown error occurred while trying to update.";
         if (error != nil) {
             output = [error localizedDescription];
@@ -46,7 +46,7 @@
     [updater setSendsSystemProfile:YES];
     [updater resetUpdateCycle];
     [updater setAutomaticallyChecksForUpdates:YES];
-    if ([options hasOpt:@"quiet"]) {
+    if ([self.options hasOpt:@"quiet"]) {
         [updater setAutomaticallyDownloadsUpdates:YES];
         [updater checkForUpdatesInBackground];
     }

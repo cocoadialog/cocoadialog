@@ -24,7 +24,7 @@
 
 - (instancetype)init {
     self = [self initWithOptions:nil];
-    extensions = [[NSMutableArray alloc] init];
+    extensions = @[].mutableCopy;
     return self;
 }
 
@@ -74,8 +74,8 @@
 // Set options common to any file save panel
 - (void) setMisc {
     [savePanel setDelegate:self];
-    extensions = [[NSMutableArray alloc] init];
-    NSArray *optionExtensions = [options optValues:@"with-extensions"];
+    extensions = @[].mutableCopy;
+    NSArray *optionExtensions = [self.options optValues:@"with-extensions"];
 	if (optionExtensions != nil && [optionExtensions count]) {
 		NSString *extension;
 		NSEnumerator *en = [optionExtensions objectEnumerator];
@@ -92,12 +92,12 @@
 	}
 
 	// Set title
-	if ([options optValue:@"title"] != nil) {
-		[savePanel setTitle:[options optValue:@"title"]];
+	if ([self.options optValue:@"title"] != nil) {
+		[savePanel setTitle:[self.options optValue:@"title"]];
 	}
 	// set message displayed on file select panel
-	if ([options optValue:@"label"] != nil) {
-		[savePanel setMessage:[options optValue:@"label"]];
+	if ([self.options optValue:@"label"] != nil) {
+		[savePanel setMessage:[self.options optValue:@"label"]];
 	}
 }
 
@@ -112,7 +112,7 @@
 }
 
 - (BOOL)panel:(id)sender shouldShowFilename:(NSString *)filename {
-    BOOL packageAsDir = [options hasOpt:@"packages‑as‑directories"];
+    BOOL packageAsDir = [self.options hasOpt:@"packages‑as‑directories"];
     BOOL isPackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:filename];
     BOOL isDir;
     // Allow directories and/or packages to be selectable

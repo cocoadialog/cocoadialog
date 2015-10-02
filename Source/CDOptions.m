@@ -146,4 +146,11 @@
 
 - (void) setOption:(id)value forKey:(NSString *)key { _options[key] = value; }
 
+- (void) setObject:val forKeyedSubscript:(id<NSCopying>)key {
+
+  [self setOption:val forKey:key];
+}
+
+- objectForKeyedSubscript:(id<NSCopying>)key { return [self optValue:key]; }
+
 @end

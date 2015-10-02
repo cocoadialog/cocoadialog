@@ -28,29 +28,29 @@
 - (BOOL) validateOptions {
     // Check that we're in the right sub-class
     if (![self isMemberOfClass:[CDRadioControl class]]) {
-        if ([options hasOpt:@"debug"]) {
+        if ([self.options hasOpt:@"debug"]) {
 			[self debug:@"This run-mode is not properly classed."];
 		}
         return NO;
     }
 	// Check that at least button1 has been specified
-	if (![options optValue:@"button1"])	{
-		if ([options hasOpt:@"debug"]) {
+	if (![self.options optValue:@"button1"])	{
+		if ([self.options hasOpt:@"debug"]) {
 			[self debug:@"Must supply at least --button1"];
 		}
 		return NO;
 	}
     // Check that at least one item has been specified
-    NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
+    NSArray *items = [NSArray arrayWithArray:[self.options optValues:@"items"]];
     if (![items count]) { 
-		if ([options hasOpt:@"debug"]) {
+		if ([self.options hasOpt:@"debug"]) {
 			[self debug:@"Must supply at least one --items"];
 		}
 		return NO;
 	}
     // Load nib
 	if (![NSBundle loadNibNamed:@"tbc" owner:self]) {
-		if ([options hasOpt:@"debug"]) {
+		if ([self.options hasOpt:@"debug"]) {
 			[self debug:@"Could not load tbc.nib"];
 		}
 		return NO;
@@ -88,15 +88,13 @@
 }
 
 - (void) createControl {
-    // Validate control before continuing
-	if (![self validateControl:options]) {
-        return;
-    }
+
+  // Validate control before continuing
+	if (![self validateControl:self.options]) return;
     
-    NSString * labelText = @"";
-    if ([options hasOpt:@"label"] && [options optValue:@"label"] != nil) {
-        labelText = [options optValue:@"label"];
-    }
+  NSString * labelText = [self.options hasOpt:@"label"] && [self.options optValue:@"label"]
+                       ? [self.options optValue:@"label"] : @"";
+
 	[self setTitleButtonsLabel:labelText];
 }
 
@@ -124,17 +122,17 @@
 
 - (void) setControl:(id)sender {
     // Setup the control
-    NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
+    NSArray *items = [NSArray arrayWithArray:[self.options optValues:@"items"]];
     unsigned long selected = -1;
-    NSArray *disabled = [[NSArray alloc] init];
+    NSArray *disabled = NSArray.new;
 
 
-    if ([options hasOpt:@"selected"]) {
-        selected = [[options optValue:@"selected"] intValue];
+    if ([self.options hasOpt:@"selected"]) {
+        selected = [[self.options optValue:@"selected"] intValue];
     }
 
-    if ([options hasOpt:@"disabled"]) {
-        disabled = [options optValues:@"disabled"];
+    if ([self.options hasOpt:@"disabled"]) {
+        disabled = [self.options optValues:@"disabled"];
     }
     
     // Set default precedence: columns, if both are present or neither are present
@@ -143,8 +141,8 @@
     // Set default number of columns
     unsigned long columns = 1;
     // Set specified number of columns
-    if ([options hasOpt:@"columns"]) {
-        columns = [[options optValue:@"columns"] intValue];
+    if ([self.options hasOpt:@"columns"]) {
+        columns = [[self.options optValue:@"columns"] intValue];
         if (columns < 1) {
             columns = 1;
         }
@@ -153,8 +151,8 @@
     // Set default number of rows
     unsigned long rows = 1;
     // Set specified number of rows
-    if ([options hasOpt:@"rows"]) {
-        rows = [[options optValue:@"rows"] intValue];
+    if ([self.options hasOpt:@"rows"]) {
+        rows = [[self.options optValue:@"rows"] intValue];
         if (rows < 1) {
             rows = 1;
         }
@@ -163,7 +161,7 @@
         }
         // User has specified number of rows, but not columns.
         // Set precedence to expand columns, not rows
-        if (![options hasOpt:@"columns"]) {
+        if (![self.options hasOpt:@"columns"]) {
             matrixPrecedence = 1;
         }
     }
@@ -172,7 +170,7 @@
     rows = [controlMatrix numberOfRows];
     columns = [controlMatrix numberOfColumns];
     
-    NSMutableArray * controls = [[NSMutableArray alloc] init];
+    NSMutableArray * controls = @[].mutableCopy;
     
     // Create the control for each item
     unsigned long currItem = 0;
@@ -180,7 +178,7 @@
     float cellWidth = 0.0;
     id obj;
     while (obj = [en nextObject]) {
-        NSButton * button = [[NSButton alloc] init];
+        NSButton * button = NSButton.new;
         [button setButtonType:NSRadioButton];
         [button setTitle:items[currItem]];
         if (disabled != nil && [disabled count]) {
@@ -217,7 +215,7 @@
                 currItem++;
             }
             else {
-                NSCell * blankCell = [[NSCell alloc] init];
+                NSCell * blankCell = NSCell.new;
                 [blankCell setType:NSNullCellType];
                 [blankCell setEnabled:NO];
                 [controlMatrix putCell:blankCell atRow:currRow column:currColumn];
