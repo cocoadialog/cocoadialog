@@ -12,7 +12,7 @@
 @interface Relaunch : NSObject {
 @private
 	NSString *executablePath;
-    NSMutableArray *executableArguments;
+  NSMutableArray *executableArguments;
 }
 @end
 

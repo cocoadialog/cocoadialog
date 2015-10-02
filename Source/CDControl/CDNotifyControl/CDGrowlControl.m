@@ -54,7 +54,7 @@
 }
 
 - (void) createControl {
-    [panel setPanelEmpty];
+    [self.panel setPanelEmpty];
 
     NSString *clickPath = @"";
     if ([self.options hasOpt:@"click-path"]) {
@@ -80,17 +80,14 @@
 		NSImage *fallbackIcon = nil;
 		NSMutableArray *icons = nil;
 		unsigned i;
-		// See what icons we got at the command line, or set a fallback
-		// icon to use for all bubbles
-		if (givenIconImages == nil) {
-			fallbackIcon = [icon iconWithDefault];
-		} else {
+		// See what icons we got at the command line, or set a fallback icon to use for all bubbles
+		if (givenIconImages == nil) fallbackIcon = self.icon.iconWithDefault;
+		else
 			icons = [NSMutableArray arrayWithArray:givenIconImages];
-		}
-		// If we were given less icons than we have bubbles, use a default
-		// for any extra bubbles
-		if ([icons count] < [descriptions count]) {
-			NSImage *defaultIcon = [icon iconWithDefault];
+
+		// If we were given less icons than we have bubbles, use a default for any extra bubbles
+		if (icons.count < descriptions.count) {
+			NSImage *defaultIcon = self.icon.iconWithDefault;
 			unsigned long numToAdd = [descriptions count] - [icons count];
 			for (i = 0; i < numToAdd; i++) {
 				[icons addObject:defaultIcon];
@@ -115,7 +112,7 @@
     }
     // Single notification
     else if ([self.options hasOpt:@"title"] && [self.options hasOpt:@"description"]) {
-        NSImage * _icon = [icon iconWithDefault];
+        NSImage * _icon = self.icon.iconWithDefault;
         [self addNotificationWithTitle:[self.options optValue:@"title"]
                            description:[self.options optValue:@"description"]
                                   icon:_icon
@@ -148,7 +145,7 @@
      notifyWithTitle:@"cocoaDialog Debug"
      description:message
      notificationName:@"General Notification"
-     iconData:[[icon iconFromName:@"caution"] TIFFRepresentation]
+     iconData:[self.icon iconFromName:@"caution"].TIFFRepresentation
      priority:2
      isSticky:YES
      clickContext:nil];

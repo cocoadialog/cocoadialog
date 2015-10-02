@@ -54,37 +54,37 @@
   NSString *returnString = timerFormat;
 
   NSInteger seconds =  timeInSeconds % 60,
-            minutes = (timeInSeconds / 60) % 60,
-              hours =  timeInSeconds / 3600,
-               days =  timeInSeconds /(3600 * 24);
+  minutes = (timeInSeconds / 60) % 60,
+  hours =  timeInSeconds / 3600,
+  days =  timeInSeconds /(3600 * 24);
 
-//  NSString *relative = days > 0 ? days > 1  ? [NSString stringWithFormat:@"%d days", days]
-//                                            : [NSString stringWithFormat:@"%d day", days]
-//                                : hours > 0 ? hours > 1   ? [NSString stringWithFormat:@"%d hours", hours]
-//                                                          : [NSString stringWithFormat:@"%d hour", hours]
-//                                            : minutes > 0 ? minutes > 1 ? [NSString stringWithFormat:@"%d minutes", minutes]
-//                                                                        : [NSString stringWithFormat:@"%d minute", minutes]
-//                                                          : seconds > 0 ? seconds > 1) {
-//            relative = [NSString stringWithFormat:@"%d seconds", seconds];
-//          }
-//          else {
-//            relative = [NSString stringWithFormat:@"%d second", seconds];
-//          }
-//        }
-//      }
-//    }
-//  }
-    NSString *relative =
+  //  NSString *relative = days > 0 ? days > 1  ? [NSString stringWithFormat:@"%d days", days]
+  //                                            : [NSString stringWithFormat:@"%d day", days]
+  //                                : hours > 0 ? hours > 1   ? [NSString stringWithFormat:@"%d hours", hours]
+  //                                                          : [NSString stringWithFormat:@"%d hour", hours]
+  //                                            : minutes > 0 ? minutes > 1 ? [NSString stringWithFormat:@"%d minutes", minutes]
+  //                                                                        : [NSString stringWithFormat:@"%d minute", minutes]
+  //                                                          : seconds > 0 ? seconds > 1) {
+  //            relative = [NSString stringWithFormat:@"%d seconds", seconds];
+  //          }
+  //          else {
+  //            relative = [NSString stringWithFormat:@"%d second", seconds];
+  //          }
+  //        }
+  //      }
+  //    }
+  //  }
+  NSString *relative =
 
-      days > 0 ? days > 1  ? [NSString stringWithFormat:@"%d days", days]
-                           : [NSString stringWithFormat:@"%d day", days]
-               : hours > 0 ? hours > 1   ? [NSString stringWithFormat:@"%d hours", hours]
-                                         : [NSString stringWithFormat:@"%d hour", hours]
-                           : minutes > 0 ? minutes > 1 ? [NSString stringWithFormat:@"%d minutes", minutes]
-                                                       : [NSString stringWithFormat:@"%d minute", minutes]
-                           : seconds > 0 ? seconds > 1 ? [NSString stringWithFormat:@"%d seconds", seconds]
-                                                       : [NSString stringWithFormat:@"%d second", seconds]
-              : @"unknown";
+  days > 0 ? days > 1  ? [NSString stringWithFormat:@"%d days", days]
+  : [NSString stringWithFormat:@"%d day", days]
+  : hours > 0 ? hours > 1   ? [NSString stringWithFormat:@"%d hours", hours]
+  : [NSString stringWithFormat:@"%d hour", hours]
+  : minutes > 0 ? minutes > 1 ? [NSString stringWithFormat:@"%d minutes", minutes]
+  : [NSString stringWithFormat:@"%d minute", minutes]
+  : seconds > 0 ? seconds > 1 ? [NSString stringWithFormat:@"%d seconds", seconds]
+  : [NSString stringWithFormat:@"%d second", seconds]
+  : @"unknown";
 
   returnString = [returnString stringByReplacingOccurrencesOfString:@"%s" withString:[NSString stringWithFormat:@"%d", seconds]];
   returnString = [returnString stringByReplacingOccurrencesOfString:@"%m" withString:[NSString stringWithFormat:@"%d", minutes]];
@@ -93,9 +93,21 @@
   returnString = [returnString stringByReplacingOccurrencesOfString:@"%r" withString:relative];
   return returnString;
 }
++ (BOOL) isRunningStandalone {
+
+  return [NSProcessInfo.processInfo.processName.lowercaseString isEqualToString:@"cocoadialog"];
+}
+
 - initWithOptions:(CDOptions *)opts {
 
   self = [super initWithOptions:opts];
+
+  if (!self.class.isRunningStandalone) {
+
+    [NSApplication sharedApplication];
+    [NSApplication.sharedApplication setActivationPolicy:NSApplicationActivationPolicyRegular];
+
+  }
   controlExitStatus       = -1;
   controlExitStatusString = nil;
   controlReturnValues     = @[].mutableCopy;
@@ -103,14 +115,16 @@
   return self;
 }
 
+@synthesize panel, icon;
+
 - (BOOL) loadControlNib:(NSString *)nib {
 
   // Load nib
   if (nib) {
     if (![nib isEqualToString:@""] && ![NSBundle loadNibNamed:nib owner:self]) {
+
       if ([self.options hasOpt:@"debug"])
         [self debug:[NSString stringWithFormat:@"Could not load control interface: \"%@.nib\"", nib]];
-
       return NO;
     }
   }
@@ -156,6 +170,12 @@
 }
 
 - (void) runControl {
+
+  if (!panel || !panel.panel) {
+    [self loadControlNib:self.controlNib];
+    [self createControl];
+  }
+
   // The control must either: 1) sub-class -(NSString *) controlNib, return the name of the NIB, and then connect "controlPanel" in IB or 2) set the panel manually with [panel setPanel:(NSPanel *)]  when creating the control.
   if (panel.panel) {
     // Set icon
@@ -163,6 +183,10 @@
     // Reposition Panel
     [panel setPosition];
     [panel setFloat];
+    if (!self.class.isRunningStandalone) {
+      [NSApp activateIgnoringOtherApps:YES];
+      [panel.panel makeKeyAndOrderFront:nil];
+    }
     [NSApp run];
   }
   else {
@@ -293,64 +317,68 @@
 }
 
 #pragma mark - Subclassable Control Methods -
-- (NSDictionary *) availableKeys {return nil;}
+
 - (void) createControl {};
-- (BOOL) validateOptions { return YES; }
-- (NSDictionary *) depreciatedKeys {return nil;}
-- (NSDictionary *) globalAvailableKeys {
-  NSNumber *vOne = @CDOptionsOneValue;
-  NSNumber *vNone = @CDOptionsNoValues;
-  return @{@"help": vNone,
-           @"debug": vNone,
-           @"quiet": vNone,
-           @"timeout": vOne,
-           @"timeout-format": vOne,
-           @"string-output": vNone,
-           @"no-newline": vNone,
-           // Panel
-           @"title": vOne,
-           @"width": vOne,
-           @"height": vOne,
-           @"posX": vOne,
-           @"posY": vOne,
-           @"no-float": vNone,
-           @"minimize": vNone,
-           @"resize": vNone,
-           // Icon
-           @"icon": vOne,
-           @"icon-bundle": vOne,
-           @"icon-type": vOne,
-           @"icon-file": vOne,
-           @"icon-size": vOne,
-           @"icon-width": vOne,
-           @"icon-height": vOne};
+
+- (BOOL) validateOptions                      { return YES; }
+- (BOOL) validateControl:(CDOptions *)options { return YES; }
+
+- (NSDictionary*) availableKeys       { return nil; }
+- (NSDictionary*) depreciatedKeys     { return nil; }
+
+- (NSDictionary*) globalAvailableKeys {
+
+  return @{ @"help"           : @CDOptionsNoValues,
+            @"debug"          : @CDOptionsNoValues,
+            @"quiet"          : @CDOptionsNoValues,
+            @"timeout"        : @CDOptionsOneValue,
+            @"timeout-format" : @CDOptionsOneValue,
+            @"string-output"  : @CDOptionsNoValues,
+            @"no-newline"     : @CDOptionsNoValues,
+            // Panel
+            @"title"        : @CDOptionsOneValue,
+            @"width"        : @CDOptionsOneValue,
+            @"height"       : @CDOptionsOneValue,
+            @"posX"         : @CDOptionsOneValue,
+            @"posY"         : @CDOptionsOneValue,
+            @"no-float"     : @CDOptionsNoValues,
+            @"minimize"     : @CDOptionsNoValues,
+            @"resize"       : @CDOptionsNoValues,
+            // Icon
+            @"icon"         : @CDOptionsOneValue,
+            @"icon-bundle"  : @CDOptionsOneValue,
+            @"icon-type"    : @CDOptionsOneValue,
+            @"icon-file"    : @CDOptionsOneValue,
+            @"icon-size"    : @CDOptionsOneValue,
+            @"icon-width"   : @CDOptionsOneValue,
+            @"icon-height"  : @CDOptionsOneValue};
 }
-- (BOOL) validateControl:(CDOptions *)options {return YES;}
-
-
 
 #pragma mark - CDControl
+
 + (NSDictionary *) availableControls {
 
   return @{
-           @"checkbox" : CDCheckboxControl.class,
-           @"dropdown" : CDPopUpButtonControl.class,
-           @"fileselect" : CDFileSelectControl.class,
-           @"filesave" : CDFileSaveControl.class,
-           @"inputbox" : CDInputboxControl.class,
-           @"msgbox" : CDMsgboxControl.class,
-           @"notify" : CDNotifyControl.class,
-           @"ok-msgbox" : CDOkMsgboxControl.class,
-           @"progressbar" : CDProgressbarControl.class,
-           @"radio" : CDRadioControl.class,
-           @"slider" : CDSlider.class,
-           @"secure-inputbox" : CDInputboxControl.class,
-           @"secure-standard-inputbox" : CDStandardInputboxControl.class,
-           @"standard-dropdown" : CDStandardPopUpButtonControl.class,
-           @"standard-inputbox" : CDStandardInputboxControl.class,
-           @"textbox" : CDTextboxControl.class,
-           @"yesno-msgbox" : CDYesNoMsgboxControl.class};
+            // TESTED OK
+            @"msgbox"                   : CDMsgboxControl.class,
+            @"ok-msgbox"                : CDOkMsgboxControl.class,
+            @"progressbar"              : CDProgressbarControl.class,
+            @"fileselect"               : CDFileSelectControl.class,
+            @"filesave"                 : CDFileSaveControl.class,
+            @"secure-inputbox"          : CDInputboxControl.class,
+            @"secure-standard-inputbox" : CDStandardInputboxControl.class,
+            @"textbox"                  : CDTextboxControl.class,
+            @"yesno-msgbox"             : CDYesNoMsgboxControl.class,
+            @"standard-inputbox"        : CDStandardInputboxControl.class,
+            @"inputbox"                 : CDInputboxControl.class,
 
+            @"checkbox"                 : CDCheckboxControl.class,
+            @"dropdown"                 : CDPopUpButtonControl.class,
+            @"notify"                   : CDNotifyControl.class,
+            @"radio"                    : CDRadioControl.class,
+            @"slider"                   : CDSlider.class,
+            @"standard-dropdown"        : CDStandardPopUpButtonControl.class
+          };
 }
 
 @end

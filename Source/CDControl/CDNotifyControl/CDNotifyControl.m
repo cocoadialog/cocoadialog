@@ -119,7 +119,7 @@
 		en = [iconArgs objectEnumerator];
 		NSString *iconName;
 		while (iconName = (NSString *)[en nextObject]) {
-            NSImage * _icon = [icon iconFromName:iconName];
+            NSImage * _icon = [self.icon iconFromName:iconName];
 			if (_icon == nil) {
 				_icon = [NSApp applicationIconImage];
 			}
@@ -133,7 +133,7 @@
 		en = [iconArgs objectEnumerator];
 		NSString *fileName;
 		while (fileName = (NSString *)[en nextObject]) {
-            NSImage * _icon = [icon iconFromFile:fileName];
+            NSImage * _icon = [self.icon iconFromFile:fileName];
 			if (_icon == nil) {
 				_icon = [NSApp applicationIconImage];
 			}

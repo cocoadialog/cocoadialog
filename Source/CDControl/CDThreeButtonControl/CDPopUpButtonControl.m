@@ -82,9 +82,9 @@
 }
 
 - (void) createControl {
-    [panel addMinWidth:[popupControl frame].size.width];
+    [self.panel addMinWidth:popupControl.frame.size.width];
     [controlItems addObject:popupControl];
-    [icon addControl:popupControl];
+    [self.icon addControl:popupControl];
     // Setup the control
     [popupControl setKeyEquivalent:@" "];
     [popupControl setTarget:self];

@@ -42,14 +42,19 @@ NSAttributedString * hyperlinkFromStringWithURLWithFont(NSString* inString, NSUR
   // Initialize control
   currentControl = CDControl.new;
 
- [CDOptions getOpts:arguments
-                            availableKeys:currentControl.globalAvailableKeys  ?: @{}
-                          depreciatedKeys:currentControl.depreciatedKeys      ?: @{}];
+  [CDOptions getOpts:arguments availableKeys:currentControl.globalAvailableKeys  ?: @{}
+                             depreciatedKeys:currentControl.depreciatedKeys      ?: @{}];
+
   if (arguments.count >= 2) {
     [arguments removeObjectAtIndex:0]; // Remove program name.
     runMode = arguments[0];
     [arguments removeObjectAtIndex:0]; // Remove the run-mode
   }
+
+  // provide a simple list of modes for argument "modes"
+  if ([NSProcessInfo.processInfo.arguments containsObject:@"modes"] )
+      [NSFileHandle.fileHandleWithStandardOutput writeData:[[CDControl.availableControls.allKeys componentsJoinedByString:@"\n"]  dataUsingEncoding:NSASCIIStringEncoding]], exit(0);
+
   // runMode is either the PID of a GUI initialization or "about", show the about dialog
   if ([[runMode substringToIndex:4] isEqualToString:@"-psn"] || [runMode caseInsensitiveCompare:@"about"] == NSOrderedSame) {
     NSLog(@"args: %@ isatty:%i ", arguments, isatty(0));
@@ -217,7 +222,9 @@ NSAttributedString * hyperlinkFromStringWithURLWithFont(NSString* inString, NSUR
   task.standardOutput = NSFileHandle.fileHandleWithNullDevice;
   task.launchPath     = @"/usr/bin/arch";
   task.arguments      = arguments;
+  printf("running %s with args %s", task.launchPath.UTF8String, task.arguments.description.UTF8String);
   [task launch];
+//  sleep(10);
   [NSApp terminate:self];
 }
 

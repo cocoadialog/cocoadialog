@@ -153,27 +153,27 @@
 // This resizes
 - (void) setTitleButtonsLabel:(NSString *)labelText {
 
-	[panel setTitle];
+	[self.panel setTitle];
 
     // Add default controls
-    if (expandingLabel != nil && ![[icon controls] containsObject:expandingLabel]) {
-        [icon addControl:expandingLabel];
+    if (expandingLabel != nil && ![self.icon.controls containsObject:expandingLabel]) {
+        [self.icon addControl:expandingLabel];
     }
-    if (controlMatrix != nil && ![[icon controls] containsObject:controlMatrix]) {
-        [icon addControl:controlMatrix];
+    if (controlMatrix != nil && ![self.icon.controls containsObject:controlMatrix]) {
+        [self.icon addControl:controlMatrix];
     }
-    if (timeoutLabel != nil && ![[icon controls] containsObject:timeoutLabel]) {
-        [icon addControl:timeoutLabel];
+    if (timeoutLabel != nil && ![self.icon.controls containsObject:timeoutLabel]) {
+        [self.icon addControl:timeoutLabel];
     }
 
-    [icon setIconFromOptions];
+    [self.icon setIconFromOptions];
     
 	[self setButtons];
-    [panel resize];
+    [self.panel resize];
     
     [self setLabel:labelText];
     
-    [panel resize];
+    [self.panel resize];
     
     if (controlMatrix != nil) {
         // Remember old controlMatrix size
@@ -190,12 +190,12 @@
         m = [controlMatrix frame];
 
         // Set panel's new width and height
-        NSSize panelSize = [[[panel panel] contentView] frame].size;
+        NSSize panelSize = [self.panel.panel.contentView frame].size;
         panelSize.height += m.size.height - oldHeight;
         panelSize.width += m.size.width - oldWidth;
-        [[panel panel] setContentSize:panelSize];
+        [self.panel.panel setContentSize:panelSize];
 
-        [panel resize];
+        [self.panel resize];
     }
 
 }
@@ -236,8 +236,8 @@
 	[button3 setFrame:r];
 
 	// ensure that the buttons never gets clipped
-    [panel addMinHeight:40.0f]; // 20 * 2 for margin + 20 for height
-    [panel addMinWidth:minWidth];
+    [self.panel addMinHeight:40.0f]; // 20 * 2 for margin + 20 for height
+    [self.panel addMinWidth:minWidth];
 }
 
 // Should be called after setButtons, and before resize
@@ -267,9 +267,9 @@
             [expandingLabel setHidden:YES];
         }
         // Set panel's new width and height
-        NSSize p = [[[panel panel] contentView] frame].size;
+        NSSize p = [self.panel.panel.contentView frame].size;
         p.height += labelHeightDiff;
-        [[panel panel] setContentSize:p];
+        [self.panel.panel setContentSize:p];
     }
 }
 
@@ -296,9 +296,9 @@
             [timeoutLabel setHidden:YES];
         }
         // Set panel's new width and height
-        NSSize p = [[[panel panel] contentView] frame].size;
+        NSSize p = [self.panel.panel.contentView frame].size;
         p.height += labelHeightDiff;
-        [[panel panel] setContentSize:p];
+        [self.panel.panel setContentSize:p];
         
         if (controlMatrix != nil) {
             // Set controlMatrix's new Y
@@ -329,9 +329,9 @@
     }
     NSAlert *alertSheet = NSAlert.new;
     [alertSheet addButtonWithTitle:@"Okay"];
-    [alertSheet setIcon:[icon iconFromName:@"caution"]];
+    [alertSheet setIcon:[self.icon iconFromName:@"caution"]];
     [alertSheet setMessageText:message];
-    [alertSheet beginSheetModalForWindow:[panel panel] modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
+    [alertSheet beginSheetModalForWindow:self.panel.panel modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
 - (void) controlHasFinished:(int)button {
@@ -360,7 +360,7 @@
         }
     }
     else if (controlItems != nil && [controlItems count]) {
-        [[panel panel] makeFirstResponder:controlItems[0]];
+        [self.panel.panel makeFirstResponder:controlItems[0]];
     }
 }
 

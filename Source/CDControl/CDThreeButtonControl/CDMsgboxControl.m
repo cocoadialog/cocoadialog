@@ -47,12 +47,10 @@
 }
 
 - (void) createControl {
-    // Add extra control
-    [icon addControl:text];
+  // Add extra control
+  [self.icon addControl:text];
 	// add the main bold text
-	if ([self.options optValue:@"alert"]) {
-		[text setStringValue:[self.options optValue:@"alert"]];
-	}
+	if ([self.options optValue:@"alert"]) [text setStringValue:[self.options optValue:@"alert"]];
 	[self setTitleButtonsLabel:[self.options optValue:@"label"]];
 }
 

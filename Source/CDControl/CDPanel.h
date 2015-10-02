@@ -6,12 +6,10 @@
 //  Copyright (c) 2011 Mark Whitaker. All rights reserved.
 //
 
-@import AppKit;
 #import "CDCommon.h"
 
-@class NSObject;
-
-@interface CDPanel : CDCommon {
+@interface CDPanel : CDCommon
+{
     IBOutlet NSPanel    *panel;
 }
 @property (strong) NSPanel *panel;

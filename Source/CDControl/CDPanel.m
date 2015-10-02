@@ -9,164 +9,118 @@
 #import "CDPanel.h"
 
 @implementation CDPanel
+
 @synthesize panel;
 
 - (void)addMinHeight:(CGFloat)height {
-	NSSize panelMinSize = [panel contentMinSize];
-	panelMinSize.height += height;
-	[panel setContentMinSize:panelMinSize];
+
+  panel.contentMinSize = (NSSize){panel.contentMinSize.width,panel.contentMinSize.height +height};
 }
 - (void)addMinWidth:(CGFloat)width {
-	NSSize panelMinSize = [panel contentMinSize];
-	panelMinSize.width += width;
-	[panel setContentMinSize:panelMinSize];
+
+  panel.contentMinSize = (NSSize){panel.contentMinSize.width + width,panel.contentMinSize.height};
 }
-
-
 - (NSSize) findNewSize {
 
-	NSSize size = NSZeroSize, oldSize;
-	NSString *width, *height;
+  NSSize size = NSZeroSize, oldSize;
+  NSString *width, *height;
 
-	if (!self.options || !panel) return size;
+  if (!self.options || !panel) return size;
 
-	size = [panel.contentView frame].size;
-  
-	oldSize.width = size.width;
-	oldSize.height = size.height;
-	if ([self.options hasOpt:@"width"]) {
-		width = [self.options optValue:@"width"];
-		if ([width floatValue] != 0.0) {
-			size.width = [width floatValue];
-		}
-	}
-	if ([self.options hasOpt:@"height"]) {
-		height = [self.options optValue:@"height"];
-		if ([height floatValue] != 0.0) {
-			size.height = [height floatValue];
-		}
-	}
-	NSSize minSize = [panel contentMinSize];
-	if (size.height < minSize.height) {
-		size.height = minSize.height;
-	}
-	if (size.width < minSize.width) {
-		size.width = minSize.width;
-	}
-	if (size.width != oldSize.width || size.height != oldSize.height) {
-		return size;
-	} else {
-		return NSMakeSize(0.0,0.0);
-	}
+  size = [panel.contentView frame].size;
+
+  oldSize.width   = size.width;
+  oldSize.height  = size.height;
+
+  if ([self.options hasOpt:@"width"]) {
+    width = [self.options optValue:@"width"];
+    if (width.floatValue != 0.0) size.width = width.floatValue;
+  }
+  if ([self.options hasOpt:@"height"]) {
+
+    height = [self.options optValue:@"height"];
+    if ([height floatValue] != 0.0) size.height = height.floatValue;
+  }
+  NSSize minSize = [panel contentMinSize];
+  if (size.height < minSize.height) size.height = minSize.height;
+  if (size.width < minSize.width)   size.width = minSize.width;
+
+  return size.width != oldSize.width || size.height != oldSize.height ? size :NSZeroSize;
 }
 - (BOOL) needsResize {
-	NSSize size = [self findNewSize];
-	if (size.width != 0.0 || size.height != 0.0) {
-		return YES;
-	} else {
-		return NO;
-	}
+
+  NSSize size = self.findNewSize;
+  return size.width != 0.0 || size.height != 0.0;
 }
-- (void) resize {
-    // resize if necessary
-	if ([self needsResize]) {
-		[panel setContentSize:[self findNewSize]];
-	}
+- (void) resize { // resize if necessary
+
+  !self.needsResize ?: [panel setContentSize:self.findNewSize];
 }
 - (void) setFloat {
-    if (panel != nil) {
-        if ([self.options hasOpt:@"no-float"]) {
-            [panel setFloatingPanel:NO];
-            [panel setLevel:NSNormalWindowLevel];
-        }
-        else {
-            [panel setFloatingPanel: YES];
-            [panel setLevel:NSScreenSaverWindowLevel];
-        }		
-        [panel makeKeyAndOrderFront:nil];
-    }
+
+  if (!panel) return;
+
+  [panel setFloatingPanel:![self.options hasOpt:@"no-float"]];
+  [panel setLevel:![self.options hasOpt:@"no-float"] ? NSNormalWindowLevel : NSScreenSaverWindowLevel];
+  [panel makeKeyAndOrderFront:nil];
 }
 - (void) setPanelEmpty {
-    panel = [NSPanel.alloc initWithContentRect:NSMakeRect(0, 0, 0, 0)
-                                                styleMask:NSBorderlessWindowMask
-                                                  backing:NSBackingStoreBuffered
-                                                    defer:NO];
+
+  panel = [NSPanel.alloc initWithContentRect:NSZeroRect
+                                   styleMask:NSBorderlessWindowMask
+                                     backing:NSBackingStoreBuffered
+                                       defer:NO];
 }
 - (void) setPosition {
-    NSRect screen = [[NSScreen mainScreen] visibleFrame];
-    CGFloat leftPoint = 0.0;
-	CGFloat topPoint = 0.0;
-    CGFloat padding = 10.0;
-    id posX;
-    id posY;
-    // Has posX option
-	if ([self.options hasOpt:@"posX"]) {
-		posX = [self.options optValue:@"posX"];
-        // Left
-		if ([posX caseInsensitiveCompare:@"left"] == NSOrderedSame) {
-            leftPoint = padding;
-		}
-        // Right
-        else if ([posX caseInsensitiveCompare:@"right"] == NSOrderedSame) {
-            leftPoint = NSWidth(screen) - NSWidth([panel frame]) - padding;
-		}
-        // Manual posX coords
-        else if ([posX floatValue] > 0.0) {
-            leftPoint = [posX floatValue];
-        }
-        // Center
-        else {
-            leftPoint = (NSWidth(screen)-NSWidth([panel frame]))/2 - padding;
-		}
-	}
-    // Center
-    else {
-        leftPoint = (NSWidth(screen)-NSWidth([panel frame]))/2 - padding;
-	}
-    // Has posY option
-	if ([self.options hasOpt:@"posY"]) {
-		posY = [self.options optValue:@"posY"];
-        // Bottom
-		if ([posY caseInsensitiveCompare:@"bottom"] == NSOrderedSame) {
-            topPoint = NSMinY(screen) + padding + NSHeight([panel frame]);
-		}
-        // Top
-        else if ([posY caseInsensitiveCompare:@"top"] == NSOrderedSame) {
-            topPoint = NSMaxY(screen) - padding;
-		}
-        // Manual posY coords
-        else if ([posY floatValue] > 0.0) {
-            topPoint = NSMaxY(screen) - [posY floatValue];
-        }
-        // Center
-        else {
-            topPoint = NSMaxY(screen)/1.8 + NSHeight([panel frame]);
-		}
-	}
-    // Center
-    else {
-		topPoint = NSMaxY(screen)/1.8 + NSHeight([panel frame]);
-	}
-	[panel setFrameTopLeftPoint:NSMakePoint(leftPoint, topPoint)];
+
+  NSRect screen = NSScreen.mainScreen.visibleFrame;
+  CGFloat leftPoint = 0, topPoint = 0, padding = 10;
+  id posX, posY;
+
+  // Has posX option
+  if ([self.options hasOpt:@"posX"]) {
+    posX = [self.options optValue:@"posX"];
+    leftPoint =
+      // Left
+      [posX caseInsensitiveCompare:@"left"] == NSOrderedSame ? padding :
+      // Right
+      [posX caseInsensitiveCompare:@"right"] == NSOrderedSame ? NSWidth(screen) - NSWidth([panel frame]) - padding :
+      // Manual posX coords
+      [posX floatValue] > 0.0 ? [posX floatValue] :
+      // Center
+      (NSWidth(screen)-NSWidth([panel frame]))/2 - padding;
+  }
+  // Center
+  else {
+    leftPoint = (NSWidth(screen)-NSWidth([panel frame]))/2 - padding;
+  }
+  // Has posY option
+  if ([self.options hasOpt:@"posY"]) {
+    posY = [self.options optValue:@"posY"];
+    topPoint =
+      // Bottom
+      [posY caseInsensitiveCompare:@"bottom"] == NSOrderedSame ? NSMinY(screen) + padding + NSHeight([panel frame]) :
+      // Top
+      [posY caseInsensitiveCompare:@"top"] == NSOrderedSame ? NSMaxY(screen) - padding :
+      // Manual posY coords
+      [posY floatValue] > 0.0 ? NSMaxY(screen) - [posY floatValue] :
+      // Center
+      NSMaxY(screen)/1.8 + NSHeight([panel frame]);
+  }
+  // Center
+  else topPoint = NSMaxY(screen)/1.8 + NSHeight([panel frame]);
+
+  [panel setFrameTopLeftPoint:NSMakePoint(leftPoint, topPoint)];
 }
 
 - (void)setTitle {
-    // set title
-	if ([self.options optValue:@"title"] != nil) {
-		[panel setTitle:[self.options optValue:@"title"]];
-	}
-    else {
-        [panel setTitle:@"cocoaDialog"];
-    }
+
+  [panel setTitle:[self.options optValue:@"title"] ? [self.options optValue:@"title"] : @"cocoaDialog"];
 }
 
 - (void) setTitle:(NSString *)string {
-    if (string != nil && ![string isEqualToString:@""]) {
-        [panel setTitle:string];
-    }
-    else {
-        [panel setTitle:@"cocoaDialog"];
-    }
+
+  [panel setTitle:string != nil && ![string isEqualToString:@""] ? string : @"cocoaDialog"];
 }
 
 @end

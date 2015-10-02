@@ -36,7 +36,7 @@
 
 - (void) createControl {
 
-  [panel setPanelEmpty];
+  [self.panel setPanelEmpty];
 
   float _timeout = 4., alpha = 0.85;
   int position = 0;
@@ -105,14 +105,14 @@
     // See what icons we got at the command line, or set a fallback
     // icon to use for all bubbles
     if (givenIconImages == nil) {
-      fallbackIcon = [icon iconWithDefault];
+      fallbackIcon = self.icon.iconWithDefault;
     } else {
       icons = [NSMutableArray arrayWithArray:givenIconImages];
     }
     // If we were given less icons than we have bubbles, use a default
     // for any extra bubbles
     if ([icons count] < [descriptions count]) {
-      NSImage *defaultIcon = [icon iconWithDefault];
+      NSImage *defaultIcon = self.icon.iconWithDefault;
       unsigned long numToAdd = [descriptions count] - [icons count];
       for (i = 0; i < numToAdd; i++) {
         [icons addObject:defaultIcon];
@@ -136,7 +136,7 @@
   } else if ([self.options hasOpt:@"title"] && [self.options hasOpt:@"description"]) {
     [self addNotificationWithTitle:[self.options optValue:@"title"]
                        description:[self.options optValue:@"description"]
-                              icon:[icon iconWithDefault]
+                              icon:[self.icon iconWithDefault]
                           priority:nil
                             sticky:sticky
                          clickPath:clickPath
@@ -173,7 +173,7 @@
 {
   [self addNotificationWithTitle:@"cocoaDialog Debug"
                      description:message
-                            icon:[icon iconFromName:@"caution"]
+                            icon:[self.icon iconFromName:@"caution"]
                         priority:0
                           sticky:YES
                        clickPath:nil

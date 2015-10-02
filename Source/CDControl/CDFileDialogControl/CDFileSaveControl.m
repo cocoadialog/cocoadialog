@@ -72,15 +72,15 @@
         }
     }
     
-    [panel setPanel:savePanel];
+    [self.panel setPanel:savePanel];
 
 	// resize window if user specified alternate width/height
-    if ([panel needsResize]) {
-		[savePanel setContentSize:[panel findNewSize]];
+    if ([self.panel needsResize]) {
+		[savePanel setContentSize:[self.panel findNewSize]];
 	}
 	
     // Reposition Panel
-    [panel setPosition];
+    [self.panel setPosition];
     
     [self setTimeout];
 	

@@ -71,7 +71,7 @@
 	[confirmationSheet addButtonWithTitle:@"Stop"];
 	[confirmationSheet addButtonWithTitle:@"Cancel"];
 	[confirmationSheet setMessageText:@"Are you sure you want to stop?"];
-	[confirmationSheet beginSheetModalForWindow:[panel panel] modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
+	[confirmationSheet beginSheetModalForWindow:[self.panel panel] modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
 - (void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
@@ -102,9 +102,9 @@
 - (void) createControl {
 	stopEnabled = YES;
 	
-	[panel addMinWidth:[progressBar frame].size.width + 30.0f];
-	[icon addControl:expandingLabel];
-	[icon addControl:progressBar];
+	[self.panel addMinWidth:[progressBar frame].size.width + 30.0f];
+	[self.icon addControl:expandingLabel];
+	[self.icon addControl:progressBar];
 
 	// set text label
 	if ([self.options optValue:@"text"]) {
@@ -117,19 +117,19 @@
 	if (![self.options hasOpt:@"stoppable"]) {
 		NSRect progressBarFrame = [progressBar frame];
 
-		NSRect currentWindowFrame = [[panel panel] frame];
+		NSRect currentWindowFrame = self.panel.panel.frame;
 		CGFloat stopButtonWidth = [stopButton frame].size.width;
 		NSRect newWindowFrame = {
 			.origin = currentWindowFrame.origin,
 			.size = NSMakeSize(currentWindowFrame.size.width - stopButtonWidth + 2, currentWindowFrame.size.height)
 		};
-		[[panel panel] setFrame:newWindowFrame display:NO];
+		[self.panel.panel setFrame:newWindowFrame display:NO];
 
 		[progressBar setFrame:progressBarFrame];
 		[stopButton setHidden:YES];
 	}
 
-	[panel resize];
+	[self.panel resize];
 	
 	CDProgressbarInputHandler *inputHandler = CDProgressbarInputHandler.new;
 	[inputHandler setDelegate:self];
@@ -147,7 +147,7 @@
 		
 	//set window title
 	if ([self.options optValue:@"title"]) {
-		[[panel panel] setTitle:[self.options optValue:@"title"]];
+		[self.panel.panel setTitle:[self.options optValue:@"title"]];
 	}
 
 	// set indeterminate

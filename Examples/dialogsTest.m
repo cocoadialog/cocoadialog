@@ -1,33 +1,44 @@
 
 @import Dialogs;
-
-#include <stdio.h>
+@import AppKit;
 
 int main(int argc, const char * argv[]) { @autoreleasepool {
 
-  [NSApplication sharedApplication];
-
-  printf("Available Controls:\n");
-
-  for (id x  in CDControl.availableControls)
-    printf("%s\n",[x description].UTF8String);
-
+  printf("Available Controls:\n%s", CDControl.availableControls.description.UTF8String);
 
   //    CDProgressbarControl *x = [CDProgressbarControl.alloc initWithOptions:nil];
   CDOptions *x = CDOptions.new;
   x[@"button1"] = @"ok";
   x[@"text"] = @"whatever";
   x[@"informative-text"] = @"Enter your search term";
-  CDInputboxControl *i = [CDInputboxControl.alloc initWithOptions:x];
-  CDTextboxControl  __unused *j = [CDTextboxControl.alloc  initWithOptions:x];
-  CDInputboxControl __unused *k = [CDInputboxControl.alloc initWithOptions:x];
 
-  [i validateOptions];
-  [i loadControlNib:i.controlNib];
+  [CDControl.availableControls enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
 
+
+    printf("Instantiating a %s via the %s class\n", [key UTF8String], NSStringFromClass(obj).UTF8String);
+
+    CDControl *i = [(CDControl*)[obj alloc] initWithOptions:x];
+    if ([i validateControl:x])
+      [i runControl];
+  }];
+
+//  CDInputboxControl *i = [CDInputboxControl.alloc initWithOptions:x];
+//  CDTextboxControl  *j = [CDTextboxControl.alloc  initWithOptions:x];
+//  CDInputboxControl *k = [CDInputboxControl.alloc initWithOptions:x];
+
+//  [CDControl.availableControls en
+//  [i runControl];
+//  [j runControl];
+//  [k runControl];
+
+  //  [i validateOptions];
+//  [i loadControlNib:i.controlNib];
   // Create the control
-  [i createControl];
-  [NSApp activateIgnoringOtherApps:YES];
+//  [i createControl];
+
+
+//  [i.panel.panel makeKeyAndOrderFront:nil];
+//  [NSApp activateIgnoringOtherApps:YES];
 
     // Initialize the timer, if one exists
     //        [i setTimeout];d    //      [AZSHAREDAPP activateIgnoringOtherApps:YES];
@@ -36,8 +47,8 @@ int main(int argc, const char * argv[]) { @autoreleasepool {
 //    [AZSHAREDAPP activateIgnoringOtherApps:YES];
 
 
-    [i runControl];
-    [[i valueForKey:@"controlPanel"] makeKeyAndOrderFront:nil];
+
+//    [[i valueForKey:@"controlPanel"] makeKeyAndOrderFront:nil];
 //      [[i vFK:@"controlPanel"] setKey:nil]
 //    [i print];
 //    [i runControl];

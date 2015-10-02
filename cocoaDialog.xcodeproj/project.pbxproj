@@ -12,7 +12,6 @@
 			buildConfigurationList = 7BF9CC681AEBEBAF0058B25F /* Build configuration list for PBXAggregateTarget "Progress Bar" */;
 			buildPhases = (
 				7BF9CC6D1AEBEBD40058B25F /* ShellScript */,
-				7BF9CC6E1AEBEC6E0058B25F /* PYTHON progress bar */,
 			);
 			dependencies = (
 				7BF9CC6C1AEBEBD00058B25F /* PBXTargetDependency */,
@@ -162,7 +161,7 @@
 
 /* Begin PBXFileReference section */
 		6187E60014664988005067DB /* relaunch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = relaunch.m; path = ../Source/relaunch.m; sourceTree = "<group>"; };
-		61EC906C145FACF8003ADF05 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppController.m; path = ../Source/AppController.m; sourceTree = "<group>"; };
+		61EC906C145FACF8003ADF05 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppController.m; path = ../Source/AppController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		61EC906D145FACF8003ADF05 /* CDCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDCommon.h; path = Source/CDCommon.h; sourceTree = "<group>"; };
 		61EC906E145FACF8003ADF05 /* CDCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDCommon.m; path = Source/CDCommon.m; sourceTree = "<group>"; };
 		61EC9070145FACF8003ADF05 /* CDControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDControl.h; sourceTree = "<group>"; };
@@ -223,6 +222,7 @@
 		61FA9D2014518E97006E0674 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
 		7B22D90B1BBF25B800525FB5 /* progressbar.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; name = progressbar.py; path = Examples/progressbar.py; sourceTree = SOURCE_ROOT; };
 		7B22D90C1BBF260C00525FB5 /* progressbar.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = progressbar.sh; path = Examples/progressbar.sh; sourceTree = SOURCE_ROOT; };
+		7B94DD5C1BBF41B8004850F1 /* examples.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = examples.sh; path = Examples/examples.sh; sourceTree = SOURCE_ROOT; };
 		7BDF56271AEBE163004812DE /* Dialogs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Dialogs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BDF562B1AEBE163004812DE /* Dialogs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Dialogs.h; path = Source/Dialogs.h; sourceTree = "<group>"; };
 		7BF9CC731AEBED350058B25F /* dialogsTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = dialogsTest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -422,6 +422,7 @@
 			children = (
 				7B22D90B1BBF25B800525FB5 /* progressbar.py */,
 				7B22D90C1BBF260C00525FB5 /* progressbar.sh */,
+				7B94DD5C1BBF41B8004850F1 /* examples.sh */,
 				7BF9CC751AEBED350058B25F /* dialogsTest.m */,
 			);
 			name = Examples;
@@ -658,21 +659,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\nfor x in sh py; do\n    Resources/progressbar.${x} \"${SCRIPT_INPUT_FILE_0}\"\ndone\n";
-		};
-		7BF9CC6E1AEBEC6E0058B25F /* PYTHON progress bar */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "PYTHON progress bar";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /usr/bin/python;
-			shellScript = "\"\"\"ProgressBar -- for use with CocoaDialog (http://cocoadialog.sourceforge.net/)\"\"\"\n\n__author__ = \"Paul Bissex <pb@e-scribe.com>\"\n__version__ = \"0.2.1\"\n__license__ = \"MIT\"\n\nimport os\n\nclass ProgressBar:\n    \"\"\"Simple class for displaying progress bars using CocoaDialog\"\"\"\n\n    # Change CD_BASE to reflect the location of Cocoadialog on your system\n    CD_BASE = \"${BUILT_PRODUCTS_DIR}\"\n    CD_PATH = os.path.join(CD_BASE, \"${PROJECT_NAME}.app/Contents/MacOS/${PROJECT_NAME}\")\n    \n    def __init__(self, title=\"Progress\", message=\"\", percent=0):\n        \"\"\"Create progress bar dialog\"\"\"\n        template = \"%s progressbar --title '%s' --text '%s' --percent %d --stoppable\"\n        self.percent = percent\n        self.pipe = os.popen(template % (ProgressBar.CD_PATH, title, message, percent), \"w\")\n        self.message = message\n            \n    def update(self, percent, message=False):\n        \"\"\"Update progress bar (and message if desired)\"\"\"\n        if message:\n            self.message = message  # store message for persistence\n        self.pipe.write(\"%d %s\\n\" % (percent, self.message))\n        self.pipe.flush()\n        \n    def finish(self):\n        \"\"\"Close progress bar window\"\"\"\n        self.pipe.close()\n\n\nif __name__ == \"__main__\":\n    # Sample usage\n    import time\n    bar = ProgressBar(title=\"ProgressBar.py Test\")\n    \n    for percent in range(25):\n        time.sleep(.15)\n        bar.update(percent, \"Test Starting...\")\n        \n    for percent in range(25,100):\n        time.sleep(.02)\n        bar.update(percent, \"Test Finishing...\")\n     \n    time.sleep(.5)\n    bar.finish()";
+			shellScript = "\nfor x in sh py; do\n    Examples/progressbar.${x} \"${SCRIPT_INPUT_FILE_0}\"\ndone\n";
 		};
 		A7D4043E153C38E0005FA3CD /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -687,7 +674,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\n# /server/repositories/github/sparkle-release/src/sparkle-release\n\nCLI_NAME=cocoa-dialog\n\n# mkdir -p \"${SCRIPT_OUTPUT_FILE_0}\"\n\nEXE=\"${SCRIPT_OUTPUT_FILE_0}\"\n\n# This installs a simple launcher to /usr/local/bin\necho \"#!/bin/sh\nexec ${SCRIPT_INPUT_FILE_0} \\\"\\$@\\\"\"> \"$EXE\" && chmod +x \"$EXE\"\n\nsay \"$(dirname $EXE)\"\n";
+			shellScript = "\n# /server/repositories/github/sparkle-release/src/sparkle-release\n# mkdir -p \"${SCRIPT_OUTPUT_FILE_0}\"\n\n# This installs a simple launcher to /usr/local/bin\necho \"#!/bin/sh\nexec ${SCRIPT_INPUT_FILE_0} \\\"\\$@\\\"\"> \"${SCRIPT_OUTPUT_FILE_0}\"\n\nchmod +x \"${SCRIPT_OUTPUT_FILE_0}\"\n\n# say \"$(dirname $EXE)\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1024,8 +1011,6 @@
 		7BF9CC781AEBED350058B25F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
@@ -1050,8 +1035,6 @@
 		7BF9CC791AEBED350058B25F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;

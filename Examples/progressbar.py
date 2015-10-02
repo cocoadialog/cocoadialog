@@ -41,13 +41,13 @@ if __name__ == "__main__":
     import time
     bar = ProgressBar(title="ProgressBar.py Test")
     
-    for percent in range(75):
-        time.sleep(.02)
-        bar.update(percent, "Test Starting...")
+    for percent in range(25):
+        time.sleep(.01)
+        bar.update(percent*2, "Test Starting...")
         
-    for percent in range(75,100):
-        time.sleep(.1)
-        bar.update(percent, "Test Finishing...")
+    for percent in range(25,50):
+        time.sleep(.01)
+        bar.update(percent*2, "Test Finishing...")
      
     time.sleep(.5)
     bar.finish()
