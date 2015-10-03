@@ -164,8 +164,8 @@
 		61EC906C145FACF8003ADF05 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppController.m; path = ../Source/AppController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		61EC906D145FACF8003ADF05 /* CDCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDCommon.h; path = Source/CDCommon.h; sourceTree = "<group>"; };
 		61EC906E145FACF8003ADF05 /* CDCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDCommon.m; path = Source/CDCommon.m; sourceTree = "<group>"; };
-		61EC9070145FACF8003ADF05 /* CDControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDControl.h; sourceTree = "<group>"; };
-		61EC9071145FACF8003ADF05 /* CDControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDControl.m; sourceTree = "<group>"; wrapsLines = 1; };
+		61EC9070145FACF8003ADF05 /* CDControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDControl.h; path = Source/CDControl/CDControl.h; sourceTree = "<group>"; };
+		61EC9071145FACF8003ADF05 /* CDControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDControl.m; path = Source/CDControl/CDControl.m; sourceTree = "<group>"; wrapsLines = 1; };
 		61EC9073145FACF8003ADF05 /* CDFileDialogControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDFileDialogControl.h; sourceTree = "<group>"; };
 		61EC9074145FACF8003ADF05 /* CDFileDialogControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDFileDialogControl.m; sourceTree = "<group>"; };
 		61EC9076145FACF8003ADF05 /* CDFileSaveControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDFileSaveControl.m; sourceTree = "<group>"; };
@@ -223,6 +223,7 @@
 		7B22D90B1BBF25B800525FB5 /* progressbar.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; name = progressbar.py; path = Examples/progressbar.py; sourceTree = SOURCE_ROOT; };
 		7B22D90C1BBF260C00525FB5 /* progressbar.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = progressbar.sh; path = Examples/progressbar.sh; sourceTree = SOURCE_ROOT; };
 		7B94DD5C1BBF41B8004850F1 /* examples.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = examples.sh; path = Examples/examples.sh; sourceTree = SOURCE_ROOT; };
+		7B94DD5E1BBF534A004850F1 /* checkbox.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = checkbox.sh; path = Examples/checkbox.sh; sourceTree = SOURCE_ROOT; };
 		7BDF56271AEBE163004812DE /* Dialogs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Dialogs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BDF562B1AEBE163004812DE /* Dialogs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Dialogs.h; path = Source/Dialogs.h; sourceTree = "<group>"; };
 		7BF9CC731AEBED350058B25F /* dialogsTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = dialogsTest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -289,10 +290,9 @@
 			isa = PBXGroup;
 			children = (
 				7BDF562B1AEBE163004812DE /* Dialogs.h */,
-				61EC906D145FACF8003ADF05 /* CDCommon.h */,
-				61EC906E145FACF8003ADF05 /* CDCommon.m */,
+				61EC9070145FACF8003ADF05 /* CDControl.h */,
 				61EC90A7145FACF8003ADF05 /* CDOptions.h */,
-				61EC90A8145FACF8003ADF05 /* CDOptions.m */,
+				7B94DD5D1BBF5159004850F1 /* Common */,
 				61EC906F145FACF8003ADF05 /* Controls */,
 				7B22D90D1BBF2DBC00525FB5 /* Examples */,
 				7BDF56281AEBE163004812DE /* App + Relaunch + Demo */,
@@ -316,8 +316,6 @@
 		61EC906F145FACF8003ADF05 /* Controls */ = {
 			isa = PBXGroup;
 			children = (
-				61EC9070145FACF8003ADF05 /* CDControl.h */,
-				61EC9071145FACF8003ADF05 /* CDControl.m */,
 				61EC9072145FACF8003ADF05 /* CDFileDialogControl */,
 				61EC9079145FACF8003ADF05 /* CDIcon.h */,
 				61EC907A145FACF8003ADF05 /* CDIcon.m */,
@@ -423,10 +421,22 @@
 				7B22D90B1BBF25B800525FB5 /* progressbar.py */,
 				7B22D90C1BBF260C00525FB5 /* progressbar.sh */,
 				7B94DD5C1BBF41B8004850F1 /* examples.sh */,
+				7B94DD5E1BBF534A004850F1 /* checkbox.sh */,
 				7BF9CC751AEBED350058B25F /* dialogsTest.m */,
 			);
 			name = Examples;
 			path = Source;
+			sourceTree = "<group>";
+		};
+		7B94DD5D1BBF5159004850F1 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				61EC906D145FACF8003ADF05 /* CDCommon.h */,
+				61EC906E145FACF8003ADF05 /* CDCommon.m */,
+				61EC90A8145FACF8003ADF05 /* CDOptions.m */,
+				61EC9071145FACF8003ADF05 /* CDControl.m */,
+			);
+			name = Common;
 			sourceTree = "<group>";
 		};
 		7BDF56281AEBE163004812DE /* App + Relaunch + Demo */ = {
