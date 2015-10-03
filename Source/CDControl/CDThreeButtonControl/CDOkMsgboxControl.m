@@ -18,33 +18,30 @@
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#import "CDOkMsgboxControl.h"
+#import "CDThreeButtonControl.h"
 
 @implementation CDOkMsgboxControl
 
 - (NSDictionary *) availableKeys
 {
-	NSNumber *vOne = @CDOptionsOneValue;
-	NSNumber *vNone = @CDOptionsNoValues;
-	
-	return @{@"alert": vOne,
-            @"label": vOne,
-		@"no-cancel": vNone};
+	return @{@"alert":  @CDOptionsOneValue, @"label":@CDOptionsOneValue, @"no-cancel": @CDOptionsNoValues};
 }
 
 - (void) setButtons {
-	[button1 setTitle:@"Ok"];
-	if ([self.options hasOpt:@"no-cancel"]) {
-		[button2 setEnabled:NO];
-		[button2 setHidden:YES];
-	} else {
-		[button2 setTitle:@"Cancel"];
-		[button2 setKeyEquivalent:@"\e"];
-		[button2 setEnabled:YES];
-		[button2 setHidden:NO];
+
+	button1.title = @"Ok";
+
+	if ([self.options hasOpt:@"no-cancel"])
+
+    BUTTON_SET(button2,NO,YES);
+
+  else {
+		button2.title         = @"Cancel";
+		button2.keyEquivalent = @"\e";
+		BUTTON_SET(button2,YES,NO);
 	}
-	[button3 setEnabled:NO];
-	[button3 setHidden:YES];
+
+	BUTTON_SET(button3, NO, YES);
 }
 
 @end

@@ -30,6 +30,8 @@
 
 /// availableKeys should be an `NSString` key, and an `NSNumber` int value using one of the constants defined above.
 
++ (instancetype) optionsWithDictionary:(NSDictionary*)d;
+
 + (instancetype) getOpts:(NSArray*)args availableKeys:(NSDictionary*)aks depreciatedKeys:(NSDictionary *)dks;
 
 + (void) printOpts:(NSArray*)availableOptions forRunMode:(NSString*)m;

@@ -6,7 +6,17 @@ int main(int argc, const char * argv[]) { @autoreleasepool {
 
   printf("Available Controls:\n%s", CDControl.availableControls.description.UTF8String);
 
+
+  CDCheckboxControl *p = [CDCheckboxControl.alloc initWithOptions:
+                              [CDOptions optionsWithDictionary:@{@"button1":@"Button 1", @"items": @[@"Checkbox 1 (index 0)"]}]];
+//  CDProgressbarControl *p = [CDProgressbarControl.alloc initWithOptions:
+//                              [CDOptions optionsWithDictionary:@{@"button1":@"Button 1", @"items": @[@"Checkbox 1 (index 0)"]}]];
+
+  [p runControl];
+//  [progressbar --percent 0 --stoppable --title $(basename $0) --text "Please wait..." < $PIPE &
+
   //    CDProgressbarControl *x = [CDProgressbarControl.alloc initWithOptions:nil];
+
   CDOptions *x = CDOptions.new;
   x[@"button1"] = @"ok";
   x[@"text"] = @"whatever";

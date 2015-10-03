@@ -21,6 +21,13 @@
 #import "Dialogs.h"
 
 @implementation CDControl
+{
+
+
+  // Timer
+  NSThread                    *mainThread, *timerThread;
+  NSTimer                     *timer;
+}
 
 #pragma mark - Internal Control Methods
 
@@ -121,22 +128,19 @@
 
   // Load nib
   if (nib) {
-    if (![nib isEqualToString:@""] && ![NSBundle loadNibNamed:nib owner:self]) {
 
-      if ([self.options hasOpt:@"debug"])
-        [self debug:[NSString stringWithFormat:@"Could not load control interface: \"%@.nib\"", nib]];
-      return NO;
-    }
+    if (![nib isEqualToString:@""] && ![NSBundle loadNibNamed:nib owner:self])
+      return [self debug:[NSString stringWithFormat:@"Could not load control interface: \"%@.nib\"", nib]], NO;
   }
   else return [self debug:@"Control did not specify a NIB interface file to load."], NO;
 
   panel = [CDPanel.alloc initWithOptions:self.options];
   icon  = [CDIcon.alloc  initWithOptions:self.options];
-  if (controlPanel) {
-    [panel setPanel:controlPanel];
+  if (self.controlPanel) {
+    [panel setPanel:self.controlPanel];
     [icon  setPanel:panel];
   }
-  !controlIcon ?: [icon setControl:controlIcon];
+  !self.controlIcon ?: [icon setControl:self.controlIcon];
   return YES;
 }
 
@@ -171,7 +175,7 @@
 
 - (void) runControl {
 
-  if (!panel || !panel.panel) {
+  if (!panel) {
     [self loadControlNib:self.controlNib];
     [self createControl];
   }
@@ -182,17 +186,18 @@
     !icon.control ?: [icon setIconFromOptions];
     // Reposition Panel
     [panel setPosition];
-    [panel setFloat];
+    [panel    setFloat];
+
     if (!self.class.isRunningStandalone) {
+
       [NSApp activateIgnoringOtherApps:YES];
       [panel.panel makeKeyAndOrderFront:nil];
     }
+
     [NSApp run];
   }
   else {
-    if ([self.options hasOpt:@"debug"]) {
-      [self debug:@"The control has not specified the panel it is to use and cocoaDialog cannot continue."];
-    }
+    [self debug:@"The control has not specified the panel it is to use and cocoaDialog cannot continue."];
     exit(255);
   }
 }
@@ -214,16 +219,16 @@
 
 - (void) setTimeoutLabel {
 
-  if (!timeoutLabel) return;
+  if (!self.timeoutLabel) return;
 
-  NSRect labelRect = timeoutLabel.frame;
+  NSRect labelRect = self.timeoutLabel.frame;
   float labelNewHeight = -4.0f, labelHeightDiff = labelNewHeight - labelRect.size.height;
 
-  [timeoutLabel setStringValue:[self formatSecondsForString:(int)timeout]];
+  [self.timeoutLabel setStringValue:[self formatSecondsForString:(int)timeout]];
 
-  if (![timeoutLabel.stringValue isEqualToString:@""] && timeout != 0.0f) {
+  if (![self.timeoutLabel.stringValue isEqualToString:@""] && timeout != 0.0f) {
 
-    NSTextStorage     *textStorage = [NSTextStorage.alloc initWithString:timeoutLabel.stringValue];
+    NSTextStorage     *textStorage = [NSTextStorage.alloc initWithString:self.timeoutLabel.stringValue];
     NSTextContainer *textContainer = [NSTextContainer.alloc initWithContainerSize:(NSSize){labelRect.size.width, FLT_MAX}];
     NSLayoutManager *layoutManager = NSLayoutManager.new;
 
@@ -236,10 +241,10 @@
 
     // Set label's new height
     NSRect l = NSMakeRect(labelRect.origin.x, labelRect.origin.y - labelHeightDiff, labelRect.size.width, labelNewHeight);
-    [timeoutLabel setFrame: l];
+    [self.timeoutLabel setFrame: l];
   }
 
-  else [timeoutLabel setHidden:YES];
+  else [self.timeoutLabel setHidden:YES];
 
   // Set panel's new width and height
   NSSize p = [panel.panel.contentView frame].size;
@@ -269,8 +274,8 @@
   timeout = timeout - 1.0f;
   // Update and position the label if it exists
   if (timeout > 0.0f) {
-    if (timeoutLabel != nil) {
-      [timeoutLabel setStringValue:[self formatSecondsForString:(int)timeout]];
+    if (self.timeoutLabel != nil) {
+      [self.timeoutLabel setStringValue:[self formatSecondsForString:(int)timeout]];
     }
   }
   else {

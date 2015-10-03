@@ -22,27 +22,31 @@
 
 @implementation CDOptions { NSMutableDictionary *_options; }
 
-- initWithOpts:(NSMutableDictionary *)opts
++ (instancetype) optionsWithDictionary:(NSDictionary *)d { return [self.alloc initWithOpts:d]; }
+
+- initWithOpts:opts
 {
-  return self = super.init ? _options = opts ?: @{}.mutableCopy, self : nil;
+  return self = super.init ? _options = opts ? [opts mutableCopy] : @{}.mutableCopy, self : nil;
 }
 
 - init { return [self initWithOpts:nil]; }
 
 + (BOOL) _argIsKey:(NSString *)arg availableKeys:(NSDictionary *)availableKeys depreciatedKeys:(NSDictionary *)depreciatedKeys
 {
-  return arg.length > 2 && [[arg substringWithRange:NSMakeRange(0,2)] isEqualToString:@"--"] &&
-  (availableKeys[[arg substringFromIndex:2]] || depreciatedKeys[[arg substringFromIndex:2]]);
+  return arg.length > 2 && [[arg substringWithRange:(NSRange){0,2}] isEqualToString:@"--"]
+                        && (  availableKeys[[arg substringFromIndex:2]]
+                        ||  depreciatedKeys[[arg substringFromIndex:2]]);
 }
 
 + (instancetype) getOpts:(NSArray *)args availableKeys:(NSDictionary *)availableKeys depreciatedKeys:(NSDictionary *)depreciatedKeys
 {
+
   NSMutableDictionary *options = @{}.mutableCopy;
 
-  [args enumerateObjectsUsingBlock:^(NSString *arg, NSUInteger i, BOOL *stop) {
+  !args ?: [args enumerateObjectsUsingBlock:^(NSString *arg, NSUInteger i, BOOL *stop) {
 
     // If the arg is a key we specified above...
-    if (![CDOptions _argIsKey:arg availableKeys:availableKeys depreciatedKeys:depreciatedKeys]) return;
+    if (![self _argIsKey:arg availableKeys:availableKeys depreciatedKeys:depreciatedKeys]) return;
 
     NSMutableArray *values;
 
@@ -58,7 +62,7 @@
     if (argType == CDOptionsNoValues) return [options setValue:@NO forKey:arg];
 
     // Control reaches here there should be one or more values for key.
-    if (argType == CDOptionsMultipleValues) values = @{}.mutableCopy;
+    if (argType == CDOptionsMultipleValues) values = @[].mutableCopy;
 
     while (i+1 < args.count) {
 
@@ -88,40 +92,38 @@
 
 + (void) printOpts:(NSArray *)availableOptions forRunMode:(NSString *)runMode
 {
-  NSFileHandle *fh = NSFileHandle.fileHandleWithStandardOutput;
 
-  if (!fh) return;
+  #define WRITE(X) [NSFileHandle.fileHandleWithStandardOutput writeData:[X dataUsingEncoding:NSUTF8StringEncoding]]
 
-  [fh writeData:[@"Usage:\tcocoaDialog " dataUsingEncoding:NSUTF8StringEncoding]];
-  [fh writeData:[[runMode lowercaseString] dataUsingEncoding:NSUTF8StringEncoding]];
-  [fh writeData:[@" [options]\n\tAvailable options:\n" dataUsingEncoding:NSUTF8StringEncoding]];
+  if (!NSFileHandle.fileHandleWithStandardOutput) return;
+
+  WRITE(@"Usage:\tcocoaDialog ");
+  WRITE(runMode.lowercaseString);
+  WRITE(@" [options]\n\tAvailable options:\n");
 
   NSArray *sortedAvailableKeys = [NSArray arrayWithArray:[availableOptions sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
 
-  NSEnumerator *en = [sortedAvailableKeys objectEnumerator];
-  id key;
-  unsigned i = 0;
-  unsigned currKey = 0;
-  while (key = [en nextObject]) {
+  __block unsigned i = 0, currKey = 0;
+  [sortedAvailableKeys enumerateObjectsUsingBlock:^(id key, NSUInteger idx, BOOL *stop) {
 
-    if (!i) [fh writeData:[@"\t\t" dataUsingEncoding:NSUTF8StringEncoding]];
+    if (!i) WRITE(@"\t\t");
 
-    [fh writeData:[@"--" dataUsingEncoding:NSUTF8StringEncoding]];
-    [fh writeData:[key dataUsingEncoding:NSUTF8StringEncoding]];
+    WRITE(@"--");
+    WRITE(key);
 
     if (i <= 6 && currKey != [sortedAvailableKeys count] - 1) {
-      [fh writeData:[@", " dataUsingEncoding:NSUTF8StringEncoding]];
+      WRITE(@", ");
       i++;
     }
 
     if (i == 6 || currKey == [sortedAvailableKeys count] - 1) {
-      [fh writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
+      WRITE(@"\n");
       i = 0;
     }
     currKey++;
-  }
-  [fh writeData:[[NSString stringWithFormat:@"\nFor detailed documentation, please visit:\nhttp://mstratman.github.com/cocoadialog/#documentation/\n%@\n_control\n", runMode.lowercaseString]
-                          dataUsingEncoding:NSUTF8StringEncoding]];
+  }];
+  WRITE(({[NSString stringWithFormat:@"\nFor detailed documentation, please visit:\nhttp://mstratman.github.com/cocoadialog/#documentation/\n%@\n_control\n", runMode.lowercaseString];}));
+
   exit(1);
 }
 

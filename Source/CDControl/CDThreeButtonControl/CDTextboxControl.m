@@ -18,8 +18,7 @@
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#import "CDTextboxControl.h"
-
+#import "CDThreeButtonControl.h"
 
 @implementation CDTextboxControl
 
@@ -79,16 +78,16 @@
         [self.panel.panel setContentSize:p];
 
         // Set scrollView's new height
-        NSSize s = [scrollView frame].size;
+        NSSize s = self.scrollView.frame.size;
         s.height -= labelHeightDiff;
-        [scrollView setFrameSize:s];
+        [self.scrollView setFrameSize:s];
 
     }
 }
 
 - (BOOL)isReturnValueEmpty
 {
-    return [[[textView textStorage] string] isEqualToString:@""];
+    return [self.textView.textStorage.string isEqualToString:@""];
 }
 
 - (NSString *) returnValueEmptyText
@@ -112,33 +111,33 @@
 
 	NSAttributedString *text;
     
-    [self.icon addControl:scrollView];
+    [self.icon addControl:self.scrollView];
 	
 	// set editable
 	if ([self.options hasOpt:@"editable"]) {
-		[textView setEditable:YES];
+		[self.textView setEditable:YES];
 	} else {
-		[textView setEditable:NO];
+		[self.textView setEditable:NO];
 	}
     
 	// Set initial text in textview
 	if ([self.options hasOpt:@"text"]) {
 		text = [NSAttributedString.alloc initWithString:
 			[self.options optValue:@"text"]];
-		[[textView textStorage] setAttributedString:text];
-		[textView scrollRangeToVisible:NSMakeRange([text length], 0)];
+		[self.textView.textStorage setAttributedString:text];
+		[self.textView scrollRangeToVisible:NSMakeRange([text length], 0)];
 	} else if ([self.options hasOpt:@"text-from-file"]) {
-		NSString *contents = [NSString stringWithContentsOfFile:
-			[self.options optValue:@"text-from-file"] encoding:NSUTF8StringEncoding error:nil];
-		if (contents == nil) {
+
+		NSString *contents = [NSString stringWithContentsOfFile:[self.options optValue:@"text-from-file"]
+                                                   encoding:NSUTF8StringEncoding error:nil];
+		if (!contents) {
 			if ([self.options hasOpt:@"debug"]) [self debug:@"Could not read file"];
 			return;
-		} else
-			text = [NSAttributedString.alloc initWithString:contents];
+		} else text = [NSAttributedString.alloc initWithString:contents];
 
-		[textView.textStorage setAttributedString:text];
+		[self.textView.textStorage setAttributedString:text];
 	} else {
-		[textView.textStorage setAttributedString:[NSAttributedString.alloc initWithString:@""]];
+		[self.textView.textStorage setAttributedString:[NSAttributedString.alloc initWithString:@""]];
 	}
     
 	[self setTitleButtonsLabel:[self.options optValue:@"label"]];
@@ -147,22 +146,22 @@
 	// etc). Default is top
    [self.options optValue:@"scroll-to"] &&
   [[self.options optValue:@"scroll-to"] isCaseInsensitiveLike:@"bottom"] ?
-    [textView scrollRangeToVisible:NSMakeRange(textView.textStorage.length-1, 0)] :
-    [textView scrollRangeToVisible:NSMakeRange(0, 0)];
+    [self.textView scrollRangeToVisible:NSMakeRange(self.textView.textStorage.length-1, 0)] :
+    [self.textView scrollRangeToVisible:NSMakeRange(0, 0)];
 	
 	// select all the text
 	if ([self.options hasOpt:@"selected"])
-		[textView setSelectedRange:NSMakeRange(0, textView.textStorage.length)];
+		[self.textView setSelectedRange:NSMakeRange(0, self.textView.textStorage.length)];
 	
 	// Set first responder
 	// Why doesn't this work for the button?
-  [self.options hasOpt:@"focus-textbox"] ? [self.panel.panel makeFirstResponder:textView]
+  [self.options hasOpt:@"focus-textbox"] ? [self.panel.panel makeFirstResponder:self.textView]
                                          : [self.panel.panel makeFirstResponder:button1];
 }
 
 - (void) controlHasFinished:(int)button {
 
-	![self.options hasOpt:@"editable"] ?: [controlReturnValues addObject:textView.textStorage.string];
+	![self.options hasOpt:@"editable"] ?: [controlReturnValues addObject:self.textView.textStorage.string];
 
   [super controlHasFinished:button];
 }

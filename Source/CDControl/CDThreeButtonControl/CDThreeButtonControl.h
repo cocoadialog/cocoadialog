@@ -21,6 +21,8 @@
 #import <Foundation/Foundation.h>
 #import "CDControl.h"
 
+#define BUTTON_SET(BUTTON,ENABLED,HIDDEN) ({ BUTTON.enabled = ENABLED; BUTTON.hidden  = HIDDEN; })
+
 @interface CDThreeButtonControl : CDControl {
 
   IBOutlet NSTextField    *expandingLabel;
@@ -56,3 +58,48 @@
 - (void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 
 @end
+
+
+#pragma mark - Variations
+
+@interface     CDInputboxControl : CDThreeButtonControl
+@end
+@interface CDStandardInputboxControl : CDInputboxControl
+@end
+
+
+@interface        CDRadioControl : CDThreeButtonControl
+@end
+@interface     CDCheckboxControl : CDThreeButtonControl
+@property         NSMutableArray * checkboxes;
+@end
+
+@interface       CDMsgboxControl : CDThreeButtonControl
+@property IBOutlet   NSTextField * text;
+@end
+@interface     CDOkMsgboxControl : CDMsgboxControl
+@end
+@interface  CDYesNoMsgboxControl : CDMsgboxControl
+@end
+
+@interface      CDTextboxControl : CDThreeButtonControl
+@property IBOutlet    NSTextView * textView;
+@property	IBOutlet NSScrollView  * scrollView;
+
+- (void) setLabel:(NSString*)labelText;
+
+
+@end
+
+
+@interface  CDPopUpButtonControl : CDThreeButtonControl
+@property IBOutlet NSPopUpButton * popupControl;
+
+- (void) selectionChanged:x;
+
+@end
+@interface CDStandardPopUpButtonControl : CDPopUpButtonControl
+@end
+
+
+

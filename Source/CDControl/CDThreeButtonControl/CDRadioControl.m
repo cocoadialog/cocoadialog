@@ -6,7 +6,7 @@
 //  Copyright (c) 2011 Mark Whitaker. All rights reserved.
 //
 
-#import "CDRadioControl.h"
+#import "CDThreeButtonControl.h"
 
 @implementation CDRadioControl
 

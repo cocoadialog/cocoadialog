@@ -60,32 +60,29 @@
  It invokes runControlFromOptions: with the options specified in initWithOptions:
  @note You must override runControlFromOptions.
  */
-@interface CDControl : CDCommon <CDControl> {
-
-  // Outlets
-  IBOutlet NSPanel            *controlPanel;
-  IBOutlet NSImageView        *controlIcon;
-  IBOutlet NSTextField        *timeoutLabel;
-
+@interface CDControl : CDCommon <CDControl>
+{
   //  Variables
   int                         controlExitStatus;
   NSString                    *controlExitStatusString;
   NSMutableArray              *controlItems, *controlReturnValues;
-
-  // Timer
-  NSThread                    *mainThread, *timerThread;
-  NSTimer                     *timer;
   float                       timeout;
+
 }
 
+  // Outlets
+@property IBOutlet NSPanel            *controlPanel;
+@property IBOutlet NSImageView        *controlIcon;
+@property IBOutlet NSTextField        *timeoutLabel;
+
 // Classes
-@property  CDIcon *icon;
-@property CDPanel *panel;
+@property  CDIcon * icon;
+@property CDPanel * panel;
 
 - (void) createTimer;
-- (NSString *) formatSecondsForString:(NSInteger)timeInSeconds;
+- (NSString*) formatSecondsForString:(NSInteger)timeInSeconds;
 - (BOOL) loadControlNib:(NSString *)nib;
-+ (void) printHelpTo:(NSFileHandle *)fh;
++ (void)   printHelpTo:(NSFileHandle *)fh;
 - (void) processTimer;
 - (void) runControl;
 - (void) setTimeout;

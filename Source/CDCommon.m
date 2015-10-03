@@ -12,6 +12,8 @@
 
 - (void) debug:(NSString *)message {
 
+  if (![self.options hasOpt:@"debug"]) return;
+
   if (NSFileHandle.fileHandleWithStandardError) // Output to stdErr
     [NSFileHandle.fileHandleWithStandardError writeData:[[NSString stringWithFormat:@"cocoaDialog Error: %@\n", message]
                                                          dataUsingEncoding:NSUTF8StringEncoding]];

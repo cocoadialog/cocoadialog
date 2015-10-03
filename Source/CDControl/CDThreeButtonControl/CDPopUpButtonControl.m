@@ -18,9 +18,7 @@
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#import "CDPopUpButtonControl.h"
-#import "CDStandardPopUpButtonControl.h"
-
+#import "CDThreeButtonControl.h"
 
 @implementation CDPopUpButtonControl
 
@@ -82,48 +80,48 @@
 }
 
 - (void) createControl {
-    [self.panel addMinWidth:popupControl.frame.size.width];
-    [controlItems addObject:popupControl];
-    [self.icon addControl:popupControl];
+    [self.panel addMinWidth:self.popupControl.frame.size.width];
+    [controlItems addObject:self.popupControl];
+    [self.icon addControl:self.popupControl];
     // Setup the control
-    [popupControl setKeyEquivalent:@" "];
-    [popupControl setTarget:self];
-    [popupControl setAction:@selector(selectionChanged:)];
-	[popupControl removeAllItems];
+    [self.popupControl setKeyEquivalent:@" "];
+    [self.popupControl setTarget:self];
+    [self.popupControl setAction:@selector(selectionChanged:)];
+	[self.popupControl removeAllItems];
     // Set popup/pulldown style
-    [popupControl setPullsDown:[self.options hasOpt:@"pulldown"] ? YES : NO];
+    [self.popupControl setPullsDown:[self.options hasOpt:@"pulldown"] ? YES : NO];
     // Populate menu
     NSArray *items = [NSArray arrayWithArray:[self.options optValues:@"items"]];
 	if (items != nil && [items count]) {
 		NSEnumerator *en = [items objectEnumerator];
 		id obj;
 		while (obj = [en nextObject]) {
-			[popupControl addItemWithTitle:(NSString *)obj];
+			[self.popupControl addItemWithTitle:(NSString *)obj];
 		}
         NSInteger selected = [self.options hasOpt:@"selected"] ? [[self.options optValue:@"selected"] integerValue] : 0;
-        [popupControl selectItemAtIndex:selected];
+        [self.popupControl selectItemAtIndex:selected];
 	}
 	[self setTitleButtonsLabel:[self.options optValue:@"label"]];
 }
 
 - (void) controlHasFinished:(int)button {
 	if ([[self options] hasOpt:@"string-output"]) {
-        [controlReturnValues addObject:[popupControl titleOfSelectedItem]];
+        [controlReturnValues addObject:self.popupControl.titleOfSelectedItem];
 	} else {
-        [controlReturnValues addObject:[NSString stringWithFormat:@"%d", [popupControl indexOfSelectedItem]]];
+        [controlReturnValues addObject:[NSString stringWithFormat:@"%d", self.popupControl.indexOfSelectedItem]];
 	}
     [super controlHasFinished:button];
 }
 
 - (void) selectionChanged:(id)sender {
-    [popupControl synchronizeTitleAndSelectedItem];
+    [self.popupControl synchronizeTitleAndSelectedItem];
 	if ([[self options] hasOpt:@"exit-onchange"]) {
 		controlExitStatus = 4;
 		controlExitStatusString = @"4";
         if ([[self options] hasOpt:@"string-output"]) {
-            [controlReturnValues addObject:[popupControl titleOfSelectedItem]];
+            [controlReturnValues addObject:self.popupControl.titleOfSelectedItem];
         } else {
-            [controlReturnValues addObject:[NSString stringWithFormat:@"%d", [popupControl indexOfSelectedItem]]];
+            [controlReturnValues addObject:[NSString stringWithFormat:@"%d", self.popupControl.indexOfSelectedItem]];
         }
         [self stopControl];
 	}
