@@ -1,14 +1,12 @@
 #!/bin/bash
-# Script: cocoaDialogTests.sh
-# Author: Mark Carver
-# Created: 2011-09-23
-# Updated: 2012-07-24
-# Copyright (c) 2012 Mark Carver. All rights reserved.
 
-cocoaDialog(){
-  # Replace this with your path if it isn't installed in the applications folder.
-  /Users/Shared/Applications/cocoaDialog.app/Contents/MacOS/cocoaDialog "${@}";
-}
+# Author: Mark Carver	Copyright (c) 2012 Mark Carver. All rights reserved.
+# Created: 2011-09-23 Updated: 2012-07-24
+
+CD=${1:-cocoa-dialog}
+
+cocoaDialog() { $CD "${@}"; }
+
 icons() {
   icons=(addressbook
   airport
@@ -161,7 +159,7 @@ standard_dropdown(){
 filesave() {
   rv=$(cocoaDialog filesave --debug \
     --with-file "me.txt" \
-    --with-directory "/Userss" \
+    --with-directory "/Users" \
     --select-multiple \
     --title "Select files" \
     --text "Please select files");
@@ -317,23 +315,22 @@ runTests() {
     textbox
     updater
     yesno_msgbox
-  );
-  button='';
+  )
+  button=''
   label="$(printf "This program will allow you to conduct continuous tests on any given cocoaDialog control. Please select the cocoaDialog control you wish to test.\n\nAfter all of the control's tests have completed this dialog will reappear, press Cancel to quit.")";
-  while [ "${button}" != "Cancel" ]; do
-    button='';
+  while [ "${button}" != "Cancel Test" ]; do
+    button=''
     dialog=$(cocoaDialog radio --title "Automated cocoaDialog Testing Script" --float \
-      --label "${label}" \
-      --string-output \
       --rows 8 \
       --icon hazard \
-      --value-required \
+      --string-output \
       --button1 "Run Test" \
-      --button2 "Cancel" \
-      --items ${tests[*]});
+      --button2 "Cancel Test" \
+	    --label "${label}" \
+      --items ${tests[*]})
     button="$(echo "${dialog}" | awk 'NR==1{print}')";
     # Run the selected test.
     $(echo "${dialog}" | awk 'NR>1{print $0}');
   done
 }
-runTests;
+runTests

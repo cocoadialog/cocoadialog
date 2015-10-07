@@ -1,0 +1,1416 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		7BF9CC671AEBEBAF0058B25F /* Tests */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 7BF9CC681AEBEBAF0058B25F /* Build configuration list for PBXAggregateTarget "Tests" */;
+			buildPhases = (
+				7BF9CC6D1AEBEBD40058B25F /* Run Script */,
+			);
+			dependencies = (
+				7BF9CC6C1AEBEBD00058B25F /* PBXTargetDependency */,
+			);
+			name = Tests;
+			productName = "Python Progress Bar";
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		7B3D25B11BC422A400218FE0 /* CDControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45B9FF1BC421FE008AED0D /* CDControl.m */; };
+		7B3D25B21BC422A400218FE0 /* CDFileDialogControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA021BC421FE008AED0D /* CDFileDialogControl.m */; };
+		7B3D25B31BC422A400218FE0 /* CDFileSaveControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA031BC421FE008AED0D /* CDFileSaveControl.m */; };
+		7B3D25B41BC422A400218FE0 /* CDFileSelectControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA041BC421FE008AED0D /* CDFileSelectControl.m */; };
+		7B3D25B51BC422A400218FE0 /* CDIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA061BC421FE008AED0D /* CDIcon.m */; };
+		7B3D25B61BC422A400218FE0 /* CDBubbleControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA091BC421FE008AED0D /* CDBubbleControl.m */; };
+		7B3D25B71BC422A400218FE0 /* CDGrowlControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA0B1BC421FE008AED0D /* CDGrowlControl.m */; };
+		7B3D25B81BC422A400218FE0 /* CDNotifyControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA0D1BC421FE008AED0D /* CDNotifyControl.m */; };
+		7B3D25B91BC422A400218FE0 /* KABubbleWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA0F1BC421FE008AED0D /* KABubbleWindow.m */; };
+		7B3D25BA1BC422A400218FE0 /* KABubbleWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA111BC421FE008AED0D /* KABubbleWindowController.m */; };
+		7B3D25BB1BC422A400218FE0 /* KABubbleWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA131BC421FE008AED0D /* KABubbleWindowView.m */; };
+		7B3D25BC1BC422A400218FE0 /* CDPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA151BC421FE008AED0D /* CDPanel.m */; };
+		7B3D25BD1BC422A400218FE0 /* CDProgressbarControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA181BC421FE008AED0D /* CDProgressbarControl.m */; };
+		7B3D25BE1BC422A400218FE0 /* CDProgressbarInputHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA1A1BC421FE008AED0D /* CDProgressbarInputHandler.m */; };
+		7B3D25BF1BC422A400218FE0 /* CDCheckboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA1D1BC421FE008AED0D /* CDCheckboxControl.m */; };
+		7B3D25C01BC422A400218FE0 /* CDInputboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA1E1BC421FE008AED0D /* CDInputboxControl.m */; };
+		7B3D25C11BC422A400218FE0 /* CDMsgboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA1F1BC421FE008AED0D /* CDMsgboxControl.m */; };
+		7B3D25C21BC422A400218FE0 /* CDOkMsgboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA201BC421FE008AED0D /* CDOkMsgboxControl.m */; };
+		7B3D25C31BC422A400218FE0 /* CDPopUpButtonControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA211BC421FE008AED0D /* CDPopUpButtonControl.m */; };
+		7B3D25C41BC422A400218FE0 /* CDRadioControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA221BC421FE008AED0D /* CDRadioControl.m */; };
+		7B3D25C51BC422A400218FE0 /* CDSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA241BC421FE008AED0D /* CDSlider.m */; };
+		7B3D25C61BC422A400218FE0 /* CDStandardInputboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA251BC421FE008AED0D /* CDStandardInputboxControl.m */; };
+		7B3D25C71BC422A400218FE0 /* CDStandardPopUpButtonControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA261BC421FE008AED0D /* CDStandardPopUpButtonControl.m */; };
+		7B3D25C81BC422A400218FE0 /* CDTextboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA271BC421FE008AED0D /* CDTextboxControl.m */; };
+		7B3D25C91BC422A400218FE0 /* CDThreeButtonControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA291BC421FE008AED0D /* CDThreeButtonControl.m */; };
+		7B3D25CA1BC422A400218FE0 /* CDYesNoMsgboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA2A1BC421FE008AED0D /* CDYesNoMsgboxControl.m */; };
+		7B4273EB1BC4B64A00199E09 /* Dialogs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BDF56271AEBE163004812DE /* Dialogs.framework */; };
+		7B4273ED1BC4B66E00199E09 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B4273EC1BC4B66E00199E09 /* Sparkle.framework */; };
+		7B4273EE1BC4B67600199E09 /* Sparkle.framework in Copy Files (2 items) */ = {isa = PBXBuildFile; fileRef = 7B4273EC1BC4B66E00199E09 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7B4273EF1BC4B6CA00199E09 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B45B9FA1BC421FE008AED0D /* Images.xcassets */; };
+		7B4273F01BC4B6E300199E09 /* appcast.xml in Resources */ = {isa = PBXBuildFile; fileRef = 7B45B9E81BC421FE008AED0D /* appcast.xml */; };
+		7B4273F11BC4B6E300199E09 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 7B45B9F51BC421FE008AED0D /* dsa_pub.pem */; };
+		7B4273F21BC4B6E300199E09 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7B45B9F61BC421FE008AED0D /* InfoPlist.strings */; };
+		7B4273F31BC4B6E300199E09 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B45B9F81BC421FE008AED0D /* MainMenu.xib */; };
+		7B4273F41BC4B74E00199E09 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7B3D25CB1BC4231800218FE0 /* Growl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7B4273F51BC4BA3400199E09 /* relaunch.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45B9F21BC421FE008AED0D /* relaunch.m */; };
+		7B4273F61BC4BBA500199E09 /* Growl.framework in Copy Files (2 items) */ = {isa = PBXBuildFile; fileRef = 7B3D25CB1BC4231800218FE0 /* Growl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7B4273FE1BC4C62500199E09 /* CocoaDialogUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B4273FD1BC4C62500199E09 /* CocoaDialogUITests.m */; };
+		7B45BA3A1BC4222D008AED0D /* Msgbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B45BA301BC421FE008AED0D /* Msgbox.xib */; settings = {ASSET_TAGS = (); }; };
+		7B45BA3B1BC4222D008AED0D /* popup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B45BA321BC421FE008AED0D /* popup.xib */; settings = {ASSET_TAGS = (); }; };
+		7B45BA3C1BC4222D008AED0D /* Progressbar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B45BA341BC421FE008AED0D /* Progressbar.xib */; settings = {ASSET_TAGS = (); }; };
+		7B45BA3D1BC4222D008AED0D /* tbc.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B45BA361BC421FE008AED0D /* tbc.xib */; settings = {ASSET_TAGS = (); }; };
+		7B45BA3E1BC4222D008AED0D /* Textbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B45BA381BC421FE008AED0D /* Textbox.xib */; settings = {ASSET_TAGS = (); }; };
+		7B45BA3F1BC42235008AED0D /* CDCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45B9FB1BC421FE008AED0D /* CDCommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B45BA401BC42235008AED0D /* CDOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45BA2B1BC421FE008AED0D /* CDOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B45BA411BC42235008AED0D /* Dialogs.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45BA2D1BC421FE008AED0D /* Dialogs.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B45BA421BC4223E008AED0D /* CDCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45B9FC1BC421FE008AED0D /* CDCommon.m */; settings = {ASSET_TAGS = (); }; };
+		7B45BA431BC4223E008AED0D /* CDOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA2C1BC421FE008AED0D /* CDOptions.m */; settings = {ASSET_TAGS = (); }; };
+		7B45BA441BC42252008AED0D /* CDControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45B9FE1BC421FE008AED0D /* CDControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B45BA451BC42252008AED0D /* CDFileDialogControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45BA011BC421FE008AED0D /* CDFileDialogControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B45BA461BC42252008AED0D /* CDIcon.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45BA051BC421FE008AED0D /* CDIcon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B45BA471BC42252008AED0D /* CDBubbleControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45BA081BC421FE008AED0D /* CDBubbleControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B45BA481BC42252008AED0D /* CDGrowlControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45BA0A1BC421FE008AED0D /* CDGrowlControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B45BA491BC42252008AED0D /* CDNotifyControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45BA0C1BC421FE008AED0D /* CDNotifyControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B45BA4A1BC42252008AED0D /* KABubbleWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45BA0E1BC421FE008AED0D /* KABubbleWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B45BA4B1BC42252008AED0D /* KABubbleWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45BA101BC421FE008AED0D /* KABubbleWindowController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B45BA4C1BC42252008AED0D /* KABubbleWindowView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45BA121BC421FE008AED0D /* KABubbleWindowView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B45BA4D1BC42252008AED0D /* CDPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45BA141BC421FE008AED0D /* CDPanel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B45BA4E1BC42252008AED0D /* CDProgressbarControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45BA171BC421FE008AED0D /* CDProgressbarControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B45BA4F1BC42252008AED0D /* CDProgressbarInputHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45BA191BC421FE008AED0D /* CDProgressbarInputHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B45BA501BC42252008AED0D /* CDProgressbarInputHandlerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45BA1B1BC421FE008AED0D /* CDProgressbarInputHandlerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B45BA511BC42252008AED0D /* CDSlider.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45BA231BC421FE008AED0D /* CDSlider.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B45BA521BC42253008AED0D /* CDThreeButtonControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45BA281BC421FE008AED0D /* CDThreeButtonControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B45BA531BC42263008AED0D /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45B9E11BC421FE008AED0D /* AppController.m */; };
+		7B45BA541BC42263008AED0D /* CDUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45B9E31BC421FE008AED0D /* CDUpdate.m */; };
+		7BF9CC761AEBED350058B25F /* dialogsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BF9CC751AEBED350058B25F /* dialogsTest.m */; };
+		7BF9CCCB1AEC03B40058B25F /* Dialogs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BDF56271AEBE163004812DE /* Dialogs.framework */; };
+		A7BABB401445829B00D3F168 /* relaunch in Resources */ = {isa = PBXBuildFile; fileRef = A7BABB2E1445817B00D3F168 /* relaunch */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		61C9A9D614665F7E0054DD91 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A7BABB2D1445817B00D3F168;
+			remoteInfo = relaunch;
+		};
+		7B26C3DB1BC41F9800C7B60B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7BDF56261AEBE163004812DE;
+			remoteInfo = Dialogs;
+		};
+		7B4274001BC4C62500199E09 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D1107260486CEB800E47090;
+			remoteInfo = CocoaDialog;
+		};
+		7BF9CC6B1AEBEBD00058B25F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D1107260486CEB800E47090;
+			remoteInfo = cocoaDialog;
+		};
+		7BF9CC7A1AEBED3B0058B25F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7BDF56261AEBE163004812DE;
+			remoteInfo = Dialogs;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7B3D25CD1BC4232200218FE0 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				7B4273F41BC4B74E00199E09 /* Growl.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A78A8CEA143784BD007AE363 /* Copy Files (2 items) */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				7B4273F61BC4BBA500199E09 /* Growl.framework in Copy Files (2 items) */,
+				7B4273EE1BC4B67600199E09 /* Sparkle.framework in Copy Files (2 items) */,
+			);
+			name = "Copy Files (2 items)";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		7B22D90B1BBF25B800525FB5 /* progressbar.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; name = progressbar.py; path = Examples/progressbar.py; sourceTree = SOURCE_ROOT; };
+		7B22D90C1BBF260C00525FB5 /* progressbar.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = progressbar.sh; path = Examples/progressbar.sh; sourceTree = SOURCE_ROOT; };
+		7B26C3B91BC41CF700C7B60B /* Dialogs-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Dialogs-Info.plist"; path = "CocoaDialog/Resources/Dialogs-Info.plist"; sourceTree = "<group>"; };
+		7B26C3C41BC41E1C00C7B60B /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = Msgbox.xib; sourceTree = "<group>"; };
+		7B26C3C61BC41E1C00C7B60B /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = popup.xib; sourceTree = "<group>"; };
+		7B26C3C81BC41E1C00C7B60B /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = Progressbar.xib; sourceTree = "<group>"; };
+		7B26C3CA1BC41E1C00C7B60B /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = tbc.xib; sourceTree = "<group>"; };
+		7B26C3CC1BC41E1C00C7B60B /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = Textbox.xib; sourceTree = "<group>"; };
+		7B3D25CB1BC4231800218FE0 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
+		7B4273EC1BC4B66E00199E09 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
+		7B4273FB1BC4C62400199E09 /* CocoaDialogUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CocoaDialogUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B4273FD1BC4C62500199E09 /* CocoaDialogUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CocoaDialogUITests.m; sourceTree = "<group>"; };
+		7B4273FF1BC4C62500199E09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7B45B9E11BC421FE008AED0D /* AppController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45B9E21BC421FE008AED0D /* CDUpdate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDUpdate.h; sourceTree = "<group>"; };
+		7B45B9E31BC421FE008AED0D /* CDUpdate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDUpdate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45B9E51BC421FE008AED0D /* BinaryDelta */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = BinaryDelta; sourceTree = "<group>"; };
+		7B45B9E81BC421FE008AED0D /* appcast.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = appcast.xml; sourceTree = "<group>"; };
+		7B45B9EB1BC421FE008AED0D /* cocoaDialog_3.0.0-beta6.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "cocoaDialog_3.0.0-beta6.tar.gz"; sourceTree = "<group>"; };
+		7B45B9EC1BC421FE008AED0D /* cocoaDialog_3.0.0-beta6.tar.gz.signature */ = {isa = PBXFileReference; lastKnownFileType = text; path = "cocoaDialog_3.0.0-beta6.tar.gz.signature"; sourceTree = "<group>"; };
+		7B45B9ED1BC421FE008AED0D /* config.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = config.ini; sourceTree = "<group>"; };
+		7B45B9F01BC421FE008AED0D /* cocoaDialog.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; path = cocoaDialog.app; sourceTree = "<group>"; };
+		7B45B9F21BC421FE008AED0D /* relaunch.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = relaunch.m; sourceTree = "<group>"; };
+		7B45B9F41BC421FE008AED0D /* CocoaDialog-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CocoaDialog-Info.plist"; sourceTree = "<group>"; };
+		7B45B9F51BC421FE008AED0D /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
+		7B45B9F71BC421FE008AED0D /* en-US */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-US"; path = "en-US.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		7B45B9F91BC421FE008AED0D /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "en-US.lproj/MainMenu.xib"; sourceTree = "<group>"; };
+		7B45B9FA1BC421FE008AED0D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		7B45B9FB1BC421FE008AED0D /* CDCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDCommon.h; sourceTree = "<group>"; };
+		7B45B9FC1BC421FE008AED0D /* CDCommon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDCommon.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45B9FE1BC421FE008AED0D /* CDControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CDControl.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		7B45B9FF1BC421FE008AED0D /* CDControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA011BC421FE008AED0D /* CDFileDialogControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CDFileDialogControl.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		7B45BA021BC421FE008AED0D /* CDFileDialogControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDFileDialogControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA031BC421FE008AED0D /* CDFileSaveControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDFileSaveControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA041BC421FE008AED0D /* CDFileSelectControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDFileSelectControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA051BC421FE008AED0D /* CDIcon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CDIcon.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		7B45BA061BC421FE008AED0D /* CDIcon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDIcon.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA081BC421FE008AED0D /* CDBubbleControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CDBubbleControl.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		7B45BA091BC421FE008AED0D /* CDBubbleControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDBubbleControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA0A1BC421FE008AED0D /* CDGrowlControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDGrowlControl.h; sourceTree = "<group>"; };
+		7B45BA0B1BC421FE008AED0D /* CDGrowlControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDGrowlControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA0C1BC421FE008AED0D /* CDNotifyControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CDNotifyControl.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		7B45BA0D1BC421FE008AED0D /* CDNotifyControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDNotifyControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA0E1BC421FE008AED0D /* KABubbleWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KABubbleWindow.h; sourceTree = "<group>"; };
+		7B45BA0F1BC421FE008AED0D /* KABubbleWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KABubbleWindow.m; sourceTree = "<group>"; };
+		7B45BA101BC421FE008AED0D /* KABubbleWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = KABubbleWindowController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		7B45BA111BC421FE008AED0D /* KABubbleWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = KABubbleWindowController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA121BC421FE008AED0D /* KABubbleWindowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = KABubbleWindowView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		7B45BA131BC421FE008AED0D /* KABubbleWindowView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = KABubbleWindowView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA141BC421FE008AED0D /* CDPanel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CDPanel.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		7B45BA151BC421FE008AED0D /* CDPanel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDPanel.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA171BC421FE008AED0D /* CDProgressbarControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CDProgressbarControl.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		7B45BA181BC421FE008AED0D /* CDProgressbarControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDProgressbarControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA191BC421FE008AED0D /* CDProgressbarInputHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDProgressbarInputHandler.h; sourceTree = "<group>"; };
+		7B45BA1A1BC421FE008AED0D /* CDProgressbarInputHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDProgressbarInputHandler.m; sourceTree = "<group>"; };
+		7B45BA1B1BC421FE008AED0D /* CDProgressbarInputHandlerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDProgressbarInputHandlerDelegate.h; sourceTree = "<group>"; };
+		7B45BA1D1BC421FE008AED0D /* CDCheckboxControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDCheckboxControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA1E1BC421FE008AED0D /* CDInputboxControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDInputboxControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA1F1BC421FE008AED0D /* CDMsgboxControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDMsgboxControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA201BC421FE008AED0D /* CDOkMsgboxControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDOkMsgboxControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA211BC421FE008AED0D /* CDPopUpButtonControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDPopUpButtonControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA221BC421FE008AED0D /* CDRadioControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDRadioControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA231BC421FE008AED0D /* CDSlider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDSlider.h; sourceTree = "<group>"; };
+		7B45BA241BC421FE008AED0D /* CDSlider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDSlider.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA251BC421FE008AED0D /* CDStandardInputboxControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDStandardInputboxControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA261BC421FE008AED0D /* CDStandardPopUpButtonControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDStandardPopUpButtonControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA271BC421FE008AED0D /* CDTextboxControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDTextboxControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA281BC421FE008AED0D /* CDThreeButtonControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CDThreeButtonControl.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		7B45BA291BC421FE008AED0D /* CDThreeButtonControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDThreeButtonControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA2A1BC421FE008AED0D /* CDYesNoMsgboxControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDYesNoMsgboxControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA2B1BC421FE008AED0D /* CDOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDOptions.h; sourceTree = "<group>"; };
+		7B45BA2C1BC421FE008AED0D /* CDOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDOptions.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA2D1BC421FE008AED0D /* Dialogs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Dialogs.h; sourceTree = "<group>"; };
+		7B45BA2F1BC421FE008AED0D /* Dialogs-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Dialogs-Info.plist"; sourceTree = "<group>"; };
+		7B45BA311BC421FE008AED0D /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "en-US.lproj/Msgbox.xib"; sourceTree = "<group>"; };
+		7B45BA331BC421FE008AED0D /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "en-US.lproj/popup.xib"; sourceTree = "<group>"; };
+		7B45BA351BC421FE008AED0D /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "en-US.lproj/Progressbar.xib"; sourceTree = "<group>"; };
+		7B45BA371BC421FE008AED0D /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "en-US.lproj/tbc.xib"; sourceTree = "<group>"; };
+		7B45BA391BC421FE008AED0D /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "en-US.lproj/Textbox.xib"; sourceTree = "<group>"; };
+		7B94DD5C1BBF41B8004850F1 /* examples.sh.off */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = examples.sh.off; path = Examples/examples.sh.off; sourceTree = SOURCE_ROOT; };
+		7B94DD5E1BBF534A004850F1 /* checkbox.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = checkbox.sh; path = Examples/checkbox.sh; sourceTree = SOURCE_ROOT; };
+		7B94DD5F1BBFB4E2004850F1 /* cd-tests.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = "cd-tests.sh"; path = "Examples/cd-tests.sh"; sourceTree = "<group>"; };
+		7BDF56271AEBE163004812DE /* Dialogs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Dialogs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7BF9CC731AEBED350058B25F /* dialogsTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = dialogsTest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7BF9CC751AEBED350058B25F /* dialogsTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = dialogsTest.m; path = Examples/dialogsTest.m; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* CocoaDialog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocoaDialog.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A78A8C9514375704007AE363 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ConfigDebug.xcconfig; sourceTree = "<group>"; };
+		A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ConfigRelease.xcconfig; sourceTree = "<group>"; };
+		A7BABB2E1445817B00D3F168 /* relaunch */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = relaunch; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7B3D25CF1BC4233B00218FE0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7B4273EA1BC4B63F00199E09 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B4273ED1BC4B66E00199E09 /* Sparkle.framework in Frameworks */,
+				7B4273EB1BC4B64A00199E09 /* Dialogs.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7B4273F81BC4C62400199E09 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7BF9CC701AEBED350058B25F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7BF9CCCB1AEC03B40058B25F /* Dialogs.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A7BABB2B1445817B00D3F168 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* CocoaDialog.app */,
+				A7BABB2E1445817B00D3F168 /* relaunch */,
+				7BDF56271AEBE163004812DE /* Dialogs.framework */,
+				7BF9CC731AEBED350058B25F /* dialogsTest */,
+				7B4273FB1BC4C62400199E09 /* CocoaDialogUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* cocoaDialog */ = {
+			isa = PBXGroup;
+			children = (
+				7B45B9DF1BC421FE008AED0D /* CocoaDialog */,
+				7B22D90D1BBF2DBC00525FB5 /* Examples */,
+				A78A8C9414375703007AE363 /* Configurations */,
+				7BF9CC971AEBF91D0058B25F /* Resources */,
+				7B4273FC1BC4C62500199E09 /* CocoaDialogUITests */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = cocoaDialog;
+			sourceTree = "<group>";
+		};
+		7B22D90D1BBF2DBC00525FB5 /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				7B94DD5F1BBFB4E2004850F1 /* cd-tests.sh */,
+				7B22D90B1BBF25B800525FB5 /* progressbar.py */,
+				7B22D90C1BBF260C00525FB5 /* progressbar.sh */,
+				7B94DD5C1BBF41B8004850F1 /* examples.sh.off */,
+				7B94DD5E1BBF534A004850F1 /* checkbox.sh */,
+				7BF9CC751AEBED350058B25F /* dialogsTest.m */,
+			);
+			name = Examples;
+			path = Source;
+			sourceTree = "<group>";
+		};
+		7B4273FC1BC4C62500199E09 /* CocoaDialogUITests */ = {
+			isa = PBXGroup;
+			children = (
+				7B4273FD1BC4C62500199E09 /* CocoaDialogUITests.m */,
+				7B4273FF1BC4C62500199E09 /* Info.plist */,
+			);
+			path = CocoaDialogUITests;
+			sourceTree = "<group>";
+		};
+		7B45B9DF1BC421FE008AED0D /* CocoaDialog */ = {
+			isa = PBXGroup;
+			children = (
+				7B45B9E01BC421FE008AED0D /* App */,
+				7B45B9FB1BC421FE008AED0D /* CDCommon.h */,
+				7B45B9FC1BC421FE008AED0D /* CDCommon.m */,
+				7B45B9FD1BC421FE008AED0D /* CDControl */,
+				7B45BA2B1BC421FE008AED0D /* CDOptions.h */,
+				7B45BA2C1BC421FE008AED0D /* CDOptions.m */,
+				7B45BA2D1BC421FE008AED0D /* Dialogs.h */,
+				7B45BA2E1BC421FE008AED0D /* Resources */,
+			);
+			path = CocoaDialog;
+			sourceTree = "<group>";
+		};
+		7B45B9E01BC421FE008AED0D /* App */ = {
+			isa = PBXGroup;
+			children = (
+				7B45B9E11BC421FE008AED0D /* AppController.m */,
+				7B45B9E21BC421FE008AED0D /* CDUpdate.h */,
+				7B45B9E31BC421FE008AED0D /* CDUpdate.m */,
+				7B45B9E41BC421FE008AED0D /* Frameworks */,
+				7B45B9F21BC421FE008AED0D /* relaunch.m */,
+				7B45B9F31BC421FE008AED0D /* Resources */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		7B45B9E41BC421FE008AED0D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7B4273EC1BC4B66E00199E09 /* Sparkle.framework */,
+				7B45B9E51BC421FE008AED0D /* BinaryDelta */,
+				7B45B9E71BC421FE008AED0D /* sparkle-release */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		7B45B9E71BC421FE008AED0D /* sparkle-release */ = {
+			isa = PBXGroup;
+			children = (
+				7B45B9E81BC421FE008AED0D /* appcast.xml */,
+				7B45B9E91BC421FE008AED0D /* archives */,
+				7B45B9ED1BC421FE008AED0D /* config.ini */,
+				7B45B9EE1BC421FE008AED0D /* releases */,
+			);
+			path = "sparkle-release";
+			sourceTree = "<group>";
+		};
+		7B45B9E91BC421FE008AED0D /* archives */ = {
+			isa = PBXGroup;
+			children = (
+				7B45B9EA1BC421FE008AED0D /* cocoaDialog_3.0.0-beta6 */,
+			);
+			path = archives;
+			sourceTree = "<group>";
+		};
+		7B45B9EA1BC421FE008AED0D /* cocoaDialog_3.0.0-beta6 */ = {
+			isa = PBXGroup;
+			children = (
+				7B45B9EB1BC421FE008AED0D /* cocoaDialog_3.0.0-beta6.tar.gz */,
+				7B45B9EC1BC421FE008AED0D /* cocoaDialog_3.0.0-beta6.tar.gz.signature */,
+			);
+			path = "cocoaDialog_3.0.0-beta6";
+			sourceTree = "<group>";
+		};
+		7B45B9EE1BC421FE008AED0D /* releases */ = {
+			isa = PBXGroup;
+			children = (
+				7B45B9EF1BC421FE008AED0D /* cocoaDialog_3.0.0-beta6 */,
+			);
+			path = releases;
+			sourceTree = "<group>";
+		};
+		7B45B9EF1BC421FE008AED0D /* cocoaDialog_3.0.0-beta6 */ = {
+			isa = PBXGroup;
+			children = (
+				7B45B9F01BC421FE008AED0D /* cocoaDialog.app */,
+			);
+			path = "cocoaDialog_3.0.0-beta6";
+			sourceTree = "<group>";
+		};
+		7B45B9F31BC421FE008AED0D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7B45B9F41BC421FE008AED0D /* CocoaDialog-Info.plist */,
+				7B45B9F51BC421FE008AED0D /* dsa_pub.pem */,
+				7B45B9F61BC421FE008AED0D /* InfoPlist.strings */,
+				7B45B9F81BC421FE008AED0D /* MainMenu.xib */,
+				7B45B9FA1BC421FE008AED0D /* Images.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		7B45B9FD1BC421FE008AED0D /* CDControl */ = {
+			isa = PBXGroup;
+			children = (
+				7B45B9FE1BC421FE008AED0D /* CDControl.h */,
+				7B45B9FF1BC421FE008AED0D /* CDControl.m */,
+				7B45BA001BC421FE008AED0D /* CDFileDialogControl */,
+				7B45BA051BC421FE008AED0D /* CDIcon.h */,
+				7B45BA061BC421FE008AED0D /* CDIcon.m */,
+				7B45BA071BC421FE008AED0D /* CDNotifyControl */,
+				7B45BA141BC421FE008AED0D /* CDPanel.h */,
+				7B45BA151BC421FE008AED0D /* CDPanel.m */,
+				7B45BA161BC421FE008AED0D /* CDProgressbar */,
+				7B45BA1C1BC421FE008AED0D /* CDThreeButtonControl */,
+			);
+			path = CDControl;
+			sourceTree = "<group>";
+		};
+		7B45BA001BC421FE008AED0D /* CDFileDialogControl */ = {
+			isa = PBXGroup;
+			children = (
+				7B45BA011BC421FE008AED0D /* CDFileDialogControl.h */,
+				7B45BA021BC421FE008AED0D /* CDFileDialogControl.m */,
+				7B45BA031BC421FE008AED0D /* CDFileSaveControl.m */,
+				7B45BA041BC421FE008AED0D /* CDFileSelectControl.m */,
+			);
+			path = CDFileDialogControl;
+			sourceTree = "<group>";
+		};
+		7B45BA071BC421FE008AED0D /* CDNotifyControl */ = {
+			isa = PBXGroup;
+			children = (
+				7B45BA081BC421FE008AED0D /* CDBubbleControl.h */,
+				7B45BA091BC421FE008AED0D /* CDBubbleControl.m */,
+				7B45BA0A1BC421FE008AED0D /* CDGrowlControl.h */,
+				7B45BA0B1BC421FE008AED0D /* CDGrowlControl.m */,
+				7B45BA0C1BC421FE008AED0D /* CDNotifyControl.h */,
+				7B45BA0D1BC421FE008AED0D /* CDNotifyControl.m */,
+				7B45BA0E1BC421FE008AED0D /* KABubbleWindow.h */,
+				7B45BA0F1BC421FE008AED0D /* KABubbleWindow.m */,
+				7B45BA101BC421FE008AED0D /* KABubbleWindowController.h */,
+				7B45BA111BC421FE008AED0D /* KABubbleWindowController.m */,
+				7B45BA121BC421FE008AED0D /* KABubbleWindowView.h */,
+				7B45BA131BC421FE008AED0D /* KABubbleWindowView.m */,
+			);
+			path = CDNotifyControl;
+			sourceTree = "<group>";
+		};
+		7B45BA161BC421FE008AED0D /* CDProgressbar */ = {
+			isa = PBXGroup;
+			children = (
+				7B45BA171BC421FE008AED0D /* CDProgressbarControl.h */,
+				7B45BA181BC421FE008AED0D /* CDProgressbarControl.m */,
+				7B45BA191BC421FE008AED0D /* CDProgressbarInputHandler.h */,
+				7B45BA1A1BC421FE008AED0D /* CDProgressbarInputHandler.m */,
+				7B45BA1B1BC421FE008AED0D /* CDProgressbarInputHandlerDelegate.h */,
+			);
+			path = CDProgressbar;
+			sourceTree = "<group>";
+		};
+		7B45BA1C1BC421FE008AED0D /* CDThreeButtonControl */ = {
+			isa = PBXGroup;
+			children = (
+				7B45BA1D1BC421FE008AED0D /* CDCheckboxControl.m */,
+				7B45BA1E1BC421FE008AED0D /* CDInputboxControl.m */,
+				7B45BA1F1BC421FE008AED0D /* CDMsgboxControl.m */,
+				7B45BA201BC421FE008AED0D /* CDOkMsgboxControl.m */,
+				7B45BA211BC421FE008AED0D /* CDPopUpButtonControl.m */,
+				7B45BA221BC421FE008AED0D /* CDRadioControl.m */,
+				7B45BA231BC421FE008AED0D /* CDSlider.h */,
+				7B45BA241BC421FE008AED0D /* CDSlider.m */,
+				7B45BA251BC421FE008AED0D /* CDStandardInputboxControl.m */,
+				7B45BA261BC421FE008AED0D /* CDStandardPopUpButtonControl.m */,
+				7B45BA271BC421FE008AED0D /* CDTextboxControl.m */,
+				7B45BA281BC421FE008AED0D /* CDThreeButtonControl.h */,
+				7B45BA291BC421FE008AED0D /* CDThreeButtonControl.m */,
+				7B45BA2A1BC421FE008AED0D /* CDYesNoMsgboxControl.m */,
+			);
+			path = CDThreeButtonControl;
+			sourceTree = "<group>";
+		};
+		7B45BA2E1BC421FE008AED0D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7B3D25CB1BC4231800218FE0 /* Growl.framework */,
+				7B45BA2F1BC421FE008AED0D /* Dialogs-Info.plist */,
+				7B45BA301BC421FE008AED0D /* Msgbox.xib */,
+				7B45BA321BC421FE008AED0D /* popup.xib */,
+				7B45BA341BC421FE008AED0D /* Progressbar.xib */,
+				7B45BA361BC421FE008AED0D /* tbc.xib */,
+				7B45BA381BC421FE008AED0D /* Textbox.xib */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		7BF9CC971AEBF91D0058B25F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7B26C3C31BC41E1C00C7B60B /* Msgbox.xib */,
+				7B26C3C51BC41E1C00C7B60B /* popup.xib */,
+				7B26C3C71BC41E1C00C7B60B /* Progressbar.xib */,
+				7B26C3C91BC41E1C00C7B60B /* tbc.xib */,
+				7B26C3CB1BC41E1C00C7B60B /* Textbox.xib */,
+				7B26C3B91BC41CF700C7B60B /* Dialogs-Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		A78A8C9414375703007AE363 /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				A78A8C9514375704007AE363 /* Config.xcconfig */,
+				A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */,
+				A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */,
+			);
+			path = Configurations;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		7BDF56241AEBE163004812DE /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B45BA441BC42252008AED0D /* CDControl.h in Headers */,
+				7B45BA451BC42252008AED0D /* CDFileDialogControl.h in Headers */,
+				7B45BA461BC42252008AED0D /* CDIcon.h in Headers */,
+				7B45BA471BC42252008AED0D /* CDBubbleControl.h in Headers */,
+				7B45BA481BC42252008AED0D /* CDGrowlControl.h in Headers */,
+				7B45BA491BC42252008AED0D /* CDNotifyControl.h in Headers */,
+				7B45BA4A1BC42252008AED0D /* KABubbleWindow.h in Headers */,
+				7B45BA4B1BC42252008AED0D /* KABubbleWindowController.h in Headers */,
+				7B45BA4C1BC42252008AED0D /* KABubbleWindowView.h in Headers */,
+				7B45BA4D1BC42252008AED0D /* CDPanel.h in Headers */,
+				7B45BA4E1BC42252008AED0D /* CDProgressbarControl.h in Headers */,
+				7B45BA4F1BC42252008AED0D /* CDProgressbarInputHandler.h in Headers */,
+				7B45BA501BC42252008AED0D /* CDProgressbarInputHandlerDelegate.h in Headers */,
+				7B45BA511BC42252008AED0D /* CDSlider.h in Headers */,
+				7B45BA521BC42253008AED0D /* CDThreeButtonControl.h in Headers */,
+				7B45BA401BC42235008AED0D /* CDOptions.h in Headers */,
+				7B45BA3F1BC42235008AED0D /* CDCommon.h in Headers */,
+				7B45BA411BC42235008AED0D /* Dialogs.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		7B4273FA1BC4C62400199E09 /* CocoaDialogUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7B4274021BC4C62500199E09 /* Build configuration list for PBXNativeTarget "CocoaDialogUITests" */;
+			buildPhases = (
+				7B4273F71BC4C62400199E09 /* Sources */,
+				7B4273F81BC4C62400199E09 /* Frameworks */,
+				7B4273F91BC4C62400199E09 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7B4274011BC4C62500199E09 /* PBXTargetDependency */,
+			);
+			name = CocoaDialogUITests;
+			productName = CocoaDialogUITests;
+			productReference = 7B4273FB1BC4C62400199E09 /* CocoaDialogUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		7BDF56261AEBE163004812DE /* Dialogs */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7BDF56401AEBE163004812DE /* Build configuration list for PBXNativeTarget "Dialogs" */;
+			buildPhases = (
+				7BDF56221AEBE163004812DE /* Sources */,
+				7BDF56241AEBE163004812DE /* Headers */,
+				7BDF56251AEBE163004812DE /* Resources */,
+				7B3D25CD1BC4232200218FE0 /* CopyFiles */,
+				7B3D25CF1BC4233B00218FE0 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Dialogs;
+			productName = Dialogs;
+			productReference = 7BDF56271AEBE163004812DE /* Dialogs.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		7BF9CC721AEBED350058B25F /* dialogsTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7BF9CC771AEBED350058B25F /* Build configuration list for PBXNativeTarget "dialogsTest" */;
+			buildPhases = (
+				7BF9CC6F1AEBED350058B25F /* Sources */,
+				7BF9CC701AEBED350058B25F /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7BF9CC7B1AEBED3B0058B25F /* PBXTargetDependency */,
+			);
+			name = dialogsTest;
+			productName = dialogsTest;
+			productReference = 7BF9CC731AEBED350058B25F /* dialogsTest */;
+			productType = "com.apple.product-type.tool";
+		};
+		8D1107260486CEB800E47090 /* CocoaDialog */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0E77E99F0963C37C00D651A3 /* Build configuration list for PBXNativeTarget "CocoaDialog" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				A78A8CEA143784BD007AE363 /* Copy Files (2 items) */,
+				A7D4043E153C38E0005FA3CD /* ShellScript */,
+				7B4273EA1BC4B63F00199E09 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				61C9A9D714665F7E0054DD91 /* PBXTargetDependency */,
+				7B26C3DC1BC41F9800C7B60B /* PBXTargetDependency */,
+			);
+			name = CocoaDialog;
+			productInstallPath = "$(HOME)/Applications";
+			productName = cocoaDialog;
+			productReference = 8D1107320486CEB800E47090 /* CocoaDialog.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A7BABB2D1445817B00D3F168 /* relaunch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A7BABB381445817B00D3F168 /* Build configuration list for PBXNativeTarget "relaunch" */;
+			buildPhases = (
+				A7BABB2A1445817B00D3F168 /* Sources */,
+				A7BABB2B1445817B00D3F168 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = relaunch;
+			productName = relaunch;
+			productReference = A7BABB2E1445817B00D3F168 /* relaunch */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				TargetAttributes = {
+					7B4273FA1BC4C62400199E09 = {
+						CreatedOnToolsVersion = 7.0;
+						TestTargetID = 8D1107260486CEB800E47090;
+					};
+					7BDF56261AEBE163004812DE = {
+						CreatedOnToolsVersion = 6.3;
+					};
+					7BF9CC671AEBEBAF0058B25F = {
+						CreatedOnToolsVersion = 6.3;
+					};
+					7BF9CC721AEBED350058B25F = {
+						CreatedOnToolsVersion = 6.3;
+					};
+				};
+			};
+			buildConfigurationList = 0E77E9A30963C37C00D651A3 /* Build configuration list for PBXProject "CocoaDialog" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+				English,
+				"en-US",
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* cocoaDialog */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D1107260486CEB800E47090 /* CocoaDialog */,
+				A7BABB2D1445817B00D3F168 /* relaunch */,
+				7BDF56261AEBE163004812DE /* Dialogs */,
+				7BF9CC671AEBEBAF0058B25F /* Tests */,
+				7BF9CC721AEBED350058B25F /* dialogsTest */,
+				7B4273FA1BC4C62400199E09 /* CocoaDialogUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7B4273F91BC4C62400199E09 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7BDF56251AEBE163004812DE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B45BA3B1BC4222D008AED0D /* popup.xib in Resources */,
+				7B45BA3D1BC4222D008AED0D /* tbc.xib in Resources */,
+				7B45BA3E1BC4222D008AED0D /* Textbox.xib in Resources */,
+				7B45BA3C1BC4222D008AED0D /* Progressbar.xib in Resources */,
+				7B45BA3A1BC4222D008AED0D /* Msgbox.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B4273F01BC4B6E300199E09 /* appcast.xml in Resources */,
+				7B4273F11BC4B6E300199E09 /* dsa_pub.pem in Resources */,
+				7B4273F21BC4B6E300199E09 /* InfoPlist.strings in Resources */,
+				7B4273F31BC4B6E300199E09 /* MainMenu.xib in Resources */,
+				7B4273EF1BC4B6CA00199E09 /* Images.xcassets in Resources */,
+				A7BABB401445829B00D3F168 /* relaunch in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7BF9CC6D1AEBEBD40058B25F /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(PROJECT_NAME).app/Contents/MacOS/$(PROJECT_NAME)",
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\nfor x in Examples/*sh Examples/*py; do\n    ./$x \"${SCRIPT_INPUT_FILE_0}\"\ndone\n\n";
+		};
+		A7D4043E153C38E0005FA3CD /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
+			);
+			outputPaths = (
+				"/usr/local/bin/cocoa-dialog",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\n# /server/repositories/github/sparkle-release/src/sparkle-release\n# mkdir -p \"${SCRIPT_OUTPUT_FILE_0}\"\n\n# This installs a simple launcher to /usr/local/bin/cocoa-dialog\n\n/bin/cat << LAUNCHER > ${SCRIPT_OUTPUT_FILE_0}\n#!/bin/sh\nexec \"${SCRIPT_INPUT_FILE_0}\" \"\\$@\"\n\nLAUNCHER\n\nchmod +x ${SCRIPT_OUTPUT_FILE_0}\n\n# say \"$(dirname $EXE)\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7B4273F71BC4C62400199E09 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B4273FE1BC4C62500199E09 /* CocoaDialogUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7BDF56221AEBE163004812DE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B3D25B11BC422A400218FE0 /* CDControl.m in Sources */,
+				7B3D25B21BC422A400218FE0 /* CDFileDialogControl.m in Sources */,
+				7B3D25B31BC422A400218FE0 /* CDFileSaveControl.m in Sources */,
+				7B3D25B41BC422A400218FE0 /* CDFileSelectControl.m in Sources */,
+				7B3D25B51BC422A400218FE0 /* CDIcon.m in Sources */,
+				7B3D25B61BC422A400218FE0 /* CDBubbleControl.m in Sources */,
+				7B3D25B71BC422A400218FE0 /* CDGrowlControl.m in Sources */,
+				7B3D25B81BC422A400218FE0 /* CDNotifyControl.m in Sources */,
+				7B3D25B91BC422A400218FE0 /* KABubbleWindow.m in Sources */,
+				7B3D25BA1BC422A400218FE0 /* KABubbleWindowController.m in Sources */,
+				7B3D25BB1BC422A400218FE0 /* KABubbleWindowView.m in Sources */,
+				7B3D25BC1BC422A400218FE0 /* CDPanel.m in Sources */,
+				7B3D25BD1BC422A400218FE0 /* CDProgressbarControl.m in Sources */,
+				7B3D25BE1BC422A400218FE0 /* CDProgressbarInputHandler.m in Sources */,
+				7B3D25BF1BC422A400218FE0 /* CDCheckboxControl.m in Sources */,
+				7B3D25C01BC422A400218FE0 /* CDInputboxControl.m in Sources */,
+				7B3D25C11BC422A400218FE0 /* CDMsgboxControl.m in Sources */,
+				7B3D25C21BC422A400218FE0 /* CDOkMsgboxControl.m in Sources */,
+				7B3D25C31BC422A400218FE0 /* CDPopUpButtonControl.m in Sources */,
+				7B3D25C41BC422A400218FE0 /* CDRadioControl.m in Sources */,
+				7B3D25C51BC422A400218FE0 /* CDSlider.m in Sources */,
+				7B3D25C61BC422A400218FE0 /* CDStandardInputboxControl.m in Sources */,
+				7B3D25C71BC422A400218FE0 /* CDStandardPopUpButtonControl.m in Sources */,
+				7B3D25C81BC422A400218FE0 /* CDTextboxControl.m in Sources */,
+				7B3D25C91BC422A400218FE0 /* CDThreeButtonControl.m in Sources */,
+				7B3D25CA1BC422A400218FE0 /* CDYesNoMsgboxControl.m in Sources */,
+				7B45BA421BC4223E008AED0D /* CDCommon.m in Sources */,
+				7B45BA431BC4223E008AED0D /* CDOptions.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7BF9CC6F1AEBED350058B25F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7BF9CC761AEBED350058B25F /* dialogsTest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B45BA531BC42263008AED0D /* AppController.m in Sources */,
+				7B45BA541BC42263008AED0D /* CDUpdate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A7BABB2A1445817B00D3F168 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B4273F51BC4BA3400199E09 /* relaunch.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		61C9A9D714665F7E0054DD91 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A7BABB2D1445817B00D3F168 /* relaunch */;
+			targetProxy = 61C9A9D614665F7E0054DD91 /* PBXContainerItemProxy */;
+		};
+		7B26C3DC1BC41F9800C7B60B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7BDF56261AEBE163004812DE /* Dialogs */;
+			targetProxy = 7B26C3DB1BC41F9800C7B60B /* PBXContainerItemProxy */;
+		};
+		7B4274011BC4C62500199E09 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D1107260486CEB800E47090 /* CocoaDialog */;
+			targetProxy = 7B4274001BC4C62500199E09 /* PBXContainerItemProxy */;
+		};
+		7BF9CC6C1AEBEBD00058B25F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D1107260486CEB800E47090 /* CocoaDialog */;
+			targetProxy = 7BF9CC6B1AEBEBD00058B25F /* PBXContainerItemProxy */;
+		};
+		7BF9CC7B1AEBED3B0058B25F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7BDF56261AEBE163004812DE /* Dialogs */;
+			targetProxy = 7BF9CC7A1AEBED3B0058B25F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		7B26C3C31BC41E1C00C7B60B /* Msgbox.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7B26C3C41BC41E1C00C7B60B /* en-US */,
+			);
+			name = Msgbox.xib;
+			path = "CocoaDialog/Resources/en-US.lproj";
+			sourceTree = "<group>";
+		};
+		7B26C3C51BC41E1C00C7B60B /* popup.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7B26C3C61BC41E1C00C7B60B /* en-US */,
+			);
+			name = popup.xib;
+			path = "CocoaDialog/Resources/en-US.lproj";
+			sourceTree = "<group>";
+		};
+		7B26C3C71BC41E1C00C7B60B /* Progressbar.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7B26C3C81BC41E1C00C7B60B /* en-US */,
+			);
+			name = Progressbar.xib;
+			path = "CocoaDialog/Resources/en-US.lproj";
+			sourceTree = "<group>";
+		};
+		7B26C3C91BC41E1C00C7B60B /* tbc.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7B26C3CA1BC41E1C00C7B60B /* en-US */,
+			);
+			name = tbc.xib;
+			path = "CocoaDialog/Resources/en-US.lproj";
+			sourceTree = "<group>";
+		};
+		7B26C3CB1BC41E1C00C7B60B /* Textbox.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7B26C3CC1BC41E1C00C7B60B /* en-US */,
+			);
+			name = Textbox.xib;
+			path = "CocoaDialog/Resources/en-US.lproj";
+			sourceTree = "<group>";
+		};
+		7B45B9F61BC421FE008AED0D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7B45B9F71BC421FE008AED0D /* en-US */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		7B45B9F81BC421FE008AED0D /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7B45B9F91BC421FE008AED0D /* en-US */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		7B45BA301BC421FE008AED0D /* Msgbox.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7B45BA311BC421FE008AED0D /* en-US */,
+			);
+			name = Msgbox.xib;
+			sourceTree = "<group>";
+		};
+		7B45BA321BC421FE008AED0D /* popup.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7B45BA331BC421FE008AED0D /* en-US */,
+			);
+			name = popup.xib;
+			sourceTree = "<group>";
+		};
+		7B45BA341BC421FE008AED0D /* Progressbar.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7B45BA351BC421FE008AED0D /* en-US */,
+			);
+			name = Progressbar.xib;
+			sourceTree = "<group>";
+		};
+		7B45BA361BC421FE008AED0D /* tbc.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7B45BA371BC421FE008AED0D /* en-US */,
+			);
+			name = tbc.xib;
+			sourceTree = "<group>";
+		};
+		7B45BA381BC421FE008AED0D /* Textbox.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7B45BA391BC421FE008AED0D /* en-US */,
+			);
+			name = Textbox.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0E77E9A20963C37C00D651A3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(USER_LIBRARY_DIR)/Frameworks",
+					"$(PROJECT_DIR)/CocoaDialog/App/Frameworks",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/CocoaDialog/App/Resources/CocoaDialog-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Sparkle,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaDialog;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+			};
+			name = Debug;
+		};
+		0E77E9A60963C37C00D651A3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = NO;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = NO;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(USER_LIBRARY_DIR)/Frameworks";
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+			};
+			name = Debug;
+		};
+		7B4274031BC4C62500199E09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = CocoaDialogUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mrgray.CocoaDialogUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = CocoaDialog;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		7B4274041BC4C62500199E09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = CocoaDialogUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mrgray.CocoaDialogUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = CocoaDialog;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+		7BDF56411AEBE163004812DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEPLOYMENT_LOCATION = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				DSTROOT = /;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/CocoaDialog/Resources",
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/CocoaDialog/Resources/Dialogs-Info.plist";
+				INSTALL_PATH = "$(HOME)/$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Growl,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaDialog.Dialogs;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = NO;
+				STRIP_INSTALLED_PRODUCT = NO;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		7BDF56421AEBE163004812DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DEPLOYMENT_LOCATION = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				DSTROOT = /;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/CocoaDialog/Resources",
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/CocoaDialog/Resources/Dialogs-Info.plist";
+				INSTALL_PATH = "$(HOME)/$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Growl,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaDialog.Dialogs;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = NO;
+				STRIP_INSTALLED_PRODUCT = NO;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		7BF9CC691AEBEBAF0058B25F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaDialog;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7BF9CC6A1AEBEBAF0058B25F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaDialog;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		7BF9CC781AEBED350058B25F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/Frameworks $(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaDialog;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7BF9CC791AEBED350058B25F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/Frameworks $(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaDialog;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		A78A8CA114375864007AE363 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = NO;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(USER_LIBRARY_DIR)/Frameworks";
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+			};
+			name = Release;
+		};
+		A78A8CA214375864007AE363 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(USER_LIBRARY_DIR)/Frameworks",
+					"$(PROJECT_DIR)/CocoaDialog/App/Frameworks",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/CocoaDialog/App/Resources/CocoaDialog-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Sparkle,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaDialog;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+			};
+			name = Release;
+		};
+		A7BABB391445817B00D3F168 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */;
+			buildSettings = {
+				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaDialog;
+				PRODUCT_NAME = relaunch;
+			};
+			name = Debug;
+		};
+		A7BABB3A1445817B00D3F168 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */;
+			buildSettings = {
+				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaDialog;
+				PRODUCT_NAME = relaunch;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0E77E99F0963C37C00D651A3 /* Build configuration list for PBXNativeTarget "CocoaDialog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E77E9A20963C37C00D651A3 /* Debug */,
+				A78A8CA214375864007AE363 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0E77E9A30963C37C00D651A3 /* Build configuration list for PBXProject "CocoaDialog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E77E9A60963C37C00D651A3 /* Debug */,
+				A78A8CA114375864007AE363 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7B4274021BC4C62500199E09 /* Build configuration list for PBXNativeTarget "CocoaDialogUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7B4274031BC4C62500199E09 /* Debug */,
+				7B4274041BC4C62500199E09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7BDF56401AEBE163004812DE /* Build configuration list for PBXNativeTarget "Dialogs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7BDF56411AEBE163004812DE /* Debug */,
+				7BDF56421AEBE163004812DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7BF9CC681AEBEBAF0058B25F /* Build configuration list for PBXAggregateTarget "Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7BF9CC691AEBEBAF0058B25F /* Debug */,
+				7BF9CC6A1AEBEBAF0058B25F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7BF9CC771AEBED350058B25F /* Build configuration list for PBXNativeTarget "dialogsTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7BF9CC781AEBED350058B25F /* Debug */,
+				7BF9CC791AEBED350058B25F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A7BABB381445817B00D3F168 /* Build configuration list for PBXNativeTarget "relaunch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A7BABB391445817B00D3F168 /* Debug */,
+				A7BABB3A1445817B00D3F168 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
