@@ -14,6 +14,7 @@
 				7BF9CC6D1AEBEBD40058B25F /* Run Script */,
 			);
 			dependencies = (
+				7B77937A1BC5045E007039CC /* PBXTargetDependency */,
 				7BF9CC6C1AEBEBD00058B25F /* PBXTargetDependency */,
 			);
 			name = Tests;
@@ -87,7 +88,8 @@
 		7B45BA521BC42253008AED0D /* CDThreeButtonControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45BA281BC421FE008AED0D /* CDThreeButtonControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7B45BA531BC42263008AED0D /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45B9E11BC421FE008AED0D /* AppController.m */; };
 		7B45BA541BC42263008AED0D /* CDUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45B9E31BC421FE008AED0D /* CDUpdate.m */; };
-		7BF9CC761AEBED350058B25F /* dialogsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BF9CC751AEBED350058B25F /* dialogsTest.m */; };
+		7B77937E1BC505C4007039CC /* DialogsAPITest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B77937C1BC505BF007039CC /* DialogsAPITest.m */; settings = {ASSET_TAGS = (); }; };
+		7B7793801BC5092F007039CC /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B3D25CB1BC4231800218FE0 /* Growl.framework */; };
 		7BF9CCCB1AEC03B40058B25F /* Dialogs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BDF56271AEBE163004812DE /* Dialogs.framework */; };
 		A7BABB401445829B00D3F168 /* relaunch in Resources */ = {isa = PBXBuildFile; fileRef = A7BABB2E1445817B00D3F168 /* relaunch */; };
 /* End PBXBuildFile section */
@@ -113,6 +115,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8D1107260486CEB800E47090;
 			remoteInfo = CocoaDialog;
+		};
+		7B7793791BC5045E007039CC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7BF9CC721AEBED350058B25F;
+			remoteInfo = DialogsAPITest;
 		};
 		7BF9CC6B1AEBEBD00058B25F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -218,7 +227,7 @@
 		7B45BA1F1BC421FE008AED0D /* CDMsgboxControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDMsgboxControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		7B45BA201BC421FE008AED0D /* CDOkMsgboxControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDOkMsgboxControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		7B45BA211BC421FE008AED0D /* CDPopUpButtonControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDPopUpButtonControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		7B45BA221BC421FE008AED0D /* CDRadioControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDRadioControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7B45BA221BC421FE008AED0D /* CDRadioControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDRadioControl.m; sourceTree = "<group>"; wrapsLines = 1; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		7B45BA231BC421FE008AED0D /* CDSlider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDSlider.h; sourceTree = "<group>"; };
 		7B45BA241BC421FE008AED0D /* CDSlider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDSlider.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		7B45BA251BC421FE008AED0D /* CDStandardInputboxControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDStandardInputboxControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -236,12 +245,12 @@
 		7B45BA351BC421FE008AED0D /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "en-US.lproj/Progressbar.xib"; sourceTree = "<group>"; };
 		7B45BA371BC421FE008AED0D /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "en-US.lproj/tbc.xib"; sourceTree = "<group>"; };
 		7B45BA391BC421FE008AED0D /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "en-US.lproj/Textbox.xib"; sourceTree = "<group>"; };
+		7B77937C1BC505BF007039CC /* DialogsAPITest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DialogsAPITest.m; path = Examples/DialogsAPITest.m; sourceTree = SOURCE_ROOT; };
 		7B94DD5C1BBF41B8004850F1 /* examples.sh.off */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = examples.sh.off; path = Examples/examples.sh.off; sourceTree = SOURCE_ROOT; };
 		7B94DD5E1BBF534A004850F1 /* checkbox.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = checkbox.sh; path = Examples/checkbox.sh; sourceTree = SOURCE_ROOT; };
 		7B94DD5F1BBFB4E2004850F1 /* cd-tests.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = "cd-tests.sh"; path = "Examples/cd-tests.sh"; sourceTree = "<group>"; };
 		7BDF56271AEBE163004812DE /* Dialogs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Dialogs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7BF9CC731AEBED350058B25F /* dialogsTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = dialogsTest; sourceTree = BUILT_PRODUCTS_DIR; };
-		7BF9CC751AEBED350058B25F /* dialogsTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = dialogsTest.m; path = Examples/dialogsTest.m; sourceTree = "<group>"; };
+		7BF9CC731AEBED350058B25F /* DialogsAPITest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DialogsAPITest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D1107320486CEB800E47090 /* CocoaDialog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocoaDialog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A78A8C9514375704007AE363 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ConfigDebug.xcconfig; sourceTree = "<group>"; };
@@ -254,6 +263,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B7793801BC5092F007039CC /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,7 +307,7 @@
 				8D1107320486CEB800E47090 /* CocoaDialog.app */,
 				A7BABB2E1445817B00D3F168 /* relaunch */,
 				7BDF56271AEBE163004812DE /* Dialogs.framework */,
-				7BF9CC731AEBED350058B25F /* dialogsTest */,
+				7BF9CC731AEBED350058B25F /* DialogsAPITest */,
 				7B4273FB1BC4C62400199E09 /* CocoaDialogUITests.xctest */,
 			);
 			name = Products;
@@ -319,12 +329,12 @@
 		7B22D90D1BBF2DBC00525FB5 /* Examples */ = {
 			isa = PBXGroup;
 			children = (
+				7B77937C1BC505BF007039CC /* DialogsAPITest.m */,
 				7B94DD5F1BBFB4E2004850F1 /* cd-tests.sh */,
 				7B22D90B1BBF25B800525FB5 /* progressbar.py */,
 				7B22D90C1BBF260C00525FB5 /* progressbar.sh */,
 				7B94DD5C1BBF41B8004850F1 /* examples.sh.off */,
 				7B94DD5E1BBF534A004850F1 /* checkbox.sh */,
-				7BF9CC751AEBED350058B25F /* dialogsTest.m */,
 			);
 			name = Examples;
 			path = Source;
@@ -608,6 +618,7 @@
 				7BDF56251AEBE163004812DE /* Resources */,
 				7B3D25CD1BC4232200218FE0 /* CopyFiles */,
 				7B3D25CF1BC4233B00218FE0 /* Frameworks */,
+				7B7793811BC50948007039CC /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -618,9 +629,9 @@
 			productReference = 7BDF56271AEBE163004812DE /* Dialogs.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		7BF9CC721AEBED350058B25F /* dialogsTest */ = {
+		7BF9CC721AEBED350058B25F /* DialogsAPITest */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7BF9CC771AEBED350058B25F /* Build configuration list for PBXNativeTarget "dialogsTest" */;
+			buildConfigurationList = 7BF9CC771AEBED350058B25F /* Build configuration list for PBXNativeTarget "DialogsAPITest" */;
 			buildPhases = (
 				7BF9CC6F1AEBED350058B25F /* Sources */,
 				7BF9CC701AEBED350058B25F /* Frameworks */,
@@ -630,9 +641,9 @@
 			dependencies = (
 				7BF9CC7B1AEBED3B0058B25F /* PBXTargetDependency */,
 			);
-			name = dialogsTest;
+			name = DialogsAPITest;
 			productName = dialogsTest;
-			productReference = 7BF9CC731AEBED350058B25F /* dialogsTest */;
+			productReference = 7BF9CC731AEBED350058B25F /* DialogsAPITest */;
 			productType = "com.apple.product-type.tool";
 		};
 		8D1107260486CEB800E47090 /* CocoaDialog */ = {
@@ -713,7 +724,7 @@
 				A7BABB2D1445817B00D3F168 /* relaunch */,
 				7BDF56261AEBE163004812DE /* Dialogs */,
 				7BF9CC671AEBEBAF0058B25F /* Tests */,
-				7BF9CC721AEBED350058B25F /* dialogsTest */,
+				7BF9CC721AEBED350058B25F /* DialogsAPITest */,
 				7B4273FA1BC4C62400199E09 /* CocoaDialogUITests */,
 			);
 		};
@@ -755,6 +766,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		7B7793811BC50948007039CC /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "install_name_tool -change \"@executable_path/../Frameworks/Growl.framework/Versions/A/Growl\" \"@loader_path/Frameworks/Growl.framework/Versions/A/Growl\" \"$BUILT_PRODUCTS_DIR/$EXECUTABLE_PATH\"\n\ninstall_name_tool -id \"@loader_path/../Frameworks/Growl.framework/Versions/A/Growl\" \"${CODESIGNING_FOLDER_PATH}/Frameworks/Growl.framework/Growl\"";
+		};
 		7BF9CC6D1AEBEBD40058B25F /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -762,13 +786,14 @@
 			);
 			inputPaths = (
 				"$(BUILT_PRODUCTS_DIR)/$(PROJECT_NAME).app/Contents/MacOS/$(PROJECT_NAME)",
+				"$(BUILT_PRODUCTS_DIR)/DialogsAPITest",
 			);
 			name = "Run Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\nfor x in Examples/*sh Examples/*py; do\n    ./$x \"${SCRIPT_INPUT_FILE_0}\"\ndone\n\n";
+			shellScript = "\nfor x in Examples/*sh Examples/*py; do\n    ./$x \"${SCRIPT_INPUT_FILE_0}\"\ndone\n\n${SCRIPT_INPUT_FILE_1}\n";
 		};
 		A7D4043E153C38E0005FA3CD /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -835,7 +860,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7BF9CC761AEBED350058B25F /* dialogsTest.m in Sources */,
+				7B77937E1BC505C4007039CC /* DialogsAPITest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -873,6 +898,11 @@
 			isa = PBXTargetDependency;
 			target = 8D1107260486CEB800E47090 /* CocoaDialog */;
 			targetProxy = 7B4274001BC4C62500199E09 /* PBXContainerItemProxy */;
+		};
+		7B77937A1BC5045E007039CC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7BF9CC721AEBED350058B25F /* DialogsAPITest */;
+			targetProxy = 7B7793791BC5045E007039CC /* PBXContainerItemProxy */;
 		};
 		7BF9CC6C1AEBEBD00058B25F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1252,7 +1282,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/Frameworks $(inherited)";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path @loader_path/Frameworks $(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaDialog;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1270,7 +1300,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/Frameworks $(inherited)";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path @loader_path/Frameworks $(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaDialog;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1392,7 +1422,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7BF9CC771AEBED350058B25F /* Build configuration list for PBXNativeTarget "dialogsTest" */ = {
+		7BF9CC771AEBED350058B25F /* Build configuration list for PBXNativeTarget "DialogsAPITest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7BF9CC781AEBED350058B25F /* Debug */,

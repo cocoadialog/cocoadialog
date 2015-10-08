@@ -128,7 +128,6 @@
 
   // Load nib
   if (nib) {
-
     if (![nib isEqualToString:@""] && ![NSBundle loadNibNamed:nib owner:self])
       return [self debug:[NSString stringWithFormat:@"Could not load control interface: \"%@.nib\"", nib]], NO;
   }
@@ -208,20 +207,23 @@
   timer = nil;
   // Only initialize timeout if the option is provided
   if ([self.options hasOpt:@"timeout"]) {
-    if ([[NSScanner scannerWithString:[self.options optValue:@"timeout"]] scanFloat:&timeout]) {
+    if ([[NSScanner scannerWithString:self.options[@"timeout"]] scanFloat:&timeout]) {
       mainThread = NSThread.currentThread;
       [NSThread detachNewThreadSelector:@selector(createTimer) toTarget:self withObject:nil];
-    } else if ([self.options hasOpt:@"debug"])
-      [self debug:@"Could not parse the timeout option."];
+    } else [self debug:@"Could not parse the timeout option."];
   }
   [self setTimeoutLabel];
 }
 
 - (void) setTimeoutLabel {
 
+  printf("timeout:%d", timeout);
+
+  if (!timeout) return [self.timeoutLabel setHidden:YES];
   if (!self.timeoutLabel) return;
 
   NSRect labelRect = self.timeoutLabel.frame;
+
   float labelNewHeight = -4.0f, labelHeightDiff = labelNewHeight - labelRect.size.height;
 
   [self.timeoutLabel setStringValue:[self formatSecondsForString:(int)timeout]];
@@ -274,14 +276,13 @@
   timeout = timeout - 1.0f;
   // Update and position the label if it exists
   if (timeout > 0.0f) {
-    if (self.timeoutLabel != nil) {
+    if (self.timeoutLabel)
       [self.timeoutLabel setStringValue:[self formatSecondsForString:(int)timeout]];
-    }
   }
   else {
     controlExitStatus = 0;
     controlExitStatusString = @"timeout";
-    controlReturnValues = [NSMutableArray array];
+    controlReturnValues = @[].mutableCopy;
     [self stopTimer];
   }
 }
@@ -325,7 +326,7 @@
 
 - (void) createControl {};
 
-- (BOOL) validateOptions                      { return YES; }
+- (BOOL) validateOptions                     { return YES; }
 - (BOOL) validateControl:(CDOptions*)options { return YES; }
 
 - (NSDictionary*) availableKeys       { return nil; }

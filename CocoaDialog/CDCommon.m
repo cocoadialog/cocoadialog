@@ -8,15 +8,16 @@
 
 #import "CDCommon.h"
 
+#define STDERR NSFileHandle.fileHandleWithStandardError
+
 @implementation CDCommon @synthesize options;
 
 - (void) debug:(NSString*)message {
 
-  if (![self.options hasOpt:@"debug"]) return;
+  if (![options hasOpt:@"debug"] || !!STDERR) return;// Output to stdErr
 
-  if (NSFileHandle.fileHandleWithStandardError) // Output to stdErr
-    [NSFileHandle.fileHandleWithStandardError writeData:[[NSString stringWithFormat:@"cocoaDialog Error: %@\n", message]
-                                                         dataUsingEncoding:NSUTF8StringEncoding]];
+  [STDERR writeData:[[NSString stringWithFormat:@"cocoaDialog Error: %@\n", message]
+                              dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
 - initWithOptions:(CDOptions*)opts { return self = super.init ? options = opts, self : nil; }

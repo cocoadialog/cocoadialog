@@ -316,21 +316,27 @@ runTests() {
     updater
     yesno_msgbox
   )
-  button=''
-  label="$(printf "This program will allow you to conduct continuous tests on any given cocoaDialog control. Please select the cocoaDialog control you wish to test.\n\nAfter all of the control's tests have completed this dialog will reappear, press Cancel to quit.")";
-  while [ "${button}" != "Cancel Test" ]; do
-    button=''
-    dialog=$(cocoaDialog radio --title "Automated cocoaDialog Testing Script" --float \
-      --rows 8 \
-      --icon hazard \
-      --string-output \
-      --button1 "Run Test" \
-      --button2 "Cancel Test" \
-	    --label "${label}" \
-      --items ${tests[*]})
-    button="$(echo "${dialog}" | awk 'NR==1{print}')";
-    # Run the selected test.
-    $(echo "${dialog}" | awk 'NR>1{print $0}');
-  done
+		
+		
+	  button=''
+	  label="$(printf "This program will allow you to conduct continuous tests on any given cocoaDialog control. Please select the cocoaDialog control you wish to test.\n\nAfter all of the control's tests have completed this dialog will reappear, press Cancel to quit.")";
+	  while [ "${button}" != "Cancel Test" ]; do
+	    button=''
+	    dialog=$(cocoaDialog radio --title "Automated cocoaDialog Testing Script" --float \
+	      --rows 8 \
+	      --icon hazard \
+	      --string-output \
+	      --button1 "Run Test" \
+	      --button2 "Cancel Test" \
+		    --label "${label}" \
+	      --items ${tests[*]})
+	    button="$(echo "${dialog}" | awk 'NR==1{print}')";
+	    # Run the selected test.
+	    $(echo "${dialog}" | awk 'NR>1{print $0}');
+	  done
+	# fi
 }
-runTests
+if [[ $1 ]]; then say $1; $1
+else
+runTests "$@"
+fi
