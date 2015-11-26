@@ -1,10 +1,5 @@
-/*
-	CDYesNoMsgboxControl.m
-	cocoaDialog
-*/
 
 #import "CDThreeButtonControl.h"
-
 
 @implementation CDYesNoMsgboxControl
 

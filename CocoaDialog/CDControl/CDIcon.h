@@ -1,8 +1,3 @@
-//
-//  CDIcon.h
-//  cocoaDialog
-//
-//  Created by Mark Whitaker on 10/28/11.
 
 
 

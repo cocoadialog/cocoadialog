@@ -367,8 +367,8 @@
 				7B45BA2B1BC421FE008AED0D /* CDOptions.h */,
 				7B45BA2C1BC421FE008AED0D /* CDOptions.m */,
 				7B45B9FD1BC421FE008AED0D /* CDControl */,
-				7B45B9E01BC421FE008AED0D /* App */,
 				7B45BA2E1BC421FE008AED0D /* Resources */,
+				7B45B9E01BC421FE008AED0D /* App */,
 			);
 			path = CocoaDialog;
 			sourceTree = "<group>";

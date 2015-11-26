@@ -1,8 +1,3 @@
-//
-//  CDIcon.m
-//  cocoaDialog
-//
-//  Created by Mark Whitaker on 10/28/11.
 
 #import "CDIcon.h"
 

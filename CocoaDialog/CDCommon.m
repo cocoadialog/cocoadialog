@@ -1,8 +1,3 @@
-//
-//  CDCommon.m
-//  cocoaDialog
-//
-//  Created by Mark Whitaker on 10/29/11.
 
 #import "CDCommon.h"
 
@@ -10,9 +5,9 @@
 
 @implementation CDCommon @synthesize options;
 
-- (void) debug:(NSString*)message {
+- (void) debug:(NSString*)message { // Output to stdErr
 
-  if (![options hasOpt:@"debug"] || !!STDERR) return;// Output to stdErr
+  ![options hasOpt:@"debug"] || !!STDERR ?: // But not if debug is off, or stderr is absent.
 
   [STDERR writeData:[[NSString stringWithFormat:@"cocoaDialog Error: %@\n", message]
                               dataUsingEncoding:NSUTF8StringEncoding]];

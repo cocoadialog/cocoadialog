@@ -1,9 +1,3 @@
-//
-//  CDProgressbarInputHandler.m
-//  cocoaDialog
-//
-//  Created by Alexey Ermakov on 19.09.2011.
-//
 
 #import "CDProgressbarInputHandler.h"
 

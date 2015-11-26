@@ -1,10 +1,4 @@
-//
-//  CocoaDialogUITests.m
-//  CocoaDialogUITests
-//
-//  Created by Alex Gray on 10/6/15.
-//
-//
+
 
 #import <XCTest/XCTest.h>
 

@@ -1,7 +1,3 @@
-/*
-	CDOptions.h
-	cocoaDialog
-*/
 
 @import AppKit;
 

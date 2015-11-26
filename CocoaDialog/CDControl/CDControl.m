@@ -1,30 +1,11 @@
-/*
-	CDControl.m
-	cocoaDialog
-	Copyright (C) 2004 Mark A. Stratman <mark@sporkstorms.org>
-
-	This program is free software; you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation; either version 2 of the License, or
-	(at your option) any later version.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program; if not, write to the Free Software
-	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- */
 
 #import "Dialogs.h"
 
 @implementation CDControl
 {
-  // Timer
-  NSThread                    *mainThread, *timerThread;
-  NSTimer                     *timer;
+  NSTimer  * timer;
+  NSThread * mainThread,
+           * timerThread;
 }
 
 #pragma mark - Internal Control Methods
@@ -33,14 +14,13 @@
 
 - (CDOptions*) controlOptionsFromArgs:(NSArray*)args {
 
-  return [CDOptions getOpts:args availableKeys:self.availableKeys depreciatedKeys:self.depreciatedKeys];
+  return [CDOptions getOpts:args availableKeys:self.availableKeys
+                               depreciatedKeys:self.depreciatedKeys];
 }
 
 - (CDOptions*) controlOptionsFromArgs:(NSArray *)args withGlobalKeys:(NSDictionary*)globalKeys {
 
-  NSMutableDictionary *allKeys = @{}.mutableCopy;
-
-  [allKeys addEntriesFromDictionary:globalKeys];
+  NSMutableDictionary *allKeys = [NSMutableDictionary dictionaryWithDictionary:globalKeys];
 
   !self.availableKeys ?: [allKeys addEntriesFromDictionary:self.availableKeys];
 
@@ -52,52 +32,39 @@
 - (NSString*) formatSecondsForString:(NSInteger)timeInSeconds {
 
   static NSString *timerFormat = nil;
+
   timerFormat = timerFormat ?: [self.options hasOpt:@"timeout-format"]
-  ? [self.options optValue:@"timeout-format"]
-  : @"Time remaining: %";
+                            ?  [self.options optValue:@"timeout-format"]
+                             : @"Time remaining: %";
 
   NSString *returnString = timerFormat;
 
   NSInteger seconds =  timeInSeconds % 60,
-  minutes = (timeInSeconds / 60) % 60,
-  hours =  timeInSeconds / 3600,
-  days =  timeInSeconds /(3600 * 24);
+            minutes = (timeInSeconds / 60) % 60,
+              hours =  timeInSeconds / 3600,
+               days =  timeInSeconds /(3600 * 24);
 
-  //  NSString *relative = days > 0 ? days > 1  ? [NSString stringWithFormat:@"%d days", days]
-  //                                            : [NSString stringWithFormat:@"%d day", days]
-  //                                : hours > 0 ? hours > 1   ? [NSString stringWithFormat:@"%d hours", hours]
-  //                                                          : [NSString stringWithFormat:@"%d hour", hours]
-  //                                            : minutes > 0 ? minutes > 1 ? [NSString stringWithFormat:@"%d minutes", minutes]
-  //                                                                        : [NSString stringWithFormat:@"%d minute", minutes]
-  //                                                          : seconds > 0 ? seconds > 1) {
-  //            relative = [NSString stringWithFormat:@"%d seconds", seconds];
-  //          }
-  //          else {
-  //            relative = [NSString stringWithFormat:@"%d second", seconds];
-  //          }
-  //        }
-  //      }
-  //    }
-  //  }
-  NSString *relative =
+  NSString *relative =  days > 0 ? days > 1     ? [NSString stringWithFormat:@"%d days", days]
+                                                : [NSString stringWithFormat:@"%d day", days]
+                     : hours > 0 ? hours > 1    ? [NSString stringWithFormat:@"%d hours", hours]
+                                                : [NSString stringWithFormat:@"%d hour", hours]
+                   : minutes > 0 ? minutes > 1  ? [NSString stringWithFormat:@"%d minutes", minutes]
+                                                : [NSString stringWithFormat:@"%d minute", minutes]
+                   : seconds > 0 ? seconds > 1  ? [NSString stringWithFormat:@"%d seconds", seconds]
+                                                : [NSString stringWithFormat:@"%d second", seconds]
+                                                : @"unknown";
 
-  days > 0 ? days > 1  ? [NSString stringWithFormat:@"%d days", days]
-  : [NSString stringWithFormat:@"%d day", days]
-  : hours > 0 ? hours > 1   ? [NSString stringWithFormat:@"%d hours", hours]
-  : [NSString stringWithFormat:@"%d hour", hours]
-  : minutes > 0 ? minutes > 1 ? [NSString stringWithFormat:@"%d minutes", minutes]
-  : [NSString stringWithFormat:@"%d minute", minutes]
-  : seconds > 0 ? seconds > 1 ? [NSString stringWithFormat:@"%d seconds", seconds]
-  : [NSString stringWithFormat:@"%d second", seconds]
-  : @"unknown";
+  for (NSArray *fmt in @[ @[@"%s", [NSString stringWithFormat:@"%d", seconds]],
+                          @[@"%m", [NSString stringWithFormat:@"%d", minutes]],
+                          @[@"%h", [NSString stringWithFormat:@"%d", hours]],
+                          @[@"%d", [NSString stringWithFormat:@"%d", days]],
+                          @[@"%r", relative]])
 
-  returnString = [returnString stringByReplacingOccurrencesOfString:@"%s" withString:[NSString stringWithFormat:@"%d", seconds]];
-  returnString = [returnString stringByReplacingOccurrencesOfString:@"%m" withString:[NSString stringWithFormat:@"%d", minutes]];
-  returnString = [returnString stringByReplacingOccurrencesOfString:@"%h" withString:[NSString stringWithFormat:@"%d", hours]];
-  returnString = [returnString stringByReplacingOccurrencesOfString:@"%d" withString:[NSString stringWithFormat:@"%d", days]];
-  returnString = [returnString stringByReplacingOccurrencesOfString:@"%r" withString:relative];
+  returnString = [returnString stringByReplacingOccurrencesOfString:fmt[0] withString:fmt[1]];
+
   return returnString;
 }
+
 + (BOOL) isRunningStandalone {
 
   return [NSProcessInfo.processInfo.processName.lowercaseString isEqualToString:@"cocoadialog"];
@@ -124,9 +91,10 @@
 
 - (BOOL) loadControlNib:(NSString*)nib {
 
-  // Load nib
   if (nib) {
+
     if (![nib isEqualToString:@""] && ![NSBundle loadNibNamed:nib owner:self])
+
       return [self debug:[NSString stringWithFormat:@"Could not load control interface: \"%@.nib\"", nib]], NO;
   }
   else return [self debug:@"Control did not specify a NIB interface file to load."], NO;

@@ -1,7 +1,3 @@
-/*
-	CDTextboxControl.m
-	cocoaDialog
-*/
 
 #import "CDThreeButtonControl.h"
 

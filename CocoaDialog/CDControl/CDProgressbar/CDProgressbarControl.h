@@ -1,9 +1,4 @@
-/*
-	CDProgressbarControl.h
-	cocoaDialog
-*/
 
-#import <Foundation/Foundation.h>
 #import "CDControl.h"
 #import "CDProgressbarInputHandlerDelegate.h"
 

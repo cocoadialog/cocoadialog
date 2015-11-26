@@ -1,7 +1,3 @@
-/*
-	CDProgressbarControl.m
-	cocoaDialog
-*/
 
 #import "CDProgressbarControl.h"
 #import "CDProgressbarInputHandler.h"

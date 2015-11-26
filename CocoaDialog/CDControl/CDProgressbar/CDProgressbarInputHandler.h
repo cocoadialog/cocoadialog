@@ -1,11 +1,5 @@
-//
-//  CDProgressbarInputHandler.h
-//  cocoaDialog
-//
-//  Created by Alexey Ermakov on 19.09.2011.
-//
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import "CDProgressbarInputHandlerDelegate.h"
 
 #define CDProgressbarMAX 100.0

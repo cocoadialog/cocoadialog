@@ -1,10 +1,5 @@
-/*
-	CDStandardPopUpButtonControl.m
-	cocoaDialog
-*/
 
 #import "CDThreeButtonControl.h"
-
 
 @implementation CDStandardPopUpButtonControl
 

@@ -1,10 +1,5 @@
-/*
-	CDStandardInputboxControl.m
-	cocoaDialog
-*/
 
 #import "CDThreeButtonControl.h"
-
 
 @implementation CDStandardInputboxControl
 
