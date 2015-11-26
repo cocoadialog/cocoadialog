@@ -1,12 +1,13 @@
 
 @import Dialogs;
-@import AppKit;
 
 int main(int argc, const char * argv[]) { @autoreleasepool {
 
   printf("Available Controls:\n%s", CDControl.availableControls.description.UTF8String);
 
-  CDOptions *opts = [CDOptions optionsWithDictionary:@{@"button1":@"Button 1", @"items": @[@"Checkbox 1 (index 0)"]}];
+  CDOptions *opts = [CDOptions optionsWithDictionary:@{ @"button1": @"Button 1",
+                                                          @"items": @[@"Checkbox 1 (index 0)"]}];
+                                                          
   CDCheckboxControl *check = [CDCheckboxControl.alloc initWithOptions:opts];
 
 //  [check runControl];

@@ -61,16 +61,16 @@
 		7B4273F51BC4BA3400199E09 /* relaunch.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45B9F21BC421FE008AED0D /* relaunch.m */; };
 		7B4273F61BC4BBA500199E09 /* Growl.framework in Copy Files (2 items) */ = {isa = PBXBuildFile; fileRef = 7B3D25CB1BC4231800218FE0 /* Growl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7B4273FE1BC4C62500199E09 /* CocoaDialogUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B4273FD1BC4C62500199E09 /* CocoaDialogUITests.m */; };
-		7B45BA3A1BC4222D008AED0D /* Msgbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B45BA301BC421FE008AED0D /* Msgbox.xib */; settings = {ASSET_TAGS = (); }; };
-		7B45BA3B1BC4222D008AED0D /* popup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B45BA321BC421FE008AED0D /* popup.xib */; settings = {ASSET_TAGS = (); }; };
-		7B45BA3C1BC4222D008AED0D /* Progressbar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B45BA341BC421FE008AED0D /* Progressbar.xib */; settings = {ASSET_TAGS = (); }; };
-		7B45BA3D1BC4222D008AED0D /* tbc.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B45BA361BC421FE008AED0D /* tbc.xib */; settings = {ASSET_TAGS = (); }; };
-		7B45BA3E1BC4222D008AED0D /* Textbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B45BA381BC421FE008AED0D /* Textbox.xib */; settings = {ASSET_TAGS = (); }; };
+		7B45BA3A1BC4222D008AED0D /* Msgbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B45BA301BC421FE008AED0D /* Msgbox.xib */; };
+		7B45BA3B1BC4222D008AED0D /* popup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B45BA321BC421FE008AED0D /* popup.xib */; };
+		7B45BA3C1BC4222D008AED0D /* Progressbar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B45BA341BC421FE008AED0D /* Progressbar.xib */; };
+		7B45BA3D1BC4222D008AED0D /* tbc.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B45BA361BC421FE008AED0D /* tbc.xib */; };
+		7B45BA3E1BC4222D008AED0D /* Textbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B45BA381BC421FE008AED0D /* Textbox.xib */; };
 		7B45BA3F1BC42235008AED0D /* CDCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45B9FB1BC421FE008AED0D /* CDCommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7B45BA401BC42235008AED0D /* CDOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45BA2B1BC421FE008AED0D /* CDOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7B45BA411BC42235008AED0D /* Dialogs.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45BA2D1BC421FE008AED0D /* Dialogs.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7B45BA421BC4223E008AED0D /* CDCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45B9FC1BC421FE008AED0D /* CDCommon.m */; settings = {ASSET_TAGS = (); }; };
-		7B45BA431BC4223E008AED0D /* CDOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA2C1BC421FE008AED0D /* CDOptions.m */; settings = {ASSET_TAGS = (); }; };
+		7B45BA421BC4223E008AED0D /* CDCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45B9FC1BC421FE008AED0D /* CDCommon.m */; };
+		7B45BA431BC4223E008AED0D /* CDOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45BA2C1BC421FE008AED0D /* CDOptions.m */; };
 		7B45BA441BC42252008AED0D /* CDControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45B9FE1BC421FE008AED0D /* CDControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7B45BA451BC42252008AED0D /* CDFileDialogControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45BA011BC421FE008AED0D /* CDFileDialogControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7B45BA461BC42252008AED0D /* CDIcon.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45BA051BC421FE008AED0D /* CDIcon.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -88,8 +88,11 @@
 		7B45BA521BC42253008AED0D /* CDThreeButtonControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B45BA281BC421FE008AED0D /* CDThreeButtonControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7B45BA531BC42263008AED0D /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45B9E11BC421FE008AED0D /* AppController.m */; };
 		7B45BA541BC42263008AED0D /* CDUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B45B9E31BC421FE008AED0D /* CDUpdate.m */; };
-		7B77937E1BC505C4007039CC /* DialogsAPITest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B77937C1BC505BF007039CC /* DialogsAPITest.m */; settings = {ASSET_TAGS = (); }; };
+		7B77937E1BC505C4007039CC /* DialogsAPITest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B77937C1BC505BF007039CC /* DialogsAPITest.m */; };
 		7B7793801BC5092F007039CC /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B3D25CB1BC4231800218FE0 /* Growl.framework */; };
+		7BBB40B91C06D00A00621B90 /* Changelog in Resources */ = {isa = PBXBuildFile; fileRef = 7BBB40B61C06D00A00621B90 /* Changelog */; };
+		7BBB40BA1C06D00A00621B90 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 7BBB40B71C06D00A00621B90 /* LICENSE */; };
+		7BBB40BC1C06D02F00621B90 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7BBB40B81C06D00A00621B90 /* README.md */; };
 		7BF9CCCB1AEC03B40058B25F /* Dialogs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BDF56271AEBE163004812DE /* Dialogs.framework */; };
 		A7BABB401445829B00D3F168 /* relaunch in Resources */ = {isa = PBXBuildFile; fileRef = A7BABB2E1445817B00D3F168 /* relaunch */; };
 /* End PBXBuildFile section */
@@ -249,6 +252,9 @@
 		7B94DD5C1BBF41B8004850F1 /* examples.sh.off */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = examples.sh.off; path = Examples/examples.sh.off; sourceTree = SOURCE_ROOT; };
 		7B94DD5E1BBF534A004850F1 /* checkbox.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = checkbox.sh; path = Examples/checkbox.sh; sourceTree = SOURCE_ROOT; };
 		7B94DD5F1BBFB4E2004850F1 /* cd-tests.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = "cd-tests.sh"; path = "Examples/cd-tests.sh"; sourceTree = "<group>"; };
+		7BBB40B61C06D00A00621B90 /* Changelog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Changelog; sourceTree = "<group>"; };
+		7BBB40B71C06D00A00621B90 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		7BBB40B81C06D00A00621B90 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7BDF56271AEBE163004812DE /* Dialogs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Dialogs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BF9CC731AEBED350058B25F /* DialogsAPITest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DialogsAPITest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D1107320486CEB800E47090 /* CocoaDialog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocoaDialog.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -316,6 +322,9 @@
 		29B97314FDCFA39411CA2CEA /* cocoaDialog */ = {
 			isa = PBXGroup;
 			children = (
+				7BBB40B61C06D00A00621B90 /* Changelog */,
+				7BBB40B71C06D00A00621B90 /* LICENSE */,
+				7BBB40B81C06D00A00621B90 /* README.md */,
 				7B45B9DF1BC421FE008AED0D /* CocoaDialog */,
 				7B22D90D1BBF2DBC00525FB5 /* Examples */,
 				A78A8C9414375703007AE363 /* Configurations */,
@@ -742,8 +751,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BBB40BC1C06D02F00621B90 /* README.md in Resources */,
 				7B45BA3B1BC4222D008AED0D /* popup.xib in Resources */,
+				7BBB40B91C06D00A00621B90 /* Changelog in Resources */,
 				7B45BA3D1BC4222D008AED0D /* tbc.xib in Resources */,
+				7BBB40BA1C06D00A00621B90 /* LICENSE in Resources */,
 				7B45BA3E1BC4222D008AED0D /* Textbox.xib in Resources */,
 				7B45BA3C1BC4222D008AED0D /* Progressbar.xib in Resources */,
 				7B45BA3A1BC4222D008AED0D /* Msgbox.xib in Resources */,

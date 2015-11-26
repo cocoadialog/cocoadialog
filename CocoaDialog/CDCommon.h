@@ -1,6 +1,6 @@
 
 //  CDCommon.h cocoaDialog
-//  Created by Mark Whitaker on 10/29/11. Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Created by Mark Whitaker on 10/29/11. 
 
 #import "CDOptions.h"
 
