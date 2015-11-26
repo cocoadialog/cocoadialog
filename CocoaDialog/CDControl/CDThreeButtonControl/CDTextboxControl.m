@@ -161,7 +161,7 @@
 
 - (void) controlHasFinished:(int)button {
 
-	![self.options hasOpt:@"editable"] ?: [controlReturnValues addObject:self.textView.textStorage.string];
+	![self.options hasOpt:@"editable"] ?: [self.controlReturnValues addObject:self.textView.textStorage.string];
 
   [super controlHasFinished:button];
 }

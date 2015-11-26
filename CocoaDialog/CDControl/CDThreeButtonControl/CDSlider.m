@@ -121,8 +121,8 @@
 - (void) controlHasFinished:(int)button {
 
   [self.options hasOpt:@"return-float"]
-  ? [controlReturnValues addObject:[NSString stringWithFormat:@"%.2f", [[controlMatrix cellAtRow:0 column:0] doubleValue]]]
-  : [controlReturnValues addObject:[NSString stringWithFormat:@"%i", [[controlMatrix cellAtRow:0 column:0] intValue]]];
+  ? [self.controlReturnValues addObject:[NSString stringWithFormat:@"%.2f", [[controlMatrix cellAtRow:0 column:0] doubleValue]]]
+  : [self.controlReturnValues addObject:[NSString stringWithFormat:@"%i", [[controlMatrix cellAtRow:0 column:0] intValue]]];
   [super controlHasFinished:button];
 }
 

@@ -22,8 +22,6 @@
 
 @implementation CDControl
 {
-
-
   // Timer
   NSThread                    *mainThread, *timerThread;
   NSTimer                     *timer;
@@ -115,10 +113,10 @@
     [NSApplication.sharedApplication setActivationPolicy:NSApplicationActivationPolicyRegular];
 
   }
-  controlExitStatus       = -1;
-  controlExitStatusString = nil;
-  controlReturnValues     = @[].mutableCopy;
-  controlItems            = @[].mutableCopy;
+  _controlExitStatus       = -1;
+  _controlExitStatusString = nil;
+  _controlReturnValues     = @[].mutableCopy;
+  _controlItems            = @[].mutableCopy;
   return self;
 }
 
@@ -201,6 +199,8 @@
   }
 }
 
+@synthesize timeout;
+
 - (void) setTimeout {
 
   timeout = 0.0f;
@@ -280,9 +280,9 @@
       [self.timeoutLabel setStringValue:[self formatSecondsForString:(int)timeout]];
   }
   else {
-    controlExitStatus = 0;
-    controlExitStatusString = @"timeout";
-    controlReturnValues = @[].mutableCopy;
+    [self setValue:@0 forKey:@"controlExitStatus"];
+    [self setValue:@"timeout" forKey:@"controlExitStatusString"];
+    [self.controlReturnValues removeAllObjects];
     [self stopTimer];
   }
 }
@@ -293,36 +293,36 @@
 
   // Stop any modal windows currently running
   [NSApp stop:self];
-  if (![self.options hasOpt:@"quiet"] && controlExitStatus != -1 && controlExitStatus != -2) {
+  if (![self.options hasOpt:@"quiet"] && self.controlExitStatus != -1 && self.controlExitStatus != -2) {
     if ([self.options hasOpt:@"string-output"]) {
-      controlExitStatusString = controlExitStatusString ?: [NSString stringWithFormat:@"%d", controlExitStatus];
-      [controlReturnValues insertObject:controlExitStatusString atIndex:0];
+      self.controlExitStatusString ?: [self setValue:@(self.controlExitStatus).stringValue forKey:@"controlExitStatusString"];
+      [self.controlReturnValues insertObject:self.controlExitStatusString atIndex:0];
     }
     else
-      [controlReturnValues insertObject:[NSString stringWithFormat:@"%d", controlExitStatus] atIndex:0];
+      [self.controlReturnValues insertObject:@(self.controlExitStatus).stringValue atIndex:0];
   }
-  if (controlExitStatus == -1) controlExitStatus = 0;
-  if (controlExitStatus == -2) controlExitStatus = 1;
+  if (self.controlExitStatus == -1) [self setValue:@0 forKey:@"controlExitStatus"];
+  if (self.controlExitStatus == -2) [self setValue:@1 forKey:@"controlExitStatus"];
 
-  if (controlReturnValues) {   // Print all the returned lines
+  if (self.controlReturnValues) {   // Print all the returned lines
 
     NSFileHandle *fh = NSFileHandle.fileHandleWithStandardOutput;
 
-    for (unsigned i = 0; i < controlReturnValues.count; i++) {
+    for (unsigned i = 0; i < self.controlReturnValues.count; i++) {
 
-      !fh ?: [fh writeData:[controlReturnValues[i] dataUsingEncoding:NSUTF8StringEncoding]];
+      !fh ?: [fh writeData:[self.controlReturnValues[i] dataUsingEncoding:NSUTF8StringEncoding]];
 
-      if ((![self.options hasOpt:@"no-newline"] || i+1 < controlReturnValues.count) && fh)
+      if ((![self.options hasOpt:@"no-newline"] || i+1 < self.controlReturnValues.count) && fh)
 
         [fh writeData:[[NSString stringWithString:@"\n"] dataUsingEncoding:NSUTF8StringEncoding]];
     }
 
   } else if ([self.options hasOpt:@"debug"]) [self debug:@"Control returned nil."];
 
-  exit(controlExitStatus);   // Return the exit status
+  exit(self.controlExitStatus);   // Return the exit status
 }
 
-#pragma mark - Subclassable Control Methods -
+#pragma mark - Subclassable Control Methods - CDControl Protocol?
 
 - (void) createControl {};
 

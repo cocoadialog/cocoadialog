@@ -236,7 +236,7 @@
 		7B45BA281BC421FE008AED0D /* CDThreeButtonControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CDThreeButtonControl.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		7B45BA291BC421FE008AED0D /* CDThreeButtonControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDThreeButtonControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		7B45BA2A1BC421FE008AED0D /* CDYesNoMsgboxControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDYesNoMsgboxControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		7B45BA2B1BC421FE008AED0D /* CDOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDOptions.h; sourceTree = "<group>"; };
+		7B45BA2B1BC421FE008AED0D /* CDOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDOptions.h; sourceTree = "<group>"; wrapsLines = 1; };
 		7B45BA2C1BC421FE008AED0D /* CDOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CDOptions.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		7B45BA2D1BC421FE008AED0D /* Dialogs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Dialogs.h; sourceTree = "<group>"; };
 		7B45BA2F1BC421FE008AED0D /* Dialogs-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Dialogs-Info.plist"; sourceTree = "<group>"; };
@@ -352,13 +352,13 @@
 		7B45B9DF1BC421FE008AED0D /* CocoaDialog */ = {
 			isa = PBXGroup;
 			children = (
-				7B45B9E01BC421FE008AED0D /* App */,
+				7B45BA2D1BC421FE008AED0D /* Dialogs.h */,
 				7B45B9FB1BC421FE008AED0D /* CDCommon.h */,
 				7B45B9FC1BC421FE008AED0D /* CDCommon.m */,
-				7B45B9FD1BC421FE008AED0D /* CDControl */,
 				7B45BA2B1BC421FE008AED0D /* CDOptions.h */,
 				7B45BA2C1BC421FE008AED0D /* CDOptions.m */,
-				7B45BA2D1BC421FE008AED0D /* Dialogs.h */,
+				7B45B9FD1BC421FE008AED0D /* CDControl */,
+				7B45B9E01BC421FE008AED0D /* App */,
 				7B45BA2E1BC421FE008AED0D /* Resources */,
 			);
 			path = CocoaDialog;

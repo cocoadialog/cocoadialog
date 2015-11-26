@@ -278,8 +278,8 @@
         float labelNewHeight = -4.0f;
         NSRect labelRect = [self.timeoutLabel frame];
         float labelHeightDiff = labelNewHeight - labelRect.size.height;
-        [self.timeoutLabel setStringValue:[self formatSecondsForString:(int)timeout]];
-        if (![[self.timeoutLabel stringValue] isEqualToString:@""] && timeout != 0.0f) {
+        [self.timeoutLabel setStringValue:[self formatSecondsForString:(int)self.timeout]];
+        if (![[self.timeoutLabel stringValue] isEqualToString:@""] && self.timeout != 0.0f) {
             NSTextStorage *textStorage    = [NSTextStorage.alloc initWithString: self.timeoutLabel.stringValue];
             NSTextContainer *textContainer = [NSTextContainer.alloc initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)];
             NSLayoutManager *layoutManager = NSLayoutManager.new;
@@ -335,20 +335,15 @@
 }
 
 - (void) controlHasFinished:(int)button {
-    controlExitStatus = button;
-    switch (button) {
-        case 1: controlExitStatusString = [button1 title]; break;
-        case 2: controlExitStatusString = [button2 title]; break;
-        case 3: controlExitStatusString = [button3 title]; break;
-    }
-    if (button == cancelButton) {
-        controlReturnValues = [NSMutableArray array];
-    }
+
+    [self setValue:@(button) forKey:@"controlExitStatus"];
+
+    id theButton = button == 1 ? button1 : button == 2 ? button2 : button3;
+    [self setValue:[theButton title] forKey:@"controlExitStatusString"];
+
+    if (button == cancelButton) [self.controlReturnValues removeAllObjects];
     else {
-        if (![self allowEmptyReturn] && [self isReturnValueEmpty]) {
-            [self returnValueEmptySheet];
-            return;
-        }
+        if (!self.allowEmptyReturn && self.isReturnValueEmpty) return [self returnValueEmptySheet];
     }
     [self stopControl];
 }
@@ -359,23 +354,22 @@
             [controlMatrix selectCellAtRow:[controlMatrix selectedRow] column:[controlMatrix selectedColumn]];
         }
     }
-    else if (controlItems != nil && [controlItems count]) {
-        [self.panel.panel makeFirstResponder:controlItems[0]];
-    }
+    else if (self.controlItems && self.controlItems.count)
+        [self.panel.panel makeFirstResponder:self.controlItems[0]];
 }
 
 - (IBAction) button1Pressed:(id)sender {
-    [controlReturnValues removeAllObjects];
+    [self.controlReturnValues removeAllObjects];
     [self controlHasFinished:1];
 }
 
 - (IBAction) button2Pressed:(id)sender {
-    [controlReturnValues removeAllObjects];
+    [self.controlReturnValues removeAllObjects];
     [self controlHasFinished:2];
 }
 
 - (IBAction) button3Pressed:(id)sender {
-    [controlReturnValues removeAllObjects];
+    [self.controlReturnValues removeAllObjects];
     [self controlHasFinished:3];
 }
 

@@ -72,7 +72,7 @@
       if (argType == CDOptionsOneValue) { options[arg] = nextArg; i++; break; }
 
       // add a value to the values array
-      else if (argType == CDOptionsMultipleValues && ![CDOptions _argIsKey:args[i+1] availableKeys:availableKeys depreciatedKeys:depreciatedKeys]) {
+      else if (argType == CDOptionsMultipleValues && ![self.class _argIsKey:args[i+1] availableKeys:availableKeys depreciatedKeys:depreciatedKeys]) {
 
         [values addObject:nextArg]; i++;
 
@@ -92,7 +92,6 @@
 
 + (void) printOpts:(NSArray *)availableOptions forRunMode:(NSString *)runMode
 {
-
   #define WRITE(X) [NSFileHandle.fileHandleWithStandardOutput writeData:[X dataUsingEncoding:NSUTF8StringEncoding]]
 
   if (!NSFileHandle.fileHandleWithStandardOutput) return;
@@ -122,12 +121,12 @@
     }
     currKey++;
   }];
-  WRITE(({[NSString stringWithFormat:@"\nFor detailed documentation, please visit:\nhttp://mstratman.github.com/cocoadialog/#documentation/\n%@\n_control\n", runMode.lowercaseString];}));
 
+  WRITE(({[NSString stringWithFormat:@"\nFor detailed documentation, please visit:\nhttp://mstratman.github.com/cocoadialog/#documentation/\n%@\n_control\n", runMode.lowercaseString];}));
   exit(1);
 }
 
-- (BOOL) hasOpt:(NSString*)key { return _options[key] != nil; }
+- (BOOL) hasOpt:(NSString*)key { return !!_options[key]; }
 
 - (NSString*) optValue:(NSString*)key {
 
@@ -135,6 +134,7 @@
   // value will be an NSNumber (set in getOpts) if there is no value for that key, NSString of the value, or nil if that key didn't exist
   return value || [value isKindOfClass:NSString.class] ? value : nil;
 }
+
 - (NSArray*) optValues:(NSString*)key {
 
   id value = _options[key];
@@ -142,16 +142,14 @@
 }
 
 - optValueOrValues:(NSString*)key { return _options[key]; }
+- (NSArray*) allOptions           { return _options.allKeys; }
+- (NSArray*) allOptValues         { return _options.allValues; }
 
-- (NSArray*) allOptions    { return _options.allKeys; }
-- (NSArray*) allOptValues  { return _options.allValues; }
+- (void) setOption:val forKey:(NSString*)key { _options[key] = val; }
 
-- (void) setOption:(id)value forKey:(NSString*)key { _options[key] = value; }
+/// Keyed subscript protocol implementation
 
-- (void) setObject:val forKeyedSubscript:(id<NSCopying>)key {
-
-  [self setOption:val forKey:key];
-}
+- (void) setObject:val forKeyedSubscript:(id<NSCopying>)key { [self setOption:val forKey:key]; }
 
 - objectForKeyedSubscript:(id<NSCopying>)key { return [self optValue:key]; }
 

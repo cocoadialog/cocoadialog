@@ -84,15 +84,15 @@
 
         if (selectedCell)
 
-          [controlReturnValues addObject:
+          [self.controlReturnValues addObject:
             [self.options hasOpt:@"string-output"]
               ? selectedCell.title
               : [NSString stringWithFormat:@"%d", [controlMatrix.selectedCell tag]]];
         else
-            [controlReturnValues addObject:[NSString stringWithFormat:@"%d", -1]];
+            [self.controlReturnValues addObject:[NSString stringWithFormat:@"%d", -1]];
     }
     else {
-        [controlReturnValues addObject:[NSString stringWithFormat:@"%d", -1]];
+        [self.controlReturnValues addObject:[NSString stringWithFormat:@"%d", -1]];
     }
     [super controlHasFinished:button];
 }

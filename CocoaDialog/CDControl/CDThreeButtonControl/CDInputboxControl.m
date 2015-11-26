@@ -74,7 +74,7 @@
 }
 
 - (void) controlHasFinished:(int)button {
-  [controlReturnValues addObject:[[controlMatrix cellAtRow:0 column:0] stringValue]];
+  [self.controlReturnValues addObject:[[controlMatrix cellAtRow:0 column:0] stringValue]];
   [super controlHasFinished:button];
 }
 

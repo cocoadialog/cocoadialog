@@ -10,15 +10,15 @@
 #import "CDCommon.h"
 
 @interface CDPanel : CDCommon
-{
-    IBOutlet NSPanel    *panel;
-}
-@property (strong) NSPanel *panel;
+
+@property IBOutlet NSPanel *panel;
 
 - (void) addMinHeight:(CGFloat)height;
-- (void) addMinWidth:(CGFloat)width;
+- (void)  addMinWidth:(CGFloat)width;
+
 @property (readonly) NSSize findNewSize;
 @property (readonly) BOOL needsResize;
+
 - (void) resize;
 - (void) setFloat;
 - (void) setPanelEmpty;

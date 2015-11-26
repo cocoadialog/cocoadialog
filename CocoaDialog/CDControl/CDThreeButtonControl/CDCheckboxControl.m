@@ -105,14 +105,14 @@
           case NSMixedState: [checkboxesArray addObject: @"mixed"]; break;
         }
       }
-      [controlReturnValues addObject:[checkboxesArray componentsJoinedByString:@" "]];
+      [self.controlReturnValues addObject:[checkboxesArray componentsJoinedByString:@" "]];
     }
   } else {
     if (self.checkboxes != nil && [self.checkboxes count]) {
       while (obj = [en nextObject]) {
         [checkboxesArray addObject: [NSString stringWithFormat:@"%i", [obj state]]];
       }
-      [controlReturnValues addObject:[checkboxesArray componentsJoinedByString:@" "]];
+      [self.controlReturnValues addObject:[checkboxesArray componentsJoinedByString:@" "]];
     }
   }
   [super controlHasFinished:button];

@@ -24,7 +24,9 @@
 #define CDOptionsOneValue       1
 #define CDOptionsMultipleValues 2
 
-/// Simple wrapper for commandline options. Easily used with @c[CDOptions getOpts:NSProcessInfo.processInfo.arguments]
+/*! Simple wrapper for commandline options. 
+    Easily used with @c[CDOptions getOpts:NSProcessInfo.processInfo.arguments]
+ */
 
 @interface CDOptions : NSObject
 
