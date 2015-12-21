@@ -1,5 +1,7 @@
 # Overview
 
+[![Join the chat at https://gitter.im/mstratman/cocoadialog](https://badges.gitter.im/mstratman/cocoadialog.svg)](https://gitter.im/mstratman/cocoadialog?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 cocoaDialog is an OS X application that allows the use of common GUI controls such as file selectors, text input, progress bars, yes/no confirmations and more with a command-line application. It requires no knowledge of Cocoa, and is ideal for use in shell and Perl scripts (or Ruby, or Python, or... etc).
 
 To get the most up-to-date cocoaDialog, you can either fork cocoaDialog on GitHub and build it yourself. Or you can download the latest beta release on the right. Be forewarned, beta releases might not have complete documentation (it can change quickly). They may also contain bugs or cause cocoaDialog to not work at all. If you have comments, suggestions, questions, problems or bugs, patches, etc - please submit them through Issues on GitHub.
