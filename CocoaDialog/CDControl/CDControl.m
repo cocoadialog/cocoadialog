@@ -1,32 +1,11 @@
-/*
-	CDControl.m
-	cocoaDialog
-	Copyright (C) 2004 Mark A. Stratman <mark@sporkstorms.org>
-
-	This program is free software; you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation; either version 2 of the License, or
-	(at your option) any later version.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program; if not, write to the Free Software
-	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- */
 
 #import "Dialogs.h"
 
 @implementation CDControl
 {
-
-
-  // Timer
-  NSThread                    *mainThread, *timerThread;
-  NSTimer                     *timer;
+  NSTimer  * timer;
+  NSThread * mainThread,
+           * timerThread;
 }
 
 #pragma mark - Internal Control Methods
@@ -35,14 +14,13 @@
 
 - (CDOptions*) controlOptionsFromArgs:(NSArray*)args {
 
-  return [CDOptions getOpts:args availableKeys:self.availableKeys depreciatedKeys:self.depreciatedKeys];
+  return [CDOptions getOpts:args availableKeys:self.availableKeys
+                               depreciatedKeys:self.depreciatedKeys];
 }
 
 - (CDOptions*) controlOptionsFromArgs:(NSArray *)args withGlobalKeys:(NSDictionary*)globalKeys {
 
-  NSMutableDictionary *allKeys = @{}.mutableCopy;
-
-  [allKeys addEntriesFromDictionary:globalKeys];
+  NSMutableDictionary *allKeys = [NSMutableDictionary dictionaryWithDictionary:globalKeys];
 
   !self.availableKeys ?: [allKeys addEntriesFromDictionary:self.availableKeys];
 
@@ -54,52 +32,39 @@
 - (NSString*) formatSecondsForString:(NSInteger)timeInSeconds {
 
   static NSString *timerFormat = nil;
+
   timerFormat = timerFormat ?: [self.options hasOpt:@"timeout-format"]
-  ? [self.options optValue:@"timeout-format"]
-  : @"Time remaining: %";
+                            ?  [self.options optValue:@"timeout-format"]
+                             : @"Time remaining: %";
 
   NSString *returnString = timerFormat;
 
   NSInteger seconds =  timeInSeconds % 60,
-  minutes = (timeInSeconds / 60) % 60,
-  hours =  timeInSeconds / 3600,
-  days =  timeInSeconds /(3600 * 24);
+            minutes = (timeInSeconds / 60) % 60,
+              hours =  timeInSeconds / 3600,
+               days =  timeInSeconds /(3600 * 24);
 
-  //  NSString *relative = days > 0 ? days > 1  ? [NSString stringWithFormat:@"%d days", days]
-  //                                            : [NSString stringWithFormat:@"%d day", days]
-  //                                : hours > 0 ? hours > 1   ? [NSString stringWithFormat:@"%d hours", hours]
-  //                                                          : [NSString stringWithFormat:@"%d hour", hours]
-  //                                            : minutes > 0 ? minutes > 1 ? [NSString stringWithFormat:@"%d minutes", minutes]
-  //                                                                        : [NSString stringWithFormat:@"%d minute", minutes]
-  //                                                          : seconds > 0 ? seconds > 1) {
-  //            relative = [NSString stringWithFormat:@"%d seconds", seconds];
-  //          }
-  //          else {
-  //            relative = [NSString stringWithFormat:@"%d second", seconds];
-  //          }
-  //        }
-  //      }
-  //    }
-  //  }
-  NSString *relative =
+  NSString *relative =  days > 0 ? days > 1     ? [NSString stringWithFormat:@"%d days", days]
+                                                : [NSString stringWithFormat:@"%d day", days]
+                     : hours > 0 ? hours > 1    ? [NSString stringWithFormat:@"%d hours", hours]
+                                                : [NSString stringWithFormat:@"%d hour", hours]
+                   : minutes > 0 ? minutes > 1  ? [NSString stringWithFormat:@"%d minutes", minutes]
+                                                : [NSString stringWithFormat:@"%d minute", minutes]
+                   : seconds > 0 ? seconds > 1  ? [NSString stringWithFormat:@"%d seconds", seconds]
+                                                : [NSString stringWithFormat:@"%d second", seconds]
+                                                : @"unknown";
 
-  days > 0 ? days > 1  ? [NSString stringWithFormat:@"%d days", days]
-  : [NSString stringWithFormat:@"%d day", days]
-  : hours > 0 ? hours > 1   ? [NSString stringWithFormat:@"%d hours", hours]
-  : [NSString stringWithFormat:@"%d hour", hours]
-  : minutes > 0 ? minutes > 1 ? [NSString stringWithFormat:@"%d minutes", minutes]
-  : [NSString stringWithFormat:@"%d minute", minutes]
-  : seconds > 0 ? seconds > 1 ? [NSString stringWithFormat:@"%d seconds", seconds]
-  : [NSString stringWithFormat:@"%d second", seconds]
-  : @"unknown";
+  for (NSArray *fmt in @[ @[@"%s", [NSString stringWithFormat:@"%d", seconds]],
+                          @[@"%m", [NSString stringWithFormat:@"%d", minutes]],
+                          @[@"%h", [NSString stringWithFormat:@"%d", hours]],
+                          @[@"%d", [NSString stringWithFormat:@"%d", days]],
+                          @[@"%r", relative]])
 
-  returnString = [returnString stringByReplacingOccurrencesOfString:@"%s" withString:[NSString stringWithFormat:@"%d", seconds]];
-  returnString = [returnString stringByReplacingOccurrencesOfString:@"%m" withString:[NSString stringWithFormat:@"%d", minutes]];
-  returnString = [returnString stringByReplacingOccurrencesOfString:@"%h" withString:[NSString stringWithFormat:@"%d", hours]];
-  returnString = [returnString stringByReplacingOccurrencesOfString:@"%d" withString:[NSString stringWithFormat:@"%d", days]];
-  returnString = [returnString stringByReplacingOccurrencesOfString:@"%r" withString:relative];
+  returnString = [returnString stringByReplacingOccurrencesOfString:fmt[0] withString:fmt[1]];
+
   return returnString;
 }
+
 + (BOOL) isRunningStandalone {
 
   return [NSProcessInfo.processInfo.processName.lowercaseString isEqualToString:@"cocoadialog"];
@@ -115,10 +80,10 @@
     [NSApplication.sharedApplication setActivationPolicy:NSApplicationActivationPolicyRegular];
 
   }
-  controlExitStatus       = -1;
-  controlExitStatusString = nil;
-  controlReturnValues     = @[].mutableCopy;
-  controlItems            = @[].mutableCopy;
+  _controlExitStatus       = -1;
+  _controlExitStatusString = nil;
+  _controlReturnValues     = @[].mutableCopy;
+  _controlItems            = @[].mutableCopy;
   return self;
 }
 
@@ -126,10 +91,10 @@
 
 - (BOOL) loadControlNib:(NSString*)nib {
 
-  // Load nib
   if (nib) {
 
     if (![nib isEqualToString:@""] && ![NSBundle loadNibNamed:nib owner:self])
+
       return [self debug:[NSString stringWithFormat:@"Could not load control interface: \"%@.nib\"", nib]], NO;
   }
   else return [self debug:@"Control did not specify a NIB interface file to load."], NO;
@@ -202,26 +167,31 @@
   }
 }
 
+@synthesize timeout;
+
 - (void) setTimeout {
 
   timeout = 0.0f;
   timer = nil;
   // Only initialize timeout if the option is provided
   if ([self.options hasOpt:@"timeout"]) {
-    if ([[NSScanner scannerWithString:[self.options optValue:@"timeout"]] scanFloat:&timeout]) {
+    if ([[NSScanner scannerWithString:self.options[@"timeout"]] scanFloat:&timeout]) {
       mainThread = NSThread.currentThread;
       [NSThread detachNewThreadSelector:@selector(createTimer) toTarget:self withObject:nil];
-    } else if ([self.options hasOpt:@"debug"])
-      [self debug:@"Could not parse the timeout option."];
+    } else [self debug:@"Could not parse the timeout option."];
   }
   [self setTimeoutLabel];
 }
 
 - (void) setTimeoutLabel {
 
+  printf("timeout:%d", timeout);
+
+  if (!timeout) return [self.timeoutLabel setHidden:YES];
   if (!self.timeoutLabel) return;
 
   NSRect labelRect = self.timeoutLabel.frame;
+
   float labelNewHeight = -4.0f, labelHeightDiff = labelNewHeight - labelRect.size.height;
 
   [self.timeoutLabel setStringValue:[self formatSecondsForString:(int)timeout]];
@@ -274,14 +244,13 @@
   timeout = timeout - 1.0f;
   // Update and position the label if it exists
   if (timeout > 0.0f) {
-    if (self.timeoutLabel != nil) {
+    if (self.timeoutLabel)
       [self.timeoutLabel setStringValue:[self formatSecondsForString:(int)timeout]];
-    }
   }
   else {
-    controlExitStatus = 0;
-    controlExitStatusString = @"timeout";
-    controlReturnValues = [NSMutableArray array];
+    [self setValue:@0 forKey:@"controlExitStatus"];
+    [self setValue:@"timeout" forKey:@"controlExitStatusString"];
+    [self.controlReturnValues removeAllObjects];
     [self stopTimer];
   }
 }
@@ -292,40 +261,40 @@
 
   // Stop any modal windows currently running
   [NSApp stop:self];
-  if (![self.options hasOpt:@"quiet"] && controlExitStatus != -1 && controlExitStatus != -2) {
+  if (![self.options hasOpt:@"quiet"] && self.controlExitStatus != -1 && self.controlExitStatus != -2) {
     if ([self.options hasOpt:@"string-output"]) {
-      controlExitStatusString = controlExitStatusString ?: [NSString stringWithFormat:@"%d", controlExitStatus];
-      [controlReturnValues insertObject:controlExitStatusString atIndex:0];
+      self.controlExitStatusString ?: [self setValue:@(self.controlExitStatus).stringValue forKey:@"controlExitStatusString"];
+      [self.controlReturnValues insertObject:self.controlExitStatusString atIndex:0];
     }
     else
-      [controlReturnValues insertObject:[NSString stringWithFormat:@"%d", controlExitStatus] atIndex:0];
+      [self.controlReturnValues insertObject:@(self.controlExitStatus).stringValue atIndex:0];
   }
-  if (controlExitStatus == -1) controlExitStatus = 0;
-  if (controlExitStatus == -2) controlExitStatus = 1;
+  if (self.controlExitStatus == -1) [self setValue:@0 forKey:@"controlExitStatus"];
+  if (self.controlExitStatus == -2) [self setValue:@1 forKey:@"controlExitStatus"];
 
-  if (controlReturnValues) {   // Print all the returned lines
+  if (self.controlReturnValues) {   // Print all the returned lines
 
     NSFileHandle *fh = NSFileHandle.fileHandleWithStandardOutput;
 
-    for (unsigned i = 0; i < controlReturnValues.count; i++) {
+    for (unsigned i = 0; i < self.controlReturnValues.count; i++) {
 
-      !fh ?: [fh writeData:[controlReturnValues[i] dataUsingEncoding:NSUTF8StringEncoding]];
+      !fh ?: [fh writeData:[self.controlReturnValues[i] dataUsingEncoding:NSUTF8StringEncoding]];
 
-      if ((![self.options hasOpt:@"no-newline"] || i+1 < controlReturnValues.count) && fh)
+      if ((![self.options hasOpt:@"no-newline"] || i+1 < self.controlReturnValues.count) && fh)
 
         [fh writeData:[[NSString stringWithString:@"\n"] dataUsingEncoding:NSUTF8StringEncoding]];
     }
 
   } else if ([self.options hasOpt:@"debug"]) [self debug:@"Control returned nil."];
 
-  exit(controlExitStatus);   // Return the exit status
+  exit(self.controlExitStatus);   // Return the exit status
 }
 
-#pragma mark - Subclassable Control Methods -
+#pragma mark - Subclassable Control Methods - CDControl Protocol?
 
 - (void) createControl {};
 
-- (BOOL) validateOptions                      { return YES; }
+- (BOOL) validateOptions                     { return YES; }
 - (BOOL) validateControl:(CDOptions*)options { return YES; }
 
 - (NSDictionary*) availableKeys       { return nil; }

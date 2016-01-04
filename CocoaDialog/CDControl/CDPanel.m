@@ -1,10 +1,4 @@
-//
-//  CDPanel.m
-//  cocoaDialog
-//
-//  Created by Mark Whitaker on 10/28/11.
-//  Copyright (c) 2011 Mark Whitaker. All rights reserved.
-//
+
 
 #import "CDPanel.h"
 

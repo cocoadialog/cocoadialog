@@ -89,20 +89,17 @@
         result = [savePanel runModalForDirectory:dir file:file];
     }
     else {
-        if (dir != nil) {
-            NSURL * url = [NSURL.alloc initFileURLWithPath:dir];
-            [savePanel setDirectoryURL:url];
-        }
+        if (dir) [savePanel setDirectoryURL:[NSURL.alloc initFileURLWithPath:dir]];
         [savePanel setNameFieldStringValue:file];
         result = [savePanel runModal];
     }
     if (result == NSFileHandlingPanelOKButton) {
-        controlExitStatus = -1;
-        [controlReturnValues addObject:[savePanel filename]];
+        [self setValue:@(-1) forKey:@"controlExitStatus"];
+        [self.controlReturnValues addObject:savePanel.filename];
     }
     else {
-        controlExitStatus = -2;
-        controlReturnValues = [NSMutableArray array];
+        [self setValue:@(-2) forKey:@"controlExitStatus"];
+        [self.controlReturnValues removeAllObjects];
     }
     [super stopControl];
 }

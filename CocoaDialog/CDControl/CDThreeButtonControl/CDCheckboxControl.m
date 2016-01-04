@@ -1,10 +1,4 @@
-//
-//  CDCheckboxControl.m
-//  cocoaDialog
-//
-//  Created by Mark Whitaker on 9/20/11.
-//  Copyright (c) 2011 Mark Whitaker. All rights reserved.
-//
+
 
 #import "CDThreeButtonControl.h"
 
@@ -105,14 +99,14 @@
           case NSMixedState: [checkboxesArray addObject: @"mixed"]; break;
         }
       }
-      [controlReturnValues addObject:[checkboxesArray componentsJoinedByString:@" "]];
+      [self.controlReturnValues addObject:[checkboxesArray componentsJoinedByString:@" "]];
     }
   } else {
     if (self.checkboxes != nil && [self.checkboxes count]) {
       while (obj = [en nextObject]) {
         [checkboxesArray addObject: [NSString stringWithFormat:@"%i", [obj state]]];
       }
-      [controlReturnValues addObject:[checkboxesArray componentsJoinedByString:@" "]];
+      [self.controlReturnValues addObject:[checkboxesArray componentsJoinedByString:@" "]];
     }
   }
   [super controlHasFinished:button];

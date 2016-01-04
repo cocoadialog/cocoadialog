@@ -1,22 +1,3 @@
-/*
-	CDThreeButtonControl.m
-	cocoaDialog
-	Copyright (C) 2004-2006 Mark A. Stratman <mark@sporkstorms.org>
- 
-	This program is free software; you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation; either version 2 of the License, or
-	(at your option) any later version.
- 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
- 
-	You should have received a copy of the GNU General Public License
-	along with this program; if not, write to the Free Software
-	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-*/
 
 #import "CDThreeButtonControl.h"
 
@@ -278,8 +259,8 @@
         float labelNewHeight = -4.0f;
         NSRect labelRect = [self.timeoutLabel frame];
         float labelHeightDiff = labelNewHeight - labelRect.size.height;
-        [self.timeoutLabel setStringValue:[self formatSecondsForString:(int)timeout]];
-        if (![[self.timeoutLabel stringValue] isEqualToString:@""] && timeout != 0.0f) {
+        [self.timeoutLabel setStringValue:[self formatSecondsForString:(int)self.timeout]];
+        if (![[self.timeoutLabel stringValue] isEqualToString:@""] && self.timeout != 0.0f) {
             NSTextStorage *textStorage    = [NSTextStorage.alloc initWithString: self.timeoutLabel.stringValue];
             NSTextContainer *textContainer = [NSTextContainer.alloc initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)];
             NSLayoutManager *layoutManager = NSLayoutManager.new;
@@ -335,20 +316,15 @@
 }
 
 - (void) controlHasFinished:(int)button {
-    controlExitStatus = button;
-    switch (button) {
-        case 1: controlExitStatusString = [button1 title]; break;
-        case 2: controlExitStatusString = [button2 title]; break;
-        case 3: controlExitStatusString = [button3 title]; break;
-    }
-    if (button == cancelButton) {
-        controlReturnValues = [NSMutableArray array];
-    }
+
+    [self setValue:@(button) forKey:@"controlExitStatus"];
+
+    id theButton = button == 1 ? button1 : button == 2 ? button2 : button3;
+    [self setValue:[theButton title] forKey:@"controlExitStatusString"];
+
+    if (button == cancelButton) [self.controlReturnValues removeAllObjects];
     else {
-        if (![self allowEmptyReturn] && [self isReturnValueEmpty]) {
-            [self returnValueEmptySheet];
-            return;
-        }
+        if (!self.allowEmptyReturn && self.isReturnValueEmpty) return [self returnValueEmptySheet];
     }
     [self stopControl];
 }
@@ -359,23 +335,22 @@
             [controlMatrix selectCellAtRow:[controlMatrix selectedRow] column:[controlMatrix selectedColumn]];
         }
     }
-    else if (controlItems != nil && [controlItems count]) {
-        [self.panel.panel makeFirstResponder:controlItems[0]];
-    }
+    else if (self.controlItems && self.controlItems.count)
+        [self.panel.panel makeFirstResponder:self.controlItems[0]];
 }
 
 - (IBAction) button1Pressed:(id)sender {
-    [controlReturnValues removeAllObjects];
+    [self.controlReturnValues removeAllObjects];
     [self controlHasFinished:1];
 }
 
 - (IBAction) button2Pressed:(id)sender {
-    [controlReturnValues removeAllObjects];
+    [self.controlReturnValues removeAllObjects];
     [self controlHasFinished:2];
 }
 
 - (IBAction) button3Pressed:(id)sender {
-    [controlReturnValues removeAllObjects];
+    [self.controlReturnValues removeAllObjects];
     [self controlHasFinished:3];
 }
 

@@ -1,7 +1,3 @@
-/* KABubbleWindowView.m from Colloquy (colloquy.info).
- * Modified for cocoaDialog (cocoadialog.sf.net).
- * I think they got this from an old version of Growl (growl.info).
- */
 
 #import "KABubbleWindowView.h"
 

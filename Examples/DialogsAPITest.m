@@ -1,35 +1,29 @@
 
 @import Dialogs;
-@import AppKit;
 
 int main(int argc, const char * argv[]) { @autoreleasepool {
 
   printf("Available Controls:\n%s", CDControl.availableControls.description.UTF8String);
 
+  CDOptions *opts = [CDOptions optionsWithDictionary:@{ @"button1": @"Button 1",
+                                                          @"items": @[@"Checkbox 1 (index 0)"]}];
+                                                          
+  CDCheckboxControl *check = [CDCheckboxControl.alloc initWithOptions:opts];
 
-  CDCheckboxControl *p = [CDCheckboxControl.alloc initWithOptions:
-                              [CDOptions optionsWithDictionary:@{@"button1":@"Button 1", @"items": @[@"Checkbox 1 (index 0)"]}]];
-//  CDProgressbarControl *p = [CDProgressbarControl.alloc initWithOptions:
-//                              [CDOptions optionsWithDictionary:@{@"button1":@"Button 1", @"items": @[@"Checkbox 1 (index 0)"]}]];
+//  [check runControl];
 
-  [p runControl];
-//  [progressbar --percent 0 --stoppable --title $(basename $0) --text "Please wait..." < $PIPE &
-
-  //    CDProgressbarControl *x = [CDProgressbarControl.alloc initWithOptions:nil];
-
-  CDOptions *x = CDOptions.new;
-  x[@"button1"] = @"ok";
-  x[@"text"] = @"whatever";
-  x[@"informative-text"] = @"Enter your search term";
+  opts                      = CDOptions.new;
+  opts[@"button1"]          = @"ok";
+  opts[@"text"]             = @"whatever";
+  opts[@"informative-text"] = @"Enter your search term";
 
   [CDControl.availableControls enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
 
-
     printf("Instantiating a %s via the %s class\n", [key UTF8String], NSStringFromClass(obj).UTF8String);
 
-    CDControl *i = [(CDControl*)[obj alloc] initWithOptions:x];
-    if ([i validateControl:x])
-      [i runControl];
+    CDControl *i = [(CDControl*)[obj alloc] initWithOptions:opts];
+
+    ![i validateOptions] ?: [i runControl];
   }];
 
 //  CDInputboxControl *i = [CDInputboxControl.alloc initWithOptions:x];
@@ -66,3 +60,8 @@ int main(int argc, const char * argv[]) { @autoreleasepool {
 
 
 } return 0; }
+
+//  CDProgressbarControl *p = [CDProgressbarControl.alloc initWithOptions:
+//                              [CDOptions optionsWithDictionary:@{@"button1":@"Button 1", @"items": @[@"Checkbox 1 (index 0)"]}]];
+//  [progressbar --percent 0 --stoppable --title $(basename $0) --text "Please wait..." < $PIPE &
+  //    CDProgressbarControl *x = [CDProgressbarControl.alloc initWithOptions:nil];

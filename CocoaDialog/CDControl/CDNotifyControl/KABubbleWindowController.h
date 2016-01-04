@@ -1,6 +1,7 @@
+
 /* KABubbleWindowController.h from Colloquy (colloquy.info).
- * Modified for cocoaDialog (cocoadialog.sf.net).
- * I think they got this from an old version of Growl (growl.info).
+  Modified for cocoaDialog (cocoadialog.sf.net).
+  I think they got this from an old version of Growl (growl.info).
  */
 
 #define BUBBLE_HORIZ_LEFT   0
