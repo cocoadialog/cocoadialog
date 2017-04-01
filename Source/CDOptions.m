@@ -116,13 +116,13 @@
 	return [[[CDOptions alloc] initWithOpts:options] autorelease];
 }
 
-+ (void) printOpts:(NSArray *)availableOptions forRunMode:(NSString *)runMode
++ (void) printOpts:(NSArray *)availableOptions forControl:(NSString *)control
 {
 	NSFileHandle *fh = [NSFileHandle fileHandleWithStandardOutput];
 
 	if (fh) {
         [fh writeData:[@"Usage:\tcocoaDialog " dataUsingEncoding:NSUTF8StringEncoding]];
-        [fh writeData:[runMode.lowercaseString dataUsingEncoding:NSUTF8StringEncoding]];
+        [fh writeData:[control.lowercaseString dataUsingEncoding:NSUTF8StringEncoding]];
         [fh writeData:[@" [options]\n\tAvailable options:\n" dataUsingEncoding:NSUTF8StringEncoding]];
 
         NSArray *sortedAvailableKeys = [NSArray arrayWithArray:[availableOptions sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
@@ -148,7 +148,7 @@
             currKey++;
         }
         [fh writeData:[@"\nFor detailed documentation, please visit:\nhttp://mstratman.github.com/cocoadialog/#documentation/" dataUsingEncoding:NSUTF8StringEncoding]];
-        [fh writeData:[runMode.lowercaseString dataUsingEncoding:NSUTF8StringEncoding]];
+        [fh writeData:[control.lowercaseString dataUsingEncoding:NSUTF8StringEncoding]];
         [fh writeData:[@"_control\n" dataUsingEncoding:NSUTF8StringEncoding]];
         exit(1);
 	}

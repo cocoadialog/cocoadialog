@@ -172,7 +172,7 @@
 }
 + (void) printHelpTo:(NSFileHandle *)fh {
 	if (fh) {
-        [fh writeData:[@"Usage: cocoaDialog <run-mode> [options]\n\tAvailable run-modes:\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        [fh writeData:[@"Usage: cocoaDialog <control> [options]\n\tAvailable controls:\n" dataUsingEncoding:NSUTF8StringEncoding]];
         NSArray *sortedAvailableKeys = [NSArray arrayWithArray:[[AppController availableControls].allKeys sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
         
         NSEnumerator *en = [sortedAvailableKeys objectEnumerator];

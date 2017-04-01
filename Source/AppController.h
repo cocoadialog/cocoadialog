@@ -21,7 +21,6 @@
 #import <Foundation/Foundation.h>
 #import "CDOptions.h"
 #import "CDControl.h"
-#import "CDUpdate.h"
 #import "CDBubbleControl.h"
 #import "CDCheckboxControl.h"
 #import "CDFileSelectControl.h"
@@ -49,7 +48,7 @@
 }
     + (NSDictionary *) availableControls;
     @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *appVersion;
-    - (void) chooseControl:(NSString *)runMode useOptions:options addExtraOptionsTo:(NSMutableDictionary *)extraOptions;
+    - (void) chooseControl:(NSString *)name useOptions:options addExtraOptionsTo:(NSMutableDictionary *)extraOptions;
     -(void)setHyperlinkForTextField:(NSTextField*)aTextField replaceString:(NSString *)aString withURL:(NSString *)aURL;
 @end
 

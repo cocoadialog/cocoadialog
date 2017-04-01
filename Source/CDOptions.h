@@ -34,7 +34,7 @@
 // availableKeys should be an NSString key, and an NSNumber int value using
 // one of the constants defined above.
 + (CDOptions *) getOpts:(NSArray *)args availableKeys:(NSDictionary *)availableKeys depreciatedKeys:(NSDictionary *)depreciatedKeys;
-+ (void)printOpts:(NSArray *)availableOptions forRunMode:(NSString *)runMode;
++ (void)printOpts:(NSArray *)availableOptions forControl:(NSString *)control;
 
 - (BOOL) hasOpt:(NSString *)key;
 - (NSString *) optValue:(NSString *)key;

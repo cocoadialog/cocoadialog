@@ -12,9 +12,7 @@
 		6190D1D8146CAFB30083364D /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78A8CE8143784A8007AE363 /* Growl.framework */; };
 		6190D1D9146CAFC20083364D /* Growl.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = A78A8CE8143784A8007AE363 /* Growl.framework */; };
 		61C9A9D014665F5B0054DD91 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		61C9A9D214665F680054DD91 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78A8D2E1437AC29007AE363 /* Sparkle.framework */; };
 		61C9A9D314665F680054DD91 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		61C9A9D514665F780054DD91 /* Sparkle.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = A78A8D2E1437AC29007AE363 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		61EC90AC145FACF8003ADF05 /* AppController.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC906B145FACF8003ADF05 /* AppController.h */; };
 		61EC90AD145FACF8003ADF05 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC906C145FACF8003ADF05 /* AppController.m */; };
 		61EC90AE145FACF8003ADF05 /* CDCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC906D145FACF8003ADF05 /* CDCommon.h */; };
@@ -72,8 +70,6 @@
 		61EC90E2145FACF8003ADF05 /* CDYesNoMsgboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC90A6145FACF8003ADF05 /* CDYesNoMsgboxControl.m */; };
 		61EC90E3145FACF8003ADF05 /* CDOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC90A7145FACF8003ADF05 /* CDOptions.h */; };
 		61EC90E4145FACF8003ADF05 /* CDOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC90A8145FACF8003ADF05 /* CDOptions.m */; };
-		61EC90E5145FACF8003ADF05 /* CDUpdate.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC90A9145FACF8003ADF05 /* CDUpdate.h */; };
-		61EC90E6145FACF8003ADF05 /* CDUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC90AA145FACF8003ADF05 /* CDUpdate.m */; };
 		61EC90E7145FACF8003ADF05 /* cocoaDialog_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 61EC90AB145FACF8003ADF05 /* cocoaDialog_Prefix.pch */; };
 		61EC90E9145FAD58003ADF05 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC90E8145FAD58003ADF05 /* main.m */; };
 		61EC90EC145FB0A0003ADF05 /* CDSlider.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC90EA145FB0A0003ADF05 /* CDSlider.h */; };
@@ -109,7 +105,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				6190D1D9146CAFC20083364D /* Growl.framework in Copy Files */,
-				61C9A9D514665F780054DD91 /* Sparkle.framework in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -178,8 +173,6 @@
 		61EC90A6145FACF8003ADF05 /* CDYesNoMsgboxControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDYesNoMsgboxControl.m; sourceTree = "<group>"; };
 		61EC90A7145FACF8003ADF05 /* CDOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDOptions.h; path = Source/CDOptions.h; sourceTree = "<group>"; };
 		61EC90A8145FACF8003ADF05 /* CDOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDOptions.m; path = Source/CDOptions.m; sourceTree = "<group>"; };
-		61EC90A9145FACF8003ADF05 /* CDUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDUpdate.h; path = Source/CDUpdate.h; sourceTree = "<group>"; };
-		61EC90AA145FACF8003ADF05 /* CDUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDUpdate.m; path = Source/CDUpdate.m; sourceTree = "<group>"; };
 		61EC90AB145FACF8003ADF05 /* cocoaDialog_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cocoaDialog_Prefix.pch; path = Source/cocoaDialog_Prefix.pch; sourceTree = "<group>"; };
 		61EC90E8145FAD58003ADF05 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Source/main.m; sourceTree = "<group>"; };
 		61EC90EA145FB0A0003ADF05 /* CDSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDSlider.h; sourceTree = "<group>"; };
@@ -200,7 +193,6 @@
 		A78A8CDF14377610007AE363 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		A78A8CE8143784A8007AE363 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
 		A78A8CF21437938D007AE363 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		A78A8D2E1437AC29007AE363 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
 		A7BABA9714456CC800D3F168 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A7BABADA1445809700D3F168 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		A7BABB051445810000D3F168 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
@@ -215,7 +207,6 @@
 			files = (
 				61C9A9D314665F680054DD91 /* Cocoa.framework in Frameworks */,
 				6190D1D8146CAFB30083364D /* Growl.framework in Frameworks */,
-				61C9A9D214665F680054DD91 /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,7 +278,6 @@
 			isa = PBXGroup;
 			children = (
 				A78A8CE8143784A8007AE363 /* Growl.framework */,
-				A78A8D2E1437AC29007AE363 /* Sparkle.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Apple Frameworks */,
 			);
 			name = Frameworks;
@@ -312,8 +302,6 @@
 				61EC906F145FACF8003ADF05 /* CDControl */,
 				61EC90A7145FACF8003ADF05 /* CDOptions.h */,
 				61EC90A8145FACF8003ADF05 /* CDOptions.m */,
-				61EC90A9145FACF8003ADF05 /* CDUpdate.h */,
-				61EC90AA145FACF8003ADF05 /* CDUpdate.m */,
 				61EC90AB145FACF8003ADF05 /* cocoaDialog_Prefix.pch */,
 				61EC90E8145FAD58003ADF05 /* main.m */,
 				6187E5FF14664987005067DB /* relaunch */,
@@ -460,7 +448,6 @@
 				61EC90DF145FACF8003ADF05 /* CDThreeButtonControl.h in Headers */,
 				61EC90E1145FACF8003ADF05 /* CDYesNoMsgboxControl.h in Headers */,
 				61EC90E3145FACF8003ADF05 /* CDOptions.h in Headers */,
-				61EC90E5145FACF8003ADF05 /* CDUpdate.h in Headers */,
 				61EC90E7145FACF8003ADF05 /* cocoaDialog_Prefix.pch in Headers */,
 				61EC90EC145FB0A0003ADF05 /* CDSlider.h in Headers */,
 			);
@@ -613,7 +600,6 @@
 				61EC90E0145FACF8003ADF05 /* CDThreeButtonControl.m in Sources */,
 				61EC90E2145FACF8003ADF05 /* CDYesNoMsgboxControl.m in Sources */,
 				61EC90E4145FACF8003ADF05 /* CDOptions.m in Sources */,
-				61EC90E6145FACF8003ADF05 /* CDUpdate.m in Sources */,
 				61EC90E9145FAD58003ADF05 /* main.m in Sources */,
 				61EC90ED145FB0A0003ADF05 /* CDSlider.m in Sources */,
 			);

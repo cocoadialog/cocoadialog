@@ -46,7 +46,7 @@
     if (![self isMemberOfClass:[CDPopUpButtonControl class]]) {
         if (![self isMemberOfClass:[CDStandardPopUpButtonControl class]]) {
             if ([options hasOpt:@"debug"]) {
-                [self debug:@"This run-mode is not properly classed."];
+                [self debug:@"This control is not properly classed."];
             }
             return NO;
         }

@@ -27,9 +27,8 @@
 }
 
 #pragma mark - Initialization
-- (void) awakeFromNib
-{
-	NSString *runMode = nil;
+- (void) awakeFromNib {
+	NSString *control = nil;
     // Assign arguments
 	arguments = [[[NSMutableArray alloc] initWithArray:[NSProcessInfo processInfo].arguments] autorelease];
     // Initialize control
@@ -40,11 +39,11 @@
     CDOptions *options = [CDOptions getOpts:arguments availableKeys:globalKeys depreciatedKeys:depreciatedKeys];
 	if (arguments.count >= 2) {
 		[arguments removeObjectAtIndex:0]; // Remove program name.
-		runMode = arguments[0];
-		[arguments removeObjectAtIndex:0]; // Remove the run-mode
+		control = arguments[0];
+		[arguments removeObjectAtIndex:0]; // Remove the control
 	}
-    // runMode is either the PID of a GUI initialization or "about", show the about dialog
-    if ([[runMode substringToIndex:4] isEqualToString:@"-psn"] || [runMode caseInsensitiveCompare:@"about"] == NSOrderedSame) {
+    // Control is either the PID of a GUI initialization or "about", show the about dialog
+    if ([[control substringToIndex:4] isEqualToString:@"-psn"] || [control caseInsensitiveCompare:@"about"] == NSOrderedSame) {
         [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
         [self setHyperlinkForTextField:aboutAppLink replaceString:@"http://mstratman.github.com/cocoadialog/" withURL:@"http://mstratman.github.com/cocoadialog/"];
         [self setHyperlinkForTextField:aboutText replaceString:@"command line interface" withURL:@"http://en.wikipedia.org/wiki/Command-line_interface"];
@@ -55,14 +54,14 @@
         [aboutPanel makeKeyAndOrderFront:nil];
         [NSApp run];
     }
-    // runMode is a notification, these need to be handled much differently
-    else if ([runMode caseInsensitiveCompare:@"notify"] == NSOrderedSame || [runMode caseInsensitiveCompare:@"bubble"] == NSOrderedSame) {
+    // Control is a notification, these need to be handled much differently
+    else if ([control caseInsensitiveCompare:@"notify"] == NSOrderedSame || [control caseInsensitiveCompare:@"bubble"] == NSOrderedSame) {
         // Determine which notification type to use
         // Recapture the arguments
         arguments = [[[NSMutableArray alloc] initWithArray:[NSProcessInfo processInfo].arguments] autorelease];
-        // Replace the runMode with the new one
+        // Replace the control with the new one
         arguments[1] = @"CDNotifyControl";
-        // Relaunch cocoaDialog with the new runMode
+        // Relaunch cocoaDialog with the new control
         NSString *launcherSource = [[NSBundle mainBundle] pathForResource:@"relaunch" ofType:@""];
         [arguments insertObject:launcherSource atIndex:0];
 #if defined __ppc__
@@ -83,14 +82,11 @@
         [task launch];
         [NSApp terminate:self];
     }
-    else if ([runMode caseInsensitiveCompare:@"update"] == NSOrderedSame) {
-        [[[[CDUpdate alloc] initWithOptions:options] autorelease] update];
-    }
-    // runMode needs to run through control logic
+    // Control needs to run through control logic
     else {
         NSMutableDictionary *extraOptions = [[[NSMutableDictionary alloc] init] autorelease];
         // Choose the control
-        [self chooseControl:runMode useOptions:options addExtraOptionsTo:extraOptions];
+        [self chooseControl:control useOptions:options addExtraOptionsTo:extraOptions];
         if (currentControl != nil) {
             // Initialize the currentControl
             [currentControl init];
@@ -111,7 +107,7 @@
                     [allKeys addEntriesFromDictionary:globalKeys];
                     
                 }
-                [CDOptions printOpts:allKeys.allKeys forRunMode:runMode];
+                [CDOptions printOpts:allKeys.allKeys forControl:control];
             }
             // Add any extras chooseControl came up with
             NSEnumerator *en = [extraOptions keyEnumerator];
@@ -148,13 +144,13 @@
                         [allKeys addEntriesFromDictionary:globalKeys];
                         
                     }
-                    [CDOptions printOpts:allKeys.allKeys forRunMode:runMode];
+                    [CDOptions printOpts:allKeys.allKeys forControl:control];
                 }
                 exit(255);
             }
         } else {
-            if ([options hasOpt:@"debug"] || [runMode isEqualToString:@"--debug"]) {
-                [currentControl debug:@"No run-mode, or invalid runmode provided as first argument."];
+            if ([options hasOpt:@"debug"] || [control isEqualToString:@"--debug"]) {
+                [currentControl debug:@"Invalid control provided as first argument."];
             }
             exit(255);
         }
@@ -182,19 +178,19 @@
             @"yesno-msgbox": [CDYesNoMsgboxControl class]};
 }
 
-- (void) chooseControl:(NSString *)runMode useOptions:options addExtraOptionsTo:(NSMutableDictionary *)extraOptions
+- (void) chooseControl:(NSString *)name useOptions:options addExtraOptionsTo:(NSMutableDictionary *)extraOptions
 {
     NSDictionary *controls = [AppController availableControls];
 
-	if (runMode == nil) {
+	if (name == nil) {
         currentControl = nil;
 		[CDControl printHelpTo:[NSFileHandle fileHandleWithStandardError]];
 	}
-    else if ([runMode isEqualToString:@"--help"]) {
+    else if ([name isEqualToString:@"--help"]) {
         currentControl = nil;
 		[CDControl printHelpTo:[NSFileHandle fileHandleWithStandardOutput]];
 	}
-    else if ([runMode caseInsensitiveCompare:@"version"] == NSOrderedSame) {
+    else if ([name caseInsensitiveCompare:@"version"] == NSOrderedSame) {
         currentControl = nil;
         NSFileHandle * fh = [NSFileHandle fileHandleWithStandardOutput];
         if (fh) {
@@ -203,7 +199,7 @@
         exit(0);
         
     }
-    else if ([runMode caseInsensitiveCompare:@"CDNotifyControl"] == NSOrderedSame) {
+    else if ([name caseInsensitiveCompare:@"CDNotifyControl"] == NSOrderedSame) {
         CDControl * notify = [[[CDNotifyControl alloc] initWithOptions:options] autorelease];
         NSDictionary * notifyGlobalKeys = [notify globalAvailableKeys];
         CDOptions * notifyOptions = [notify controlOptionsFromArgs:arguments withGlobalKeys:notifyGlobalKeys];
@@ -218,16 +214,16 @@
         // come to the front automatically.
         [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
 
-        id control = controls[runMode.lowercaseString];
+        id control = controls[name.lowercaseString];
         if (control != nil) {
-            if ([runMode caseInsensitiveCompare:@"secure-standard-inputbox"] == NSOrderedSame || [runMode caseInsensitiveCompare:@"secure-inputbox"] == NSOrderedSame) {
+            if ([name caseInsensitiveCompare:@"secure-standard-inputbox"] == NSOrderedSame || [name caseInsensitiveCompare:@"secure-inputbox"] == NSOrderedSame) {
                 extraOptions[@"no-show"] = @NO;
             }
             currentControl = [[(CDControl *)[control alloc] initWithOptions:options] autorelease];
             return;
         }
         NSFileHandle *fh = [NSFileHandle fileHandleWithStandardError];
-        NSString *output = [NSString stringWithFormat:@"Unknown dialog type: %@\n", runMode]; 
+        NSString *output = [NSString stringWithFormat:@"Unknown control: %@\n", name]; 
         if (fh) {
             [fh writeData:[output dataUsingEncoding:NSUTF8StringEncoding]];
         }
