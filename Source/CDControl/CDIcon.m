@@ -70,6 +70,7 @@
     return image;
 }
 - (NSImage *)iconFromName:(NSString *)name {
+    BOOL hasImage = NO;
     NSImage *image = [[[NSImage alloc] init] autorelease];
     NSString *bundle = nil;
     NSString *path = nil;
@@ -86,10 +87,12 @@
         // Application icon
         if ([name caseInsensitiveCompare:@"cocoadialog"] == NSOrderedSame) {
             image = NSApp.applicationIconImage;
+            hasImage = YES;
         }
         // User specific computer image
         else if ([name caseInsensitiveCompare:@"computer"] == NSOrderedSame) {
             image = [NSImage imageNamed: NSImageNameComputer];
+            hasImage = YES;
         }
         // Bundle Identifications
         else if ([name caseInsensitiveCompare:@"addressbook"] == NSOrderedSame) {
@@ -307,7 +310,7 @@
             bundle = @"com.apple.securityagent";
         }
         else if ([name caseInsensitiveCompare:@"update"] == NSOrderedSame) {
-            name = @"Software Update";
+            name = @"SoftwareUpdate";
             bundle = @"com.apple.SoftwareUpdate";
         }
         else if ([name caseInsensitiveCompare:@"search"] == NSOrderedSame || [name caseInsensitiveCompare:@"find"] == NSOrderedSame) {
@@ -319,8 +322,9 @@
             bundle = @"com.apple.systempreferences";
         }
     }
+
     // Process bundle image path only if image has not already been set from above
-    if (image == nil) {
+    if (!hasImage) {
         if (bundle != nil || path != nil) {
             NSString * fileName = nil;
             if (path == nil) {
