@@ -12,6 +12,7 @@
     double      emptyValue;
     double      max;
     double      min;
+    BOOL        sticky;
     int         ticks;
     double      value;
     NSTextField *sliderLabel;
@@ -29,6 +30,7 @@
     BOOL        tracking;
 }
 @property BOOL alwaysShowValue;
+@property BOOL sticky;
 @property (retain) id delegate;
 @property (retain) NSTextField *valueLabel;
 

@@ -23,6 +23,7 @@
             @"ticks": vOne,
             @"always-show-value": vNone,
             @"slider-label": vOne,
+            @"sticky": vNone,
             @"value": vOne};
 }
 
@@ -187,6 +188,7 @@
     slider.maxValue = max;
     slider.doubleValue = value;
     slider.numberOfTickMarks = ticks;
+    slider.sticky = [options hasOpt:@"sticky"];
     [slider setContinuous:YES];
     slider.target = self;
     slider.action = @selector(sliderChanged);
@@ -239,7 +241,7 @@
 }
 
 - (void) sliderChanged {
-    NSSlider *slider = [NSSlider sliderWithTarget:[controlMatrix cellAtRow:0 column:0] action:nil];
+    CDSliderCell *slider = [controlMatrix cellAtRow:0 column:0];
     // Update the label
     NSString *label = @"";
     if ([options hasOpt:@"return-float"]) {
@@ -256,6 +258,7 @@
 @implementation CDSliderCell
 @synthesize alwaysShowValue;
 @synthesize delegate;
+@synthesize sticky;
 @synthesize valueLabel;
 
 - (BOOL) trackMouse:(NSEvent *)theEvent inRect:(NSRect)cellFrame ofView:(NSView *)controlView untilMouseUp:(BOOL)flag {
@@ -270,9 +273,9 @@
     return [super startTrackingAt:startPoint inView:controlView];
 }
 
-- (BOOL)continueTracking:(NSPoint)lastPoint at:(NSPoint)currentPoint 
+- (BOOL)continueTracking:(NSPoint)lastPoint at:(NSPoint)currentPoint
                   inView:(NSView *)controlView {
-    if (tracking) {
+    if (tracking && sticky) {
         NSUInteger count = self.numberOfTickMarks;
         CGFloat snapFlexibility = (100 / count) / 2;
         for (NSUInteger i = 0; i < count; i++) {
@@ -285,6 +288,9 @@
                 [self setAllowsTickMarkValuesOnly:NO];
             }
         }
+    }
+    else {
+        [self setAllowsTickMarkValuesOnly:NO];
     }
     [delegate performSelector:self.action];
     return [super continueTracking:lastPoint at:currentPoint inView:controlView];
