@@ -241,7 +241,7 @@
 }
 
 - (void) sliderChanged {
-    NSSlider *slider = [controlMatrix cellAtRow:0 column:0];
+    NSSlider *slider = [NSSlider sliderWithTarget:[controlMatrix cellAtRow:0 column:0] action:nil];
     // Update the label
     NSString *label = @"";
     if ([options hasOpt:@"return-float"]) {

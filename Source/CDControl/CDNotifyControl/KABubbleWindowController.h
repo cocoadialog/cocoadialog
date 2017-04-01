@@ -63,7 +63,7 @@
 - (id) delegate;
 - (void) setDelegate:(id) delegate;
 
-- (void) setTimeout:(float) timeout;
+- (void) setTimeoutTime:(float) timeout;
 - (float) timeout;
 
 @end

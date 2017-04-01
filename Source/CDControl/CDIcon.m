@@ -70,7 +70,7 @@
     return image;
 }
 - (NSImage *)iconFromName:(NSString *)name {
-    NSImage *image = [[[NSImage alloc] initWithData:nil] autorelease];
+    NSImage *image = [[[NSImage alloc] init] autorelease];
     NSString *bundle = nil;
     NSString *path = nil;
     NSString *iconType = @"icns";

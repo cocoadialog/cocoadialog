@@ -55,7 +55,7 @@
 - (void) setLabel:(NSString *)labelText {
     if (expandingLabel != nil) {
         if (labelText == nil) {
-            labelText = [NSString stringWithString:@""];
+            labelText = @"";
         }
         float labelNewHeight = -10.0f;
         NSRect labelRect = [expandingLabel frame];

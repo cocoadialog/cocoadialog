@@ -31,7 +31,7 @@
 }
 - init
 {
-	return [self initWithOpts:[NSDictionary dictionary]];
+	return [self initWithOpts:[NSMutableDictionary dictionary]];
 }
 
 + (BOOL) _argIsKey:(NSString *)arg availableKeys:(NSDictionary *)availableKeys depreciatedKeys:(NSDictionary *)depreciatedKeys

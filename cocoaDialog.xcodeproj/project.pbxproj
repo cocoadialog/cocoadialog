@@ -10,11 +10,11 @@
 		0E71DA1B0963B19500FF6F7C /* cocoadialog.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E71DA0A0963B19500FF6F7C /* cocoadialog.icns */; };
 		6187E60114664988005067DB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6187E60014664988005067DB /* main.m */; };
 		6190D1D8146CAFB30083364D /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78A8CE8143784A8007AE363 /* Growl.framework */; };
-		6190D1D9146CAFC20083364D /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A78A8CE8143784A8007AE363 /* Growl.framework */; };
+		6190D1D9146CAFC20083364D /* Growl.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = A78A8CE8143784A8007AE363 /* Growl.framework */; };
 		61C9A9D014665F5B0054DD91 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		61C9A9D214665F680054DD91 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78A8D2E1437AC29007AE363 /* Sparkle.framework */; };
 		61C9A9D314665F680054DD91 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		61C9A9D514665F780054DD91 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A78A8D2E1437AC29007AE363 /* Sparkle.framework */; };
+		61C9A9D514665F780054DD91 /* Sparkle.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = A78A8D2E1437AC29007AE363 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		61EC90AC145FACF8003ADF05 /* AppController.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC906B145FACF8003ADF05 /* AppController.h */; };
 		61EC90AD145FACF8003ADF05 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC906C145FACF8003ADF05 /* AppController.m */; };
 		61EC90AE145FACF8003ADF05 /* CDCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC906D145FACF8003ADF05 /* CDCommon.h */; };
@@ -102,15 +102,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		A78A8CEA143784BD007AE363 /* CopyFiles */ = {
+		A78A8CEA143784BD007AE363 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				6190D1D9146CAFC20083364D /* Growl.framework in CopyFiles */,
-				61C9A9D514665F780054DD91 /* Sparkle.framework in CopyFiles */,
+				6190D1D9146CAFC20083364D /* Growl.framework in Copy Files */,
+				61C9A9D514665F780054DD91 /* Sparkle.framework in Copy Files */,
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -476,7 +477,7 @@
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
-				A78A8CEA143784BD007AE363 /* CopyFiles */,
+				A78A8CEA143784BD007AE363 /* Copy Files */,
 				A7D4043E153C38E0005FA3CD /* ShellScript */,
 			);
 			buildRules = (
@@ -512,7 +513,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0830;
 			};
 			buildConfigurationList = 0E77E9A30963C37C00D651A3 /* Build configuration list for PBXProject "cocoaDialog" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -567,7 +568,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/server/repositories/github/sparkle-release/src/sparkle-release";
+			shellScript = "#/sandbox/repositories/github/sparkle-release/src/sparkle-release";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -692,11 +693,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaDialog;
+				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
 			};
 			name = Debug;
@@ -705,7 +710,22 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = "";
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -713,7 +733,20 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = "";
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -721,11 +754,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */;
 			buildSettings = {
+				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaDialog;
+				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
 			};
 			name = Release;
@@ -734,7 +771,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaDialog;
 				PRODUCT_NAME = relaunch;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -742,7 +782,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaDialog;
 				PRODUCT_NAME = relaunch;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};

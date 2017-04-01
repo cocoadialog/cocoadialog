@@ -31,7 +31,7 @@ static unsigned int bubbleWindowDepth = 0;
 {
 	id ret = [[[self alloc] initWithTextColor:textColor darkColor:darkColor lightColor:lightColor borderColor:borderColor numExpectedBubbles:numExpected bubblePosition:position] autorelease];
 	[ret setTitle:title];
-	[ret setTimeout:timeout];
+	[ret setTimeoutTime:timeout];
 	if( [text isKindOfClass:[NSString class]] ) [ret setText:text];
 	else if( [text isKindOfClass:[NSAttributedString class]] ) [ret setAttributedText:text];
 	[ret setIcon:icon];
@@ -74,14 +74,15 @@ static unsigned int bubbleWindowDepth = 0;
 	float leftPoint = 0.;
 	float topPoint = 0.;
 	// Find left position for bubble
-	if (position & BUBBLE_HORIZ_LEFT) {
-		leftPoint = NSMinX(screen) + KABubblePadding;
-	} else if (position & BUBBLE_HORIZ_CENTER) {
+	if (position & BUBBLE_HORIZ_CENTER) {
 		leftPoint = (NSWidth(screen)-NSWidth([panel frame]))/2 - KABubblePadding;
 	} else if (position & BUBBLE_HORIZ_RIGHT) {
 		leftPoint = NSWidth(screen) - NSWidth([panel frame]) - KABubblePadding;
-	}
-	// Find top position for bubble
+    } else {
+        leftPoint = NSMinX(screen) + KABubblePadding;
+    }
+
+    // Find top position for bubble
 	if (position & BUBBLE_VERT_TOP) {
 		topPoint = NSMaxY(screen) - KABubblePadding - (NSHeight([panel frame])*bubbleWindowDepth);
 	} else if (position & BUBBLE_VERT_CENTER) {
@@ -281,7 +282,7 @@ static unsigned int bubbleWindowDepth = 0;
 
 
 #pragma mark -
-- (void) setTimeout:(float) timeout
+- (void) setTimeoutTime:(float) timeout
 {
 	_timeout = timeout;
 }

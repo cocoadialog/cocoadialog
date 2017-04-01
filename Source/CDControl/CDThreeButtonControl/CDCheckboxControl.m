@@ -115,7 +115,7 @@
 	} else {
         if (checkboxes != nil && [checkboxes count]) {
             while (obj = [en nextObject]) {
-                [checkboxesArray addObject: [NSString stringWithFormat:@"%i", [obj state]]];
+                [checkboxesArray addObject: [NSString stringWithFormat:@"%li", (long)[obj state]]];
             }
             [controlReturnValues addObject:[checkboxesArray componentsJoinedByString:@" "]];
         }
@@ -188,18 +188,18 @@
         [button setButtonType:NSSwitchButton];
         [button setTitle:[items objectAtIndex:currItem]];
         if (checked != nil && [checked count]) {
-            if ([checked containsObject:[NSString stringWithFormat:@"%i", currItem]]) {
+            if ([checked containsObject:[NSString stringWithFormat:@"%lu", currItem]]) {
                 [[button cell] setState:NSOnState];
             }
         }
         if (mixed != nil && [mixed count]) {
-            if ([mixed containsObject:[NSString stringWithFormat:@"%i", currItem]]) {
+            if ([mixed containsObject:[NSString stringWithFormat:@"%lu", currItem]]) {
                 [[button cell] setAllowsMixedState:YES];
                 [[button cell] setState:NSMixedState];
             }
         }
         if (disabled != nil && [disabled count]) {
-            if ([disabled containsObject:[NSString stringWithFormat:@"%i", currItem]]) {
+            if ([disabled containsObject:[NSString stringWithFormat:@"%lu", currItem]]) {
                 [[button cell] setEnabled: NO];
             }
         }

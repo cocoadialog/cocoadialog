@@ -90,14 +90,15 @@
         }
         // File
         if (file != nil) {
-            NSString *path = dir;
+            NSURL *path = [NSURL fileURLWithPath:dir];
             if (path == nil) {
-                path = [openPanel directory];
+                path = [openPanel directoryURL];
             }
-            path = [path stringByAppendingString:@"/"];
-            path = [path stringByAppendingString:file];
-            if (![fm fileExistsAtPath:path]) {
-                [self debug:[NSString stringWithFormat:@"Option --with-file specifies a file that does not exist: %@", path]];
+            dir = [dir stringByAppendingString:@"/"];
+            dir = [dir stringByAppendingString:file];
+            path = [NSURL fileURLWithPath:dir];
+            if (![fm fileExistsAtPath:[path absoluteString]]) {
+                [self debug:[NSString stringWithFormat:@"Option --with-file specifies a file that does not exist: %@", dir]];
             }
         }
     }
@@ -115,21 +116,16 @@
     [self setTimeout];
     
     NSInteger result;
-    
-    if (kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber10_6) {
-        result = [openPanel runModalForDirectory:dir file:file];
-    }
-    else {
-        if (dir != nil) {
-            if (file != nil) {
-                dir = [dir stringByAppendingString:@"/"];
-                dir = [dir stringByAppendingString:file];
-            }
-            NSURL * url = [[[NSURL alloc] initFileURLWithPath:dir] autorelease];
-            [openPanel setDirectoryURL:url];
+
+    if (dir != nil) {
+        if (file != nil) {
+            dir = [dir stringByAppendingString:@"/"];
+            dir = [dir stringByAppendingString:file];
         }
-        result = [openPanel runModal];
+        NSURL * url = [[[NSURL alloc] initFileURLWithPath:dir] autorelease];
+        [openPanel setDirectoryURL:url];
     }
+    result = [openPanel runModal];
     if (result == NSFileHandlingPanelOKButton) {
         controlExitStatus = -1;
         NSEnumerator *en = [[openPanel URLs] objectEnumerator];

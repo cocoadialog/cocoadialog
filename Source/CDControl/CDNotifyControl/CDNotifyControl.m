@@ -190,7 +190,7 @@
 
 - (NSArray *) parseTextForArguments:(NSString *)string
 {
-    NSMutableArray* masterArray = [NSMutableArray arrayWithArray:nil];
+    NSMutableArray* masterArray = [NSMutableArray array];
     // Make quotes on their own lines
     string = [string stringByReplacingOccurrencesOfString:@"\"" withString:[NSString stringWithFormat: @"\n\"\n"]];
     NSArray * quotedArray = [string componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
@@ -198,7 +198,7 @@
     NSEnumerator *en = [quotedArray objectEnumerator];
     id arg;
     while (arg = [en nextObject]) {
-        NSMutableArray* spacedArray = [NSMutableArray arrayWithArray:nil];
+        NSMutableArray* spacedArray = [NSMutableArray array];
         // Determine which quote state we're in
         if ([[arg substringToIndex:1] isEqualToString:@"\""]) {
             inQuote = !inQuote;
