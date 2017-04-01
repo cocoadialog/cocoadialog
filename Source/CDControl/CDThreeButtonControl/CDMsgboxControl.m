@@ -51,12 +51,26 @@
 }
 
 - (void) createControl {
-    // Add extra control
-    [icon addControl:text];
-	// add the main bold text
-	if ([options optValue:@"alert"]) {
-		[text setStringValue:[options optValue:@"alert"]];
-	}
+    NSRect expandingLabelRect = [expandingLabel frame];
+    
+    float alertNewHeight = -4.0f;
+    NSRect alertRect = [text frame];
+    float alertHeightDiff = alertNewHeight - alertRect.size.height;
+    if ([options optValue:@"alert"]) {
+        [icon addControl:text];
+        [text setStringValue:[options optValue:@"alert"]];
+    }
+    else {
+        expandingLabelRect.origin.y -= alertHeightDiff;
+        [expandingLabel setFrame:expandingLabelRect];
+        [text setHidden:YES];
+    }
+
+    // Set panel's new width and height
+    NSSize p = [[[panel panel] contentView] frame].size;
+    p.height += alertHeightDiff;
+    [[panel panel] setContentSize:p];
+
 	[self setTitleButtonsLabel:[options optValue:@"label"]];
 }
 
