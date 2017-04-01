@@ -61,6 +61,7 @@
             @"button2": vOne,
             @"button3": vOne,
             @"cancel": vOne,
+            @"no-default-button": vNone,
             @"value-required": vNone,
             @"empty-text": vOne};
 }
@@ -209,21 +210,32 @@
 		{ @"button2", button2 },
 		{ @"button3", button3 }
 	};
+    BOOL noDefault = [options hasOpt:@"no-default-button"];
 
 	float minWidth = 2 * 20.0f; // margin
 	for (i = 0; i != sizeof(buttons)/sizeof(buttons[0]); i++) {
 		[self setTitle:[options optValue:buttons[i].key] forButton:buttons[i].button];
         if ([self.options hasOpt:@"cancel"] && [[options optValue:@"cancel"] isEqualToString:buttons[i].key]) {
-            buttons[i].button.keyEquivalent = @"\e";
+            if (!noDefault) {
+                buttons[i].button.keyEquivalent = @"\e";
+            }
             cancelButton = i+1;
         }
         else if ([[options optValue:buttons[i].key] isEqualToString:@"Cancel"]) {
-            buttons[i].button.keyEquivalent = @"\e";
+            if (!noDefault) {
+                buttons[i].button.keyEquivalent = @"\e";
+            }
             cancelButton = i+1;
         }
 		if (buttons[i].button.hidden == NO) {
 			minWidth += NSWidth(buttons[i].button.frame);
 		}
+        
+        // Remove default button key mappings.
+        if (noDefault && ![buttons[i].button.keyEquivalent  isEqual: @""]) {
+            buttons[i].button.keyEquivalent = @"";
+            buttons[i].button.needsDisplay = YES;
+        }
 	}
 
 	// move button2 so that it aligns with button1
@@ -239,6 +251,12 @@
 	// ensure that the buttons never gets clipped
     [panel addMinHeight:40.0f]; // 20 * 2 for margin + 20 for height
     [panel addMinWidth:minWidth];
+    
+    // Ensure the panel itself doesn't have a set default button.
+    if (noDefault) {
+        [panel.panel setDefaultButtonCell:nil];
+    }
+
 }
 
 // Should be called after setButtons, and before resize
