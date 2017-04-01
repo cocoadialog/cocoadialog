@@ -139,6 +139,29 @@
     panel = [[[CDPanel alloc] initWithOptions:options] retain];
     icon = [[[CDIcon alloc] initWithOptions:options] retain];
     if (controlPanel != nil) {
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillClose:) name:NSWindowWillCloseNotification object:controlPanel];
+
+        
+        BOOL close = [options hasOpt:@"close"];
+        [[controlPanel standardWindowButton:NSWindowCloseButton] setEnabled:close];
+        if (!close) {
+            [controlPanel setStyleMask:controlPanel.styleMask^NSClosableWindowMask];
+        }
+        
+        BOOL minimize = [options hasOpt:@"minimize"];
+        [[controlPanel standardWindowButton:NSWindowMiniaturizeButton] setEnabled:minimize];
+        if (!minimize) {
+            [controlPanel setStyleMask:controlPanel.styleMask^NSMiniaturizableWindowMask];
+        }
+
+        // Handle --resize option.
+        BOOL resize = [options hasOpt:@"resize"];
+        [[controlPanel standardWindowButton:NSWindowZoomButton] setEnabled:resize];
+        if (!resize) {
+            [controlPanel setStyleMask:controlPanel.styleMask^NSResizableWindowMask];
+        }
+
         [panel setPanel:controlPanel];
         [icon setPanel:panel];
     }
@@ -310,6 +333,10 @@
     exit(controlExitStatus);
 }
 
+- (void)windowWillClose:(NSNotification *)notification {
+    [self stopControl];
+}
+
 #pragma mark - Subclassable Control Methods -
 - (NSDictionary *) availableKeys {return nil;}
 - (void) createControl {};
@@ -334,6 +361,7 @@
             vOne,  @"posX",
             vOne,  @"posY",
             vNone, @"no-float",
+            vNone, @"close",
             vNone, @"minimize",
             vNone, @"resize",
             // Icon

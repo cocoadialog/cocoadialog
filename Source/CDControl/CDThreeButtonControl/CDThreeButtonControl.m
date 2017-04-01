@@ -46,6 +46,7 @@
             vOne,  @"posX",
             vOne,  @"posY",
             vNone, @"no-float",
+            vNone, @"close",
             vNone, @"minimize",
             vNone, @"resize",
             // Icon
