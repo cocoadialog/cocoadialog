@@ -26,11 +26,9 @@
 {
 //	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
 //	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
+	NSNumber *vNone = @CDOptionsNoValues;
 
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-		vNone, @"no-create-directories",
-		nil];
+	return @{@"no-create-directories": vNone};
 }
 
 - (void) createControl {
@@ -40,7 +38,7 @@
 	NSString *file = @"";
 	NSString *dir = nil;
 	
-    [self setOptions:options];
+    self.options = options;
 	[self setMisc];
 
 	if ([options hasOpt:@"packages-as-directories"]) {
@@ -74,7 +72,7 @@
         }
     }
     
-    [panel setPanel:savePanel];
+    panel.panel = savePanel;
 
 	// resize window if user specified alternate width/height
     if ([panel needsResize]) {
@@ -89,14 +87,14 @@
     NSInteger result;
     if (dir != nil) {
         NSURL * url = [[[NSURL alloc] initFileURLWithPath:dir] autorelease];
-        [savePanel setDirectoryURL:url];
+        savePanel.directoryURL = url;
     }
-    [savePanel setNameFieldStringValue:file];
+    savePanel.nameFieldStringValue = file;
     result = [savePanel runModal];
 
     if (result == NSFileHandlingPanelOKButton) {
         controlExitStatus = -1;
-        [controlReturnValues addObject:[[savePanel URL] path]];
+        [controlReturnValues addObject:savePanel.URL.path];
     }
     else {
         controlExitStatus = -2;

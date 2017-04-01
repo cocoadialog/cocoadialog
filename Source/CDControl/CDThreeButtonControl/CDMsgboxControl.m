@@ -25,21 +25,17 @@
 
 - (NSDictionary *) availableKeys
 {
-	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
+	NSNumber *vOne = @CDOptionsOneValue;
 //	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
 
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-		vOne, @"alert",
-		vOne, @"label",
-		nil];
+	return @{@"alert": vOne,
+		@"label": vOne};
 }
 
 - (NSDictionary *) depreciatedKeys
 {
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-            @"alert", @"text",
-            @"label", @"informative-text",
-            nil];
+	return @{@"text": @"alert",
+            @"informative-text": @"label"};
 }
 
 - (NSString *)controlNib {
@@ -51,25 +47,25 @@
 }
 
 - (void) createControl {
-    NSRect expandingLabelRect = [expandingLabel frame];
+    NSRect expandingLabelRect = expandingLabel.frame;
     
     float alertNewHeight = -4.0f;
-    NSRect alertRect = [text frame];
+    NSRect alertRect = text.frame;
     float alertHeightDiff = alertNewHeight - alertRect.size.height;
     if ([options optValue:@"alert"]) {
         [icon addControl:text];
-        [text setStringValue:[options optValue:@"alert"]];
+        text.stringValue = [options optValue:@"alert"];
     }
     else {
         expandingLabelRect.origin.y -= alertHeightDiff;
-        [expandingLabel setFrame:expandingLabelRect];
+        expandingLabel.frame = expandingLabelRect;
         [text setHidden:YES];
     }
 
     // Set panel's new width and height
-    NSSize p = [[[panel panel] contentView] frame].size;
+    NSSize p = panel.panel.contentView.frame.size;
     p.height += alertHeightDiff;
-    [[panel panel] setContentSize:p];
+    [panel.panel setContentSize:p];
 
 	[self setTitleButtonsLabel:[options optValue:@"label"]];
 }

@@ -29,26 +29,22 @@
 
 - (NSDictionary *) availableKeys
 {
-	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
+	NSNumber *vOne = @CDOptionsOneValue;
+	NSNumber *vNone = @CDOptionsNoValues;
 	
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-            vOne, @"label",
-            vOne, @"text",
-            vOne, @"text-from-file",
-            vNone, @"editable",
-            vNone, @"no-editable",
-            vNone, @"selected",
-            vNone, @"focus-textbox",
-            vOne, @"scroll-to",
-            nil];
+	return @{@"label": vOne,
+            @"text": vOne,
+            @"text-from-file": vOne,
+            @"editable": vNone,
+            @"no-editable": vNone,
+            @"selected": vNone,
+            @"focus-textbox": vNone,
+            @"scroll-to": vOne};
 }
 
 - (NSDictionary *) depreciatedKeys
 {
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-            @"label", @"informative-text",
-            nil];
+	return @{@"informative-text": @"label"};
 }
 
 // Should be called after setButtons, and before resize
@@ -58,10 +54,10 @@
             labelText = @"";
         }
         float labelNewHeight = -10.0f;
-        NSRect labelRect = [expandingLabel frame];
+        NSRect labelRect = expandingLabel.frame;
         float labelHeightDiff = labelNewHeight - labelRect.size.height;
         if (![labelText isEqualToString:@""]) {
-            [expandingLabel setStringValue:labelText];
+            expandingLabel.stringValue = labelText;
             NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: labelText]autorelease];
             NSTextContainer *textContainer = [[[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)] autorelease];
             NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease];
@@ -72,18 +68,18 @@
             labelHeightDiff = labelNewHeight - labelRect.size.height;
             // Set label's new height
             NSRect l = NSMakeRect(labelRect.origin.x, labelRect.origin.y - labelHeightDiff, labelRect.size.width, labelNewHeight);
-            [expandingLabel setFrame: l];
+            expandingLabel.frame = l;
         }
         else {
             [expandingLabel setHidden:YES];
         }
         // Set panel's new width and height
-        NSSize p = [[[panel panel] contentView] frame].size;
+        NSSize p = panel.panel.contentView.frame.size;
         p.height += labelHeightDiff;
-        [[panel panel] setContentSize:p];
+        [panel.panel setContentSize:p];
 
         // Set scrollView's new height
-        NSSize s = [scrollView frame].size;
+        NSSize s = scrollView.frame.size;
         s.height -= labelHeightDiff;
         [scrollView setFrameSize:s];
 
@@ -92,7 +88,7 @@
 
 - (BOOL)isReturnValueEmpty
 {
-    return [[[textView textStorage] string] isEqualToString:@""];
+    return [textView.textStorage.string isEqualToString:@""];
 }
 
 - (NSString *) returnValueEmptyText
@@ -128,8 +124,8 @@
 	if ([options hasOpt:@"text"]) {
 		text = [[NSAttributedString alloc] initWithString:
 			[options optValue:@"text"]];
-		[[textView textStorage] setAttributedString:text];
-		[textView scrollRangeToVisible:NSMakeRange([text length], 0)];
+		[textView.textStorage setAttributedString:text];
+		[textView scrollRangeToVisible:NSMakeRange(text.length, 0)];
 		[text release];
 	} else if ([options hasOpt:@"text-from-file"]) {
 		NSString *contents = [NSString stringWithContentsOfFile:
@@ -142,10 +138,10 @@
 		} else {
 			text = [[NSAttributedString alloc] initWithString:contents];
 		}
-		[[textView textStorage] setAttributedString:text];
+		[textView.textStorage setAttributedString:text];
 		[text release];
 	} else {
-		[[textView textStorage] setAttributedString:[[[NSAttributedString alloc] initWithString:@""] autorelease]];
+		[textView.textStorage setAttributedString:[[[NSAttributedString alloc] initWithString:@""] autorelease]];
 	}
     
 	[self setTitleButtonsLabel:[options optValue:@"label"]];
@@ -156,7 +152,7 @@
 	    && [[options optValue:@"scroll-to"] isCaseInsensitiveLike:@"bottom"]) 
 	{
 		[textView scrollRangeToVisible:
-			NSMakeRange([[textView textStorage] length]-1, 0)];
+			NSMakeRange(textView.textStorage.length-1, 0)];
 	} else {
 		[textView scrollRangeToVisible:NSMakeRange(0, 0)];
 	}
@@ -164,21 +160,21 @@
 	// select all the text
 	if ([options hasOpt:@"selected"]) {
 		[textView setSelectedRange:
-			NSMakeRange(0, [[textView textStorage] length])];
+			NSMakeRange(0, textView.textStorage.length)];
 	}
 	
 	// Set first responder
 	// Why doesn't this work for the button?
 	if ([options hasOpt:@"focus-textbox"]) {
-		[[panel panel] makeFirstResponder:textView];
+		[panel.panel makeFirstResponder:textView];
 	} else {
-		[[panel panel] makeFirstResponder:button1];
+		[panel.panel makeFirstResponder:button1];
 	}
 }
 
 - (void) controlHasFinished:(int)button {
-	if ([[self options] hasOpt:@"editable"]) {
-        [controlReturnValues addObject:[[textView textStorage] string]];
+	if ([self.options hasOpt:@"editable"]) {
+        [controlReturnValues addObject:textView.textStorage.string];
 	}
     [super controlHasFinished:button];
 }

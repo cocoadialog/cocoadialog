@@ -51,7 +51,7 @@
 	float alpha = 0.85;
 	int position = 0;
 
-	[self setOptions:options];
+	self.options = options;
 
     NSString *clickPath = @"";
     if ([options hasOpt:@"click-path"]) {
@@ -107,7 +107,7 @@
 	NSArray *descriptions = [options optValues:@"descriptions"];
 
 	// Multiple bubbles
-	if (descriptions != nil && [descriptions count] && titles != nil && [titles count] && [titles count] == [descriptions count]) {
+	if (descriptions != nil && descriptions.count && titles != nil && titles.count && titles.count == descriptions.count) {
 		NSArray *givenIconImages = [self notificationIcons];
 		NSImage *fallbackIcon = nil;
 		NSMutableArray *icons = nil;
@@ -121,9 +121,9 @@
 		}
 		// If we were given less icons than we have bubbles, use a default
 		// for any extra bubbles
-		if ([icons count] < [descriptions count]) {
+		if (icons.count < descriptions.count) {
 			NSImage *defaultIcon = [icon iconWithDefault];
-			unsigned long numToAdd = [descriptions count] - [icons count];
+			unsigned long numToAdd = descriptions.count - icons.count;
 			for (i = 0; i < numToAdd; i++) {
 				[icons addObject:defaultIcon];
 			}
@@ -131,15 +131,15 @@
         NSArray * clickPaths = [NSArray arrayWithArray:[options optValues:@"click-paths"]];
         NSArray * clickArgs = [NSArray arrayWithArray:[options optValues:@"click-args"]];
 		// Create the bubbles
-		for (i = 0; i < [descriptions count]; i++) {
-			NSImage *_icon = fallbackIcon == nil ? (NSImage *)[icons objectAtIndex:i] : fallbackIcon;
-            [self addNotificationWithTitle:[titles objectAtIndex:i]
-                               description:[descriptions objectAtIndex:i]
+		for (i = 0; i < descriptions.count; i++) {
+			NSImage *_icon = fallbackIcon == nil ? (NSImage *)icons[i] : fallbackIcon;
+            [self addNotificationWithTitle:titles[i]
+                               description:descriptions[i]
                                       icon:_icon
                                   priority:nil
                                     sticky:sticky
-                                 clickPath:[clickPaths count] ? [clickPaths objectAtIndex:i] : clickPath
-                                  clickArg:[clickArgs count] ? [clickArgs objectAtIndex:i] : clickArg
+                                 clickPath:clickPaths.count ? clickPaths[i] : clickPath
+                                  clickArg:clickArgs.count ? clickArgs[i] : clickArg
              ];
 		}
 	// Single bubble
@@ -160,17 +160,17 @@
     while (obj = [en nextObject]) {
         NSDictionary * notification = [NSDictionary dictionaryWithDictionary:obj];
         KABubbleWindowController *bubble = [KABubbleWindowController
-                                            bubbleWithTitle:[notification objectForKey:@"title"] text:[notification objectForKey:@"description"]
-                                            icon:[notification objectForKey:@"icon"]
+                                            bubbleWithTitle:notification[@"title"] text:notification[@"description"]
+                                            icon:notification[@"icon"]
                                             timeout:_timeout
                                             lightColor:[self _colorForBubble:i fromKey:@"background-tops" alpha:alpha]
                                             darkColor:[self _colorForBubble:i fromKey:@"background-bottoms" alpha:alpha]
                                             textColor:[self _colorForBubble:i fromKey:@"text-colors" alpha:alpha]
                                             borderColor:[self _colorForBubble:i fromKey:@"border-colors" alpha:alpha]
-                                            numExpectedBubbles:(unsigned)[notifications count]
+                                            numExpectedBubbles:(unsigned)notifications.count
                                             bubblePosition:position];
         
-        [bubble setAutomaticallyFadesOut:![[notification objectForKey:@"sticky"] boolValue]];
+        [bubble setAutomaticallyFadesOut:![notification[@"sticky"] boolValue]];
         [bubble setDelegate:self];
         [bubble setClickContext:[NSString stringWithFormat:@"%d", activeNotifications]];
         [bubble startFadeIn];
@@ -234,18 +234,18 @@
 		// If we were looking for text-colors and didn't find it, try
 		// text-color instead (for example).
 		if (optValue == nil && [myKey hasSuffix:@"s"]) {
-			myKey = [key substringToIndex:([key length] - 1)];
+			myKey = [key substringToIndex:(key.length - 1)];
 			optValue = [options optValue:myKey];
 		}
-		colorArgs = optValue ? [NSArray arrayWithObject:optValue] : [NSArray array];
+		colorArgs = optValue ? @[optValue] : @[];
 	}
 	// If user don't specify enough colors,  use the last 
 	// given color for any bubbles past that.
-	if (i >= [colorArgs count] && [colorArgs count]) {
-		i = [colorArgs count] - 1;
+	if (i >= colorArgs.count && colorArgs.count) {
+		i = colorArgs.count - 1;
 	}
-	NSString *hexValue = i < [colorArgs count] ?
-		[colorArgs objectAtIndex:i] : nil;
+	NSString *hexValue = i < colorArgs.count ?
+		colorArgs[i] : nil;
 
 	if ([myKey hasPrefix:@"text-color"]) {
 		return hexValue

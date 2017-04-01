@@ -40,8 +40,8 @@
 - (NSString *) optValue:(NSString *)key;
 - (NSArray *) optValues:(NSString *)key;
 - (id) optValueOrValues:(NSString *)key;
-- (NSArray *) allOptions;
-- (NSArray *) allOptValues;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *allOptions;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *allOptValues;
 
 - (void) setOption:(id)value forKey:(NSString *)key;
 

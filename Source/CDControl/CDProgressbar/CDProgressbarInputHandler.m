@@ -9,7 +9,7 @@
 
 @implementation CDProgressbarInputHandler
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self) {
@@ -23,8 +23,8 @@
 {
 	BOOL found = NO;
 
-	const char* current	= [data bytes];
-	NSUInteger length = [data length];
+	const char* current	= data.bytes;
+	NSUInteger length = data.length;
 	for (NSUInteger i = 0; i < length; i++) {
 		if (*current++ == '\n') {
 			found = YES;
@@ -41,8 +41,8 @@
     // As newline takes one byte in UTF-8, we just scan for the last occurrence of it in the buffer, return everything up to it
     // as an NSString and leave the rest in the buffer.
     for (;;) {
-        NSData* chunk = [fileHandle availableData];
-        if ([chunk length] == 0) {
+        NSData* chunk = fileHandle.availableData;
+        if (chunk.length == 0) {
             finished = YES;
             return nil;
         } else {
@@ -50,7 +50,7 @@
             NSUInteger lastNewline;
             if ([self getLastNewlinePosition:&lastNewline inData:buffer]) {
                 NSData* readStrings = [buffer subdataWithRange:NSMakeRange(0, lastNewline + 1)];
-                NSData* rest = [buffer subdataWithRange:NSMakeRange(lastNewline + 1, [buffer length] - (lastNewline + 1))];
+                NSData* rest = [buffer subdataWithRange:NSMakeRange(lastNewline + 1, buffer.length - (lastNewline + 1))];
                 [buffer release];
                 buffer = [[NSMutableData alloc] initWithData:rest];
 
@@ -90,7 +90,7 @@
 {
     if (currentProgress != newProgress) {
         currentProgress = newProgress;
-        [self invokeOnMainQueueWithTarget:delegate selector:@selector(updateProgress:) object:[NSNumber numberWithDouble:newProgress]];
+        [self invokeOnMainQueueWithTarget:delegate selector:@selector(updateProgress:) object:@(newProgress)];
     }
 }
 
@@ -111,13 +111,13 @@
     NSCharacterSet *whitespaceSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
     NSArray *lines = [str componentsSeparatedByString:@"\n"];
 
-    for (NSUInteger i = 0; i < [lines count]; i++) {
-        NSString *line = [lines objectAtIndex:i];
-        if ([line length] != 0) {
+    for (NSUInteger i = 0; i < lines.count; i++) {
+        NSString *line = lines[i];
+        if (line.length != 0) {
             if ([line isEqualToString:@"stop enable"]) {
-                [self invokeOnMainQueueWithTarget:delegate selector:@selector(setStopEnabled:) object:[NSNumber numberWithBool:YES]];
+                [self invokeOnMainQueueWithTarget:delegate selector:@selector(setStopEnabled:) object:@YES];
             } else if ([line isEqualToString:@"stop disable"]) {
-                [self invokeOnMainQueueWithTarget:delegate selector:@selector(setStopEnabled:) object:[NSNumber numberWithBool:NO]];
+                [self invokeOnMainQueueWithTarget:delegate selector:@selector(setStopEnabled:) object:@NO];
             } else {
                 NSScanner *scanner = [NSScanner scannerWithString:line];
 
@@ -127,8 +127,8 @@
                 double progressValue;
                 if ([self parseString:percent intoProgress:&progressValue]) {
                     [self updateProgress:progressValue];
-                    NSString *newLabel = [line substringFromIndex:[scanner scanLocation]];
-                    if ([newLabel length] != 0) {
+                    NSString *newLabel = [line substringFromIndex:scanner.scanLocation];
+                    if (newLabel.length != 0) {
                         [self updateLabel:newLabel];
                     }
                 }

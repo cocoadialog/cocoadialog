@@ -17,7 +17,7 @@
 @synthesize control;
 @synthesize panel;
 
-- (id) initWithOptions:(CDOptions *)opts {
+- (instancetype) initWithOptions:(CDOptions *)opts {
     self = [super initWithOptions:opts];
     controls = [[[NSMutableArray alloc] init] retain];
     return self;
@@ -48,16 +48,16 @@
     return iconImage;
 }
 - (NSData *)iconData {
-    return [[self icon] TIFFRepresentation];
+    return [self icon].TIFFRepresentation;
 }
 - (NSImage *)iconWithDefault {
     if ([self icon] == nil) {
-        iconImage = [NSApp applicationIconImage];
+        iconImage = NSApp.applicationIconImage;
     }
     return iconImage;
 }
 - (NSData *)iconDataWithDefault {
-    return [[self iconWithDefault] TIFFRepresentation];
+    return [self iconWithDefault].TIFFRepresentation;
 }
 
 
@@ -85,7 +85,7 @@
     if (bundle == nil) {
         // Application icon
         if ([name caseInsensitiveCompare:@"cocoadialog"] == NSOrderedSame) {
-            image = [NSApp applicationIconImage];
+            image = NSApp.applicationIconImage;
         }
         // User specific computer image
         else if ([name caseInsensitiveCompare:@"computer"] == NSOrderedSame) {
@@ -360,8 +360,8 @@
         }
         
         // Set default icon sizes
-        float iconWidth = [control frame].size.width;
-        float iconHeight = [control frame].size.height;
+        float iconWidth = control.frame.size.width;
+        float iconHeight = control.frame.size.height;
         NSSize resize = NSMakeSize(iconWidth, iconHeight);
         
         // Control should display icon, process image.
@@ -369,7 +369,7 @@
             // Set default icon height
             // Get icon sizes from user options
             if ([options hasOpt:@"icon-size"]) {
-                int iconSize = [[options optValue:@"icon-size"] intValue];
+                int iconSize = [options optValue:@"icon-size"].intValue;
                 switch (iconSize) {
                     case 256: iconWidth = 256.0; iconHeight = 256.0; break;
                     case 128: iconWidth = 128.0; iconHeight = 128.0; break;
@@ -380,10 +380,10 @@
             }
             else {
                 if ([options hasOpt:@"icon-width"]) {
-                    iconWidth = [[options optValue:@"icon-width"] floatValue];
+                    iconWidth = [options optValue:@"icon-width"].floatValue;
                 }
                 if ([options hasOpt:@"icon-height"]) {
-                    iconHeight = [[options optValue:@"icon-height"] floatValue];
+                    iconHeight = [options optValue:@"icon-height"].floatValue;
                 }
             }
             // Set sizes
@@ -398,42 +398,42 @@
 }
 - (void) setIconWithImage:(NSImage *)anImage withSize:(NSSize)aSize {
     if (anImage != nil) {
-        NSSize originalSize = [anImage size];
+        NSSize originalSize = anImage.size;
         // Resize Icon
         if (originalSize.width != aSize.width || originalSize.height != aSize.height) {
             NSImage *resizedImage = [[[NSImage alloc] initWithSize: aSize] autorelease];
             [resizedImage lockFocus];
             [anImage drawInRect: NSMakeRect(0, 0, aSize.width, aSize.height) fromRect: NSMakeRect(0, 0, originalSize.width, originalSize.height) operation: NSCompositeSourceOver fraction: 1.0];
             [resizedImage unlockFocus];
-            [control setImage:resizedImage];
+            control.image = resizedImage;
         }
         else {
-            [control setImage:anImage];
+            control.image = anImage;
         }
         // Resize icon frame
-        NSRect iconFrame = [control frame];
+        NSRect iconFrame = control.frame;
         float iconHeightDiff = aSize.height - iconFrame.size.height;
         NSRect newIconFrame = NSMakeRect(iconFrame.origin.x, iconFrame.origin.y - iconHeightDiff, aSize.width, aSize.height);
-        [control setFrame:newIconFrame];
-        iconFrame = [control frame];
+        control.frame = newIconFrame;
+        iconFrame = control.frame;
         
         // Add the icon to the panel's minimum content size
-        NSSize panelMinSize = [[panel panel] contentMinSize];
+        NSSize panelMinSize = panel.panel.contentMinSize;
         panelMinSize.height += iconFrame.size.height + 40.0f;
         panelMinSize.width += iconFrame.size.width + 30.0f;
-        [[panel panel] setContentMinSize:panelMinSize];
+        panel.panel.contentMinSize = panelMinSize;
     }
 }
 - (void) setIconWithImage:(NSImage *)anImage withSize:(NSSize)aSize withControls:(NSArray *)anArray {
     // Icon has image
     if (anImage != nil) {
         // Set current icon frame
-        NSRect iconFrame = [control frame];
+        NSRect iconFrame = control.frame;
         
         // Set image and resize icon
         [self setIconWithImage:anImage withSize:aSize];
         
-        float iconWidthDiff = [control frame].size.width - iconFrame.size.width;
+        float iconWidthDiff = control.frame.size.width - iconFrame.size.width;
         NSEnumerator *en = [anArray objectEnumerator];
         id _control;
         while (_control = [en nextObject]) {
@@ -449,7 +449,7 @@
     // Icon does not have image
     else {
         // Set current icon frame
-        NSRect iconFrame = [control frame];
+        NSRect iconFrame = control.frame;
         // Remove the icon
         [control removeFromSuperview];
         control = nil;

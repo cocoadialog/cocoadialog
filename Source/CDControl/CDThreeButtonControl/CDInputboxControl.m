@@ -27,22 +27,18 @@
 
 - (NSDictionary *) availableKeys
 {
-	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
+	NSNumber *vOne = @CDOptionsOneValue;
+	NSNumber *vNone = @CDOptionsNoValues;
 	
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-		vOne,   @"value",
-        vNone,  @"not-selected",
-		vNone,  @"no-show",
-		nil];
+	return @{@"value": vOne,
+        @"not-selected": vNone,
+		@"no-show": vNone};
 }
 
 - (NSDictionary *) depreciatedKeys
 {
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-            @"value", @"text",
-            @"label", @"informative-text",
-            nil];
+	return @{@"text": @"value",
+            @"informative-text": @"label"};
 }
 
 - (BOOL) validateOptions {    
@@ -67,7 +63,7 @@
 }
 
 - (BOOL)isReturnValueEmpty {
-    NSString *value = [[controlMatrix cellAtRow:0 column:0] stringValue];
+    NSString *value = [controlMatrix cellAtRow:0 column:0].stringValue;
     return [value isEqualToString:@""];
 }
 
@@ -85,16 +81,16 @@
 }
 
 - (void) controlHasFinished:(int)button {
-    [controlReturnValues addObject:[[controlMatrix cellAtRow:0 column:0] stringValue]];
+    [controlReturnValues addObject:[controlMatrix cellAtRow:0 column:0].stringValue];
     [super controlHasFinished:button];
 }
 
 - (void) setControl:(id)sender {
     // Set other attributes of matrix
-    [controlMatrix setCellSize:NSMakeSize([controlMatrix frame].size.width, 20.0f)];
+    controlMatrix.cellSize = NSMakeSize(controlMatrix.frame.size.width, 20.0f);
     [controlMatrix renewRows:1 columns:1];
     [controlMatrix setAutosizesCells:NO];
-    [controlMatrix setMode:NSRadioModeMatrix];
+    controlMatrix.mode = NSRadioModeMatrix;
     [controlMatrix setAllowsEmptySelection:NO];
     
     id inputbox;

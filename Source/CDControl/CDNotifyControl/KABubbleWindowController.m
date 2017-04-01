@@ -38,7 +38,7 @@ static unsigned int bubbleWindowDepth = 0;
 	return ret;
 }
 
-- (id) initWithTextColor:(NSColor *)textColor 
+- (instancetype) initWithTextColor:(NSColor *)textColor 
 			   darkColor:(NSColor *)darkColor 
 			  lightColor:(NSColor *)lightColor 
 			 borderColor:(NSColor *)borderColor 
@@ -50,16 +50,16 @@ static unsigned int bubbleWindowDepth = 0;
 	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0., 0., 270., 65. ) styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO] autorelease];
 	[panel setBecomesKeyOnlyIfNeeded:YES];
 	[panel setHidesOnDeactivate:NO];
-	[panel setBackgroundColor:[NSColor clearColor]];
+	panel.backgroundColor = [NSColor clearColor];
 	[panel setLevel:NSStatusWindowLevel];
-	[panel setAlphaValue:0.];
+	panel.alphaValue = 0.;
 	[panel setOpaque:NO];
 	[panel setHasShadow:YES];
 	[panel setCanHide:NO];
 	[panel setReleasedWhenClosed:YES];
-	[panel setDelegate:self];
+	panel.delegate = self;
 
-	KABubbleWindowView *view = [[[KABubbleWindowView alloc] initWithFrame:[panel frame]] autorelease];
+	KABubbleWindowView *view = [[[KABubbleWindowView alloc] initWithFrame:panel.frame] autorelease];
 	[view setTarget:self];
 	[view setAction:@selector( _bubbleClicked: )];
 	[view setDarkColor:darkColor];
@@ -67,28 +67,28 @@ static unsigned int bubbleWindowDepth = 0;
 	[view setTextColor:textColor];
 	[view setBorderColor:borderColor];
 
-	[panel setContentView:view];
+	panel.contentView = view;
 
-	NSRect screen = [[NSScreen mainScreen] visibleFrame];
+	NSRect screen = [NSScreen mainScreen].visibleFrame;
 	
 	float leftPoint = 0.;
 	float topPoint = 0.;
 	// Find left position for bubble
 	if (position & BUBBLE_HORIZ_CENTER) {
-		leftPoint = (NSWidth(screen)-NSWidth([panel frame]))/2 - KABubblePadding;
+		leftPoint = (NSWidth(screen)-NSWidth(panel.frame))/2 - KABubblePadding;
 	} else if (position & BUBBLE_HORIZ_RIGHT) {
-		leftPoint = NSWidth(screen) - NSWidth([panel frame]) - KABubblePadding;
+		leftPoint = NSWidth(screen) - NSWidth(panel.frame) - KABubblePadding;
     } else {
         leftPoint = NSMinX(screen) + KABubblePadding;
     }
 
     // Find top position for bubble
 	if (position & BUBBLE_VERT_TOP) {
-		topPoint = NSMaxY(screen) - KABubblePadding - (NSHeight([panel frame])*bubbleWindowDepth);
+		topPoint = NSMaxY(screen) - KABubblePadding - (NSHeight(panel.frame)*bubbleWindowDepth);
 	} else if (position & BUBBLE_VERT_CENTER) {
-		topPoint = NSMaxY(screen)/1.8 - (NSHeight([panel frame])*bubbleWindowDepth) + (NSHeight([panel frame])*numExpected)/2;
+		topPoint = NSMaxY(screen)/1.8 - (NSHeight(panel.frame)*bubbleWindowDepth) + (NSHeight(panel.frame)*numExpected)/2;
 	} else if (position & BUBBLE_VERT_BOTTOM) {
-		topPoint = NSMinY(screen) + KABubblePadding + NSHeight([panel frame])*(bubbleWindowDepth+1);
+		topPoint = NSMinY(screen) + KABubblePadding + NSHeight(panel.frame)*(bubbleWindowDepth+1);
 	}
 	
 	[panel setFrameTopLeftPoint:NSMakePoint(leftPoint, topPoint)];
@@ -144,8 +144,8 @@ static unsigned int bubbleWindowDepth = 0;
 }
 
 - (void) _fadeIn:(NSTimer *) inTimer {
-	if( [[self window] alphaValue] < 1. ) {
-		[[self window] setAlphaValue:[[self window] alphaValue] + FADE_INCREMENT];
+	if( self.window.alphaValue < 1. ) {
+		self.window.alphaValue = self.window.alphaValue + FADE_INCREMENT;
 	} else if( _autoFadeOut ) {
 		if( [_delegate respondsToSelector:@selector( bubbleDidFadeIn: )] )
 			[_delegate bubbleDidFadeIn:self];
@@ -154,8 +154,8 @@ static unsigned int bubbleWindowDepth = 0;
 }
 
 - (void) _fadeOut:(NSTimer *) inTimer {
-	if( [[self window] alphaValue] > 0. ) {
-		[[self window] setAlphaValue:[[self window] alphaValue] - FADE_INCREMENT];
+	if( self.window.alphaValue > 0. ) {
+		self.window.alphaValue = self.window.alphaValue - FADE_INCREMENT;
 	} else {
 		[self _stopTimer];
 		if( [_delegate respondsToSelector:@selector( bubbleDidFadeOut: )] ) {
@@ -264,19 +264,19 @@ static unsigned int bubbleWindowDepth = 0;
 #pragma mark -
 
 - (BOOL) respondsToSelector:(SEL) selector {
-	if( [[[self window] contentView] respondsToSelector:selector] ) return YES;
+	if( [self.window.contentView respondsToSelector:selector] ) return YES;
 	else return [super respondsToSelector:selector];
 }
 
 - (void) forwardInvocation:(NSInvocation *) invocation {
-	if( [[[self window] contentView] respondsToSelector:[invocation selector]] )
-		[invocation invokeWithTarget:[[self window] contentView]];
+	if( [self.window.contentView respondsToSelector:invocation.selector] )
+		[invocation invokeWithTarget:self.window.contentView];
 	else [super forwardInvocation:invocation];
 }
 
 - (NSMethodSignature *) methodSignatureForSelector:(SEL) selector {
-	if( [[[self window] contentView] respondsToSelector:selector] )
-		return [(NSObject *)[[self window] contentView] methodSignatureForSelector:selector];
+	if( [self.window.contentView respondsToSelector:selector] )
+		return [(NSObject *)self.window.contentView methodSignatureForSelector:selector];
 	else return [super methodSignatureForSelector:selector];
 }
 

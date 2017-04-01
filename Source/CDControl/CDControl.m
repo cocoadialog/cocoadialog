@@ -114,7 +114,7 @@
     returnString = [returnString stringByReplacingOccurrencesOfString:@"%r" withString:relative];
     return returnString;
 }
-- (id)initWithOptions:(CDOptions *)opts {
+- (instancetype)initWithOptions:(CDOptions *)opts {
 	self = [super initWithOptions:opts];
     controlExitStatus = -1;
     controlExitStatusString = nil;
@@ -144,36 +144,36 @@
 
         
         BOOL close = [options hasOpt:@"close"];
-        [[controlPanel standardWindowButton:NSWindowCloseButton] setEnabled:close];
+        [controlPanel standardWindowButton:NSWindowCloseButton].enabled = close;
         if (!close) {
-            [controlPanel setStyleMask:controlPanel.styleMask^NSClosableWindowMask];
+            controlPanel.styleMask = controlPanel.styleMask^NSClosableWindowMask;
         }
         
         BOOL minimize = [options hasOpt:@"minimize"];
-        [[controlPanel standardWindowButton:NSWindowMiniaturizeButton] setEnabled:minimize];
+        [controlPanel standardWindowButton:NSWindowMiniaturizeButton].enabled = minimize;
         if (!minimize) {
-            [controlPanel setStyleMask:controlPanel.styleMask^NSMiniaturizableWindowMask];
+            controlPanel.styleMask = controlPanel.styleMask^NSMiniaturizableWindowMask;
         }
 
         // Handle --resize option.
         BOOL resize = [options hasOpt:@"resize"];
-        [[controlPanel standardWindowButton:NSWindowZoomButton] setEnabled:resize];
+        [controlPanel standardWindowButton:NSWindowZoomButton].enabled = resize;
         if (!resize) {
-            [controlPanel setStyleMask:controlPanel.styleMask^NSResizableWindowMask];
+            controlPanel.styleMask = controlPanel.styleMask^NSResizableWindowMask;
         }
 
-        [panel setPanel:controlPanel];
-        [icon setPanel:panel];
+        panel.panel = controlPanel;
+        icon.panel = panel;
     }
     if (controlIcon != nil) {
-        [icon setControl:controlIcon];
+        icon.control = controlIcon;
     }
     return YES;
 }
 + (void) printHelpTo:(NSFileHandle *)fh {
 	if (fh) {
         [fh writeData:[@"Usage: cocoaDialog <run-mode> [options]\n\tAvailable run-modes:\n" dataUsingEncoding:NSUTF8StringEncoding]];
-        NSArray *sortedAvailableKeys = [NSArray arrayWithArray:[[[AppController availableControls] allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
+        NSArray *sortedAvailableKeys = [NSArray arrayWithArray:[[AppController availableControls].allKeys sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
         
         NSEnumerator *en = [sortedAvailableKeys objectEnumerator];
         id key;
@@ -184,7 +184,7 @@
                 [fh writeData:[@"\t\t" dataUsingEncoding:NSUTF8StringEncoding]];
             }
             [fh writeData:[key dataUsingEncoding:NSUTF8StringEncoding]];
-            if (i <= 6 && currKey != [sortedAvailableKeys count] - 1) {
+            if (i <= 6 && currKey != sortedAvailableKeys.count - 1) {
                 [fh writeData:[@", " dataUsingEncoding:NSUTF8StringEncoding]];
                 i++;
             }
@@ -200,9 +200,9 @@
 }
 - (void) runControl {
     // The control must either: 1) sub-class -(NSString *) controlNib, return the name of the NIB, and then connect "controlPanel" in IB or 2) set the panel manually with [panel setPanel:(NSPanel *)]  when creating the control. 
-    if ([panel panel] != nil) {
+    if (panel.panel != nil) {
         // Set icon
-        if ([icon control] != nil) {
+        if (icon.control != nil) {
             [icon setIconFromOptions];
         }
         // Reposition Panel
@@ -234,11 +234,11 @@
 - (void) setTimeoutLabel {
     if (timeoutLabel != nil) {
         float labelNewHeight = -4.0f;
-        NSRect labelRect = [timeoutLabel frame];
+        NSRect labelRect = timeoutLabel.frame;
         float labelHeightDiff = labelNewHeight - labelRect.size.height;
-        [timeoutLabel setStringValue:[self formatSecondsForString:(int)timeout]];
-        if (![[timeoutLabel stringValue] isEqualToString:@""] && timeout != 0.0f) {
-            NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: [timeoutLabel stringValue]]autorelease];
+        timeoutLabel.stringValue = [self formatSecondsForString:(int)timeout];
+        if (![timeoutLabel.stringValue isEqualToString:@""] && timeout != 0.0f) {
+            NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: timeoutLabel.stringValue]autorelease];
             NSTextContainer *textContainer = [[[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)] autorelease];
             NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease];
             [layoutManager addTextContainer: textContainer];
@@ -248,15 +248,15 @@
             labelHeightDiff = labelNewHeight - labelRect.size.height;
             // Set label's new height
             NSRect l = NSMakeRect(labelRect.origin.x, labelRect.origin.y - labelHeightDiff, labelRect.size.width, labelNewHeight);
-            [timeoutLabel setFrame: l];
+            timeoutLabel.frame = l;
         }
         else {
             [timeoutLabel setHidden:YES];
         }
         // Set panel's new width and height
-        NSSize p = [[[panel panel] contentView] frame].size;
+        NSSize p = panel.panel.contentView.frame.size;
         p.height += labelHeightDiff;
-        [[panel panel] setContentSize:p];
+        [panel.panel setContentSize:p];
     }
 }
 - (void) createTimer {
@@ -280,7 +280,7 @@
     // Update and position the label if it exists
     if (timeout > 0.0f) {
         if (timeoutLabel != nil) {
-            [timeoutLabel setStringValue:[self formatSecondsForString:(int)timeout]];
+            timeoutLabel.stringValue = [self formatSecondsForString:(int)timeout];
         }
     }
     else {
@@ -314,11 +314,11 @@
     if (controlReturnValues != nil) {
         unsigned i;
         NSFileHandle *fh = [NSFileHandle fileHandleWithStandardOutput];
-        for (i = 0; i < [controlReturnValues count]; i++) {
+        for (i = 0; i < controlReturnValues.count; i++) {
             if (fh) {
-                [fh writeData:[[controlReturnValues objectAtIndex:i] dataUsingEncoding:NSUTF8StringEncoding]];
+                [fh writeData:[controlReturnValues[i] dataUsingEncoding:NSUTF8StringEncoding]];
             }
-            if (![options hasOpt:@"no-newline"] || i+1 < [controlReturnValues count]) 
+            if (![options hasOpt:@"no-newline"] || i+1 < controlReturnValues.count) 
             {
                 if (fh) {
                     [fh writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
@@ -343,36 +343,33 @@
 - (BOOL) validateOptions { return YES; }
 - (NSDictionary *) depreciatedKeys {return nil;}
 - (NSDictionary *) globalAvailableKeys {
-    NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-            // General
-            vNone, @"help",
-            vNone, @"debug",
-            vNone, @"quiet",
-            vOne,  @"timeout",
-            vOne,  @"timeout-format",
-            vNone, @"string-output",
-            vNone, @"no-newline",
+    NSNumber *vOne = @CDOptionsOneValue;
+	NSNumber *vNone = @CDOptionsNoValues;
+    return @{@"help": vNone,
+            @"debug": vNone,
+            @"quiet": vNone,
+            @"timeout": vOne,
+            @"timeout-format": vOne,
+            @"string-output": vNone,
+            @"no-newline": vNone,
             // Panel
-            vOne,  @"title",
-            vOne,  @"width",
-            vOne,  @"height",
-            vOne,  @"posX",
-            vOne,  @"posY",
-            vNone, @"no-float",
-            vNone, @"close",
-            vNone, @"minimize",
-            vNone, @"resize",
+            @"title": vOne,
+            @"width": vOne,
+            @"height": vOne,
+            @"posX": vOne,
+            @"posY": vOne,
+            @"no-float": vNone,
+            @"close": vNone,
+            @"minimize": vNone,
+            @"resize": vNone,
             // Icon
-            vOne,  @"icon",
-            vOne,  @"icon-bundle",
-            vOne,  @"icon-type",
-            vOne,  @"icon-file",
-            vOne,  @"icon-size",
-            vOne,  @"icon-width",
-            vOne,  @"icon-height",
-            nil];
+            @"icon": vOne,
+            @"icon-bundle": vOne,
+            @"icon-type": vOne,
+            @"icon-file": vOne,
+            @"icon-size": vOne,
+            @"icon-width": vOne,
+            @"icon-height": vOne};
 }
 - (BOOL) validateControl:(CDOptions *)options {return YES;}
 

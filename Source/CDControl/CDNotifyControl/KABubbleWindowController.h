@@ -23,7 +23,7 @@
 	float _timeout;
 }
 
-- (id) initWithTextColor:(NSColor *)textColor 
+- (instancetype) initWithTextColor:(NSColor *)textColor 
 			   darkColor:(NSColor *)darkColor 
 			  lightColor:(NSColor *)lightColor 
 			 borderColor:(NSColor *)borderColor
@@ -45,26 +45,20 @@
 - (void) startFadeIn;
 - (void) startFadeOut;
 
-- (BOOL) automaticallyFadesOut;
-- (void) setAutomaticallyFadesOut:(BOOL) autoFade;
+@property (NS_NONATOMIC_IOSONLY) BOOL automaticallyFadesOut;
 
-- (id) target;
-- (void) setTarget:(id) object;
+@property (NS_NONATOMIC_IOSONLY, assign) id target;
 
-- (SEL) action;
-- (void) setAction:(SEL) selector;
+@property (NS_NONATOMIC_IOSONLY) SEL action;
 
-- (id) clickContext;
-- (void) setClickContext:(id) object;
+@property (NS_NONATOMIC_IOSONLY, strong) id clickContext;
 
-- (id) representedObject;
-- (void) setRepresentedObject:(id) object;
+@property (NS_NONATOMIC_IOSONLY, strong) id representedObject;
 
-- (id) delegate;
-- (void) setDelegate:(id) delegate;
+@property (NS_NONATOMIC_IOSONLY, assign) id delegate;
 
 - (void) setTimeoutTime:(float) timeout;
-- (float) timeout;
+@property (NS_NONATOMIC_IOSONLY, readonly) float timeout;
 
 @end
 

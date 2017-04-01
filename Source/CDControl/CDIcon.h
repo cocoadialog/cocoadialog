@@ -21,11 +21,11 @@
 @property (retain) CDPanel *panel;
 
 - (void) addControl:(id)control;
-- (NSArray *) controls;
-- (NSImage *) icon;
-- (NSData *) iconData;
-- (NSImage *) iconWithDefault;
-- (NSData *) iconDataWithDefault;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *controls;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSImage *icon;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSData *iconData;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSImage *iconWithDefault;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSData *iconDataWithDefault;
 - (NSImage *) iconFromFile:(NSString *)file;
 - (NSImage *) iconFromName:(NSString *)name;
 - (void) setIconFromOptions;

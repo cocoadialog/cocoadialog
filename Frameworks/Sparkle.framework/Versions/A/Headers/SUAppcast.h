@@ -24,7 +24,7 @@
 - (void)setDelegate:delegate;
 - (void)setUserAgentString:(NSString *)userAgentString;
 
-- (NSArray *)items;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *items;
 
 @end
 

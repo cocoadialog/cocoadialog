@@ -16,6 +16,6 @@
 @property (retain) CDOptions *options;
 
 - (void) debug:(NSString *)message;
-- (id) initWithOptions:(CDOptions *)newOptions;
+- (instancetype) initWithOptions:(CDOptions *)newOptions NS_DESIGNATED_INITIALIZER;
 
 @end

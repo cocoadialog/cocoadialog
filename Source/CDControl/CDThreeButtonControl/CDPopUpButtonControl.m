@@ -26,23 +26,19 @@
 
 - (NSDictionary *) availableKeys
 {
-    NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
-	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
+    NSNumber *vOne = @CDOptionsOneValue;
+	NSNumber *vNone = @CDOptionsNoValues;
+	NSNumber *vMul = @CDOptionsMultipleValues;
 
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-		vMul,   @"items",
-        vOne,   @"selected",
-		vNone,  @"exit-onchange",
-		vNone,  @"pulldown",
-		nil];
+	return @{@"items": vMul,
+        @"selected": vOne,
+		@"exit-onchange": vNone,
+		@"pulldown": vNone};
 }
 
 - (NSDictionary *) depreciatedKeys
 {
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-            @"label", @"text",
-            nil];
+	return @{@"text": @"label"};
 }
 
 - (BOOL) validateOptions {
@@ -64,7 +60,7 @@
 	}
     // Check that at least one item has been specified
     NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
-    if (![items count]) { 
+    if (!items.count) { 
 		if ([options hasOpt:@"debug"]) {
 			[self debug:@"Must supply at least one --items"];
 		}
@@ -86,48 +82,48 @@
 }
 
 - (void) createControl {
-    [panel addMinWidth:[popupControl frame].size.width];
+    [panel addMinWidth:popupControl.frame.size.width];
     [controlItems addObject:popupControl];
     [icon addControl:popupControl];
     // Setup the control
-    [popupControl setKeyEquivalent:@" "];
-    [popupControl setTarget:self];
-    [popupControl setAction:@selector(selectionChanged:)];
+    popupControl.keyEquivalent = @" ";
+    popupControl.target = self;
+    popupControl.action = @selector(selectionChanged:);
 	[popupControl removeAllItems];
     // Set popup/pulldown style
-    [popupControl setPullsDown:[options hasOpt:@"pulldown"] ? YES : NO];
+    popupControl.pullsDown = [options hasOpt:@"pulldown"] ? YES : NO;
     // Populate menu
     NSArray *items = [NSArray arrayWithArray:[options optValues:@"items"]];
-	if (items != nil && [items count]) {
+	if (items != nil && items.count) {
 		NSEnumerator *en = [items objectEnumerator];
 		id obj;
 		while (obj = [en nextObject]) {
 			[popupControl addItemWithTitle:(NSString *)obj];
 		}
-        NSInteger selected = [options hasOpt:@"selected"] ? [[options optValue:@"selected"] integerValue] : 0;
+        NSInteger selected = [options hasOpt:@"selected"] ? [options optValue:@"selected"].integerValue : 0;
         [popupControl selectItemAtIndex:selected];
 	}
 	[self setTitleButtonsLabel:[options optValue:@"label"]];
 }
 
 - (void) controlHasFinished:(int)button {
-	if ([[self options] hasOpt:@"string-output"]) {
-        [controlReturnValues addObject:[popupControl titleOfSelectedItem]];
+	if ([self.options hasOpt:@"string-output"]) {
+        [controlReturnValues addObject:popupControl.titleOfSelectedItem];
 	} else {
-        [controlReturnValues addObject:[NSString stringWithFormat:@"%ld", (long)[popupControl indexOfSelectedItem]]];
+        [controlReturnValues addObject:[NSString stringWithFormat:@"%ld", (long)popupControl.indexOfSelectedItem]];
 	}
     [super controlHasFinished:button];
 }
 
 - (void) selectionChanged:(id)sender {
     [popupControl synchronizeTitleAndSelectedItem];
-	if ([[self options] hasOpt:@"exit-onchange"]) {
+	if ([self.options hasOpt:@"exit-onchange"]) {
 		controlExitStatus = 4;
 		controlExitStatusString = @"4";
-        if ([[self options] hasOpt:@"string-output"]) {
-            [controlReturnValues addObject:[popupControl titleOfSelectedItem]];
+        if ([self.options hasOpt:@"string-output"]) {
+            [controlReturnValues addObject:popupControl.titleOfSelectedItem];
         } else {
-            [controlReturnValues addObject:[NSString stringWithFormat:@"%ld", (long)[popupControl indexOfSelectedItem]]];
+            [controlReturnValues addObject:[NSString stringWithFormat:@"%ld", (long)popupControl.indexOfSelectedItem]];
         }
         [self stopControl];
 	}

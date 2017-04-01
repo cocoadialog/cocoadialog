@@ -12,14 +12,14 @@
 @synthesize panel;
 
 - (void)addMinHeight:(CGFloat)height {
-	NSSize panelMinSize = [panel contentMinSize];
+	NSSize panelMinSize = panel.contentMinSize;
 	panelMinSize.height += height;
-	[panel setContentMinSize:panelMinSize];
+	panel.contentMinSize = panelMinSize;
 }
 - (void)addMinWidth:(CGFloat)width {
-	NSSize panelMinSize = [panel contentMinSize];
+	NSSize panelMinSize = panel.contentMinSize;
 	panelMinSize.width += width;
-	[panel setContentMinSize:panelMinSize];
+	panel.contentMinSize = panelMinSize;
 }
 
 - (void) dealloc {
@@ -34,22 +34,22 @@
 	if (options == nil || panel == nil) {
 		return size;
 	}
-	size = [[panel contentView] frame].size;
+	size = panel.contentView.frame.size;
 	oldSize.width = size.width;
 	oldSize.height = size.height;
 	if ([options hasOpt:@"width"]) {
 		width = [options optValue:@"width"];
-		if ([width floatValue] != 0.0) {
-			size.width = [width floatValue];
+		if (width.floatValue != 0.0) {
+			size.width = width.floatValue;
 		}
 	}
 	if ([options hasOpt:@"height"]) {
 		height = [options optValue:@"height"];
-		if ([height floatValue] != 0.0) {
-			size.height = [height floatValue];
+		if (height.floatValue != 0.0) {
+			size.height = height.floatValue;
 		}
 	}
-	NSSize minSize = [panel contentMinSize];
+	NSSize minSize = panel.contentMinSize;
 	if (size.height < minSize.height) {
 		size.height = minSize.height;
 	}
@@ -96,7 +96,7 @@
                                                     defer:NO] autorelease];
 }
 - (void) setPosition {
-    NSRect screen = [[NSScreen mainScreen] visibleFrame];
+    NSRect screen = [NSScreen mainScreen].visibleFrame;
     CGFloat leftPoint = 0.0;
 	CGFloat topPoint = 0.0;
     CGFloat padding = 10.0;
@@ -111,7 +111,7 @@
 		}
         // Right
         else if ([posX caseInsensitiveCompare:@"right"] == NSOrderedSame) {
-            leftPoint = NSWidth(screen) - NSWidth([panel frame]) - padding;
+            leftPoint = NSWidth(screen) - NSWidth(panel.frame) - padding;
 		}
         // Manual posX coords
         else if ([posX floatValue] > 0.0) {
@@ -119,19 +119,19 @@
         }
         // Center
         else {
-            leftPoint = (NSWidth(screen)-NSWidth([panel frame]))/2 - padding;
+            leftPoint = (NSWidth(screen)-NSWidth(panel.frame))/2 - padding;
 		}
 	}
     // Center
     else {
-        leftPoint = (NSWidth(screen)-NSWidth([panel frame]))/2 - padding;
+        leftPoint = (NSWidth(screen)-NSWidth(panel.frame))/2 - padding;
 	}
     // Has posY option
 	if ([options hasOpt:@"posY"]) {
 		posY = [options optValue:@"posY"];
         // Bottom
 		if ([posY caseInsensitiveCompare:@"bottom"] == NSOrderedSame) {
-            topPoint = NSMinY(screen) + padding + NSHeight([panel frame]);
+            topPoint = NSMinY(screen) + padding + NSHeight(panel.frame);
 		}
         // Top
         else if ([posY caseInsensitiveCompare:@"top"] == NSOrderedSame) {
@@ -143,12 +143,12 @@
         }
         // Center
         else {
-            topPoint = NSMaxY(screen)/1.8 + NSHeight([panel frame]);
+            topPoint = NSMaxY(screen)/1.8 + NSHeight(panel.frame);
 		}
 	}
     // Center
     else {
-		topPoint = NSMaxY(screen)/1.8 + NSHeight([panel frame]);
+		topPoint = NSMaxY(screen)/1.8 + NSHeight(panel.frame);
 	}
 	[panel setFrameTopLeftPoint:NSMakePoint(leftPoint, topPoint)];
 }
@@ -156,19 +156,19 @@
 - (void)setTitle {
     // set title
 	if ([options optValue:@"title"] != nil) {
-		[panel setTitle:[options optValue:@"title"]];
+		panel.title = [options optValue:@"title"];
 	}
     else {
-        [panel setTitle:@"cocoaDialog"];
+        panel.title = @"cocoaDialog";
     }
 }
 
 - (void) setTitle:(NSString *)string {
     if (string != nil && ![string isEqualToString:@""]) {
-        [panel setTitle:string];
+        panel.title = string;
     }
     else {
-        [panel setTitle:@"cocoaDialog"];
+        panel.title = @"cocoaDialog";
     }
 }
 

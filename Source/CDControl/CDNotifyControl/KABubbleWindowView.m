@@ -19,7 +19,7 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 #pragma mark -
 
 @implementation KABubbleWindowView
-- (id) initWithFrame:(NSRect) frame {
+- (instancetype) initWithFrame:(NSRect) frame {
 	if( self = [super initWithFrame:frame] ) {
 		_icon = nil;
 		_title = nil;
@@ -57,14 +57,14 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 
 - (void) drawRect:(NSRect) rect {
 	[[NSColor clearColor] set];
-	NSRectFill( [self frame] );
+	NSRectFill( self.frame );
 
 	float lineWidth = 4.;
 	NSBezierPath *path = [NSBezierPath bezierPath];
-	[path setLineWidth:lineWidth];
+	path.lineWidth = lineWidth;
 
 	float radius = 9.;
-	NSRect irect = NSInsetRect( [self bounds], radius + lineWidth, radius + lineWidth );
+	NSRect irect = NSInsetRect( self.bounds, radius + lineWidth, radius + lineWidth );
 	[path appendBezierPathWithArcWithCenter:NSMakePoint( NSMinX( irect ), NSMinY( irect ) ) radius:radius startAngle:180. endAngle:270.];
 	[path appendBezierPathWithArcWithCenter:NSMakePoint( NSMaxX( irect ), NSMinY( irect ) ) radius:radius startAngle:270. endAngle:360.];
 	[path appendBezierPathWithArcWithCenter:NSMakePoint( NSMaxX( irect ), NSMaxY( irect ) ) radius:radius startAngle:0. endAngle:90.];
@@ -79,11 +79,11 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 	CGFunctionRef function = CGFunctionCreate( self, 1, NULL, 4, NULL, &callbacks );
 	CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
 
-	float srcX = NSMinX( [self bounds] ), srcY = NSMinY( [self bounds] );
-	float dstX = NSMinX( [self bounds] ), dstY = NSMaxY( [self bounds] );
+	float srcX = NSMinX( self.bounds ), srcY = NSMinY( self.bounds );
+	float dstX = NSMinX( self.bounds ), dstY = NSMaxY( self.bounds );
 	CGShadingRef shading = CGShadingCreateAxial( cspace, CGPointMake( srcX, srcY ), CGPointMake( dstX, dstY ), function, false, false );
 
-	CGContextDrawShading( [[NSGraphicsContext currentContext] graphicsPort], shading );
+	CGContextDrawShading( [NSGraphicsContext currentContext].graphicsPort, shading );
 
 	CGShadingRelease( shading );
 	CGColorSpaceRelease( cspace );
@@ -94,23 +94,23 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 	[[self borderColor] set];
 	[path stroke];
 
-	[_title drawAtPoint:NSMakePoint( 55., 40. ) withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSFont boldSystemFontOfSize:13.], NSFontAttributeName, [self textColor], NSForegroundColorAttributeName, nil]];
+	[_title drawAtPoint:NSMakePoint( 55., 40. ) withAttributes:@{NSFontAttributeName: [NSFont boldSystemFontOfSize:13.], NSForegroundColorAttributeName: [self textColor]}];
 	[_text drawInRect:NSMakeRect( 55., 10., 200., 30. )];
 
     NSRect sourceRect = NSMakeRect( 0., 0., 32., 32. );
-	if( [_icon size].width > 32. || [_icon size].height > 32. ) { // Assume a square image.
+	if( _icon.size.width > 32. || _icon.size.height > 32. ) { // Assume a square image.
         NSImageRep *sourceImageRep = [_icon bestRepresentationForRect:sourceRect context: nil hints: nil];
 		[_icon autorelease];
 		_icon = [[NSImage alloc] initWithSize:NSMakeSize( 32., 32. )];
 		[_icon lockFocus];
-		[[NSGraphicsContext currentContext] setImageInterpolation: NSImageInterpolationHigh];
+		[NSGraphicsContext currentContext].imageInterpolation = NSImageInterpolationHigh;
 		[sourceImageRep drawInRect:sourceRect];
 		[_icon unlockFocus];
 	}
 
     [_icon drawAtPoint:NSMakePoint( 15., 20. ) fromRect:sourceRect operation:NSCompositeSourceAtop fraction:1.];
 
-	[[self window] invalidateShadow];
+	[self.window invalidateShadow];
 }
 
 #pragma mark -
@@ -142,7 +142,7 @@ void KABubbleShadeInterpolate( void *info, CGFloat const *inData, CGFloat *outDa
 	} else {
 		color = [NSColor controlTextColor];
 	}
-	_text = [[NSAttributedString alloc] initWithString:text attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSFont messageFontOfSize:11.], NSFontAttributeName, color, NSForegroundColorAttributeName, nil]];
+	_text = [[NSAttributedString alloc] initWithString:text attributes:@{NSFontAttributeName: [NSFont messageFontOfSize:11.], NSForegroundColorAttributeName: color}];
 	[self setNeedsDisplay:YES];
 }
 

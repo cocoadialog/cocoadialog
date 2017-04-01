@@ -33,26 +33,26 @@
 }
 
 // Initializes with data from a dictionary provided by the RSS class.
-- initWithDictionary:(NSDictionary *)dict;
-- initWithDictionary:(NSDictionary *)dict failureReason:(NSString**)error;
+- (instancetype) initWithDictionary:(NSDictionary *)dict;
+- (instancetype) initWithDictionary:(NSDictionary *)dict failureReason:(NSString**)error;
 
-- (NSString *)title;
-- (NSString *)versionString;
-- (NSString *)displayVersionString;
-- (NSDate *)date;
-- (NSString *)itemDescription;
-- (NSURL *)releaseNotesURL;
-- (NSURL *)fileURL;
-- (NSString *)DSASignature;
-- (NSString *)minimumSystemVersion;
-- (NSDictionary *)deltaUpdates;
-- (BOOL)isDeltaUpdate;
-- (BOOL)isCriticalUpdate;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *title;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *versionString;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *displayVersionString;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDate *date;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *itemDescription;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *releaseNotesURL;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *fileURL;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *DSASignature;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *minimumSystemVersion;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDictionary *deltaUpdates;
+@property (NS_NONATOMIC_IOSONLY, getter=isDeltaUpdate, readonly) BOOL deltaUpdate;
+@property (NS_NONATOMIC_IOSONLY, getter=isCriticalUpdate, readonly) BOOL criticalUpdate;
 
 // Returns the dictionary provided in initWithDictionary; this might be useful later for extensions.
-- (NSDictionary *)propertiesDictionary;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDictionary *propertiesDictionary;
 
-- (NSURL *)infoURL;						// UK 2007-08-31
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *infoURL;						// UK 2007-08-31
 
 @end
 

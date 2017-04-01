@@ -30,32 +30,30 @@
 
 - (NSDictionary *) availableKeys
 {
-	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
+	NSNumber *vOne = @CDOptionsOneValue;
+	NSNumber *vNone = @CDOptionsNoValues;
 	
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-		vOne,  @"text",
-		vOne,  @"percent",
-		vNone, @"indeterminate",
-		vNone, @"float",
-		vNone, @"stoppable",
-		nil];
+	return @{@"text": vOne,
+		@"percent": vOne,
+		@"indeterminate": vNone,
+		@"float": vNone,
+		@"stoppable": vNone};
 }
 
 -(void) updateProgress:(NSNumber*)newProgress
 {
-	[progressBar setDoubleValue:[newProgress doubleValue]];
+	progressBar.doubleValue = newProgress.doubleValue;
 }
 
 -(void) updateLabel:(NSString*)newLabel
 {
-	[expandingLabel setStringValue:newLabel];
+	expandingLabel.stringValue = newLabel;
 }
 
 -(void) finish
 {
 	if (confirmationSheet) {
-		[NSApp endSheet:[confirmationSheet window]];
+		[NSApp endSheet:confirmationSheet.window];
 		[confirmationSheet release];
 		confirmationSheet = nil;
 	}
@@ -73,8 +71,8 @@
 	confirmationSheet = [[NSAlert alloc] init];
 	[confirmationSheet addButtonWithTitle:@"Stop"];
 	[confirmationSheet addButtonWithTitle:@"Cancel"];
-	[confirmationSheet setMessageText:@"Are you sure you want to stop?"];
-	[confirmationSheet beginSheetModalForWindow:[panel panel] modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
+	confirmationSheet.messageText = @"Are you sure you want to stop?";
+	[confirmationSheet beginSheetModalForWindow:panel.panel modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
 - (void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
@@ -95,8 +93,8 @@
 
 -(void) setStopEnabled:(NSNumber*)enabled
 {
-	stopEnabled = [enabled boolValue];
-	[stopButton setEnabled:stopEnabled];
+	stopEnabled = enabled.boolValue;
+	stopButton.enabled = stopEnabled;
 }
 
 - (BOOL) validateOptions {
@@ -106,30 +104,30 @@
 - (void) createControl {
 	stopEnabled = YES;
 	
-	[panel addMinWidth:[progressBar frame].size.width + 30.0f];
+	[panel addMinWidth:progressBar.frame.size.width + 30.0f];
 	[icon addControl:expandingLabel];
 	[icon addControl:progressBar];
 
 	// set text label
 	if ([options optValue:@"text"]) {
-		[expandingLabel setStringValue:[options optValue:@"text"]];
+		expandingLabel.stringValue = [options optValue:@"text"];
 	} else {
-		[expandingLabel setStringValue:@""];
+		expandingLabel.stringValue = @"";
 	}
 	
 	// hide stop button if not stoppable and resize window/controls
 	if (![options hasOpt:@"stoppable"]) {
-		NSRect progressBarFrame = [progressBar frame];
+		NSRect progressBarFrame = progressBar.frame;
 
-		NSRect currentWindowFrame = [[panel panel] frame];
-		CGFloat stopButtonWidth = [stopButton frame].size.width;
+		NSRect currentWindowFrame = panel.panel.frame;
+		CGFloat stopButtonWidth = stopButton.frame.size.width;
 		NSRect newWindowFrame = {
 			.origin = currentWindowFrame.origin,
 			.size = NSMakeSize(currentWindowFrame.size.width - stopButtonWidth + 2, currentWindowFrame.size.height)
 		};
-		[[panel panel] setFrame:newWindowFrame display:NO];
+		[panel.panel setFrame:newWindowFrame display:NO];
 
-		[progressBar setFrame:progressBarFrame];
+		progressBar.frame = progressBarFrame;
 		[stopButton setHidden:YES];
 	}
 
@@ -145,13 +143,13 @@
 	if ([options optValue:@"percent"]) {
 		double initialPercent;
 		if ([inputHandler parseString:[options optValue:@"percent"] intoProgress:&initialPercent]) {
-			[progressBar setDoubleValue:initialPercent];
+			progressBar.doubleValue = initialPercent;
 		}
 	}
 		
 	//set window title
 	if ([options optValue:@"title"]) {
-		[[panel panel] setTitle:[options optValue:@"title"]];
+		panel.panel.title = [options optValue:@"title"];
 	}
 
 	// set indeterminate

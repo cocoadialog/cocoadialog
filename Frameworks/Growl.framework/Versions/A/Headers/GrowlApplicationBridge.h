@@ -474,7 +474,7 @@
  *
  *	@result The <code>NSDictionary</code> to use for registration.
  */
-- (NSDictionary *) registrationDictionaryForGrowl;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDictionary *registrationDictionaryForGrowl;
 
 /*!
  *	@method applicationNameForGrowl
@@ -493,7 +493,7 @@
  *
  *	@result The name of the application using Growl.
  */
-- (NSString *) applicationNameForGrowl;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *applicationNameForGrowl;
 
 /*!
  *	@method applicationIconForGrowl
@@ -505,7 +505,7 @@
  *	 generally needed.
  *	@result The <code>NSImage</code> to treat as the application icon.
  */
-- (NSImage *) applicationIconForGrowl;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSImage *applicationIconForGrowl;
 
 /*!
  *	@method applicationIconDataForGrowl
@@ -516,7 +516,7 @@
  *	@result The <code>NSData</code> to treat as the application icon.
  *	@deprecated In version 1.1, in favor of {{{-applicationIconForGrowl}}}.
  */
-- (NSData *) applicationIconDataForGrowl;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSData *applicationIconDataForGrowl;
 
 /*!
  *	@method growlIsReady
@@ -558,7 +558,7 @@
  * @discussion GrowlDelegate calls to find out if we have the com.apple.security.network.client entitlement,
  *  since we can't find this out without hitting the sandbox.  We only call it if we detect that the application is sandboxed.
  */
-- (BOOL) hasNetworkClientEntitlement;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL hasNetworkClientEntitlement;
 
 @end
 

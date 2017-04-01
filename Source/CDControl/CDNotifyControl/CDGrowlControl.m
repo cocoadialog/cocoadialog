@@ -12,19 +12,17 @@
 
 - (NSDictionary *) availableKeys
 {
-	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
+	NSNumber *vOne = @CDOptionsOneValue;
 //	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
-	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
+	NSNumber *vMul = @CDOptionsMultipleValues;
     
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-            vOne, @"priority",
-            vMul, @"priorities",
-            nil];
+	return @{@"priority": vOne,
+            @"priorities": vMul};
 }
 
-- (id)initWithOptions:(CDOptions *)opts {
+- (instancetype)initWithOptions:(CDOptions *)opts {
 	self = [super initWithOptions:opts];
-    NSBundle *growlBundle = [NSBundle bundleWithPath:[[[NSBundle mainBundle] privateFrameworksPath] stringByAppendingPathComponent:@"Growl.framework"]];
+    NSBundle *growlBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle].privateFrameworksPath stringByAppendingPathComponent:@"Growl.framework"]];
     if (growlBundle && [growlBundle load]) {
         // Register ourselves as a Growl delegate
         [GrowlApplicationBridge setGrowlDelegate:self];
@@ -71,13 +69,13 @@
 	NSArray *titles = [options optValues:@"titles"];
     NSArray *descriptions = [options optValues:@"descriptions"];
     
-    NSNumber * priority = [NSNumber numberWithInt:0];
+    NSNumber * priority = @0;
     if ([options hasOpt:@"priority"]) {
-        priority = [NSNumber numberWithInt:[[options optValue:@"priority"] intValue]];
+        priority = @([options optValue:@"priority"].intValue);
     }
     BOOL sticky = [options hasOpt:@"sticky"];
     // Multiple notifications
-	if (descriptions != nil && [descriptions count] && titles != nil && [titles count] && [titles count] == [descriptions count]) {
+	if (descriptions != nil && descriptions.count && titles != nil && titles.count && titles.count == descriptions.count) {
 		NSArray *givenIconImages = [self notificationIcons];
 		NSImage *fallbackIcon = nil;
 		NSMutableArray *icons = nil;
@@ -91,9 +89,9 @@
 		}
 		// If we were given less icons than we have bubbles, use a default
 		// for any extra bubbles
-		if ([icons count] < [descriptions count]) {
+		if (icons.count < descriptions.count) {
 			NSImage *defaultIcon = [icon iconWithDefault];
-			unsigned long numToAdd = [descriptions count] - [icons count];
+			unsigned long numToAdd = descriptions.count - icons.count;
 			for (i = 0; i < numToAdd; i++) {
 				[icons addObject:defaultIcon];
 			}
@@ -102,15 +100,15 @@
         NSArray * clickPaths = [NSArray arrayWithArray:[options optValues:@"click-paths"]];
         NSArray * clickArgs = [NSArray arrayWithArray:[options optValues:@"click-args"]];
 		// Create the bubbles
-		for (i = 0; i < [descriptions count]; i++) {
-			NSImage *_icon = fallbackIcon == nil ? (NSImage *)[icons objectAtIndex:i] : fallbackIcon;
-            [self addNotificationWithTitle:[titles objectAtIndex:i]
-                               description:[descriptions objectAtIndex:i]
+		for (i = 0; i < descriptions.count; i++) {
+			NSImage *_icon = fallbackIcon == nil ? (NSImage *)icons[i] : fallbackIcon;
+            [self addNotificationWithTitle:titles[i]
+                               description:descriptions[i]
                                       icon:_icon
-                                  priority:[priorities count] ? [priorities objectAtIndex:i] : priority
+                                  priority:priorities.count ? priorities[i] : priority
                                     sticky:sticky
-                                 clickPath:[clickPaths count] ? [clickPaths objectAtIndex:i] : clickPath
-                                  clickArg:[clickArgs count] ? [clickArgs objectAtIndex:i] : clickArg
+                                 clickPath:clickPaths.count ? clickPaths[i] : clickPath
+                                  clickArg:clickArgs.count ? clickArgs[i] : clickArg
              ];
 
 		}
@@ -133,12 +131,12 @@
     while (obj = [en nextObject]) {
         NSDictionary * notification = [NSDictionary dictionaryWithDictionary:obj];
         [GrowlApplicationBridge
-         notifyWithTitle:[notification objectForKey:@"title"]
-         description:[notification objectForKey:@"description"]
+         notifyWithTitle:notification[@"title"]
+         description:notification[@"description"]
          notificationName:@"General Notification"
-         iconData:[notification objectForKey:@"iconData"]
-         priority:[[notification objectForKey:@"priority"] intValue]
-         isSticky:[[notification objectForKey:@"sticky"] boolValue]
+         iconData:notification[@"iconData"]
+         priority:[notification[@"priority"] intValue]
+         isSticky:[notification[@"sticky"] boolValue]
          clickContext:[NSString stringWithFormat:@"%d", activeNotifications]];
         activeNotifications++;
     }
@@ -150,7 +148,7 @@
      notifyWithTitle:@"cocoaDialog Debug"
      description:message
      notificationName:@"General Notification"
-     iconData:[[icon iconFromName:@"caution"] TIFFRepresentation]
+     iconData:[icon iconFromName:@"caution"].TIFFRepresentation
      priority:2
      isSticky:YES
      clickContext:nil];
@@ -160,12 +158,10 @@
 // Register Growl Notifications
 - (NSDictionary *) registrationDictionaryForGrowl
 {
-    NSArray * notificationsForGrowl = [NSArray arrayWithObjects:@"General Notification", nil];
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-                                 [NSNumber numberWithInt:1], @"TicketVersion",
-                                 notificationsForGrowl, @"AllNotifications",
-                                 notificationsForGrowl, @"DefaultNotifications",
-                                 nil];
+    NSArray * notificationsForGrowl = @[@"General Notification"];
+    return @{@"TicketVersion": @1,
+                                 @"AllNotifications": notificationsForGrowl,
+                                 @"DefaultNotifications": notificationsForGrowl};
 }
 
 - (void) growlNotificationWasClicked:(id)clickContext

@@ -23,7 +23,7 @@
 @implementation AppController
 
 - (NSString *) appVersion {
-    return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    return [NSBundle mainBundle].infoDictionary[@"CFBundleVersion"];
 }
 
 #pragma mark - Initialization
@@ -31,16 +31,16 @@
 {
 	NSString *runMode = nil;
     // Assign arguments
-	arguments = [[[NSMutableArray alloc] initWithArray:[[NSProcessInfo processInfo] arguments]] autorelease];
+	arguments = [[[NSMutableArray alloc] initWithArray:[NSProcessInfo processInfo].arguments] autorelease];
     // Initialize control
     currentControl = [[[CDControl alloc] init] autorelease];
     // Setup containers
     NSDictionary *globalKeys = [[[NSDictionary alloc] initWithDictionary:[currentControl globalAvailableKeys]] autorelease];
     NSDictionary *depreciatedKeys = [[[NSDictionary alloc] initWithDictionary:[currentControl depreciatedKeys]] autorelease];
     CDOptions *options = [CDOptions getOpts:arguments availableKeys:globalKeys depreciatedKeys:depreciatedKeys];
-	if ([arguments count] >= 2) {
+	if (arguments.count >= 2) {
 		[arguments removeObjectAtIndex:0]; // Remove program name.
-		runMode = [arguments objectAtIndex:0];
+		runMode = arguments[0];
 		[arguments removeObjectAtIndex:0]; // Remove the run-mode
 	}
     // runMode is either the PID of a GUI initialization or "about", show the about dialog
@@ -59,9 +59,9 @@
     else if ([runMode caseInsensitiveCompare:@"notify"] == NSOrderedSame || [runMode caseInsensitiveCompare:@"bubble"] == NSOrderedSame) {
         // Determine which notification type to use
         // Recapture the arguments
-        arguments = [[[NSMutableArray alloc] initWithArray:[[NSProcessInfo processInfo] arguments]] autorelease];
+        arguments = [[[NSMutableArray alloc] initWithArray:[NSProcessInfo processInfo].arguments] autorelease];
         // Replace the runMode with the new one
-        [arguments replaceObjectAtIndex:1 withObject:@"CDNotifyControl"];
+        arguments[1] = @"CDNotifyControl";
         // Relaunch cocoaDialog with the new runMode
         NSString *launcherSource = [[NSBundle mainBundle] pathForResource:@"relaunch" ofType:@""];
         [arguments insertObject:launcherSource atIndex:0];
@@ -76,10 +76,10 @@
 #endif
         NSTask *task = [[[NSTask alloc] init] autorelease];
         // Output must be silenced to not hang this process
-        [task setStandardError:[NSFileHandle fileHandleWithNullDevice]];
-        [task setStandardOutput:[NSFileHandle fileHandleWithNullDevice]];
-        [task setLaunchPath:@"/usr/bin/arch"];
-        [task setArguments:arguments];
+        task.standardError = [NSFileHandle fileHandleWithNullDevice];
+        task.standardOutput = [NSFileHandle fileHandleWithNullDevice];
+        task.launchPath = @"/usr/bin/arch";
+        task.arguments = arguments;
         [task launch];
         [NSApp terminate:self];
     }
@@ -103,25 +103,25 @@
                 NSDictionary *localKeys = [currentControl availableKeys];
                 if (localKeys != nil) {
                     allKeys = [NSMutableDictionary dictionaryWithCapacity:
-                               [globalKeys count]+[localKeys count]];
+                               globalKeys.count+localKeys.count];
                     [allKeys addEntriesFromDictionary:globalKeys];
                     [allKeys addEntriesFromDictionary:localKeys];
                 } else {
-                    allKeys = [NSMutableDictionary dictionaryWithCapacity:[globalKeys count]];
+                    allKeys = [NSMutableDictionary dictionaryWithCapacity:globalKeys.count];
                     [allKeys addEntriesFromDictionary:globalKeys];
                     
                 }
-                [CDOptions printOpts:[allKeys allKeys] forRunMode:runMode];
+                [CDOptions printOpts:allKeys.allKeys forRunMode:runMode];
             }
             // Add any extras chooseControl came up with
             NSEnumerator *en = [extraOptions keyEnumerator];
             NSString *key;
             while (key = [en nextObject]) {
-                [options setOption:[extraOptions objectForKey:key] forKey:key];
+                [options setOption:extraOptions[key] forKey:key];
             }
             
             // Reload the options for currentControl
-            [currentControl setOptions:options];
+            currentControl.options = options;
             
             // Validate currentControl's options and load interface nib
             if ([currentControl validateOptions] && [currentControl loadControlNib:[currentControl controlNib]]) {
@@ -140,15 +140,15 @@
                     NSDictionary *localKeys = [currentControl availableKeys];
                     if (localKeys != nil) {
                         allKeys = [NSMutableDictionary dictionaryWithCapacity:
-                                   [globalKeys count]+[localKeys count]];
+                                   globalKeys.count+localKeys.count];
                         [allKeys addEntriesFromDictionary:globalKeys];
                         [allKeys addEntriesFromDictionary:localKeys];
                     } else {
-                        allKeys = [NSMutableDictionary dictionaryWithCapacity:[globalKeys count]];
+                        allKeys = [NSMutableDictionary dictionaryWithCapacity:globalKeys.count];
                         [allKeys addEntriesFromDictionary:globalKeys];
                         
                     }
-                    [CDOptions printOpts:[allKeys allKeys] forRunMode:runMode];
+                    [CDOptions printOpts:allKeys.allKeys forRunMode:runMode];
                 }
                 exit(255);
             }
@@ -163,25 +163,23 @@
 
 #pragma mark - CDControl
 + (NSDictionary *) availableControls {
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-            [CDCheckboxControl class],              @"checkbox",
-            [CDPopUpButtonControl class],           @"dropdown",
-            [CDFileSelectControl class],            @"fileselect",
-            [CDFileSaveControl class],              @"filesave",
-            [CDInputboxControl class],              @"inputbox",
-            [CDMsgboxControl class],                @"msgbox",
-            [CDNotifyControl class],                @"notify",
-            [CDOkMsgboxControl class],              @"ok-msgbox",
-            [CDProgressbarControl class],           @"progressbar",
-            [CDRadioControl class],                 @"radio",
-            [CDSlider class],                       @"slider",
-            [CDInputboxControl class],              @"secure-inputbox",           
-            [CDStandardInputboxControl class],      @"secure-standard-inputbox",
-            [CDStandardPopUpButtonControl class],   @"standard-dropdown",         
-            [CDStandardInputboxControl class],      @"standard-inputbox",
-            [CDTextboxControl class],               @"textbox",
-            [CDYesNoMsgboxControl class],           @"yesno-msgbox",
-            nil];
+    return @{@"checkbox": [CDCheckboxControl class],
+            @"dropdown": [CDPopUpButtonControl class],
+            @"fileselect": [CDFileSelectControl class],
+            @"filesave": [CDFileSaveControl class],
+            @"inputbox": [CDInputboxControl class],
+            @"msgbox": [CDMsgboxControl class],
+            @"notify": [CDNotifyControl class],
+            @"ok-msgbox": [CDOkMsgboxControl class],
+            @"progressbar": [CDProgressbarControl class],
+            @"radio": [CDRadioControl class],
+            @"slider": [CDSlider class],
+            @"secure-inputbox": [CDInputboxControl class],           
+            @"secure-standard-inputbox": [CDStandardInputboxControl class],
+            @"standard-dropdown": [CDStandardPopUpButtonControl class],         
+            @"standard-inputbox": [CDStandardInputboxControl class],
+            @"textbox": [CDTextboxControl class],
+            @"yesno-msgbox": [CDYesNoMsgboxControl class]};
 }
 
 - (void) chooseControl:(NSString *)runMode useOptions:options addExtraOptionsTo:(NSMutableDictionary *)extraOptions
@@ -220,10 +218,10 @@
         // come to the front automatically.
         [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
 
-        id control = [controls objectForKey:[runMode lowercaseString]];
+        id control = controls[runMode.lowercaseString];
         if (control != nil) {
             if ([runMode caseInsensitiveCompare:@"secure-standard-inputbox"] == NSOrderedSame || [runMode caseInsensitiveCompare:@"secure-inputbox"] == NSOrderedSame) {
-                [extraOptions setObject:[NSNumber numberWithBool:NO] forKey:@"no-show"];
+                extraOptions[@"no-show"] = @NO;
             }
             currentControl = [[(CDControl *)[control alloc] initWithOptions:options] autorelease];
             return;
@@ -241,23 +239,23 @@
 #pragma mark - Label Hyperlinks
 -(void)setHyperlinkForTextField:(NSTextField*)aTextField replaceString:(NSString *)aString withURL:(NSString *)aURL
 {
-    NSMutableAttributedString *textFieldString = [[[aTextField attributedStringValue] mutableCopy] autorelease];
-    NSRange range = [[textFieldString string] rangeOfString:aString];
+    NSMutableAttributedString *textFieldString = [[aTextField.attributedStringValue mutableCopy] autorelease];
+    NSRange range = [textFieldString.string rangeOfString:aString];
     
     // both are needed, otherwise hyperlink won't accept mousedown
     [aTextField setAllowsEditingTextAttributes: YES];
     [aTextField setSelectable: YES];
     
     NSMutableAttributedString* replacement = [[[NSMutableAttributedString alloc] init] autorelease];
-    [replacement setAttributedString: [NSAttributedString hyperlinkFromString:aString withURL:[NSURL URLWithString:aURL] withFont:[aTextField font]]];
+    [replacement setAttributedString: [NSAttributedString hyperlinkFromString:aString withURL:[NSURL URLWithString:aURL] withFont:aTextField.font]];
     
     [textFieldString replaceCharactersInRange:range withAttributedString:replacement];
     
     // set the attributed string to the NSTextField
-    [aTextField setAttributedStringValue: textFieldString];
+    aTextField.attributedStringValue = textFieldString;
     // Refresh the text field
 	[aTextField selectText:self];
-    [[aTextField currentEditor] setSelectedRange:NSMakeRange(0, 0)];
+    [aTextField currentEditor].selectedRange = NSMakeRange(0, 0);
 }
 
 @end
@@ -266,11 +264,11 @@
 +(id)hyperlinkFromString:(NSString*)inString withURL:(NSURL*)aURL withFont:(NSFont *)aFont
 {
     NSMutableAttributedString* attrString = [[NSMutableAttributedString alloc] initWithString: inString];
-    NSRange range = NSMakeRange(0, [attrString length]);
+    NSRange range = NSMakeRange(0, attrString.length);
     
     [attrString beginEditing];
     [attrString addAttribute:NSFontAttributeName value:aFont range:range];
-    [attrString addAttribute:NSLinkAttributeName value:[aURL absoluteString] range:range];
+    [attrString addAttribute:NSLinkAttributeName value:aURL.absoluteString range:range];
     
     // make the text appear in blue
     [attrString addAttribute:NSForegroundColorAttributeName value:[NSColor blueColor] range:range];
@@ -279,7 +277,7 @@
     
     // next make the text appear with an underline
     [attrString addAttribute:
-     NSUnderlineStyleAttributeName value:[NSNumber numberWithInt:NSSingleUnderlineStyle] range:range];
+     NSUnderlineStyleAttributeName value:@(NSSingleUnderlineStyle) range:range];
     
     [attrString endEditing];
     

@@ -24,18 +24,16 @@
 
 - (NSDictionary *) availableKeys
 {
-	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
+	NSNumber *vMul = @CDOptionsMultipleValues;
 //	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
+	NSNumber *vNone = @CDOptionsNoValues;
 
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-        vMul,  @"allowed-files",
-		vNone, @"select-directories",
-		vNone, @"select-only-directories",
-		vNone, @"no-select-directories",
-		vNone, @"select-multiple",
-		vNone, @"no-select-multiple",
-		nil];
+	return @{@"allowed-files": vMul,
+		@"select-directories": vNone,
+		@"select-only-directories": vNone,
+		@"no-select-directories": vNone,
+		@"select-multiple": vNone,
+		@"no-select-multiple": vNone};
 }
 
 - (void) createControl {
@@ -92,18 +90,18 @@
         if (file != nil) {
             NSURL *path = [NSURL fileURLWithPath:dir];
             if (path == nil) {
-                path = [openPanel directoryURL];
+                path = openPanel.directoryURL;
             }
             dir = [dir stringByAppendingString:@"/"];
             dir = [dir stringByAppendingString:file];
             path = [NSURL fileURLWithPath:dir];
-            if (![fm fileExistsAtPath:[path absoluteString]]) {
+            if (![fm fileExistsAtPath:path.absoluteString]) {
                 [self debug:[NSString stringWithFormat:@"Option --with-file specifies a file that does not exist: %@", dir]];
             }
         }
     }
     
-    [panel setPanel:openPanel];
+    panel.panel = openPanel;
 
 	// resize window if user specified alternate width/height
     if ([panel needsResize]) {
@@ -123,12 +121,12 @@
             dir = [dir stringByAppendingString:file];
         }
         NSURL * url = [[[NSURL alloc] initFileURLWithPath:dir] autorelease];
-        [openPanel setDirectoryURL:url];
+        openPanel.directoryURL = url;
     }
     result = [openPanel runModal];
     if (result == NSFileHandlingPanelOKButton) {
         controlExitStatus = -1;
-        NSEnumerator *en = [[openPanel URLs] objectEnumerator];
+        NSEnumerator *en = [openPanel.URLs objectEnumerator];
         id key;
         while (key = [en nextObject]) {
             [controlReturnValues addObject:[key path]];
@@ -143,14 +141,14 @@
 
 - (BOOL)isExtensionAllowed:(NSString *)filename {
     BOOL extensionAllowed = YES;
-    if (extensions != nil && [extensions count]) {
-        NSString* extension = [filename pathExtension];
+    if (extensions != nil && extensions.count) {
+        NSString* extension = filename.pathExtension;
         extensionAllowed = [extensions containsObject:extension];
     }
     if ([options hasOpt:@"allowed-files"]) {
         NSArray *allowedFiles = [options optValues:@"allowed-files"];
-        if (allowedFiles != nil && [allowedFiles count]) {
-            if ([allowedFiles containsObject:[filename lastPathComponent]]) {
+        if (allowedFiles != nil && allowedFiles.count) {
+            if ([allowedFiles containsObject:filename.lastPathComponent]) {
                 return YES;
             }
             else {

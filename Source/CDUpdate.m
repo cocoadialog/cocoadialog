@@ -22,7 +22,7 @@
     if ([options hasOpt:@"debug"]) {
         NSString *output = @"An unknown error occurred while trying to update.";
         if (error != nil) {
-            output = [error localizedDescription];
+            output = error.localizedDescription;
         }
         [self debug:output];
     }
@@ -36,7 +36,7 @@
 - (void) update {
     SUUpdater * updater = [SUUpdater sharedUpdater];
     [updater setDelegate:self];
-    NSURL *appcastURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"SUFeedURL"]];
+    NSURL *appcastURL = [NSURL URLWithString:[NSBundle mainBundle].infoDictionary[@"SUFeedURL"]];
     if (appcastURL != nil) {
         [updater setFeedURL:appcastURL];
     }

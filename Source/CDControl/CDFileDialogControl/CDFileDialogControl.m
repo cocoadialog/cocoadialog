@@ -22,7 +22,7 @@
 
 @implementation CDFileDialogControl
 
-- (id)init {
+- (instancetype)init {
     self = [self initWithOptions:nil];
     extensions = [[[NSMutableArray alloc] init] retain];
     return self;
@@ -35,57 +35,52 @@
 
 // This must be overridden if you want local global options for your control
 - (NSDictionary *) globalAvailableKeys {
-    NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
-    NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-            // General
-            vNone, @"help",
-            vNone, @"debug",
-            vNone, @"quiet",
-            vOne,  @"timeout",
-            vOne,  @"timeout-format",
-            vNone, @"string-output",
-            vNone, @"no-newline",
+    NSNumber *vOne = @CDOptionsOneValue;
+	NSNumber *vNone = @CDOptionsNoValues;
+    NSNumber *vMul = @CDOptionsMultipleValues;
+    return @{@"help": vNone,
+            @"debug": vNone,
+            @"quiet": vNone,
+            @"timeout": vOne,
+            @"timeout-format": vOne,
+            @"string-output": vNone,
+            @"no-newline": vNone,
             // Panel
-            vOne,  @"title",
-            vOne,  @"width",
-            vOne,  @"height",
-            vOne,  @"posX",
-            vOne,  @"posY",
-            vNone, @"no-float",
-            vNone, @"minimize",
-            vNone, @"resize",
+            @"title": vOne,
+            @"width": vOne,
+            @"height": vOne,
+            @"posX": vOne,
+            @"posY": vOne,
+            @"no-float": vNone,
+            @"minimize": vNone,
+            @"resize": vNone,
             // Icon
-            vOne,  @"icon",
-            vOne,  @"icon-bundle",
-            vOne,  @"icon-type",
-            vOne,  @"icon-file",
-            vOne,  @"icon-size",
-            vOne,  @"icon-width",
-            vOne,  @"icon-height",
+            @"icon": vOne,
+            @"icon-bundle": vOne,
+            @"icon-type": vOne,
+            @"icon-file": vOne,
+            @"icon-size": vOne,
+            @"icon-width": vOne,
+            @"icon-height": vOne,
 
             // CDFileDialogs
-            vOne,  @"label",
-            vNone, @"packages-as-directories",
-            vMul,  @"with-extensions",
-            vOne,  @"with-directory",
-            vOne,  @"with-file",
-            nil];
+            @"label": vOne,
+            @"packages-as-directories": vNone,
+            @"with-extensions": vMul,
+            @"with-directory": vOne,
+            @"with-file": vOne};
 }
 
 - (NSDictionary *) depreciatedKeys {
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-            @"label", @"text",
-            nil];
+	return @{@"text": @"label"};
 }
 
 // Set options common to any file save panel
 - (void) setMisc {
-    [savePanel setDelegate:self];
+    savePanel.delegate = self;
     extensions = [[[NSMutableArray alloc] init] retain];
     NSArray *optionExtensions = [options optValues:@"with-extensions"];
-	if (optionExtensions != nil && [optionExtensions count]) {
+	if (optionExtensions != nil && optionExtensions.count) {
 		NSString *extension;
 		NSEnumerator *en = [optionExtensions objectEnumerator];
 		while (extension = [en nextObject]) {
@@ -93,7 +88,7 @@
                 extension = @"";
             }
             // Strip leading '.' from each extension
-            else if ([extension length] > 1 && [[extension substringWithRange:NSMakeRange(0,1)] isEqualToString:@"."]) {
+            else if (extension.length > 1 && [[extension substringWithRange:NSMakeRange(0,1)] isEqualToString:@"."]) {
 				extension = [extension substringFromIndex:1];
 			}
             [extensions addObject:extension];
@@ -102,17 +97,17 @@
 
 	// Set title
 	if ([options optValue:@"title"] != nil) {
-		[savePanel setTitle:[options optValue:@"title"]];
+		savePanel.title = [options optValue:@"title"];
 	}
 	// set message displayed on file select panel
 	if ([options optValue:@"label"] != nil) {
-		[savePanel setMessage:[options optValue:@"label"]];
+		savePanel.message = [options optValue:@"label"];
 	}
 }
 
 - (BOOL)isExtensionAllowed:(NSString *)filename {
-    if (extensions != nil && [extensions count]) {
-        NSString* extension = [filename pathExtension];
+    if (extensions != nil && extensions.count) {
+        NSString* extension = filename.pathExtension;
         return [extensions containsObject:extension];
     }
     else {

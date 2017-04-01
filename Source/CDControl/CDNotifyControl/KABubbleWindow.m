@@ -5,7 +5,7 @@
 
 @implementation KABubbleWindow
 
-- (id)initWithContentRect:(NSRect)contentRect
+- (instancetype)initWithContentRect:(NSRect)contentRect
 				styleMask:(unsigned long)aStyle
 				  backing:(NSBackingStoreType)bufferingType
 					defer:(BOOL)flag {
@@ -17,9 +17,9 @@
 											defer:NO];
 	
 	//set up our window
-	[result setBackgroundColor: [NSColor clearColor]];
+	result.backgroundColor = [NSColor clearColor];
 	[result setLevel: NSStatusWindowLevel];
-	[result setAlphaValue:0.15];
+	result.alphaValue = 0.15;
 	[result setOpaque:NO];
 	[result setHasShadow: YES];
 	[result setCanHide:NO ];
