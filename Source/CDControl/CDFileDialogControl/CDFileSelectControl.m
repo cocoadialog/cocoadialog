@@ -53,7 +53,7 @@
 	}
 
 	// set select-directories
-	if ([options hasOpt:@"select-directories"]) {
+	if ([options hasOpt:@"create-directories"] || [options hasOpt:@"select-directories"]) {
 		[openPanel setCanChooseDirectories:YES];
 	} else {
 		[openPanel setCanChooseDirectories:NO];

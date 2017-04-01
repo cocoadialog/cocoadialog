@@ -49,8 +49,6 @@
 
 	if ([options hasOpt:@"no-create-directories"]) {
 		[savePanel setCanCreateDirectories:NO];
-	} else {
-		[savePanel setCanCreateDirectories:YES];
 	}
 
 	// set starting file (to be used later with 

@@ -65,6 +65,7 @@
 
             // CDFileDialogs
             @"label": vOne,
+            @"create-directories": vNone,
             @"packages-as-directories": vNone,
             @"with-extensions": vMul,
             @"with-directory": vOne,
@@ -78,6 +79,11 @@
 // Set options common to any file save panel
 - (void) setMisc {
     savePanel.delegate = self;
+    
+    // Create directories.
+    savePanel.canCreateDirectories = [options hasOpt:@"create-directories"];
+
+    // Extensions.
     extensions = [[[NSMutableArray alloc] init] retain];
     NSArray *optionExtensions = [options optValues:@"with-extensions"];
 	if (optionExtensions != nil && optionExtensions.count) {
