@@ -47,6 +47,7 @@
             @"close": vNone,
             @"minimize": vNone,
             @"resize": vNone,
+            @"screen": vOne,
             // Icon
             @"icon": vOne,
             @"icon-bundle": vOne,

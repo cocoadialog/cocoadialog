@@ -62,6 +62,22 @@
 		return NSMakeSize(0.0,0.0);
 	}
 }
+
+- (NSScreen *)getScreen {
+    if ([options hasOpt:@"screen"]) {
+        NSUInteger index = [options optValue:@"screen"].integerValue;
+        NSArray *screens = [NSScreen screens];
+        if ([screens count] - 1 < index) {
+            [self debug:[NSString stringWithFormat:@"Using main (focused) screen; unknown screen index: %lu", (unsigned long) index]];
+            return [NSScreen mainScreen];
+        }
+        return [screens objectAtIndex:index];
+    }
+    else {
+        return [NSScreen mainScreen];
+    }
+}
+
 - (BOOL) needsResize {
 	NSSize size = [self findNewSize];
 	if (size.width != 0.0 || size.height != 0.0) {
@@ -96,61 +112,73 @@
                                                     defer:NO] autorelease];
 }
 - (void) setPosition {
-    NSRect screen = [NSScreen mainScreen].visibleFrame;
-    CGFloat leftPoint = 0.0;
-	CGFloat topPoint = 0.0;
-    CGFloat padding = 10.0;
+    NSScreen *screen = [self getScreen];
+    CGFloat x = NSMinX(screen.visibleFrame);
+    CGFloat y = NSMinY(screen.visibleFrame);
+    CGFloat height = NSHeight(screen.visibleFrame);
+    CGFloat width = NSWidth(screen.visibleFrame);
+    CGFloat top = y + height;
+    CGFloat left = x;
+    CGFloat padding = 20.0;
+//    CGFloat menuBar = 20.0;
+
     id posX;
     id posY;
+    
     // Has posX option
 	if ([options hasOpt:@"posX"]) {
 		posX = [options optValue:@"posX"];
         // Left
 		if ([posX caseInsensitiveCompare:@"left"] == NSOrderedSame) {
-            leftPoint = padding;
+            left += padding;
 		}
         // Right
         else if ([posX caseInsensitiveCompare:@"right"] == NSOrderedSame) {
-            leftPoint = NSWidth(screen) - NSWidth(panel.frame) - padding;
+            left = left + width - NSWidth(panel.frame) - padding;
 		}
         // Manual posX coords
         else if ([posX floatValue] > 0.0) {
-            leftPoint = [posX floatValue];
+            left += [posX floatValue];
         }
         // Center
         else {
-            leftPoint = (NSWidth(screen)-NSWidth(panel.frame))/2 - padding;
+            left = left + ((width - NSWidth(panel.frame)) / 2 - padding);
 		}
 	}
     // Center
     else {
-        leftPoint = (NSWidth(screen)-NSWidth(panel.frame))/2 - padding;
+        left = left + ((width - NSWidth(panel.frame)) / 2 - padding);
 	}
+
     // Has posY option
 	if ([options hasOpt:@"posY"]) {
 		posY = [options optValue:@"posY"];
         // Bottom
 		if ([posY caseInsensitiveCompare:@"bottom"] == NSOrderedSame) {
-            topPoint = NSMinY(screen) + padding + NSHeight(panel.frame);
+            top = y + padding;
+            [self debug:[NSString stringWithFormat:@"bottom: %f", top]];
 		}
         // Top
         else if ([posY caseInsensitiveCompare:@"top"] == NSOrderedSame) {
-            topPoint = NSMaxY(screen) - padding;
+            top = (y + height) - NSHeight(panel.frame) - padding;
+            [self debug:[NSString stringWithFormat:@"top: %f", top]];
 		}
         // Manual posY coords
         else if ([posY floatValue] > 0.0) {
-            topPoint = NSMaxY(screen) - [posY floatValue];
+            top = y - [posY floatValue];
         }
         // Center
         else {
-            topPoint = NSMaxY(screen)/1.8 + NSHeight(panel.frame);
+            top = (height / 1.8) - (NSHeight(panel.frame) / 1.8);
 		}
 	}
     // Center
     else {
-		topPoint = NSMaxY(screen)/1.8 + NSHeight(panel.frame);
+        top = (height / 1.8) - (NSHeight(panel.frame) / 1.8);
 	}
-	[panel setFrameTopLeftPoint:NSMakePoint(leftPoint, topPoint)];
+
+    // Ensure the panel has the correct relative frame origins.
+    [panel setFrameOrigin:NSMakePoint(left, top)];
 }
 
 - (void)setTitle {

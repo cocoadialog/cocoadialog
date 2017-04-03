@@ -19,6 +19,7 @@
 - (void) addMinHeight:(CGFloat)height;
 - (void) addMinWidth:(CGFloat)width;
 @property (NS_NONATOMIC_IOSONLY, readonly) NSSize findNewSize;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSScreen *getScreen;
 @property (NS_NONATOMIC_IOSONLY, readonly) BOOL needsResize;
 - (void) resize;
 - (void) setFloat;
