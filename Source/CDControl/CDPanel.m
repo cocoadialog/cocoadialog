@@ -120,14 +120,15 @@
     CGFloat top = y + height;
     CGFloat left = x;
     CGFloat padding = 20.0;
-//    CGFloat menuBar = 20.0;
+    NSNumberFormatter *nf = [[[NSNumberFormatter alloc] init] autorelease];
 
     id posX;
     id posY;
-    
+
     // Has posX option
-	if ([options hasOpt:@"posX"]) {
+    if ([options hasOpt:@"posX"]) {
 		posX = [options optValue:@"posX"];
+        NSNumber *posXNumber = [nf numberFromString:posX];
         // Left
 		if ([posX caseInsensitiveCompare:@"left"] == NSOrderedSame) {
             left += padding;
@@ -137,8 +138,8 @@
             left = left + width - NSWidth(panel.frame) - padding;
 		}
         // Manual posX coords
-        else if ([posX floatValue] > 0.0) {
-            left += [posX floatValue];
+        else if (posXNumber != nil) {
+            left += [posXNumber floatValue];
         }
         // Center
         else {
@@ -153,19 +154,18 @@
     // Has posY option
 	if ([options hasOpt:@"posY"]) {
 		posY = [options optValue:@"posY"];
+        NSNumber *posYNumber = [nf numberFromString:posY];
         // Bottom
 		if ([posY caseInsensitiveCompare:@"bottom"] == NSOrderedSame) {
             top = y + padding;
-            [self debug:[NSString stringWithFormat:@"bottom: %f", top]];
 		}
         // Top
         else if ([posY caseInsensitiveCompare:@"top"] == NSOrderedSame) {
-            top = (y + height) - NSHeight(panel.frame) - padding;
-            [self debug:[NSString stringWithFormat:@"top: %f", top]];
+            top = top - NSHeight(panel.frame) - padding;
 		}
         // Manual posY coords
-        else if ([posY floatValue] > 0.0) {
-            top = y - [posY floatValue];
+        else if (posYNumber != nil) {
+            top = top - NSHeight(panel.frame) - [posYNumber floatValue];
         }
         // Center
         else {
