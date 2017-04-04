@@ -10,16 +10,19 @@
 
 @implementation CDCheckboxControl
 
-- (NSDictionary *) availableKeys {
-	NSNumber *vOne = @CDOptionsOneValue;
-	NSNumber *vMul = @CDOptionsMultipleValues;
+- (NSMutableDictionary *) availableOptions {
+    NSMutableDictionary *availableOptions = [super availableOptions];
     
-	return @{@"rows": vOne,
-            @"columns": vOne,
-            @"items": vMul,
-            @"checked": vMul,
-            @"mixed": vMul,
-            @"disabled": vMul};
+	[availableOptions addEntriesFromDictionary:@{
+                                     @"rows": @CDOptionsOneValue,
+                                     @"columns": @CDOptionsOneValue,
+                                     @"items": @CDOptionsMultipleValues,
+                                     @"checked": @CDOptionsMultipleValues,
+                                     @"mixed": @CDOptionsMultipleValues,
+                                     @"disabled": @CDOptionsMultipleValues,
+                                     }];
+
+    return availableOptions;
 }
 - (BOOL)isReturnValueEmpty {
     if (checkboxes.count > 0) {

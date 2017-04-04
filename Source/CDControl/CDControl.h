@@ -63,11 +63,11 @@
 #pragma mark - Internal Control Methods -
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *controlNib;
 - (CDOptions *) controlOptionsFromArgs:(NSArray *)args;
-- (CDOptions *) controlOptionsFromArgs:(NSArray *)args withGlobalKeys:(NSDictionary *)globalKeys;
+- (CDOptions *) controlOptionsFromArgs:(NSArray *)args withGlobalOptions:(NSDictionary *)globalOptions;
 - (void) createTimer;
 - (NSString *) formatSecondsForString:(NSInteger)timeInSeconds;
 - (BOOL) loadControlNib:(NSString *)nib;
-+ (void) printHelpTo:(NSFileHandle *)fh;
+- (void) printHelpTo:(NSFileHandle *)fh;
 - (void) processTimer;
 - (void) runControl;
 - (void) setTimeout;
@@ -77,13 +77,13 @@
 
 #pragma mark - Subclassable Control Methods -
 // This must be sub-classed if you want options local to your control
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDictionary *availableKeys;
+- (NSMutableDictionary *) availableOptions;
 - (void) createControl;
 @property (NS_NONATOMIC_IOSONLY, readonly) BOOL validateOptions;
 // This must be sub-classed if you want specify local depreciated keys for your control
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDictionary *depreciatedKeys;
 // This must be overridden if you want local global options for your control
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDictionary *globalAvailableKeys;
+- (NSMutableDictionary *) globalOptions;
 // This must be sub-classed if you want validate local options for your control
 - (BOOL) validateControl:(CDOptions *)options;
 

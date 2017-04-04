@@ -28,16 +28,16 @@
 	return @"Progressbar";
 }
 
-- (NSDictionary *) availableKeys
-{
-	NSNumber *vOne = @CDOptionsOneValue;
-	NSNumber *vNone = @CDOptionsNoValues;
-	
-	return @{@"text": vOne,
-		@"percent": vOne,
-		@"indeterminate": vNone,
-		@"float": vNone,
-		@"stoppable": vNone};
+- (NSMutableDictionary *) availableOptions {
+    NSMutableDictionary *availableOptions = [super availableOptions];
+    [availableOptions addEntriesFromDictionary:@{
+                                     @"text": @CDOptionsOneValue,
+                                     @"percent": @CDOptionsOneValue,
+                                     @"indeterminate": @CDOptionsNoValues,
+                                     @"float": @CDOptionsNoValues,
+                                     @"stoppable": @CDOptionsNoValues,
+                                     }];
+    return availableOptions;
 }
 
 -(void) updateProgress:(NSNumber*)newProgress

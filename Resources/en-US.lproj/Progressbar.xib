@@ -25,10 +25,6 @@
                 <rect key="frame" x="0.0" y="0.0" width="463" height="72"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <progressIndicator verticalHuggingPriority="750" maxValue="100" bezeled="NO" controlSize="small" style="bar" id="7" userLabel="progressbar">
-                        <rect key="frame" x="59" y="18" width="305" height="12"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    </progressIndicator>
                     <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="8" userLabel="expandingLabel">
                         <rect key="frame" x="57" y="38" width="389" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -38,6 +34,15 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <progressIndicator verticalHuggingPriority="750" maxValue="100" bezeled="NO" controlSize="small" style="bar" id="7" userLabel="progressbar">
+                        <rect key="frame" x="59" y="18" width="305" height="12"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    </progressIndicator>
+                    <imageView id="37" userLabel="controlIcon">
+                        <rect key="frame" x="20" y="20" width="32" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topLeft" id="38"/>
+                    </imageView>
                     <button verticalHuggingPriority="750" imageHugsTitle="YES" id="23" userLabel="stopButton">
                         <rect key="frame" x="366" y="10" width="82" height="28"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
@@ -49,11 +54,6 @@
                             <action selector="stop:" target="-2" id="33"/>
                         </connections>
                     </button>
-                    <imageView id="37" userLabel="controlIcon">
-                        <rect key="frame" x="20" y="20" width="32" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topLeft" id="38"/>
-                    </imageView>
                 </subviews>
             </view>
             <connections>

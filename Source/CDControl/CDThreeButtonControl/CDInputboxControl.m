@@ -25,14 +25,14 @@
 
 @implementation CDInputboxControl
 
-- (NSDictionary *) availableKeys
-{
-	NSNumber *vOne = @CDOptionsOneValue;
-	NSNumber *vNone = @CDOptionsNoValues;
-	
-	return @{@"value": vOne,
-        @"not-selected": vNone,
-		@"no-show": vNone};
+- (NSMutableDictionary *) availableOptions {
+    NSMutableDictionary *availableOptions = [super availableOptions];
+    [availableOptions addEntriesFromDictionary:@{
+                                     @"value": @CDOptionsOneValue,
+                                     @"not-selected": @CDOptionsNoValues,
+                                     @"no-show": @CDOptionsNoValues,
+                                     }];
+    return availableOptions;
 }
 
 - (NSDictionary *) depreciatedKeys

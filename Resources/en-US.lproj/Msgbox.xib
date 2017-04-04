@@ -29,6 +29,38 @@
                 <rect key="frame" x="0.0" y="0.0" width="428" height="147"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <textField verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" id="43">
+                        <rect key="frame" x="79" y="109" width="332" height="18"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" alignment="left" title="Alert" id="79">
+                            <font key="font" metaFont="systemBold" size="12"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <imageView id="83">
+                        <rect key="frame" x="20" y="74" width="54" height="54"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topLeft" id="84"/>
+                    </imageView>
+                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="90" userLabel="timeoutLabel">
+                        <rect key="frame" x="79" y="49" width="332" height="14"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="timeoutLabel" id="91">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="44">
+                        <rect key="frame" x="79" y="71" width="332" height="36"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" selectable="YES" alignment="left" id="80">
+                            <font key="font" metaFont="system" size="12"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                     <button hidden="YES" verticalHuggingPriority="750" imageHugsTitle="YES" id="2">
                         <rect key="frame" x="234" y="11" width="90" height="34"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
@@ -68,44 +100,13 @@ DQ
                             <outlet property="nextKeyView" destination="11" id="40"/>
                         </connections>
                     </button>
-                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="43">
-                        <rect key="frame" x="79" y="109" width="332" height="18"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" alignment="left" title="Alert" id="79">
-                            <font key="font" metaFont="smallSystemBold"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="44">
-                        <rect key="frame" x="79" y="71" width="332" height="36"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" selectable="YES" alignment="left" id="80">
-                            <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <imageView id="83">
-                        <rect key="frame" x="20" y="74" width="54" height="54"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topLeft" id="84"/>
-                    </imageView>
-                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="90" userLabel="timeoutLabel">
-                        <rect key="frame" x="79" y="49" width="332" height="14"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="timeoutLabel" id="91">
-                            <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                 </subviews>
             </view>
             <connections>
                 <outlet property="delegate" destination="-2" id="23"/>
                 <outlet property="initialFirstResponder" destination="12" id="39"/>
             </connections>
+            <point key="canvasLocation" x="140" y="161.5"/>
         </window>
     </objects>
 </document>

@@ -23,14 +23,14 @@
 
 @implementation CDYesNoMsgboxControl
 
-- (NSDictionary *) availableKeys
-{
-	NSNumber *vOne = @CDOptionsOneValue;
-	NSNumber *vNone = @CDOptionsNoValues;
-
-	return @{@"alert": vOne,
-            @"label": vOne,
-		@"no-cancel": vNone};
+- (NSMutableDictionary *) availableOptions {
+    NSMutableDictionary *availableOptions = [super availableOptions];
+    [availableOptions addEntriesFromDictionary:@{
+                                     @"alert": @CDOptionsOneValue,
+                                     @"label": @CDOptionsOneValue,
+                                     @"no-cancel": @CDOptionsNoValues,
+                                     }];
+    return availableOptions;
 }
 
 - (void) setButtons {

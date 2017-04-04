@@ -34,9 +34,9 @@
     // Initialize control
     currentControl = [[[CDControl alloc] init] autorelease];
     // Setup containers
-    NSDictionary *globalKeys = [[[NSDictionary alloc] initWithDictionary:[currentControl globalAvailableKeys]] autorelease];
+    NSDictionary *globalOptions = [[[NSDictionary alloc] initWithDictionary:[currentControl globalOptions]] autorelease];
     NSDictionary *depreciatedKeys = [[[NSDictionary alloc] initWithDictionary:[currentControl depreciatedKeys]] autorelease];
-    CDOptions *options = [CDOptions getOpts:arguments availableKeys:globalKeys depreciatedKeys:depreciatedKeys];
+    CDOptions *options = [CDOptions getOpts:arguments availableKeys:globalOptions depreciatedKeys:depreciatedKeys];
 	if (arguments.count >= 2) {
 		[arguments removeObjectAtIndex:0]; // Remove program name.
 		control = arguments[0];
@@ -90,24 +90,25 @@
         if (currentControl != nil) {
             // Initialize the currentControl
             [currentControl init];
-            globalKeys = [currentControl globalAvailableKeys];
+            globalOptions = [currentControl globalOptions];
             // Now that we have the control, we can re-get the options to
             // include the local options for that control.
-            options = [currentControl controlOptionsFromArgs:arguments	withGlobalKeys:globalKeys];
+            options = [currentControl controlOptionsFromArgs:arguments	withGlobalOptions:globalOptions];
             if ([options hasOpt:@"help"]) {
                 NSMutableDictionary *allKeys;
-                NSDictionary *localKeys = [currentControl availableKeys];
+                NSDictionary *localKeys = [currentControl availableOptions];
                 if (localKeys != nil) {
                     allKeys = [NSMutableDictionary dictionaryWithCapacity:
-                               globalKeys.count+localKeys.count];
-                    [allKeys addEntriesFromDictionary:globalKeys];
+                               globalOptions.count+localKeys.count];
+                    [allKeys addEntriesFromDictionary:globalOptions];
                     [allKeys addEntriesFromDictionary:localKeys];
                 } else {
-                    allKeys = [NSMutableDictionary dictionaryWithCapacity:globalKeys.count];
-                    [allKeys addEntriesFromDictionary:globalKeys];
+                    allKeys = [NSMutableDictionary dictionaryWithCapacity:globalOptions.count];
+                    [allKeys addEntriesFromDictionary:globalOptions];
                     
                 }
-                [CDOptions printOpts:allKeys.allKeys forControl:control];
+                [currentControl printHelpTo:[NSFileHandle fileHandleWithStandardOutput]];
+                exit(0);
             }
             // Add any extras chooseControl came up with
             NSEnumerator *en = [extraOptions keyEnumerator];
@@ -133,15 +134,15 @@
             } else {
                 if ([options hasOpt:@"debug"]) {
                     NSMutableDictionary *allKeys;
-                    NSDictionary *localKeys = [currentControl availableKeys];
+                    NSDictionary *localKeys = [currentControl availableOptions];
                     if (localKeys != nil) {
                         allKeys = [NSMutableDictionary dictionaryWithCapacity:
-                                   globalKeys.count+localKeys.count];
-                        [allKeys addEntriesFromDictionary:globalKeys];
+                                   globalOptions.count+localKeys.count];
+                        [allKeys addEntriesFromDictionary:globalOptions];
                         [allKeys addEntriesFromDictionary:localKeys];
                     } else {
-                        allKeys = [NSMutableDictionary dictionaryWithCapacity:globalKeys.count];
-                        [allKeys addEntriesFromDictionary:globalKeys];
+                        allKeys = [NSMutableDictionary dictionaryWithCapacity:globalOptions.count];
+                        [allKeys addEntriesFromDictionary:globalOptions];
                         
                     }
                     [CDOptions printOpts:allKeys.allKeys forControl:control];
@@ -160,49 +161,50 @@
 #pragma mark - CDControl
 + (NSDictionary *) availableControls {
     return @{@"checkbox": [CDCheckboxControl class],
-            @"dropdown": [CDPopUpButtonControl class],
-            @"fileselect": [CDFileSelectControl class],
-            @"filesave": [CDFileSaveControl class],
-            @"inputbox": [CDInputboxControl class],
-            @"msgbox": [CDMsgboxControl class],
-            @"notify": [CDNotifyControl class],
-            @"ok-msgbox": [CDOkMsgboxControl class],
-            @"progressbar": [CDProgressbarControl class],
-            @"radio": [CDRadioControl class],
-            @"slider": [CDSlider class],
-            @"secure-inputbox": [CDInputboxControl class],           
-            @"secure-standard-inputbox": [CDStandardInputboxControl class],
-            @"standard-dropdown": [CDStandardPopUpButtonControl class],         
-            @"standard-inputbox": [CDStandardInputboxControl class],
-            @"textbox": [CDTextboxControl class],
-            @"yesno-msgbox": [CDYesNoMsgboxControl class]};
+             @"dropdown": [CDPopUpButtonControl class],
+             @"fileselect": [CDFileSelectControl class],
+             @"filesave": [CDFileSaveControl class],
+             @"inputbox": [CDInputboxControl class],
+             @"msgbox": [CDMsgboxControl class],
+             @"notify": [CDNotifyControl class],
+             @"ok-msgbox": [CDOkMsgboxControl class],
+             @"progressbar": [CDProgressbarControl class],
+             @"radio": [CDRadioControl class],
+             @"slider": [CDSlider class],
+             @"secure-inputbox": [CDInputboxControl class],
+             @"secure-standard-inputbox": [CDStandardInputboxControl class],
+             @"standard-dropdown": [CDStandardPopUpButtonControl class],
+             @"standard-inputbox": [CDStandardInputboxControl class],
+             @"textbox": [CDTextboxControl class],
+             @"yesno-msgbox": [CDYesNoMsgboxControl class]};
+}
+
++ (NSDictionary *) availableGlobalOptions {
+    CDControl *control = [[[CDControl alloc] init] autorelease];
+    return [control globalOptions];
 }
 
 - (void) chooseControl:(NSString *)name useOptions:options addExtraOptionsTo:(NSMutableDictionary *)extraOptions
 {
     NSDictionary *controls = [AppController availableControls];
+    NSFileHandle *fh = name == nil ? [NSFileHandle fileHandleWithStandardError] : [NSFileHandle fileHandleWithStandardOutput];
 
-	if (name == nil) {
+	if (name == nil || [name isEqualToString:@"--help"]) {
         currentControl = nil;
-		[CDControl printHelpTo:[NSFileHandle fileHandleWithStandardError]];
-	}
-    else if ([name isEqualToString:@"--help"]) {
-        currentControl = nil;
-		[CDControl printHelpTo:[NSFileHandle fileHandleWithStandardOutput]];
+        [[[(CDControl *) [[CDControl class] alloc] initWithOptions:nil] autorelease] printHelpTo:fh];
+		exit(name == nil ? 255 : 0);
 	}
     else if ([name caseInsensitiveCompare:@"version"] == NSOrderedSame) {
         currentControl = nil;
-        NSFileHandle * fh = [NSFileHandle fileHandleWithStandardOutput];
         if (fh) {
             [fh writeData:[[self appVersion] dataUsingEncoding:NSUTF8StringEncoding]];
         }
         exit(0);
-        
     }
     else if ([name caseInsensitiveCompare:@"CDNotifyControl"] == NSOrderedSame) {
         CDControl * notify = [[[CDNotifyControl alloc] initWithOptions:options] autorelease];
-        NSDictionary * notifyGlobalKeys = [notify globalAvailableKeys];
-        CDOptions * notifyOptions = [notify controlOptionsFromArgs:arguments withGlobalKeys:notifyGlobalKeys];
+        NSDictionary * notifyGlobalOptions = [notify globalOptions];
+        CDOptions * notifyOptions = [notify controlOptionsFromArgs:arguments withGlobalOptions:notifyGlobalOptions];
         NSString * notifyClass = ![notifyOptions hasOpt:@"no-growl"]
                                 ? @"CDGrowlControl" : @"CDBubbleControl";
         currentControl = [[(CDControl *)[NSClassFromString(notifyClass) alloc] initWithOptions:options] autorelease];
@@ -222,12 +224,11 @@
             currentControl = [[(CDControl *)[control alloc] initWithOptions:options] autorelease];
             return;
         }
-        NSFileHandle *fh = [NSFileHandle fileHandleWithStandardError];
+        fh = [NSFileHandle fileHandleWithStandardError];
         NSString *output = [NSString stringWithFormat:@"Unknown control: %@\n", name]; 
         if (fh) {
             [fh writeData:[output dataUsingEncoding:NSUTF8StringEncoding]];
         }
-        [CDControl printHelpTo:fh];
         currentControl = nil;
 	}
 }

@@ -70,18 +70,15 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
-                    <button verticalHuggingPriority="750" imageHugsTitle="YES" id="12" userLabel="button1">
-                        <rect key="frame" x="308" y="12" width="78" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="1" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="113">
+                    <button verticalHuggingPriority="750" imageHugsTitle="YES" id="14" userLabel="button3">
+                        <rect key="frame" x="14" y="12" width="78" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="3" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="115">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
-                            <string key="keyEquivalent" base64-UTF8="YES">
-DQ
-</string>
                         </buttonCell>
                         <connections>
-                            <action selector="button1Pressed:" target="-2" id="21"/>
+                            <action selector="button3Pressed:" target="-2" id="19"/>
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" imageHugsTitle="YES" id="13" userLabel="button2">
@@ -98,15 +95,18 @@ Gw
                             <action selector="button2Pressed:" target="-2" id="120"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" imageHugsTitle="YES" id="14" userLabel="button3">
-                        <rect key="frame" x="14" y="12" width="78" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="3" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="115">
+                    <button verticalHuggingPriority="750" imageHugsTitle="YES" id="12" userLabel="button1">
+                        <rect key="frame" x="308" y="12" width="78" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="1" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="113">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
                         </buttonCell>
                         <connections>
-                            <action selector="button3Pressed:" target="-2" id="19"/>
+                            <action selector="button1Pressed:" target="-2" id="21"/>
                         </connections>
                     </button>
                 </subviews>

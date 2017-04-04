@@ -27,19 +27,19 @@
     return @"Textbox";
 }
 
-- (NSDictionary *) availableKeys
-{
-	NSNumber *vOne = @CDOptionsOneValue;
-	NSNumber *vNone = @CDOptionsNoValues;
-	
-	return @{@"label": vOne,
-            @"text": vOne,
-            @"text-from-file": vOne,
-            @"editable": vNone,
-            @"no-editable": vNone,
-            @"selected": vNone,
-            @"focus-textbox": vNone,
-            @"scroll-to": vOne};
+- (NSMutableDictionary *) availableOptions {
+    NSMutableDictionary *availableOptions = [super availableOptions];
+    [availableOptions addEntriesFromDictionary:@{
+                                     @"label": @CDOptionsOneValue,
+                                     @"text": @CDOptionsOneValue,
+                                     @"text-from-file": @CDOptionsOneValue,
+                                     @"editable": @CDOptionsNoValues,
+                                     @"no-editable": @CDOptionsNoValues,
+                                     @"selected": @CDOptionsNoValues,
+                                     @"focus-textbox": @CDOptionsNoValues,
+                                     @"scroll-to": @CDOptionsOneValue,
+                                     }];
+    return availableOptions;
 }
 
 - (NSDictionary *) depreciatedKeys

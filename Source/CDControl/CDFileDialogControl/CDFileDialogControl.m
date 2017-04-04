@@ -33,44 +33,18 @@
 	[super dealloc];
 }
 
-// This must be overridden if you want local global options for your control
-- (NSDictionary *) globalAvailableKeys {
-    NSNumber *vOne = @CDOptionsOneValue;
-	NSNumber *vNone = @CDOptionsNoValues;
-    NSNumber *vMul = @CDOptionsMultipleValues;
-    return @{@"help": vNone,
-            @"debug": vNone,
-            @"quiet": vNone,
-            @"timeout": vOne,
-            @"timeout-format": vOne,
-            @"string-output": vNone,
-            @"no-newline": vNone,
-            // Panel
-            @"title": vOne,
-            @"width": vOne,
-            @"height": vOne,
-            @"posX": vOne,
-            @"posY": vOne,
-            @"no-float": vNone,
-            @"minimize": vNone,
-            @"resize": vNone,
-            @"screen": vOne,
-            // Icon
-            @"icon": vOne,
-            @"icon-bundle": vOne,
-            @"icon-type": vOne,
-            @"icon-file": vOne,
-            @"icon-size": vOne,
-            @"icon-width": vOne,
-            @"icon-height": vOne,
-
-            // CDFileDialogs
-            @"label": vOne,
-            @"create-directories": vNone,
-            @"packages-as-directories": vNone,
-            @"with-extensions": vMul,
-            @"with-directory": vOne,
-            @"with-file": vOne};
+- (NSMutableDictionary *)availableOptions {
+    NSMutableDictionary *availableOptions = [super availableOptions];
+    
+    [availableOptions addEntriesFromDictionary:@{
+                                     @"label": @CDOptionsOneValue,
+                                     @"create-directories": @CDOptionsNoValues,
+                                     @"packages-as-directories": @CDOptionsNoValues,
+                                     @"with-extensions": @CDOptionsMultipleValues,
+                                     @"with-directory": @CDOptionsOneValue,
+                                     @"with-file": @CDOptionsOneValue,
+                                     }];
+    return availableOptions;
 }
 
 - (NSDictionary *) depreciatedKeys {

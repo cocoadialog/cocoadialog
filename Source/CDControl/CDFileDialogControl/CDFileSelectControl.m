@@ -22,18 +22,18 @@
 
 @implementation CDFileSelectControl
 
-- (NSDictionary *) availableKeys
-{
-	NSNumber *vMul = @CDOptionsMultipleValues;
-//	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = @CDOptionsNoValues;
-
-	return @{@"allowed-files": vMul,
-		@"select-directories": vNone,
-		@"select-only-directories": vNone,
-		@"no-select-directories": vNone,
-		@"select-multiple": vNone,
-		@"no-select-multiple": vNone};
+- (NSMutableDictionary *) availableOptions {
+    NSMutableDictionary *availableOptions = [super availableOptions];
+    
+	[availableOptions addEntriesFromDictionary:@{
+                                     @"allowed-files": @CDOptionsMultipleValues,
+                                     @"select-directories": @CDOptionsNoValues,
+                                     @"select-only-directories": @CDOptionsNoValues,
+                                     @"no-select-directories": @CDOptionsNoValues,
+                                     @"select-multiple": @CDOptionsNoValues,
+                                     @"no-select-multiple": @CDOptionsNoValues,
+                                     }];
+    return availableOptions;
 }
 
 - (void) createControl {

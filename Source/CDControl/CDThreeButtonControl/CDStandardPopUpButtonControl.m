@@ -23,17 +23,16 @@
 
 @implementation CDStandardPopUpButtonControl
 
-- (NSDictionary *) availableKeys
-{
-    NSNumber *vOne = @CDOptionsOneValue;
-	NSNumber *vNone = @CDOptionsNoValues;
-	NSNumber *vMul = @CDOptionsMultipleValues;
-    
-	return @{@"items": vMul,
-            @"selected": vOne,
-            @"exit-onchange": vNone,
-            @"pulldown": vNone,
-            @"no-cancel": vNone};
+- (NSMutableDictionary *) availableOptions {
+    NSMutableDictionary *availableOptions = [super availableOptions];
+    [availableOptions addEntriesFromDictionary:@{
+                                     @"items": @CDOptionsMultipleValues,
+                                     @"selected": @CDOptionsOneValue,
+                                     @"exit-onchange": @CDOptionsNoValues,
+                                     @"pulldown": @CDOptionsNoValues,
+                                     @"no-cancel": @CDOptionsNoValues,
+                                     }];
+    return availableOptions;
 }
 
 - (void) setButtons {

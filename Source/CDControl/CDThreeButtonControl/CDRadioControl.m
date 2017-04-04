@@ -10,19 +10,18 @@
 
 @implementation CDRadioControl
 
-- (NSDictionary *) availableKeys
-{
-	NSNumber *vNone = @CDOptionsNoValues;
-	NSNumber *vOne = @CDOptionsOneValue;
-	NSNumber *vMul = @CDOptionsMultipleValues;
-    
-	return @{@"allow-mixed": vNone,
-            @"items": vMul,
-            @"selected": vOne,
-            @"mixed": vMul,
-            @"disabled": vMul,
-            @"rows": vOne,
-            @"columns": vOne};
+- (NSMutableDictionary *) availableOptions {
+    NSMutableDictionary *availableOptions = [super availableOptions];
+    [availableOptions addEntriesFromDictionary:@{
+                                     @"allow-mixed": @CDOptionsNoValues,
+                                     @"items": @CDOptionsMultipleValues,
+                                     @"selected": @CDOptionsOneValue,
+                                     @"mixed": @CDOptionsMultipleValues,
+                                     @"disabled": @CDOptionsMultipleValues,
+                                     @"rows": @CDOptionsOneValue,
+                                     @"columns": @CDOptionsOneValue,
+                                     }];
+    return availableOptions;
 }
 
 - (BOOL) validateOptions {

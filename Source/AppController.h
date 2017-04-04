@@ -47,6 +47,7 @@
     NSMutableArray          *arguments;
 }
     + (NSDictionary *) availableControls;
+    + (NSDictionary *) availableGlobalOptions;
     @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *appVersion;
     - (void) chooseControl:(NSString *)name useOptions:options addExtraOptionsTo:(NSMutableDictionary *)extraOptions;
     -(void)setHyperlinkForTextField:(NSTextField*)aTextField replaceString:(NSString *)aString withURL:(NSString *)aURL;

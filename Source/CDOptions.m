@@ -47,12 +47,11 @@
 
 + (CDOptions *) getOpts:(NSArray *)args availableKeys:(NSDictionary *)availableKeys depreciatedKeys:(NSDictionary *)depreciatedKeys
 {
-	NSMutableDictionary *options;
+	NSMutableDictionary *options = [[[NSMutableDictionary alloc] init] autorelease];
 	NSString *arg;
 	NSMutableArray *values;
+    id option;
 	int argType;
-
-	options = [[[NSMutableDictionary alloc] init] autorelease];
 
 	unsigned i = 0;
 	while (i < args.count) {
@@ -68,8 +67,17 @@
             if (depreciatedArg != nil) {
                 arg = depreciatedArg;
             }
-            
-            argType = [availableKeys[arg] intValue];
+
+            option = availableKeys[arg];
+
+            // Extract the type from a dictionary.
+            if ([option isKindOfClass:[NSDictionary class]]) {
+                argType = [[option objectForKey:@"type"] intValue];
+            }
+            // Otherwise, assume that it's just an integer.
+            else {
+                argType = [option intValue];
+            }
 
 			// If it's a no-value option, store the bool NO to indicate
 			// no values for this key, increment i and continue.
@@ -135,8 +143,7 @@
             if (i == 0) {
                 [fh writeData:[@"\t\t" dataUsingEncoding:NSUTF8StringEncoding]];
             }
-            [fh writeData:[@"--" dataUsingEncoding:NSUTF8StringEncoding]];
-            [fh writeData:[key dataUsingEncoding:NSUTF8StringEncoding]];
+            [fh writeData:[[NSString stringWithFormat:@"--%@", key] dataUsingEncoding:NSUTF8StringEncoding]];
             if (i <= 6 && currKey != sortedAvailableKeys.count - 1) {
                 [fh writeData:[@", " dataUsingEncoding:NSUTF8StringEncoding]];
                 i++;

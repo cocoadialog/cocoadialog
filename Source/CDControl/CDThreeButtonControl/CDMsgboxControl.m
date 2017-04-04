@@ -23,13 +23,13 @@
 
 @implementation CDMsgboxControl
 
-- (NSDictionary *) availableKeys
-{
-	NSNumber *vOne = @CDOptionsOneValue;
-//	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
-
-	return @{@"alert": vOne,
-		@"label": vOne};
+- (NSMutableDictionary *) availableOptions {
+    NSMutableDictionary *availableOptions = [super availableOptions];
+    [availableOptions addEntriesFromDictionary:@{
+                                     @"alert": @CDOptionsOneValue,
+                                     @"label": @CDOptionsOneValue,
+                                     }];
+    return availableOptions;
 }
 
 - (NSDictionary *) depreciatedKeys

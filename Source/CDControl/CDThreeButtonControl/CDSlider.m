@@ -10,21 +10,20 @@
 
 @implementation CDSlider
 
-- (NSDictionary *) availableKeys
-{
-	NSNumber *vNone = @CDOptionsNoValues;
-	NSNumber *vOne = @CDOptionsOneValue;
-//	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
-    
-	return @{@"empty-value": vOne,
-            @"max": vOne,
-            @"min": vOne,
-            @"return-float": vNone,
-            @"ticks": vOne,
-            @"always-show-value": vNone,
-            @"slider-label": vOne,
-            @"sticky": vNone,
-            @"value": vOne};
+- (NSMutableDictionary *) availableOptions {
+    NSMutableDictionary *availableOptions = [super availableOptions];
+    [availableOptions addEntriesFromDictionary:@{
+                                     @"empty-value": @CDOptionsOneValue,
+                                     @"max": @CDOptionsOneValue,
+                                     @"min": @CDOptionsOneValue,
+                                     @"return-float": @CDOptionsNoValues,
+                                     @"ticks": @CDOptionsOneValue,
+                                     @"always-show-value": @CDOptionsNoValues,
+                                     @"slider-label": @CDOptionsOneValue,
+                                     @"sticky": @CDOptionsNoValues,
+                                     @"value": @CDOptionsOneValue,
+                                     }];
+    return availableOptions;
 }
 
 - (BOOL) validateOptions {

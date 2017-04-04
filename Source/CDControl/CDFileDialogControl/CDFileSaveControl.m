@@ -22,13 +22,12 @@
 
 @implementation CDFileSaveControl
 
-- (NSDictionary *) availableKeys
-{
-//	NSNumber *vMul = [NSNumber numberWithInt:CDOptionsMultipleValues];
-//	NSNumber *vOne = [NSNumber numberWithInt:CDOptionsOneValue];
-	NSNumber *vNone = @CDOptionsNoValues;
-
-	return @{@"no-create-directories": vNone};
+- (NSMutableDictionary *) availableOptions {
+    NSMutableDictionary *availableOptions = [super availableOptions];
+    [availableOptions addEntriesFromDictionary:@{
+                                     @"no-create-directories": @CDOptionsNoValues,
+                                     }];
+    return availableOptions;
 }
 
 - (void) createControl {

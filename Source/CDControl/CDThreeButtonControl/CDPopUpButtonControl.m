@@ -24,16 +24,15 @@
 
 @implementation CDPopUpButtonControl
 
-- (NSDictionary *) availableKeys
-{
-    NSNumber *vOne = @CDOptionsOneValue;
-	NSNumber *vNone = @CDOptionsNoValues;
-	NSNumber *vMul = @CDOptionsMultipleValues;
-
-	return @{@"items": vMul,
-        @"selected": vOne,
-		@"exit-onchange": vNone,
-		@"pulldown": vNone};
+- (NSMutableDictionary *) availableOptions {
+    NSMutableDictionary *availableOptions = [super availableOptions];
+    [availableOptions addEntriesFromDictionary:@{
+                                     @"items": @CDOptionsMultipleValues,
+                                     @"selected": @CDOptionsOneValue,
+                                     @"exit-onchange": @CDOptionsNoValues,
+                                     @"pulldown": @CDOptionsNoValues,
+                                     }];
+    return availableOptions;
 }
 
 - (NSDictionary *) depreciatedKeys

@@ -24,56 +24,62 @@
 }
 
 // This must be overridden if you want local global options for your control
-- (NSDictionary *) globalAvailableKeys {
-    NSNumber *vOne = @CDOptionsOneValue;
-	NSNumber *vNone = @CDOptionsNoValues;
-    NSNumber *vMul = @CDOptionsMultipleValues;
-    return @{@"help": vNone,
-            @"debug": vNone,
-            @"quiet": vNone,
+- (NSMutableDictionary *) globalOptions {
+    return [[[NSMutableDictionary alloc] initWithDictionary: @{
+       @"help": @CDOptionsNoValues,
+       @"debug": @CDOptionsNoValues,
+       @"quiet": @CDOptionsNoValues,
 
-            // CDNotifyControls
-             @"fh": vOne,
-             @"no-growl": vNone,
-             @"sticky": vNone,
-             // Text
-             @"title": vOne,
-             @"description": vOne,
-             @"titles": vMul,
-             @"descriptions": vMul,
-             // Icons
-             @"icon": vOne,
-             @"icon-bundle": vOne,
-             @"icon-type": vOne,
-             @"icon-file": vOne,
-             @"icons": vMul,
-             @"icon-files": vMul,
-             // Click
-             @"click-path": vOne,
-             @"click-arg": vOne,
-             @"click-paths": vMul,
-             @"click-args": vMul,
-             
-   // CDBubbleControl Options (they're not used by CDGrowlControl, but need to be recognized as possible keys for backwards compatability support and so CDGrowlControl doesn't interpret them as values)
+       // CDNotifyControls
+       @"fh": @CDOptionsOneValue,
+       @"no-growl": @CDOptionsNoValues,
+       @"sticky": @CDOptionsNoValues,
 
-             // Options for one bubble
-             @"text-color": vOne,
-             @"border-color": vOne,
-             @"background-top": vOne,
-             @"background-bottom": vOne,
-             
-             // Options for multiple bubble
-             @"text-colors": vMul,
-             @"border-colors": vMul,
-             @"background-tops": vMul,
-             @"background-bottoms": vMul,
-             @"independent": vNone, // With this set, clicking one bubble won't kill the rest.
-             
-             // General options, apply to all scenarios
-             @"posX": vOne,
-             @"posY": vOne,
-             @"alpha": vOne,
-             @"timeout": vOne};
+       // Text
+       @"title": @CDOptionsOneValue,
+       @"description": @CDOptionsOneValue,
+       @"titles": @CDOptionsMultipleValues,
+       @"descriptions": @CDOptionsMultipleValues,
+
+       // Icons
+       @"icon": @CDOptionsOneValue,
+       @"icon-bundle": @CDOptionsOneValue,
+       @"icon-type": @CDOptionsOneValue,
+       @"icon-file": @CDOptionsOneValue,
+       @"icons": @CDOptionsMultipleValues,
+       @"icon-files": @CDOptionsMultipleValues,
+
+       // Click
+       @"click-path": @CDOptionsOneValue,
+       @"click-arg": @CDOptionsOneValue,
+       @"click-paths": @CDOptionsMultipleValues,
+       @"click-args": @CDOptionsMultipleValues,
+       
+       // CDBubbleControl Options (they're not used by CDGrowlControl, but need to be
+       // recognized as possible keys for backwards compatability support and so
+       // CDGrowlControl doesn't interpret them as values)
+       //
+       // Options for one bubble
+       @"text-color": @CDOptionsOneValue,
+       @"border-color": @CDOptionsOneValue,
+       @"background-top": @CDOptionsOneValue,
+       @"background-bottom": @CDOptionsOneValue,
+       
+       // Options for multiple bubble
+       @"text-colors": @CDOptionsMultipleValues,
+       @"border-colors": @CDOptionsMultipleValues,
+       @"background-tops": @CDOptionsMultipleValues,
+       @"background-bottoms": @CDOptionsMultipleValues,
+
+       // With this set, clicking one bubble won't kill the rest.
+       @"independent": @CDOptionsNoValues,
+       
+       // General options, apply to all scenarios
+       @"posX": @CDOptionsOneValue,
+       @"posY": @CDOptionsOneValue,
+       @"alpha": @CDOptionsOneValue,
+       @"timeout": @CDOptionsOneValue,
+       }] autorelease];
 }
 
 - (NSDictionary *) depreciatedKeys

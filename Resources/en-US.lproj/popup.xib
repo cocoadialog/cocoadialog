@@ -44,46 +44,6 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <customView misplaced="YES" id="29" userLabel="controlMatrix" customClass="NSMatrix">
-                        <rect key="frame" x="72" y="70" width="336" height="88"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    </customView>
-                    <button verticalHuggingPriority="750" imageHugsTitle="YES" id="5" userLabel="button1">
-                        <rect key="frame" x="336" y="12" width="78" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="1" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="14">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                            <string key="keyEquivalent" base64-UTF8="YES">
-DQ
-</string>
-                        </buttonCell>
-                        <connections>
-                            <action selector="button1Pressed:" target="-2" id="22"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" imageHugsTitle="YES" id="6" userLabel="button2">
-                        <rect key="frame" x="258" y="12" width="78" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="2" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="13">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="button2Pressed:" target="-2" id="23"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" imageHugsTitle="YES" id="7" userLabel="button3">
-                        <rect key="frame" x="14" y="12" width="76" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="3" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="12">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="button3Pressed:" target="-2" id="24"/>
-                        </connections>
-                    </button>
                     <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="59" userLabel="timeoutLabel">
                         <rect key="frame" x="70" y="48" width="341" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -93,6 +53,10 @@ DQ
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <customView misplaced="YES" id="29" userLabel="controlMatrix" customClass="NSMatrix">
+                        <rect key="frame" x="72" y="70" width="336" height="88"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </customView>
                     <popUpButton verticalHuggingPriority="750" misplaced="YES" imageHugsTitle="YES" id="75">
                         <rect key="frame" x="70" y="160" width="341" height="26"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -108,6 +72,42 @@ DQ
                             </menu>
                         </popUpButtonCell>
                     </popUpButton>
+                    <button verticalHuggingPriority="750" imageHugsTitle="YES" id="7" userLabel="button3">
+                        <rect key="frame" x="14" y="12" width="76" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="3" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="12">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="button3Pressed:" target="-2" id="24"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" imageHugsTitle="YES" id="6" userLabel="button2">
+                        <rect key="frame" x="258" y="12" width="78" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="2" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="13">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="button2Pressed:" target="-2" id="23"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" imageHugsTitle="YES" id="5" userLabel="button1">
+                        <rect key="frame" x="336" y="12" width="78" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="1" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="14">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="button1Pressed:" target="-2" id="22"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
         </window>

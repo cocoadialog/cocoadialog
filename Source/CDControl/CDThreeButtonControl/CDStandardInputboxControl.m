@@ -23,15 +23,15 @@
 
 @implementation CDStandardInputboxControl
 
-- (NSDictionary *) availableKeys
-{
-	NSNumber *vOne = @CDOptionsOneValue;
-	NSNumber *vNone = @CDOptionsNoValues;
-	
-	return @{@"value": vOne,
-            @"selected": vNone,
-            @"no-cancel": vNone,
-            @"no-show": vNone};
+- (NSMutableDictionary *) availableOptions {
+    NSMutableDictionary *availableOptions = [super availableOptions];
+    [availableOptions addEntriesFromDictionary:@{
+                                     @"value": @CDOptionsOneValue,
+                                     @"selected": @CDOptionsNoValues,
+                                     @"no-cancel": @CDOptionsNoValues,
+                                     @"no-show": @CDOptionsNoValues,
+                                     }];
+    return availableOptions;
 }
 
 - (void) setButtons {

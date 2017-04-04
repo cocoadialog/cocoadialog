@@ -26,47 +26,22 @@
     return  @"tbc";
 }
 
-- (NSDictionary *) globalAvailableKeys
-{
-	NSNumber *vOne = @CDOptionsOneValue;
-	NSNumber *vNone = @CDOptionsNoValues;
-	return @{@"help": vNone,
-            @"debug": vNone,
-            @"quiet": vNone,
-            @"timeout": vOne,
-            @"timeout-format": vOne,
-            @"string-output": vNone,
-            @"no-newline": vNone,
-            // Panel
-            @"title": vOne,
-            @"width": vOne,
-            @"height": vOne,
-            @"posX": vOne,
-            @"posY": vOne,
-            @"no-float": vNone,
-            @"close": vNone,
-            @"minimize": vNone,
-            @"resize": vNone,
-            @"screen": vOne,
-            // Icon
-            @"icon": vOne,
-            @"icon-bundle": vOne,
-            @"icon-type": vOne,
-            @"icon-file": vOne,
-            @"icon-size": vOne,
-            @"icon-width": vOne,
-            @"icon-height": vOne,
-            // CDThreeButtonControl
-            @"label": vOne,
-            @"button1": vOne,
-            @"button2": vOne,
-            @"button3": vOne,
-            @"cancel": vOne,
-            @"no-default-button": vNone,
-            @"value-required": vNone,
-            @"empty-text": vOne};
-}
+- (NSMutableDictionary *) availableOptions {
+    NSMutableDictionary *availableOptions = [super availableOptions];
 
+    [availableOptions addEntriesFromDictionary:
+     @{
+       @"label":                @{@"type": @CDOptionsOneValue, @"description": @""},
+       @"button1":              @{@"type": @CDOptionsOneValue, @"description": @"Label value of the first button."},
+       @"button2":              @{@"type": @CDOptionsOneValue, @"description": @"Label value of the second button."},
+       @"button3":              @{@"type": @CDOptionsOneValue, @"description": @"Label value of the third button."},
+       @"cancel":               @{@"type": @CDOptionsOneValue, @"description": @"The button to use as the \"Cancel\" button, e.g. --cancel 2 will assign --button2."},
+       @"no-default-button":    @{@"type": @CDOptionsNoValues, @"description": @"Flag indicating that --button1 will not automatically be focused and requires manual use input."},
+       @"value-required":       @{@"type": @CDOptionsNoValues, @"description": @"Flag indicating that a value is required from the user before the control is able to close."},
+       @"empty-text":           @{@"type": @CDOptionsOneValue, @"description": @"The text to display to the user when --value-required has been set and user has not provided input."},
+       }];
+    return availableOptions;
+}
 
 // Needs to be overriden in control
 - (void) setControl:(id)sender { }
@@ -250,7 +225,7 @@
 	button3.frame = r;
 
 	// ensure that the buttons never gets clipped
-    [panel addMinHeight:40.0f]; // 20 * 2 for margin + 20 for height
+    [panel addMinHeight:60.0f]; // 20 * 2 for margin + 20 for height
     [panel addMinWidth:minWidth];
     
     // Ensure the panel itself doesn't have a set default button.

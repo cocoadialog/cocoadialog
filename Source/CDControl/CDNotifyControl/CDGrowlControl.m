@@ -10,14 +10,13 @@
 
 @implementation CDGrowlControl
 
-- (NSDictionary *) availableKeys
-{
-	NSNumber *vOne = @CDOptionsOneValue;
-//	NSNumber *vNone = [NSNumber numberWithInt:CDOptionsNoValues];
-	NSNumber *vMul = @CDOptionsMultipleValues;
-    
-	return @{@"priority": vOne,
-            @"priorities": vMul};
+- (NSMutableDictionary *) availableOptions {
+    NSMutableDictionary *availableOptions = [super availableOptions];
+    [availableOptions addEntriesFromDictionary:@{
+                                     @"priority": @CDOptionsOneValue,
+                                     @"priorities": @CDOptionsMultipleValues,
+                                     }];
+    return availableOptions;
 }
 
 - (instancetype)initWithOptions:(CDOptions *)opts {
