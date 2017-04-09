@@ -19,6 +19,7 @@
 */
 
 #import "AppController.h"
+#import "CDString.h"
 
 @implementation AppController
 
@@ -28,40 +29,121 @@
 
 #pragma mark - Initialization
 - (void) awakeFromNib {
-	NSString *control = nil;
-    // Assign arguments
-	arguments = [[[NSMutableArray alloc] initWithArray:[NSProcessInfo processInfo].arguments] autorelease];
-    // Initialize control
-    currentControl = [[[CDControl alloc] init] autorelease];
-    // Setup containers
-    NSDictionary *globalOptions = [[[NSDictionary alloc] initWithDictionary:[currentControl globalOptions]] autorelease];
-    NSDictionary *depreciatedKeys = [[[NSDictionary alloc] initWithDictionary:[currentControl depreciatedKeys]] autorelease];
-    CDOptions *options = [CDOptions getOpts:arguments availableKeys:globalOptions depreciatedKeys:depreciatedKeys];
-	if (arguments.count >= 2) {
-		[arguments removeObjectAtIndex:0]; // Remove program name.
-		control = arguments[0];
-		[arguments removeObjectAtIndex:0]; // Remove the control
-	}
-    // Control is either the PID of a GUI initialization or "about", show the about dialog
-    if ([[control substringToIndex:4] isEqualToString:@"-psn"] || [control caseInsensitiveCompare:@"about"] == NSOrderedSame) {
+    // Create the control.
+    CDControl *control = [self findControl];
+
+    [control verbose:@"Control: %@", control.controlName];
+
+    if (control.arguments.deprecatedOptions.count) {
+        for (CDOptionDeprecated *deprecated in control.arguments.deprecatedOptions) {
+            [control warning:@"The option \"--%@\" is deprecated. Use \"--%@\" instead.", deprecated.from, deprecated.to];
+        }
+    }
+
+    NSArray *unknown = [control.arguments unknownOptions];
+    if (unknown.count) {
+        for (id name in unknown) {
+            [control verbose:@"Unknown option %@", name];
+        }
+    }
+
+    // Validate control's options.
+    if (![control validateOptions]) {
+        [control fatalError:@"Control options are not valid."];
+    }
+
+    // Load the control.
+    if (![control loadControlNib:[control controlNib]]) {
+        [control fatalError:@"Unable to load control NIB."];
+    }
+
+    // Setup the control.
+    [control createControl];
+
+    // Initialize the timer, if one exists.
+    [control setTimeout];
+
+    // Run the control.
+    // The control is now responsible for terminating cocoaDialog,
+    // which should be invoked by calling the method [self stopControl]
+    // from the control's action method(s).
+    [control runControl];
+}
+
+#pragma mark - CDControl
++ (NSDictionary *) availableControls {
+    return @{
+             @"checkbox": [CDCheckboxControl class],
+             @"dropdown": [CDPopUpButtonControl class],
+             @"fileselect": [CDFileSelectControl class],
+             @"filesave": [CDFileSaveControl class],
+             @"inputbox": [CDInputboxControl class],
+             @"msgbox": [CDMsgboxControl class],
+             @"notify": [CDNotifyControl class],
+             @"ok-msgbox": [CDOkMsgboxControl class],
+             @"progressbar": [CDProgressbarControl class],
+             @"radio": [CDRadioControl class],
+             @"slider": [CDSlider class],
+             @"secure-inputbox": [CDSecureInputboxControl class],
+             @"secure-standard-inputbox": [CDSecureStandardInputboxControl class],
+             @"standard-dropdown": [CDStandardPopUpButtonControl class],
+             @"standard-inputbox": [CDStandardInputboxControl class],
+             @"textbox": [CDTextboxControl class],
+             @"yesno-msgbox": [CDYesNoMsgboxControl class],
+             };
+}
+
+- (CDControl *) findControl {
+    // Create a base control to use for printing.
+    CDControl *control = [[[CDControl alloc] initWithArguments] autorelease];
+
+    NSString *name = [control.arguments getArgument:0];
+    if (name != nil) {
+        name = name.lowercaseString;
+    }
+
+    // Show about.
+    // Name is either the PID of a GUI initialization or "about".
+    if ((name != nil && name.length >= 4 && [[name substringToIndex:4] isEqualToString:@"-psn"]) || [name isEqualToStringCaseInsensitive:@"about"]) {
         [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
-        [self setHyperlinkForTextField:aboutAppLink replaceString:@"http://mstratman.github.com/cocoadialog/" withURL:@"http://mstratman.github.com/cocoadialog/"];
+        [self setHyperlinkForTextField:aboutAppLink replaceString:@CDSite withURL:@CDSite];
         [self setHyperlinkForTextField:aboutText replaceString:@"command line interface" withURL:@"http://en.wikipedia.org/wiki/Command-line_interface"];
         [self setHyperlinkForTextField:aboutText replaceString:@"documentation" withURL:@"http://mstratman.github.com/cocoadialog/#documentation"];
-		[aboutPanel setFloatingPanel: YES];
-		[aboutPanel setLevel:NSFloatingWindowLevel];
+        [aboutPanel setFloatingPanel: YES];
+        [aboutPanel setLevel:NSFloatingWindowLevel];
         [aboutPanel center];
         [aboutPanel makeKeyAndOrderFront:nil];
         [NSApp run];
+        exit(0);
     }
+
+    // Show global usage.
+    if (name == nil && [control.arguments hasOption:@"help"]) {
+        [control printHelpTo:[NSFileHandle fileHandleWithStandardOutput]];
+        exit(0);
+    }
+
+    // Show version.
+    if ([name isEqualToStringCaseInsensitive:@"version"] || [control.arguments hasOption:@"version"]) {
+        [control writeLn:[self appVersion]];
+        exit(0);
+    }
+
+    if (name == nil) {
+        [control fatalError:@"You must specify a control."];
+    }
+
     // Control is a notification, these need to be handled much differently
-    else if ([control caseInsensitiveCompare:@"notify"] == NSOrderedSame || [control caseInsensitiveCompare:@"bubble"] == NSOrderedSame) {
-        // Determine which notification type to use
-        // Recapture the arguments
-        arguments = [[[NSMutableArray alloc] initWithArray:[NSProcessInfo processInfo].arguments] autorelease];
-        // Replace the control with the new one
+    if ([name isEqualToStringCaseInsensitive:@"notify"] || [name isEqualToStringCaseInsensitive:@"bubble"]) {
+        if ([control.arguments hasOption:@"help"]) {
+            control = [AppController createNotifyControlFromArguments:control.arguments];
+            [control printHelpTo:[NSFileHandle fileHandleWithStandardOutput]];
+            exit(0);
+        }
+
+        // Recapture the arguments.
+        NSMutableArray *arguments = [[[NSMutableArray alloc] initWithArray:[NSProcessInfo processInfo].arguments] autorelease];
         arguments[1] = @"CDNotifyControl";
-        // Relaunch cocoaDialog with the new control
         NSString *launcherSource = [[NSBundle mainBundle] pathForResource:@"relaunch" ofType:@""];
         [arguments insertObject:launcherSource atIndex:0];
 #if defined __ppc__
@@ -74,168 +156,74 @@
         [arguments insertObject:@"-x86_64" atIndex:0];
 #endif
         NSTask *task = [[[NSTask alloc] init] autorelease];
-        // Output must be silenced to not hang this process
-        task.standardError = [NSFileHandle fileHandleWithNullDevice];
-        task.standardOutput = [NSFileHandle fileHandleWithNullDevice];
+        task.standardError = [NSFileHandle fileHandleWithStandardError];
+        task.standardOutput = [NSFileHandle fileHandleWithStandardOutput];
         task.launchPath = @"/usr/bin/arch";
         task.arguments = arguments;
+        [control debug:@"Relaunching: %@ %@", task.launchPath, [arguments componentsJoinedByString:@" "]];
         [task launch];
-        [NSApp terminate:self];
+        [task waitUntilExit];
+        exit(task.terminationStatus);
     }
-    // Control needs to run through control logic
-    else {
-        NSMutableDictionary *extraOptions = [[[NSMutableDictionary alloc] init] autorelease];
-        // Choose the control
-        [self chooseControl:control useOptions:options addExtraOptionsTo:extraOptions];
-        if (currentControl != nil) {
-            // Initialize the currentControl
-            [currentControl init];
-            globalOptions = [currentControl globalOptions];
-            // Now that we have the control, we can re-get the options to
-            // include the local options for that control.
-            options = [currentControl controlOptionsFromArgs:arguments	withGlobalOptions:globalOptions];
-            if ([options hasOpt:@"help"]) {
-                NSMutableDictionary *allKeys;
-                NSDictionary *localKeys = [currentControl availableOptions];
-                if (localKeys != nil) {
-                    allKeys = [NSMutableDictionary dictionaryWithCapacity:
-                               globalOptions.count+localKeys.count];
-                    [allKeys addEntriesFromDictionary:globalOptions];
-                    [allKeys addEntriesFromDictionary:localKeys];
-                } else {
-                    allKeys = [NSMutableDictionary dictionaryWithCapacity:globalOptions.count];
-                    [allKeys addEntriesFromDictionary:globalOptions];
-                    
-                }
-                [currentControl printHelpTo:[NSFileHandle fileHandleWithStandardOutput]];
-                exit(0);
-            }
-            // Add any extras chooseControl came up with
-            NSEnumerator *en = [extraOptions keyEnumerator];
-            NSString *key;
-            while (key = [en nextObject]) {
-                [options setOption:extraOptions[key] forKey:key];
-            }
-            
-            // Reload the options for currentControl
-            currentControl.options = options;
-            
-            // Validate currentControl's options and load interface nib
-            if ([currentControl validateOptions] && [currentControl loadControlNib:[currentControl controlNib]]) {
-                
-                // Create the control
-                [currentControl createControl];
-                
-                // Initialize the timer, if one exists
-                [currentControl setTimeout];
-                
-                // Run the control. The control is now responsible for terminating cocoaDialog, which should be invoked by calling the method [self stopControl] from the control's action method(s).
-                [currentControl runControl];
-            } else {
-                if ([options hasOpt:@"debug"]) {
-                    NSMutableDictionary *allKeys;
-                    NSDictionary *localKeys = [currentControl availableOptions];
-                    if (localKeys != nil) {
-                        allKeys = [NSMutableDictionary dictionaryWithCapacity:
-                                   globalOptions.count+localKeys.count];
-                        [allKeys addEntriesFromDictionary:globalOptions];
-                        [allKeys addEntriesFromDictionary:localKeys];
-                    } else {
-                        allKeys = [NSMutableDictionary dictionaryWithCapacity:globalOptions.count];
-                        [allKeys addEntriesFromDictionary:globalOptions];
-                        
-                    }
-                    [CDOptions printOpts:allKeys.allKeys forControl:control];
-                }
-                exit(255);
-            }
-        } else {
-            if ([options hasOpt:@"debug"] || [control isEqualToString:@"--debug"]) {
-                [currentControl debug:@"Invalid control provided as first argument."];
-            }
-            exit(255);
-        }
+    else if ([name isEqualToStringCaseInsensitive:@"CDNotifyControl"]) {
+        return [AppController createNotifyControlFromArguments:control.arguments];
     }
-}
 
-#pragma mark - CDControl
-+ (NSDictionary *) availableControls {
-    return @{@"checkbox": [CDCheckboxControl class],
-             @"dropdown": [CDPopUpButtonControl class],
-             @"fileselect": [CDFileSelectControl class],
-             @"filesave": [CDFileSaveControl class],
-             @"inputbox": [CDInputboxControl class],
-             @"msgbox": [CDMsgboxControl class],
-             @"notify": [CDNotifyControl class],
-             @"ok-msgbox": [CDOkMsgboxControl class],
-             @"progressbar": [CDProgressbarControl class],
-             @"radio": [CDRadioControl class],
-             @"slider": [CDSlider class],
-             @"secure-inputbox": [CDInputboxControl class],
-             @"secure-standard-inputbox": [CDStandardInputboxControl class],
-             @"standard-dropdown": [CDStandardPopUpButtonControl class],
-             @"standard-inputbox": [CDStandardInputboxControl class],
-             @"textbox": [CDTextboxControl class],
-             @"yesno-msgbox": [CDYesNoMsgboxControl class]};
-}
+    Class controlClass = [[AppController availableControls] objectForKey:name];
+    if (controlClass == nil) {
+        [control fatalError:@"Invalid control: %@\n", name];
+    }
 
-+ (NSDictionary *) availableGlobalOptions {
-    CDControl *control = [[[CDControl alloc] init] autorelease];
-    return [control globalOptions];
-}
+    // Bring application into focus.
+    // Because this application isn't going to be double-clicked, or
+    // launched with the "open" command-line tool, it won't necessarily
+    // come to the front automatically.
+    [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
 
-- (void) chooseControl:(NSString *)name useOptions:options addExtraOptionsTo:(NSMutableDictionary *)extraOptions
-{
-    NSDictionary *controls = [AppController availableControls];
-    NSFileHandle *fh = name == nil ? [NSFileHandle fileHandleWithStandardError] : [NSFileHandle fileHandleWithStandardOutput];
+    control = [[(CDControl *)[controlClass alloc] initWithArguments] autorelease];
+    control.controlName = name;
 
-	if (name == nil || [name isEqualToString:@"--help"]) {
-        currentControl = nil;
-        [[[(CDControl *) [[CDControl class] alloc] initWithOptions:nil] autorelease] printHelpTo:fh];
-		exit(name == nil ? 255 : 0);
-	}
-    else if ([name caseInsensitiveCompare:@"version"] == NSOrderedSame) {
-        currentControl = nil;
-        if (fh) {
-            [fh writeData:[[self appVersion] dataUsingEncoding:NSUTF8StringEncoding]];
-        }
+    // Show control usage.
+    if ([control.arguments hasOption:@"help"]) {
+        [control printHelpTo:[NSFileHandle fileHandleWithStandardOutput]];
         exit(0);
     }
-    else if ([name caseInsensitiveCompare:@"CDNotifyControl"] == NSOrderedSame) {
-        CDControl * notify = [[[CDNotifyControl alloc] initWithOptions:options] autorelease];
-        NSDictionary * notifyGlobalOptions = [notify globalOptions];
-        CDOptions * notifyOptions = [notify controlOptionsFromArgs:arguments withGlobalOptions:notifyGlobalOptions];
-        NSString * notifyClass = ![notifyOptions hasOpt:@"no-growl"]
-                                ? @"CDGrowlControl" : @"CDBubbleControl";
-        currentControl = [[(CDControl *)[NSClassFromString(notifyClass) alloc] initWithOptions:options] autorelease];
-    }
-    else {
-        // Bring application into focus.
-        // Because this application isn't going to be double-clicked, or
-        // launched with the "open" command-line tool, it won't necessarily
-        // come to the front automatically.
-        [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
 
-        id control = controls[name.lowercaseString];
-        if (control != nil) {
-            if ([name caseInsensitiveCompare:@"secure-standard-inputbox"] == NSOrderedSame || [name caseInsensitiveCompare:@"secure-inputbox"] == NSOrderedSame) {
-                extraOptions[@"no-show"] = @NO;
-            }
-            currentControl = [[(CDControl *)[control alloc] initWithOptions:options] autorelease];
-            return;
-        }
-        fh = [NSFileHandle fileHandleWithStandardError];
-        NSString *output = [NSString stringWithFormat:@"Unknown control: %@\n", name]; 
-        if (fh) {
-            [fh writeData:[output dataUsingEncoding:NSUTF8StringEncoding]];
-        }
-        currentControl = nil;
-	}
+    return control;
+}
+
++ (CDNotifyControl *) createNotifyControlFromArguments:(CDArguments *)args {
+    Class notifyClass = NSClassFromString(![args hasOption:@"no-growl"] ? @"CDGrowlControl" : @"CDBubbleControl");
+    CDNotifyControl *control = [[(CDNotifyControl *)[notifyClass alloc] initWithArguments] autorelease];
+    control.controlName = @"notify";
+    return control;
+}
+
++ (int) getTerminalWidth {
+    NSTask *task = [[NSTask alloc] init];
+    NSPipe *out = [NSPipe pipe];
+    [task setLaunchPath:@"/usr/bin/tput"];
+    [task setArguments:@[ @"cols"]];
+    [task setStandardOutput:out];
+
+    [task launch];
+    [task waitUntilExit];
+    [task release];
+
+    NSFileHandle *read = [out fileHandleForReading];
+    NSData *dataRead = [read readDataToEndOfFile];
+    NSString *stringRead = [[[NSString alloc] initWithData:dataRead encoding:NSUTF8StringEncoding] autorelease];
+    int width = [stringRead intValue];
+
+    // If (for whatever reason) there is no terminal width, default to 120.
+    if (width <= 0) {
+        width = 120;
+    }
+    return width;
 }
 
 #pragma mark - Label Hyperlinks
--(void)setHyperlinkForTextField:(NSTextField*)aTextField replaceString:(NSString *)aString withURL:(NSString *)aURL
-{
+-(void)setHyperlinkForTextField:(NSTextField*)aTextField replaceString:(NSString *)aString withURL:(NSString *)aURL {
     NSMutableAttributedString *textFieldString = [[aTextField.attributedStringValue mutableCopy] autorelease];
     NSRange range = [textFieldString.string rangeOfString:aString];
     
@@ -258,8 +246,7 @@
 @end
 
 @implementation NSAttributedString (Hyperlink)
-+(id)hyperlinkFromString:(NSString*)inString withURL:(NSURL*)aURL withFont:(NSFont *)aFont
-{
++(id)hyperlinkFromString:(NSString*)inString withURL:(NSURL*)aURL withFont:(NSFont *)aFont {
     NSMutableAttributedString* attrString = [[NSMutableAttributedString alloc] initWithString: inString];
     NSRange range = NSMakeRange(0, attrString.length);
     

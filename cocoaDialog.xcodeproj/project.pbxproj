@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,66 +15,8 @@
 		61C9A9D314665F680054DD91 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		61EC90AC145FACF8003ADF05 /* AppController.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC906B145FACF8003ADF05 /* AppController.h */; };
 		61EC90AD145FACF8003ADF05 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC906C145FACF8003ADF05 /* AppController.m */; };
-		61EC90AE145FACF8003ADF05 /* CDCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC906D145FACF8003ADF05 /* CDCommon.h */; };
-		61EC90AF145FACF8003ADF05 /* CDCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC906E145FACF8003ADF05 /* CDCommon.m */; };
-		61EC90B0145FACF8003ADF05 /* CDControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC9070145FACF8003ADF05 /* CDControl.h */; };
-		61EC90B1145FACF8003ADF05 /* CDControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC9071145FACF8003ADF05 /* CDControl.m */; };
-		61EC90B2145FACF8003ADF05 /* CDFileDialogControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC9073145FACF8003ADF05 /* CDFileDialogControl.h */; };
-		61EC90B3145FACF8003ADF05 /* CDFileDialogControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC9074145FACF8003ADF05 /* CDFileDialogControl.m */; };
-		61EC90B4145FACF8003ADF05 /* CDFileSaveControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC9075145FACF8003ADF05 /* CDFileSaveControl.h */; };
-		61EC90B5145FACF8003ADF05 /* CDFileSaveControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC9076145FACF8003ADF05 /* CDFileSaveControl.m */; };
-		61EC90B6145FACF8003ADF05 /* CDFileSelectControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC9077145FACF8003ADF05 /* CDFileSelectControl.h */; };
-		61EC90B7145FACF8003ADF05 /* CDFileSelectControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC9078145FACF8003ADF05 /* CDFileSelectControl.m */; };
-		61EC90B8145FACF8003ADF05 /* CDIcon.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC9079145FACF8003ADF05 /* CDIcon.h */; };
-		61EC90B9145FACF8003ADF05 /* CDIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC907A145FACF8003ADF05 /* CDIcon.m */; };
-		61EC90BA145FACF8003ADF05 /* CDBubbleControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC907C145FACF8003ADF05 /* CDBubbleControl.h */; };
-		61EC90BB145FACF8003ADF05 /* CDBubbleControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC907D145FACF8003ADF05 /* CDBubbleControl.m */; };
-		61EC90BC145FACF8003ADF05 /* CDGrowlControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC907E145FACF8003ADF05 /* CDGrowlControl.h */; };
-		61EC90BD145FACF8003ADF05 /* CDGrowlControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC907F145FACF8003ADF05 /* CDGrowlControl.m */; };
-		61EC90BE145FACF8003ADF05 /* CDNotifyControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC9080145FACF8003ADF05 /* CDNotifyControl.h */; };
-		61EC90BF145FACF8003ADF05 /* CDNotifyControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC9081145FACF8003ADF05 /* CDNotifyControl.m */; };
-		61EC90C0145FACF8003ADF05 /* KABubbleWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC9082145FACF8003ADF05 /* KABubbleWindow.h */; };
-		61EC90C1145FACF8003ADF05 /* KABubbleWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC9083145FACF8003ADF05 /* KABubbleWindow.m */; };
-		61EC90C2145FACF8003ADF05 /* KABubbleWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC9084145FACF8003ADF05 /* KABubbleWindowController.h */; };
-		61EC90C3145FACF8003ADF05 /* KABubbleWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC9085145FACF8003ADF05 /* KABubbleWindowController.m */; };
-		61EC90C4145FACF8003ADF05 /* KABubbleWindowView.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC9086145FACF8003ADF05 /* KABubbleWindowView.h */; };
-		61EC90C5145FACF8003ADF05 /* KABubbleWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC9087145FACF8003ADF05 /* KABubbleWindowView.m */; };
-		61EC90C6145FACF8003ADF05 /* CDPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC9088145FACF8003ADF05 /* CDPanel.h */; };
-		61EC90C7145FACF8003ADF05 /* CDPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC9089145FACF8003ADF05 /* CDPanel.m */; };
-		61EC90C8145FACF8003ADF05 /* CDProgressbarControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC908B145FACF8003ADF05 /* CDProgressbarControl.h */; };
-		61EC90C9145FACF8003ADF05 /* CDProgressbarControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC908C145FACF8003ADF05 /* CDProgressbarControl.m */; };
-		61EC90CA145FACF8003ADF05 /* CDProgressbarInputHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC908D145FACF8003ADF05 /* CDProgressbarInputHandler.h */; };
-		61EC90CB145FACF8003ADF05 /* CDProgressbarInputHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC908E145FACF8003ADF05 /* CDProgressbarInputHandler.m */; };
-		61EC90CC145FACF8003ADF05 /* CDProgressbarInputHandlerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC908F145FACF8003ADF05 /* CDProgressbarInputHandlerDelegate.h */; };
-		61EC90CD145FACF8003ADF05 /* CDCheckboxControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC9091145FACF8003ADF05 /* CDCheckboxControl.h */; };
-		61EC90CE145FACF8003ADF05 /* CDCheckboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC9092145FACF8003ADF05 /* CDCheckboxControl.m */; };
-		61EC90CF145FACF8003ADF05 /* CDInputboxControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC9093145FACF8003ADF05 /* CDInputboxControl.h */; };
-		61EC90D0145FACF8003ADF05 /* CDInputboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC9094145FACF8003ADF05 /* CDInputboxControl.m */; };
-		61EC90D1145FACF8003ADF05 /* CDMsgboxControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC9095145FACF8003ADF05 /* CDMsgboxControl.h */; };
-		61EC90D2145FACF8003ADF05 /* CDMsgboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC9096145FACF8003ADF05 /* CDMsgboxControl.m */; };
-		61EC90D3145FACF8003ADF05 /* CDOkMsgboxControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC9097145FACF8003ADF05 /* CDOkMsgboxControl.h */; };
-		61EC90D4145FACF8003ADF05 /* CDOkMsgboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC9098145FACF8003ADF05 /* CDOkMsgboxControl.m */; };
-		61EC90D5145FACF8003ADF05 /* CDPopUpButtonControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC9099145FACF8003ADF05 /* CDPopUpButtonControl.h */; };
-		61EC90D6145FACF8003ADF05 /* CDPopUpButtonControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC909A145FACF8003ADF05 /* CDPopUpButtonControl.m */; };
-		61EC90D7145FACF8003ADF05 /* CDRadioControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC909B145FACF8003ADF05 /* CDRadioControl.h */; };
-		61EC90D8145FACF8003ADF05 /* CDRadioControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC909C145FACF8003ADF05 /* CDRadioControl.m */; };
-		61EC90D9145FACF8003ADF05 /* CDStandardInputboxControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC909D145FACF8003ADF05 /* CDStandardInputboxControl.h */; };
-		61EC90DA145FACF8003ADF05 /* CDStandardInputboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC909E145FACF8003ADF05 /* CDStandardInputboxControl.m */; };
-		61EC90DB145FACF8003ADF05 /* CDStandardPopUpButtonControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC909F145FACF8003ADF05 /* CDStandardPopUpButtonControl.h */; };
-		61EC90DC145FACF8003ADF05 /* CDStandardPopUpButtonControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC90A0145FACF8003ADF05 /* CDStandardPopUpButtonControl.m */; };
-		61EC90DD145FACF8003ADF05 /* CDTextboxControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC90A1145FACF8003ADF05 /* CDTextboxControl.h */; };
-		61EC90DE145FACF8003ADF05 /* CDTextboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC90A2145FACF8003ADF05 /* CDTextboxControl.m */; };
-		61EC90DF145FACF8003ADF05 /* CDThreeButtonControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC90A3145FACF8003ADF05 /* CDThreeButtonControl.h */; };
-		61EC90E0145FACF8003ADF05 /* CDThreeButtonControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC90A4145FACF8003ADF05 /* CDThreeButtonControl.m */; };
-		61EC90E1145FACF8003ADF05 /* CDYesNoMsgboxControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC90A5145FACF8003ADF05 /* CDYesNoMsgboxControl.h */; };
-		61EC90E2145FACF8003ADF05 /* CDYesNoMsgboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC90A6145FACF8003ADF05 /* CDYesNoMsgboxControl.m */; };
-		61EC90E3145FACF8003ADF05 /* CDOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC90A7145FACF8003ADF05 /* CDOptions.h */; };
-		61EC90E4145FACF8003ADF05 /* CDOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC90A8145FACF8003ADF05 /* CDOptions.m */; };
 		61EC90E7145FACF8003ADF05 /* cocoaDialog_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 61EC90AB145FACF8003ADF05 /* cocoaDialog_Prefix.pch */; };
 		61EC90E9145FAD58003ADF05 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC90E8145FAD58003ADF05 /* main.m */; };
-		61EC90EC145FB0A0003ADF05 /* CDSlider.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC90EA145FB0A0003ADF05 /* CDSlider.h */; };
-		61EC90ED145FB0A0003ADF05 /* CDSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC90EB145FB0A0003ADF05 /* CDSlider.m */; };
-		61FA9D2114518E97006E0674 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 61FA9D2014518E97006E0674 /* dsa_pub.pem */; };
 		A78A8CD414376C42007AE363 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB5143759ED007AE363 /* InfoPlist.strings */; };
 		A78A8CD514376C42007AE363 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB7143759ED007AE363 /* MainMenu.xib */; };
 		A78A8CD614376C42007AE363 /* Msgbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB9143759ED007AE363 /* Msgbox.xib */; };
@@ -83,6 +25,73 @@
 		A78A8CD914376C42007AE363 /* Textbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CBF143759ED007AE363 /* Textbox.xib */; };
 		A78A8CE014377610007AE363 /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CDE14377610007AE363 /* CHANGELOG */; };
 		A78A8CE114377610007AE363 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CDF14377610007AE363 /* LICENSE */; };
+		A78A97B91E95C65000E4B3D1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A78A97B71E95C65000E4B3D1 /* Localizable.strings */; };
+		A796ECBD1E9A37D7008EE718 /* CDArguments.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECB71E9A37D7008EE718 /* CDArguments.h */; };
+		A796ECBE1E9A37D7008EE718 /* CDArguments.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECB81E9A37D7008EE718 /* CDArguments.m */; };
+		A796ECBF1E9A37D7008EE718 /* CDOption.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECB91E9A37D7008EE718 /* CDOption.h */; };
+		A796ECC01E9A37D7008EE718 /* CDOption.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECBA1E9A37D7008EE718 /* CDOption.m */; };
+		A796ECC11E9A37D7008EE718 /* CDOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECBB1E9A37D7008EE718 /* CDOptions.h */; };
+		A796ECC21E9A37D7008EE718 /* CDOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECBC1E9A37D7008EE718 /* CDOptions.m */; };
+		A796ED031E9A38F8008EE718 /* CDCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECC41E9A38F8008EE718 /* CDCommon.h */; };
+		A796ED041E9A38F8008EE718 /* CDCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECC51E9A38F8008EE718 /* CDCommon.m */; };
+		A796ED051E9A38F8008EE718 /* CDControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECC61E9A38F8008EE718 /* CDControl.h */; };
+		A796ED061E9A38F8008EE718 /* CDControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECC71E9A38F8008EE718 /* CDControl.m */; };
+		A796ED071E9A38F8008EE718 /* CDFileDialogControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECC91E9A38F8008EE718 /* CDFileDialogControl.h */; };
+		A796ED081E9A38F8008EE718 /* CDFileDialogControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECCA1E9A38F8008EE718 /* CDFileDialogControl.m */; };
+		A796ED091E9A38F8008EE718 /* CDFileSaveControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECCB1E9A38F8008EE718 /* CDFileSaveControl.h */; };
+		A796ED0A1E9A38F8008EE718 /* CDFileSaveControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECCC1E9A38F8008EE718 /* CDFileSaveControl.m */; };
+		A796ED0B1E9A38F8008EE718 /* CDFileSelectControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECCD1E9A38F8008EE718 /* CDFileSelectControl.h */; };
+		A796ED0C1E9A38F8008EE718 /* CDFileSelectControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECCE1E9A38F8008EE718 /* CDFileSelectControl.m */; };
+		A796ED0D1E9A38F8008EE718 /* CDIcon.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECCF1E9A38F8008EE718 /* CDIcon.h */; };
+		A796ED0E1E9A38F8008EE718 /* CDIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECD01E9A38F8008EE718 /* CDIcon.m */; };
+		A796ED0F1E9A38F8008EE718 /* CDBubbleControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECD21E9A38F8008EE718 /* CDBubbleControl.h */; };
+		A796ED101E9A38F8008EE718 /* CDBubbleControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECD31E9A38F8008EE718 /* CDBubbleControl.m */; };
+		A796ED111E9A38F8008EE718 /* CDGrowlControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECD41E9A38F8008EE718 /* CDGrowlControl.h */; };
+		A796ED121E9A38F8008EE718 /* CDGrowlControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECD51E9A38F8008EE718 /* CDGrowlControl.m */; };
+		A796ED131E9A38F8008EE718 /* CDNotifyControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECD61E9A38F8008EE718 /* CDNotifyControl.h */; };
+		A796ED141E9A38F8008EE718 /* CDNotifyControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECD71E9A38F8008EE718 /* CDNotifyControl.m */; };
+		A796ED151E9A38F8008EE718 /* KABubbleWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECD81E9A38F8008EE718 /* KABubbleWindow.h */; };
+		A796ED161E9A38F8008EE718 /* KABubbleWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECD91E9A38F8008EE718 /* KABubbleWindow.m */; };
+		A796ED171E9A38F8008EE718 /* KABubbleWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECDA1E9A38F8008EE718 /* KABubbleWindowController.h */; };
+		A796ED181E9A38F8008EE718 /* KABubbleWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECDB1E9A38F8008EE718 /* KABubbleWindowController.m */; };
+		A796ED191E9A38F8008EE718 /* KABubbleWindowView.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECDC1E9A38F8008EE718 /* KABubbleWindowView.h */; };
+		A796ED1A1E9A38F8008EE718 /* KABubbleWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECDD1E9A38F8008EE718 /* KABubbleWindowView.m */; };
+		A796ED1B1E9A38F8008EE718 /* CDPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECDE1E9A38F8008EE718 /* CDPanel.h */; };
+		A796ED1C1E9A38F8008EE718 /* CDPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECDF1E9A38F8008EE718 /* CDPanel.m */; };
+		A796ED1D1E9A38F8008EE718 /* CDProgressbarControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECE11E9A38F8008EE718 /* CDProgressbarControl.h */; };
+		A796ED1E1E9A38F8008EE718 /* CDProgressbarControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECE21E9A38F8008EE718 /* CDProgressbarControl.m */; };
+		A796ED1F1E9A38F8008EE718 /* CDProgressbarInputHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECE31E9A38F8008EE718 /* CDProgressbarInputHandler.h */; };
+		A796ED201E9A38F8008EE718 /* CDProgressbarInputHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECE41E9A38F8008EE718 /* CDProgressbarInputHandler.m */; };
+		A796ED211E9A38F8008EE718 /* CDProgressbarInputHandlerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECE51E9A38F8008EE718 /* CDProgressbarInputHandlerDelegate.h */; };
+		A796ED221E9A38F8008EE718 /* CDCheckboxControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECE71E9A38F8008EE718 /* CDCheckboxControl.h */; };
+		A796ED231E9A38F8008EE718 /* CDCheckboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECE81E9A38F8008EE718 /* CDCheckboxControl.m */; };
+		A796ED241E9A38F8008EE718 /* CDInputboxControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECE91E9A38F8008EE718 /* CDInputboxControl.h */; };
+		A796ED251E9A38F8008EE718 /* CDInputboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECEA1E9A38F8008EE718 /* CDInputboxControl.m */; };
+		A796ED261E9A38F8008EE718 /* CDMsgboxControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECEB1E9A38F8008EE718 /* CDMsgboxControl.h */; };
+		A796ED271E9A38F8008EE718 /* CDMsgboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECEC1E9A38F8008EE718 /* CDMsgboxControl.m */; };
+		A796ED281E9A38F8008EE718 /* CDOkMsgboxControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECED1E9A38F8008EE718 /* CDOkMsgboxControl.h */; };
+		A796ED291E9A38F8008EE718 /* CDOkMsgboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECEE1E9A38F8008EE718 /* CDOkMsgboxControl.m */; };
+		A796ED2A1E9A38F8008EE718 /* CDPopUpButtonControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECEF1E9A38F8008EE718 /* CDPopUpButtonControl.h */; };
+		A796ED2B1E9A38F8008EE718 /* CDPopUpButtonControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECF01E9A38F8008EE718 /* CDPopUpButtonControl.m */; };
+		A796ED2C1E9A38F8008EE718 /* CDRadioControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECF11E9A38F8008EE718 /* CDRadioControl.h */; };
+		A796ED2D1E9A38F8008EE718 /* CDRadioControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECF21E9A38F8008EE718 /* CDRadioControl.m */; };
+		A796ED2E1E9A38F8008EE718 /* CDSecureInputboxControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECF31E9A38F8008EE718 /* CDSecureInputboxControl.h */; };
+		A796ED2F1E9A38F8008EE718 /* CDSecureInputboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECF41E9A38F8008EE718 /* CDSecureInputboxControl.m */; };
+		A796ED301E9A38F8008EE718 /* CDSecureStandardInputboxControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECF51E9A38F8008EE718 /* CDSecureStandardInputboxControl.h */; };
+		A796ED311E9A38F8008EE718 /* CDSecureStandardInputboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECF61E9A38F8008EE718 /* CDSecureStandardInputboxControl.m */; };
+		A796ED321E9A38F8008EE718 /* CDSlider.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECF71E9A38F8008EE718 /* CDSlider.h */; };
+		A796ED331E9A38F8008EE718 /* CDSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECF81E9A38F8008EE718 /* CDSlider.m */; };
+		A796ED341E9A38F8008EE718 /* CDStandardInputboxControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECF91E9A38F8008EE718 /* CDStandardInputboxControl.h */; };
+		A796ED351E9A38F8008EE718 /* CDStandardInputboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECFA1E9A38F8008EE718 /* CDStandardInputboxControl.m */; };
+		A796ED361E9A38F8008EE718 /* CDStandardPopUpButtonControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECFB1E9A38F8008EE718 /* CDStandardPopUpButtonControl.h */; };
+		A796ED371E9A38F8008EE718 /* CDStandardPopUpButtonControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECFC1E9A38F8008EE718 /* CDStandardPopUpButtonControl.m */; };
+		A796ED381E9A38F8008EE718 /* CDTextboxControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECFD1E9A38F8008EE718 /* CDTextboxControl.h */; };
+		A796ED391E9A38F8008EE718 /* CDTextboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECFE1E9A38F8008EE718 /* CDTextboxControl.m */; };
+		A796ED3A1E9A38F8008EE718 /* CDThreeButtonControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECFF1E9A38F8008EE718 /* CDThreeButtonControl.h */; };
+		A796ED3B1E9A38F8008EE718 /* CDThreeButtonControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ED001E9A38F8008EE718 /* CDThreeButtonControl.m */; };
+		A796ED3C1E9A38F8008EE718 /* CDYesNoMsgboxControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ED011E9A38F8008EE718 /* CDYesNoMsgboxControl.h */; };
+		A796ED3D1E9A38F8008EE718 /* CDYesNoMsgboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ED021E9A38F8008EE718 /* CDYesNoMsgboxControl.m */; };
+		A7A51DE51E96B8B200469C11 /* CDString.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A51DE41E96B8B200469C11 /* CDString.m */; };
 		A7BABB401445829B00D3F168 /* relaunch in Resources */ = {isa = PBXBuildFile; fileRef = A7BABB2E1445817B00D3F168 /* relaunch */; };
 		A7D40438153C2BC3005FA3CD /* popup.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7D40436153C2BC3005FA3CD /* popup.xib */; };
 /* End PBXBuildFile section */
@@ -118,86 +127,97 @@
 		6187E60014664988005067DB /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		61EC906B145FACF8003ADF05 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = Source/AppController.h; sourceTree = "<group>"; };
 		61EC906C145FACF8003ADF05 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppController.m; path = Source/AppController.m; sourceTree = "<group>"; };
-		61EC906D145FACF8003ADF05 /* CDCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDCommon.h; path = Source/CDCommon.h; sourceTree = "<group>"; };
-		61EC906E145FACF8003ADF05 /* CDCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDCommon.m; path = Source/CDCommon.m; sourceTree = "<group>"; };
-		61EC9070145FACF8003ADF05 /* CDControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDControl.h; sourceTree = "<group>"; };
-		61EC9071145FACF8003ADF05 /* CDControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDControl.m; sourceTree = "<group>"; };
-		61EC9073145FACF8003ADF05 /* CDFileDialogControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDFileDialogControl.h; sourceTree = "<group>"; };
-		61EC9074145FACF8003ADF05 /* CDFileDialogControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDFileDialogControl.m; sourceTree = "<group>"; };
-		61EC9075145FACF8003ADF05 /* CDFileSaveControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDFileSaveControl.h; sourceTree = "<group>"; };
-		61EC9076145FACF8003ADF05 /* CDFileSaveControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDFileSaveControl.m; sourceTree = "<group>"; };
-		61EC9077145FACF8003ADF05 /* CDFileSelectControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDFileSelectControl.h; sourceTree = "<group>"; };
-		61EC9078145FACF8003ADF05 /* CDFileSelectControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDFileSelectControl.m; sourceTree = "<group>"; };
-		61EC9079145FACF8003ADF05 /* CDIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDIcon.h; sourceTree = "<group>"; };
-		61EC907A145FACF8003ADF05 /* CDIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDIcon.m; sourceTree = "<group>"; };
-		61EC907C145FACF8003ADF05 /* CDBubbleControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDBubbleControl.h; sourceTree = "<group>"; };
-		61EC907D145FACF8003ADF05 /* CDBubbleControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDBubbleControl.m; sourceTree = "<group>"; };
-		61EC907E145FACF8003ADF05 /* CDGrowlControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDGrowlControl.h; sourceTree = "<group>"; };
-		61EC907F145FACF8003ADF05 /* CDGrowlControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDGrowlControl.m; sourceTree = "<group>"; };
-		61EC9080145FACF8003ADF05 /* CDNotifyControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDNotifyControl.h; sourceTree = "<group>"; };
-		61EC9081145FACF8003ADF05 /* CDNotifyControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDNotifyControl.m; sourceTree = "<group>"; };
-		61EC9082145FACF8003ADF05 /* KABubbleWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KABubbleWindow.h; sourceTree = "<group>"; };
-		61EC9083145FACF8003ADF05 /* KABubbleWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KABubbleWindow.m; sourceTree = "<group>"; };
-		61EC9084145FACF8003ADF05 /* KABubbleWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KABubbleWindowController.h; sourceTree = "<group>"; };
-		61EC9085145FACF8003ADF05 /* KABubbleWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KABubbleWindowController.m; sourceTree = "<group>"; };
-		61EC9086145FACF8003ADF05 /* KABubbleWindowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KABubbleWindowView.h; sourceTree = "<group>"; };
-		61EC9087145FACF8003ADF05 /* KABubbleWindowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KABubbleWindowView.m; sourceTree = "<group>"; };
-		61EC9088145FACF8003ADF05 /* CDPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDPanel.h; sourceTree = "<group>"; };
-		61EC9089145FACF8003ADF05 /* CDPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDPanel.m; sourceTree = "<group>"; };
-		61EC908B145FACF8003ADF05 /* CDProgressbarControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDProgressbarControl.h; sourceTree = "<group>"; };
-		61EC908C145FACF8003ADF05 /* CDProgressbarControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDProgressbarControl.m; sourceTree = "<group>"; };
-		61EC908D145FACF8003ADF05 /* CDProgressbarInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDProgressbarInputHandler.h; sourceTree = "<group>"; };
-		61EC908E145FACF8003ADF05 /* CDProgressbarInputHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDProgressbarInputHandler.m; sourceTree = "<group>"; };
-		61EC908F145FACF8003ADF05 /* CDProgressbarInputHandlerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDProgressbarInputHandlerDelegate.h; sourceTree = "<group>"; };
-		61EC9091145FACF8003ADF05 /* CDCheckboxControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDCheckboxControl.h; sourceTree = "<group>"; };
-		61EC9092145FACF8003ADF05 /* CDCheckboxControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDCheckboxControl.m; sourceTree = "<group>"; };
-		61EC9093145FACF8003ADF05 /* CDInputboxControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDInputboxControl.h; sourceTree = "<group>"; };
-		61EC9094145FACF8003ADF05 /* CDInputboxControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDInputboxControl.m; sourceTree = "<group>"; };
-		61EC9095145FACF8003ADF05 /* CDMsgboxControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDMsgboxControl.h; sourceTree = "<group>"; };
-		61EC9096145FACF8003ADF05 /* CDMsgboxControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDMsgboxControl.m; sourceTree = "<group>"; };
-		61EC9097145FACF8003ADF05 /* CDOkMsgboxControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOkMsgboxControl.h; sourceTree = "<group>"; };
-		61EC9098145FACF8003ADF05 /* CDOkMsgboxControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOkMsgboxControl.m; sourceTree = "<group>"; };
-		61EC9099145FACF8003ADF05 /* CDPopUpButtonControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDPopUpButtonControl.h; sourceTree = "<group>"; };
-		61EC909A145FACF8003ADF05 /* CDPopUpButtonControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDPopUpButtonControl.m; sourceTree = "<group>"; };
-		61EC909B145FACF8003ADF05 /* CDRadioControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDRadioControl.h; sourceTree = "<group>"; };
-		61EC909C145FACF8003ADF05 /* CDRadioControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDRadioControl.m; sourceTree = "<group>"; };
-		61EC909D145FACF8003ADF05 /* CDStandardInputboxControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDStandardInputboxControl.h; sourceTree = "<group>"; };
-		61EC909E145FACF8003ADF05 /* CDStandardInputboxControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDStandardInputboxControl.m; sourceTree = "<group>"; };
-		61EC909F145FACF8003ADF05 /* CDStandardPopUpButtonControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDStandardPopUpButtonControl.h; sourceTree = "<group>"; };
-		61EC90A0145FACF8003ADF05 /* CDStandardPopUpButtonControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDStandardPopUpButtonControl.m; sourceTree = "<group>"; };
-		61EC90A1145FACF8003ADF05 /* CDTextboxControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDTextboxControl.h; sourceTree = "<group>"; };
-		61EC90A2145FACF8003ADF05 /* CDTextboxControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDTextboxControl.m; sourceTree = "<group>"; };
-		61EC90A3145FACF8003ADF05 /* CDThreeButtonControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDThreeButtonControl.h; sourceTree = "<group>"; };
-		61EC90A4145FACF8003ADF05 /* CDThreeButtonControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDThreeButtonControl.m; sourceTree = "<group>"; };
-		61EC90A5145FACF8003ADF05 /* CDYesNoMsgboxControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDYesNoMsgboxControl.h; sourceTree = "<group>"; };
-		61EC90A6145FACF8003ADF05 /* CDYesNoMsgboxControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDYesNoMsgboxControl.m; sourceTree = "<group>"; };
-		61EC90A7145FACF8003ADF05 /* CDOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDOptions.h; path = Source/CDOptions.h; sourceTree = "<group>"; };
-		61EC90A8145FACF8003ADF05 /* CDOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDOptions.m; path = Source/CDOptions.m; sourceTree = "<group>"; };
 		61EC90AB145FACF8003ADF05 /* cocoaDialog_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cocoaDialog_Prefix.pch; path = Source/cocoaDialog_Prefix.pch; sourceTree = "<group>"; };
 		61EC90E8145FAD58003ADF05 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Source/main.m; sourceTree = "<group>"; };
-		61EC90EA145FB0A0003ADF05 /* CDSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDSlider.h; sourceTree = "<group>"; };
-		61EC90EB145FB0A0003ADF05 /* CDSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDSlider.m; sourceTree = "<group>"; };
-		61FA9D2014518E97006E0674 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* cocoaDialog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cocoaDialog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A78A8C9514375704007AE363 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ConfigDebug.xcconfig; sourceTree = "<group>"; };
 		A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ConfigRelease.xcconfig; sourceTree = "<group>"; };
-		A78A8CB6143759ED007AE363 /* en-US */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-US"; path = "Resources/en-US.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
-		A78A8CB8143759ED007AE363 /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "Resources/en-US.lproj/MainMenu.xib"; sourceTree = "<group>"; };
-		A78A8CBA143759ED007AE363 /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "Resources/en-US.lproj/Msgbox.xib"; sourceTree = "<group>"; };
-		A78A8CBC143759ED007AE363 /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "Resources/en-US.lproj/Progressbar.xib"; sourceTree = "<group>"; };
-		A78A8CBE143759ED007AE363 /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "Resources/en-US.lproj/tbc.xib"; sourceTree = "<group>"; };
-		A78A8CC0143759ED007AE363 /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "Resources/en-US.lproj/Textbox.xib"; sourceTree = "<group>"; };
-		A78A8CD2143761E5007AE363 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
 		A78A8CDE14377610007AE363 /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
 		A78A8CDF14377610007AE363 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		A78A8CE8143784A8007AE363 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
 		A78A8CF21437938D007AE363 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		A78A97A01E95C5E700E4B3D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Resources/Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		A78A97A11E95C5E700E4B3D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Resources/Base.lproj/Msgbox.xib; sourceTree = "<group>"; };
+		A78A97A21E95C5E700E4B3D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Resources/Base.lproj/popup.xib; sourceTree = "<group>"; };
+		A78A97A31E95C5E700E4B3D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Resources/Base.lproj/Progressbar.xib; sourceTree = "<group>"; };
+		A78A97A41E95C5E700E4B3D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Resources/Base.lproj/tbc.xib; sourceTree = "<group>"; };
+		A78A97A51E95C5E700E4B3D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Resources/Base.lproj/Textbox.xib; sourceTree = "<group>"; };
+		A78A97A61E95C5F600E4B3D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Info.plist; sourceTree = "<group>"; };
+		A78A97A81E95C5FE00E4B3D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Resources/Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		A78A97B61E95C62900E4B3D1 /* en-US */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "en-US"; path = "en-US.lproj/Info.plist"; sourceTree = "<group>"; };
+		A796ECB71E9A37D7008EE718 /* CDArguments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDArguments.h; sourceTree = "<group>"; };
+		A796ECB81E9A37D7008EE718 /* CDArguments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDArguments.m; sourceTree = "<group>"; };
+		A796ECB91E9A37D7008EE718 /* CDOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOption.h; sourceTree = "<group>"; };
+		A796ECBA1E9A37D7008EE718 /* CDOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOption.m; sourceTree = "<group>"; };
+		A796ECBB1E9A37D7008EE718 /* CDOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOptions.h; sourceTree = "<group>"; };
+		A796ECBC1E9A37D7008EE718 /* CDOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOptions.m; sourceTree = "<group>"; };
+		A796ECC41E9A38F8008EE718 /* CDCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDCommon.h; sourceTree = "<group>"; };
+		A796ECC51E9A38F8008EE718 /* CDCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDCommon.m; sourceTree = "<group>"; };
+		A796ECC61E9A38F8008EE718 /* CDControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDControl.h; sourceTree = "<group>"; };
+		A796ECC71E9A38F8008EE718 /* CDControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDControl.m; sourceTree = "<group>"; };
+		A796ECC91E9A38F8008EE718 /* CDFileDialogControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDFileDialogControl.h; sourceTree = "<group>"; };
+		A796ECCA1E9A38F8008EE718 /* CDFileDialogControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDFileDialogControl.m; sourceTree = "<group>"; };
+		A796ECCB1E9A38F8008EE718 /* CDFileSaveControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDFileSaveControl.h; sourceTree = "<group>"; };
+		A796ECCC1E9A38F8008EE718 /* CDFileSaveControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDFileSaveControl.m; sourceTree = "<group>"; };
+		A796ECCD1E9A38F8008EE718 /* CDFileSelectControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDFileSelectControl.h; sourceTree = "<group>"; };
+		A796ECCE1E9A38F8008EE718 /* CDFileSelectControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDFileSelectControl.m; sourceTree = "<group>"; };
+		A796ECCF1E9A38F8008EE718 /* CDIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDIcon.h; sourceTree = "<group>"; };
+		A796ECD01E9A38F8008EE718 /* CDIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDIcon.m; sourceTree = "<group>"; };
+		A796ECD21E9A38F8008EE718 /* CDBubbleControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDBubbleControl.h; sourceTree = "<group>"; };
+		A796ECD31E9A38F8008EE718 /* CDBubbleControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDBubbleControl.m; sourceTree = "<group>"; };
+		A796ECD41E9A38F8008EE718 /* CDGrowlControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDGrowlControl.h; sourceTree = "<group>"; };
+		A796ECD51E9A38F8008EE718 /* CDGrowlControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDGrowlControl.m; sourceTree = "<group>"; };
+		A796ECD61E9A38F8008EE718 /* CDNotifyControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDNotifyControl.h; sourceTree = "<group>"; };
+		A796ECD71E9A38F8008EE718 /* CDNotifyControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDNotifyControl.m; sourceTree = "<group>"; };
+		A796ECD81E9A38F8008EE718 /* KABubbleWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KABubbleWindow.h; sourceTree = "<group>"; };
+		A796ECD91E9A38F8008EE718 /* KABubbleWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KABubbleWindow.m; sourceTree = "<group>"; };
+		A796ECDA1E9A38F8008EE718 /* KABubbleWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KABubbleWindowController.h; sourceTree = "<group>"; };
+		A796ECDB1E9A38F8008EE718 /* KABubbleWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KABubbleWindowController.m; sourceTree = "<group>"; };
+		A796ECDC1E9A38F8008EE718 /* KABubbleWindowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KABubbleWindowView.h; sourceTree = "<group>"; };
+		A796ECDD1E9A38F8008EE718 /* KABubbleWindowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KABubbleWindowView.m; sourceTree = "<group>"; };
+		A796ECDE1E9A38F8008EE718 /* CDPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDPanel.h; sourceTree = "<group>"; };
+		A796ECDF1E9A38F8008EE718 /* CDPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDPanel.m; sourceTree = "<group>"; };
+		A796ECE11E9A38F8008EE718 /* CDProgressbarControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDProgressbarControl.h; sourceTree = "<group>"; };
+		A796ECE21E9A38F8008EE718 /* CDProgressbarControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDProgressbarControl.m; sourceTree = "<group>"; };
+		A796ECE31E9A38F8008EE718 /* CDProgressbarInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDProgressbarInputHandler.h; sourceTree = "<group>"; };
+		A796ECE41E9A38F8008EE718 /* CDProgressbarInputHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDProgressbarInputHandler.m; sourceTree = "<group>"; };
+		A796ECE51E9A38F8008EE718 /* CDProgressbarInputHandlerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDProgressbarInputHandlerDelegate.h; sourceTree = "<group>"; };
+		A796ECE71E9A38F8008EE718 /* CDCheckboxControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDCheckboxControl.h; sourceTree = "<group>"; };
+		A796ECE81E9A38F8008EE718 /* CDCheckboxControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDCheckboxControl.m; sourceTree = "<group>"; };
+		A796ECE91E9A38F8008EE718 /* CDInputboxControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDInputboxControl.h; sourceTree = "<group>"; };
+		A796ECEA1E9A38F8008EE718 /* CDInputboxControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDInputboxControl.m; sourceTree = "<group>"; };
+		A796ECEB1E9A38F8008EE718 /* CDMsgboxControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDMsgboxControl.h; sourceTree = "<group>"; };
+		A796ECEC1E9A38F8008EE718 /* CDMsgboxControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDMsgboxControl.m; sourceTree = "<group>"; };
+		A796ECED1E9A38F8008EE718 /* CDOkMsgboxControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOkMsgboxControl.h; sourceTree = "<group>"; };
+		A796ECEE1E9A38F8008EE718 /* CDOkMsgboxControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOkMsgboxControl.m; sourceTree = "<group>"; };
+		A796ECEF1E9A38F8008EE718 /* CDPopUpButtonControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDPopUpButtonControl.h; sourceTree = "<group>"; };
+		A796ECF01E9A38F8008EE718 /* CDPopUpButtonControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDPopUpButtonControl.m; sourceTree = "<group>"; };
+		A796ECF11E9A38F8008EE718 /* CDRadioControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDRadioControl.h; sourceTree = "<group>"; };
+		A796ECF21E9A38F8008EE718 /* CDRadioControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDRadioControl.m; sourceTree = "<group>"; };
+		A796ECF31E9A38F8008EE718 /* CDSecureInputboxControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDSecureInputboxControl.h; sourceTree = "<group>"; };
+		A796ECF41E9A38F8008EE718 /* CDSecureInputboxControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDSecureInputboxControl.m; sourceTree = "<group>"; };
+		A796ECF51E9A38F8008EE718 /* CDSecureStandardInputboxControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDSecureStandardInputboxControl.h; sourceTree = "<group>"; };
+		A796ECF61E9A38F8008EE718 /* CDSecureStandardInputboxControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDSecureStandardInputboxControl.m; sourceTree = "<group>"; };
+		A796ECF71E9A38F8008EE718 /* CDSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDSlider.h; sourceTree = "<group>"; };
+		A796ECF81E9A38F8008EE718 /* CDSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDSlider.m; sourceTree = "<group>"; };
+		A796ECF91E9A38F8008EE718 /* CDStandardInputboxControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDStandardInputboxControl.h; sourceTree = "<group>"; };
+		A796ECFA1E9A38F8008EE718 /* CDStandardInputboxControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDStandardInputboxControl.m; sourceTree = "<group>"; };
+		A796ECFB1E9A38F8008EE718 /* CDStandardPopUpButtonControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDStandardPopUpButtonControl.h; sourceTree = "<group>"; };
+		A796ECFC1E9A38F8008EE718 /* CDStandardPopUpButtonControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDStandardPopUpButtonControl.m; sourceTree = "<group>"; };
+		A796ECFD1E9A38F8008EE718 /* CDTextboxControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDTextboxControl.h; sourceTree = "<group>"; };
+		A796ECFE1E9A38F8008EE718 /* CDTextboxControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDTextboxControl.m; sourceTree = "<group>"; };
+		A796ECFF1E9A38F8008EE718 /* CDThreeButtonControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDThreeButtonControl.h; sourceTree = "<group>"; };
+		A796ED001E9A38F8008EE718 /* CDThreeButtonControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDThreeButtonControl.m; sourceTree = "<group>"; };
+		A796ED011E9A38F8008EE718 /* CDYesNoMsgboxControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDYesNoMsgboxControl.h; sourceTree = "<group>"; };
+		A796ED021E9A38F8008EE718 /* CDYesNoMsgboxControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDYesNoMsgboxControl.m; sourceTree = "<group>"; };
+		A7A51DE11E96B03200469C11 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Resources/Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A7A51DE41E96B8B200469C11 /* CDString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDString.m; path = Source/CDString.m; sourceTree = "<group>"; };
+		A7A51DE61E96B8CD00469C11 /* CDString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CDString.h; path = Source/CDString.h; sourceTree = "<group>"; };
 		A7BABA9714456CC800D3F168 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A7BABADA1445809700D3F168 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		A7BABB051445810000D3F168 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		A7BABB2E1445817B00D3F168 /* relaunch */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = relaunch; sourceTree = BUILT_PRODUCTS_DIR; };
-		A7D40437153C2BC3005FA3CD /* en-US */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-US"; path = "Resources/en-US.lproj/popup.xib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -256,12 +276,13 @@
 			);
 			name = cocoaDialog;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				61FA9D2014518E97006E0674 /* dsa_pub.pem */,
-				A78A8CD2143761E5007AE363 /* Info.plist */,
+				A78A97A71E95C5F600E4B3D1 /* Info.plist */,
+				A78A97B71E95C65000E4B3D1 /* Localizable.strings */,
 				A78A8CB5143759ED007AE363 /* InfoPlist.strings */,
 				A78A8CB7143759ED007AE363 /* MainMenu.xib */,
 				A78A8CB9143759ED007AE363 /* Msgbox.xib */,
@@ -295,111 +316,17 @@
 		6187E60D146651CA005067DB /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				61EC90E8145FAD58003ADF05 /* main.m */,
+				61EC90AB145FACF8003ADF05 /* cocoaDialog_Prefix.pch */,
 				61EC906B145FACF8003ADF05 /* AppController.h */,
 				61EC906C145FACF8003ADF05 /* AppController.m */,
-				61EC906D145FACF8003ADF05 /* CDCommon.h */,
-				61EC906E145FACF8003ADF05 /* CDCommon.m */,
-				61EC906F145FACF8003ADF05 /* CDControl */,
-				61EC90A7145FACF8003ADF05 /* CDOptions.h */,
-				61EC90A8145FACF8003ADF05 /* CDOptions.m */,
-				61EC90AB145FACF8003ADF05 /* cocoaDialog_Prefix.pch */,
-				61EC90E8145FAD58003ADF05 /* main.m */,
+				A7A51DE61E96B8CD00469C11 /* CDString.h */,
+				A7A51DE41E96B8B200469C11 /* CDString.m */,
+				A796ECB61E9A37D7008EE718 /* Options */,
+				A796ECC31E9A38F8008EE718 /* Controls */,
 				6187E5FF14664987005067DB /* relaunch */,
 			);
 			name = Source;
-			sourceTree = "<group>";
-		};
-		61EC906F145FACF8003ADF05 /* CDControl */ = {
-			isa = PBXGroup;
-			children = (
-				61EC9070145FACF8003ADF05 /* CDControl.h */,
-				61EC9071145FACF8003ADF05 /* CDControl.m */,
-				61EC9072145FACF8003ADF05 /* CDFileDialogControl */,
-				61EC9079145FACF8003ADF05 /* CDIcon.h */,
-				61EC907A145FACF8003ADF05 /* CDIcon.m */,
-				61EC907B145FACF8003ADF05 /* CDNotifyControl */,
-				61EC9088145FACF8003ADF05 /* CDPanel.h */,
-				61EC9089145FACF8003ADF05 /* CDPanel.m */,
-				61EC908A145FACF8003ADF05 /* CDProgressbar */,
-				61EC9090145FACF8003ADF05 /* CDThreeButtonControl */,
-			);
-			name = CDControl;
-			path = Source/CDControl;
-			sourceTree = "<group>";
-		};
-		61EC9072145FACF8003ADF05 /* CDFileDialogControl */ = {
-			isa = PBXGroup;
-			children = (
-				61EC9073145FACF8003ADF05 /* CDFileDialogControl.h */,
-				61EC9074145FACF8003ADF05 /* CDFileDialogControl.m */,
-				61EC9075145FACF8003ADF05 /* CDFileSaveControl.h */,
-				61EC9076145FACF8003ADF05 /* CDFileSaveControl.m */,
-				61EC9077145FACF8003ADF05 /* CDFileSelectControl.h */,
-				61EC9078145FACF8003ADF05 /* CDFileSelectControl.m */,
-			);
-			path = CDFileDialogControl;
-			sourceTree = "<group>";
-		};
-		61EC907B145FACF8003ADF05 /* CDNotifyControl */ = {
-			isa = PBXGroup;
-			children = (
-				61EC907C145FACF8003ADF05 /* CDBubbleControl.h */,
-				61EC907D145FACF8003ADF05 /* CDBubbleControl.m */,
-				61EC907E145FACF8003ADF05 /* CDGrowlControl.h */,
-				61EC907F145FACF8003ADF05 /* CDGrowlControl.m */,
-				61EC9080145FACF8003ADF05 /* CDNotifyControl.h */,
-				61EC9081145FACF8003ADF05 /* CDNotifyControl.m */,
-				61EC9082145FACF8003ADF05 /* KABubbleWindow.h */,
-				61EC9083145FACF8003ADF05 /* KABubbleWindow.m */,
-				61EC9084145FACF8003ADF05 /* KABubbleWindowController.h */,
-				61EC9085145FACF8003ADF05 /* KABubbleWindowController.m */,
-				61EC9086145FACF8003ADF05 /* KABubbleWindowView.h */,
-				61EC9087145FACF8003ADF05 /* KABubbleWindowView.m */,
-			);
-			path = CDNotifyControl;
-			sourceTree = "<group>";
-		};
-		61EC908A145FACF8003ADF05 /* CDProgressbar */ = {
-			isa = PBXGroup;
-			children = (
-				61EC908B145FACF8003ADF05 /* CDProgressbarControl.h */,
-				61EC908C145FACF8003ADF05 /* CDProgressbarControl.m */,
-				61EC908D145FACF8003ADF05 /* CDProgressbarInputHandler.h */,
-				61EC908E145FACF8003ADF05 /* CDProgressbarInputHandler.m */,
-				61EC908F145FACF8003ADF05 /* CDProgressbarInputHandlerDelegate.h */,
-			);
-			path = CDProgressbar;
-			sourceTree = "<group>";
-		};
-		61EC9090145FACF8003ADF05 /* CDThreeButtonControl */ = {
-			isa = PBXGroup;
-			children = (
-				61EC9091145FACF8003ADF05 /* CDCheckboxControl.h */,
-				61EC9092145FACF8003ADF05 /* CDCheckboxControl.m */,
-				61EC9093145FACF8003ADF05 /* CDInputboxControl.h */,
-				61EC9094145FACF8003ADF05 /* CDInputboxControl.m */,
-				61EC9095145FACF8003ADF05 /* CDMsgboxControl.h */,
-				61EC9096145FACF8003ADF05 /* CDMsgboxControl.m */,
-				61EC9097145FACF8003ADF05 /* CDOkMsgboxControl.h */,
-				61EC9098145FACF8003ADF05 /* CDOkMsgboxControl.m */,
-				61EC9099145FACF8003ADF05 /* CDPopUpButtonControl.h */,
-				61EC909A145FACF8003ADF05 /* CDPopUpButtonControl.m */,
-				61EC909B145FACF8003ADF05 /* CDRadioControl.h */,
-				61EC909C145FACF8003ADF05 /* CDRadioControl.m */,
-				61EC90EA145FB0A0003ADF05 /* CDSlider.h */,
-				61EC90EB145FB0A0003ADF05 /* CDSlider.m */,
-				61EC909D145FACF8003ADF05 /* CDStandardInputboxControl.h */,
-				61EC909E145FACF8003ADF05 /* CDStandardInputboxControl.m */,
-				61EC909F145FACF8003ADF05 /* CDStandardPopUpButtonControl.h */,
-				61EC90A0145FACF8003ADF05 /* CDStandardPopUpButtonControl.m */,
-				61EC90A1145FACF8003ADF05 /* CDTextboxControl.h */,
-				61EC90A2145FACF8003ADF05 /* CDTextboxControl.m */,
-				61EC90A3145FACF8003ADF05 /* CDThreeButtonControl.h */,
-				61EC90A4145FACF8003ADF05 /* CDThreeButtonControl.m */,
-				61EC90A5145FACF8003ADF05 /* CDYesNoMsgboxControl.h */,
-				61EC90A6145FACF8003ADF05 /* CDYesNoMsgboxControl.m */,
-			);
-			path = CDThreeButtonControl;
 			sourceTree = "<group>";
 		};
 		A78A8C9414375703007AE363 /* Configurations */ = {
@@ -412,6 +339,119 @@
 			path = Configurations;
 			sourceTree = "<group>";
 		};
+		A796ECB61E9A37D7008EE718 /* Options */ = {
+			isa = PBXGroup;
+			children = (
+				A796ECB71E9A37D7008EE718 /* CDArguments.h */,
+				A796ECB81E9A37D7008EE718 /* CDArguments.m */,
+				A796ECB91E9A37D7008EE718 /* CDOption.h */,
+				A796ECBA1E9A37D7008EE718 /* CDOption.m */,
+				A796ECBB1E9A37D7008EE718 /* CDOptions.h */,
+				A796ECBC1E9A37D7008EE718 /* CDOptions.m */,
+			);
+			name = Options;
+			path = Source/Options;
+			sourceTree = "<group>";
+		};
+		A796ECC31E9A38F8008EE718 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				A796ECC41E9A38F8008EE718 /* CDCommon.h */,
+				A796ECC51E9A38F8008EE718 /* CDCommon.m */,
+				A796ECC61E9A38F8008EE718 /* CDControl.h */,
+				A796ECC71E9A38F8008EE718 /* CDControl.m */,
+				A796ECC81E9A38F8008EE718 /* CDFileDialogControl */,
+				A796ECCF1E9A38F8008EE718 /* CDIcon.h */,
+				A796ECD01E9A38F8008EE718 /* CDIcon.m */,
+				A796ECD11E9A38F8008EE718 /* CDNotifyControl */,
+				A796ECDE1E9A38F8008EE718 /* CDPanel.h */,
+				A796ECDF1E9A38F8008EE718 /* CDPanel.m */,
+				A796ECE01E9A38F8008EE718 /* CDProgressbar */,
+				A796ECE61E9A38F8008EE718 /* CDThreeButtonControl */,
+			);
+			name = Controls;
+			path = Source/Controls;
+			sourceTree = "<group>";
+		};
+		A796ECC81E9A38F8008EE718 /* CDFileDialogControl */ = {
+			isa = PBXGroup;
+			children = (
+				A796ECC91E9A38F8008EE718 /* CDFileDialogControl.h */,
+				A796ECCA1E9A38F8008EE718 /* CDFileDialogControl.m */,
+				A796ECCB1E9A38F8008EE718 /* CDFileSaveControl.h */,
+				A796ECCC1E9A38F8008EE718 /* CDFileSaveControl.m */,
+				A796ECCD1E9A38F8008EE718 /* CDFileSelectControl.h */,
+				A796ECCE1E9A38F8008EE718 /* CDFileSelectControl.m */,
+			);
+			path = CDFileDialogControl;
+			sourceTree = "<group>";
+		};
+		A796ECD11E9A38F8008EE718 /* CDNotifyControl */ = {
+			isa = PBXGroup;
+			children = (
+				A796ECD21E9A38F8008EE718 /* CDBubbleControl.h */,
+				A796ECD31E9A38F8008EE718 /* CDBubbleControl.m */,
+				A796ECD41E9A38F8008EE718 /* CDGrowlControl.h */,
+				A796ECD51E9A38F8008EE718 /* CDGrowlControl.m */,
+				A796ECD61E9A38F8008EE718 /* CDNotifyControl.h */,
+				A796ECD71E9A38F8008EE718 /* CDNotifyControl.m */,
+				A796ECD81E9A38F8008EE718 /* KABubbleWindow.h */,
+				A796ECD91E9A38F8008EE718 /* KABubbleWindow.m */,
+				A796ECDA1E9A38F8008EE718 /* KABubbleWindowController.h */,
+				A796ECDB1E9A38F8008EE718 /* KABubbleWindowController.m */,
+				A796ECDC1E9A38F8008EE718 /* KABubbleWindowView.h */,
+				A796ECDD1E9A38F8008EE718 /* KABubbleWindowView.m */,
+			);
+			path = CDNotifyControl;
+			sourceTree = "<group>";
+		};
+		A796ECE01E9A38F8008EE718 /* CDProgressbar */ = {
+			isa = PBXGroup;
+			children = (
+				A796ECE11E9A38F8008EE718 /* CDProgressbarControl.h */,
+				A796ECE21E9A38F8008EE718 /* CDProgressbarControl.m */,
+				A796ECE31E9A38F8008EE718 /* CDProgressbarInputHandler.h */,
+				A796ECE41E9A38F8008EE718 /* CDProgressbarInputHandler.m */,
+				A796ECE51E9A38F8008EE718 /* CDProgressbarInputHandlerDelegate.h */,
+			);
+			path = CDProgressbar;
+			sourceTree = "<group>";
+		};
+		A796ECE61E9A38F8008EE718 /* CDThreeButtonControl */ = {
+			isa = PBXGroup;
+			children = (
+				A796ECE71E9A38F8008EE718 /* CDCheckboxControl.h */,
+				A796ECE81E9A38F8008EE718 /* CDCheckboxControl.m */,
+				A796ECE91E9A38F8008EE718 /* CDInputboxControl.h */,
+				A796ECEA1E9A38F8008EE718 /* CDInputboxControl.m */,
+				A796ECEB1E9A38F8008EE718 /* CDMsgboxControl.h */,
+				A796ECEC1E9A38F8008EE718 /* CDMsgboxControl.m */,
+				A796ECED1E9A38F8008EE718 /* CDOkMsgboxControl.h */,
+				A796ECEE1E9A38F8008EE718 /* CDOkMsgboxControl.m */,
+				A796ECEF1E9A38F8008EE718 /* CDPopUpButtonControl.h */,
+				A796ECF01E9A38F8008EE718 /* CDPopUpButtonControl.m */,
+				A796ECF11E9A38F8008EE718 /* CDRadioControl.h */,
+				A796ECF21E9A38F8008EE718 /* CDRadioControl.m */,
+				A796ECF31E9A38F8008EE718 /* CDSecureInputboxControl.h */,
+				A796ECF41E9A38F8008EE718 /* CDSecureInputboxControl.m */,
+				A796ECF51E9A38F8008EE718 /* CDSecureStandardInputboxControl.h */,
+				A796ECF61E9A38F8008EE718 /* CDSecureStandardInputboxControl.m */,
+				A796ECF71E9A38F8008EE718 /* CDSlider.h */,
+				A796ECF81E9A38F8008EE718 /* CDSlider.m */,
+				A796ECF91E9A38F8008EE718 /* CDStandardInputboxControl.h */,
+				A796ECFA1E9A38F8008EE718 /* CDStandardInputboxControl.m */,
+				A796ECFB1E9A38F8008EE718 /* CDStandardPopUpButtonControl.h */,
+				A796ECFC1E9A38F8008EE718 /* CDStandardPopUpButtonControl.m */,
+				A796ECFD1E9A38F8008EE718 /* CDTextboxControl.h */,
+				A796ECFE1E9A38F8008EE718 /* CDTextboxControl.m */,
+				A796ECFF1E9A38F8008EE718 /* CDThreeButtonControl.h */,
+				A796ED001E9A38F8008EE718 /* CDThreeButtonControl.m */,
+				A796ED011E9A38F8008EE718 /* CDYesNoMsgboxControl.h */,
+				A796ED021E9A38F8008EE718 /* CDYesNoMsgboxControl.m */,
+			);
+			path = CDThreeButtonControl;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -419,37 +459,41 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A796ED131E9A38F8008EE718 /* CDNotifyControl.h in Headers */,
+				A796ED3C1E9A38F8008EE718 /* CDYesNoMsgboxControl.h in Headers */,
+				A796ED2C1E9A38F8008EE718 /* CDRadioControl.h in Headers */,
+				A796ED191E9A38F8008EE718 /* KABubbleWindowView.h in Headers */,
 				61EC90AC145FACF8003ADF05 /* AppController.h in Headers */,
-				61EC90AE145FACF8003ADF05 /* CDCommon.h in Headers */,
-				61EC90B0145FACF8003ADF05 /* CDControl.h in Headers */,
-				61EC90B2145FACF8003ADF05 /* CDFileDialogControl.h in Headers */,
-				61EC90B4145FACF8003ADF05 /* CDFileSaveControl.h in Headers */,
-				61EC90B6145FACF8003ADF05 /* CDFileSelectControl.h in Headers */,
-				61EC90B8145FACF8003ADF05 /* CDIcon.h in Headers */,
-				61EC90BA145FACF8003ADF05 /* CDBubbleControl.h in Headers */,
-				61EC90BC145FACF8003ADF05 /* CDGrowlControl.h in Headers */,
-				61EC90BE145FACF8003ADF05 /* CDNotifyControl.h in Headers */,
-				61EC90C0145FACF8003ADF05 /* KABubbleWindow.h in Headers */,
-				61EC90C2145FACF8003ADF05 /* KABubbleWindowController.h in Headers */,
-				61EC90C4145FACF8003ADF05 /* KABubbleWindowView.h in Headers */,
-				61EC90C6145FACF8003ADF05 /* CDPanel.h in Headers */,
-				61EC90C8145FACF8003ADF05 /* CDProgressbarControl.h in Headers */,
-				61EC90CA145FACF8003ADF05 /* CDProgressbarInputHandler.h in Headers */,
-				61EC90CC145FACF8003ADF05 /* CDProgressbarInputHandlerDelegate.h in Headers */,
-				61EC90CD145FACF8003ADF05 /* CDCheckboxControl.h in Headers */,
-				61EC90CF145FACF8003ADF05 /* CDInputboxControl.h in Headers */,
-				61EC90D1145FACF8003ADF05 /* CDMsgboxControl.h in Headers */,
-				61EC90D3145FACF8003ADF05 /* CDOkMsgboxControl.h in Headers */,
-				61EC90D5145FACF8003ADF05 /* CDPopUpButtonControl.h in Headers */,
-				61EC90D7145FACF8003ADF05 /* CDRadioControl.h in Headers */,
-				61EC90D9145FACF8003ADF05 /* CDStandardInputboxControl.h in Headers */,
-				61EC90DB145FACF8003ADF05 /* CDStandardPopUpButtonControl.h in Headers */,
-				61EC90DD145FACF8003ADF05 /* CDTextboxControl.h in Headers */,
-				61EC90DF145FACF8003ADF05 /* CDThreeButtonControl.h in Headers */,
-				61EC90E1145FACF8003ADF05 /* CDYesNoMsgboxControl.h in Headers */,
-				61EC90E3145FACF8003ADF05 /* CDOptions.h in Headers */,
+				A796ECBF1E9A37D7008EE718 /* CDOption.h in Headers */,
+				A796ED301E9A38F8008EE718 /* CDSecureStandardInputboxControl.h in Headers */,
+				A796ED3A1E9A38F8008EE718 /* CDThreeButtonControl.h in Headers */,
+				A796ED281E9A38F8008EE718 /* CDOkMsgboxControl.h in Headers */,
+				A796ED1F1E9A38F8008EE718 /* CDProgressbarInputHandler.h in Headers */,
+				A796ED2E1E9A38F8008EE718 /* CDSecureInputboxControl.h in Headers */,
+				A796ED341E9A38F8008EE718 /* CDStandardInputboxControl.h in Headers */,
+				A796ED111E9A38F8008EE718 /* CDGrowlControl.h in Headers */,
+				A796ED171E9A38F8008EE718 /* KABubbleWindowController.h in Headers */,
+				A796ECC11E9A37D7008EE718 /* CDOptions.h in Headers */,
+				A796ED071E9A38F8008EE718 /* CDFileDialogControl.h in Headers */,
+				A796ED1D1E9A38F8008EE718 /* CDProgressbarControl.h in Headers */,
+				A796ED221E9A38F8008EE718 /* CDCheckboxControl.h in Headers */,
+				A796ED0D1E9A38F8008EE718 /* CDIcon.h in Headers */,
+				A796ED091E9A38F8008EE718 /* CDFileSaveControl.h in Headers */,
+				A796ED051E9A38F8008EE718 /* CDControl.h in Headers */,
+				A796ED381E9A38F8008EE718 /* CDTextboxControl.h in Headers */,
+				A796ED321E9A38F8008EE718 /* CDSlider.h in Headers */,
+				A796ED211E9A38F8008EE718 /* CDProgressbarInputHandlerDelegate.h in Headers */,
+				A796ED2A1E9A38F8008EE718 /* CDPopUpButtonControl.h in Headers */,
+				A796ED151E9A38F8008EE718 /* KABubbleWindow.h in Headers */,
+				A796ED241E9A38F8008EE718 /* CDInputboxControl.h in Headers */,
+				A796ED1B1E9A38F8008EE718 /* CDPanel.h in Headers */,
+				A796ED0F1E9A38F8008EE718 /* CDBubbleControl.h in Headers */,
+				A796ECBD1E9A37D7008EE718 /* CDArguments.h in Headers */,
+				A796ED0B1E9A38F8008EE718 /* CDFileSelectControl.h in Headers */,
+				A796ED031E9A38F8008EE718 /* CDCommon.h in Headers */,
+				A796ED361E9A38F8008EE718 /* CDStandardPopUpButtonControl.h in Headers */,
 				61EC90E7145FACF8003ADF05 /* cocoaDialog_Prefix.pch in Headers */,
-				61EC90EC145FB0A0003ADF05 /* CDSlider.h in Headers */,
+				A796ED261E9A38F8008EE718 /* CDMsgboxControl.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -510,13 +554,13 @@
 				};
 			};
 			buildConfigurationList = 0E77E9A30963C37C00D651A3 /* Build configuration list for PBXProject "cocoaDialog" */;
-			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = "en-US";
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				en,
 				English,
 				"en-US",
+				Base,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* cocoaDialog */;
 			projectDirPath = "";
@@ -534,6 +578,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7BABB401445829B00D3F168 /* relaunch in Resources */,
+				A78A97B91E95C65000E4B3D1 /* Localizable.strings in Resources */,
 				0E71DA1B0963B19500FF6F7C /* cocoadialog.icns in Resources */,
 				A78A8CD414376C42007AE363 /* InfoPlist.strings in Resources */,
 				A78A8CD514376C42007AE363 /* MainMenu.xib in Resources */,
@@ -543,7 +588,6 @@
 				A78A8CD914376C42007AE363 /* Textbox.xib in Resources */,
 				A78A8CE014377610007AE363 /* CHANGELOG in Resources */,
 				A78A8CE114377610007AE363 /* LICENSE in Resources */,
-				61FA9D2114518E97006E0674 /* dsa_pub.pem in Resources */,
 				A7D40438153C2BC3005FA3CD /* popup.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -556,35 +600,40 @@
 			buildActionMask = 2147483647;
 			files = (
 				61EC90AD145FACF8003ADF05 /* AppController.m in Sources */,
-				61EC90AF145FACF8003ADF05 /* CDCommon.m in Sources */,
-				61EC90B1145FACF8003ADF05 /* CDControl.m in Sources */,
-				61EC90B3145FACF8003ADF05 /* CDFileDialogControl.m in Sources */,
-				61EC90B5145FACF8003ADF05 /* CDFileSaveControl.m in Sources */,
-				61EC90B7145FACF8003ADF05 /* CDFileSelectControl.m in Sources */,
-				61EC90B9145FACF8003ADF05 /* CDIcon.m in Sources */,
-				61EC90BB145FACF8003ADF05 /* CDBubbleControl.m in Sources */,
-				61EC90BD145FACF8003ADF05 /* CDGrowlControl.m in Sources */,
-				61EC90BF145FACF8003ADF05 /* CDNotifyControl.m in Sources */,
-				61EC90C1145FACF8003ADF05 /* KABubbleWindow.m in Sources */,
-				61EC90C3145FACF8003ADF05 /* KABubbleWindowController.m in Sources */,
-				61EC90C5145FACF8003ADF05 /* KABubbleWindowView.m in Sources */,
-				61EC90C7145FACF8003ADF05 /* CDPanel.m in Sources */,
-				61EC90C9145FACF8003ADF05 /* CDProgressbarControl.m in Sources */,
-				61EC90CB145FACF8003ADF05 /* CDProgressbarInputHandler.m in Sources */,
-				61EC90CE145FACF8003ADF05 /* CDCheckboxControl.m in Sources */,
-				61EC90D0145FACF8003ADF05 /* CDInputboxControl.m in Sources */,
-				61EC90D2145FACF8003ADF05 /* CDMsgboxControl.m in Sources */,
-				61EC90D4145FACF8003ADF05 /* CDOkMsgboxControl.m in Sources */,
-				61EC90D6145FACF8003ADF05 /* CDPopUpButtonControl.m in Sources */,
-				61EC90D8145FACF8003ADF05 /* CDRadioControl.m in Sources */,
-				61EC90DA145FACF8003ADF05 /* CDStandardInputboxControl.m in Sources */,
-				61EC90DC145FACF8003ADF05 /* CDStandardPopUpButtonControl.m in Sources */,
-				61EC90DE145FACF8003ADF05 /* CDTextboxControl.m in Sources */,
-				61EC90E0145FACF8003ADF05 /* CDThreeButtonControl.m in Sources */,
-				61EC90E2145FACF8003ADF05 /* CDYesNoMsgboxControl.m in Sources */,
-				61EC90E4145FACF8003ADF05 /* CDOptions.m in Sources */,
+				A796ED231E9A38F8008EE718 /* CDCheckboxControl.m in Sources */,
+				A796ED371E9A38F8008EE718 /* CDStandardPopUpButtonControl.m in Sources */,
+				A796ED181E9A38F8008EE718 /* KABubbleWindowController.m in Sources */,
+				A796ED351E9A38F8008EE718 /* CDStandardInputboxControl.m in Sources */,
+				A796ED141E9A38F8008EE718 /* CDNotifyControl.m in Sources */,
+				A796ED041E9A38F8008EE718 /* CDCommon.m in Sources */,
+				A796ED101E9A38F8008EE718 /* CDBubbleControl.m in Sources */,
+				A7A51DE51E96B8B200469C11 /* CDString.m in Sources */,
+				A796ED0E1E9A38F8008EE718 /* CDIcon.m in Sources */,
+				A796ED2F1E9A38F8008EE718 /* CDSecureInputboxControl.m in Sources */,
+				A796ECC21E9A37D7008EE718 /* CDOptions.m in Sources */,
+				A796ECBE1E9A37D7008EE718 /* CDArguments.m in Sources */,
+				A796ED0A1E9A38F8008EE718 /* CDFileSaveControl.m in Sources */,
+				A796ED1A1E9A38F8008EE718 /* KABubbleWindowView.m in Sources */,
+				A796ED331E9A38F8008EE718 /* CDSlider.m in Sources */,
+				A796ED3D1E9A38F8008EE718 /* CDYesNoMsgboxControl.m in Sources */,
+				A796ED201E9A38F8008EE718 /* CDProgressbarInputHandler.m in Sources */,
+				A796ED391E9A38F8008EE718 /* CDTextboxControl.m in Sources */,
+				A796ED251E9A38F8008EE718 /* CDInputboxControl.m in Sources */,
+				A796ED2D1E9A38F8008EE718 /* CDRadioControl.m in Sources */,
+				A796ED1E1E9A38F8008EE718 /* CDProgressbarControl.m in Sources */,
+				A796ED121E9A38F8008EE718 /* CDGrowlControl.m in Sources */,
+				A796ED081E9A38F8008EE718 /* CDFileDialogControl.m in Sources */,
+				A796ED161E9A38F8008EE718 /* KABubbleWindow.m in Sources */,
+				A796ED311E9A38F8008EE718 /* CDSecureStandardInputboxControl.m in Sources */,
+				A796ED3B1E9A38F8008EE718 /* CDThreeButtonControl.m in Sources */,
+				A796ED1C1E9A38F8008EE718 /* CDPanel.m in Sources */,
+				A796ED2B1E9A38F8008EE718 /* CDPopUpButtonControl.m in Sources */,
+				A796ECC01E9A37D7008EE718 /* CDOption.m in Sources */,
+				A796ED271E9A38F8008EE718 /* CDMsgboxControl.m in Sources */,
+				A796ED0C1E9A38F8008EE718 /* CDFileSelectControl.m in Sources */,
+				A796ED061E9A38F8008EE718 /* CDControl.m in Sources */,
 				61EC90E9145FAD58003ADF05 /* main.m in Sources */,
-				61EC90ED145FB0A0003ADF05 /* CDSlider.m in Sources */,
+				A796ED291E9A38F8008EE718 /* CDOkMsgboxControl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -610,7 +659,7 @@
 		A78A8CB5143759ED007AE363 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				A78A8CB6143759ED007AE363 /* en-US */,
+				A78A97A81E95C5FE00E4B3D1 /* Base */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -618,7 +667,7 @@
 		A78A8CB7143759ED007AE363 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				A78A8CB8143759ED007AE363 /* en-US */,
+				A78A97A01E95C5E700E4B3D1 /* Base */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -626,7 +675,7 @@
 		A78A8CB9143759ED007AE363 /* Msgbox.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				A78A8CBA143759ED007AE363 /* en-US */,
+				A78A97A11E95C5E700E4B3D1 /* Base */,
 			);
 			name = Msgbox.xib;
 			sourceTree = "<group>";
@@ -634,7 +683,7 @@
 		A78A8CBB143759ED007AE363 /* Progressbar.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				A78A8CBC143759ED007AE363 /* en-US */,
+				A78A97A31E95C5E700E4B3D1 /* Base */,
 			);
 			name = Progressbar.xib;
 			sourceTree = "<group>";
@@ -642,7 +691,7 @@
 		A78A8CBD143759ED007AE363 /* tbc.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				A78A8CBE143759ED007AE363 /* en-US */,
+				A78A97A41E95C5E700E4B3D1 /* Base */,
 			);
 			name = tbc.xib;
 			sourceTree = "<group>";
@@ -650,15 +699,33 @@
 		A78A8CBF143759ED007AE363 /* Textbox.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				A78A8CC0143759ED007AE363 /* en-US */,
+				A78A97A51E95C5E700E4B3D1 /* Base */,
 			);
 			name = Textbox.xib;
+			sourceTree = "<group>";
+		};
+		A78A97A71E95C5F600E4B3D1 /* Info.plist */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A78A97A61E95C5F600E4B3D1 /* Base */,
+				A78A97B61E95C62900E4B3D1 /* en-US */,
+			);
+			name = Info.plist;
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		A78A97B71E95C65000E4B3D1 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A7A51DE11E96B03200469C11 /* Base */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 		A7D40436153C2BC3005FA3CD /* popup.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				A7D40437153C2BC3005FA3CD /* en-US */,
+				A78A97A21E95C5E700E4B3D1 /* Base */,
 			);
 			name = popup.xib;
 			sourceTree = "<group>";
@@ -676,7 +743,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaDialog;
 				SDKROOT = macosx;
@@ -703,6 +770,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -725,6 +793,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -739,7 +808,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaDialog;
 				SDKROOT = macosx;
@@ -753,7 +822,7 @@
 			baseConfigurationReference = A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaDialog;
 				PRODUCT_NAME = relaunch;
 				SDKROOT = macosx;
@@ -766,7 +835,7 @@
 			baseConfigurationReference = A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaDialog;
 				PRODUCT_NAME = relaunch;
 				SDKROOT = macosx;

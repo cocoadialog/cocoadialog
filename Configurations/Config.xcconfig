@@ -50,7 +50,7 @@ WARNING_CFLAGS = -Wall -Wno-unused-parameter -Werror -Wundef -Wendif-labels -Wpo
 
 PRODUCT_NAME = cocoaDialog
 WRAPPER_EXTENSION = app
-INFOPLIST_FILE = Resources/Info.plist
+INFOPLIST_FILE = Resources/Base.lproj/Info.plist
 GCC_PREFIX_HEADER = Source/cocoaDialog_Prefix.pch
 
 FRAMEWORK_SEARCH_PATHS = ${SRCROOT}/Frameworks

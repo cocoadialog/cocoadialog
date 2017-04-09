@@ -41,7 +41,7 @@ int main (int argc, const char * argv[]) {
             executablePath = executableArguments[0];
             [executableArguments removeObjectAtIndex:0];
             if ([executablePath.pathExtension isEqualToString:@""]) {
-                NSTask *task = [[NSTask alloc] init];
+                NSTask *task = [[[NSTask alloc] init] autorelease];
                 task.launchPath = @"/usr/bin/arch";
                 [executableArguments insertObject:executablePath atIndex:0];
 #if defined __ppc__
@@ -53,9 +53,10 @@ int main (int argc, const char * argv[]) {
 #elif defined __x86_64__
                 [executableArguments insertObject:@"-x86_64" atIndex:0];
 #endif
+                task.standardError = [NSFileHandle fileHandleWithStandardError];
+                task.standardOutput = [NSFileHandle fileHandleWithStandardOutput];
                 task.arguments = executableArguments;
                 [task launch];
-                [task release];
             }
             // Relaunch GUI application
             else {

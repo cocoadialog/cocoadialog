@@ -1,0 +1,98 @@
+/* Application */
+"APP_TITLE" = "cocoaDialog";
+"APP_NAME" = "cocoadialog";
+
+/* General */
+"CANCEL" = "Cancel";
+"DEBUG" = "DEBUG";
+"ERROR" = "ERROR";
+"FATAL" = "FATAL";
+"NO" = "No";
+"OK" = "Ok";
+"OKAY" = "Okay";
+"OPTION_EMPTY_TEXT" = "An input is required, please try again.";
+"WARNING" = "WARNING";
+"VERBOSE" = "VERBOSE";
+"YES" = "Yes";
+
+/* Usage */
+"USAGE" = "Usage: cocoaDialog %@ [options]";
+"USAGE_CATEGORY_CONTROLS" = "Controls";
+"USAGE_CATEGORY_CONTROL" = "Control options";
+"USAGE_VERSION" = "Version";
+"USAGE_VISIT_SITE" = "Visit %s for more information.";
+
+/* Option argument types */
+"OPTION_TYPE_STRING" = "string";
+"OPTION_TYPE_NUMBER" = "number";
+
+/* Global Options */
+"GLOBAL_OPTION" = "Global options";
+"GLOBAL_OPTION_DEBUG" = "Enables debug oriented output to help troubleshoot possible issues with a control. WARNING: This affects the control output and should not be used in stable code.";
+"GLOBAL_OPTION_HELP" = "Displays this help.";
+"GLOBAL_OPTION_HEIGHT" = "Height of the control.";
+"GLOBAL_OPTION_ICON" = "Name of the icon to use. See website for full list.";
+"GLOBAL_OPTION_ICON_BUNDLE" = "Name of the bundle to load icon from.";
+"GLOBAL_OPTION_ICON_FILE" = "Filename of an icon or image to use.";
+"GLOBAL_OPTION_ICON_HEIGHT" = "Height of the icon.";
+"GLOBAL_OPTION_ICON_SIZE" = "Unified height and width of icon. Can be one of: 16, 32, 48, 128, 256.";
+"GLOBAL_OPTION_ICON_TYPE" = "File extension type to use. Defaults to \"icns\"";
+"GLOBAL_OPTION_ICON_WIDTH" = "Width of the icon.";
+"GLOBAL_OPTION_MAX_HEIGHT" = "Maximum height for the control.";
+"GLOBAL_OPTION_MAX_WIDTH" = "Maximum width for the control.";
+"GLOBAL_OPTION_MIN_HEIGHT" = "Minimum height for the control.";
+"GLOBAL_OPTION_MIN_WIDTH" = "Minimum width for the control.";
+"GLOBAL_OPTION_NO_FLOAT" = "Prevents the control from always showing. WARNING: disabling this may cause the control to become difficult to manage.";
+"GLOBAL_OPTION_NO_NEWLINE" = "Prevents appending a newline character to the control result value.";
+"GLOBAL_OPTION_NO_WARNINGS" = "Prevents any warning messages that may affect the control result value.";
+"GLOBAL_OPTION_POSX" = "The horizontal position of the control. Possible values are: \"left\", \"center\", \"right\" or a <number> in pixels.";
+"GLOBAL_OPTION_POSY" = "The vertical position of the control. Possible values are: \"top\", \"center\", \"bottom\" or a <number> in pixels.";
+"GLOBAL_OPTION_QUIET" = "Silences all output.";
+"GLOBAL_OPTION_RESIZE" = "Allows the control to be resizeable.";
+"GLOBAL_OPTION_SCREEN" = "Indicates on which screen the control will appear. By default, the screen that currently has keyboard focus is used.";
+"GLOBAL_OPTION_STRING_OUTPUT" = "Returns text values of input elements rather than their numerical index.";
+"GLOBAL_OPTION_TITLE" = "Label to use in the titlebar of the control.";
+"GLOBAL_OPTION_TITLEBAR_CLOSE" = "Enables the close titlebar button.";
+"GLOBAL_OPTION_TITLEBAR_MINIMIZE" = "Enables the minimize titlebar button.";
+"GLOBAL_OPTION_TITLEBAR_ZOOM" = "Enables the zoom (resize) titlebar button.";
+"GLOBAL_OPTION_TIMEOUT" = "Number of seconds the control should wait for user input before timing out.";
+"GLOBAL_OPTION_TIMEOUT_FORMAT" = "Sets the timeout format used to display the remaining time. Provided replacement tokens include:\n%r (relative), %d (day), %h (hour), %m (minute) and %s (second).";
+"GLOBAL_OPTION_VERBOSE" = "Enables verbose oriented output to help troubleshoot possible issues with a control. WARNING: This affects the control output and should not be used in stable code.";
+"GLOBAL_OPTION_VERSION" = "Outputs the current version and then quits.";
+"GLOBAL_OPTION_WIDTH" = "Width of the control.";
+
+/* TBC (three button control) options */
+"CONTROL_OPTIONS_LABEL" = "Text to be displayed at the top of the control.";
+"CONTROL_OPTIONS_BUTTON1" = "Text to be displayed in the first button. If omitted, this button will not be shown.";
+"CONTROL_OPTIONS_BUTTON2" = "Text to be displayed in the second button. If omitted, this button will not be shown.";
+"CONTROL_OPTIONS_BUTTON3" = "Text to be displayed in the third button. If omitted, this button will not be shown.";
+"CONTROL_OPTIONS_CANCEL" = "Specifies which button should be used as the \"Cancel\" button (e.g. --cancel 2). By default, cocoaDialog will automatically attempt to set this by using any button text equals \"Cancel\".";
+"CONTROL_OPTIONS_NO_DEFAULT_BUTTON" = "Flag indicating that --button1 will not automatically be focused and requires manual use input.";
+"CONTROL_OPTIONS_VALUE_REQUIRED" = "Flag indicating that a value is required from the user before the control is able to close.";
+"CONTROL_OPTIONS_EMPTY_TEXT" = "The text to display to the user when --value-required has been set and user has not provided input.";
+
+/* Checkbox options */
+"_CHECKBOX_OPTIONS" = "Checkbox options";
+"_CHECKBOX_OPTIONS_CHECKED" = "List of item indices where the \"checked\" state should be enabled.";
+"_CHECKBOX_OPTIONS_COLUMNS" = "Number of columns the checkboxes should fit into.";
+"_CHECKBOX_OPTIONS_DISABLED" = "List of item indices where the \"disabled\" state should be enabled.";
+"_CHECKBOX_OPTIONS_ITEMS" = "List of checkbox items. The first item's index is 0, the second is 1 and so forth.";
+"_CHECKBOX_OPTIONS_MIXED" = "List of item indices where the \"mixed\" state should be enabled.";
+"_CHECKBOX_OPTIONS_ROWS" = "Number of rows the checkboxes should fit into.";
+
+/* File based controls */
+"CONTROL_OPTIONS_CREATE_DIRECTORIES" = "Allows the creation of directories.";
+"CONTROL_OPTIONS_PACKAGES_AS_DIRECTORIES" = "Allows the traversal of package files (.app, .bundle, .pkg, etc.) like directories.";
+"CONTROL_OPTIONS_WITH_EXTENSIONS" = "A space separated list of extensions.";
+"CONTROL_OPTIONS_WITH_DIRECTORY" = "The directory in which to start the control in.";
+"CONTROL_OPTIONS_WITH_FILE" = "The initial file to select control opens.";
+
+/* msgbox */
+"CONTROL_OPTIONS_ALERT" = "Bolded text to be displayed above --label.";
+
+/* progressbar */
+"PROGRESS_BAR_STOP_QUESTION" = "Are you sure you want to stop?";
+"PROGRESS_BAR_STOP_BUTTON" = "Stop";
+
+/* slider  */
+"SLIDER_DEFAULT_LABEL" = "Choose a value:";

@@ -19,7 +19,9 @@
 */
 
 #import <Foundation/Foundation.h>
-#import "CDOptions.h"
+#import "CDArguments.h"
+
+// Controls.
 #import "CDControl.h"
 #import "CDBubbleControl.h"
 #import "CDCheckboxControl.h"
@@ -33,24 +35,28 @@
 #import "CDPopUpButtonControl.h"
 #import "CDProgressbarControl.h"
 #import "CDRadioControl.h"
+#import "CDSecureInputboxControl.h"
+#import "CDSecureStandardInputboxControl.h"
 #import "CDSlider.h"
 #import "CDStandardInputboxControl.h"
 #import "CDStandardPopUpButtonControl.h"
 #import "CDTextboxControl.h"
 #import "CDYesNoMsgboxControl.h"
 
+#define CDSite "http://mstratman.github.io/cocoadialog/"
+
 @interface AppController : NSObject {
-    CDControl               *currentControl;
     IBOutlet NSPanel        *aboutPanel;
     IBOutlet NSTextField    *aboutAppLink;
     IBOutlet NSTextField    *aboutText;
-    NSMutableArray          *arguments;
 }
-    + (NSDictionary *) availableControls;
-    + (NSDictionary *) availableGlobalOptions;
-    @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *appVersion;
-    - (void) chooseControl:(NSString *)name useOptions:options addExtraOptionsTo:(NSMutableDictionary *)extraOptions;
-    -(void)setHyperlinkForTextField:(NSTextField*)aTextField replaceString:(NSString *)aString withURL:(NSString *)aURL;
+
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *appVersion;
+
++ (NSDictionary *) availableControls;
+- (CDControl *) findControl;
++ (int) getTerminalWidth;
+- (void)setHyperlinkForTextField:(NSTextField*)aTextField replaceString:(NSString *)aString withURL:(NSString *)aURL;
 @end
 
 @interface NSAttributedString (Hyperlink)
