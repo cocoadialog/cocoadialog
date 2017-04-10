@@ -1,3 +1,6 @@
+#import <Foundation/Foundation.h>
+#import "NSString+AnsiColors.h"
+
 @interface NSString (CocoaDialog)
 
 -(BOOL)contains:(NSString *)string;

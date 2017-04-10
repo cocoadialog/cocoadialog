@@ -111,22 +111,34 @@
             // that the option has been set and continue.
             if ([option isKindOfClass:[CDOptionFlag class]]) {
                 option.value = @YES;
-                // If there are any "values" for this option, then they're really
-                // arguments that should be added back.
+                // If there are any "values" for this option, then they
+                // are actually arguments that should be added back.
                 for (arg in providedOptions[name]) {
                     [_arguments addObject:arg];
+                }
+            }
+            // Boolean.
+            else if ([option isKindOfClass:[CDOptionBoolean class]]) {
+                if (providedValues.count) {
+                    BOOL value = NO;
+                    // Retrieve the last value
+                    NSString *providedValue = providedValues[providedValues.count - 1];
+                    if ([providedValue isEqualToStringCaseInsensitive:@"yes"] || [providedValue isEqualToStringCaseInsensitive:@"true"] || [providedValue isEqualToStringCaseInsensitive:@"1"]) {
+                        value = YES;
+                    }
+                    option.value = [NSNumber numberWithBool:value];
                 }
             }
             // Single string (or number).
             else if ([option isKindOfClass:[CDOptionSingleString class]] || [option isKindOfClass:[CDOptionSingleStringOrNumber class]]) {
                 if (providedValues.count) {
-                    option.value = providedValues[0];
+                    option.value = providedValues[providedValues.count - 1];
                 }
             }
             // Single number.
             else if ([option isKindOfClass:[CDOptionSingleNumber class]]) {
                 if (providedValues.count) {
-                    option.value = [NSNumber numberWithInt:[providedValues[0] intValue]];
+                    option.value = [NSNumber numberWithInt:[providedValues[providedValues.count - 1] intValue]];
                 }
             }
             // Multiple strings (or numbers).
@@ -151,7 +163,27 @@
 }
 
 - (id) getOption:(NSString *)key {
-	return _options[key].value;
+    return _options[key].value;
+}
+
+- (NSArray *)optionAsArray:(NSString *)key {
+    return [NSArray arrayWithArray:_options[key].value];
+}
+
+- (BOOL)optionAsBoolean:(NSString *)key {
+    return [_options[key].value boolValue];
+}
+
+- (int)optionAsInt:(NSString *)key {
+    return [_options[key].value intValue];
+}
+
+- (NSNumber *)optionAsNumber:(NSString *)key {
+    return [NSNumber numberWithInt:[_options[key].value intValue]];
+}
+
+- (NSString *)optionAsString:(NSString *)key {
+    return [_options[key].value string];
 }
 
 - (void) setOption:(NSString *)key value:(id)value {

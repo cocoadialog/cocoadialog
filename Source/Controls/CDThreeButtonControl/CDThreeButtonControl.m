@@ -29,14 +29,14 @@
 - (CDOptions *) availableOptions {
     CDOptions *options = [super availableOptions];
 
-    [options addOption:[CDOptionSingleString            name:@"button1"]];
-    [options addOption:[CDOptionSingleString            name:@"button2"]];
-    [options addOption:[CDOptionSingleString            name:@"button3"]];
-    [options addOption:[CDOptionSingleStringOrNumber    name:@"cancel"]];
-    [options addOption:[CDOptionSingleString            name:@"empty-text"]];
-    [options addOption:[CDOptionFlag                    name:@"no-default-button"]];
-    [options addOption:[CDOptionSingleString            name:@"label"]];
-    [options addOption:[CDOptionFlag                    name:@"value-required"]];
+    [options addOption:[CDOptionSingleString            name:@"button1"             category:@"WINDOW_OPTION"]];
+    [options addOption:[CDOptionSingleString            name:@"button2"             category:@"WINDOW_OPTION"]];
+    [options addOption:[CDOptionSingleString            name:@"button3"             category:@"WINDOW_OPTION"]];
+    [options addOption:[CDOptionSingleStringOrNumber    name:@"cancel"              category:@"WINDOW_OPTION"]];
+    [options addOption:[CDOptionSingleString            name:@"empty-text"          category:@"WINDOW_OPTION"]];
+    [options addOption:[CDOptionFlag                    name:@"no-default-button"   category:@"WINDOW_OPTION"]];
+    [options addOption:[CDOptionSingleString            name:@"label"               category:@"WINDOW_OPTION"]];
+    [options addOption:[CDOptionFlag                    name:@"value-required"      category:@"WINDOW_OPTION"]];
 
     return options;
 }

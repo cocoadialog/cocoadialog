@@ -1,4 +1,4 @@
-#import "CDString.h"
+#import "NSString+CocoaDialog.h"
 
 @implementation NSString (CocoaDialog)
 

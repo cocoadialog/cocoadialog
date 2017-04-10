@@ -19,7 +19,13 @@
 */
 
 #import <Foundation/Foundation.h>
+
+// Category extensions.
+#import "NSString+CocoaDialog.h"
+
+// Core.
 #import "CDArguments.h"
+#import "CDTput.h"
 
 // Controls.
 #import "CDControl.h"
@@ -43,7 +49,7 @@
 #import "CDTextboxControl.h"
 #import "CDYesNoMsgboxControl.h"
 
-#define CDSite "http://mstratman.github.io/cocoadialog/"
+#define CDSite "https://mstratman.github.io/cocoadialog/"
 
 @interface AppController : NSObject {
     IBOutlet NSPanel        *aboutPanel;
@@ -51,11 +57,12 @@
     IBOutlet NSTextField    *aboutText;
 }
 
++ (NSString *) appVersion;
+
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *appVersion;
 
 + (NSDictionary *) availableControls;
 - (CDControl *) findControl;
-+ (int) getTerminalWidth;
 - (void)setHyperlinkForTextField:(NSTextField*)aTextField replaceString:(NSString *)aString withURL:(NSString *)aURL;
 @end
 

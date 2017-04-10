@@ -1,4 +1,9 @@
 #import <Foundation/Foundation.h>
+
+// Category extensions.
+#import "NSString+CocoaDialog.h"
+
+// Options.
 #import "CDOption.h"
 #import "CDOptions.h"
 
@@ -19,6 +24,11 @@
 - (NSString *) getArgument:(unsigned int) index;
 - (BOOL) hasOption:(NSString *)key;
 - (id) getOption:(NSString *)key;
+- (NSArray *) optionAsArray:(NSString *)key;
+- (BOOL) optionAsBoolean:(NSString *)key;
+- (int) optionAsInt:(NSString *)key;
+- (NSNumber *) optionAsNumber:(NSString *)key;
+- (NSString *) optionAsString:(NSString *)key;
 - (void) setOption:(NSString *)key value:(id)value;
 
 @end

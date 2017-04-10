@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CDArguments.h"
-#import "CDString.h"
+#import "NSString+CocoaDialog.h"
 @class NSObject;
 
 @interface CDCommon : NSObject {
@@ -27,7 +27,9 @@
 - (void) warning:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2);
 - (void) write:(NSString *)string;
 - (void) writeLn:(NSString *)string;
+- (void) writeNewLine;
 - (void) write:(NSString *)string asError:(BOOL)error;
 - (void) writeLn:(NSString *)string asError:(BOOL)error;
+- (void) writeNewLineAsError:(BOOL)error;
 
 @end

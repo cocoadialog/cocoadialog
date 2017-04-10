@@ -1,4 +1,8 @@
 #import <Foundation/Foundation.h>
+
+// Category extensions.
+#import "NSString+CocoaDialog.h"
+
 #import "CDOption.h"
 
 @interface CDOptions : NSObject {}

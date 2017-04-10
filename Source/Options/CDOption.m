@@ -72,6 +72,7 @@
 
 @end
 
+@implementation CDOptionBoolean @end
 @implementation CDOptionFlag @end
 @implementation CDOptionSingleString @end
 @implementation CDOptionSingleNumber @end

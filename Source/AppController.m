@@ -19,18 +19,23 @@
 */
 
 #import "AppController.h"
-#import "CDString.h"
+#import "NSString+CocoaDialog.h"
 
 @implementation AppController
 
-- (NSString *) appVersion {
++ (NSString *) appVersion {
     return [NSBundle mainBundle].infoDictionary[@"CFBundleVersion"];
+}
+
+- (NSString *)appVersion {
+    return [AppController appVersion];
 }
 
 #pragma mark - Initialization
 - (void) awakeFromNib {
     // Create the control.
     CDControl *control = [self findControl];
+
 
     [control verbose:@"Control: %@", control.controlName];
 
@@ -42,8 +47,8 @@
 
     NSArray *unknown = [control.arguments unknownOptions];
     if (unknown.count) {
-        for (id name in unknown) {
-            [control verbose:@"Unknown option %@", name];
+        for (NSString *name in unknown) {
+            [control warning:@"Unknown option: %@", [NSString stringWithFormat:@"--%@", name].magenta];
         }
     }
 
@@ -97,24 +102,28 @@
     // Create a base control to use for printing.
     CDControl *control = [[[CDControl alloc] initWithArguments] autorelease];
 
+    // Detect terminal support.
+    BOOL terminalSupportsColor = [CDTput supportsColor];
+
+    // Detect --color option override.
+    BOOL showColor = terminalSupportsColor;
+    if ([control.arguments hasOption:@"color"]) {
+        showColor = [control.arguments optionAsBoolean:@"color"];
+    }
+
+    // If there shouldn't be any color, switch off the global variable.
+    if (!showColor) {
+        NSStringAnsiColors = NO;
+    }
+
+    [control debug:@"Terminal supports color: %@", (terminalSupportsColor ? NSLocalizedString(@"YES", nil) : NSLocalizedString(@"NO", nil)).magenta];
+    if ([control.arguments hasOption:@"color"]) {
+        [control debug:@"Color option specified. Enabled: %@", (showColor ? NSLocalizedString(@"YES", nil) : NSLocalizedString(@"NO", nil)).magenta];
+    }
+
     NSString *name = [control.arguments getArgument:0];
     if (name != nil) {
         name = name.lowercaseString;
-    }
-
-    // Show about.
-    // Name is either the PID of a GUI initialization or "about".
-    if ((name != nil && name.length >= 4 && [[name substringToIndex:4] isEqualToString:@"-psn"]) || [name isEqualToStringCaseInsensitive:@"about"]) {
-        [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
-        [self setHyperlinkForTextField:aboutAppLink replaceString:@CDSite withURL:@CDSite];
-        [self setHyperlinkForTextField:aboutText replaceString:@"command line interface" withURL:@"http://en.wikipedia.org/wiki/Command-line_interface"];
-        [self setHyperlinkForTextField:aboutText replaceString:@"documentation" withURL:@"http://mstratman.github.com/cocoadialog/#documentation"];
-        [aboutPanel setFloatingPanel: YES];
-        [aboutPanel setLevel:NSFloatingWindowLevel];
-        [aboutPanel center];
-        [aboutPanel makeKeyAndOrderFront:nil];
-        [NSApp run];
-        exit(0);
     }
 
     // Show global usage.
@@ -125,12 +134,22 @@
 
     // Show version.
     if ([name isEqualToStringCaseInsensitive:@"version"] || [control.arguments hasOption:@"version"]) {
-        [control writeLn:[self appVersion]];
+        [control writeLn:[AppController appVersion]];
         exit(0);
     }
 
-    if (name == nil) {
-        [control fatalError:@"You must specify a control."];
+    // Show about.
+    if (name == nil || [name isEqualToStringCaseInsensitive:@"about"]) {
+        [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
+        [self setHyperlinkForTextField:aboutAppLink replaceString:@CDSite withURL:@CDSite];
+        [self setHyperlinkForTextField:aboutText replaceString:@"command line interface" withURL:@"http://en.wikipedia.org/wiki/Command-line_interface"];
+        [self setHyperlinkForTextField:aboutText replaceString:@"documentation" withURL:@"http://mstratman.github.com/cocoadialog/#documentation"];
+        [aboutPanel setFloatingPanel: YES];
+        [aboutPanel setLevel:NSFloatingWindowLevel];
+        [aboutPanel center];
+        [aboutPanel makeKeyAndOrderFront:nil];
+        [NSApp run];
+        exit(0);
     }
 
     // Control is a notification, these need to be handled much differently
@@ -171,7 +190,7 @@
 
     Class controlClass = [[AppController availableControls] objectForKey:name];
     if (controlClass == nil) {
-        [control fatalError:@"Invalid control: %@\n", name];
+        [control fatalError:@"Unknown control: %@\n", name.magenta.stopAnsi];
     }
 
     // Bring application into focus.
@@ -197,29 +216,6 @@
     CDNotifyControl *control = [[(CDNotifyControl *)[notifyClass alloc] initWithArguments] autorelease];
     control.controlName = @"notify";
     return control;
-}
-
-+ (int) getTerminalWidth {
-    NSTask *task = [[NSTask alloc] init];
-    NSPipe *out = [NSPipe pipe];
-    [task setLaunchPath:@"/usr/bin/tput"];
-    [task setArguments:@[ @"cols"]];
-    [task setStandardOutput:out];
-
-    [task launch];
-    [task waitUntilExit];
-    [task release];
-
-    NSFileHandle *read = [out fileHandleForReading];
-    NSData *dataRead = [read readDataToEndOfFile];
-    NSString *stringRead = [[[NSString alloc] initWithData:dataRead encoding:NSUTF8StringEncoding] autorelease];
-    int width = [stringRead intValue];
-
-    // If (for whatever reason) there is no terminal width, default to 120.
-    if (width <= 0) {
-        width = 120;
-    }
-    return width;
 }
 
 #pragma mark - Label Hyperlinks

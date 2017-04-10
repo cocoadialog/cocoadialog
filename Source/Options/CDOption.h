@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
-#import "CDString.h"
+
+// Category extensions.
+#import "NSString+CocoaDialog.h"
 
 @interface CDOption : NSObject {}
 
@@ -29,14 +31,17 @@
 
 @end
 
-@interface CDOptionFlag : CDOption {} @end
+@interface CDOptionFlag : CDOption @end
 
 // Single values.
-@interface CDOptionSingleString : CDOption {} @end
-@interface CDOptionSingleNumber : CDOption {} @end
-@interface CDOptionSingleStringOrNumber : CDOption {} @end
+@interface CDOptionSingleString : CDOption @end
+@interface CDOptionSingleNumber : CDOption @end
+@interface CDOptionSingleStringOrNumber : CDOption @end
+
+// Boolean
+@interface CDOptionBoolean : CDOptionSingleStringOrNumber @end
 
 // Multiple values.
-@interface CDOptionMultipleStrings : CDOption {} @end
-@interface CDOptionMultipleNumbers : CDOption {} @end
-@interface CDOptionMultipleStringsOrNumbers : CDOption {} @end
+@interface CDOptionMultipleStrings : CDOption @end
+@interface CDOptionMultipleNumbers : CDOption @end
+@interface CDOptionMultipleStringsOrNumbers : CDOption @end

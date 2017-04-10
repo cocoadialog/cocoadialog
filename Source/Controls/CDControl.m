@@ -170,38 +170,40 @@
     id key;
 
     int margin = 4;
-    int terminalWidth = [AppController getTerminalWidth] - margin;
 
-    [fh writeData:[[NSString stringWithFormat:NSLocalizedString(@"USAGE", nil), controlName] dataUsingEncoding:NSUTF8StringEncoding]];
-    [fh writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    // If (for whatever reason) there is no terminal width, default to 80.
+    int tputColumns = [CDTput colsWithMinimum:80] - margin;
 
-    NSMutableDictionary *usageCategories = [[[NSMutableDictionary alloc] init] autorelease];
+    [self writeNewLine];
+    [self writeLn:[NSString stringWithFormat:NSLocalizedString(@"USAGE", nil), controlName].bold.stopAnsi];
 
     // Show avilable controls if it's the CDControl class printing this.
+    NSMutableDictionary *usageCategories = [[[NSMutableDictionary alloc] init] autorelease];
     if ([self class] == [CDControl class]) {
-        [fh writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
-        [fh writeData:[NSLocalizedString(@"USAGE_CATEGORY_CONTROLS", nil) dataUsingEncoding:NSUTF8StringEncoding]];
-        [fh writeData:[@":\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        [self writeNewLine];
+        [self writeLn:NSLocalizedString(@"USAGE_CATEGORY_CONTROLS", nil).uppercaseString.white.bold.underline.stopAnsi];
         NSArray *sortedControls = [NSArray arrayWithArray:[[AppController availableControls].allKeys sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
+        [self writeNewLine];
+
         NSEnumerator *controls = [sortedControls objectEnumerator];
         unsigned currKey = 0;
         unsigned i = 0;
         while (key = [controls nextObject]) {
             if (i == 0) {
-                [fh writeData:[@"    " dataUsingEncoding:NSUTF8StringEncoding]];
+                [self write:@"    "];
             }
-            [fh writeData:[key dataUsingEncoding:NSUTF8StringEncoding]];
+            [self write:key];
             if (i <= 6 && currKey != sortedControls.count - 1) {
-                [fh writeData:[@", " dataUsingEncoding:NSUTF8StringEncoding]];
+                [self write:@", "];
                 i++;
             }
             if (i == 6) {
-                [fh writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
+                [self writeNewLine];
                 i = 0;
             }
             currKey++;
         }
-        [fh writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        [self writeNewLine];
     }
 
     // Get all available options and put them in their necessary categories.
@@ -220,7 +222,8 @@
 
     // Determine the number of columns and how wide they should be.
     NSUInteger columns = 0;
-    NSMutableArray *columnWidths = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray *realColumnWidths = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray *ansiColumnWidths = [[[NSMutableArray alloc] init] autorelease];
     for (id category in usageCategories) {
         NSDictionary *opts = [self parseOptionsIntoColumns:[usageCategories objectForKey:category]];
         for (id name in opts) {
@@ -228,35 +231,57 @@
             if (optColumns.count > columns) {
                 columns = optColumns.count;
             }
-            __block int previousWidth = 0;
+            __block int realPreviousWidth = 0;
+            __block int ansiPreviousWidth = 0;
             [optColumns enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger i, BOOL * _Nonnull stop) {
-                int maxWidth = (terminalWidth - previousWidth);
+                int realMaxWidth = (tputColumns - realPreviousWidth);
+                int ansiMaxWidth = (tputColumns - ansiPreviousWidth);
 
                 NSString *string = [optColumns objectAtIndex:i];
-                if (i >= columnWidths.count || [columnWidths objectAtIndex:i] == nil) {
-                    [columnWidths insertObject:@0 atIndex:i];
+                if (i >= realColumnWidths.count || [realColumnWidths objectAtIndex:i] == nil) {
+                    [realColumnWidths insertObject:@0 atIndex:i];
+                }
+                if (i >= ansiColumnWidths.count || [ansiColumnWidths objectAtIndex:i] == nil) {
+                    [ansiColumnWidths insertObject:@0 atIndex:i];
                 }
 
-                NSNumber *currentLength = [columnWidths objectAtIndex:i];
-                NSNumber *optionLength = [NSNumber numberWithInt:(int) string.length + 5];
-                if ([optionLength intValue] > [currentLength intValue]) {
-                    if ([optionLength intValue] > maxWidth) {
-                        optionLength = [NSNumber numberWithInt:maxWidth];
+                NSNumber *realStringLength = [NSNumber numberWithInt:(int) string.length + 5];
+                if ([realStringLength intValue] > [[realColumnWidths objectAtIndex:i] intValue]) {
+                    if ([realStringLength intValue] > realMaxWidth) {
+                        realStringLength = [NSNumber numberWithInt:realMaxWidth];
                     }
-                    previousWidth += [optionLength intValue];
-                    [columnWidths replaceObjectAtIndex:i withObject:optionLength];
+                    realPreviousWidth += [realStringLength intValue];
+                    [realColumnWidths replaceObjectAtIndex:i withObject:realStringLength];
+                }
+
+                NSNumber *ansiStringLength = [NSNumber numberWithInt:(int) string.removeAnsi.length + 5];
+                if ([ansiStringLength intValue] > [[ansiColumnWidths objectAtIndex:i] intValue]) {
+                    if ([ansiStringLength intValue] > ansiMaxWidth) {
+                        ansiStringLength = [NSNumber numberWithInt:ansiMaxWidth];
+                    }
+                    ansiPreviousWidth += [ansiStringLength intValue];
+                    [ansiColumnWidths replaceObjectAtIndex:i withObject:ansiStringLength];
                 }
             }];
         }
     }
 
     // Print options for each category.
-    NSEnumerator *sortedCategories = [[NSArray arrayWithArray:[usageCategories.allKeys sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]] objectEnumerator];
-    id category;
+    NSEnumerator *sortedCategories = [[NSArray arrayWithArray:[usageCategories.allKeys sortedArrayUsingComparator:^NSComparisonResult(NSString *a, NSString *b) {
+        // Ensure global options are always at the bottom.
+        if ([a isEqualToString:NSLocalizedString(@"GLOBAL_OPTION", nil)]) {
+            return (NSComparisonResult)NSOrderedDescending;
+        }
+        else if ([b isEqualToString:NSLocalizedString(@"GLOBAL_OPTION", nil)]) {
+            return (NSComparisonResult)NSOrderedAscending;
+        }
+        return [a localizedCaseInsensitiveCompare:b];
+    }]] objectEnumerator];
+    NSString *category;
     while (category = [sortedCategories nextObject]) {
-        [fh writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
-        [fh writeData:[category dataUsingEncoding:NSUTF8StringEncoding]];
-        [fh writeData:[@":\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        [self writeNewLine];
+        [self writeLn:category.uppercaseString.white.bold.underline.stopAnsi];
+        [self writeNewLine];
 
         NSDictionary *opts = [self parseOptionsIntoColumns:[usageCategories objectForKey:category]];
         NSArray *sorted = [NSArray arrayWithArray:[opts.allKeys sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
@@ -266,48 +291,48 @@
             NSMutableString *line = [[[NSMutableString alloc] initWithString:@"    "] autorelease];
             NSArray *optColumns = [opts objectForKey:name];
 
-            int previousWidth = 0;
+            int realPreviousWidth = 0;
+            int ansiPreviousWidth = 0;
             for (int i = 0, l = (int) optColumns.count; i < l; i++) {
-                int maxWidth = (terminalWidth - previousWidth);
-                int columnWidth = [[columnWidths objectAtIndex:i] intValue];
+                int ansiMaxWidth = (tputColumns - ansiPreviousWidth);
+                int realColumnWidth = [[realColumnWidths objectAtIndex:i] intValue];
+                int ansiColumnWidth = [[ansiColumnWidths objectAtIndex:i] intValue];
 
                 NSMutableString *column = [NSMutableString string];
 
                 [column appendString:[optColumns objectAtIndex:i]];
 
                 // Wrap the column to fit available space.
-                if (i != 0 && columnWidth >= maxWidth) {
-                    column = [[NSMutableString stringWithString:[column wrapToLength: maxWidth - margin]] autorelease];
+                if (i != 0 && ansiColumnWidth >= ansiMaxWidth) {
+                    column = [[NSMutableString stringWithString:[column wrapToLength: ansiMaxWidth - margin]] autorelease];
                 }
 
                 // Replace new lines so they're intented properly.
-                column = [[NSMutableString stringWithString:[column indentNewlinesWith:(previousWidth + margin)]] autorelease];
+                column = [[NSMutableString stringWithString:[column indentNewlinesWith:(ansiPreviousWidth + margin)]] autorelease];
 
                 // Pad the column with spaces.
                 if (i == 0) {
-                    column = [NSMutableString stringWithString:[column stringByPaddingToLength:columnWidth withString:@" " startingAtIndex:0]];
+                    column = [NSMutableString stringWithString:[column stringByPaddingToLength:ansiColumnWidth withString:@" " startingAtIndex:0 ignoreAnsi:YES]];
                 }
 
-                previousWidth += columnWidth;
+                realPreviousWidth += realColumnWidth;
+                ansiPreviousWidth += ansiColumnWidth;
 
                 [line appendString:column];
             }
-            
-            [line appendString:@"\n"];
-            
-            [fh writeData:[line dataUsingEncoding:NSUTF8StringEncoding]];
+
+            [self writeLn:line.stopAnsi];
         }
     }
 
-    [fh writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
-    [fh writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
-    [fh writeData:[[NSString stringWithFormat:NSLocalizedString(@"USAGE_VISIT_SITE", nil), [@CDSite UTF8String]] dataUsingEncoding:NSUTF8StringEncoding]];
-    [fh writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
-    [fh writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
-    [fh writeData:[NSLocalizedString(@"USAGE_VERSION", nil) dataUsingEncoding:NSUTF8StringEncoding]];
-    [fh writeData:[@": " dataUsingEncoding:NSUTF8StringEncoding]];
-    [fh writeData:[[NSBundle mainBundle].infoDictionary[@"CFBundleVersion"] dataUsingEncoding:NSUTF8StringEncoding]];
-    [fh writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    [self writeNewLine];
+    [self writeNewLine];
+
+    [self writeLn:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"USAGE_VERSION", nil).uppercaseString.underline.white.bold.stopAnsi, [AppController appVersion].cyan]];
+
+    [self writeNewLine];
+
+    [self writeLn:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"USAGE_WEBSITE", nil).uppercaseString.underline.white.bold.stopAnsi, @CDSite.cyan.stopAnsi]];
 }
 
 - (NSMutableDictionary *) parseOptionsIntoColumns:(NSDictionary *)opts {
@@ -322,43 +347,62 @@
 
         // Determine the type of option.
         NSMutableString *type = [NSMutableString string];
-        if (
-            [option isKindOfClass:[CDOptionSingleString class]] ||
-            [option isKindOfClass:[CDOptionSingleStringOrNumber class]] ||
-            [option isKindOfClass:[CDOptionMultipleStrings class]] ||
-            [option isKindOfClass:[CDOptionMultipleStringsOrNumbers class]]
-        ) {
-            [type appendString:NSLocalizedString(@"OPTION_TYPE_STRING", nil)];
+
+        if ([option isKindOfClass:[CDOptionBoolean class]]) {
+            [type appendString:NSLocalizedString(@"OPTION_TYPE_BOOLEAN", nil)];
+            type.ansiFg = AnsiFgMagenta;
         }
-        if (
-            [option isKindOfClass:[CDOptionSingleNumber class]] ||
-            [option isKindOfClass:[CDOptionSingleStringOrNumber class]] ||
-            [option isKindOfClass:[CDOptionMultipleNumbers class]] ||
-            [option isKindOfClass:[CDOptionMultipleStringsOrNumbers class]]
-        ) {
-            if (![type isEqualToString:@""]) {
-                [type appendString:@"|"];
+        else {
+            if (
+                [option isKindOfClass:[CDOptionSingleString class]] ||
+                [option isKindOfClass:[CDOptionSingleStringOrNumber class]] ||
+                [option isKindOfClass:[CDOptionMultipleStrings class]] ||
+                [option isKindOfClass:[CDOptionMultipleStringsOrNumbers class]]
+                ) {
+                [type appendString:NSLocalizedString(@"OPTION_TYPE_STRING", nil)];
+                type.ansiFg = AnsiFgGreen;
             }
-            [type appendString:NSLocalizedString(@"OPTION_TYPE_NUMBER", nil)];
+            if (
+                [option isKindOfClass:[CDOptionSingleNumber class]] ||
+                [option isKindOfClass:[CDOptionSingleStringOrNumber class]] ||
+                [option isKindOfClass:[CDOptionMultipleNumbers class]] ||
+                [option isKindOfClass:[CDOptionMultipleStringsOrNumbers class]]
+                ) {
+                if (![type isEqualToString:@""]) {
+                    [type appendString:@"|"];
+                    type.ansiFg = AnsiFgYellow;
+                }
+                else {
+                    type.ansiFg = AnsiFgCyan;
+                }
+                [type appendString:NSLocalizedString(@"OPTION_TYPE_NUMBER", nil)];
+            }
         }
 
         // Add option "name <type>".
+        BOOL useBreak = NO;
         if (![type isEqualToString:@""]) {
             [type insertString:@"<" atIndex:0];
             [type appendString:@">"];
             if ([option isKindOfClass:[CDOptionMultipleNumbers class]] || [option isKindOfClass:[CDOptionMultipleStrings class]] || [option isKindOfClass:[CDOptionMultipleStringsOrNumbers class]]) {
                 [type appendString:@" [...] --"];
+                useBreak = YES;
             }
-            [columns addObject:[NSString stringWithFormat:@"--%@ %@", option.name, type]];
+            [columns addObject:[NSString stringWithFormat:@"--%@ %@", option.name, type.dim.stopAnsi].white.bold.stopAnsi];
         }
         // Otherwise, just add the option "name".
         else {
-            [columns addObject:[NSString stringWithFormat:@"--%@", option.name]];
+            [columns addObject:[NSString stringWithFormat:@"--%@", option.name].white.bold.stopAnsi];
         }
 
         // Add the option help text (description).
         if (option.helpText != nil) {
-            [columns addObject:option.helpText];
+            if (useBreak) {
+                [columns addObject:[NSString stringWithFormat:@"%@ %@", option.helpText, NSLocalizedString(@"OPTION_DOUBLE_DASH", nil)]];
+            }
+            else {
+                [columns addObject:option.helpText];
+            }
         }
 
         [parsedOpts setObject:columns forKey:option.name];
@@ -510,46 +554,45 @@
 - (CDOptions *) availableOptions {
     CDOptions *options = [CDOptions options];
 
-    NSString *global = @"GLOBAL_OPTION";
-
-    // General.
-    [options addOption:[CDOptionFlag                    name:@"debug"               value: nil category:global]];
-    [options addOption:[CDOptionFlag                    name:@"help"                value: nil category:global]];
-    [options addOption:[CDOptionFlag                    name:@"no-newline"          value: nil category:global]];
-    [options addOption:[CDOptionFlag                    name:@"no-warnings"         value: nil category:global]];
-    [options addOption:[CDOptionFlag                    name:@"quiet"               value: nil category:global]];
-    [options addOption:[CDOptionFlag                    name:@"string-output"       value: nil category:global]];
-    [options addOption:[CDOptionSingleNumber            name:@"timeout"             value: nil category:global]];
-    [options addOption:[CDOptionSingleString            name:@"timeout-format"      value: nil category:global]];
-    [options addOption:[CDOptionFlag                    name:@"verbose"             value: nil category:global]];
-    [options addOption:[CDOptionFlag                    name:@"version"             value: nil category:global]];
+    // Global.
+    [options addOption:[CDOptionBoolean                 name:@"color"               category:@"GLOBAL_OPTION"]];
+    [options addOption:[CDOptionFlag                    name:@"debug"               category:@"GLOBAL_OPTION"]];
+    [options addOption:[CDOptionFlag                    name:@"help"                category:@"GLOBAL_OPTION"]];
+    [options addOption:[CDOptionFlag                    name:@"no-newline"          category:@"GLOBAL_OPTION"]];
+    [options addOption:[CDOptionFlag                    name:@"no-warnings"         category:@"GLOBAL_OPTION"]];
+    [options addOption:[CDOptionFlag                    name:@"quiet"               category:@"GLOBAL_OPTION"]];
+    [options addOption:[CDOptionSingleNumber            name:@"screen"              category:@"GLOBAL_OPTION"]];
+    [options addOption:[CDOptionFlag                    name:@"string-output"       category:@"GLOBAL_OPTION"]];
+    [options addOption:[CDOptionSingleNumber            name:@"timeout"             category:@"GLOBAL_OPTION"]];
+    [options addOption:[CDOptionSingleString            name:@"timeout-format"      category:@"GLOBAL_OPTION"]];
+    [options addOption:[CDOptionFlag                    name:@"verbose"             category:@"GLOBAL_OPTION"]];
+    [options addOption:[CDOptionFlag                    name:@"version"             category:@"GLOBAL_OPTION"]];
 
     // Panel.
-    [options addOption:[CDOptionSingleNumber            name:@"height"              value: nil category:global]];
-    [options addOption:[CDOptionFlag                    name:@"no-float"            value: nil category:global]];
+    [options addOption:[CDOptionSingleNumber            name:@"height"              category:@"WINDOW_OPTION"]];
+    [options addOption:[CDOptionFlag                    name:@"no-float"            category:@"WINDOW_OPTION"]];
 //    @todo Add max/min height/width options back once there is logic in place to support them.
-//    [options addOption:[CDOptionSingleNumber            name:@"max-height"          value: nil category:global]];
-//    [options addOption:[CDOptionSingleNumber            name:@"max-width"           value: nil category:global]];
-//    [options addOption:[CDOptionSingleNumber            name:@"min-height"          value: nil category:global]];
-//    [options addOption:[CDOptionSingleNumber            name:@"min-width"           value: nil category:global]];
-    [options addOption:[CDOptionSingleStringOrNumber    name:@"posX"                value: nil category:global]];
-    [options addOption:[CDOptionSingleStringOrNumber    name:@"posY"                value: nil category:global]];
-    [options addOption:[CDOptionFlag                    name:@"resize"              value: nil category:global]];
-    [options addOption:[CDOptionSingleNumber            name:@"screen"              value: nil category:global]];
-    [options addOption:[CDOptionSingleString            name:@"title"               value: nil category:global]];
-    [options addOption:[CDOptionFlag                    name:@"titlebar-close"      value: nil category:global]];
-    [options addOption:[CDOptionFlag                    name:@"titlebar-minimize"   value: nil category:global]];
-    [options addOption:[CDOptionFlag                    name:@"titlebar-zoom"       value: nil category:global]];
-    [options addOption:[CDOptionSingleNumber            name:@"width"               value: nil category:global]];
+//    [options addOption:[CDOptionSingleNumber            name:@"max-height"          category:@"WINDOW_OPTION"]];
+//    [options addOption:[CDOptionSingleNumber            name:@"max-width"           category:@"WINDOW_OPTION"]];
+//    [options addOption:[CDOptionSingleNumber            name:@"min-height"          category:@"WINDOW_OPTION"]];
+//    [options addOption:[CDOptionSingleNumber            name:@"min-width"           category:@"WINDOW_OPTION"]];
+    [options addOption:[CDOptionSingleStringOrNumber    name:@"posX"                category:@"WINDOW_OPTION"]];
+    [options addOption:[CDOptionSingleStringOrNumber    name:@"posY"                category:@"WINDOW_OPTION"]];
+    [options addOption:[CDOptionFlag                    name:@"resize"              category:@"WINDOW_OPTION"]];
+    [options addOption:[CDOptionSingleString            name:@"title"               category:@"WINDOW_OPTION"]];
+    [options addOption:[CDOptionFlag                    name:@"titlebar-close"      category:@"WINDOW_OPTION"]];
+    [options addOption:[CDOptionFlag                    name:@"titlebar-minimize"   category:@"WINDOW_OPTION"]];
+    [options addOption:[CDOptionFlag                    name:@"titlebar-zoom"       category:@"WINDOW_OPTION"]];
+    [options addOption:[CDOptionSingleNumber            name:@"width"               category:@"WINDOW_OPTION"]];
 
     // Icon.
-    [options addOption:[CDOptionSingleString            name:@"icon"                value: nil category:global]];
-    [options addOption:[CDOptionSingleString            name:@"icon-bundle"         value: nil category:global]];
-    [options addOption:[CDOptionSingleString            name:@"icon-file"           value: nil category:global]];
-    [options addOption:[CDOptionSingleNumber            name:@"icon-height"         value: nil category:global]];
-    [options addOption:[CDOptionSingleNumber            name:@"icon-size"           value: nil category:global]];
-    [options addOption:[CDOptionSingleNumber            name:@"icon-width"          value: nil category:global]];
-    [options addOption:[CDOptionSingleString            name:@"icon-type"           value: nil category:global]];
+    [options addOption:[CDOptionSingleString            name:@"icon"                category:@"ICON_OPTION"]];
+    [options addOption:[CDOptionSingleString            name:@"icon-bundle"         category:@"ICON_OPTION"]];
+    [options addOption:[CDOptionSingleString            name:@"icon-file"           category:@"ICON_OPTION"]];
+    [options addOption:[CDOptionSingleNumber            name:@"icon-height"         category:@"ICON_OPTION"]];
+    [options addOption:[CDOptionSingleNumber            name:@"icon-size"           category:@"ICON_OPTION"]];
+    [options addOption:[CDOptionSingleNumber            name:@"icon-width"          category:@"ICON_OPTION"]];
+    [options addOption:[CDOptionSingleString            name:@"icon-type"           category:@"ICON_OPTION"]];
 
     return options;
 }

@@ -16,21 +16,30 @@
     if (arguments && [arguments hasOption:@"debug"]) {
         va_list args;
         va_start(args, format);
-        [self writeLn:[NSString stringWithFormat:@"[%@]: %@", NSLocalizedString(@"DEBUG", nil), [[[NSString alloc] initWithFormat:format arguments:args] autorelease]]];
+        NSMutableString *output = [NSMutableString string];
+        [output appendString:[NSString stringWithFormat:@"[%@]: ", NSLocalizedString(@"DEBUG", nil)].magenta.dim];
+        [output appendString:[[[NSString alloc] initWithFormat:format arguments:args] autorelease].white];
+        [self writeLn:output.stopAnsi];
     }
 }
 
 - (void) error:(NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [self writeLn:[NSString stringWithFormat:@"[%@]: %@", NSLocalizedString(@"ERROR", nil), [[[NSString alloc] initWithFormat:format arguments:args] autorelease]] asError:YES];
+    NSMutableString *output = [NSMutableString string];
+    [output appendString:[NSString stringWithFormat:@"[%@]: ", NSLocalizedString(@"ERROR", nil)].red];
+    [output appendString:[[[NSString alloc] initWithFormat:format arguments:args] autorelease].white];
+    [self writeLn:output.stopAnsi asError:YES];
 }
 
 
 - (void) fatalError:(NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [self writeLn:[NSString stringWithFormat:@"[%@]: %@", NSLocalizedString(@"FATAL", nil), [[[NSString alloc] initWithFormat:format arguments:args] autorelease]] asError:YES];
+    NSMutableString *output = [NSMutableString string];
+    [output appendString:[NSString stringWithFormat:@"[%@]: ", NSLocalizedString(@"ERROR", nil)].red];
+    [output appendString:[[[NSString alloc] initWithFormat:format arguments:args] autorelease]];
+    [self writeLn:output.stopAnsi asError:YES];
     exit(255);
 }
 
@@ -56,7 +65,11 @@
     if (arguments && [arguments hasOption:@"verbose"]) {
         va_list args;
         va_start(args, format);
-        [self writeLn:[NSString stringWithFormat:@"[%@]: %@", NSLocalizedString(@"VERBOSE", nil), [[[NSString alloc] initWithFormat:format arguments:args] autorelease]]];
+        format = [[[NSString alloc] initWithFormat:format arguments:args] autorelease];
+        NSMutableString *output = [NSMutableString string];
+        [output appendString:[NSString stringWithFormat:@"[%@]: ", NSLocalizedString(@"VERBOSE", nil)].cyan];
+        [output appendString:format];
+        [self writeLn:output.stopAnsi];
     }
 }
 
@@ -64,7 +77,11 @@
     if (!arguments || ![arguments hasOption:@"no-warnings"]) {
         va_list args;
         va_start(args, format);
-        [self writeLn:[NSString stringWithFormat:@"[%@]: %@", NSLocalizedString(@"WARNING", nil), [[[NSString alloc] initWithFormat:format arguments:args] autorelease]]];
+        format = [[[NSString alloc] initWithFormat:format arguments:args] autorelease];
+        NSMutableString *output = [NSMutableString string];
+        [output appendString:[NSString stringWithFormat:@"[%@]: ", NSLocalizedString(@"WARNING", nil)].yellow];
+        [output appendString:format];
+        [self writeLn:output.stopAnsi asError:YES];
     }
 }
 
@@ -83,11 +100,19 @@
 
 - (void) writeLn:(NSString *)string {
     [self write:string];
+    [self writeNewLine];
+}
+
+- (void) writeNewLine {
     [self write:@"\n"];
 }
 
 - (void) writeLn:(NSString *)string asError:(BOOL)error {
     [self write:string asError:error];
+    [self writeNewLineAsError:error];
+}
+
+- (void) writeNewLineAsError:(BOOL)error {
     [self write:@"\n" asError:error];
 }
 
