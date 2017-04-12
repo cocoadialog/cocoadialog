@@ -33,6 +33,7 @@
     if (self) {
         controlName = @"<control>";
         arguments = [CDArguments initWithAvailableOptions:[self availableOptions]];
+        _option = arguments.options;
         controlExitStatus = -1;
         controlExitStatusString = nil;
         controlReturnValues = [[[NSMutableArray alloc] init] retain];
@@ -55,7 +56,7 @@
     [super dealloc];
 }
 - (NSString *) formatSecondsForString:(NSInteger)timeInSeconds {
-    NSString *timerFormat = arguments.options[@"timeout-format"].wasProvided ? arguments.options[@"timeout-format"].stringValue : @"Time remaining: %r...";
+    NSString *timerFormat = option[@"timeout-format"].wasProvided ? option[@"timeout-format"].stringValue : @"Time remaining: %r...";
     NSString *returnString = timerFormat;
 
     NSInteger seconds = timeInSeconds % 60;
@@ -126,21 +127,21 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillClose:) name:NSWindowWillCloseNotification object:controlPanel];
 
 
-        BOOL close = arguments.options[@"titlebar-close"].boolValue;
+        BOOL close = option[@"titlebar-close"].boolValue;
         [controlPanel standardWindowButton:NSWindowCloseButton].enabled = close;
         if (!close) {
             controlPanel.styleMask = controlPanel.styleMask^NSClosableWindowMask;
         }
 
-        BOOL minimize = arguments.options[@"titlebar-minimize"].boolValue;
+        BOOL minimize = option[@"titlebar-minimize"].boolValue;
         [controlPanel standardWindowButton:NSWindowMiniaturizeButton].enabled = minimize;
         if (!minimize) {
             controlPanel.styleMask = controlPanel.styleMask^NSMiniaturizableWindowMask;
         }
 
         // Handle --resize option.
-        BOOL resize = arguments.options[@"resize"].boolValue;
-        [controlPanel standardWindowButton:NSWindowZoomButton].enabled = resize && arguments.options[@"titlebar-resize"];
+        BOOL resize = option[@"resize"].boolValue;
+        [controlPanel standardWindowButton:NSWindowZoomButton].enabled = resize && option[@"titlebar-resize"];
         if (!resize) {
             controlPanel.styleMask = controlPanel.styleMask^NSResizableWindowMask;
         }
@@ -422,7 +423,7 @@
     timeout = 0.0f;
     timer = nil;
     // Only initialize timeout if the option is provided
-    NSNumber *time = arguments.options[@"timeout"].numberValue;
+    NSNumber *time = option[@"timeout"].numberValue;
     if (timeout) {
         if ([[NSScanner scannerWithString:[NSString stringWithFormat:@"%@", time]] scanFloat:&timeout]) {
             mainThread = [NSThread currentThread];
@@ -500,8 +501,8 @@
     }
     // Stop any modal windows currently running
     [NSApp stop:self];
-    if (!arguments.options[@"quiet"].wasProvided && controlExitStatus != -1 && controlExitStatus != -2) {
-        if (arguments.options[@"string-output"].wasProvided) {
+    if (!option[@"quiet"].wasProvided && controlExitStatus != -1 && controlExitStatus != -2) {
+        if (option[@"string-output"].wasProvided) {
             if (controlExitStatusString == nil) {
                 controlExitStatusString = [NSString stringWithFormat:@"%d", controlExitStatus];
             }
@@ -521,7 +522,7 @@
             if (fh) {
                 [fh writeData:[controlReturnValues[i] dataUsingEncoding:NSUTF8StringEncoding]];
             }
-            if (!arguments.options[@"no-newline"].wasProvided || i+1 < controlReturnValues.count) {
+            if (!option[@"no-newline"].wasProvided || i+1 < controlReturnValues.count) {
                 if (fh) {
                     [fh writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
                 }

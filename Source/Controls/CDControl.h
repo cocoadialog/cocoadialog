@@ -66,6 +66,10 @@
     float                       timeout;
 }
 
+// For readability and DX purposes, provide a
+// shortcut to the parsed arguments.options.
+@property (nonatomic, retain) CDOptions *option;
+
 #pragma mark - Internal Control Methods -
 @property (retain) NSString *controlName;
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *controlNib;

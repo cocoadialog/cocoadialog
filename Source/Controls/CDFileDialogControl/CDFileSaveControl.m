@@ -39,19 +39,19 @@
 	
 	[self setMisc];
 
-    [savePanel setTreatsFilePackagesAsDirectories:arguments.options[@"packages-as-directories"].wasProvided];
+    [savePanel setTreatsFilePackagesAsDirectories:option[@"packages-as-directories"].wasProvided];
 
-	if (arguments.options[@"no-create-directories"].wasProvided) {
+	if (option[@"no-create-directories"].wasProvided) {
 		[savePanel setCanCreateDirectories:NO];
 	}
 
 	// Set starting file (to be used later with runModal...) - doesn't work.
-	if (arguments.options[@"with-file"].wasProvided) {
-		file = arguments.options[@"with-file"].stringValue;
+	if (option[@"with-file"].wasProvided) {
+		file = option[@"with-file"].stringValue;
 	}
 	// Set starting directory (to be used later with runModal...)
-	if (arguments.options[@"with-directory"].wasProvided) {
-		dir = arguments.options[@"with-directory"].stringValue;
+	if (option[@"with-directory"].wasProvided) {
+		dir = option[@"with-directory"].stringValue;
 	}
     
     // Check for dir or file path existance.

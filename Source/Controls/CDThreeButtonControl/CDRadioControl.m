@@ -34,7 +34,7 @@
     // Check that at least one item has been specified.
     // @todo this really could be checked automatically now that options
     // are objects and could specify the number of minimum values.
-    if (!arguments.options[@"items"].arrayValue.count) {
+    if (!option[@"items"].arrayValue.count) {
         [self error:@"Must supply at least one item in --items", nil];
         pass = NO;
     }
@@ -75,8 +75,8 @@
     }
     
     NSString * labelText = @"";
-    if (arguments.options[@"label"].wasProvided) {
-        labelText = arguments.options[@"label"].stringValue;
+    if (option[@"label"].wasProvided) {
+        labelText = option[@"label"].stringValue;
     }
 	[self setTitleButtonsLabel:labelText];
 }
@@ -86,7 +86,7 @@
     if (radioArray != nil && radioArray.count) {
         NSCell * selectedCell = controlMatrix.selectedCell;
         if (selectedCell != nil) {
-            if (arguments.options[@"string-output"].wasProvided) {
+            if (option[@"string-output"].wasProvided) {
                 [controlReturnValues addObject:selectedCell.title];
             }
             else {
@@ -105,21 +105,21 @@
 
 - (void) setControl:(id)sender {
     // Setup the control
-    NSArray *items = arguments.options[@"items"].arrayValue;
-    NSArray *disabled = arguments.options[@"disabled"].wasProvided ? arguments.options[@"disabled"].arrayValue : [NSArray array];
-    NSUInteger selected = arguments.options[@"selected"].wasProvided ? arguments.options[@"selected"].unsignedIntegerValue : -1;
+    NSArray *items = option[@"items"].arrayValue;
+    NSArray *disabled = option[@"disabled"].wasProvided ? option[@"disabled"].arrayValue : [NSArray array];
+    NSUInteger selected = option[@"selected"].wasProvided ? option[@"selected"].unsignedIntegerValue : -1;
 
     // Set default precedence: columns, if both are present or neither are present
     int matrixPrecedence = 0;
     
     // Set number of columns.
-    NSUInteger columns = arguments.options[@"columns"].wasProvided ? arguments.options[@"columns"].unsignedIntegerValue : 1;
+    NSUInteger columns = option[@"columns"].wasProvided ? option[@"columns"].unsignedIntegerValue : 1;
     if (columns < 1) {
         columns = 1;
     }
 
     // Set number of rows.
-    NSUInteger rows = arguments.options[@"rows"].wasProvided ? arguments.options[@"rows"].unsignedIntegerValue : 1;
+    NSUInteger rows = option[@"rows"].wasProvided ? option[@"rows"].unsignedIntegerValue : 1;
     if (rows < 1) {
         rows = 1;
     }
@@ -129,7 +129,7 @@
 
     // User has specified number of rows, but not columns.
     // Set precedence to expand columns, not rows
-    if (!arguments.options[@"columns"].wasProvided) {
+    if (!option[@"columns"].wasProvided) {
         matrixPrecedence = 1;
     }
 

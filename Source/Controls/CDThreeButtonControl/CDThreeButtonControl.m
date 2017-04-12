@@ -184,12 +184,12 @@
 		{ @"button2", button2 },
 		{ @"button3", button3 }
 	};
-    BOOL noDefault = arguments.options[@"no-default-button"].boolValue;
+    BOOL noDefault = option[@"no-default-button"].boolValue;
 
 	float minWidth = 2 * 20.0f; // margin
 	for (i = 0; i != sizeof(buttons)/sizeof(buttons[0]); i++) {
 		[self setTitle:arguments.options[buttons[i].key].stringValue forButton:buttons[i].button];
-        if (arguments.options[@"cancel"].wasProvided && ([arguments.options[@"cancel"].stringValue isEqualToString:buttons[i].key] || arguments.options[@"cancel"].unsignedIntegerValue == i)) {
+        if (option[@"cancel"].wasProvided && ([option[@"cancel"].stringValue isEqualToString:buttons[i].key] || option[@"cancel"].unsignedIntegerValue == i)) {
             if (!noDefault) {
                 buttons[i].button.keyEquivalent = @"\e";
             }
@@ -303,7 +303,7 @@
 }
 
 - (BOOL) allowEmptyReturn {
-    return !arguments.options[@"value-required"];
+    return !option[@"value-required"];
 }
 
 // This must be subclassed for each control. Each control must provide additional logic pertaining to their specific return values
@@ -316,7 +316,7 @@
 }
 
 - (void) returnValueEmptySheet {
-    NSString *message = arguments.options[@"empty-text"].wasProvided ? arguments.options[@"empty-text"].stringValue : [self returnValueEmptyText];
+    NSString *message = option[@"empty-text"].wasProvided ? option[@"empty-text"].stringValue : [self returnValueEmptyText];
     NSAlert *alertSheet = [[NSAlert alloc] init];
     [alertSheet addButtonWithTitle:NSLocalizedString(@"Okay", nil)];
     alertSheet.icon = [icon iconFromName:@"caution"];

@@ -31,17 +31,17 @@
 	int position = 0;
 
     NSString *clickPath = @"";
-    if (arguments.options[@"click-path"].wasProvided) {
-        clickPath = arguments.options[@"click-path"].stringValue;
+    if (option[@"click-path"].wasProvided) {
+        clickPath = option[@"click-path"].stringValue;
     }
     
     NSString *clickArg = @"";
-    if (arguments.options[@"click-arg"].wasProvided) {
-        clickArg = arguments.options[@"click-arg"].stringValue;
+    if (option[@"click-arg"].wasProvided) {
+        clickArg = option[@"click-arg"].stringValue;
     }
 	
-	if (arguments.options[@"posX"].wasProvided) {
-		NSString *xplace = arguments.options[@"posX"].stringValue;
+	if (option[@"posX"].wasProvided) {
+		NSString *xplace = option[@"posX"].stringValue;
 		if ([xplace isEqualToString:@"left"]) {
 			position |= BUBBLE_HORIZ_LEFT;
 		} else if ([xplace isEqualToString:@"center"]) {
@@ -52,8 +52,8 @@
 	} else {
 		position |= BUBBLE_HORIZ_RIGHT;
 	}
-	if (arguments.options[@"posY"].wasProvided) {
-		NSString *yplace = arguments.options[@"posY"].stringValue;
+	if (option[@"posY"].wasProvided) {
+		NSString *yplace = option[@"posY"].stringValue;
 		if ([yplace isEqualToString:@"bottom"]) {
 			position |= BUBBLE_VERT_BOTTOM;
 		} else if ([yplace isEqualToString:@"center"]) {
@@ -65,23 +65,23 @@
 		position |= BUBBLE_VERT_TOP;
 	}	
 
-	if (arguments.options[@"timeout"].wasProvided) {
-		if (![[NSScanner scannerWithString:arguments.options[@"timeout"].stringValue] scanFloat:&_timeout]) {
+	if (option[@"timeout"].wasProvided) {
+		if (![[NSScanner scannerWithString:option[@"timeout"].stringValue] scanFloat:&_timeout]) {
 			[self warning:@"Could not parse the timeout option.", nil];
 			_timeout = 4.;
 		}
 	}
 
-	if (arguments.options[@"alpha"].wasProvided) {
-		if (![[NSScanner scannerWithString:arguments.options[@"alpha"].stringValue] scanFloat:&alpha]) {
+	if (option[@"alpha"].wasProvided) {
+		if (![[NSScanner scannerWithString:option[@"alpha"].stringValue] scanFloat:&alpha]) {
 			[self warning:@"Could not parse the alpha option.", nil];
 			_timeout = .95;
 		}
 	}
-    BOOL sticky = arguments.options[@"sticky"].boolValue;
+    BOOL sticky = option[@"sticky"].boolValue;
 
-	NSArray *titles = arguments.options[@"titles"].arrayValue;
-	NSArray *descriptions = arguments.options[@"descriptions"].arrayValue;
+	NSArray *titles = option[@"titles"].arrayValue;
+	NSArray *descriptions = option[@"descriptions"].arrayValue;
 
 	// Multiple bubbles
 	if (descriptions != nil && descriptions.count && titles != nil && titles.count && titles.count == descriptions.count) {
@@ -105,8 +105,8 @@
 				[icons addObject:defaultIcon];
 			}
 		}
-        NSArray * clickPaths = arguments.options[@"click-paths"].arrayValue;
-        NSArray * clickArgs = arguments.options[@"click-args"].arrayValue;
+        NSArray * clickPaths = option[@"click-paths"].arrayValue;
+        NSArray * clickArgs = option[@"click-args"].arrayValue;
 		// Create the bubbles
 		for (i = 0; i < descriptions.count; i++) {
 			NSImage *_icon = fallbackIcon == nil ? (NSImage *)icons[i] : fallbackIcon;
@@ -120,9 +120,9 @@
              ];
 		}
 	// Single bubble
-	} else if (arguments.options[@"title"].wasProvided && arguments.options[@"description"].wasProvided) {
-        [self addNotificationWithTitle:arguments.options[@"title"].stringValue
-                           description:arguments.options[@"description"].stringValue
+	} else if (option[@"title"].wasProvided && option[@"description"].wasProvided) {
+        [self addNotificationWithTitle:option[@"title"].stringValue
+                           description:option[@"description"].stringValue
                                   icon:[icon iconWithDefault]
                               priority:nil
                                 sticky:sticky

@@ -91,7 +91,7 @@
 - (BOOL) validateOptions {
     BOOL pass = [super validateOptions];
 
-    if (!(arguments.options[@"title"] && arguments.options[@"description"]) || !(arguments.options[@"titles"] && arguments.options[@"descriptions"])) {
+    if (!(option[@"title"] && option[@"description"]) || !(option[@"titles"] && option[@"descriptions"])) {
         [self error:@"You must specify either --title and --description, or --titles and --descriptions (with the same number of args).", nil];
         pass = NO;
     }
@@ -137,8 +137,8 @@
 	NSArray *iconArgs;
 	NSEnumerator *en;
     
-	if (arguments.options[@"icons"].wasProvided) {
-		iconArgs = arguments.options[@"icons"].arrayValue;
+	if (option[@"icons"].wasProvided) {
+		iconArgs = option[@"icons"].arrayValue;
 		en = [iconArgs objectEnumerator];
 		NSString *iconName;
 		while (iconName = (NSString *)[en nextObject]) {
@@ -150,8 +150,8 @@
 		}
         
 	}
-    else if (arguments.options[@"icon-files"].wasProvided) {
-		iconArgs = arguments.options[@"icon-files"].arrayValue;
+    else if (option[@"icon-files"].wasProvided) {
+		iconArgs = option[@"icon-files"].arrayValue;
 		en = [iconArgs objectEnumerator];
 		NSString *fileName;
 		while (fileName = (NSString *)[en nextObject]) {

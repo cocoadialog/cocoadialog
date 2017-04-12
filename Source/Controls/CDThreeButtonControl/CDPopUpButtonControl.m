@@ -48,7 +48,7 @@
     // Check that at least one item has been specified.
     // @todo this really could be checked automatically now that options
     // are objects and could specify the number of minimum values.
-    if (!arguments.options[@"items"].arrayValue.count) {
+    if (!option[@"items"].arrayValue.count) {
         [self error:@"Must supply at least one item in --items", nil];
         pass = NO;
     }
@@ -70,23 +70,23 @@
     popupControl.action = @selector(selectionChanged:);
 	[popupControl removeAllItems];
     // Set popup/pulldown style
-    popupControl.pullsDown = arguments.options[@"pulldown"] ? YES : NO;
+    popupControl.pullsDown = option[@"pulldown"] ? YES : NO;
     // Populate menu
-    NSArray *items = arguments.options[@"items"].arrayValue;
+    NSArray *items = option[@"items"].arrayValue;
 	if (items != nil && items.count) {
 		NSEnumerator *en = [items objectEnumerator];
 		id obj;
 		while (obj = [en nextObject]) {
 			[popupControl addItemWithTitle:(NSString *)obj];
 		}
-        NSUInteger selected = arguments.options[@"selected"].wasProvided ? arguments.options[@"selected"].unsignedIntegerValue : 0;
+        NSUInteger selected = option[@"selected"].wasProvided ? option[@"selected"].unsignedIntegerValue : 0;
         [popupControl selectItemAtIndex:selected];
 	}
-	[self setTitleButtonsLabel:arguments.options[@"label"].stringValue];
+	[self setTitleButtonsLabel:option[@"label"].stringValue];
 }
 
 - (void) controlHasFinished:(int)button {
-	if (arguments.options[@"string-output"].wasProvided) {
+	if (option[@"string-output"].wasProvided) {
         [controlReturnValues addObject:popupControl.titleOfSelectedItem];
 	} else {
         [controlReturnValues addObject:[NSString stringWithFormat:@"%ld", (long)popupControl.indexOfSelectedItem]];
@@ -96,10 +96,10 @@
 
 - (void) selectionChanged:(id)sender {
     [popupControl synchronizeTitleAndSelectedItem];
-	if (arguments.options[@"exit-onchange"].wasProvided) {
+	if (option[@"exit-onchange"].wasProvided) {
 		controlExitStatus = 4;
 		controlExitStatusString = @"4";
-        if (arguments.options[@"string-output"].wasProvided) {
+        if (option[@"string-output"].wasProvided) {
             [controlReturnValues addObject:popupControl.titleOfSelectedItem];
         } else {
             [controlReturnValues addObject:[NSString stringWithFormat:@"%ld", (long)popupControl.indexOfSelectedItem]];

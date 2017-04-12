@@ -112,8 +112,8 @@
 
     // Detect --color option override.
     BOOL showColor = terminalSupportsColor;
-    if (control.arguments.options[@"color"].wasProvided) {
-        showColor = control.arguments.options[@"color"].boolValue;
+    if (control.option[@"color"].wasProvided) {
+        showColor = control.option[@"color"].boolValue;
     }
 
     // If there shouldn't be any color, switch off the global variable.
@@ -122,7 +122,7 @@
     }
 
     [control debug:@"Terminal color support: %@", terminalSupportsColor ? NSLocalizedString(@"YES", nil) : NSLocalizedString(@"NO", nil), nil];
-    if (control.arguments.options[@"color"].wasProvided) {
+    if (control.option[@"color"].wasProvided) {
         [control debug:@"Color option specified, enabled: %@", showColor ? NSLocalizedString(@"YES", nil) : NSLocalizedString(@"NO", nil), nil];
     }
 
@@ -132,13 +132,13 @@
     }
 
     // Show global usage.
-    if (name == nil && control.arguments.options[@"help"].wasProvided) {
+    if (name == nil && control.option[@"help"].wasProvided) {
         [control printHelpTo:[NSFileHandle fileHandleWithStandardOutput]];
         exit(0);
     }
 
     // Show version.
-    if ([name isEqualToStringCaseInsensitive:@"version"] || control.arguments.options[@"version"].wasProvided) {
+    if ([name isEqualToStringCaseInsensitive:@"version"] || control.option[@"version"].wasProvided) {
         [control writeLn:[AppController appVersion]];
         exit(0);
     }
@@ -159,7 +159,7 @@
 
     // Control is a notification, these need to be handled much differently
     if ([name isEqualToStringCaseInsensitive:@"notify"] || [name isEqualToStringCaseInsensitive:@"bubble"]) {
-        if (control.arguments.options[@"help"].wasProvided) {
+        if (control.option[@"help"].wasProvided) {
             control = [AppController createNotifyControlFromArguments:control.arguments];
             [control printHelpTo:[NSFileHandle fileHandleWithStandardOutput]];
             exit(0);
@@ -208,7 +208,7 @@
     control.controlName = name;
 
     // Show control usage.
-    if (control.arguments.options[@"help"].wasProvided) {
+    if (control.option[@"help"].wasProvided) {
         [control printHelpTo:[NSFileHandle fileHandleWithStandardOutput]];
         exit(0);
     }

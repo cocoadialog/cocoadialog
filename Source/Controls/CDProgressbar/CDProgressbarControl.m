@@ -99,10 +99,10 @@
 	[icon addControl:progressBar];
 
 	// Set text label.
-    expandingLabel.stringValue = arguments.options[@"text"].wasProvided ? arguments.options[@"text"].stringValue : @"";
+    expandingLabel.stringValue = option[@"text"].wasProvided ? option[@"text"].stringValue : @"";
 
 	// Hide stop button if not stoppable and resize window/controls.
-	if (!arguments.options[@"stoppable"].wasProvided) {
+	if (!option[@"stoppable"].wasProvided) {
 		NSRect progressBarFrame = progressBar.frame;
 
 		NSRect currentWindowFrame = panel.panel.frame;
@@ -126,20 +126,20 @@
 	[progressBar setMaxValue:CDProgressbarMAX];
 	
 	// Set initial percent.
-	if (arguments.options[@"percent"].wasProvided) {
+	if (option[@"percent"].wasProvided) {
 		double initialPercent;
-		if ([inputHandler parseString:arguments.options[@"percent"].stringValue intoProgress:&initialPercent]) {
+		if ([inputHandler parseString:option[@"percent"].stringValue intoProgress:&initialPercent]) {
 			progressBar.doubleValue = initialPercent;
 		}
 	}
 		
 	// Set window title.
-	if (arguments.options[@"title"].wasProvided) {
-		panel.panel.title = arguments.options[@"title"].stringValue;
+	if (option[@"title"].wasProvided) {
+		panel.panel.title = option[@"title"].stringValue;
 	}
 
 	// set indeterminate
-	if (arguments.options[@"indeterminate"].wasProvided) {
+	if (option[@"indeterminate"].wasProvided) {
 		[progressBar setIndeterminate:YES];
 		[progressBar startAnimation:self];
 	} else {

@@ -53,8 +53,8 @@
 
 - (void) createControl {
     NSString * labelText = @"";
-    if (arguments.options[@"label"].wasProvided) {
-        labelText = arguments.options[@"label"].stringValue;
+    if (option[@"label"].wasProvided) {
+        labelText = option[@"label"].stringValue;
     }
 	[self setTitleButtonsLabel:labelText];
 }
@@ -73,7 +73,7 @@
     [controlMatrix setAllowsEmptySelection:NO];
     
     id inputbox;
-    if (arguments.options[@"no-show"].wasProvided) {
+    if (option[@"no-show"].wasProvided) {
         inputbox = [[[NSSecureTextField alloc] init] autorelease];
     }
     else {
@@ -81,8 +81,8 @@
     }
     [inputbox setRefusesFirstResponder:YES];
     // Set initial text in textfield
-    if (arguments.options[@"value"].wasProvided) {
-        [inputbox setStringValue:arguments.options[@"value"].stringValue];
+    if (option[@"value"].wasProvided) {
+        [inputbox setStringValue:option[@"value"].stringValue];
     }
     else {
         [inputbox setStringValue:@""];
@@ -90,7 +90,7 @@
     [controlMatrix putCell:[inputbox cell] atRow:0 column:0];
     
     // select all the text
-	if (arguments.options[@"not-selected"].wasProvided) {
+	if (option[@"not-selected"].wasProvided) {
         [controlMatrix deselectAllCells];
 	}
     else {

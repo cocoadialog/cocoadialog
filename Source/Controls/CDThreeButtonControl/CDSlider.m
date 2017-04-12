@@ -34,12 +34,12 @@
 - (BOOL) validateOptions {
     BOOL pass = [super validateOptions];
 
-    min = arguments.options[@"min"].doubleValue;
-    max = arguments.options[@"max"].doubleValue;
+    min = option[@"min"].doubleValue;
+    max = option[@"max"].doubleValue;
 
     // Determine the current value.
-    if (arguments.options[@"value"].wasProvided) {
-        value = arguments.options[@"value"].doubleValue;
+    if (option[@"value"].wasProvided) {
+        value = option[@"value"].doubleValue;
         if (value < min || value > max) {
             [self warning:@"The provided value for the option --value cannot be smaller than --min or greater than --max. Using the --min value: %f", min, nil];
             value = min;
@@ -50,8 +50,8 @@
     }
 
     // Determine what constitutes an "empty" value.
-    if (arguments.options[@"empty-value"].wasProvided) {
-        emptyValue = arguments.options[@"empty-value"].doubleValue;
+    if (option[@"empty-value"].wasProvided) {
+        emptyValue = option[@"empty-value"].doubleValue;
         if (emptyValue < min || emptyValue > max) {
             [self warning:@"The provided value for the option --empty-value cannot be smaller than --min or greater than --max. Using the --min value: %f", min, nil];
         }
@@ -62,8 +62,8 @@
 
     // Determine the number of ticks.
     double defaultTicks = max > 5 ? 5 : max;
-    if (arguments.options[@"ticks"].wasProvided) {
-        ticks = arguments.options[@"ticks"].unsignedIntegerValue;
+    if (option[@"ticks"].wasProvided) {
+        ticks = option[@"ticks"].unsignedIntegerValue;
         if (ticks < min || ticks > max) {
             [self warning:@"The provided value for the option --ticks cannot be smaller than --min or greater than --max. Using the default --ticks value: %f", defaultTicks, nil];
             ticks = defaultTicks;
@@ -85,11 +85,11 @@
 }
 
 - (void) createControl {
-    [self setTitleButtonsLabel:arguments.options[@"label"].stringValue];
+    [self setTitleButtonsLabel:option[@"label"].stringValue];
 }
 
 - (void) controlHasFinished:(int)button {
-    if (arguments.options[@"return-float"].wasProvided) {
+    if (option[@"return-float"].wasProvided) {
         [controlReturnValues addObject:[NSString stringWithFormat:@"%.2f", [controlMatrix cellAtRow:0 column:0].doubleValue]];
     }
     else {
@@ -106,8 +106,8 @@
     sliderView.autoresizingMask = NSViewMinXMargin | NSViewMaxXMargin | NSViewMinYMargin;
 
     NSString *_sliderLabel = NSLocalizedString(@"SLIDER_DEFAULT_LABEL", nil);
-    if (arguments.options[@"slider-label"].wasProvided && ![arguments.options[@"slider-label"].stringValue isBlank]) {
-        _sliderLabel = arguments.options[@"slider-label"].stringValue;
+    if (option[@"slider-label"].wasProvided && ![option[@"slider-label"].stringValue isBlank]) {
+        _sliderLabel = option[@"slider-label"].stringValue;
     }
     sliderLabel = [[[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, cmFrame.size.width, 14.0f)] autorelease];
     [sliderLabel setBezeled:NO];
@@ -125,7 +125,7 @@
     [valueLabel setSelectable:NO];
     valueLabel.alignment = NSRightTextAlignment;
     valueLabel.font = [NSFont fontWithName:valueLabel.font.fontName size:10.0f];
-    if (!arguments.options[@"always-show-value"].wasProvided) {
+    if (!option[@"always-show-value"].wasProvided) {
         [valueLabel setHidden:YES];
     }
     [sliderView addSubview:valueLabel];
@@ -151,14 +151,14 @@
     [controlMatrix setAllowsEmptySelection:YES];
     
     CDSliderCell *slider = [[[CDSliderCell alloc] init] autorelease];
-    slider.alwaysShowValue = arguments.options[@"always-show-value"].boolValue;
+    slider.alwaysShowValue = option[@"always-show-value"].boolValue;
     slider.delegate = self;
     slider.valueLabel = valueLabel;
     slider.minValue = min;
     slider.maxValue = max;
     slider.doubleValue = value;
     slider.numberOfTickMarks = ticks;
-    slider.sticky = arguments.options[@"sticky"].boolValue;
+    slider.sticky = option[@"sticky"].boolValue;
     [slider setContinuous:YES];
     slider.target = self;
     slider.action = @selector(sliderChanged);
@@ -214,7 +214,7 @@
     CDSliderCell *slider = [controlMatrix cellAtRow:0 column:0];
     // Update the label
     NSString *label = @"";
-    if (arguments.options[@"return-float"].wasProvided) {
+    if (option[@"return-float"].wasProvided) {
         label = [NSString stringWithFormat:@"%.2f", slider.doubleValue];
     }
     else {

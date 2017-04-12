@@ -101,16 +101,16 @@
     [icon addControl:scrollView];
 	
 	// Editable.
-    [textView setEditable:arguments.options[@"editable"].wasProvided];
+    [textView setEditable:option[@"editable"].wasProvided];
 
 	// Set initial text in textview
-	if (arguments.options[@"text"].wasProvided) {
-		text = [[NSAttributedString alloc] initWithString:arguments.options[@"text"].stringValue];
+	if (option[@"text"].wasProvided) {
+		text = [[NSAttributedString alloc] initWithString:option[@"text"].stringValue];
 		[textView.textStorage setAttributedString:text];
 		[textView scrollRangeToVisible:NSMakeRange(text.length, 0)];
 		[text release];
-	} else if (arguments.options[@"text-from-file"].wasProvided) {
-        NSString *file = arguments.options[@"text-from-file"].stringValue;
+	} else if (option[@"text-from-file"].wasProvided) {
+        NSString *file = option[@"text-from-file"].stringValue;
 		NSString *contents = [NSString stringWithContentsOfFile: file encoding:NSUTF8StringEncoding error:nil];
 		if (contents == nil) {
             [self warning:@"Could not read file: %@", file, nil];
@@ -124,11 +124,11 @@
 		[textView.textStorage setAttributedString:[[[NSAttributedString alloc] initWithString:@""] autorelease]];
 	}
     
-	[self setTitleButtonsLabel:arguments.options[@"label"].stringValue];
+	[self setTitleButtonsLabel:option[@"label"].stringValue];
 	
 	// scroll to top or bottom (do this AFTER resizing, setting the text, 
 	// etc). Default is top
-	if (arguments.options[@"scroll-to"].wasProvided && [arguments.options[@"scroll-to"].stringValue isEqualToStringCaseInsensitive:@"bottom"]) {
+	if (option[@"scroll-to"].wasProvided && [option[@"scroll-to"].stringValue isEqualToStringCaseInsensitive:@"bottom"]) {
 		[textView scrollRangeToVisible:
 			NSMakeRange(textView.textStorage.length-1, 0)];
 	} else {
@@ -136,13 +136,13 @@
 	}
 	
 	// select all the text
-	if (arguments.options[@"selected"].wasProvided) {
+	if (option[@"selected"].wasProvided) {
 		[textView setSelectedRange:NSMakeRange(0, textView.textStorage.length)];
 	}
 	
 	// Set first responder
 	// Why doesn't this work for the button?
-	if (arguments.options[@"focus-textbox"].wasProvided) {
+	if (option[@"focus-textbox"].wasProvided) {
 		[panel.panel makeFirstResponder:textView];
 	} else {
 		[panel.panel makeFirstResponder:button1];
@@ -150,7 +150,7 @@
 }
 
 - (void) controlHasFinished:(int)button {
-	if (arguments.options[@"editable"].wasProvided) {
+	if (option[@"editable"].wasProvided) {
         [controlReturnValues addObject:textView.textStorage.string];
 	}
     [super controlHasFinished:button];

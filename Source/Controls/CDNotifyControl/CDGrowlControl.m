@@ -37,23 +37,23 @@
     [panel setPanelEmpty];
 
     NSString *clickPath = @"";
-    if (arguments.options[@"click-path"].wasProvided) {
-        clickPath = arguments.options[@"click-path"].stringValue;
+    if (option[@"click-path"].wasProvided) {
+        clickPath = option[@"click-path"].stringValue;
     }
     
     NSString *clickArg = @"";
-    if (arguments.options[@"click-arg"].wasProvided) {
-        clickArg = arguments.options[@"click-arg"].stringValue;
+    if (option[@"click-arg"].wasProvided) {
+        clickArg = option[@"click-arg"].stringValue;
     }
     
-	NSArray *titles = arguments.options[@"titles"].arrayValue;
-    NSArray *descriptions = arguments.options[@"descriptions"].arrayValue;
+	NSArray *titles = option[@"titles"].arrayValue;
+    NSArray *descriptions = option[@"descriptions"].arrayValue;
     
     NSNumber * priority = @0;
-    if (arguments.options[@"priority"].wasProvided) {
-        priority = arguments.options[@"priority"].numberValue;
+    if (option[@"priority"].wasProvided) {
+        priority = option[@"priority"].numberValue;
     }
-    BOOL sticky = arguments.options[@"sticky"].boolValue;
+    BOOL sticky = option[@"sticky"].boolValue;
     // Multiple notifications
 	if (descriptions != nil && descriptions.count && titles != nil && titles.count && titles.count == descriptions.count) {
 		NSArray *givenIconImages = [self notificationIcons];
@@ -76,9 +76,9 @@
 				[icons addObject:defaultIcon];
 			}
 		}
-        NSArray * priorities = arguments.options[@"priorities"].arrayValue;
-        NSArray * clickPaths = arguments.options[@"click-paths"].arrayValue;
-        NSArray * clickArgs = arguments.options[@"click-args"].arrayValue;
+        NSArray * priorities = option[@"priorities"].arrayValue;
+        NSArray * clickPaths = option[@"click-paths"].arrayValue;
+        NSArray * clickArgs = option[@"click-args"].arrayValue;
 		// Create the bubbles
 		for (i = 0; i < descriptions.count; i++) {
 			NSImage *_icon = fallbackIcon == nil ? (NSImage *)icons[i] : fallbackIcon;
@@ -94,10 +94,10 @@
 		}
     }
     // Single notification
-    else if (arguments.options[@"title"].wasProvided && arguments.options[@"description"].wasProvided) {
+    else if (option[@"title"].wasProvided && option[@"description"].wasProvided) {
         NSImage * _icon = [icon iconWithDefault];
-        [self addNotificationWithTitle:arguments.options[@"title"].stringValue
-                           description:arguments.options[@"description"].stringValue
+        [self addNotificationWithTitle:option[@"title"].stringValue
+                           description:option[@"description"].stringValue
                                   icon:_icon
                               priority:priority
                                 sticky:sticky

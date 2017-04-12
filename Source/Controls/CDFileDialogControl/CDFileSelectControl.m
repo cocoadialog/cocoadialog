@@ -45,28 +45,28 @@
     NSOpenPanel *openPanel = (NSOpenPanel *)savePanel;
 
 	// Multiple selection.
-    [openPanel setAllowsMultipleSelection:arguments.options[@"select-multiple"].wasProvided];
+    [openPanel setAllowsMultipleSelection:option[@"select-multiple"].wasProvided];
 
 	// Select directories.
-    [openPanel setCanChooseDirectories:arguments.options[@"create-directories"].wasProvided || arguments.options[@"select-directories"].wasProvided];
+    [openPanel setCanChooseDirectories:option[@"create-directories"].wasProvided || option[@"select-directories"].wasProvided];
 
     // Select only directories.
-    if (arguments.options[@"select-only-directories"].wasProvided) {
+    if (option[@"select-only-directories"].wasProvided) {
 		[openPanel setCanChooseDirectories:YES];
 		[openPanel setCanChooseFiles:NO];
 	}
 
     // Packages as directories.
-    [openPanel setTreatsFilePackagesAsDirectories:arguments.options[@"packages-as-directories"].wasProvided];
+    [openPanel setTreatsFilePackagesAsDirectories:option[@"packages-as-directories"].wasProvided];
 
 	// set starting file (to be used later with 
 	// runModal...) - doesn't work.
-	if (arguments.options[@"with-file"].wasProvided) {
-		file = arguments.options[@"with-file"].stringValue;
+	if (option[@"with-file"].wasProvided) {
+		file = option[@"with-file"].stringValue;
 	}
 	// set starting directory (to be used later with runModal...)
-	if (arguments.options[@"with-directory"].wasProvided) {
-		dir = arguments.options[@"with-directory"].stringValue;
+	if (option[@"with-directory"].wasProvided) {
+		dir = option[@"with-directory"].stringValue;
 	}
     
     // Check for dir or file path existance.
@@ -124,8 +124,8 @@
         NSString* extension = filename.pathExtension;
         extensionAllowed = [extensions containsObject:extension];
     }
-    if (arguments.options[@"allowed-files"].wasProvided) {
-        NSArray *allowedFiles = arguments.options[@"allowed-files"].arrayValue;
+    if (option[@"allowed-files"].wasProvided) {
+        NSArray *allowedFiles = option[@"allowed-files"].arrayValue;
         if (allowedFiles != nil && allowedFiles.count) {
             if ([allowedFiles containsObject:filename.lastPathComponent]) {
                 return YES;

@@ -45,9 +45,9 @@
     float alertNewHeight = -4.0f;
     NSRect alertRect = text.frame;
     float alertHeightDiff = alertNewHeight - alertRect.size.height;
-    if (arguments.options[@"alert"].wasProvided) {
+    if (option[@"alert"].wasProvided) {
         [icon addControl:text];
-        text.stringValue = arguments.options[@"alert"].stringValue;
+        text.stringValue = option[@"alert"].stringValue;
     }
     else {
         expandingLabelRect.origin.y -= alertHeightDiff;
@@ -60,7 +60,7 @@
     p.height += alertHeightDiff;
     [panel.panel setContentSize:p];
 
-	[self setTitleButtonsLabel:arguments.options[@"label"].stringValue];
+	[self setTitleButtonsLabel:option[@"label"].stringValue];
 }
 
 @end

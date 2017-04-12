@@ -42,11 +42,11 @@
 }
 
 - (NSImage *)icon {
-    if (arguments.options[@"icon-file"].wasProvided) {
-        iconImage = [self iconFromFile:arguments.options[@"icon-file"].stringValue];
+    if (option[@"icon-file"].wasProvided) {
+        iconImage = [self iconFromFile:option[@"icon-file"].stringValue];
     }
-    else if (arguments.options[@"icon"].wasProvided) {
-        iconImage = [self iconFromName:arguments.options[@"icon"].stringValue];
+    else if (option[@"icon"].wasProvided) {
+        iconImage = [self iconFromName:option[@"icon"].stringValue];
     }
     return iconImage;
 }
@@ -79,12 +79,12 @@
     NSString *bundle = nil;
     NSString *path = nil;
     NSString *iconType = @"icns";
-    if (arguments.options[@"icon-type"].wasProvided) {
-        iconType = arguments.options[@"icon-type"].stringValue;
+    if (option[@"icon-type"].wasProvided) {
+        iconType = option[@"icon-type"].stringValue;
     }
     // Use bundle identifier
-    if (arguments.options[@"icon-bundle"].wasProvided) {
-        bundle = arguments.options[@"icon-bundle"].stringValue;
+    if (option[@"icon-bundle"].wasProvided) {
+        bundle = option[@"icon-bundle"].stringValue;
     }
     // Set default bundle identifier
     if (bundle == nil) {
@@ -358,11 +358,11 @@
 - (void) setIconFromOptions {
     if (control != nil) {
         NSImage *image = [self icon];
-        if (arguments.options[@"icon-file"].wasProvided) {
-            image = [self iconFromFile:arguments.options[@"icon-file"].stringValue];
+        if (option[@"icon-file"].wasProvided) {
+            image = [self iconFromFile:option[@"icon-file"].stringValue];
         }
-        else if (arguments.options[@"icon"].wasProvided) {
-            image = [self iconFromName:arguments.options[@"icon"].stringValue];
+        else if (option[@"icon"].wasProvided) {
+            image = [self iconFromName:option[@"icon"].stringValue];
         }
         
         // Set default icon sizes
@@ -374,8 +374,8 @@
         if (image != nil) {
             // Set default icon height
             // Get icon sizes from user options
-            if (arguments.options[@"icon-size"].wasProvided) {
-                NSUInteger iconSize = arguments.options[@"icon-size"].unsignedIntegerValue;
+            if (option[@"icon-size"].wasProvided) {
+                NSUInteger iconSize = option[@"icon-size"].unsignedIntegerValue;
                 switch (iconSize) {
                     case 256: iconWidth = 256.0; iconHeight = 256.0; break;
                     case 128: iconWidth = 128.0; iconHeight = 128.0; break;
@@ -385,11 +385,11 @@
                 }
             }
             else {
-                if (arguments.options[@"icon-width"].wasProvided) {
-                    iconWidth = arguments.options[@"icon-width"].floatValue;
+                if (option[@"icon-width"].wasProvided) {
+                    iconWidth = option[@"icon-width"].floatValue;
                 }
-                if (arguments.options[@"icon-height"].wasProvided) {
-                    iconHeight = arguments.options[@"icon-height"].floatValue;
+                if (option[@"icon-height"].wasProvided) {
+                    iconHeight = option[@"icon-height"].floatValue;
                 }
             }
             // Set sizes
