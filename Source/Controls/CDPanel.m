@@ -37,14 +37,14 @@
 	size = panel.contentView.frame.size;
 	oldSize.width = size.width;
 	oldSize.height = size.height;
-	if (option[@"width"].wasProvided) {
-		width = option[@"width"].floatValue;
+	if (arguments.options[@"width"].wasProvided) {
+		width = arguments.options[@"width"].floatValue;
 		if (width != 0.0) {
 			size.width = width;
 		}
 	}
-	if (option[@"height"].wasProvided) {
-		height = option[@"height"].floatValue;
+	if (arguments.options[@"height"].wasProvided) {
+		height = arguments.options[@"height"].floatValue;
 		if (height != 0.0) {
 			size.height = height;
 		}
@@ -64,8 +64,8 @@
 }
 
 - (NSScreen *)getScreen {
-    if (option[@"screen"].wasProvided) {
-        NSUInteger index = option[@"screen"].unsignedIntegerValue;
+    if (arguments.options[@"screen"].wasProvided) {
+        NSUInteger index = arguments.options[@"screen"].unsignedIntegerValue;
         NSArray *screens = [NSScreen screens];
         if (index >= [screens count]) {
             [self warning:@"Using screen where keyboard has focus. Unknown screen index: %@", [NSNumber numberWithUnsignedInteger:index], nil];
@@ -94,7 +94,7 @@
 }
 - (void) setFloat {
     if (panel != nil) {
-        if (option[@"no-float"].wasProvided) {
+        if (arguments.options[@"no-float"].wasProvided) {
             [panel setFloatingPanel:NO];
             [panel setLevel:NSNormalWindowLevel];
         }
@@ -125,8 +125,8 @@
     NSString *posX, *posY;
 
     // Has posX option
-    if (option[@"posX"].wasProvided) {
-		posX = option[@"posX"].stringValue;
+    if (arguments.options[@"posX"].wasProvided) {
+		posX = arguments.options[@"posX"].stringValue;
         NSNumber *posXNumber = [nf numberFromString:posX];
         // Left
 		if ([posX isEqualToStringCaseInsensitive:@"left"]) {
@@ -151,8 +151,8 @@
 	}
 
     // Has posY option
-	if (option[@"posY"].wasProvided) {
-		posY = option[@"posY"].stringValue;
+	if (arguments.options[@"posY"].wasProvided) {
+		posY = arguments.options[@"posY"].stringValue;
         NSNumber *posYNumber = [nf numberFromString:posY];
         // Bottom
 		if ([posY isEqualToStringCaseInsensitive:@"bottom"]) {
@@ -181,7 +181,7 @@
 }
 
 - (void)setTitle {
-    panel.title = option[@"title"].wasProvided ? option[@"title"].stringValue : NSLocalizedString(@"APP_TITLE", nil);
+    panel.title = arguments.options[@"title"].wasProvided ? arguments.options[@"title"].stringValue : NSLocalizedString(@"APP_TITLE", nil);
 }
 
 - (void) setTitle:(NSString *)string {

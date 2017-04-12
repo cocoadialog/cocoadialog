@@ -42,6 +42,8 @@
 // runControlFromOptions: with the options specified in initWithOptions:
 // You must override runControlFromOptions.
 @interface CDControl : CDCommon <CDControlProtocol> {
+    CDOptions                   *option;
+
     NSString                    *controlName;
 
     // Classes

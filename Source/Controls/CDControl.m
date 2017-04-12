@@ -24,6 +24,7 @@
 @implementation CDControl
 
 @synthesize controlName;
+@synthesize option;
 
 #pragma mark - Internal Control Methods -
 - (NSString *) controlNib { return @""; }
@@ -33,7 +34,7 @@
     if (self) {
         controlName = @"<control>";
         arguments = [CDArguments initWithAvailableOptions:[self availableOptions]];
-        _option = arguments.options;
+        option = arguments.options;
         controlExitStatus = -1;
         controlExitStatusString = nil;
         controlReturnValues = [[[NSMutableArray alloc] init] retain];
@@ -202,14 +203,14 @@
     // Get all available options and put them in their necessary categories.
     CDOptions *availableOptions = [self availableOptions];
     NSEnumerator *availableOptionsEnumerator = [availableOptions.options.allValues objectEnumerator];
-    CDOption *option;
-    while (option = [availableOptionsEnumerator nextObject]) {
-        NSString *category = option.category != nil ? option.category : NSLocalizedString(@"USAGE_CATEGORY_CONTROL", nil);
+    CDOption *opt;
+    while (opt = [availableOptionsEnumerator nextObject]) {
+        NSString *category = opt.category != nil ? opt.category : NSLocalizedString(@"USAGE_CATEGORY_CONTROL", nil);
         NSMutableDictionary *categoryOptions = [usageCategories objectForKey:category];
         if (categoryOptions == nil) {
             categoryOptions = [[[NSMutableDictionary alloc] init] autorelease];
         }
-        [categoryOptions setObject:option forKey:option.name];
+        [categoryOptions setObject:opt forKey:opt.name];
         [usageCategories setObject:categoryOptions forKey:category];
     }
 
@@ -334,32 +335,32 @@
         return [a.name localizedCaseInsensitiveCompare:b.name];
     }]];
     NSEnumerator *enumerator = [sorted objectEnumerator];
-    CDOption *option;
-    while (option = [enumerator nextObject]) {
+    CDOption *opt;
+    while (opt = [enumerator nextObject]) {
         NSMutableArray *columns = [[[NSMutableArray alloc] init] autorelease];
 
         // Determine the type of option.
         NSMutableString *type = [NSMutableString string];
 
-        if ([option isKindOfClass:[CDOptionBoolean class]]) {
+        if ([opt isKindOfClass:[CDOptionBoolean class]]) {
             [type appendString:NSLocalizedString(@"OPTION_TYPE_BOOLEAN", nil)];
             type.color.fg = CDColorFgMagenta;
         }
         else {
             if (
-                [option isKindOfClass:[CDOptionSingleString class]] ||
-                [option isKindOfClass:[CDOptionSingleStringOrNumber class]] ||
-                [option isKindOfClass:[CDOptionMultipleStrings class]] ||
-                [option isKindOfClass:[CDOptionMultipleStringsOrNumbers class]]
+                [opt isKindOfClass:[CDOptionSingleString class]] ||
+                [opt isKindOfClass:[CDOptionSingleStringOrNumber class]] ||
+                [opt isKindOfClass:[CDOptionMultipleStrings class]] ||
+                [opt isKindOfClass:[CDOptionMultipleStringsOrNumbers class]]
                 ) {
                 [type appendString:NSLocalizedString(@"OPTION_TYPE_STRING", nil)];
                 type.color.fg = CDColorFgGreen;
             }
             if (
-                [option isKindOfClass:[CDOptionSingleNumber class]] ||
-                [option isKindOfClass:[CDOptionSingleStringOrNumber class]] ||
-                [option isKindOfClass:[CDOptionMultipleNumbers class]] ||
-                [option isKindOfClass:[CDOptionMultipleStringsOrNumbers class]]
+                [opt isKindOfClass:[CDOptionSingleNumber class]] ||
+                [opt isKindOfClass:[CDOptionSingleStringOrNumber class]] ||
+                [opt isKindOfClass:[CDOptionMultipleNumbers class]] ||
+                [opt isKindOfClass:[CDOptionMultipleStringsOrNumbers class]]
                 ) {
                 if (![type isEqualToString:@""]) {
                     [type appendString:@"|"];
@@ -377,28 +378,28 @@
         if (![type isEqualToString:@""]) {
             [type insertString:@"<" atIndex:0];
             [type appendString:@">"];
-            if ([option isKindOfClass:[CDOptionMultipleNumbers class]] || [option isKindOfClass:[CDOptionMultipleStrings class]] || [option isKindOfClass:[CDOptionMultipleStringsOrNumbers class]]) {
+            if ([opt isKindOfClass:[CDOptionMultipleNumbers class]] || [opt isKindOfClass:[CDOptionMultipleStrings class]] || [opt isKindOfClass:[CDOptionMultipleStringsOrNumbers class]]) {
                 [type appendString:@" [...] --"];
                 useBreak = YES;
             }
-            [columns addObject:[NSString stringWithFormat:@"--%@ %@", option.name, type.dim.stop].white.bold.stop];
+            [columns addObject:[NSString stringWithFormat:@"--%@ %@", opt.name, type.dim.stop].white.bold.stop];
         }
         // Otherwise, just add the option "name".
         else {
-            [columns addObject:[NSString stringWithFormat:@"--%@", option.name].white.bold.stop];
+            [columns addObject:[NSString stringWithFormat:@"--%@", opt.name].white.bold.stop];
         }
 
         // Add the option help text (description).
-        if (option.helpText != nil) {
+        if (opt.helpText != nil) {
             if (useBreak) {
-                [columns addObject:[NSString stringWithFormat:@"%@ %@", option.helpText, NSLocalizedString(@"OPTION_DOUBLE_DASH", nil)]];
+                [columns addObject:[NSString stringWithFormat:@"%@ %@", opt.helpText, NSLocalizedString(@"OPTION_DOUBLE_DASH", nil)]];
             }
             else {
-                [columns addObject:option.helpText];
+                [columns addObject:opt.helpText];
             }
         }
 
-        [parsedOpts setObject:columns forKey:option.name];
+        [parsedOpts setObject:columns forKey:opt.name];
     }
     return parsedOpts;
 }
