@@ -20,6 +20,10 @@
     [options addOption:[CDOptionMultipleNumbers     name:@"mixed"       category:@"_CHECKBOX_OPTIONS"]];
     [options addOption:[CDOptionMultipleNumbers     name:@"disabled"    category:@"_CHECKBOX_OPTIONS"]];
 
+    // Require options.
+    options[@"button1"].required = YES;
+    options[@"items"].required = YES;
+
     return options;
 }
 
@@ -50,26 +54,20 @@
 }
 
 - (BOOL) validateOptions {
-    // Check that we're in the right sub-class
-    if (![self isMemberOfClass:[CDCheckboxControl class]]) {
-        [self fatalError:@"This control is not properly classed."];
-    }
-
-    // Check that at least button1 has been specified.
-	if (![arguments getOption:@"button1"])	{
-        [self fatalError:@"Must supply at least --button1"];
-	}
+    BOOL pass = [super validateOptions];
 
     // Check that at least one item has been specified.
-    NSArray *items = [NSArray arrayWithArray:[arguments getOption:@"items"]];
-    if (!items.count) { 
-        [self fatalError:@"Must supply at least one item in --items"];
+    // @todo this really could be checked automatically now that options
+    // are objects and could specify the number of minimum values.
+    if (!arguments.options[@"items"].arrayValue.count) {
+        [self error:@"Must supply at least one item in --items", nil];
+        pass = NO;
 	}
 
-    return [super validateOptions];
+    return pass;
 }
 - (void) createControl {
-	[self setTitleButtonsLabel:[arguments getOption:@"label"]];
+	[self setTitleButtonsLabel:arguments.options[@"label"].stringValue];
 
 	// set return values 
     NSArray * cells = controlMatrix.cells;
@@ -92,7 +90,7 @@
     NSMutableArray *checkboxesArray = [[[NSMutableArray alloc] init] autorelease];
     NSEnumerator *en = [checkboxes objectEnumerator];
     id obj;
-	if ([self.arguments hasOption:@"string-output"]) {
+	if (arguments.options[@"string-output"].wasProvided) {
         if (checkboxes != nil && checkboxes.count) {
             unsigned long state;
             while (obj = [en nextObject]) {
@@ -119,39 +117,27 @@
 
 - (void) setControl:(id)sender {
     // Setup the control
-    NSArray *items = [NSArray arrayWithArray:[arguments getOption:@"items"]];
-    NSArray *checked = [[[NSArray alloc] init] autorelease];
-    NSArray *mixed = [[[NSArray alloc] init] autorelease];
-    NSArray *disabled = [[[NSArray alloc] init] autorelease];
-    
-    if ([arguments hasOption:@"checked"]) {
-        checked = [arguments getOption:@"checked"];
-    }
-    if ([arguments hasOption:@"mixed"]) {
-        mixed = [arguments getOption:@"mixed"];
-    }
-    if ([arguments hasOption:@"disabled"]) {
-        disabled = [arguments getOption:@"disabled"];
-    }
-    
+    NSArray *items = arguments.options[@"items"].arrayValue;
+    NSArray *checked = arguments.options[@"checked"].wasProvided ? arguments.options[@"checked"].arrayValue : [NSArray array];
+    NSArray *mixed = arguments.options[@"mixed"].wasProvided ? arguments.options[@"mixed"].arrayValue : [NSArray array];
+    NSArray *disabled = arguments.options[@"disabled"].wasProvided ? arguments.options[@"disabled"].arrayValue : [NSArray array];
+
     // Set default precedence: columns, if both are present or neither are present
     int matrixPrecedence = 0;
-    
-    // Set default number of columns
-    unsigned long columns = 1;
-    // Set specified number of columns
-    if ([arguments hasOption:@"columns"]) {
-        columns = (unsigned long) [arguments getOption:@"columns"];
+
+    // Set number of columns.
+    NSUInteger columns = 1;
+    if (arguments.options[@"columns"].wasProvided) {
+        columns = arguments.options[@"columns"].unsignedIntegerValue;
         if (columns < 1) {
             columns = 1;
         }
     }
     
-    // Set default number of rows
-    unsigned long rows = 1;
-    // Set specified number of rows
-    if ([arguments hasOption:@"rows"]) {
-        rows = (unsigned long) [arguments getOption:@"rows"];
+    // Set number of rows.
+    NSUInteger rows = 1;
+    if (arguments.options[@"rows"].wasProvided) {
+        rows = arguments.options[@"rows"].unsignedIntegerValue;
         if (rows < 1) {
             rows = 1;
         }
@@ -160,7 +146,7 @@
         }
         // User has specified number of rows, but not columns.
         // Set precedence to expand columns, not rows
-        if (![arguments hasOption:@"columns"]) {
+        if (!arguments.options[@"columns"].wasProvided) {
             matrixPrecedence = 1;
         }
     }
@@ -169,10 +155,10 @@
     rows = controlMatrix.numberOfRows;
     columns = controlMatrix.numberOfColumns;
     
-    NSMutableArray * controls = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray * controls = [NSMutableArray array];
     
     // Create the control for each item
-    unsigned long currItem = 0;
+    NSUInteger currItem = 0;
     NSEnumerator *en = [items objectEnumerator];
     float cellWidth = 0.0;
     id obj;

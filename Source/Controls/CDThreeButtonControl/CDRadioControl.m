@@ -21,29 +21,28 @@
     [options addOption:[CDOptionSingleNumber        name:@"rows"]];
     [options addOption:[CDOptionSingleNumber        name:@"selected"]];
 
+    // Required options.
+    options[@"button1"].required = YES;
+    options[@"items"].required = YES;
+
     return options;
 }
 
 - (BOOL) validateOptions {
-    // Check that we're in the right sub-class.
-    if (![self isMemberOfClass:[CDRadioControl class]]) {
-        [self fatalError:@"This control is not properly classed."];
-    }
+    BOOL pass = [super validateOptions];
 
-    // Check that at least button1 has been specified.
-    if (![arguments getOption:@"button1"])	{
-        [self fatalError:@"You must specify the --button1 option."];
-    }
     // Check that at least one item has been specified.
-    if (![NSArray arrayWithArray:[arguments getOption:@"items"]].count) {
-        [self fatalError:@"Must supply at least one item in the --items option."];
+    // @todo this really could be checked automatically now that options
+    // are objects and could specify the number of minimum values.
+    if (!arguments.options[@"items"].arrayValue.count) {
+        [self error:@"Must supply at least one item in --items", nil];
+        pass = NO;
     }
 
-    return [super validateOptions];
+    return pass;
 }
 
-- (BOOL)isReturnValueEmpty
-{
+- (BOOL)isReturnValueEmpty {
     NSArray * items = controlMatrix.cells;
     if (items != nil && items.count) {
         NSCell * selectedCell = controlMatrix.selectedCell;
@@ -59,8 +58,7 @@
     }
 }
 
-- (NSString *) returnValueEmptyText
-{
+- (NSString *) returnValueEmptyText {
     NSArray * items = controlMatrix.cells;
     if (items.count > 1) {
         return @"You must select at least one item before continuing.";
@@ -77,8 +75,8 @@
     }
     
     NSString * labelText = @"";
-    if ([arguments hasOption:@"label"] && [arguments getOption:@"label"] != nil) {
-        labelText = [arguments getOption:@"label"];
+    if (arguments.options[@"label"].wasProvided) {
+        labelText = arguments.options[@"label"].stringValue;
     }
 	[self setTitleButtonsLabel:labelText];
 }
@@ -88,7 +86,7 @@
     if (radioArray != nil && radioArray.count) {
         NSCell * selectedCell = controlMatrix.selectedCell;
         if (selectedCell != nil) {
-            if ([self.arguments hasOption:@"string-output"]) {
+            if (arguments.options[@"string-output"].wasProvided) {
                 [controlReturnValues addObject:selectedCell.title];
             }
             else {
@@ -107,48 +105,32 @@
 
 - (void) setControl:(id)sender {
     // Setup the control
-    NSArray *items = [NSArray arrayWithArray:[arguments getOption:@"items"]];
-    unsigned long selected = -1;
-    NSArray *disabled = [[[NSArray alloc] init] autorelease];
+    NSArray *items = arguments.options[@"items"].arrayValue;
+    NSArray *disabled = arguments.options[@"disabled"].wasProvided ? arguments.options[@"disabled"].arrayValue : [NSArray array];
+    NSUInteger selected = arguments.options[@"selected"].wasProvided ? arguments.options[@"selected"].unsignedIntegerValue : -1;
 
-
-    if ([arguments hasOption:@"selected"]) {
-        selected = (int) [arguments getOption:@"selected"];
-    }
-
-    if ([arguments hasOption:@"disabled"]) {
-        disabled = [arguments getOption:@"disabled"];
-    }
-    
     // Set default precedence: columns, if both are present or neither are present
     int matrixPrecedence = 0;
     
-    // Set default number of columns
-    unsigned long columns = 1;
-    // Set specified number of columns
-    if ([arguments hasOption:@"columns"]) {
-        columns = (unsigned long) [arguments getOption:@"columns"];
-        if (columns < 1) {
-            columns = 1;
-        }
+    // Set number of columns.
+    NSUInteger columns = arguments.options[@"columns"].wasProvided ? arguments.options[@"columns"].unsignedIntegerValue : 1;
+    if (columns < 1) {
+        columns = 1;
     }
-    
-    // Set default number of rows
-    unsigned long rows = 1;
-    // Set specified number of rows
-    if ([arguments hasOption:@"rows"]) {
-        rows = (unsigned long) [arguments getOption:@"rows"];
-        if (rows < 1) {
-            rows = 1;
-        }
-        if (rows > items.count){
-            rows = items.count;
-        }
-        // User has specified number of rows, but not columns.
-        // Set precedence to expand columns, not rows
-        if (![arguments hasOption:@"columns"]) {
-            matrixPrecedence = 1;
-        }
+
+    // Set number of rows.
+    NSUInteger rows = arguments.options[@"rows"].wasProvided ? arguments.options[@"rows"].unsignedIntegerValue : 1;
+    if (rows < 1) {
+        rows = 1;
+    }
+    if (rows > items.count){
+        rows = items.count;
+    }
+
+    // User has specified number of rows, but not columns.
+    // Set precedence to expand columns, not rows
+    if (!arguments.options[@"columns"].wasProvided) {
+        matrixPrecedence = 1;
     }
 
     [self setControl: self matrixRows:rows matrixColumns:columns items:items precedence:matrixPrecedence];

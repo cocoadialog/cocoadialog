@@ -55,15 +55,7 @@
     [super dealloc];
 }
 - (NSString *) formatSecondsForString:(NSInteger)timeInSeconds {
-    static NSString *timerFormat = nil;
-    if (timerFormat == nil) {
-        if ([arguments hasOption:@"timeout-format"]) {
-            timerFormat = [arguments getOption:@"timeout-format"];
-        }
-        else {
-            timerFormat = @"Time remaining: %r...";
-        }
-    }
+    NSString *timerFormat = arguments.options[@"timeout-format"].wasProvided ? arguments.options[@"timeout-format"].stringValue : @"Time remaining: %r...";
     NSString *returnString = timerFormat;
 
     NSInteger seconds = timeInSeconds % 60;
@@ -121,11 +113,11 @@
     // Load nib
     if (nib != nil) {
         if (![nib isEqualToString:@""] && ![[NSBundle mainBundle] loadNibNamed:nib owner:self topLevelObjects:nil]) {
-            [self fatalError:@"Could not load control interface: \"%@.nib\"", nib];
+            [self fatalError:@"Could not load control interface: \"%@.nib\"", nib, nil];
         }
     }
     else {
-        [self fatalError:@"Control did not specify a NIB interface file to load."];
+        [self fatalError:@"Control did not specify a NIB interface file to load.", nil];
     }
     panel = [[[CDPanel alloc] initWithArguments:self.arguments] retain];
     icon = [[[CDIcon alloc] initWithArguments:self.arguments] retain];
@@ -134,21 +126,21 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillClose:) name:NSWindowWillCloseNotification object:controlPanel];
 
 
-        BOOL close = [arguments hasOption:@"titlebar-close"];
+        BOOL close = arguments.options[@"titlebar-close"].boolValue;
         [controlPanel standardWindowButton:NSWindowCloseButton].enabled = close;
         if (!close) {
             controlPanel.styleMask = controlPanel.styleMask^NSClosableWindowMask;
         }
 
-        BOOL minimize = [arguments hasOption:@"titlebar-minimize"];
+        BOOL minimize = arguments.options[@"titlebar-minimize"].boolValue;
         [controlPanel standardWindowButton:NSWindowMiniaturizeButton].enabled = minimize;
         if (!minimize) {
             controlPanel.styleMask = controlPanel.styleMask^NSMiniaturizableWindowMask;
         }
 
         // Handle --resize option.
-        BOOL resize = [arguments hasOption:@"resize"];
-        [controlPanel standardWindowButton:NSWindowZoomButton].enabled = resize && [arguments hasOption:@"titlebar-resize"];
+        BOOL resize = arguments.options[@"resize"].boolValue;
+        [controlPanel standardWindowButton:NSWindowZoomButton].enabled = resize && arguments.options[@"titlebar-resize"];
         if (!resize) {
             controlPanel.styleMask = controlPanel.styleMask^NSResizableWindowMask;
         }
@@ -175,13 +167,13 @@
     int tputColumns = [CDTput colsWithMinimum:80] - margin;
 
     [self writeNewLine];
-    [self writeLn:[NSString stringWithFormat:NSLocalizedString(@"USAGE", nil), controlName].bold.stopAnsi];
+    [self writeLn:[NSString stringWithFormat:NSLocalizedString(@"USAGE", nil), controlName].bold.stop];
 
     // Show avilable controls if it's the CDControl class printing this.
     NSMutableDictionary *usageCategories = [[[NSMutableDictionary alloc] init] autorelease];
     if ([self class] == [CDControl class]) {
         [self writeNewLine];
-        [self writeLn:NSLocalizedString(@"USAGE_CATEGORY_CONTROLS", nil).uppercaseString.white.bold.underline.stopAnsi];
+        [self writeLn:NSLocalizedString(@"USAGE_CATEGORY_CONTROLS", nil).uppercaseString.white.bold.underline.stop];
         NSArray *sortedControls = [NSArray arrayWithArray:[[AppController availableControls].allKeys sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
         [self writeNewLine];
 
@@ -223,7 +215,7 @@
     // Determine the number of columns and how wide they should be.
     NSUInteger columns = 0;
     NSMutableArray *realColumnWidths = [[[NSMutableArray alloc] init] autorelease];
-    NSMutableArray *ansiColumnWidths = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray *colorColumnWidths = [[[NSMutableArray alloc] init] autorelease];
     for (id category in usageCategories) {
         NSDictionary *opts = [self parseOptionsIntoColumns:[usageCategories objectForKey:category]];
         for (id name in opts) {
@@ -232,17 +224,17 @@
                 columns = optColumns.count;
             }
             __block int realPreviousWidth = 0;
-            __block int ansiPreviousWidth = 0;
+            __block int colorPreviousWidth = 0;
             [optColumns enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger i, BOOL * _Nonnull stop) {
                 int realMaxWidth = (tputColumns - realPreviousWidth);
-                int ansiMaxWidth = (tputColumns - ansiPreviousWidth);
+                int colorMaxWidth = (tputColumns - colorPreviousWidth);
 
                 NSString *string = [optColumns objectAtIndex:i];
                 if (i >= realColumnWidths.count || [realColumnWidths objectAtIndex:i] == nil) {
                     [realColumnWidths insertObject:@0 atIndex:i];
                 }
-                if (i >= ansiColumnWidths.count || [ansiColumnWidths objectAtIndex:i] == nil) {
-                    [ansiColumnWidths insertObject:@0 atIndex:i];
+                if (i >= colorColumnWidths.count || [colorColumnWidths objectAtIndex:i] == nil) {
+                    [colorColumnWidths insertObject:@0 atIndex:i];
                 }
 
                 NSNumber *realStringLength = [NSNumber numberWithInt:(int) string.length + 5];
@@ -254,13 +246,13 @@
                     [realColumnWidths replaceObjectAtIndex:i withObject:realStringLength];
                 }
 
-                NSNumber *ansiStringLength = [NSNumber numberWithInt:(int) string.removeAnsi.length + 5];
-                if ([ansiStringLength intValue] > [[ansiColumnWidths objectAtIndex:i] intValue]) {
-                    if ([ansiStringLength intValue] > ansiMaxWidth) {
-                        ansiStringLength = [NSNumber numberWithInt:ansiMaxWidth];
+                NSNumber *colorStringLength = [NSNumber numberWithInt:(int) string.removeColor.length + 5];
+                if ([colorStringLength intValue] > [[colorColumnWidths objectAtIndex:i] intValue]) {
+                    if ([colorStringLength intValue] > colorMaxWidth) {
+                        colorStringLength = [NSNumber numberWithInt:colorMaxWidth];
                     }
-                    ansiPreviousWidth += [ansiStringLength intValue];
-                    [ansiColumnWidths replaceObjectAtIndex:i withObject:ansiStringLength];
+                    colorPreviousWidth += [colorStringLength intValue];
+                    [colorColumnWidths replaceObjectAtIndex:i withObject:colorStringLength];
                 }
             }];
         }
@@ -280,11 +272,11 @@
     NSString *category;
     while (category = [sortedCategories nextObject]) {
         [self writeNewLine];
-        [self writeLn:category.uppercaseString.white.bold.underline.stopAnsi];
+        [self writeLn:category.uppercaseString.white.bold.underline.stop];
         [self writeNewLine];
 
         NSDictionary *opts = [self parseOptionsIntoColumns:[usageCategories objectForKey:category]];
-        NSArray *sorted = [NSArray arrayWithArray:[opts.allKeys sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
+        NSArray *sorted = opts.allKeys.sortedAlphabetically;
         NSEnumerator *enumerator = [sorted objectEnumerator];
         id name;
         while (name = [enumerator nextObject]) {
@@ -292,47 +284,47 @@
             NSArray *optColumns = [opts objectForKey:name];
 
             int realPreviousWidth = 0;
-            int ansiPreviousWidth = 0;
+            int colorPreviousWidth = 0;
             for (int i = 0, l = (int) optColumns.count; i < l; i++) {
-                int ansiMaxWidth = (tputColumns - ansiPreviousWidth);
+                int colorMaxWidth = (tputColumns - colorPreviousWidth);
                 int realColumnWidth = [[realColumnWidths objectAtIndex:i] intValue];
-                int ansiColumnWidth = [[ansiColumnWidths objectAtIndex:i] intValue];
+                int colorColumnWidth = [[colorColumnWidths objectAtIndex:i] intValue];
 
                 NSMutableString *column = [NSMutableString string];
 
                 [column appendString:[optColumns objectAtIndex:i]];
 
                 // Wrap the column to fit available space.
-                if (i != 0 && ansiColumnWidth >= ansiMaxWidth) {
-                    column = [[NSMutableString stringWithString:[column wrapToLength: ansiMaxWidth - margin]] autorelease];
+                if (i != 0 && colorColumnWidth >= colorMaxWidth) {
+                    column = [[NSMutableString stringWithString:[column wrapToLength: colorMaxWidth - margin]] autorelease];
                 }
 
                 // Replace new lines so they're intented properly.
-                column = [[NSMutableString stringWithString:[column indentNewlinesWith:(ansiPreviousWidth + margin)]] autorelease];
+                column = [[NSMutableString stringWithString:[column indentNewlinesWith:(colorPreviousWidth + margin)]] autorelease];
 
                 // Pad the column with spaces.
                 if (i == 0) {
-                    column = [NSMutableString stringWithString:[column stringByPaddingToLength:ansiColumnWidth withString:@" " startingAtIndex:0 ignoreAnsi:YES]];
+                    column = [NSMutableString stringWithString:[column stringByPaddingToLength:colorColumnWidth withString:@" " startingAtIndex:0 ignoreColor:YES]];
                 }
 
                 realPreviousWidth += realColumnWidth;
-                ansiPreviousWidth += ansiColumnWidth;
+                colorPreviousWidth += colorColumnWidth;
 
                 [line appendString:column];
             }
 
-            [self writeLn:line.stopAnsi];
+            [self writeLn:line.stop];
         }
     }
 
     [self writeNewLine];
     [self writeNewLine];
 
-    [self writeLn:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"USAGE_VERSION", nil).uppercaseString.underline.white.bold.stopAnsi, [AppController appVersion].cyan]];
+    [self writeLn:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"USAGE_VERSION", nil).uppercaseString.underline.white.bold.stop, [AppController appVersion].cyan]];
 
     [self writeNewLine];
 
-    [self writeLn:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"USAGE_WEBSITE", nil).uppercaseString.underline.white.bold.stopAnsi, @CDSite.cyan.stopAnsi]];
+    [self writeLn:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"USAGE_WEBSITE", nil).uppercaseString.underline.white.bold.stop, @CDSite.cyan.stop]];
 }
 
 - (NSMutableDictionary *) parseOptionsIntoColumns:(NSDictionary *)opts {
@@ -350,7 +342,7 @@
 
         if ([option isKindOfClass:[CDOptionBoolean class]]) {
             [type appendString:NSLocalizedString(@"OPTION_TYPE_BOOLEAN", nil)];
-            type.ansiFg = AnsiFgMagenta;
+            type.color.fg = CDColorFgMagenta;
         }
         else {
             if (
@@ -360,7 +352,7 @@
                 [option isKindOfClass:[CDOptionMultipleStringsOrNumbers class]]
                 ) {
                 [type appendString:NSLocalizedString(@"OPTION_TYPE_STRING", nil)];
-                type.ansiFg = AnsiFgGreen;
+                type.color.fg = CDColorFgGreen;
             }
             if (
                 [option isKindOfClass:[CDOptionSingleNumber class]] ||
@@ -370,10 +362,10 @@
                 ) {
                 if (![type isEqualToString:@""]) {
                     [type appendString:@"|"];
-                    type.ansiFg = AnsiFgYellow;
+                    type.color.fg = CDColorFgYellow;
                 }
                 else {
-                    type.ansiFg = AnsiFgCyan;
+                    type.color.fg = CDColorFgCyan;
                 }
                 [type appendString:NSLocalizedString(@"OPTION_TYPE_NUMBER", nil)];
             }
@@ -388,11 +380,11 @@
                 [type appendString:@" [...] --"];
                 useBreak = YES;
             }
-            [columns addObject:[NSString stringWithFormat:@"--%@ %@", option.name, type.dim.stopAnsi].white.bold.stopAnsi];
+            [columns addObject:[NSString stringWithFormat:@"--%@ %@", option.name, type.dim.stop].white.bold.stop];
         }
         // Otherwise, just add the option "name".
         else {
-            [columns addObject:[NSString stringWithFormat:@"--%@", option.name].white.bold.stopAnsi];
+            [columns addObject:[NSString stringWithFormat:@"--%@", option.name].white.bold.stop];
         }
 
         // Add the option help text (description).
@@ -423,21 +415,21 @@
         [NSApp run];
     }
     else {
-        [self fatalError:@"The control has not specified the panel it is to use and cocoaDialog cannot continue."];
+        [self fatalError:@"The control has not specified the panel it is to use and cocoaDialog cannot continue.", nil];
     }
 }
 - (void) setTimeout {
     timeout = 0.0f;
     timer = nil;
     // Only initialize timeout if the option is provided
-    NSNumber *time = [arguments getOption:@"timeout"];
+    NSNumber *time = arguments.options[@"timeout"].numberValue;
     if (timeout) {
         if ([[NSScanner scannerWithString:[NSString stringWithFormat:@"%@", time]] scanFloat:&timeout]) {
             mainThread = [NSThread currentThread];
             [NSThread detachNewThreadSelector:@selector(createTimer) toTarget:self withObject:nil];
         }
         else {
-            [self warning:@"Unable to parse the --timeout option."];
+            [self warning:@"Unable to parse the --timeout option.", nil];
         }
     }
     [self setTimeoutLabel];
@@ -508,8 +500,8 @@
     }
     // Stop any modal windows currently running
     [NSApp stop:self];
-    if (![arguments hasOption:@"quiet"] && controlExitStatus != -1 && controlExitStatus != -2) {
-        if ([arguments hasOption:@"string-output"]) {
+    if (!arguments.options[@"quiet"].wasProvided && controlExitStatus != -1 && controlExitStatus != -2) {
+        if (arguments.options[@"string-output"].wasProvided) {
             if (controlExitStatusString == nil) {
                 controlExitStatusString = [NSString stringWithFormat:@"%d", controlExitStatus];
             }
@@ -529,16 +521,15 @@
             if (fh) {
                 [fh writeData:[controlReturnValues[i] dataUsingEncoding:NSUTF8StringEncoding]];
             }
-            if (![arguments hasOption:@"no-newline"] || i+1 < controlReturnValues.count)
-                {
+            if (!arguments.options[@"no-newline"].wasProvided || i+1 < controlReturnValues.count) {
                 if (fh) {
                     [fh writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
                 }
-                }
+            }
         }
     }
     else {
-        [self fatalError:@"Control returned nil."];
+        [self fatalError:@"Control returned nil.", nil];
     }
     int exitStatus = controlExitStatus;
     [self dealloc];

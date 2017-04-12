@@ -1,7 +1,13 @@
 #import <Foundation/Foundation.h>
-#import "NSString+AnsiColors.h"
+#import "NSString+CDColor.h"
 
 @interface NSString (CocoaDialog)
+
+@property (nonatomic, readonly) NSString *optionFormat;
+@property (nonatomic, readonly) NSString *doubleQuote;
+@property (nonatomic, readonly) NSString *singleQuote;
+
++ (instancetype)stringWithFormat:(NSString *)format array:(NSArray *)arrayArguments;
 
 -(BOOL)contains:(NSString *)string;
 -(BOOL)isBlank;
@@ -12,5 +18,13 @@
 -(NSString *)substringFrom:(NSInteger)from to:(NSInteger)to;
 -(NSString *)stringByStrippingWhitespace;
 -(NSString *)wrapToLength:(NSInteger)length;
+
+@end
+
+@interface NSMutableString (CocoaDialog)
+
++ (instancetype)prepend:(NSString *)prepend toString:(NSString *)string;
+
+- (void)prepend:(NSString *)string;
 
 @end

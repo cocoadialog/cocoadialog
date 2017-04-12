@@ -11,35 +11,67 @@
 @implementation CDCommon
 @synthesize arguments;
 
+- (NSString *) argumentToString:(NSString *)arg lineColor:(CDColor *)lineColor argumentColor:(CDColor *)argumentColor {
+    NSMutableString *string = [NSMutableString stringWithString:[arg applyColor:argumentColor]];
+    [string appendString:[@"" applyColor:lineColor]];
+    return string;
+}
+
+- (NSMutableArray *) argumentsToArray:(va_list)args lineColor:(CDColor *)lineColor argumentColor:(CDColor *)argumentColor {
+    NSMutableArray *array = [NSMutableArray array];
+    id arg;
+    while ((arg = va_arg(args, id))) {
+        if ([arg isKindOfClass:[NSString class]]) {
+            [array addObject:[self argumentToString:arg lineColor:lineColor argumentColor:argumentColor]];
+        }
+        else {
+            [array addObject:arg];
+        }
+    }
+    va_end(args);
+    return array;
+}
 
 - (void) debug:(NSString *)format, ... {
-    if (arguments && [arguments hasOption:@"debug"]) {
-        va_list args;
-        va_start(args, format);
-        NSMutableString *output = [NSMutableString string];
-        [output appendString:[NSString stringWithFormat:@"[%@]: ", NSLocalizedString(@"DEBUG", nil)].magenta.dim];
-        [output appendString:[[[NSString alloc] initWithFormat:format arguments:args] autorelease].white];
-        [self writeLn:output.stopAnsi];
+    if (arguments && arguments.options[@"debug"].wasProvided) {
+        CDColor *lineColor = [CDColor fg:CDColorFgMagenta];
+        CDColor *argumentColor = [CDColor fg:CDColorFgWhite bg:CDColorBgNone style:CDColorStyleBold];
+
+        // Get arguments.
+        va_list va_args;
+        va_start(va_args, format);
+        NSMutableArray *args = [self argumentsToArray:va_args lineColor:lineColor argumentColor:argumentColor];
+
+        format = [[NSMutableString prepend:NSLocalizedString(@"LOG_DEBUG", nil) toString:format] applyColor:lineColor].stop;
+        [self writeLn:[NSString stringWithFormat:format array:args]];
     }
 }
 
 - (void) error:(NSString *)format, ... {
-    va_list args;
-    va_start(args, format);
-    NSMutableString *output = [NSMutableString string];
-    [output appendString:[NSString stringWithFormat:@"[%@]: ", NSLocalizedString(@"ERROR", nil)].red];
-    [output appendString:[[[NSString alloc] initWithFormat:format arguments:args] autorelease].white];
-    [self writeLn:output.stopAnsi asError:YES];
+    CDColor *lineColor = [CDColor fg:CDColorFgRed bg:CDColorBgNone style:CDColorStyleBold];
+    CDColor *argumentColor = [CDColor fg:CDColorFgWhite bg:CDColorBgNone style:CDColorStyleBold];
+
+    // Get arguments.
+    va_list va_args;
+    va_start(va_args, format);
+    NSMutableArray *args = [self argumentsToArray:va_args lineColor:lineColor argumentColor:argumentColor];
+
+    format = [[NSMutableString prepend:NSLocalizedString(@"LOG_ERROR", nil) toString:format] applyColor:lineColor].stop;
+    [self writeLn:[NSString stringWithFormat:format array:args] asError:YES];
 }
 
 
 - (void) fatalError:(NSString *)format, ... {
-    va_list args;
-    va_start(args, format);
-    NSMutableString *output = [NSMutableString string];
-    [output appendString:[NSString stringWithFormat:@"[%@]: ", NSLocalizedString(@"ERROR", nil)].red];
-    [output appendString:[[[NSString alloc] initWithFormat:format arguments:args] autorelease]];
-    [self writeLn:output.stopAnsi asError:YES];
+    CDColor *lineColor = [CDColor fg:CDColorFgRed bg:CDColorBgNone style:CDColorStyleBold];
+    CDColor *argumentColor = [CDColor fg:CDColorFgWhite bg:CDColorBgNone style:CDColorStyleBold];
+
+    // Get arguments.
+    va_list va_args;
+    va_start(va_args, format);
+    NSMutableArray *args = [self argumentsToArray:va_args lineColor:lineColor argumentColor:argumentColor];
+
+    format = [[NSMutableString prepend:NSLocalizedString(@"LOG_ERROR", nil) toString:format] applyColor:lineColor].stop;
+    [self writeLn:[NSString stringWithFormat:format array:args] asError:YES];
     exit(255);
 }
 
@@ -62,26 +94,32 @@
 }
 
 - (void) verbose:(NSString *)format, ... {
-    if (arguments && [arguments hasOption:@"verbose"]) {
-        va_list args;
-        va_start(args, format);
-        format = [[[NSString alloc] initWithFormat:format arguments:args] autorelease];
-        NSMutableString *output = [NSMutableString string];
-        [output appendString:[NSString stringWithFormat:@"[%@]: ", NSLocalizedString(@"VERBOSE", nil)].cyan];
-        [output appendString:format];
-        [self writeLn:output.stopAnsi];
+    if (arguments && arguments.options[@"verbose"].wasProvided) {
+        CDColor *lineColor = [CDColor fg:CDColorFgCyan];
+        CDColor *argumentColor = [CDColor fg:CDColorFgWhite bg:CDColorBgNone style:CDColorStyleBold];
+
+        // Get arguments.
+        va_list va_args;
+        va_start(va_args, format);
+        NSMutableArray *args = [self argumentsToArray:va_args lineColor:lineColor argumentColor:argumentColor];
+
+        format = [[NSMutableString prepend:NSLocalizedString(@"LOG_VERBOSE", nil) toString:format] applyColor:lineColor].stop;
+        [self writeLn:[NSString stringWithFormat:format array:args]];
     }
 }
 
 - (void) warning:(NSString *)format, ... {
-    if (!arguments || ![arguments hasOption:@"no-warnings"]) {
-        va_list args;
-        va_start(args, format);
-        format = [[[NSString alloc] initWithFormat:format arguments:args] autorelease];
-        NSMutableString *output = [NSMutableString string];
-        [output appendString:[NSString stringWithFormat:@"[%@]: ", NSLocalizedString(@"WARNING", nil)].yellow];
-        [output appendString:format];
-        [self writeLn:output.stopAnsi asError:YES];
+    if (!arguments || !arguments.options[@"no-warnings"].wasProvided) {
+        CDColor *lineColor = [CDColor fg:CDColorFgYellow];
+        CDColor *argumentColor = [CDColor fg:CDColorFgWhite bg:CDColorBgNone style:CDColorStyleBold];
+
+        // Get arguments.
+        va_list va_args;
+        va_start(va_args, format);
+        NSMutableArray *args = [self argumentsToArray:va_args lineColor:lineColor argumentColor:argumentColor];
+
+        format = [[NSMutableString prepend:NSLocalizedString(@"LOG_WARNING", nil) toString:format] applyColor:lineColor].stop;
+        [self writeLn:[NSString stringWithFormat:format array:args] asError:YES];
     }
 }
 

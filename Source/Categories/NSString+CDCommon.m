@@ -1,29 +1,41 @@
-#import "NSString+CocoaDialog.h"
+#import "NSString+CDCommon.h"
 
 @implementation NSString (CocoaDialog)
 
--(BOOL)contains:(NSString *)string {
+- (BOOL) contains:(NSString *)string {
     NSRange range = [self rangeOfString:string];
     return (range.location != NSNotFound);
 }
 
--(BOOL)isBlank {
+- (BOOL) isBlank {
     if([[self stringByStrippingWhitespace] isEqualToString:@""])
         return YES;
     return NO;
 }
 
-- (BOOL)isEqualToStringCaseInsensitive:(NSString *)string {
-    return [self caseInsensitiveCompare:string] == NSOrderedSame;
+- (BOOL) isEqualToStringCaseInsensitive:(NSString *)string {
+    return [self.lowercaseString isEqualToString:string.lowercaseString];
 }
 
--(NSString *)indentNewlinesWith:(NSInteger)length {
+- (NSString *) indentNewlinesWith:(NSInteger)length {
     NSString *indent = [@"" stringByPaddingToLength:length withString:@" " startingAtIndex:0];
     return [self stringByReplacingOccurrencesOfString:@"\n" withString:[@"" stringByAppendingFormat:@"\n%@", indent]];
 
 };
 
-- (NSString *)stringByReplacingCharactersInSet:(NSCharacterSet *)charSet withString:(NSString *)aString {
+- (NSString *) optionFormat {
+    return [NSMutableString prepend:@"--" toString:self];
+}
+
+- (NSString *) doubleQuote {
+    return [NSString stringWithFormat:@"\"%@\"", self];
+}
+
+- (NSString *) singleQuote {
+    return [NSString stringWithFormat:@"'%@'", self];
+}
+
+- (NSString *) stringByReplacingCharactersInSet:(NSCharacterSet *)charSet withString:(NSString *)aString {
     NSMutableString *s = [NSMutableString stringWithCapacity:self.length];
     for (NSUInteger i = 0; i < self.length; ++i) {
         unichar c = [self characterAtIndex:i];
@@ -36,9 +48,46 @@
     return s;
 }
 
--(NSString *)stringByStrippingWhitespace {
+- (NSString *) stringByStrippingWhitespace {
     return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
+
+// http://stackoverflow.com/a/35039384/1226717
++ (instancetype) stringWithFormat:(NSString *)format array:(NSArray *)arrayArguments {
+    NSMethodSignature *methodSignature = [self vaListSignatureForArguments:arrayArguments];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:methodSignature];
+
+    [invocation setTarget:self];
+    [invocation setSelector:@selector(stringWithFormat:)];
+
+    [invocation setArgument:&format atIndex:2];
+    for (unsigned int i = 0; i < arrayArguments.count; i++) {
+        id obj = arrayArguments[i];
+        [invocation setArgument:(&obj) atIndex:i+3];
+    }
+
+    [invocation invoke];
+
+    __autoreleasing NSString *string;
+    [invocation getReturnValue:&string];
+
+    return string;
+}
++ (NSMethodSignature *)vaListSignatureForArguments:(NSArray *)arguments {
+    NSInteger count = [arguments count];
+    NSInteger sizeptr = sizeof(void *);
+    NSInteger sumArgInvoke = count + 3; //self + _cmd + (NSString *)format
+    NSInteger offsetReturnType = sumArgInvoke * sizeptr;
+
+    NSMutableString *mstring = [[NSMutableString alloc] init];
+    [mstring appendFormat:@"@%zd@0:%zd", offsetReturnType, sizeptr];
+    for (NSInteger i = 2; i < sumArgInvoke; i++) {
+        [mstring appendFormat:@"@%zd", sizeptr * i];
+    }
+    return [NSMethodSignature signatureWithObjCTypes:[mstring UTF8String]];
+}
+
+
 
 -(NSArray *)splitOnChar:(char)ch {
     NSMutableArray *results = [[[NSMutableArray alloc] init] autorelease];
@@ -110,6 +159,20 @@
     }
 
     return replacement;
+}
+
+@end
+
+@implementation NSMutableString (CocoaDialog)
+
++ (instancetype)prepend:(NSString *)prepend toString:(NSString *)string {
+    NSMutableString *joined = [NSMutableString stringWithString:string];
+    [joined prepend:prepend];
+    return joined;
+}
+
+- (void)prepend:(NSString *)string {
+    [self insertString:string atIndex:0];
 }
 
 @end

@@ -27,7 +27,7 @@
             // Register ourselves as a Growl delegate.
             [GrowlApplicationBridge setGrowlDelegate:self];
         } else {
-            [self warning:@"Could not load Growl.framework"];
+            [self warning:@"Could not load Growl.framework", nil];
         }
     }
     return self;
@@ -37,23 +37,23 @@
     [panel setPanelEmpty];
 
     NSString *clickPath = @"";
-    if ([arguments hasOption:@"click-path"]) {
-        clickPath = [arguments getOption:@"click-path"];
+    if (arguments.options[@"click-path"].wasProvided) {
+        clickPath = arguments.options[@"click-path"].stringValue;
     }
     
     NSString *clickArg = @"";
-    if ([arguments hasOption:@"click-arg"]) {
-        clickArg = [arguments getOption:@"click-arg"];
+    if (arguments.options[@"click-arg"].wasProvided) {
+        clickArg = arguments.options[@"click-arg"].stringValue;
     }
     
-	NSArray *titles = [arguments getOption:@"titles"];
-    NSArray *descriptions = [arguments getOption:@"descriptions"];
+	NSArray *titles = arguments.options[@"titles"].arrayValue;
+    NSArray *descriptions = arguments.options[@"descriptions"].arrayValue;
     
     NSNumber * priority = @0;
-    if ([arguments hasOption:@"priority"]) {
-        priority = [arguments getOption:@"priority"];
+    if (arguments.options[@"priority"].wasProvided) {
+        priority = arguments.options[@"priority"].numberValue;
     }
-    BOOL sticky = [arguments hasOption:@"sticky"];
+    BOOL sticky = arguments.options[@"sticky"].boolValue;
     // Multiple notifications
 	if (descriptions != nil && descriptions.count && titles != nil && titles.count && titles.count == descriptions.count) {
 		NSArray *givenIconImages = [self notificationIcons];
@@ -76,9 +76,9 @@
 				[icons addObject:defaultIcon];
 			}
 		}
-        NSArray * priorities = [NSArray arrayWithArray:[arguments getOption:@"priorities"]];
-        NSArray * clickPaths = [NSArray arrayWithArray:[arguments getOption:@"click-paths"]];
-        NSArray * clickArgs = [NSArray arrayWithArray:[arguments getOption:@"click-args"]];
+        NSArray * priorities = arguments.options[@"priorities"].arrayValue;
+        NSArray * clickPaths = arguments.options[@"click-paths"].arrayValue;
+        NSArray * clickArgs = arguments.options[@"click-args"].arrayValue;
 		// Create the bubbles
 		for (i = 0; i < descriptions.count; i++) {
 			NSImage *_icon = fallbackIcon == nil ? (NSImage *)icons[i] : fallbackIcon;
@@ -94,10 +94,10 @@
 		}
     }
     // Single notification
-    else if ([arguments hasOption:@"title"] && [arguments hasOption:@"description"]) {
+    else if (arguments.options[@"title"].wasProvided && arguments.options[@"description"].wasProvided) {
         NSImage * _icon = [icon iconWithDefault];
-        [self addNotificationWithTitle:[arguments getOption:@"title"]
-                           description:[arguments getOption:@"description"]
+        [self addNotificationWithTitle:arguments.options[@"title"].stringValue
+                           description:arguments.options[@"description"].stringValue
                                   icon:_icon
                               priority:priority
                                 sticky:sticky

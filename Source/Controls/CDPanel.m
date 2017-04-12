@@ -30,23 +30,23 @@
 - (NSSize) findNewSize {
 	NSSize size = NSZeroSize;
 	NSSize oldSize;
-	NSString *width, *height;
+	float width, height;
 	if (arguments == nil || panel == nil) {
 		return size;
 	}
 	size = panel.contentView.frame.size;
 	oldSize.width = size.width;
 	oldSize.height = size.height;
-	if ([arguments hasOption:@"width"]) {
-		width = [arguments getOption:@"width"];
-		if (width.floatValue != 0.0) {
-			size.width = width.floatValue;
+	if (arguments.options[@"width"].wasProvided) {
+		width = arguments.options[@"width"].floatValue;
+		if (width != 0.0) {
+			size.width = width;
 		}
 	}
-	if ([arguments hasOption:@"height"]) {
-		height = [arguments getOption:@"height"];
-		if (height.floatValue != 0.0) {
-			size.height = height.floatValue;
+	if (arguments.options[@"height"].wasProvided) {
+		height = arguments.options[@"height"].floatValue;
+		if (height != 0.0) {
+			size.height = height;
 		}
 	}
 	NSSize minSize = panel.contentMinSize;
@@ -64,11 +64,11 @@
 }
 
 - (NSScreen *)getScreen {
-    if ([arguments hasOption:@"screen"]) {
-        int index = (int) [arguments getOption:@"screen"];
+    if (arguments.options[@"screen"].wasProvided) {
+        NSUInteger index = arguments.options[@"screen"].unsignedIntegerValue;
         NSArray *screens = [NSScreen screens];
-        if ((int) [screens count] - 1 < index) {
-            [self warning:@"Using screen where keyboard has focus. Unknown screen index: %d", index];
+        if (index >= [screens count]) {
+            [self warning:@"Using screen where keyboard has focus. Unknown screen index: %@", [NSNumber numberWithUnsignedInteger:index], nil];
             return [NSScreen mainScreen];
         }
         return [screens objectAtIndex:index];
@@ -94,7 +94,7 @@
 }
 - (void) setFloat {
     if (panel != nil) {
-        if ([arguments hasOption:@"no-float"]) {
+        if (arguments.options[@"no-float"].wasProvided) {
             [panel setFloatingPanel:NO];
             [panel setLevel:NSNormalWindowLevel];
         }
@@ -122,19 +122,18 @@
     CGFloat padding = 20.0;
     NSNumberFormatter *nf = [[[NSNumberFormatter alloc] init] autorelease];
 
-    id posX;
-    id posY;
+    NSString *posX, *posY;
 
     // Has posX option
-    if ([arguments hasOption:@"posX"]) {
-		posX = [arguments getOption:@"posX"];
+    if (arguments.options[@"posX"].wasProvided) {
+		posX = arguments.options[@"posX"].stringValue;
         NSNumber *posXNumber = [nf numberFromString:posX];
         // Left
-		if ([posX caseInsensitiveCompare:@"left"] == NSOrderedSame) {
+		if ([posX isEqualToStringCaseInsensitive:@"left"]) {
             left += padding;
 		}
         // Right
-        else if ([posX caseInsensitiveCompare:@"right"] == NSOrderedSame) {
+        else if ([posX isEqualToStringCaseInsensitive:@"right"]) {
             left = left + width - NSWidth(panel.frame) - padding;
 		}
         // Manual posX coords
@@ -152,15 +151,15 @@
 	}
 
     // Has posY option
-	if ([arguments hasOption:@"posY"]) {
-		posY = [arguments getOption:@"posY"];
+	if (arguments.options[@"posY"].wasProvided) {
+		posY = arguments.options[@"posY"].stringValue;
         NSNumber *posYNumber = [nf numberFromString:posY];
         // Bottom
-		if ([posY caseInsensitiveCompare:@"bottom"] == NSOrderedSame) {
+		if ([posY isEqualToStringCaseInsensitive:@"bottom"]) {
             top = y + padding;
 		}
         // Top
-        else if ([posY caseInsensitiveCompare:@"top"] == NSOrderedSame) {
+        else if ([posY isEqualToStringCaseInsensitive:@"top"]) {
             top = top - NSHeight(panel.frame) - padding;
 		}
         // Manual posY coords
@@ -182,22 +181,11 @@
 }
 
 - (void)setTitle {
-    // set title
-	if ([arguments getOption:@"title"] != nil) {
-		panel.title = [arguments getOption:@"title"];
-	}
-    else {
-        panel.title = NSLocalizedString(@"APP_TITLE", nil);
-    }
+    panel.title = arguments.options[@"title"].wasProvided ? arguments.options[@"title"].stringValue : NSLocalizedString(@"APP_TITLE", nil);
 }
 
 - (void) setTitle:(NSString *)string {
-    if (string != nil && ![string isEqualToString:@""]) {
-        panel.title = string;
-    }
-    else {
-        panel.title = NSLocalizedString(@"APP_TITLE", nil);
-    }
+    panel.title = string != nil && ![string isBlank] ? string : NSLocalizedString(@"APP_TITLE", nil);
 }
 
 @end

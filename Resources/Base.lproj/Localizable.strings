@@ -4,16 +4,20 @@
 
 /* General */
 "CANCEL" = "Cancel";
-"DEBUG" = "DEBUG";
-"ERROR" = "ERROR";
-"FATAL" = "FATAL";
 "NO" = "No";
 "OK" = "Ok";
 "OKAY" = "Okay";
 "OPTION_EMPTY_TEXT" = "An input is required, please try again.";
-"WARNING" = "WARNING";
-"VERBOSE" = "VERBOSE";
 "YES" = "Yes";
+
+/* Logging */
+"LOG_DEBUG"   = "[DEBUG]   ";
+"LOG_ERROR"   = "[ERROR]   ";
+"LOG_WARNING" = "[WARNING] ";
+"LOG_VERBOSE" = "[VERBOSE] ";
+
+/* Warning messages */
+"UNKNOWN_OPTION" = "Unknown option: %@";
 
 /* Usage */
 "USAGE" = "Usage: cocoaDialog %@ [options]";
@@ -30,7 +34,7 @@
 
 /* Global Options */
 "GLOBAL_OPTION" = "Global options";
-"GLOBAL_OPTION_COLOR" = "Override whether ANSI escapsed colors are used in any output. By default, this is determined automatically whether the terminal supports color or not.";
+"GLOBAL_OPTION_COLOR" = "Colorize ouput. By default, this is automatically determined by whether the terminal supports color or not.";
 "GLOBAL_OPTION_DEBUG" = "Enables debug oriented output to help troubleshoot possible issues with a control. WARNING: This affects the control output and should not be used in stable code.";
 "GLOBAL_OPTION_HELP" = "Displays this help.";
 "GLOBAL_OPTION_NO_NEWLINE" = "Prevents appending a newline character to the control result value.";

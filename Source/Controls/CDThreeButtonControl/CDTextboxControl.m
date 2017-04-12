@@ -42,6 +42,9 @@
     // Deprecated options.
     [options addOption:[CDOptionDeprecated          from:@"informative-text" to:@"label"]];
 
+    // Require options.
+    options[@"button1"].required = YES;
+
     return options;
 }
 
@@ -92,40 +95,25 @@
     return @"The text box can cannot be empty, please enter some text.";
 }
 
-- (BOOL) validateOptions {
-    // Check that at least button1 has been specified.
-    if (![arguments hasOption:@"button1"])	{
-        [self fatalError:@"You must specify the --button1 option."];
-    }
-
-    return [super validateOptions];
-}
-
-
 - (void) createControl {
 	NSAttributedString *text;
     
     [icon addControl:scrollView];
 	
-	// set editable
-	if ([arguments hasOption:@"editable"]) {
-		[textView setEditable:YES];
-	} else {
-		[textView setEditable:NO];
-	}
-    
+	// Editable.
+    [textView setEditable:arguments.options[@"editable"].wasProvided];
+
 	// Set initial text in textview
-	if ([arguments hasOption:@"text"]) {
-		text = [[NSAttributedString alloc] initWithString:
-			[arguments getOption:@"text"]];
+	if (arguments.options[@"text"].wasProvided) {
+		text = [[NSAttributedString alloc] initWithString:arguments.options[@"text"].stringValue];
 		[textView.textStorage setAttributedString:text];
 		[textView scrollRangeToVisible:NSMakeRange(text.length, 0)];
 		[text release];
-	} else if ([arguments hasOption:@"text-from-file"]) {
-        NSString *file = [arguments getOption:@"text-from-file"];
+	} else if (arguments.options[@"text-from-file"].wasProvided) {
+        NSString *file = arguments.options[@"text-from-file"].stringValue;
 		NSString *contents = [NSString stringWithContentsOfFile: file encoding:NSUTF8StringEncoding error:nil];
 		if (contents == nil) {
-            [self warning:@"Could not read file: %@", file];
+            [self warning:@"Could not read file: %@", file, nil];
 			return;
 		} else {
 			text = [[NSAttributedString alloc] initWithString:contents];
@@ -136,13 +124,11 @@
 		[textView.textStorage setAttributedString:[[[NSAttributedString alloc] initWithString:@""] autorelease]];
 	}
     
-	[self setTitleButtonsLabel:[arguments getOption:@"label"]];
+	[self setTitleButtonsLabel:arguments.options[@"label"].stringValue];
 	
 	// scroll to top or bottom (do this AFTER resizing, setting the text, 
 	// etc). Default is top
-	if ([arguments getOption:@"scroll-to"] 
-	    && [[arguments getOption:@"scroll-to"] isCaseInsensitiveLike:@"bottom"]) 
-	{
+	if (arguments.options[@"scroll-to"].wasProvided && [arguments.options[@"scroll-to"].stringValue isEqualToStringCaseInsensitive:@"bottom"]) {
 		[textView scrollRangeToVisible:
 			NSMakeRange(textView.textStorage.length-1, 0)];
 	} else {
@@ -150,14 +136,13 @@
 	}
 	
 	// select all the text
-	if ([arguments hasOption:@"selected"]) {
-		[textView setSelectedRange:
-			NSMakeRange(0, textView.textStorage.length)];
+	if (arguments.options[@"selected"].wasProvided) {
+		[textView setSelectedRange:NSMakeRange(0, textView.textStorage.length)];
 	}
 	
 	// Set first responder
 	// Why doesn't this work for the button?
-	if ([arguments hasOption:@"focus-textbox"]) {
+	if (arguments.options[@"focus-textbox"].wasProvided) {
 		[panel.panel makeFirstResponder:textView];
 	} else {
 		[panel.panel makeFirstResponder:button1];
@@ -165,7 +150,7 @@
 }
 
 - (void) controlHasFinished:(int)button {
-	if ([self.arguments hasOption:@"editable"]) {
+	if (arguments.options[@"editable"].wasProvided) {
         [controlReturnValues addObject:textView.textStorage.string];
 	}
     [super controlHasFinished:button];

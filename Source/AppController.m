@@ -19,7 +19,7 @@
 */
 
 #import "AppController.h"
-#import "NSString+CocoaDialog.h"
+#import "NSString+CDCommon.h"
 
 @implementation AppController
 
@@ -36,30 +36,35 @@
     // Create the control.
     CDControl *control = [self findControl];
 
-
-    [control verbose:@"Control: %@", control.controlName];
+    [control verbose:@"Initiating control: %@", control.controlName.doubleQuote, nil];
 
     if (control.arguments.deprecatedOptions.count) {
         for (CDOptionDeprecated *deprecated in control.arguments.deprecatedOptions) {
-            [control warning:@"The option \"--%@\" is deprecated. Use \"--%@\" instead.", deprecated.from, deprecated.to];
+            [control warning:@"The %@ option has been deprecated. Please, use the %@ option instead.", deprecated.from.optionFormat, deprecated.to.optionFormat, nil];
         }
     }
 
-    NSArray *unknown = [control.arguments unknownOptions];
+    NSArray *unknown = [control.arguments unknownOptions].sortedAlphabetically;
     if (unknown.count) {
         for (NSString *name in unknown) {
-            [control warning:@"Unknown option: %@", [NSString stringWithFormat:@"--%@", name].magenta];
+            [control warning:NSLocalizedString(@"UNKNOWN_OPTION", nil), name.optionFormat, nil];
         }
     }
 
-    // Validate control's options.
+    // Validate control option requirements.
+    if (control.arguments.missingOptions.count) {
+        NSString *missing = [[control.arguments.missingOptions.allKeys.sortedAlphabetically prependStringsWith:@"--"] componentsJoinedByString:@", "];
+        [control fatalError:@"The %@ control requires the following options: %@", control.controlName.doubleQuote, missing, nil];
+    }
+
+    // Validate control options values.
     if (![control validateOptions]) {
-        [control fatalError:@"Control options are not valid."];
+        [control fatalError:@"Invalid options values provided.", nil];
     }
 
     // Load the control.
     if (![control loadControlNib:[control controlNib]]) {
-        [control fatalError:@"Unable to load control NIB."];
+        [control fatalError:@"Unable to load control NIB.", nil];
     }
 
     // Setup the control.
@@ -107,18 +112,18 @@
 
     // Detect --color option override.
     BOOL showColor = terminalSupportsColor;
-    if ([control.arguments hasOption:@"color"]) {
-        showColor = [control.arguments optionAsBoolean:@"color"];
+    if (control.arguments.options[@"color"].wasProvided) {
+        showColor = control.arguments.options[@"color"].boolValue;
     }
 
     // If there shouldn't be any color, switch off the global variable.
     if (!showColor) {
-        NSStringAnsiColors = NO;
+        NSStringCDColor = NO;
     }
 
-    [control debug:@"Terminal supports color: %@", (terminalSupportsColor ? NSLocalizedString(@"YES", nil) : NSLocalizedString(@"NO", nil)).magenta];
-    if ([control.arguments hasOption:@"color"]) {
-        [control debug:@"Color option specified. Enabled: %@", (showColor ? NSLocalizedString(@"YES", nil) : NSLocalizedString(@"NO", nil)).magenta];
+    [control debug:@"Terminal color support: %@", terminalSupportsColor ? NSLocalizedString(@"YES", nil) : NSLocalizedString(@"NO", nil), nil];
+    if (control.arguments.options[@"color"].wasProvided) {
+        [control debug:@"Color option specified, enabled: %@", showColor ? NSLocalizedString(@"YES", nil) : NSLocalizedString(@"NO", nil), nil];
     }
 
     NSString *name = [control.arguments getArgument:0];
@@ -127,13 +132,13 @@
     }
 
     // Show global usage.
-    if (name == nil && [control.arguments hasOption:@"help"]) {
+    if (name == nil && control.arguments.options[@"help"].wasProvided) {
         [control printHelpTo:[NSFileHandle fileHandleWithStandardOutput]];
         exit(0);
     }
 
     // Show version.
-    if ([name isEqualToStringCaseInsensitive:@"version"] || [control.arguments hasOption:@"version"]) {
+    if ([name isEqualToStringCaseInsensitive:@"version"] || control.arguments.options[@"version"].wasProvided) {
         [control writeLn:[AppController appVersion]];
         exit(0);
     }
@@ -154,7 +159,7 @@
 
     // Control is a notification, these need to be handled much differently
     if ([name isEqualToStringCaseInsensitive:@"notify"] || [name isEqualToStringCaseInsensitive:@"bubble"]) {
-        if ([control.arguments hasOption:@"help"]) {
+        if (control.arguments.options[@"help"].wasProvided) {
             control = [AppController createNotifyControlFromArguments:control.arguments];
             [control printHelpTo:[NSFileHandle fileHandleWithStandardOutput]];
             exit(0);
@@ -179,7 +184,7 @@
         task.standardOutput = [NSFileHandle fileHandleWithStandardOutput];
         task.launchPath = @"/usr/bin/arch";
         task.arguments = arguments;
-        [control debug:@"Relaunching: %@ %@", task.launchPath, [arguments componentsJoinedByString:@" "]];
+        [control debug:@"Relaunching: %@ %@", task.launchPath, [arguments componentsJoinedByString:@" "], nil];
         [task launch];
         [task waitUntilExit];
         exit(task.terminationStatus);
@@ -190,7 +195,7 @@
 
     Class controlClass = [[AppController availableControls] objectForKey:name];
     if (controlClass == nil) {
-        [control fatalError:@"Unknown control: %@\n", name.magenta.stopAnsi];
+        [control fatalError:@"Unknown control: %@\n", name.doubleQuote, nil];
     }
 
     // Bring application into focus.
@@ -203,7 +208,7 @@
     control.controlName = name;
 
     // Show control usage.
-    if ([control.arguments hasOption:@"help"]) {
+    if (control.arguments.options[@"help"].wasProvided) {
         [control printHelpTo:[NSFileHandle fileHandleWithStandardOutput]];
         exit(0);
     }
@@ -212,7 +217,7 @@
 }
 
 + (CDNotifyControl *) createNotifyControlFromArguments:(CDArguments *)args {
-    Class notifyClass = NSClassFromString(![args hasOption:@"no-growl"] ? @"CDGrowlControl" : @"CDBubbleControl");
+    Class notifyClass = NSClassFromString(!args.options[@"no-growl"] ? @"CDGrowlControl" : @"CDBubbleControl");
     CDNotifyControl *control = [[(CDNotifyControl *)[notifyClass alloc] initWithArguments] autorelease];
     control.controlName = @"notify";
     return control;

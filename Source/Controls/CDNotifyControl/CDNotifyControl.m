@@ -19,53 +19,25 @@
     return self;
 }
 
-- (BOOL) validateOptions {
-    BOOL pass = YES;
-    if ([arguments hasOption:@"title"]) {
-        if (![arguments hasOption:@"description"]) {
-            pass = NO;
-        }
-    }
-    else if ([arguments hasOption:@"titles"]) {
-        if (![arguments hasOption:@"descriptions"]) {
-            pass = NO;
-        }
-    }
-    else {
-        pass = NO;
-    }
-    if (!pass) {
-        [self fatalError:@"You must specify either --title and --description, or --titles and --descriptions (with the same number of args)."];
-    }
-
-    return [super validateOptions];
-}
-
-- (void) dealloc
-{
-    [notifications release];
-	[super dealloc];
-}
-
 - (CDOptions *) availableOptions {
     CDOptions *options = [CDOptions options];
 
     NSString *global = @"GLOBAL_OPTION";
 
     // Global
-    [options addOption:[CDOptionFlag                    name:@"help"            value: nil category:global]];
-    [options addOption:[CDOptionFlag                    name:@"debug"           value: nil category:global]];
-    [options addOption:[CDOptionFlag                    name:@"quiet"           value: nil category:global]];
-    [options addOption:[CDOptionSingleString            name:@"icon"            value: nil category:global]];
-    [options addOption:[CDOptionSingleString            name:@"icon-bundle"     value: nil category:global]];
-    [options addOption:[CDOptionSingleString            name:@"icon-file"       value: nil category:global]];
-    [options addOption:[CDOptionSingleNumber            name:@"icon-height"     value: nil category:global]];
-    [options addOption:[CDOptionSingleNumber            name:@"icon-size"       value: nil category:global]];
-    [options addOption:[CDOptionSingleNumber            name:@"icon-width"      value: nil category:global]];
-    [options addOption:[CDOptionSingleString            name:@"icon-type"       value: nil category:global]];
-    [options addOption:[CDOptionSingleStringOrNumber    name:@"posX"            value: nil category:global]];
-    [options addOption:[CDOptionSingleStringOrNumber    name:@"posY"            value: nil category:global]];
-    [options addOption:[CDOptionSingleNumber            name:@"timeout"         value: nil category:global]];
+    [options addOption:[CDOptionFlag                    name:@"help"            category:global]];
+    [options addOption:[CDOptionFlag                    name:@"debug"           category:global]];
+    [options addOption:[CDOptionFlag                    name:@"quiet"           category:global]];
+    [options addOption:[CDOptionSingleString            name:@"icon"            category:global]];
+    [options addOption:[CDOptionSingleString            name:@"icon-bundle"     category:global]];
+    [options addOption:[CDOptionSingleString            name:@"icon-file"       category:global]];
+    [options addOption:[CDOptionSingleNumber            name:@"icon-height"     category:global]];
+    [options addOption:[CDOptionSingleNumber            name:@"icon-size"       category:global]];
+    [options addOption:[CDOptionSingleNumber            name:@"icon-width"      category:global]];
+    [options addOption:[CDOptionSingleString            name:@"icon-type"       category:global]];
+    [options addOption:[CDOptionSingleStringOrNumber    name:@"posX"            category:global]];
+    [options addOption:[CDOptionSingleStringOrNumber    name:@"posY"            category:global]];
+    [options addOption:[CDOptionSingleNumber            name:@"timeout"         category:global]];
 
     // CDNotifyControls
     [options addOption:[CDOptionSingleString            name:@"alpha"]];
@@ -115,6 +87,23 @@
     return options;
 }
 
+
+- (BOOL) validateOptions {
+    BOOL pass = [super validateOptions];
+
+    if (!(arguments.options[@"title"] && arguments.options[@"description"]) || !(arguments.options[@"titles"] && arguments.options[@"descriptions"])) {
+        [self error:@"You must specify either --title and --description, or --titles and --descriptions (with the same number of args).", nil];
+        pass = NO;
+    }
+
+    return pass;
+}
+
+- (void) dealloc {
+    [notifications release];
+    [super dealloc];
+}
+
 - (void)addNotificationWithTitle:(NSString *)title description:(NSString *)description icon:(NSImage *)_icon priority:(NSNumber *)priority sticky:(BOOL)sticky clickPath:(NSString *)clickPath clickArg:(NSString *)clickArg
 {
     NSMutableDictionary * notification = [NSMutableDictionary dictionary];
@@ -148,8 +137,8 @@
 	NSArray *iconArgs;
 	NSEnumerator *en;
     
-	if ([arguments hasOption:@"icons"]) {
-		iconArgs = [arguments getOption:@"icons"];
+	if (arguments.options[@"icons"].wasProvided) {
+		iconArgs = arguments.options[@"icons"].arrayValue;
 		en = [iconArgs objectEnumerator];
 		NSString *iconName;
 		while (iconName = (NSString *)[en nextObject]) {
@@ -161,8 +150,8 @@
 		}
         
 	}
-    else if ([arguments hasOption:@"icon-files"]) {
-		iconArgs = [arguments getOption:@"icon-files"];
+    else if (arguments.options[@"icon-files"].wasProvided) {
+		iconArgs = arguments.options[@"icon-files"].arrayValue;
 		en = [iconArgs objectEnumerator];
 		NSString *fileName;
 		while (fileName = (NSString *)[en nextObject]) {
@@ -185,7 +174,7 @@
 {
     NSDictionary * notification = [NSDictionary dictionaryWithDictionary:notifications[[clickContext intValue]]];
     NSString * path = notification[@"clickPath"];
-    if ([path caseInsensitiveCompare:@"cocoaDialog"] == NSOrderedSame) {
+    if ([path isEqualToStringCaseInsensitive:@"cocoaDialog"]) {
         path = [NSProcessInfo processInfo].arguments[0];
     }
     NSMutableArray *args = [NSMutableArray array];

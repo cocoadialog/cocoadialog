@@ -25,7 +25,7 @@
 - (instancetype)initWithArguments {
     self = [super initWithArguments];
     if (self) {
-        [arguments setOption:@"no-show" value:@YES];
+        arguments.options[@"no-show"].value = @YES;
     }
     return self;
 }

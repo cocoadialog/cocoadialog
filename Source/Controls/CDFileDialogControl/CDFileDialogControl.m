@@ -48,11 +48,11 @@
     savePanel.delegate = self;
     
     // Create directories.
-    savePanel.canCreateDirectories = [arguments hasOption:@"create-directories"];
+    savePanel.canCreateDirectories = arguments.options[@"create-directories"].boolValue;
 
     // Extensions.
-    extensions = [[[NSMutableArray alloc] init] retain];
-    NSArray *optionExtensions = [arguments getOption:@"with-extensions"];
+    extensions = [NSMutableArray array];
+    NSArray *optionExtensions = arguments.options[@"with-extensions"].arrayValue;
 	if (optionExtensions != nil && optionExtensions.count) {
 		NSString *extension;
 		NSEnumerator *en = [optionExtensions objectEnumerator];
@@ -69,12 +69,12 @@
 	}
 
 	// Set title
-	if ([arguments getOption:@"title"] != nil) {
-		savePanel.title = [arguments getOption:@"title"];
+	if (arguments.options[@"title"].wasProvided) {
+		savePanel.title = arguments.options[@"title"].stringValue;
 	}
 	// set message displayed on file select panel
-	if ([arguments getOption:@"label"] != nil) {
-		savePanel.message = [arguments getOption:@"label"];
+	if (arguments.options[@"label"].wasProvided) {
+		savePanel.message = arguments.options[@"label"].stringValue;
 	}
 }
 
@@ -89,7 +89,7 @@
 }
 
 - (BOOL)panel:(id)sender shouldShowFilename:(NSString *)filename {
-    BOOL packageAsDir = [arguments hasOption:@"packages‑as‑directories"];
+    BOOL packageAsDir = arguments.options[@"packages‑as‑directories"].boolValue;
     BOOL isPackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:filename];
     BOOL isDir;
     // Allow directories and/or packages to be selectable

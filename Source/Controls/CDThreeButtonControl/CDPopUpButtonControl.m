@@ -35,25 +35,25 @@
     // Deprecated options.
     [options addOption:[CDOptionDeprecated          from:@"text" to:@"label"]];
 
+    // Required options.
+    options[@"button1"].required = YES;
+    options[@"items"].required = YES;
+
     return options;
 }
 
 - (BOOL) validateOptions {
-    // Check that we're in the right sub-class.
-    if (![self isMemberOfClass:[CDPopUpButtonControl class]] && ![self isMemberOfClass:[CDStandardPopUpButtonControl class]]) {
-        [self fatalError:@"This control is not properly classed."];
+    BOOL pass = [super validateOptions];
+
+    // Check that at least one item has been specified.
+    // @todo this really could be checked automatically now that options
+    // are objects and could specify the number of minimum values.
+    if (!arguments.options[@"items"].arrayValue.count) {
+        [self error:@"Must supply at least one item in --items", nil];
+        pass = NO;
     }
 
-    // Check that at least button1 has been specified.
-	if (![arguments getOption:@"button1"] && ![self isMemberOfClass:[CDStandardPopUpButtonControl class]])	{
-        [self fatalError:@"You must specify the --button1 option."];
-	}
-    // Check that at least one item has been specified.
-    if (![NSArray arrayWithArray:[arguments getOption:@"items"]].count) {
-        [self fatalError:@"Must supply at least one item in the --items option."];
-	}
-
-    return [super validateOptions];
+    return pass;
 }
 
 - (NSString *)controlNib {
@@ -70,23 +70,23 @@
     popupControl.action = @selector(selectionChanged:);
 	[popupControl removeAllItems];
     // Set popup/pulldown style
-    popupControl.pullsDown = [arguments hasOption:@"pulldown"] ? YES : NO;
+    popupControl.pullsDown = arguments.options[@"pulldown"] ? YES : NO;
     // Populate menu
-    NSArray *items = [NSArray arrayWithArray:[arguments getOption:@"items"]];
+    NSArray *items = arguments.options[@"items"].arrayValue;
 	if (items != nil && items.count) {
 		NSEnumerator *en = [items objectEnumerator];
 		id obj;
 		while (obj = [en nextObject]) {
 			[popupControl addItemWithTitle:(NSString *)obj];
 		}
-        NSInteger selected = [arguments hasOption:@"selected"] ? (long) [arguments getOption:@"selected"] : 0;
+        NSUInteger selected = arguments.options[@"selected"].wasProvided ? arguments.options[@"selected"].unsignedIntegerValue : 0;
         [popupControl selectItemAtIndex:selected];
 	}
-	[self setTitleButtonsLabel:[arguments getOption:@"label"]];
+	[self setTitleButtonsLabel:arguments.options[@"label"].stringValue];
 }
 
 - (void) controlHasFinished:(int)button {
-	if ([self.arguments hasOption:@"string-output"]) {
+	if (arguments.options[@"string-output"].wasProvided) {
         [controlReturnValues addObject:popupControl.titleOfSelectedItem];
 	} else {
         [controlReturnValues addObject:[NSString stringWithFormat:@"%ld", (long)popupControl.indexOfSelectedItem]];
@@ -96,10 +96,10 @@
 
 - (void) selectionChanged:(id)sender {
     [popupControl synchronizeTitleAndSelectedItem];
-	if ([self.arguments hasOption:@"exit-onchange"]) {
+	if (arguments.options[@"exit-onchange"].wasProvided) {
 		controlExitStatus = 4;
 		controlExitStatusString = @"4";
-        if ([self.arguments hasOption:@"string-output"]) {
+        if (arguments.options[@"string-output"].wasProvided) {
             [controlReturnValues addObject:popupControl.titleOfSelectedItem];
         } else {
             [controlReturnValues addObject:[NSString stringWithFormat:@"%ld", (long)popupControl.indexOfSelectedItem]];

@@ -42,11 +42,11 @@
 }
 
 - (NSImage *)icon {
-    if ([arguments hasOption:@"icon-file"]) {
-        iconImage = [self iconFromFile:[arguments getOption:@"icon-file"]];
+    if (arguments.options[@"icon-file"].wasProvided) {
+        iconImage = [self iconFromFile:arguments.options[@"icon-file"].stringValue];
     }
-    else if ([arguments hasOption:@"icon"]) {
-        iconImage = [self iconFromName:[arguments getOption:@"icon"]];
+    else if (arguments.options[@"icon"].wasProvided) {
+        iconImage = [self iconFromName:arguments.options[@"icon"].stringValue];
     }
     return iconImage;
 }
@@ -68,7 +68,7 @@
     NSImage *image = nil;
     image = [[[NSImage alloc] initWithContentsOfFile:file] autorelease];
     if (image == nil) {
-        [self warning:@"Could not return icon from specified file: \"%@\".", file];
+        [self warning:@"Could not return icon from specified file: \"%@\".", file, nil];
     }
     return image;
 }
@@ -79,249 +79,249 @@
     NSString *bundle = nil;
     NSString *path = nil;
     NSString *iconType = @"icns";
-    if ([arguments hasOption:@"icon-type"]) {
-        iconType = [arguments getOption:@"icon-type"];
+    if (arguments.options[@"icon-type"].wasProvided) {
+        iconType = arguments.options[@"icon-type"].stringValue;
     }
     // Use bundle identifier
-    if ([arguments hasOption:@"icon-bundle"]) {
-        bundle = [arguments getOption:@"icon-bundle"];
+    if (arguments.options[@"icon-bundle"].wasProvided) {
+        bundle = arguments.options[@"icon-bundle"].stringValue;
     }
     // Set default bundle identifier
     if (bundle == nil) {
         // Application icon
-        if ([name caseInsensitiveCompare:@"cocoadialog"] == NSOrderedSame) {
+        if ([name isEqualToStringCaseInsensitive:@"cocoadialog"]) {
             image = NSApp.applicationIconImage;
             hasImage = YES;
         }
         // User specific computer image
-        else if ([name caseInsensitiveCompare:@"computer"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"computer"]) {
             image = [NSImage imageNamed: NSImageNameComputer];
             hasImage = YES;
         }
         // Bundle Identifications
-        else if ([name caseInsensitiveCompare:@"addressbook"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"addressbook"]) {
             name = @"AppIcon";
             bundle = @"com.apple.AddressBook";
         }
-        else if ([name caseInsensitiveCompare:@"airport"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"airport"]) {
             name = @"AirPort";
             bundle = @"com.apple.AirPortBaseStationAgent";
         }
-        else if ([name caseInsensitiveCompare:@"airport2"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"airport2"]) {
             name = @"AirPort";
             bundle = @"com.apple.wifi.diagnostics";
         }
-        else if ([name caseInsensitiveCompare:@"archive"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"archive"]) {
             name = @"bah";
             bundle = @"com.apple.archiveutility";
         }
-        else if ([name caseInsensitiveCompare:@"bluetooth"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"bluetooth"]) {
             name = @"AppIcon";
             bundle = @"com.apple.BluetoothAudioAgent";
         }
-        else if ([name caseInsensitiveCompare:@"application"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"application"]) {
             name = @"GenericApplicationIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";
         }
-        else if ([name caseInsensitiveCompare:@"bonjour"] == NSOrderedSame || [name caseInsensitiveCompare:@"atom"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"bonjour"] || [name isEqualToStringCaseInsensitive:@"atom"]) {
             name = @"Bonjour";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"burn"] == NSOrderedSame || [name caseInsensitiveCompare:@"hazard"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"burn"] || [name isEqualToStringCaseInsensitive:@"hazard"]) {
             name = @"BurningIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"caution"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"caution"]) {
             name = @"AlertCautionIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"document"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"document"]) {
             name = @"GenericDocumentIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"documents"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"documents"]) {
             name = @"ToolbarDocumentsFolderIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"download"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"download"]) {
             name = @"ToolbarDownloadsFolderIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"eject"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"eject"]) {
             name = @"EjectMediaIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"everyone"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"everyone"]) {
             name = @"Everyone";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"executable"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"executable"]) {
             name = @"ExecutableBinaryIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"favorite"] == NSOrderedSame || [name caseInsensitiveCompare:@"heart"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"favorite"] || [name isEqualToStringCaseInsensitive:@"heart"]) {
             name = @"ToolbarFavoritesIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"fileserver"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"fileserver"]) {
             name = @"GenericFileServerIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"filevault"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"filevault"]) {
             name = @"FileVaultIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"finder"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"finder"]) {
             name = @"FinderIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"folder"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"folder"]) {
             name = @"GenericFolderIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"folderopen"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"folderopen"]) {
             name = @"OpenFolderIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"foldersmart"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"foldersmart"]) {
             name = @"SmartFolderIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"gear"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"gear"]) {
             name = @"ToolbarAdvanced";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"general"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"general"]) {
             name = @"General";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"globe"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"globe"]) {
             name = @"BookmarkIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"group"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"group"]) {
             name = @"GroupIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"home"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"home"]) {
             name = @"HomeFolderIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"info"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"info"]) {
             name = @"ToolbarInfo";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"ipod"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"ipod"]) {
             name = @"com.apple.ipod-touch-4";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"movie"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"movie"]) {
             name = @"ToolbarMovieFolderIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"music"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"music"]) {
             name = @"ToolbarMusicFolderIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"network"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"network"]) {
             name = @"GenericNetworkIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"notice"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"notice"]) {
             name = @"AlertNoteIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"stop"] == NSOrderedSame || [name caseInsensitiveCompare:@"x"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"stop"] || [name isEqualToStringCaseInsensitive:@"x"]) {
             name = @"AlertStopIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"sync"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"sync"]) {
             name = @"Sync";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"trash"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"trash"]) {
             name = @"TrashIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"trashfull"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"trashfull"]) {
             name = @"FullTrashIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"url"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"url"]) {
             name = @"GenericURLIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"user"] == NSOrderedSame || [name caseInsensitiveCompare:@"person"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"user"] || [name isEqualToStringCaseInsensitive:@"person"]) {
             name = @"UserIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"utilities"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"utilities"]) {
             name = @"ToolbarUtilitiesFolderIcon";
             path = @"/System/Library/CoreServices/CoreTypes.bundle";							
         }
-        else if ([name caseInsensitiveCompare:@"dashboard"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"dashboard"]) {
             name = @"Dashboard";
             bundle = @"com.apple.dashboard.installer";
         }
-        else if ([name caseInsensitiveCompare:@"dock"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"dock"]) {
             name = @"Dock";
             bundle = @"com.apple.dock";
         }
-        else if ([name caseInsensitiveCompare:@"widget"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"widget"]) {
             name = @"widget";
             bundle = @"com.apple.dock";
         }
-        else if ([name caseInsensitiveCompare:@"help"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"help"]) {
             name = @"HelpViewer";
             bundle = @"com.apple.helpviewer";
         }
-        else if ([name caseInsensitiveCompare:@"installer"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"installer"]) {
             name = @"Installer";
             bundle = @"com.apple.installer";
         }
-        else if ([name caseInsensitiveCompare:@"package"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"package"]) {
             name = @"package";
             bundle = @"com.apple.installer";
         }
-        else if ([name caseInsensitiveCompare:@"firewire"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"firewire"]) {
             name = @"FireWireHD";
             bundle = @"com.apple.iokit.IOSCSIArchitectureModelFamily";
             path = @"/System/Library/Extensions/IOSCSIArchitectureModelFamily.kext";
         }
-        else if ([name caseInsensitiveCompare:@"usb"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"usb"]) {
             name = @"USBHD";
             bundle = @"com.apple.iokit.IOSCSIArchitectureModelFamily";
             path = @"/System/Library/Extensions/IOSCSIArchitectureModelFamily.kext";
         }
-        else if ([name caseInsensitiveCompare:@"cd"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"cd"]) {
             name = @"CD";
             bundle = @"com.apple.ODSAgent";
         }
-        else if ([name caseInsensitiveCompare:@"sound"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"sound"]) {
             name = @"SoundPref";
             path = @"/System/Library/PreferencePanes/Sound.prefPane";
         }
-        else if ([name caseInsensitiveCompare:@"printer"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"printer"]) {
             name = @"Printer";
             bundle = @"com.apple.print.PrintCenter";
         }
-        else if ([name caseInsensitiveCompare:@"screenshare"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"screenshare"]) {
             name = @"ScreenSharing";
             bundle = @"com.apple.ScreenSharing";
         }
-        else if ([name caseInsensitiveCompare:@"security"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"security"]) {
             name = @"Security";
             bundle = @"com.apple.securityagent";
         }
-        else if ([name caseInsensitiveCompare:@"update"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"update"]) {
             name = @"SoftwareUpdate";
             bundle = @"com.apple.SoftwareUpdate";
         }
-        else if ([name caseInsensitiveCompare:@"search"] == NSOrderedSame || [name caseInsensitiveCompare:@"find"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"search"] || [name isEqualToStringCaseInsensitive:@"find"]) {
             name = @"Spotlight";
             path = @"/System/Library/CoreServices/Search.bundle";
         }
-        else if ([name caseInsensitiveCompare:@"preferences"] == NSOrderedSame) {
+        else if ([name isEqualToStringCaseInsensitive:@"preferences"]) {
             name = @"PrefApp";
             bundle = @"com.apple.systempreferences";
         }
@@ -341,15 +341,15 @@
             if (fileName != nil) {
                 image = [[[NSImage alloc] initWithContentsOfFile:fileName] autorelease];
                 if (image == nil) {
-                    [self warning:@"Could not retrieve image from specified icon file \"%@\".", fileName];
+                    [self warning:@"Could not retrieve image from specified icon file \"%@\".", fileName, nil];
                 }
             }
             else {
-                [self warning:@"Cannot find icon \"%@\" in bundle \"%@\".", name, bundle];
+                [self warning:@"Cannot find icon \"%@\" in bundle \"%@\".", name, bundle, nil];
             }
         }
         else {
-            [self warning:@"Unknown icon \"%@\". No --icon-bundle specified.", name];
+            [self warning:@"Unknown icon \"%@\". No --icon-bundle specified.", name, nil];
         }
     }
     return image;
@@ -358,11 +358,11 @@
 - (void) setIconFromOptions {
     if (control != nil) {
         NSImage *image = [self icon];
-        if ([arguments hasOption:@"icon-file"]) {
-            image = [self iconFromFile:[arguments getOption:@"icon-file"]];
+        if (arguments.options[@"icon-file"].wasProvided) {
+            image = [self iconFromFile:arguments.options[@"icon-file"].stringValue];
         }
-        else if ([arguments hasOption:@"icon"]) {
-            image = [self iconFromName:[arguments getOption:@"icon"]];
+        else if (arguments.options[@"icon"].wasProvided) {
+            image = [self iconFromName:arguments.options[@"icon"].stringValue];
         }
         
         // Set default icon sizes
@@ -374,8 +374,8 @@
         if (image != nil) {
             // Set default icon height
             // Get icon sizes from user options
-            if ([arguments hasOption:@"icon-size"]) {
-                int iconSize = (int) [arguments getOption:@"icon-size"];
+            if (arguments.options[@"icon-size"].wasProvided) {
+                NSUInteger iconSize = arguments.options[@"icon-size"].unsignedIntegerValue;
                 switch (iconSize) {
                     case 256: iconWidth = 256.0; iconHeight = 256.0; break;
                     case 128: iconWidth = 128.0; iconHeight = 128.0; break;
@@ -385,11 +385,11 @@
                 }
             }
             else {
-                if ([arguments hasOption:@"icon-width"]) {
-                    iconWidth = (long) [arguments getOption:@"icon-width"];
+                if (arguments.options[@"icon-width"].wasProvided) {
+                    iconWidth = arguments.options[@"icon-width"].floatValue;
                 }
-                if ([arguments hasOption:@"icon-height"]) {
-                    iconHeight = (long) [arguments getOption:@"icon-height"];
+                if (arguments.options[@"icon-height"].wasProvided) {
+                    iconHeight = arguments.options[@"icon-height"].floatValue;
                 }
             }
             // Set sizes

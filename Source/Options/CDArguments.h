@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 // Category extensions.
-#import "NSString+CocoaDialog.h"
+#import "NSString+CDCommon.h"
 
 // Options.
 #import "CDOption.h"
@@ -11,8 +11,9 @@
 
 @property (nonatomic, retain, readonly) NSMutableArray *arguments;
 @property (nonatomic, retain, readonly) CDOptions *options;
-@property (nonatomic, retain, readonly) NSMutableArray *deprecatedOptions;
-@property (nonatomic, retain, readonly) NSMutableArray *unknownOptions;
+@property (nonatomic, retain, readonly) NSMutableDictionary <NSString *, CDOptionDeprecated *> *deprecatedOptions;
+@property (nonatomic, retain, readonly) NSMutableDictionary <NSString *, CDOption *> *missingOptions;
+@property (nonatomic, retain, readonly) NSMutableArray <NSString *> *unknownOptions;
 
 - (instancetype) init NS_UNAVAILABLE;
 + (instancetype) init NS_UNAVAILABLE;
@@ -22,13 +23,5 @@
 
 // Pubic instance methods.
 - (NSString *) getArgument:(unsigned int) index;
-- (BOOL) hasOption:(NSString *)key;
-- (id) getOption:(NSString *)key;
-- (NSArray *) optionAsArray:(NSString *)key;
-- (BOOL) optionAsBoolean:(NSString *)key;
-- (int) optionAsInt:(NSString *)key;
-- (NSNumber *) optionAsNumber:(NSString *)key;
-- (NSString *) optionAsString:(NSString *)key;
-- (void) setOption:(NSString *)key value:(id)value;
 
 @end

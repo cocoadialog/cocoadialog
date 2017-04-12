@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-#import "NSString+CocoaDialog.h"
+#import "NSString+CDCommon.h"
 
 @interface CDTput : NSObject
 

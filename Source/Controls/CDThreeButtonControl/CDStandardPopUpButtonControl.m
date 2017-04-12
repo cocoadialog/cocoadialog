@@ -33,7 +33,7 @@
 
 - (void) setButtons {
 	button1.title = NSLocalizedString(@"Okay", nil);
-	if ([arguments hasOption:@"no-cancel"]) {
+	if (arguments.options[@"no-cancel"].wasProvided) {
 		[button2 setEnabled:NO];
 		[button2 setHidden:YES];
 	} else {

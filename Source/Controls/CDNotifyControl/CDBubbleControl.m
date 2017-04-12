@@ -31,17 +31,17 @@
 	int position = 0;
 
     NSString *clickPath = @"";
-    if ([arguments hasOption:@"click-path"]) {
-        clickPath = [arguments getOption:@"click-path"];
+    if (arguments.options[@"click-path"].wasProvided) {
+        clickPath = arguments.options[@"click-path"].stringValue;
     }
     
     NSString *clickArg = @"";
-    if ([arguments hasOption:@"click-arg"]) {
-        clickArg = [arguments getOption:@"click-arg"];
+    if (arguments.options[@"click-arg"].wasProvided) {
+        clickArg = arguments.options[@"click-arg"].stringValue;
     }
 	
-	if ([arguments hasOption:@"posX"]) {
-		NSString *xplace = [arguments getOption:@"posX"];
+	if (arguments.options[@"posX"].wasProvided) {
+		NSString *xplace = arguments.options[@"posX"].stringValue;
 		if ([xplace isEqualToString:@"left"]) {
 			position |= BUBBLE_HORIZ_LEFT;
 		} else if ([xplace isEqualToString:@"center"]) {
@@ -52,8 +52,8 @@
 	} else {
 		position |= BUBBLE_HORIZ_RIGHT;
 	}
-	if ([arguments hasOption:@"posY"]) {
-		NSString *yplace = [arguments getOption:@"posY"];
+	if (arguments.options[@"posY"].wasProvided) {
+		NSString *yplace = arguments.options[@"posY"].stringValue;
 		if ([yplace isEqualToString:@"bottom"]) {
 			position |= BUBBLE_VERT_BOTTOM;
 		} else if ([yplace isEqualToString:@"center"]) {
@@ -65,23 +65,23 @@
 		position |= BUBBLE_VERT_TOP;
 	}	
 
-	if ([arguments hasOption:@"timeout"]) {
-		if (![[NSScanner scannerWithString:[arguments getOption:@"timeout"]] scanFloat:&_timeout]) {
-			[self warning:@"Could not parse the timeout option."];
+	if (arguments.options[@"timeout"].wasProvided) {
+		if (![[NSScanner scannerWithString:arguments.options[@"timeout"].stringValue] scanFloat:&_timeout]) {
+			[self warning:@"Could not parse the timeout option.", nil];
 			_timeout = 4.;
 		}
 	}
 
-	if ([arguments hasOption:@"alpha"]) {
-		if (![[NSScanner scannerWithString:[arguments getOption:@"alpha"]] scanFloat:&alpha]) {
-			[self warning:@"Could not parse the alpha option."];
+	if (arguments.options[@"alpha"].wasProvided) {
+		if (![[NSScanner scannerWithString:arguments.options[@"alpha"].stringValue] scanFloat:&alpha]) {
+			[self warning:@"Could not parse the alpha option.", nil];
 			_timeout = .95;
 		}
 	}
-    BOOL sticky = [arguments hasOption:@"sticky"];
+    BOOL sticky = arguments.options[@"sticky"].boolValue;
 
-	NSArray *titles = [arguments getOption:@"titles"];
-	NSArray *descriptions = [arguments getOption:@"descriptions"];
+	NSArray *titles = arguments.options[@"titles"].arrayValue;
+	NSArray *descriptions = arguments.options[@"descriptions"].arrayValue;
 
 	// Multiple bubbles
 	if (descriptions != nil && descriptions.count && titles != nil && titles.count && titles.count == descriptions.count) {
@@ -105,8 +105,8 @@
 				[icons addObject:defaultIcon];
 			}
 		}
-        NSArray * clickPaths = [NSArray arrayWithArray:[arguments getOption:@"click-paths"]];
-        NSArray * clickArgs = [NSArray arrayWithArray:[arguments getOption:@"click-args"]];
+        NSArray * clickPaths = arguments.options[@"click-paths"].arrayValue;
+        NSArray * clickArgs = arguments.options[@"click-args"].arrayValue;
 		// Create the bubbles
 		for (i = 0; i < descriptions.count; i++) {
 			NSImage *_icon = fallbackIcon == nil ? (NSImage *)icons[i] : fallbackIcon;
@@ -120,9 +120,9 @@
              ];
 		}
 	// Single bubble
-	} else if ([arguments hasOption:@"title"] && [arguments hasOption:@"description"]) {
-        [self addNotificationWithTitle:[arguments getOption:@"title"]
-                           description:[arguments getOption:@"description"]
+	} else if (arguments.options[@"title"].wasProvided && arguments.options[@"description"].wasProvided) {
+        [self addNotificationWithTitle:arguments.options[@"title"].stringValue
+                           description:arguments.options[@"description"].stringValue
                                   icon:[icon iconWithDefault]
                               priority:nil
                                 sticky:sticky
@@ -190,17 +190,17 @@
 	NSArray *colorArgs = nil;
 	NSString *myKey = key;
 	// first check to see if this key returns multiple values
-	colorArgs = [arguments getOption:myKey];
+	colorArgs = arguments.options[myKey].arrayValue;
 	if (colorArgs == nil) {
 		// It didn't return an array, so see if it returns a single value
-		NSString *optValue = [arguments getOption:myKey];
+		NSString *optValue = arguments.options[myKey].stringValue;
 
 		// Failing that...
 		// If we were looking for text-colors and didn't find it, try
 		// text-color instead (for example).
 		if (optValue == nil && [myKey hasSuffix:@"s"]) {
 			myKey = [key substringToIndex:(key.length - 1)];
-			optValue = [arguments getOption:myKey];
+			optValue = arguments.options[myKey].stringValue;
 		}
 		colorArgs = optValue ? @[optValue] : @[];
 	}

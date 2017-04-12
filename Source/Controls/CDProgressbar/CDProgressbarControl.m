@@ -91,10 +91,6 @@
 	stopButton.enabled = stopEnabled;
 }
 
-- (BOOL) validateOptions {
-	return YES;
-}
-
 - (void) createControl {
 	stopEnabled = YES;
 	
@@ -102,15 +98,11 @@
 	[icon addControl:expandingLabel];
 	[icon addControl:progressBar];
 
-	// set text label
-	if ([arguments getOption:@"text"]) {
-		expandingLabel.stringValue = [arguments getOption:@"text"];
-	} else {
-		expandingLabel.stringValue = @"";
-	}
-	
-	// hide stop button if not stoppable and resize window/controls
-	if (![arguments hasOption:@"stoppable"]) {
+	// Set text label.
+    expandingLabel.stringValue = arguments.options[@"text"].wasProvided ? arguments.options[@"text"].stringValue : @"";
+
+	// Hide stop button if not stoppable and resize window/controls.
+	if (!arguments.options[@"stoppable"].wasProvided) {
 		NSRect progressBarFrame = progressBar.frame;
 
 		NSRect currentWindowFrame = panel.panel.frame;
@@ -133,21 +125,21 @@
 	[progressBar setMinValue:CDProgressbarMIN];
 	[progressBar setMaxValue:CDProgressbarMAX];
 	
-	// set initial percent
-	if ([arguments getOption:@"percent"]) {
+	// Set initial percent.
+	if (arguments.options[@"percent"].wasProvided) {
 		double initialPercent;
-		if ([inputHandler parseString:[arguments getOption:@"percent"] intoProgress:&initialPercent]) {
+		if ([inputHandler parseString:arguments.options[@"percent"].stringValue intoProgress:&initialPercent]) {
 			progressBar.doubleValue = initialPercent;
 		}
 	}
 		
-	//set window title
-	if ([arguments getOption:@"title"]) {
-		panel.panel.title = [arguments getOption:@"title"];
+	// Set window title.
+	if (arguments.options[@"title"].wasProvided) {
+		panel.panel.title = arguments.options[@"title"].stringValue;
 	}
 
 	// set indeterminate
-	if ([arguments hasOption:@"indeterminate"]) {
+	if (arguments.options[@"indeterminate"].wasProvided) {
 		[progressBar setIndeterminate:YES];
 		[progressBar startAnimation:self];
 	} else {

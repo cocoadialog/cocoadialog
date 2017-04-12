@@ -39,29 +39,25 @@
 	
 	[self setMisc];
 
-	if ([arguments hasOption:@"packages-as-directories"]) {
-		[savePanel setTreatsFilePackagesAsDirectories:YES];
-	} else {
-		[savePanel setTreatsFilePackagesAsDirectories:NO];
-	}
+    [savePanel setTreatsFilePackagesAsDirectories:arguments.options[@"packages-as-directories"].wasProvided];
 
-	if ([arguments hasOption:@"no-create-directories"]) {
+	if (arguments.options[@"no-create-directories"].wasProvided) {
 		[savePanel setCanCreateDirectories:NO];
 	}
 
 	// Set starting file (to be used later with runModal...) - doesn't work.
-	if ([arguments getOption:@"with-file"] != nil) {
-		file = [arguments getOption:@"with-file"];
+	if (arguments.options[@"with-file"].wasProvided) {
+		file = arguments.options[@"with-file"].stringValue;
 	}
 	// Set starting directory (to be used later with runModal...)
-	if ([arguments getOption:@"with-directory"] != nil) {
-		dir = [arguments getOption:@"with-directory"];
+	if (arguments.options[@"with-directory"].wasProvided) {
+		dir = arguments.options[@"with-directory"].stringValue;
 	}
     
     // Check for dir or file path existance.
     NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
     if (dir != nil && ![fm fileExistsAtPath:dir]) {
-        [self warning:@"Option --with-directory specifies a directory that does not exist: %@", dir];
+        [self warning:@"Option --with-directory specifies a directory that does not exist: %@", dir, nil];
     }
 
     panel.panel = savePanel;

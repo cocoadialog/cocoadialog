@@ -17,6 +17,7 @@
 		61EC90AD145FACF8003ADF05 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC906C145FACF8003ADF05 /* AppController.m */; };
 		61EC90E7145FACF8003ADF05 /* cocoaDialog_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 61EC90AB145FACF8003ADF05 /* cocoaDialog_Prefix.pch */; };
 		61EC90E9145FAD58003ADF05 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC90E8145FAD58003ADF05 /* main.m */; };
+		A7140B9C1E9D588400A50272 /* CDColor.m in Sources */ = {isa = PBXBuildFile; fileRef = A7140B9B1E9D588400A50272 /* CDColor.m */; };
 		A78A8CD414376C42007AE363 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB5143759ED007AE363 /* InfoPlist.strings */; };
 		A78A8CD514376C42007AE363 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB7143759ED007AE363 /* MainMenu.xib */; };
 		A78A8CD614376C42007AE363 /* Msgbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB9143759ED007AE363 /* Msgbox.xib */; };
@@ -91,11 +92,12 @@
 		A796ED3B1E9A38F8008EE718 /* CDThreeButtonControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ED001E9A38F8008EE718 /* CDThreeButtonControl.m */; };
 		A796ED3C1E9A38F8008EE718 /* CDYesNoMsgboxControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ED011E9A38F8008EE718 /* CDYesNoMsgboxControl.h */; };
 		A796ED3D1E9A38F8008EE718 /* CDYesNoMsgboxControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ED021E9A38F8008EE718 /* CDYesNoMsgboxControl.m */; };
-		A796ED481E9AF509008EE718 /* NSString+CocoaDialog.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ED441E9AF509008EE718 /* NSString+CocoaDialog.h */; };
-		A796ED491E9AF509008EE718 /* NSString+CocoaDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ED451E9AF509008EE718 /* NSString+CocoaDialog.m */; };
-		A796ED531E9B0D3A008EE718 /* NSString+AnsiColors.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ED511E9B0D3A008EE718 /* NSString+AnsiColors.h */; };
-		A796ED541E9B0D3A008EE718 /* NSString+AnsiColors.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ED521E9B0D3A008EE718 /* NSString+AnsiColors.m */; };
+		A796ED481E9AF509008EE718 /* NSString+CDCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ED441E9AF509008EE718 /* NSString+CDCommon.h */; };
+		A796ED491E9AF509008EE718 /* NSString+CDCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ED451E9AF509008EE718 /* NSString+CDCommon.m */; };
+		A796ED531E9B0D3A008EE718 /* NSString+CDColor.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ED511E9B0D3A008EE718 /* NSString+CDColor.h */; };
+		A796ED541E9B0D3A008EE718 /* NSString+CDColor.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ED521E9B0D3A008EE718 /* NSString+CDColor.m */; };
 		A796ED561E9B2926008EE718 /* CDTput.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ED551E9B2926008EE718 /* CDTput.m */; };
+		A796ED5A1E9BBD14008EE718 /* NSArray+CDCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ED591E9BBD13008EE718 /* NSArray+CDCommon.m */; };
 		A7BABB401445829B00D3F168 /* relaunch in Resources */ = {isa = PBXBuildFile; fileRef = A7BABB2E1445817B00D3F168 /* relaunch */; };
 		A7D40438153C2BC3005FA3CD /* popup.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7D40436153C2BC3005FA3CD /* popup.xib */; };
 /* End PBXBuildFile section */
@@ -134,6 +136,8 @@
 		61EC90AB145FACF8003ADF05 /* cocoaDialog_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cocoaDialog_Prefix.pch; path = Source/cocoaDialog_Prefix.pch; sourceTree = "<group>"; };
 		61EC90E8145FAD58003ADF05 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Source/main.m; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* cocoaDialog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cocoaDialog.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7140B9B1E9D588400A50272 /* CDColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDColor.m; path = Source/CDColor.m; sourceTree = "<group>"; };
+		A7140B9D1E9D589300A50272 /* CDColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CDColor.h; path = Source/CDColor.h; sourceTree = "<group>"; };
 		A78A8C9514375704007AE363 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ConfigDebug.xcconfig; sourceTree = "<group>"; };
 		A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ConfigRelease.xcconfig; sourceTree = "<group>"; };
@@ -215,13 +219,15 @@
 		A796ED001E9A38F8008EE718 /* CDThreeButtonControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDThreeButtonControl.m; sourceTree = "<group>"; };
 		A796ED011E9A38F8008EE718 /* CDYesNoMsgboxControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDYesNoMsgboxControl.h; sourceTree = "<group>"; };
 		A796ED021E9A38F8008EE718 /* CDYesNoMsgboxControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDYesNoMsgboxControl.m; sourceTree = "<group>"; };
-		A796ED441E9AF509008EE718 /* NSString+CocoaDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+CocoaDialog.h"; sourceTree = "<group>"; };
-		A796ED451E9AF509008EE718 /* NSString+CocoaDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+CocoaDialog.m"; sourceTree = "<group>"; };
+		A796ED441E9AF509008EE718 /* NSString+CDCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+CDCommon.h"; sourceTree = "<group>"; };
+		A796ED451E9AF509008EE718 /* NSString+CDCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+CDCommon.m"; sourceTree = "<group>"; };
 		A796ED4E1E9B0BD7008EE718 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		A796ED511E9B0D3A008EE718 /* NSString+AnsiColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+AnsiColors.h"; sourceTree = "<group>"; };
-		A796ED521E9B0D3A008EE718 /* NSString+AnsiColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+AnsiColors.m"; sourceTree = "<group>"; };
+		A796ED511E9B0D3A008EE718 /* NSString+CDColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+CDColor.h"; sourceTree = "<group>"; };
+		A796ED521E9B0D3A008EE718 /* NSString+CDColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+CDColor.m"; sourceTree = "<group>"; };
 		A796ED551E9B2926008EE718 /* CDTput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDTput.m; path = Source/CDTput.m; sourceTree = "<group>"; };
 		A796ED571E9B2C2F008EE718 /* CDTput.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CDTput.h; path = Source/CDTput.h; sourceTree = "<group>"; };
+		A796ED581E9BBD05008EE718 /* NSArray+CDCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+CDCommon.h"; sourceTree = "<group>"; };
+		A796ED591E9BBD13008EE718 /* NSArray+CDCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+CDCommon.m"; sourceTree = "<group>"; };
 		A7A51DE11E96B03200469C11 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Resources/Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A7BABA9714456CC800D3F168 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A7BABADA1445809700D3F168 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -328,6 +334,8 @@
 			children = (
 				61EC90E8145FAD58003ADF05 /* main.m */,
 				61EC90AB145FACF8003ADF05 /* cocoaDialog_Prefix.pch */,
+				A7140B9D1E9D589300A50272 /* CDColor.h */,
+				A7140B9B1E9D588400A50272 /* CDColor.m */,
 				A796ED571E9B2C2F008EE718 /* CDTput.h */,
 				A796ED551E9B2926008EE718 /* CDTput.m */,
 				61EC906B145FACF8003ADF05 /* AppController.h */,
@@ -466,10 +474,12 @@
 		A796ED411E9AF509008EE718 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				A796ED511E9B0D3A008EE718 /* NSString+AnsiColors.h */,
-				A796ED521E9B0D3A008EE718 /* NSString+AnsiColors.m */,
-				A796ED441E9AF509008EE718 /* NSString+CocoaDialog.h */,
-				A796ED451E9AF509008EE718 /* NSString+CocoaDialog.m */,
+				A796ED581E9BBD05008EE718 /* NSArray+CDCommon.h */,
+				A796ED591E9BBD13008EE718 /* NSArray+CDCommon.m */,
+				A796ED511E9B0D3A008EE718 /* NSString+CDColor.h */,
+				A796ED521E9B0D3A008EE718 /* NSString+CDColor.m */,
+				A796ED441E9AF509008EE718 /* NSString+CDCommon.h */,
+				A796ED451E9AF509008EE718 /* NSString+CDCommon.m */,
 			);
 			name = Categories;
 			path = Source/Categories;
@@ -493,7 +503,7 @@
 				A796ED281E9A38F8008EE718 /* CDOkMsgboxControl.h in Headers */,
 				A796ED1F1E9A38F8008EE718 /* CDProgressbarInputHandler.h in Headers */,
 				A796ED2E1E9A38F8008EE718 /* CDSecureInputboxControl.h in Headers */,
-				A796ED531E9B0D3A008EE718 /* NSString+AnsiColors.h in Headers */,
+				A796ED531E9B0D3A008EE718 /* NSString+CDColor.h in Headers */,
 				A796ED341E9A38F8008EE718 /* CDStandardInputboxControl.h in Headers */,
 				A796ED111E9A38F8008EE718 /* CDGrowlControl.h in Headers */,
 				A796ED171E9A38F8008EE718 /* KABubbleWindowController.h in Headers */,
@@ -511,7 +521,7 @@
 				A796ED151E9A38F8008EE718 /* KABubbleWindow.h in Headers */,
 				A796ED241E9A38F8008EE718 /* CDInputboxControl.h in Headers */,
 				A796ED1B1E9A38F8008EE718 /* CDPanel.h in Headers */,
-				A796ED481E9AF509008EE718 /* NSString+CocoaDialog.h in Headers */,
+				A796ED481E9AF509008EE718 /* NSString+CDCommon.h in Headers */,
 				A796ED0F1E9A38F8008EE718 /* CDBubbleControl.h in Headers */,
 				A796ECBD1E9A37D7008EE718 /* CDArguments.h in Headers */,
 				A796ED0B1E9A38F8008EE718 /* CDFileSelectControl.h in Headers */,
@@ -628,7 +638,7 @@
 				A796ED231E9A38F8008EE718 /* CDCheckboxControl.m in Sources */,
 				A796ED371E9A38F8008EE718 /* CDStandardPopUpButtonControl.m in Sources */,
 				A796ED181E9A38F8008EE718 /* KABubbleWindowController.m in Sources */,
-				A796ED541E9B0D3A008EE718 /* NSString+AnsiColors.m in Sources */,
+				A796ED541E9B0D3A008EE718 /* NSString+CDColor.m in Sources */,
 				A796ED351E9A38F8008EE718 /* CDStandardInputboxControl.m in Sources */,
 				A796ED141E9A38F8008EE718 /* CDNotifyControl.m in Sources */,
 				A796ED041E9A38F8008EE718 /* CDCommon.m in Sources */,
@@ -648,11 +658,13 @@
 				A796ED1E1E9A38F8008EE718 /* CDProgressbarControl.m in Sources */,
 				A796ED121E9A38F8008EE718 /* CDGrowlControl.m in Sources */,
 				A796ED081E9A38F8008EE718 /* CDFileDialogControl.m in Sources */,
+				A796ED5A1E9BBD14008EE718 /* NSArray+CDCommon.m in Sources */,
 				A796ED161E9A38F8008EE718 /* KABubbleWindow.m in Sources */,
 				A796ED311E9A38F8008EE718 /* CDSecureStandardInputboxControl.m in Sources */,
-				A796ED491E9AF509008EE718 /* NSString+CocoaDialog.m in Sources */,
+				A796ED491E9AF509008EE718 /* NSString+CDCommon.m in Sources */,
 				A796ED3B1E9A38F8008EE718 /* CDThreeButtonControl.m in Sources */,
 				A796ED1C1E9A38F8008EE718 /* CDPanel.m in Sources */,
+				A7140B9C1E9D588400A50272 /* CDColor.m in Sources */,
 				A796ED2B1E9A38F8008EE718 /* CDPopUpButtonControl.m in Sources */,
 				A796ECC01E9A37D7008EE718 /* CDOption.m in Sources */,
 				A796ED271E9A38F8008EE718 /* CDMsgboxControl.m in Sources */,

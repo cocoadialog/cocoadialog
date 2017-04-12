@@ -1,57 +1,14 @@
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
+#import "CDColor.h"
 
-extern BOOL NSStringAnsiColors;
+extern BOOL NSStringCDColor;
 
-typedef NS_ENUM(int, AnsiBg) {
-    AnsiBgBlack = 40,
-    AnsiBgRed,
-    AnsiBgGreen,
-    AnsiBgYellow,
-    AnsiBgBlue,
-    AnsiBgMagenta,
-    AnsiBgCyan,
-    AnsiBgWhite,
-    AnsiBgDefault = 49,
-};
-
-typedef NS_ENUM(int, AnsiFg) {
-    AnsiFgBlack = 30,
-    AnsiFgRed,
-    AnsiFgGreen,
-    AnsiFgYellow,
-    AnsiFgBlue,
-    AnsiFgMagenta,
-    AnsiFgCyan,
-    AnsiFgWhite,
-    AnsiFgDefault = 39,
-    AnsiFgLightBlack = 90,
-    AnsiFgLightRed,
-    AnsiFgLightGreen,
-    AnsiFgLightYellow,
-    AnsiFgLightBlue,
-    AnsiFgLightMagenta,
-    AnsiFgLightCyan,
-    AnsiFgLightWhite,
-};
-
-typedef NS_ENUM(int, AnsiStyle) {
-    AnsiStyleDefault = 0,
-    AnsiStyleBold = 1,
-    AnsiStyleDim = 2,
-    AnsiStyleItalic = 3,
-    AnsiStyleUnderline = 4,
-    AnsiStyleBlink = 5,
-    AnsiStyleSwap = 7,
-};
-
-@interface NSString (AnsiColors)
+@interface NSString (CDColor)
 
 // Storage.
-@property (nonatomic) AnsiBg ansiBg;
-@property (nonatomic) AnsiFg ansiFg;
-@property (nonatomic) NSMutableArray *ansiStyles;
-@property (nonatomic) NSString *ansiOriginal;
+@property (nonatomic) CDColor *color;
+@property (nonatomic) NSString *originalString;
 
 // Background colors.
 @property (nonatomic, readonly) NSString *onBlack;
@@ -94,11 +51,13 @@ typedef NS_ENUM(int, AnsiStyle) {
 @property (nonatomic, readonly) NSString *clearFg;
 @property (nonatomic, readonly) NSString *clearBg;
 @property (nonatomic, readonly) NSString *clearStyles;
-@property (nonatomic, readonly) NSString *removeAnsi;
+@property (nonatomic, readonly) NSString *removeColor;
 
 // Stopping.
-@property (nonatomic, readonly) NSString *stopAnsi;
+@property (nonatomic, readonly) NSString *stop;
 
--(NSString *)stringByPaddingToLength:(NSUInteger)newLength withString:(NSString *)padString startingAtIndex:(NSUInteger)padIndex ignoreAnsi:(BOOL)ignoreAnsi;
+- (NSString *)applyColor:(CDColor *)color;
+
+- (NSString *)stringByPaddingToLength:(NSUInteger)newLength withString:(NSString *)padString startingAtIndex:(NSUInteger)padIndex ignoreColor:(BOOL)ignoreColor;
 
 @end

@@ -12,7 +12,7 @@
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
- 
+
 	You should have received a copy of the GNU General Public License
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -44,49 +44,40 @@
 
     NSOpenPanel *openPanel = (NSOpenPanel *)savePanel;
 
-	// set select-multiple
-	if ([arguments hasOption:@"select-multiple"]) {
-		[openPanel setAllowsMultipleSelection:YES];
-	} else {
-		[openPanel setAllowsMultipleSelection:NO];
-	}
+	// Multiple selection.
+    [openPanel setAllowsMultipleSelection:arguments.options[@"select-multiple"].wasProvided];
 
-	// set select-directories
-	if ([arguments hasOption:@"create-directories"] || [arguments hasOption:@"select-directories"]) {
-		[openPanel setCanChooseDirectories:YES];
-	} else {
-		[openPanel setCanChooseDirectories:NO];
-	}
-	if ([arguments hasOption:@"select-only-directories"]) {
+	// Select directories.
+    [openPanel setCanChooseDirectories:arguments.options[@"create-directories"].wasProvided || arguments.options[@"select-directories"].wasProvided];
+
+    // Select only directories.
+    if (arguments.options[@"select-only-directories"].wasProvided) {
 		[openPanel setCanChooseDirectories:YES];
 		[openPanel setCanChooseFiles:NO];
 	}
-	
-	if ([arguments hasOption:@"packages-as-directories"]) {
-		[openPanel setTreatsFilePackagesAsDirectories:YES];
-	} else {
-		[openPanel setTreatsFilePackagesAsDirectories:NO];
-	}
+
+    // Packages as directories.
+    [openPanel setTreatsFilePackagesAsDirectories:arguments.options[@"packages-as-directories"].wasProvided];
 
 	// set starting file (to be used later with 
 	// runModal...) - doesn't work.
-	if ([arguments getOption:@"with-file"] != nil) {
-		file = [arguments getOption:@"with-file"];
+	if (arguments.options[@"with-file"].wasProvided) {
+		file = arguments.options[@"with-file"].stringValue;
 	}
 	// set starting directory (to be used later with runModal...)
-	if ([arguments getOption:@"with-directory"] != nil) {
-		dir = [arguments getOption:@"with-directory"];
+	if (arguments.options[@"with-directory"].wasProvided) {
+		dir = arguments.options[@"with-directory"].stringValue;
 	}
     
     // Check for dir or file path existance.
     NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
     // Directory
     if (dir != nil && ![fm fileExistsAtPath:dir]) {
-        [self warning:@"Option --with-directory specifies a directory that does not exist: %@", dir];
+        [self warning:@"Option --with-directory specifies a directory that does not exist: %@", dir, nil];
     }
     // File
     if (file != nil && ![fm fileExistsAtPath:file]) {
-        [self warning:@"Option --with-file specifies a file that does not exist: %@", file];
+        [self warning:@"Option --with-file specifies a file that does not exist: %@", file, nil];
     }
 
     panel.panel = openPanel;
@@ -133,8 +124,8 @@
         NSString* extension = filename.pathExtension;
         extensionAllowed = [extensions containsObject:extension];
     }
-    if ([arguments hasOption:@"allowed-files"]) {
-        NSArray *allowedFiles = [arguments getOption:@"allowed-files"];
+    if (arguments.options[@"allowed-files"].wasProvided) {
+        NSArray *allowedFiles = arguments.options[@"allowed-files"].arrayValue;
         if (allowedFiles != nil && allowedFiles.count) {
             if ([allowedFiles containsObject:filename.lastPathComponent]) {
                 return YES;

@@ -39,19 +39,15 @@
     return @"Msgbox";
 }
 
-- (BOOL) validateOptions {
-    return [super validateOptions];
-}
-
 - (void) createControl {
     NSRect expandingLabelRect = expandingLabel.frame;
     
     float alertNewHeight = -4.0f;
     NSRect alertRect = text.frame;
     float alertHeightDiff = alertNewHeight - alertRect.size.height;
-    if ([arguments getOption:@"alert"]) {
+    if (arguments.options[@"alert"].wasProvided) {
         [icon addControl:text];
-        text.stringValue = [arguments getOption:@"alert"];
+        text.stringValue = arguments.options[@"alert"].stringValue;
     }
     else {
         expandingLabelRect.origin.y -= alertHeightDiff;
@@ -64,7 +60,7 @@
     p.height += alertHeightDiff;
     [panel.panel setContentSize:p];
 
-	[self setTitleButtonsLabel:[arguments getOption:@"label"]];
+	[self setTitleButtonsLabel:arguments.options[@"label"].stringValue];
 }
 
 @end

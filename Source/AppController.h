@@ -21,7 +21,8 @@
 #import <Foundation/Foundation.h>
 
 // Category extensions.
-#import "NSString+CocoaDialog.h"
+#import "NSArray+CDCommon.h"
+#import "NSString+CDCommon.h"
 
 // Core.
 #import "CDArguments.h"

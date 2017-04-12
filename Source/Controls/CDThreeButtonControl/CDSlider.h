@@ -13,7 +13,7 @@
     double      max;
     double      min;
     BOOL        sticky;
-    int         ticks;
+    NSUInteger  ticks;
     double      value;
     NSTextField *sliderLabel;
     NSTextField *valueLabel;

@@ -36,21 +36,10 @@
     [options addOption:[CDOptionDeprecated      from:@"text"                to:@"value"]];
     [options addOption:[CDOptionDeprecated      from:@"informative-text"    to:@"label"]];
 
+    // Required options.
+    options[@"button1"].required = YES;
+
     return options;
-}
-
-- (BOOL) validateOptions {    
-    // Check that we're in the right sub-class.
-    if (![self isMemberOfClass:[CDInputboxControl class]] && ![self isMemberOfClass:[CDStandardInputboxControl class]]) {
-        [self fatalError:@"This control is not properly classed."];
-    }
-
-    // Check that at least button1 has been specified.
-	if (![arguments getOption:@"button1"] && ![self isMemberOfClass:[CDStandardInputboxControl class]]) {
-        [self fatalError:@"Must supply at least --button1"];
-	}
-
-    return [super validateOptions];
 }
 
 - (BOOL)isReturnValueEmpty {
@@ -58,15 +47,14 @@
     return [value isEqualToString:@""];
 }
 
-- (NSString *) returnValueEmptyText
-{
+- (NSString *) returnValueEmptyText {
     return @"The text field can cannot be empty, please enter some text.";
 }
 
 - (void) createControl {
     NSString * labelText = @"";
-    if ([arguments hasOption:@"label"] && [arguments getOption:@"label"] != nil) {
-        labelText = [arguments getOption:@"label"];
+    if (arguments.options[@"label"].wasProvided) {
+        labelText = arguments.options[@"label"].stringValue;
     }
 	[self setTitleButtonsLabel:labelText];
 }
@@ -85,7 +73,7 @@
     [controlMatrix setAllowsEmptySelection:NO];
     
     id inputbox;
-    if ([arguments hasOption:@"no-show"]) {
+    if (arguments.options[@"no-show"].wasProvided) {
         inputbox = [[[NSSecureTextField alloc] init] autorelease];
     }
     else {
@@ -93,8 +81,8 @@
     }
     [inputbox setRefusesFirstResponder:YES];
     // Set initial text in textfield
-    if ([arguments getOption:@"value"]) {
-        [inputbox setStringValue:[arguments getOption:@"value"]];
+    if (arguments.options[@"value"].wasProvided) {
+        [inputbox setStringValue:arguments.options[@"value"].stringValue];
     }
     else {
         [inputbox setStringValue:@""];
@@ -102,7 +90,7 @@
     [controlMatrix putCell:[inputbox cell] atRow:0 column:0];
     
     // select all the text
-	if ([arguments hasOption:@"not-selected"]) {
+	if (arguments.options[@"not-selected"].wasProvided) {
         [controlMatrix deselectAllCells];
 	}
     else {

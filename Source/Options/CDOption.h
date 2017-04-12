@@ -1,23 +1,38 @@
 #import <Foundation/Foundation.h>
 
 // Category extensions.
-#import "NSString+CocoaDialog.h"
+#import "NSString+CDCommon.h"
 
 @interface CDOption : NSObject {}
 
-@property (nonatomic, readonly) NSString *category;
-@property (nonatomic, readonly) NSString *helpText;
-@property (nonatomic, readonly) NSString *name;
-@property (nonatomic, readonly) NSNumber *type;
+@property (nonatomic, assign) NSString *category;
+@property (nonatomic, assign) NSString *helpText;
+@property (nonatomic, assign) NSMutableArray<NSString *> *notes;
+@property (nonatomic, assign) NSMutableArray<NSString *> *warnings;
+@property (nonatomic, assign) BOOL required;
 @property (nonatomic, assign) id value;
+@property (nonatomic, assign) BOOL wasProvided;
 
-- (instancetype) init NS_UNAVAILABLE;
-+ (instancetype) init NS_UNAVAILABLE;
+// Read-only.
+@property (nonatomic, readonly) NSArray* arrayValue;
+@property (nonatomic, readonly) BOOL boolValue;
+@property (nonatomic, readonly) double doubleValue;
+@property (nonatomic, readonly) float floatValue;
+@property (nonatomic, readonly) int intValue;
+@property (nonatomic, readonly) NSInteger integerValue;
+@property (nonatomic, readonly) NSString *name;
+@property (nonatomic, readonly) NSNumber* numberValue;
+@property (nonatomic, readonly) NSString* stringValue;
+@property (nonatomic, readonly) unsigned int unsignedIntValue;
+@property (nonatomic, readonly) NSUInteger unsignedIntegerValue;
+
 + (instancetype) name:(NSString *)name;
 + (instancetype) name:(NSString *)name value:(id)value;
 + (instancetype) name:(NSString *)name category:(NSString *) category;
 + (instancetype) name:(NSString *)name value:(id)value category:(NSString *) category;
 + (instancetype) name:(NSString *)name value:(id)value category:(NSString *) category helpText:(NSString *)helpText;
+
+- (void) setValues:(NSArray<NSString *> *)values;
 
 @end
 
