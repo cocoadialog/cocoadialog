@@ -9,16 +9,17 @@
 
 + (instancetype)stringWithFormat:(NSString *)format array:(NSArray *)arrayArguments;
 
--(BOOL)contains:(NSString *)string;
--(BOOL)isBlank;
--(BOOL)isEqualToStringCaseInsensitive:(NSString *)string;
--(NSString *)indent:(NSInteger)length;
--(NSString *)indentNewlinesWith:(NSInteger)length;
--(NSArray *)splitOnChar:(char)ch;
--(NSString *)stringByReplacingCharactersInSet:(NSCharacterSet *)charSet withString:(NSString *)aString;
--(NSString *)substringFrom:(NSInteger)from to:(NSInteger)to;
--(NSString *)stringByStrippingWhitespace;
--(NSString *)wrapToLength:(NSInteger)length;
+- (BOOL) contains:(NSString *)string;
+- (NSString *) endsWith:(NSString *)string;
+- (BOOL) isBlank;
+- (BOOL) isEqualToStringCaseInsensitive:(NSString *)string;
+- (NSString *) indent:(NSInteger)length;
+- (NSString *) indentNewlinesWith:(NSInteger)length;
+- (NSArray *) splitOnChar:(char)ch;
+- (NSString *) stringByReplacingCharactersInSet:(NSCharacterSet *)charSet withString:(NSString *)aString;
+- (NSString *) substringFrom:(NSInteger)from to:(NSInteger)to;
+- (NSString *) stringByStrippingWhitespace;
+- (NSString *) wrapToLength:(NSInteger)length;
 
 @end
 

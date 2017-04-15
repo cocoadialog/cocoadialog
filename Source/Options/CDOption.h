@@ -6,6 +6,7 @@
 typedef id (^CDOptionAutomaticDefaultValue)(void);
 
 @interface CDOption : NSObject {
+    BOOL       _isPercent;
     NSUInteger _minimumValues;
     NSUInteger _maximumValues;
 }
@@ -27,11 +28,13 @@ typedef id (^CDOptionAutomaticDefaultValue)(void);
 @property (nonatomic, readonly) float floatValue;
 @property (nonatomic, readonly) int intValue;
 @property (nonatomic, readonly) NSInteger integerValue;
+@property (nonatomic, readonly) BOOL isPercent;
 @property (nonatomic, readonly) NSString *label;
 @property (nonatomic, readonly) NSUInteger maximumValues;
 @property (nonatomic, readonly) NSUInteger minimumValues;
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) NSNumber* numberValue;
+@property (nonatomic, readonly) NSNumber* percentValue;
 @property (nonatomic, readonly) NSString* stringValue;
 @property (nonatomic, readonly) CDColor *typeColor;
 @property (nonatomic, readonly) NSString *typeLabel;

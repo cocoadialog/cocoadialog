@@ -7,6 +7,22 @@
     return (range.location != NSNotFound);
 }
 
+- (NSString *) endsWith:(NSString *)string {
+    if (self.length > string.length) {
+        NSUInteger location = self.length - string.length;
+        NSUInteger length = self.length - location;
+        NSRange range = NSMakeRange(location, length);
+        NSString *substring = [self substringWithRange:range];
+        if ([substring isEqualToStringCaseInsensitive:string]) {
+            return NSStringFromRange(range);
+        }
+    }
+    else if ([self isEqualToStringCaseInsensitive:string]) {
+        return NSStringFromRange(NSMakeRange(0, 1));
+    }
+    return nil;
+}
+
 - (BOOL) isBlank {
     if([[self stringByStrippingWhitespace] isEqualToString:@""])
         return YES;

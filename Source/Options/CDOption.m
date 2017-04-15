@@ -105,16 +105,6 @@
     return _name.optionFormat;
 }
 
-- (unsigned int) unsignedIntValue {
-    NSNumber *number = [self numberValue];
-    return number != nil ? number.unsignedIntValue : (unsigned int) 0;
-}
-
-- (NSUInteger) unsignedIntegerValue {
-    NSNumber *number = [self numberValue];
-    return number != nil ? number.unsignedIntegerValue : (NSUInteger) 0;
-}
-
 - (NSNumber *) numberValue {
     id value = self.value;
     if (value != nil && [value isKindOfClass:[NSString class]]) {
@@ -124,6 +114,14 @@
     }
     else if (value != nil && [value isKindOfClass:[NSNumber class]]) {
         return value;
+    }
+    return nil;
+}
+
+- (NSNumber *) percentValue {
+    NSNumber *number = self.numberValue;
+    if (_isPercent && number != nil) {
+        return [NSNumber numberWithDouble:[number doubleValue] * 100];
     }
     return nil;
 }
@@ -142,6 +140,16 @@
 
 - (CDColor *) typeColor {
     return [CDColor color];
+}
+
+- (unsigned int) unsignedIntValue {
+    NSNumber *number = [self numberValue];
+    return number != nil ? number.unsignedIntValue : (unsigned int) 0;
+}
+
+- (NSUInteger) unsignedIntegerValue {
+    NSNumber *number = [self numberValue];
+    return number != nil ? number.unsignedIntegerValue : (NSUInteger) 0;
 }
 
 - (id) value {
@@ -271,7 +279,34 @@
     if (!values.count) {
         return;
     }
-    self.value = [NSNumber numberWithLongLong:[values[values.count - 1] longLongValue]];
+    BOOL percent = NO;
+    NSString *stringValue = values[values.count - 1];
+    double doubleValue = [stringValue doubleValue];
+    NSString *percentRange = [stringValue endsWith:@"%"];
+    if (percentRange != nil) {
+        percent = YES;
+        stringValue = [stringValue stringByReplacingCharactersInRange:NSRangeFromString(percentRange) withString:@""];
+        doubleValue = [stringValue doubleValue];
+    }
+    if (percent) {
+        _isPercent = YES;
+        doubleValue /= 100;
+    }
+    self.value = [NSNumber numberWithDouble:doubleValue];
+}
+
+- (NSString *) stringValue {
+    NSNumber *number = self.numberValue;
+    if (number != nil) {
+        if (_isPercent) {
+            NSUInteger percent = [number doubleValue] * 100;
+            return [NSString stringWithFormat:@"%lu%%", percent];
+        }
+        else {
+            return [number stringValue];
+        }
+    }
+    return nil;
 }
 
 - (CDColor *) typeColor {

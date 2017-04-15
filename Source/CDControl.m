@@ -643,6 +643,7 @@
 }
 
 - (NSSize) findNewSize {
+    NSRect screenFrame = self.getScreen.frame;
     NSSize size = NSZeroSize;
     NSSize oldSize;
     float width, height;
@@ -651,13 +652,25 @@
     oldSize.width = size.width;
     oldSize.height = size.height;
     if (option[@"width"].wasProvided) {
-        width = option[@"width"].floatValue;
+        NSNumber *percent = option[@"width"].percentValue;
+        if (percent != nil) {
+            width = ((float) screenFrame.size.width / 100) * [percent floatValue];
+        }
+        else {
+            width = option[@"width"].floatValue;
+        }
         if (width != 0.0) {
             size.width = width;
         }
     }
     if (option[@"height"].wasProvided) {
-        height = option[@"height"].floatValue;
+        NSNumber *percent = option[@"height"].percentValue;
+        if (percent != nil) {
+            height = ((float) screenFrame.size.height / 100) * [percent floatValue];
+        }
+        else {
+            height = option[@"height"].floatValue;
+        }
         if (height != 0.0) {
             size.height = height;
         }
