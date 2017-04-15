@@ -15,6 +15,7 @@
                 <outlet property="controlMatrix" destination="29" id="36"/>
                 <outlet property="controlPanel" destination="3" id="74"/>
                 <outlet property="expandingLabel" destination="9" id="17"/>
+                <outlet property="panel" destination="3" id="QeC-Qt-cLv"/>
                 <outlet property="popupControl" destination="75" id="86"/>
                 <outlet property="timeoutLabel" destination="59" id="68"/>
             </connections>

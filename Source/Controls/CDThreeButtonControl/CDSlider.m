@@ -99,7 +99,6 @@
 }
 
 - (void) setControl:(id)sender {
-    NSWindow *_panel = panel.panel;
     NSRect cmFrame = controlMatrix.frame;
     
     NSView *sliderView = [[[NSView alloc] initWithFrame:NSMakeRect(cmFrame.origin.x, (cmFrame.origin.y + cmFrame.size.height) - 17.0f, cmFrame.size.width, 14.0f)] autorelease];
@@ -130,7 +129,7 @@
     }
     [sliderView addSubview:valueLabel];
     
-    [_panel.contentView addSubview:sliderView];
+    [self.panel.contentView addSubview:sliderView];
     
     // Move controlMatrix to make room for valueView
     NSPoint cmOrigin = cmFrame.origin;
@@ -138,10 +137,10 @@
     [controlMatrix setFrameOrigin:cmOrigin];
     
     // Add the valueView to the panel height
-    NSSize panelSize = panel.panel.contentView.frame.size;
+    NSSize panelSize = self.panel.contentView.frame.size;
     panelSize.height += sliderView.frame.size.height + 4.0f;
-    [panel.panel setContentSize:panelSize];
-    [panel resize];
+    [self.panel setContentSize:panelSize];
+    [self resize];
     
     // Set other attributes of matrix
     controlMatrix.cellSize = NSMakeSize(cmFrame.size.width, 22.0f);
@@ -172,7 +171,7 @@
     cmFrame = controlMatrix.frame;
         
     if (ticks > 0) {
-        NSView *tickView = [[[NSView alloc] initWithFrame:NSMakeRect(0.0f, cmFrame.origin.y - (cmFrame.size.height - oldHeight) - 17.0f, _panel.frame.size.width, 18.0f)] autorelease];
+        NSView *tickView = [[[NSView alloc] initWithFrame:NSMakeRect(0.0f, cmFrame.origin.y - (cmFrame.size.height - oldHeight) - 17.0f, self.panel.frame.size.width, 18.0f)] autorelease];
         tickView.autoresizingMask = NSViewMinYMargin;
             
         NSUInteger count = slider.numberOfTickMarks;
@@ -193,7 +192,7 @@
             [tickLabel setFrameOrigin:labelOrigin];
             [tickView addSubview:tickLabel];
         }
-        [_panel.contentView addSubview:tickView];
+        [self.panel.contentView addSubview:tickView];
         
         // Move controlMatrix to make room for tickView
         cmOrigin = cmFrame.origin;
@@ -201,10 +200,10 @@
         [controlMatrix setFrameOrigin:cmOrigin];
         
         // Add the tickView to the panel height
-        panelSize = panel.panel.contentView.frame.size;
+        panelSize = self.panel.contentView.frame.size;
         panelSize.height += tickView.frame.size.height + 4.0f;
-        [panel.panel setContentSize:panelSize];
-        [panel resize];
+        [self.panel setContentSize:panelSize];
+        [self resize];
     }
 
     [self sliderChanged];

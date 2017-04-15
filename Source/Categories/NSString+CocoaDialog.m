@@ -1,4 +1,4 @@
-#import "NSString+CDCommon.h"
+#import "NSString+CocoaDialog.h"
 
 @implementation NSString (CocoaDialog)
 
@@ -16,6 +16,13 @@
 - (BOOL) isEqualToStringCaseInsensitive:(NSString *)string {
     return [self.lowercaseString isEqualToString:string.lowercaseString];
 }
+
+- (NSString *) indent:(NSInteger)length {
+    NSMutableString *string = [NSMutableString stringWithString:self];
+    [string prepend:[@"" stringByPaddingToLength:length withString:@" " startingAtIndex:0]];
+    return string;
+
+};
 
 - (NSString *) indentNewlinesWith:(NSInteger)length {
     NSString *indent = [@"" stringByPaddingToLength:length withString:@" " startingAtIndex:0];

@@ -60,15 +60,15 @@
         [self warning:@"Option --with-directory specifies a directory that does not exist: %@", dir, nil];
     }
 
-    panel.panel = savePanel;
+    self.panel = savePanel;
 
 	// resize window if user specified alternate width/height
-    if ([panel needsResize]) {
-		[savePanel setContentSize:[panel findNewSize]];
+    if ([self needsResize]) {
+		[self.panel setContentSize:[self findNewSize]];
 	}
 	
     // Reposition Panel
-    [panel setPosition];
+    [self setPosition];
     
     [self setTimeout];
 	

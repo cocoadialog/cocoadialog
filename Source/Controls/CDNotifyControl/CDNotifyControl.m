@@ -10,11 +10,11 @@
 
 @implementation CDNotifyControl
 
-- (instancetype)initWithArguments {
-    self = [super initWithArguments];
+- (instancetype) init {
+    self = [super init];
     if (self) {
         activeNotifications = 0;
-        notifications = [[[NSMutableArray alloc] init] retain];
+        notifications = [NSMutableArray array];
     }
     return self;
 }
@@ -142,7 +142,7 @@
 		en = [iconArgs objectEnumerator];
 		NSString *iconName;
 		while (iconName = (NSString *)[en nextObject]) {
-            NSImage * _icon = [icon iconFromName:iconName];
+            NSImage * _icon = [self iconFromName:iconName];
 			if (_icon == nil) {
 				_icon = NSApp.applicationIconImage;
 			}
@@ -155,7 +155,7 @@
 		en = [iconArgs objectEnumerator];
 		NSString *fileName;
 		while (fileName = (NSString *)[en nextObject]) {
-            NSImage * _icon = [icon iconFromFile:fileName];
+            NSImage * _icon = [self iconFromFile:fileName];
 			if (_icon == nil) {
 				_icon = NSApp.applicationIconImage;
 			}

@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
-#import "NSString+CDCommon.h"
+
+#import "NSString+CocoaDialog.h"
 
 @interface NSArray (CocoaDialog)
 

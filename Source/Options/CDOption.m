@@ -5,6 +5,8 @@
 - (instancetype) init {
     self = [super init];
     if (self) {
+        _minimumValues = 0;
+        _maximumValues = 1;
         _notes = [NSMutableArray array];
         _warnings = [NSMutableArray array];
     }
@@ -64,54 +66,98 @@
 - (NSArray *) arrayValue {
     return [self.value isKindOfClass:[NSArray class]] ? self.value : nil;
 }
+
 - (BOOL) boolValue {
     NSNumber *number = [self numberValue];
     return number != nil ? number.boolValue : NO;
 }
+
 - (double) doubleValue {
     NSNumber *number = [self numberValue];
     return number != nil ? number.doubleValue : 0;
 }
+
 - (float) floatValue {
     NSNumber *number = [self numberValue];
     return number != nil ? number.floatValue : 0;
 }
+
+- (BOOL) hasAutomaticDefaultValue {
+    // There is no good way to check the "type" of block. The best that can be
+    // accomlished here is to see if it is one and then just assume that it's a
+    // valid CDOptionAutomaticDefaultValue block.
+    // @todo https://github.com/ebf/CTObjectiveCRuntimeAdditions
+    // @see http://stackoverflow.com/a/10944983/1226717
+    return _defaultValue != nil && [_defaultValue isKindOfClass:NSClassFromString(@"NSBlock")];
+}
+
 - (int) intValue {
     NSNumber *number = [self numberValue];
     return number != nil ? number.intValue : (int) 0;
 }
+
 - (NSInteger) integerValue {
     NSNumber *number = [self numberValue];
     return number != nil ? number.integerValue : (NSInteger) 0;
 }
+
+- (NSString *) label {
+    return _name.optionFormat;
+}
+
 - (unsigned int) unsignedIntValue {
     NSNumber *number = [self numberValue];
     return number != nil ? number.unsignedIntValue : (unsigned int) 0;
 }
+
 - (NSUInteger) unsignedIntegerValue {
     NSNumber *number = [self numberValue];
     return number != nil ? number.unsignedIntegerValue : (NSUInteger) 0;
 }
+
 - (NSNumber *) numberValue {
-    if ([self.value isKindOfClass:[NSString class]]) {
+    id value = self.value;
+    if (value != nil && [value isKindOfClass:[NSString class]]) {
         NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
         f.numberStyle = NSNumberFormatterDecimalStyle;
-        return [f numberFromString:self.value];
+        return [f numberFromString:value];
     }
-    else if ([self.value isKindOfClass:[NSNumber class]]) {
-        return self.value;
+    else if (value != nil && [value isKindOfClass:[NSNumber class]]) {
+        return value;
     }
     return nil;
 }
+
 - (NSString *) stringValue {
-    if ([self.value isKindOfClass:[NSString class]]) {
-        return self.value;
+    id value = self.value;
+    if (value != nil && [value isKindOfClass:[NSString class]]) {
+        return value;
     }
-    else if ([self.value isKindOfClass:[NSNumber class]]) {
-        NSNumber *number = self.value;
+    else if (value != nil && [value isKindOfClass:[NSNumber class]]) {
+        NSNumber *number = value;
         return number.stringValue;
     }
     return nil;
+}
+
+- (CDColor *) typeColor {
+    return [CDColor color];
+}
+
+- (id) value {
+    // Use default value if none was provided.
+    if (!_wasProvided && _value == nil && _defaultValue != nil) {
+        // Determine if default values is "automatic".
+        if (self.hasAutomaticDefaultValue) {
+            CDOptionAutomaticDefaultValue block = (CDOptionAutomaticDefaultValue) _defaultValue;
+            _value = block();
+        }
+        // Otherwise, just assign the default value.
+        else {
+            _value = _defaultValue;
+        }
+    }
+    return _value;
 }
 
 // Must be overridden by subclasses to have values set by arguments.
@@ -146,14 +192,47 @@
     self.value = [NSNumber numberWithBool:[value isEqualToStringCaseInsensitive:@"yes"] || [value isEqualToStringCaseInsensitive:@"true"] || [value isEqualToStringCaseInsensitive:@"1"]];
 }
 
+- (NSString *) stringValue {
+    BOOL boolValue = self.boolValue;
+    return boolValue ? NSLocalizedString(@"YES", nil) : NSLocalizedString(@"NO", nil);
+}
+
+- (CDColor *) typeColor {
+    return [CDColor fg:CDColorFgMagenta];
+}
+
+- (NSString *) typeLabel {
+    NSString *typeLabel = [NSString stringWithFormat:@"<%@>", NSLocalizedString(@"OPTION_TYPE_BOOLEAN", nil)].magenta;
+    if (self.hasAutomaticDefaultValue) {
+        typeLabel = typeLabel.dim;
+    }
+    return typeLabel;
+}
+
 @end
 
 // @todo Convert the "flag" option to just a boolean
 // where no values passed acts like flag does currently.
-@implementation CDOptionFlag @end
+@implementation CDOptionFlag
+
+- (NSString *) stringValue {
+    BOOL boolValue = self.boolValue;
+    return boolValue ? NSLocalizedString(@"YES", nil) : NSLocalizedString(@"NO", nil);
+}
+
+@end
 
 // Single string.
 @implementation CDOptionSingleString
+
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        _minimumValues = 1;
+        _maximumValues = 1;
+    }
+    return self;
+}
 
 - (void) setValues:(NSArray<NSString *> *)values {
     if (!values.count) {
@@ -162,10 +241,31 @@
     self.value = values[values.count - 1];
 }
 
+- (CDColor *) typeColor {
+    return [CDColor fg:CDColorFgGreen];
+}
+
+- (NSString *) typeLabel {
+    NSString *typeLabel = [NSString stringWithFormat:@"<%@>", NSLocalizedString(@"OPTION_TYPE_STRING", nil)].green;
+    if (self.hasAutomaticDefaultValue) {
+        typeLabel = typeLabel.dim;
+    }
+    return typeLabel;
+}
+
 @end
 
 // Single number.
 @implementation CDOptionSingleNumber
+
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        _minimumValues = 1;
+        _maximumValues = 1;
+    }
+    return self;
+}
 
 - (void) setValues:(NSArray<NSString *> *)values {
     if (!values.count) {
@@ -174,10 +274,32 @@
     self.value = [NSNumber numberWithLongLong:[values[values.count - 1] longLongValue]];
 }
 
+- (CDColor *) typeColor {
+    return [CDColor fg:CDColorFgCyan];
+}
+
+- (NSString *) typeLabel {
+    NSString *typeLabel = [NSString stringWithFormat:@"<%@>", NSLocalizedString(@"OPTION_TYPE_NUMBER", nil)].cyan;
+    if (self.hasAutomaticDefaultValue) {
+        typeLabel = typeLabel.dim;
+    }
+    return typeLabel;
+}
+
+
 @end
 
 // Single string or number.
 @implementation CDOptionSingleStringOrNumber
+
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        _minimumValues = 1;
+        _maximumValues = 1;
+    }
+    return self;
+}
 
 - (void) setValues:(NSArray<NSString *> *)values {
     if (!values.count) {
@@ -186,17 +308,62 @@
     self.value = values[values.count - 1];
 }
 
-@end
+- (CDColor *) typeColor {
+    return [CDColor fg:CDColorFgYellow];
+}
 
-@implementation CDOptionMultipleStrings
-
-- (void) setValues:(NSArray<NSString *> *)values {
-    self.value = values;
+- (NSString *) typeLabel {
+    NSString *typeLabel = [NSString stringWithFormat:@"<%@|%@>", NSLocalizedString(@"OPTION_TYPE_NUMBER", nil), NSLocalizedString(@"OPTION_TYPE_STRING", nil)].yellow;
+    if (self.hasAutomaticDefaultValue) {
+        typeLabel = typeLabel.dim;
+    }
+    return typeLabel;
 }
 
 @end
 
+// Multiple strings.
+@implementation CDOptionMultipleStrings
+
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        _minimumValues = 1;
+        _maximumValues = 0;
+    }
+    return self;
+}
+
+- (void) setValues:(NSArray<NSString *> *)values { self.value = values; }
+- (NSNumber *) numberValue { return [NSNumber numberWithUnsignedInteger:self.arrayValue.count]; }
+- (NSString *) stringValue { return [self.arrayValue componentsJoinedByString:@", "]; }
+
+- (CDColor *) typeColor {
+    return [CDColor fg:CDColorFgGreen];
+}
+
+- (NSString *) typeLabel {
+    NSString *typeLabel = [NSString stringWithFormat:@"<%@> [...] --", NSLocalizedString(@"OPTION_TYPE_STRING", nil)].green;
+    if (self.hasAutomaticDefaultValue) {
+        typeLabel = typeLabel.dim;
+    }
+    return typeLabel;
+}
+
+
+@end
+
+// Multiple numbers.
 @implementation CDOptionMultipleNumbers
+
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        _minimumValues = 1;
+        _maximumValues = 0;
+    }
+    return self;
+}
 
 - (void) setValues:(NSArray<NSString *> *)values {
     NSMutableArray *numbers = [NSMutableArray array];
@@ -206,12 +373,51 @@
     self.value = numbers;
 }
 
+- (NSNumber *) numberValue { return [NSNumber numberWithUnsignedInteger:self.arrayValue.count]; }
+- (NSString *) stringValue { return [self.arrayValue componentsJoinedByString:@", "]; }
+
+- (CDColor *) typeColor {
+    return [CDColor fg:CDColorFgCyan];
+}
+
+- (NSString *) typeLabel {
+    NSString *typeLabel = [NSString stringWithFormat:@"<%@> [...] --", NSLocalizedString(@"OPTION_TYPE_NUMBER", nil)].cyan;
+    if (self.hasAutomaticDefaultValue) {
+        typeLabel = typeLabel.dim;
+    }
+    return typeLabel;
+}
+
+
 @end
 
+// Multiple strings or numbers.
 @implementation CDOptionMultipleStringsOrNumbers
 
-- (void) setValues:(NSArray<NSString *> *)values {
-    self.value = values;
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        _minimumValues = 1;
+        _maximumValues = 0;
+    }
+    return self;
 }
+
+- (void) setValues:(NSArray<NSString *> *)values { self.value = values; }
+- (NSNumber *) numberValue { return [NSNumber numberWithUnsignedInteger:self.arrayValue.count]; }
+- (NSString *) stringValue { return [self.arrayValue componentsJoinedByString:@", "]; }
+
+- (CDColor *) typeColor {
+    return [CDColor fg:CDColorFgYellow];
+}
+
+- (NSString *) typeLabel {
+    NSString *typeLabel = [NSString stringWithFormat:@"<%@|%@> [...] --", NSLocalizedString(@"OPTION_TYPE_NUMBER", nil), NSLocalizedString(@"OPTION_TYPE_STRING", nil)].yellow;
+    if (self.hasAutomaticDefaultValue) {
+        typeLabel = typeLabel.dim;
+    }
+    return typeLabel;
+}
+
 
 @end

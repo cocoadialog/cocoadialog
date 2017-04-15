@@ -24,7 +24,7 @@
 @implementation CDBubbleControl
 
 - (void) createControl {
-    [panel setPanelEmpty];
+    [self setPanelEmpty];
 
 	float _timeout = 4.;
 	float alpha = 0.85;
@@ -92,14 +92,14 @@
 		// See what icons we got at the command line, or set a fallback
 		// icon to use for all bubbles
 		if (givenIconImages == nil) {
-			fallbackIcon = [icon iconWithDefault];
+			fallbackIcon = [self iconWithDefault];
 		} else {
 			icons = [NSMutableArray arrayWithArray:givenIconImages];
 		}
 		// If we were given less icons than we have bubbles, use a default
 		// for any extra bubbles
 		if (icons.count < descriptions.count) {
-			NSImage *defaultIcon = [icon iconWithDefault];
+			NSImage *defaultIcon = [self iconWithDefault];
 			unsigned long numToAdd = descriptions.count - icons.count;
 			for (i = 0; i < numToAdd; i++) {
 				[icons addObject:defaultIcon];
@@ -123,7 +123,7 @@
 	} else if (option[@"title"].wasProvided && option[@"description"].wasProvided) {
         [self addNotificationWithTitle:option[@"title"].stringValue
                            description:option[@"description"].stringValue
-                                  icon:[icon iconWithDefault]
+                                  icon:[self iconWithDefault]
                               priority:nil
                                 sticky:sticky
                              clickPath:clickPath
@@ -190,17 +190,17 @@
 	NSArray *colorArgs = nil;
 	NSString *myKey = key;
 	// first check to see if this key returns multiple values
-	colorArgs = arguments.options[myKey].arrayValue;
+	colorArgs = option[myKey].arrayValue;
 	if (colorArgs == nil) {
 		// It didn't return an array, so see if it returns a single value
-		NSString *optValue = arguments.options[myKey].stringValue;
+		NSString *optValue = option[myKey].stringValue;
 
 		// Failing that...
 		// If we were looking for text-colors and didn't find it, try
 		// text-color instead (for example).
 		if (optValue == nil && [myKey hasSuffix:@"s"]) {
 			myKey = [key substringToIndex:(key.length - 1)];
-			optValue = arguments.options[myKey].stringValue;
+			optValue = option[myKey].stringValue;
 		}
 		colorArgs = optValue ? @[optValue] : @[];
 	}

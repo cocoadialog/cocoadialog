@@ -32,7 +32,12 @@
     [options addOption:[CDOptionSingleString            name:@"button1"             category:@"WINDOW_OPTION"]];
     [options addOption:[CDOptionSingleString            name:@"button2"             category:@"WINDOW_OPTION"]];
     [options addOption:[CDOptionSingleString            name:@"button3"             category:@"WINDOW_OPTION"]];
+
     [options addOption:[CDOptionSingleStringOrNumber    name:@"cancel"              category:@"WINDOW_OPTION"]];
+    options[@"cancel"].defaultValue = ^ {
+        return @"Cancel";
+    };
+
     [options addOption:[CDOptionSingleString            name:@"empty-text"          category:@"WINDOW_OPTION"]];
     [options addOption:[CDOptionFlag                    name:@"no-default-button"   category:@"WINDOW_OPTION"]];
     [options addOption:[CDOptionSingleString            name:@"label"               category:@"WINDOW_OPTION"]];
@@ -129,27 +134,27 @@
 // This resizes
 - (void) setTitleButtonsLabel:(NSString *)labelText {
 
-	[panel setTitle];
+	[self setTitle];
 
     // Add default controls
-    if (expandingLabel != nil && ![[icon controls] containsObject:expandingLabel]) {
-        [icon addControl:expandingLabel];
+    if (expandingLabel != nil && ![[self iconControls] containsObject:expandingLabel]) {
+        [self iconAffectedByControl:expandingLabel];
     }
-    if (controlMatrix != nil && ![[icon controls] containsObject:controlMatrix]) {
-        [icon addControl:controlMatrix];
+    if (controlMatrix != nil && ![[self iconControls] containsObject:controlMatrix]) {
+        [self iconAffectedByControl:controlMatrix];
     }
-    if (timeoutLabel != nil && ![[icon controls] containsObject:timeoutLabel]) {
-        [icon addControl:timeoutLabel];
+    if (timeoutLabel != nil && ![[self iconControls] containsObject:timeoutLabel]) {
+        [self iconAffectedByControl:timeoutLabel];
     }
 
-    [icon setIconFromOptions];
+    [self setIconFromOptions];
     
 	[self setButtons];
-    [panel resize];
+    [self resize];
     
     [self setLabel:labelText];
     
-    [panel resize];
+    [self resize];
     
     if (controlMatrix != nil) {
         // Remember old controlMatrix size
@@ -166,12 +171,12 @@
         m = controlMatrix.frame;
 
         // Set panel's new width and height
-        NSSize panelSize = panel.panel.contentView.frame.size;
+        NSSize panelSize = self.panel.contentView.frame.size;
         panelSize.height += m.size.height - oldHeight;
         panelSize.width += m.size.width - oldWidth;
-        [panel.panel setContentSize:panelSize];
+        [self.panel setContentSize:panelSize];
 
-        [panel resize];
+        [self resize];
     }
 
 }
@@ -188,14 +193,14 @@
 
 	float minWidth = 2 * 20.0f; // margin
 	for (i = 0; i != sizeof(buttons)/sizeof(buttons[0]); i++) {
-		[self setTitle:arguments.options[buttons[i].key].stringValue forButton:buttons[i].button];
+		[self setTitle:option[buttons[i].key].stringValue forButton:buttons[i].button];
         if (option[@"cancel"].wasProvided && ([option[@"cancel"].stringValue isEqualToString:buttons[i].key] || option[@"cancel"].unsignedIntegerValue == i)) {
             if (!noDefault) {
                 buttons[i].button.keyEquivalent = @"\e";
             }
             cancelButton = i+1;
         }
-        else if ([arguments.options[buttons[i].key].stringValue isEqualToStringCaseInsensitive:@"cancel"]) {
+        else if ([option[buttons[i].key].stringValue isEqualToStringCaseInsensitive:@"cancel"]) {
             if (!noDefault) {
                 buttons[i].button.keyEquivalent = @"\e";
             }
@@ -223,12 +228,12 @@
 	button3.frame = r;
 
 	// ensure that the buttons never gets clipped
-    [panel addMinHeight:60.0f]; // 20 * 2 for margin + 20 for height
-    [panel addMinWidth:minWidth];
+    [self addMinHeight:60.0f]; // 20 * 2 for margin + 20 for height
+    [self addMinWidth:minWidth];
     
     // Ensure the panel itself doesn't have a set default button.
     if (noDefault) {
-        [panel.panel setDefaultButtonCell:nil];
+        [self.panel setDefaultButtonCell:nil];
     }
 
 }
@@ -260,9 +265,9 @@
             [expandingLabel setHidden:YES];
         }
         // Set panel's new width and height
-        NSSize p = panel.panel.contentView.frame.size;
+        NSSize p = self.panel.contentView.frame.size;
         p.height += labelHeightDiff;
-        [panel.panel setContentSize:p];
+        [self.panel setContentSize:p];
     }
 }
 
@@ -289,9 +294,9 @@
             [timeoutLabel setHidden:YES];
         }
         // Set panel's new width and height
-        NSSize p = panel.panel.contentView.frame.size;
+        NSSize p = self.panel.contentView.frame.size;
         p.height += labelHeightDiff;
-        [panel.panel setContentSize:p];
+        [self.panel setContentSize:p];
         
         if (controlMatrix != nil) {
             // Set controlMatrix's new Y
@@ -319,9 +324,9 @@
     NSString *message = option[@"empty-text"].wasProvided ? option[@"empty-text"].stringValue : [self returnValueEmptyText];
     NSAlert *alertSheet = [[NSAlert alloc] init];
     [alertSheet addButtonWithTitle:NSLocalizedString(@"Okay", nil)];
-    alertSheet.icon = [icon iconFromName:@"caution"];
+    alertSheet.icon = [self iconFromName:@"caution"];
     alertSheet.messageText = message;
-    [alertSheet beginSheetModalForWindow:panel.panel modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
+    [alertSheet beginSheetModalForWindow:self.panel modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
 - (void) controlHasFinished:(int)button {
@@ -350,7 +355,7 @@
         }
     }
     else if (controlItems != nil && controlItems.count) {
-        [panel.panel makeFirstResponder:controlItems[0]];
+        [self.panel makeFirstResponder:controlItems[0]];
     }
 }
 

@@ -80,15 +80,15 @@
         [self warning:@"Option --with-file specifies a file that does not exist: %@", file, nil];
     }
 
-    panel.panel = openPanel;
+    self.panel = openPanel;
 
 	// resize window if user specified alternate width/height
-    if ([panel needsResize]) {
-		[openPanel setContentSize:[panel findNewSize]];
+    if ([self needsResize]) {
+		[openPanel setContentSize:[self findNewSize]];
 	}
 	
     // Reposition Panel
-    [panel setPosition];
+    [self setPosition];
     
     [self setTimeout];
     

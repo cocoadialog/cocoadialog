@@ -21,7 +21,7 @@
                         clickPath:(NSString *)clickPath
                          clickArg:(NSString *)clickArg;
 
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *notificationIcons;
+@property (nonatomic, readonly, copy) NSArray *notificationIcons;
 
 - (void) notificationWasClicked:(id)clickContext;
 - (NSArray *) parseTextForArguments:(NSString *)string;

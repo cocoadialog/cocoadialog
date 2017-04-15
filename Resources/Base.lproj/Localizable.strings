@@ -6,8 +6,10 @@
 "CANCEL" = "Cancel";
 "NO" = "No";
 "OK" = "Ok";
+"NOTE" = "Note";
 "OKAY" = "Okay";
 "OPTION_EMPTY_TEXT" = "An input is required, please try again.";
+"WARNING" = "Warning";
 "YES" = "Yes";
 
 /* Logging */
@@ -20,22 +22,30 @@
 "UNKNOWN_OPTION" = "Unknown option: %@";
 
 /* Usage */
-"USAGE" = "Usage: cocoaDialog %@ [options]";
+"USAGE" = "Usage: cocoadialog %@ [options]";
 "USAGE_CATEGORY_CONTROLS" = "Controls";
 "USAGE_CATEGORY_CONTROL" = "Control options";
 "USAGE_VERSION" = "Version";
 "USAGE_WEBSITE" = "Website";
 
-/* Option argument types */
+/* Option types */
 "OPTION_TYPE_BOOLEAN" = "boolean";
 "OPTION_TYPE_NUMBER" = "number";
 "OPTION_TYPE_STRING" = "string";
-"OPTION_DOUBLE_DASH" = "Note: Use double dash (--) to indicate when it should stop parsing values.";
+
+/* Option verbiage */
+"OPTION_AUTOMATIC_DEFAULT_VALUE" = "Automatic";
+"OPTION_DEFAULT_VALUE" = "Default value: %@";
+"OPTION_MULTIPLE_DOUBLE_DASH" = "Append a double dash (--) after all values have been provided to indicate that values should stop being parsed.";
+"OPTION_REQUIRED_VALUE" = "Required";
+
+/* OPTION WARNINGS */
+"OPTION_WARNING_AFFECTS_OUTPUT" = "Using this option will affect the control output and should not be used in stable code.";
 
 /* Global Options */
 "GLOBAL_OPTION" = "Global options";
 "GLOBAL_OPTION_COLOR" = "Colorize ouput. By default, this is automatically determined by whether the terminal supports color or not.";
-"GLOBAL_OPTION_DEBUG" = "Enables debug oriented output to help troubleshoot possible issues with a control. WARNING: This affects the control output and should not be used in stable code.";
+"GLOBAL_OPTION_DEBUG" = "Enables debug oriented output to help troubleshoot possible issues with a control.";
 "GLOBAL_OPTION_HELP" = "Displays this help.";
 "GLOBAL_OPTION_NO_NEWLINE" = "Prevents appending a newline character to the control result value.";
 "GLOBAL_OPTION_NO_WARNINGS" = "Prevents any warning messages that may affect the control result value.";
@@ -43,9 +53,9 @@
 "GLOBAL_OPTION_SCREEN" = "Indicates on which screen the control will appear. By default, the screen that currently has keyboard focus is used.";
 "GLOBAL_OPTION_STRING_OUTPUT" = "Returns text values of input elements rather than their numerical index.";
 "GLOBAL_OPTION_TIMEOUT" = "Number of seconds the control should wait for user input before timing out.";
-"GLOBAL_OPTION_TIMEOUT_FORMAT" = "Sets the timeout format used to display the remaining time. Provided replacement tokens include:\n%r (relative), %d (day), %h (hour), %m (minute) and %s (second).";
-"GLOBAL_OPTION_VERBOSE" = "Enables verbose oriented output to help troubleshoot possible issues with a control. WARNING: This affects the control output and should not be used in stable code.";
-"GLOBAL_OPTION_VERSION" = "Outputs the current version and then quits.";
+"GLOBAL_OPTION_TIMEOUT_FORMAT" = "Sets the timeout format used to display the remaining time. Provided replacement tokens include: %r (relative), %d (day), %h (hour), %m (minute) and %s (second).";
+"GLOBAL_OPTION_VERBOSE" = "Enables verbose oriented output to help troubleshoot possible issues with a control.";
+"GLOBAL_OPTION_VERSION" = "Outputs the current version and then immediately exits.";
 
 /* Icon options */
 "ICON_OPTION" = "Icon options";
@@ -76,10 +86,10 @@
 
 /* TBC (three button control) options */
 "WINDOW_OPTION_LABEL" = "Text to be displayed at the top of the control.";
-"WINDOW_OPTION_BUTTON1" = "Text to be displayed in the first button. If omitted, this button will not be shown.";
-"WINDOW_OPTION_BUTTON2" = "Text to be displayed in the second button. If omitted, this button will not be shown.";
-"WINDOW_OPTION_BUTTON3" = "Text to be displayed in the third button. If omitted, this button will not be shown.";
-"WINDOW_OPTION_CANCEL" = "Specifies which button should be used as the \"Cancel\" button (e.g. --cancel 2). By default, cocoaDialog will automatically attempt to set this by using any button text equals \"Cancel\".";
+"WINDOW_OPTION_BUTTON1" = "Text to be displayed as the first button.";
+"WINDOW_OPTION_BUTTON2" = "Text to be displayed as the second button.";
+"WINDOW_OPTION_BUTTON3" = "Text to be displayed as the third button.";
+"WINDOW_OPTION_CANCEL" = "Specifies which button should be used as the \"Cancel\" button (e.g. --cancel \"Custom button\"). The value provided can either be the text of one of the provided buttons or the numerical button index, where --button1 is 0.";
 "WINDOW_OPTION_NO_DEFAULT_BUTTON" = "Flag indicating that --button1 will not automatically be focused and requires manual use input.";
 "WINDOW_OPTION_VALUE_REQUIRED" = "Flag indicating that a value is required from the user before the control is able to close.";
 "WINDOW_OPTION_EMPTY_TEXT" = "The text to display to the user when --value-required has been set and user has not provided input.";

@@ -1,11 +1,17 @@
 #import <Foundation/Foundation.h>
 
 // Category extensions.
-#import "NSString+CDCommon.h"
+#import "NSString+CocoaDialog.h"
 
-@interface CDOption : NSObject {}
+typedef id (^CDOptionAutomaticDefaultValue)(void);
+
+@interface CDOption : NSObject {
+    NSUInteger _minimumValues;
+    NSUInteger _maximumValues;
+}
 
 @property (nonatomic, assign) NSString *category;
+@property (nonatomic, copy) id defaultValue;
 @property (nonatomic, assign) NSString *helpText;
 @property (nonatomic, assign) NSMutableArray<NSString *> *notes;
 @property (nonatomic, assign) NSMutableArray<NSString *> *warnings;
@@ -16,13 +22,19 @@
 // Read-only.
 @property (nonatomic, readonly) NSArray* arrayValue;
 @property (nonatomic, readonly) BOOL boolValue;
+@property (nonatomic, readonly) BOOL hasAutomaticDefaultValue;
 @property (nonatomic, readonly) double doubleValue;
 @property (nonatomic, readonly) float floatValue;
 @property (nonatomic, readonly) int intValue;
 @property (nonatomic, readonly) NSInteger integerValue;
+@property (nonatomic, readonly) NSString *label;
+@property (nonatomic, readonly) NSUInteger maximumValues;
+@property (nonatomic, readonly) NSUInteger minimumValues;
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) NSNumber* numberValue;
 @property (nonatomic, readonly) NSString* stringValue;
+@property (nonatomic, readonly) CDColor *typeColor;
+@property (nonatomic, readonly) NSString *typeLabel;
 @property (nonatomic, readonly) unsigned int unsignedIntValue;
 @property (nonatomic, readonly) NSUInteger unsignedIntegerValue;
 

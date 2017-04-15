@@ -46,7 +46,7 @@
     NSRect alertRect = text.frame;
     float alertHeightDiff = alertNewHeight - alertRect.size.height;
     if (option[@"alert"].wasProvided) {
-        [icon addControl:text];
+        [self iconAffectedByControl:text];
         text.stringValue = option[@"alert"].stringValue;
     }
     else {
@@ -56,9 +56,9 @@
     }
 
     // Set panel's new width and height
-    NSSize p = panel.panel.contentView.frame.size;
+    NSSize p = self.panel.contentView.frame.size;
     p.height += alertHeightDiff;
-    [panel.panel setContentSize:p];
+    [self.panel setContentSize:p];
 
 	[self setTitleButtonsLabel:option[@"label"].stringValue];
 }

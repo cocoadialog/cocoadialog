@@ -12,6 +12,7 @@
 -(BOOL)contains:(NSString *)string;
 -(BOOL)isBlank;
 -(BOOL)isEqualToStringCaseInsensitive:(NSString *)string;
+-(NSString *)indent:(NSInteger)length;
 -(NSString *)indentNewlinesWith:(NSInteger)length;
 -(NSArray *)splitOnChar:(char)ch;
 -(NSString *)stringByReplacingCharactersInSet:(NSCharacterSet *)charSet withString:(NSString *)aString;

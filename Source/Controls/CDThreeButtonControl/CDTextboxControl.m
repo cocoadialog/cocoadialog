@@ -75,9 +75,9 @@
             [expandingLabel setHidden:YES];
         }
         // Set panel's new width and height
-        NSSize p = panel.panel.contentView.frame.size;
+        NSSize p = self.panel.contentView.frame.size;
         p.height += labelHeightDiff;
-        [panel.panel setContentSize:p];
+        [self.panel setContentSize:p];
 
         // Set scrollView's new height
         NSSize s = scrollView.frame.size;
@@ -98,7 +98,7 @@
 - (void) createControl {
 	NSAttributedString *text;
     
-    [icon addControl:scrollView];
+    [self iconAffectedByControl:scrollView];
 	
 	// Editable.
     [textView setEditable:option[@"editable"].wasProvided];
@@ -143,9 +143,9 @@
 	// Set first responder
 	// Why doesn't this work for the button?
 	if (option[@"focus-textbox"].wasProvided) {
-		[panel.panel makeFirstResponder:textView];
+		[self.panel makeFirstResponder:textView];
 	} else {
-		[panel.panel makeFirstResponder:button1];
+		[self.panel makeFirstResponder:button1];
 	}
 }
 

@@ -1,4 +1,4 @@
-#import "NSArray+CDCommon.h"
+#import "NSArray+CocoaDialog.h"
 
 @implementation NSArray (CocoaDialog)
 

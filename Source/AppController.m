@@ -19,7 +19,6 @@
 */
 
 #import "AppController.h"
-#import "NSString+CDCommon.h"
 
 @implementation AppController
 
@@ -33,18 +32,25 @@
 
 #pragma mark - Initialization
 - (void) awakeFromNib {
-    // Create the control.
-    CDControl *control = [self findControl];
+    // Retrieve the control that should be used.
+    CDControl *control = [self getControl];
+
+    // Show control usage.
+    if (control.option[@"help"].wasProvided) {
+        [control showUsage];
+        exit(0);
+    }
 
     [control verbose:@"Initiating control: %@", control.controlName.doubleQuote, nil];
 
-    if (control.arguments.deprecatedOptions.count) {
-        for (CDOptionDeprecated *deprecated in control.arguments.deprecatedOptions) {
+    for (NSString *name in control.option.deprecatedOptions) {
+        CDOptionDeprecated *deprecated = control.option.deprecatedOptions[name];
+        if (deprecated.wasProvided) {
             [control warning:@"The %@ option has been deprecated. Please, use the %@ option instead.", deprecated.from.optionFormat, deprecated.to.optionFormat, nil];
         }
     }
 
-    NSArray *unknown = [control.arguments unknownOptions].sortedAlphabetically;
+    NSArray *unknown = [control.option unknownOptions].sortedAlphabetically;
     if (unknown.count) {
         for (NSString *name in unknown) {
             [control warning:NSLocalizedString(@"UNKNOWN_OPTION", nil), name.optionFormat, nil];
@@ -52,8 +58,8 @@
     }
 
     // Validate control option requirements.
-    if (control.arguments.missingOptions.count) {
-        NSString *missing = [[control.arguments.missingOptions.allKeys.sortedAlphabetically prependStringsWith:@"--"] componentsJoinedByString:@", "];
+    if (control.option.missingOptions.count) {
+        NSString *missing = [[control.option.missingOptions.allKeys.sortedAlphabetically prependStringsWith:@"--"] componentsJoinedByString:@", "];
         [control fatalError:@"The %@ control requires the following options: %@", control.controlName.doubleQuote, missing, nil];
     }
 
@@ -81,8 +87,18 @@
 }
 
 #pragma mark - CDControl
-+ (NSDictionary *) availableControls {
++ (NSArray<NSString *> *) availableControls {
+    return @[
+             @"checkbox", @"dropdown", @"fileselect", @"filesave", @"inputbox", @"msgbox", @"notify",
+             @"ok-msgbox", @"progressbar", @"radio", @"slider", @"secure-inputbox", @"secure-standard-inputbox",
+             @"standard-dropdown", @"standard-inputbox", @"textbox", @"yesno-msgbox",
+             ].sortedAlphabetically;
+}
+
+- (NSDictionary *) controlClasses {
     return @{
+             @"bubble": [CDNotifyControl class],
+             @"cdnotifycontrol": [CDNotifyControl class],
              @"checkbox": [CDCheckboxControl class],
              @"dropdown": [CDPopUpButtonControl class],
              @"fileselect": [CDFileSelectControl class],
@@ -103,65 +119,105 @@
              };
 }
 
-- (CDControl *) findControl {
-    // Create a base control to use for printing.
-    CDControl *control = [[[CDControl alloc] initWithArguments] autorelease];
 
-    // Detect terminal support.
-    BOOL terminalSupportsColor = [CDTput supportsColor];
+- (NSArray<NSString *> *) getArguments {
+    NSMutableArray<NSString *> *arguments = [NSMutableArray array];
+    NSMutableArray<NSString *> *args = [NSMutableArray arrayWithArray:[NSProcessInfo processInfo].arguments];
 
-    // Detect --color option override.
-    BOOL showColor = terminalSupportsColor;
-    if (control.option[@"color"].wasProvided) {
-        showColor = control.option[@"color"].boolValue;
+    // Remove the command path.
+    [args removeObjectAtIndex:0];
+
+    for (NSUInteger i = 0; i < args.count; i++) {
+        NSString *arg = args[i];
+        BOOL isOption = !!(arg.length >= 2 && [[arg substringWithRange:NSMakeRange(0, 2)] isEqualToString:@"--"]);
+        if (!isOption) {
+            [arguments addObject:arg.lowercaseString];
+        }
+    }
+    return arguments;
+}
+
+- (Class) getControlClass:(NSString *)controlName {
+    return controlName != nil ? [[self controlClasses] objectForKey:controlName.lowercaseString] : nil;
+}
+
+- (NSString *) getControlName {
+    NSString *controlName = nil;
+    NSArray *controls = [self controlClasses].allKeys;
+
+    // Find first matching control name, if any.
+    NSArray<NSString *> *args = [self getArguments];
+    for (NSUInteger i = 0; i < args.count; i++) {
+        if ([controls containsObject:args[i]]) {
+            controlName = args[i].lowercaseString;
+            break;
+        }
     }
 
-    // If there shouldn't be any color, switch off the global variable.
-    if (!showColor) {
-        NSStringCDColor = NO;
+    // Return the control name if one was found.
+    if (controlName != nil) {
+        return controlName;
     }
 
-    [control debug:@"Terminal color support: %@", terminalSupportsColor ? NSLocalizedString(@"YES", nil) : NSLocalizedString(@"NO", nil), nil];
-    if (control.option[@"color"].wasProvided) {
-        [control debug:@"Color option specified, enabled: %@", showColor ? NSLocalizedString(@"YES", nil) : NSLocalizedString(@"NO", nil), nil];
-    }
+    // Otherwise, just use the first available argument.
+    return args.count ? args[0] : nil;
+}
 
-    NSString *name = [control.arguments getArgument:0];
-    if (name != nil) {
-        name = name.lowercaseString;
-    }
+- (CDControl *) getControl {
+    CDControl *control;
+    NSString *controlName = [self getControlName];
+    Class controlClass = [self getControlClass:controlName];
 
-    // Show global usage.
-    if (name == nil && control.option[@"help"].wasProvided) {
-        [control printHelpTo:[NSFileHandle fileHandleWithStandardOutput]];
-        exit(0);
-    }
+    // If a control class was provided, use it to contruct the control.
+    if (controlClass != nil) {
+        controlName = controlName.lowercaseString;
 
-    // Show version.
-    if ([name isEqualToStringCaseInsensitive:@"version"] || control.option[@"version"].wasProvided) {
-        [control writeLn:[AppController appVersion]];
-        exit(0);
-    }
-
-    // Show about.
-    if (name == nil || [name isEqualToStringCaseInsensitive:@"about"]) {
+        // Bring application into focus.
+        // Because this application isn't going to be double-clicked, or
+        // launched with the "open" command-line tool, it won't necessarily
+        // come to the front automatically.
         [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
-        [self setHyperlinkForTextField:aboutAppLink replaceString:@CDSite withURL:@CDSite];
-        [self setHyperlinkForTextField:aboutText replaceString:@"command line interface" withURL:@"http://en.wikipedia.org/wiki/Command-line_interface"];
-        [self setHyperlinkForTextField:aboutText replaceString:@"documentation" withURL:@"http://mstratman.github.com/cocoadialog/#documentation"];
-        [aboutPanel setFloatingPanel: YES];
-        [aboutPanel setLevel:NSFloatingWindowLevel];
-        [aboutPanel center];
-        [aboutPanel makeKeyAndOrderFront:nil];
-        [NSApp run];
-        exit(0);
+
+        control = [[(CDControl *)[controlClass alloc] init] autorelease];
+        control.controlName = controlName;
+    }
+    // Otherwise, just create a base control to handle global tasks.
+    else {
+        control = [[[CDControl alloc] init] autorelease];
+        // Show global usage.
+        if (controlName == nil && control.option[@"help"].wasProvided) {
+            [control showUsage];
+            exit(0);
+        }
+        // Show version.
+        else if ([controlName isEqualToStringCaseInsensitive:@"version"] || control.option[@"version"].wasProvided) {
+            [control.terminal writeLine:[AppController appVersion]];
+            exit(0);
+        }
+        // Show about.
+        else if (controlName == nil || [controlName isEqualToStringCaseInsensitive:@"about"]) {
+            [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
+            [self setHyperlinkForTextField:aboutAppLink replaceString:@CDSite withURL:@CDSite];
+            [self setHyperlinkForTextField:aboutText replaceString:@"command line interface" withURL:@"http://en.wikipedia.org/wiki/Command-line_interface"];
+            [self setHyperlinkForTextField:aboutText replaceString:@"documentation" withURL:@"http://mstratman.github.com/cocoadialog/#documentation"];
+            [aboutPanel setFloatingPanel: YES];
+            [aboutPanel setLevel:NSFloatingWindowLevel];
+            [aboutPanel center];
+            [aboutPanel makeKeyAndOrderFront:nil];
+            [NSApp run];
+            exit(0);
+        }
+        else if (controlName != nil) {
+            [control fatalError:@"Unknown control: %@\n", controlName.doubleQuote, nil];
+        }
     }
 
-    // Control is a notification, these need to be handled much differently
-    if ([name isEqualToStringCaseInsensitive:@"notify"] || [name isEqualToStringCaseInsensitive:@"bubble"]) {
+    // Control is a notification, these need to be handled much differently.
+    // @todo Remove this custom crap and replace with native notification center APIs.
+    if ([controlName isEqualToStringCaseInsensitive:@"notify"] || [controlName isEqualToStringCaseInsensitive:@"bubble"]) {
         if (control.option[@"help"].wasProvided) {
-            control = [AppController createNotifyControlFromArguments:control.arguments];
-            [control printHelpTo:[NSFileHandle fileHandleWithStandardOutput]];
+            control = [AppController createNotifyControlFromOptions:control.option];
+            [control showUsage];
             exit(0);
         }
 
@@ -189,36 +245,16 @@
         [task waitUntilExit];
         exit(task.terminationStatus);
     }
-    else if ([name isEqualToStringCaseInsensitive:@"CDNotifyControl"]) {
-        return [AppController createNotifyControlFromArguments:control.arguments];
-    }
-
-    Class controlClass = [[AppController availableControls] objectForKey:name];
-    if (controlClass == nil) {
-        [control fatalError:@"Unknown control: %@\n", name.doubleQuote, nil];
-    }
-
-    // Bring application into focus.
-    // Because this application isn't going to be double-clicked, or
-    // launched with the "open" command-line tool, it won't necessarily
-    // come to the front automatically.
-    [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
-
-    control = [[(CDControl *)[controlClass alloc] initWithArguments] autorelease];
-    control.controlName = name;
-
-    // Show control usage.
-    if (control.option[@"help"].wasProvided) {
-        [control printHelpTo:[NSFileHandle fileHandleWithStandardOutput]];
-        exit(0);
+    else if ([controlName isEqualToStringCaseInsensitive:@"CDNotifyControl"]) {
+        return [AppController createNotifyControlFromOptions:control.option];
     }
 
     return control;
 }
 
-+ (CDNotifyControl *) createNotifyControlFromArguments:(CDArguments *)args {
-    Class notifyClass = NSClassFromString(!args.options[@"no-growl"] ? @"CDGrowlControl" : @"CDBubbleControl");
-    CDNotifyControl *control = [[(CDNotifyControl *)[notifyClass alloc] initWithArguments] autorelease];
++ (CDNotifyControl *) createNotifyControlFromOptions:(CDOptions *)options {
+    Class notifyClass = NSClassFromString(!options[@"no-growl"] ? @"CDGrowlControl" : @"CDBubbleControl");
+    CDNotifyControl *control = [[(CDNotifyControl *)[notifyClass alloc] init] autorelease];
     control.controlName = @"notify";
     return control;
 }

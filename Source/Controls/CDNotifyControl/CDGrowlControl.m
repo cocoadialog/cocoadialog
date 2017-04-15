@@ -10,17 +10,8 @@
 
 @implementation CDGrowlControl
 
-- (CDOptions *) availableOptions {
-    CDOptions *options = [super availableOptions];
-
-    [options addOption:[CDOptionSingleNumber        name:@"priority"]];
-    [options addOption:[CDOptionMultipleNumbers     name:@"priorities"]];
-
-    return options;
-}
-
-- (instancetype)initWithArguments {
-    self = [super initWithArguments];
+- (instancetype) init {
+    self = [super init];
     if (self) {
         NSBundle *growlBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle].privateFrameworksPath stringByAppendingPathComponent:@"Growl.framework"]];
         if (growlBundle && [growlBundle load]) {
@@ -33,8 +24,17 @@
     return self;
 }
 
+- (CDOptions *) availableOptions {
+    CDOptions *options = [super availableOptions];
+
+    [options addOption:[CDOptionSingleNumber        name:@"priority"]];
+    [options addOption:[CDOptionMultipleNumbers     name:@"priorities"]];
+
+    return options;
+}
+
 - (void) createControl {
-    [panel setPanelEmpty];
+    [self setPanelEmpty];
 
     NSString *clickPath = @"";
     if (option[@"click-path"].wasProvided) {
@@ -63,14 +63,14 @@
 		// See what icons we got at the command line, or set a fallback
 		// icon to use for all bubbles
 		if (givenIconImages == nil) {
-			fallbackIcon = [icon iconWithDefault];
+			fallbackIcon = [self iconWithDefault];
 		} else {
 			icons = [NSMutableArray arrayWithArray:givenIconImages];
 		}
 		// If we were given less icons than we have bubbles, use a default
 		// for any extra bubbles
 		if (icons.count < descriptions.count) {
-			NSImage *defaultIcon = [icon iconWithDefault];
+			NSImage *defaultIcon = [self iconWithDefault];
 			unsigned long numToAdd = descriptions.count - icons.count;
 			for (i = 0; i < numToAdd; i++) {
 				[icons addObject:defaultIcon];
@@ -95,7 +95,7 @@
     }
     // Single notification
     else if (option[@"title"].wasProvided && option[@"description"].wasProvided) {
-        NSImage * _icon = [icon iconWithDefault];
+        NSImage * _icon = [self iconWithDefault];
         [self addNotificationWithTitle:option[@"title"].stringValue
                            description:option[@"description"].stringValue
                                   icon:_icon

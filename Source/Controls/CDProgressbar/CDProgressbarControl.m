@@ -56,8 +56,8 @@
 	}
 
 	if (stopped) {
-		NSFileHandle *fh = [NSFileHandle fileHandleWithStandardOutput];
-		[fh writeData:[@"stopped\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        // @todo write to stderr instead.
+        [self.terminal writeLine:@"stopped"];
 	}
 
 	[NSApp terminate:nil];
@@ -65,10 +65,11 @@
 
 -(void) confirmStop {
 	confirmationSheet = [[NSAlert alloc] init];
+    [confirmationSheet setIcon:[self iconFromName:@"caution"]];
 	[confirmationSheet addButtonWithTitle:NSLocalizedString(@"Stop", nil)];
 	[confirmationSheet addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
 	confirmationSheet.messageText = NSLocalizedString(@"Are you sure you want to stop?", nil);
-	[confirmationSheet beginSheetModalForWindow:panel.panel modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
+	[confirmationSheet beginSheetModalForWindow:self.panel modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
 - (void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
@@ -94,9 +95,9 @@
 - (void) createControl {
 	stopEnabled = YES;
 	
-	[panel addMinWidth:progressBar.frame.size.width + 30.0f];
-	[icon addControl:expandingLabel];
-	[icon addControl:progressBar];
+	[self addMinWidth:progressBar.frame.size.width + 30.0f];
+	[self iconAffectedByControl:expandingLabel];
+	[self iconAffectedByControl:progressBar];
 
 	// Set text label.
     expandingLabel.stringValue = option[@"text"].wasProvided ? option[@"text"].stringValue : @"";
@@ -105,19 +106,19 @@
 	if (!option[@"stoppable"].wasProvided) {
 		NSRect progressBarFrame = progressBar.frame;
 
-		NSRect currentWindowFrame = panel.panel.frame;
+		NSRect currentWindowFrame = self.panel.frame;
 		CGFloat stopButtonWidth = stopButton.frame.size.width;
 		NSRect newWindowFrame = {
 			.origin = currentWindowFrame.origin,
 			.size = NSMakeSize(currentWindowFrame.size.width - stopButtonWidth + 2, currentWindowFrame.size.height)
 		};
-		[panel.panel setFrame:newWindowFrame display:NO];
+		[self.panel setFrame:newWindowFrame display:NO];
 
 		progressBar.frame = progressBarFrame;
 		[stopButton setHidden:YES];
 	}
 
-	[panel resize];
+	[self resize];
 	
 	CDProgressbarInputHandler *inputHandler = [[CDProgressbarInputHandler alloc] init];
 	[inputHandler setDelegate:self];
@@ -135,7 +136,7 @@
 		
 	// Set window title.
 	if (option[@"title"].wasProvided) {
-		panel.panel.title = option[@"title"].stringValue;
+		self.panel.title = option[@"title"].stringValue;
 	}
 
 	// set indeterminate

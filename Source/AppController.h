@@ -21,12 +21,8 @@
 #import <Foundation/Foundation.h>
 
 // Category extensions.
-#import "NSArray+CDCommon.h"
-#import "NSString+CDCommon.h"
-
-// Core.
-#import "CDArguments.h"
-#import "CDTput.h"
+#import "NSArray+CocoaDialog.h"
+#import "NSString+CocoaDialog.h"
 
 // Controls.
 #import "CDControl.h"
@@ -62,8 +58,8 @@
 
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *appVersion;
 
-+ (NSDictionary *) availableControls;
-- (CDControl *) findControl;
++ (NSArray<NSString *> *) availableControls;
+- (CDControl *) getControl;
 - (void)setHyperlinkForTextField:(NSTextField*)aTextField replaceString:(NSString *)aString withURL:(NSString *)aURL;
 @end
 

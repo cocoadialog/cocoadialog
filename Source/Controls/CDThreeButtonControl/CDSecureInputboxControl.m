@@ -22,8 +22,8 @@
 
 @implementation CDSecureInputboxControl
 
-- (instancetype)initWithArguments {
-    self = [super initWithArguments];
+- (instancetype) init {
+    self = [super init];
     if (self) {
         option[@"no-show"].value = @YES;
     }
