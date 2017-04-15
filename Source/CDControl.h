@@ -47,11 +47,6 @@
 
     NSString                    *controlName;
 
-    // Outlets
-    IBOutlet NSPanel            *controlPanel;
-    IBOutlet NSImageView        *controlIcon;
-    IBOutlet NSTextField        *timeoutLabel;
-
     // Variables
     int                         controlExitStatus;
     NSString                    *controlExitStatusString;
@@ -62,7 +57,7 @@
     NSThread                    *mainThread;
     NSTimer                     *timer;
     NSThread                    *timerThread;
-    float                       timeout;
+    double                      timeout;
 }
 
 + (instancetype) control;
@@ -79,7 +74,7 @@
 // Icon.
 @property (nonatomic, readonly) NSImage *icon;
 @property (nonatomic, readonly) NSMutableArray *iconControls;
-@property (nonatomic, readonly) NSImageView *iconObject;
+@property (nonatomic, retain) IBOutlet NSImageView *iconView;
 @property (nonatomic, readonly) NSImage *iconImage;
 @property (nonatomic, readonly) NSData *iconData;
 @property (nonatomic, readonly) NSImage *iconWithDefault;
@@ -106,6 +101,8 @@
 - (void) setTitle;
 - (void) setTitle:(NSString *)string;
 
+// Timeout.
+@property (nonatomic, retain) IBOutlet NSTextField *timeoutLabel;
 
 // For DX/readability use "option" opposed to "options".
 @property (nonatomic, retain) CDOptions *option;

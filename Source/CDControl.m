@@ -23,10 +23,8 @@
 
 @implementation CDControl
 
-@synthesize controlName;
-@synthesize option; // For DX/readability use "option" opposed to "options".
-@synthesize panel;
-@synthesize terminal;
+// For DX/readability use "option" opposed to "options".
+@synthesize controlName, iconView, option, panel, terminal, timeoutLabel;
 
 #pragma mark - Internal Control Methods -
 - (NSString *) controlNib { return @""; }
@@ -34,11 +32,15 @@
 - (instancetype) init {
     self = [super init];
     if (self) {
+        // Properties.
+        _iconControls = [NSMutableArray array];
         terminal = [CDTerminal terminal];
 
         controlExitStatus = -1;
         controlReturnValues = [NSMutableArray array];
         controlItems = [NSMutableArray array];
+
+
         option = [[self availableOptions] processArguments];
 
         // Provide some useful debugging information for default/automatic values.
@@ -509,7 +511,7 @@
 }
 
 - (void) setIconFromOptions {
-    if (_iconObject != nil) {
+    if (iconView != nil) {
         NSImage *image = [self icon];
         if (option[@"icon-file"].wasProvided) {
             image = [self iconFromFile:option[@"icon-file"].stringValue];
@@ -519,8 +521,8 @@
         }
 
         // Set default icon sizes
-        float iconWidth = _iconObject.frame.size.width;
-        float iconHeight = _iconObject.frame.size.height;
+        float iconWidth = iconView.frame.size.width;
+        float iconHeight = iconView.frame.size.height;
         NSSize resize = NSMakeSize(iconWidth, iconHeight);
 
         // Control should display icon, process image.
@@ -565,17 +567,17 @@
             [resizedImage lockFocus];
             [anImage drawInRect: NSMakeRect(0, 0, aSize.width, aSize.height) fromRect: NSMakeRect(0, 0, originalSize.width, originalSize.height) operation: NSCompositeSourceOver fraction: 1.0];
             [resizedImage unlockFocus];
-            _iconObject.image = resizedImage;
+            iconView.image = resizedImage;
         }
         else {
-            _iconObject.image = anImage;
+            iconView.image = anImage;
         }
         // Resize icon frame
-        NSRect iconFrame = _iconObject.frame;
+        NSRect iconFrame = iconView.frame;
         float iconHeightDiff = aSize.height - iconFrame.size.height;
         NSRect newIconFrame = NSMakeRect(iconFrame.origin.x, iconFrame.origin.y - iconHeightDiff, aSize.width, aSize.height);
-        _iconObject.frame = newIconFrame;
-        iconFrame = _iconObject.frame;
+        iconView.frame = newIconFrame;
+        iconFrame = iconView.frame;
 
         // Add the icon to the panel's minimum content size
         NSSize panelMinSize = panel.contentMinSize;
@@ -589,12 +591,12 @@
     // Icon has image
     if (anImage != nil) {
         // Set current icon frame
-        NSRect iconFrame = _iconObject.frame;
+        NSRect iconFrame = iconView.frame;
 
         // Set image and resize icon
         [self setIconWithImage:anImage withSize:aSize];
 
-        float iconWidthDiff = _iconObject.frame.size.width - iconFrame.size.width;
+        float iconWidthDiff = iconView.frame.size.width - iconFrame.size.width;
         NSEnumerator *en = [anArray objectEnumerator];
         NSControl *_control;
         while (_control = [en nextObject]) {
@@ -610,10 +612,10 @@
     // Icon does not have image
     else {
         // Set current icon frame
-        NSRect iconFrame = _iconObject.frame;
+        NSRect iconFrame = iconView.frame;
         // Remove the icon
-        [_iconObject removeFromSuperview];
-        _iconObject = nil;
+        [iconView removeFromSuperview];
+        iconView = nil;
         // Move the controls to the left and increase their width
         NSEnumerator *en = [anArray objectEnumerator];
         id _control;
@@ -874,35 +876,33 @@
     else {
         [self fatalError:@"Control did not specify a NIB interface file to load.", nil];
     }
-    if (controlPanel != nil) {
 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillClose:) name:NSWindowWillCloseNotification object:controlPanel];
-
-
-        BOOL close = option[@"titlebar-close"].boolValue;
-        [controlPanel standardWindowButton:NSWindowCloseButton].enabled = close;
-        if (!close) {
-            controlPanel.styleMask = controlPanel.styleMask^NSClosableWindowMask;
-        }
-
-        BOOL minimize = option[@"titlebar-minimize"].boolValue;
-        [controlPanel standardWindowButton:NSWindowMiniaturizeButton].enabled = minimize;
-        if (!minimize) {
-            controlPanel.styleMask = controlPanel.styleMask^NSMiniaturizableWindowMask;
-        }
-
-        // Handle --resize option.
-        BOOL resize = option[@"resize"].boolValue;
-        [controlPanel standardWindowButton:NSWindowZoomButton].enabled = resize && option[@"titlebar-resize"];
-        if (!resize) {
-            controlPanel.styleMask = controlPanel.styleMask^NSResizableWindowMask;
-        }
-
-        panel = controlPanel;
+    if (panel == nil) {
+        [self fatalError:@"Control panel failed to bind.", nil];
     }
-    if (controlIcon != nil) {
-        _iconObject = controlIcon;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillClose:) name:NSWindowWillCloseNotification object:panel];
+
+
+    BOOL close = option[@"titlebar-close"].boolValue;
+    [panel standardWindowButton:NSWindowCloseButton].enabled = close;
+    if (!close) {
+        panel.styleMask = panel.styleMask^NSClosableWindowMask;
     }
+
+    BOOL minimize = option[@"titlebar-minimize"].boolValue;
+    [panel standardWindowButton:NSWindowMiniaturizeButton].enabled = minimize;
+    if (!minimize) {
+        panel.styleMask = panel.styleMask^NSMiniaturizableWindowMask;
+    }
+
+    // Handle --resize option.
+    BOOL resize = option[@"resize"].boolValue;
+    [panel standardWindowButton:NSWindowZoomButton].enabled = resize && option[@"titlebar-resize"];
+    if (!resize) {
+        panel.styleMask = panel.styleMask^NSResizableWindowMask;
+    }
+
     return YES;
 }
 
@@ -1094,13 +1094,13 @@
 }
 
 - (void) runControl {
-    // The control must either: 1) sub-class -(NSString *) controlNib, return the name of the NIB, and then connect "controlPanel" in IB or 2) set the panel manually with [self setPanel:(NSPanel *)]  when creating the control.
+    // The control must either: 1) sub-class -(NSString *) controlNib, return the name of the NIB, and then connect "panel" in IB or 2) set the panel manually with [self setPanel:(NSPanel *)]  when creating the control.
     if (self.panel == nil) {
         [self fatalError:@"The control has not specified the panel it is to use and cocoaDialog cannot continue.", nil];
     }
 
     // Set icon
-    if (self.iconObject != nil) {
+    if (self.iconView != nil) {
         [self setIconFromOptions];
     }
     // Reposition Panel
@@ -1109,20 +1109,16 @@
     [NSApp run];
 }
 - (void) setTimeout {
-    timeout = 0.0f;
     timer = nil;
     // Only initialize timeout if the option is provided
-    NSNumber *time = option[@"timeout"].numberValue;
-    if (timeout) {
-        if ([[NSScanner scannerWithString:[NSString stringWithFormat:@"%@", time]] scanFloat:&timeout]) {
+    if (option[@"timeout"].wasProvided) {
+        timeout = option[@"timeout"].doubleValue;
+        if (timeout) {
             mainThread = [NSThread currentThread];
             [NSThread detachNewThreadSelector:@selector(createTimer) toTarget:self withObject:nil];
-        }
-        else {
-            [self warning:@"Unable to parse the --timeout option.", nil];
+            [self setTimeoutLabel];
         }
     }
-    [self setTimeoutLabel];
 }
 - (void) setTimeoutLabel {
     if (timeoutLabel != nil) {
@@ -1173,7 +1169,8 @@
     // Update and position the label if it exists
     if (timeout > 0.0f) {
         if (timeoutLabel != nil) {
-            timeoutLabel.stringValue = [self formatSecondsForString:(int)timeout];
+            NSInteger seconds = (NSInteger) ceil(timeout);
+            timeoutLabel.stringValue = [self formatSecondsForString:seconds];
         }
     }
     else {

@@ -11,9 +11,8 @@
                 <outlet property="button1" destination="12" id="65"/>
                 <outlet property="button2" destination="2" id="63"/>
                 <outlet property="button3" destination="11" id="64"/>
-                <outlet property="controlIcon" destination="83" id="89"/>
-                <outlet property="controlPanel" destination="10" id="88"/>
                 <outlet property="expandingLabel" destination="44" id="74"/>
+                <outlet property="iconView" destination="83" id="YZB-nh-516"/>
                 <outlet property="panel" destination="10" id="ZH6-Sg-7ud"/>
                 <outlet property="text" destination="43" id="72"/>
                 <outlet property="timeoutLabel" destination="90" id="92"/>
@@ -39,7 +38,7 @@
                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <imageView id="83">
+                    <imageView id="83" userLabel="iconView">
                         <rect key="frame" x="20" y="74" width="54" height="54"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topLeft" id="84"/>

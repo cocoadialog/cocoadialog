@@ -11,9 +11,8 @@
                 <outlet property="button1" destination="12" id="17"/>
                 <outlet property="button2" destination="13" id="15"/>
                 <outlet property="button3" destination="14" id="107"/>
-                <outlet property="controlIcon" destination="124" id="126"/>
-                <outlet property="controlPanel" destination="5" id="127"/>
                 <outlet property="expandingLabel" destination="8" id="110"/>
+                <outlet property="iconView" destination="124" id="Mxy-wd-dob"/>
                 <outlet property="panel" destination="5" id="Klv-t2-obE"/>
                 <outlet property="scrollView" destination="10" id="118"/>
                 <outlet property="textView" destination="11" id="18"/>
@@ -30,7 +29,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="400" height="450"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView id="124" userLabel="controlIcon">
+                    <imageView id="124" userLabel="iconView">
                         <rect key="frame" x="20" y="382" width="48" height="48"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topLeft" id="125"/>

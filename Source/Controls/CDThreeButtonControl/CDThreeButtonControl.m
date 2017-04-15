@@ -143,8 +143,8 @@
     if (controlMatrix != nil && ![[self iconControls] containsObject:controlMatrix]) {
         [self iconAffectedByControl:controlMatrix];
     }
-    if (timeoutLabel != nil && ![[self iconControls] containsObject:timeoutLabel]) {
-        [self iconAffectedByControl:timeoutLabel];
+    if (self.timeoutLabel != nil && ![[self iconControls] containsObject:self.timeoutLabel]) {
+        [self iconAffectedByControl:self.timeoutLabel];
     }
 
     [self setIconFromOptions];
@@ -272,13 +272,13 @@
 }
 
 - (void) setTimeoutLabel {
-    if (timeoutLabel != nil) {
+    if (self.timeoutLabel != nil) {
         float labelNewHeight = -4.0f;
-        NSRect labelRect = timeoutLabel.frame;
+        NSRect labelRect = self.timeoutLabel.frame;
         float labelHeightDiff = labelNewHeight - labelRect.size.height;
-        timeoutLabel.stringValue = [self formatSecondsForString:(int)timeout];
-        if (![timeoutLabel.stringValue isEqualToString:@""] && timeout != 0.0f) {
-            NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: timeoutLabel.stringValue]autorelease];
+        self.timeoutLabel.stringValue = [self formatSecondsForString:(int)timeout];
+        if (![self.timeoutLabel.stringValue isEqualToString:@""] && timeout != 0.0f) {
+            NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: self.timeoutLabel.stringValue]autorelease];
             NSTextContainer *textContainer = [[[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)] autorelease];
             NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease];
             [layoutManager addTextContainer: textContainer];
@@ -288,10 +288,10 @@
             labelHeightDiff = labelNewHeight - labelRect.size.height;
             // Set label's new height
             NSRect l = NSMakeRect(labelRect.origin.x, labelRect.origin.y - labelHeightDiff, labelRect.size.width, labelNewHeight);
-            timeoutLabel.frame = l;
+            self.timeoutLabel.frame = l;
         }
         else {
-            [timeoutLabel setHidden:YES];
+            self.timeoutLabel.hidden = YES;
         }
         // Set panel's new width and height
         NSSize p = self.panel.contentView.frame.size;

@@ -11,10 +11,9 @@
                 <outlet property="button1" destination="5" id="20"/>
                 <outlet property="button2" destination="6" id="19"/>
                 <outlet property="button3" destination="7" id="18"/>
-                <outlet property="controlIcon" destination="40" id="73"/>
                 <outlet property="controlMatrix" destination="29" id="36"/>
-                <outlet property="controlPanel" destination="3" id="74"/>
                 <outlet property="expandingLabel" destination="9" id="17"/>
+                <outlet property="iconView" destination="40" id="O5f-cW-y7H"/>
                 <outlet property="panel" destination="3" id="noc-4w-Tc6"/>
                 <outlet property="timeoutLabel" destination="59" id="68"/>
             </connections>
@@ -40,7 +39,7 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <imageView id="40" userLabel="controlIcon">
+                    <imageView id="40" userLabel="iconView">
                         <rect key="frame" x="17" y="158" width="48" height="48"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topLeft" id="41"/>

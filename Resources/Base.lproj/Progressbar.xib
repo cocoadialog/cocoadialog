@@ -8,9 +8,8 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="CDProgressbarControl">
             <connections>
-                <outlet property="controlIcon" destination="37" id="8Gn-Ib-lAE"/>
-                <outlet property="controlPanel" destination="18" id="44"/>
                 <outlet property="expandingLabel" destination="8" id="41"/>
+                <outlet property="iconView" destination="37" id="ApK-Vt-hgS"/>
                 <outlet property="panel" destination="18" id="D5v-N0-WHL"/>
                 <outlet property="progressBar" destination="7" id="9"/>
                 <outlet property="stopButton" destination="DMp-o0-xTs" id="h1D-03-1L7"/>
@@ -40,7 +39,7 @@
                         <rect key="frame" x="59" y="40" width="358" height="12"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     </progressIndicator>
-                    <imageView id="37" userLabel="controlIcon">
+                    <imageView id="37" userLabel="iconView">
                         <rect key="frame" x="20" y="42" width="32" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topLeft" id="38"/>
