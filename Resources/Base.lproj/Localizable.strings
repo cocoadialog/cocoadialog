@@ -25,6 +25,7 @@
 "USAGE" = "Usage: cocoadialog %@ [options]";
 "USAGE_CATEGORY_CONTROLS" = "Controls";
 "USAGE_CATEGORY_CONTROL" = "Control options";
+"USAGE_VERBOSE_OUTPUT" = "Use %@ to display additional information.";
 "USAGE_VERSION" = "Version";
 "USAGE_WEBSITE" = "Website";
 
@@ -49,6 +50,7 @@
 "GLOBAL_OPTION_HELP" = "Displays this help.";
 "GLOBAL_OPTION_NO_NEWLINE" = "Prevents appending a newline character to the control result value.";
 "GLOBAL_OPTION_NO_WARNINGS" = "Prevents any warning messages that may affect the control result value.";
+"GLOBAL_OPTION_OUTPUT" = "@todo";
 "GLOBAL_OPTION_QUIET" = "Silences all output.";
 "GLOBAL_OPTION_SCREEN" = "Indicates on which screen the control will appear. By default, the screen that currently has keyboard focus is used.";
 "GLOBAL_OPTION_STRING_OUTPUT" = "Returns text values of input elements rather than their numerical index.";

@@ -2,6 +2,80 @@
 
 @implementation NSString (CocoaDialog)
 
+#pragma mark - Properties
+- (NSString *) camelCase {
+    NSMutableString *camelCase = [NSMutableString string];
+    NSString *string = [self stringByReplacingCharactersInSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet] withString:@" "];
+    NSArray<NSString *> *parts = [string componentsSeparatedByString:@" "];
+    for (NSUInteger i = 0; i < parts.count; i++) {
+        if (!parts[i].length) {
+            continue;
+        }
+        if (i == 0) {
+            [camelCase appendString:[parts[i] stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:[parts[i] substringToIndex:1].lowercaseString]];
+        }
+        else {
+            [camelCase appendString:[parts[i] stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:[parts[i] substringToIndex:1].uppercaseString]];
+        }
+    }
+    return camelCase;
+}
+
+- (NSString *) doubleQuote {
+    return [NSString stringWithFormat:@"\"%@\"", self];
+}
+
+- (NSString *) jsonValue {
+    return self.doubleQuote;
+}
+
+- (NSString *) optionFormat {
+    return [NSMutableString prepend:@"--" toString:self];
+}
+
+- (NSString *) singleQuote {
+    return [NSString stringWithFormat:@"'%@'", self];
+}
+
+#pragma mark - Public static methods
+// http://stackoverflow.com/a/35039384/1226717
++ (instancetype) stringWithFormat:(NSString *)format array:(NSArray *)arrayArguments {
+    NSMethodSignature *methodSignature = [self vaListSignatureForArguments:arrayArguments];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:methodSignature];
+
+    [invocation setTarget:self];
+    [invocation setSelector:@selector(stringWithFormat:)];
+
+    [invocation setArgument:&format atIndex:2];
+    for (unsigned int i = 0; i < arrayArguments.count; i++) {
+        id obj = arrayArguments[i];
+        [invocation setArgument:(&obj) atIndex:i+3];
+    }
+
+    [invocation invoke];
+
+    __autoreleasing NSString *string;
+    [invocation getReturnValue:&string];
+
+    return string;
+}
+
+#pragma mark - Private static methods
++ (NSMethodSignature *)vaListSignatureForArguments:(NSArray *)arguments {
+    NSInteger count = [arguments count];
+    NSInteger sizeptr = sizeof(void *);
+    NSInteger sumArgInvoke = count + 3; //self + _cmd + (NSString *)format
+    NSInteger offsetReturnType = sumArgInvoke * sizeptr;
+
+    NSMutableString *mstring = [NSMutableString string];
+    [mstring appendFormat:@"@%zd@0:%zd", offsetReturnType, sizeptr];
+    for (NSInteger i = 2; i < sumArgInvoke; i++) {
+        [mstring appendFormat:@"@%zd", sizeptr * i];
+    }
+    return [NSMethodSignature signatureWithObjCTypes:[mstring UTF8String]];
+}
+
+#pragma mark - Public instance methods
 - (BOOL) contains:(NSString *)string {
     NSRange range = [self rangeOfString:string];
     return (range.location != NSNotFound);
@@ -46,18 +120,6 @@
 
 };
 
-- (NSString *) optionFormat {
-    return [NSMutableString prepend:@"--" toString:self];
-}
-
-- (NSString *) doubleQuote {
-    return [NSString stringWithFormat:@"\"%@\"", self];
-}
-
-- (NSString *) singleQuote {
-    return [NSString stringWithFormat:@"'%@'", self];
-}
-
 - (NSString *) stringByReplacingCharactersInSet:(NSCharacterSet *)charSet withString:(NSString *)aString {
     NSMutableString *s = [NSMutableString stringWithCapacity:self.length];
     for (NSUInteger i = 0; i < self.length; ++i) {
@@ -74,43 +136,6 @@
 - (NSString *) stringByStrippingWhitespace {
     return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
-
-// http://stackoverflow.com/a/35039384/1226717
-+ (instancetype) stringWithFormat:(NSString *)format array:(NSArray *)arrayArguments {
-    NSMethodSignature *methodSignature = [self vaListSignatureForArguments:arrayArguments];
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:methodSignature];
-
-    [invocation setTarget:self];
-    [invocation setSelector:@selector(stringWithFormat:)];
-
-    [invocation setArgument:&format atIndex:2];
-    for (unsigned int i = 0; i < arrayArguments.count; i++) {
-        id obj = arrayArguments[i];
-        [invocation setArgument:(&obj) atIndex:i+3];
-    }
-
-    [invocation invoke];
-
-    __autoreleasing NSString *string;
-    [invocation getReturnValue:&string];
-
-    return string;
-}
-+ (NSMethodSignature *)vaListSignatureForArguments:(NSArray *)arguments {
-    NSInteger count = [arguments count];
-    NSInteger sizeptr = sizeof(void *);
-    NSInteger sumArgInvoke = count + 3; //self + _cmd + (NSString *)format
-    NSInteger offsetReturnType = sumArgInvoke * sizeptr;
-
-    NSMutableString *mstring = [[NSMutableString alloc] init];
-    [mstring appendFormat:@"@%zd@0:%zd", offsetReturnType, sizeptr];
-    for (NSInteger i = 2; i < sumArgInvoke; i++) {
-        [mstring appendFormat:@"@%zd", sizeptr * i];
-    }
-    return [NSMethodSignature signatureWithObjCTypes:[mstring UTF8String]];
-}
-
-
 
 -(NSArray *)splitOnChar:(char)ch {
     NSMutableArray *results = [[[NSMutableArray alloc] init] autorelease];
@@ -188,12 +213,14 @@
 
 @implementation NSMutableString (CocoaDialog)
 
+#pragma mark - Public static methods
 + (instancetype)prepend:(NSString *)prepend toString:(NSString *)string {
     NSMutableString *joined = [NSMutableString stringWithString:string];
     [joined prepend:prepend];
     return joined;
 }
 
+#pragma mark - Public instance methods
 - (void)prepend:(NSString *)string {
     [self insertString:string atIndex:0];
 }

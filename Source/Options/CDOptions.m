@@ -2,14 +2,42 @@
 
 @implementation CDOptions
 
-@synthesize arguments = _arguments;
-@synthesize options = _options;
-@synthesize deprecatedOptions = _deprecatedOptions;
-@synthesize missingOptions = _missingOptions;
-@synthesize requiredOptions = _requiredOptions;
-@synthesize unknownOptions = _unknownOptions;
+@synthesize arguments, options, deprecatedOptions, getOptionCallback, getOptionOnceCallback, missingOptions, requiredOptions, seenOptions, setOptionCallback, unknownOptions;
 
-// Private static methods.
+
+#pragma mark - Properties
+- (NSArray *) allKeys {
+    return options.allKeys;
+}
+
+- (NSArray *) allValues {
+    return options.allValues;
+}
+
+- (NSDictionary <NSString *, CDOptions *> *) groupByCategories {
+    NSMutableDictionary<NSString *, CDOptions *> *categories = [NSMutableDictionary dictionary];
+    for (NSString *name in options) {
+        CDOption *opt = options[name];
+        NSString *category = opt.category != nil ? opt.category : NSLocalizedString(@"USAGE_CATEGORY_CONTROL", nil);
+        if (categories[category] == nil) {
+            categories[category] = [CDOptions options];
+        }
+        [categories[category] addOption:opt];
+    }
+    return categories;
+}
+
+- (NSMutableDictionary<NSString *,CDOption *> *)requiredOptions {
+    NSMutableDictionary *required = [NSMutableDictionary dictionaryWithDictionary:requiredOptions];
+    for (NSString *name in options) {
+        if (options[name].required) {
+            required[name] = options[name];
+        }
+    }
+    return required;
+}
+
+#pragma mark - Private static methods.
 + (BOOL) argIsKey:(NSString *)arg inOptions:(NSDictionary *)options {
     return !!([self isOption:arg] && options[[arg substringFromIndex:2]] != nil);
 }
@@ -22,13 +50,12 @@
     return [self isOption:arg] ? [arg substringFromIndex:2] : nil;
 }
 
-// Pubic static methods.
+#pragma mark - Pubic static methods
 + (instancetype) options {
     return [[[self alloc] init] autorelease];
 }
 
-// Public instance methods.
-
+#pragma mark - Public instance methods
 - (void)addOption:(CDOption *)opt {
     // @todo Add "double dash" note for multiple option values automatically.
     //    [columns addObject:[NSString stringWithFormat:@"%@ %@", opt.helpText, NSLocalizedString(@"OPTION_MULTIPLE_DOUBLE_DASH", nil)]];
@@ -43,33 +70,64 @@
 
     if ([opt isKindOfClass:[CDOptionDeprecated class]]) {
         CDOptionDeprecated *deprecated = (CDOptionDeprecated *)opt;
-        [_deprecatedOptions setObject:deprecated forKey:deprecated.from];
+        [deprecatedOptions setObject:deprecated forKey:deprecated.from];
     }
     else {
-        [_options setObject:opt forKey:opt.name];
+        [options setObject:opt forKey:opt.name];
     }
 }
 
+- (NSUInteger) count {
+    return options.count;
+}
+
+- (void) dealloc {
+    [arguments release];
+    [deprecatedOptions release];
+    [getOptionCallback release];
+    [getOptionOnceCallback release];
+    [missingOptions release];
+    [options release];
+    [requiredOptions release];
+    [seenOptions release];
+    [setOptionCallback release];
+    [unknownOptions release];
+    [super dealloc];
+}
+
 - (NSString *) getArgument:(unsigned int) index {
-    return _arguments != nil && index < _arguments.count ? _arguments[index] : nil;
+    return arguments != nil && index < arguments.count ? arguments[index] : nil;
 }
 
 - (instancetype) init {
     self = [super init];
     if (self) {
-        _arguments = [NSMutableArray array];
-        _deprecatedOptions = [NSMutableDictionary dictionary];
-        _missingOptions = [NSMutableDictionary dictionary];
-        _options = [NSMutableDictionary dictionary];
-        _requiredOptions = [NSMutableDictionary dictionary];
-        _seenOptions = [NSMutableArray array];
-        _unknownOptions = [NSMutableArray array];
+        arguments = [NSMutableArray array];
+        deprecatedOptions = [NSMutableDictionary dictionary];
+        missingOptions = [NSMutableDictionary dictionary];
+        options = [NSMutableDictionary dictionary];
+        requiredOptions = [NSMutableDictionary dictionary];
+        seenOptions = [NSMutableArray array];
+        unknownOptions = [NSMutableArray array];
     }
     return self;
 }
 
+
+- (instancetype )initWithObjects:(id  _Nonnull const [])objects forKeys:(id<NSCopying>  _Nonnull const [])keys count:(NSUInteger)cnt {
+    self = [super init];
+    if (self) {
+        options = [[[NSMutableDictionary alloc] initWithObjects:objects forKeys:keys count:cnt] autorelease];
+    }
+    return self;
+}
+
+- (NSEnumerator *) keyEnumerator {
+    return options.keyEnumerator;
+}
+
 - (CDOptions *) processArguments {
-    NSMutableArray *args = [[NSMutableArray arrayWithArray:[NSProcessInfo processInfo].arguments] autorelease];
+    NSMutableArray *args = [NSMutableArray arrayWithArray:[NSProcessInfo processInfo].arguments];
 
     // Remove the command path.
     [args removeObjectAtIndex:0];
@@ -99,8 +157,8 @@
         else if (optionName) {
             // If provided option isn't actually an available or deprecated option,
             // add it to the list of unknown options.
-            if (!_options[optionName] && !_deprecatedOptions[optionName]) {
-                [_unknownOptions addObject:optionName];
+            if (!options[optionName] && !deprecatedOptions[optionName]) {
+                [unknownOptions addObject:optionName];
                 continue;
             }
 
@@ -111,15 +169,15 @@
         }
         //Add a normal argument.
         else {
-            [_arguments addObject:arg];
+            [arguments addObject:arg];
         }
     }
 
     // Handle deprecated options.
-    if (_deprecatedOptions.count) {
-        for (NSString *name in _deprecatedOptions) {
-            CDOptionDeprecated *deprecated = _deprecatedOptions[name];
-            if (argumentValues[deprecated.from] != nil && _options[deprecated.to] != nil) {
+    if (deprecatedOptions.count) {
+        for (NSString *name in deprecatedOptions) {
+            CDOptionDeprecated *deprecated = deprecatedOptions[name];
+            if (argumentValues[deprecated.from] != nil && options[deprecated.to] != nil) {
                 argumentValues[deprecated.to] = argumentValues[deprecated.from];
                 [argumentValues removeObjectForKey:deprecated.from];
             }
@@ -127,8 +185,8 @@
     }
 
     // Set the argument value(s) for the necessary options.
-    for (id name in _options) {
-        CDOption *opt = _options[name];
+    for (id name in options) {
+        CDOption *opt = options[name];
         NSArray *values = argumentValues[name];
 
         // If there are values, indicate that the option was provided
@@ -143,7 +201,7 @@
                 // If there are any "values" for this option, then they
                 // are actually arguments that should be added back.
                 for (arg in values) {
-                    [_arguments addObject:arg];
+                    [arguments addObject:arg];
                 }
             }
             else {
@@ -156,8 +214,8 @@
     NSDictionary *required = self.requiredOptions;
     if (required.count) {
         for (NSString *name in required) {
-            if (!_options[name].wasProvided) {
-                _missingOptions[name] = required[name];
+            if (!options[name].wasProvided) {
+                missingOptions[name] = required[name];
             }
         }
     }
@@ -165,48 +223,15 @@
     return self;
 }
 
-// Properties.
-
-- (NSArray *) allKeys {
-    return [_options.allKeys copy];
-}
-
-- (NSArray *) allValues {
-    return [_options.allValues copy];
-}
-
-- (NSDictionary <NSString *, CDOptions *> *) groupByCategories {
-    NSMutableDictionary<NSString *, CDOptions *> *categories = [NSMutableDictionary dictionary];
-    for (NSString *name in _options) {
-        CDOption *opt = _options[name];
-        NSString *category = opt.category != nil ? opt.category : NSLocalizedString(@"USAGE_CATEGORY_CONTROL", nil);
-        if (categories[category] == nil) {
-            categories[category] = [CDOptions options];
-        }
-        [categories[category] addOption:opt];
-    }
-    return categories;
-}
-
-- (NSMutableDictionary<NSString *,CDOption *> *)requiredOptions {
-    NSMutableDictionary *required = [NSMutableDictionary dictionaryWithDictionary:_requiredOptions];
-    for (NSString *name in _options) {
-        if (_options[name].required) {
-            required[name] = _options[name];
-        }
-    }
-    return required;
-}
-
-// Enumeration.
+#pragma mark - Enumeration
 - (NSUInteger) countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained [])stackbuf count:(NSUInteger)len {
-    NSUInteger count = [[_options copy] countByEnumeratingWithState:state objects:stackbuf count:len];
-    return count;
+    return [options countByEnumeratingWithState:state objects:stackbuf count:len];
 }
+
 - (CDOption *) objectForKey:(NSString *)key {
-    CDOption *opt = [_options objectForKey:key];
-    if (self.getOptionOnceCallback != nil && ![_seenOptions containsObject:key]) {
-        [_seenOptions addObject:key];
+    CDOption *opt = [options objectForKey:key];
+    if (self.getOptionOnceCallback != nil && ![seenOptions containsObject:key]) {
+        [seenOptions addObject:key];
         self.getOptionOnceCallback(opt);
     }
     if (self.getOptionCallback != nil) {
@@ -214,15 +239,18 @@
     }
     return opt;
 }
+
 - (CDOption *) objectForKeyedSubscript:(NSString *)key {
     return [self objectForKey:key];
 }
+
 - (void) setObject:(CDOption *)opt forKey:(NSString*)key {
     if (self.setOptionCallback != nil) {
         self.setOptionCallback(opt, key);
     }
-    [_options setValue:opt forKey:key];
+    [options setValue:opt forKey:key];
 }
+
 - (void) setObject:(CDOption *)opt forKeyedSubscript:(NSString*)key {
     [self setObject:opt forKey:key];
 }

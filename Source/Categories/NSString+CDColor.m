@@ -5,7 +5,7 @@ BOOL NSStringCDColor = YES;
 
 @implementation NSString (CDColor)
 
-// Storage.
+#pragma mark - Storage
 - (void) setColor:(CDColor *)color {
     objc_setAssociatedObject(self, @selector(color), color, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
@@ -27,7 +27,7 @@ BOOL NSStringCDColor = YES;
     return objc_getAssociatedObject(self, @selector(originalString));
 }
 
-// Background colors.
+#pragma mark - Background colors
 - (NSString *) onBlack      { self.color.bg = CDColorBgBlack;                   return self.formattedString; }
 - (NSString *) onRed        { self.color.bg = CDColorBgRed;                     return self.formattedString; }
 - (NSString *) onGreen      { self.color.bg = CDColorBgGreen;                   return self.formattedString; }
@@ -37,7 +37,7 @@ BOOL NSStringCDColor = YES;
 - (NSString *) onCyan       { self.color.bg = CDColorBgCyan;                    return self.formattedString; }
 - (NSString *) onWhite      { self.color.bg = CDColorBgWhite;                   return self.formattedString; }
 
-// Foreground colors.
+#pragma mark - Foreground colors
 - (NSString *) black        { self.color.fg = CDColorFgBlack;                   return self.formattedString; }
 - (NSString *) red          { self.color.fg = CDColorFgRed;                     return self.formattedString; }
 - (NSString *) green        { self.color.fg = CDColorFgGreen;                   return self.formattedString; }
@@ -55,7 +55,7 @@ BOOL NSStringCDColor = YES;
 - (NSString *) lightCyan    { self.color.fg = CDColorFgLightCyan;               return self.formattedString; }
 - (NSString *) lightWhite   { self.color.fg = CDColorFgLightWhite;              return self.formattedString; }
 
-// Styles.
+#pragma mark - Styles
 - (NSString *) bold         { [self.color addStyle:CDColorStyleBold];           return self.formattedString; }
 - (NSString *) dim          { [self.color addStyle:CDColorStyleDim];            return self.formattedString; }
 - (NSString *) italic       { [self.color addStyle:CDColorStyleItalic];         return self.formattedString; }
@@ -63,7 +63,7 @@ BOOL NSStringCDColor = YES;
 - (NSString *) blink        { [self.color addStyle:CDColorStyleBlink];          return self.formattedString; }
 - (NSString *) swap         { [self.color addStyle:CDColorStyleSwap];           return self.formattedString; }
 
-// Clearing.
+#pragma mark - Clearing
 - (NSString *) clearBg      { self.color.bg = CDColorBgNone;                    return self.formattedString; }
 - (NSString *) clearFg      { self.color.fg = CDColorFgNone;                    return self.formattedString; }
 - (NSString *) clearStyles  { [self.color removeAllStyles];                     return self.formattedString; }
@@ -77,7 +77,7 @@ BOOL NSStringCDColor = YES;
     return error == nil ? stripped : self;
 }
 
-// Stopping.
+#pragma mark - Stopping
 - (NSString *) stop {
     if (!NSStringCDColor) {
         return self;
@@ -87,6 +87,7 @@ BOOL NSStringCDColor = YES;
     return string;
 }
 
+#pragma mark - Private instance methods
 - (CDColor *) colorAncestry {
     CDColor *color = [CDColor color];
     if (self.originalString) {
@@ -100,13 +101,6 @@ BOOL NSStringCDColor = YES;
     return color;
 }
 
-- (NSString *)applyColor:(CDColor *)color {
-    [self.color merge:color];
-    return self.formattedString;
-}
-
-
-// Primary method used to wrap string with colors.
 - (NSMutableString *) formattedString {
     if (!NSStringCDColor) {
         return [NSMutableString stringWithString:self];
@@ -155,7 +149,13 @@ BOOL NSStringCDColor = YES;
     return formattedString;
 }
 
--(NSString *)stringByPaddingToLength:(NSUInteger)newLength withString:(NSString *)padString startingAtIndex:(NSUInteger)padIndex ignoreColor:(BOOL)ignoreColor {
+#pragma mark - Public instance methods
+- (NSString *) applyColor:(CDColor *)color {
+    [self.color merge:color];
+    return self.formattedString;
+}
+
+- (NSString *) stringByPaddingToLength:(NSUInteger)newLength withString:(NSString *)padString startingAtIndex:(NSUInteger)padIndex ignoreColor:(BOOL)ignoreColor {
     NSError *error = nil;
     NSString *pattern = [NSString stringWithFormat:@"%@[^m]+m", @CDColorEscapeRegExp];
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];

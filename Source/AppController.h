@@ -46,23 +46,28 @@
 #import "CDTextboxControl.h"
 #import "CDYesNoMsgboxControl.h"
 
+#pragma mark - Constants
 #define CDSite "https://mstratman.github.io/cocoadialog/"
 
-@interface AppController : NSObject {
-    IBOutlet NSPanel        *aboutPanel;
-    IBOutlet NSTextField    *aboutAppLink;
-    IBOutlet NSTextField    *aboutText;
-}
+#pragma mark -
+@interface AppController : NSObject
 
+#pragma mark - Properties
+@property (nonatomic, retain) IBOutlet  NSTextField *aboutAppLink;
+@property (nonatomic, retain) IBOutlet  NSPanel     *aboutPanel;
+@property (nonatomic, retain) IBOutlet  NSTextField *aboutText;
+@property (nonatomic, readonly, copy)   NSString    *appVersion;
+
+#pragma mark - Public static methods
 + (NSString *) appVersion;
-
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *appVersion;
-
 + (NSArray<NSString *> *) availableControls;
+
+#pragma mark - Public instance methods
 - (CDControl *) getControl;
 - (void)setHyperlinkForTextField:(NSTextField*)aTextField replaceString:(NSString *)aString withURL:(NSString *)aURL;
 @end
 
+#pragma mark -
 @interface NSAttributedString (Hyperlink)
     +(id)hyperlinkFromString:(NSString*)inString withURL:(NSURL*)aURL withFont:(NSFont *)aFont;
 @end

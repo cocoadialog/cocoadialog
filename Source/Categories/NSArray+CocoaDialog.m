@@ -2,6 +2,12 @@
 
 @implementation NSArray (CocoaDialog)
 
+#pragma mark - Properties
+- (NSArray *) sortedAlphabetically {
+    return [self sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+}
+
+#pragma mark - Public instance methods
 - (NSArray *) prependStringsWith:(NSString *)prefix {
     NSMutableArray *array = [[[NSMutableArray alloc] init] autorelease];
     for (id item in self) {
@@ -12,10 +18,6 @@
         }
     }
     return [NSArray arrayWithArray:array];
-}
-
-- (NSArray *) sortedAlphabetically {
-    return [self sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 }
 
 @end

@@ -19,37 +19,40 @@
 */
 
 #import <Foundation/Foundation.h>
+
+// Categories.
 #import "NSArray+CocoaDialog.h"
 #import "NSString+CocoaDialog.h"
 
-#import "CDTerminal.h"
+// Classes.
+#import "CDJson.h"
 #import "CDOptions.h"
 #import "CDOption.h"
+#import "CDTerminal.h"
 
-// All controls must include the methods createControl and validateOptions.
-// This should look at the options and display a control (dialog with message,
-// inputbox, or whatever) to the user, get any necessary info from it, and
-// return an NSArray of NSString objects.
-// Each NSString is printed to stdout on its own line.
-// Return an empty NSArray if there is no output to be printed, or nil
-// on error.
 @protocol CDControlProtocol <NSWindowDelegate>
+
+@property (nonatomic, readonly) BOOL validateControl;
+@property (nonatomic, readonly) BOOL validateOptions;
+
+- (CDOptions *) availableOptions;
 - (void) createControl;
-@property (NS_NONATOMIC_IOSONLY, readonly) BOOL validateOptions;
+- (BOOL) loadControlNib:(NSString *)nib;
+- (void) runControl;
+- (void) showUsage;
+- (void) stopControl;
+
 @end
 
-// CDControl provides a runControl method.  It invokes
-// runControlFromOptions: with the options specified in initWithOptions:
-// You must override runControlFromOptions.
+#pragma mark -
 @interface CDControl : NSObject <CDControlProtocol> {
     // For DX/readability use "option" opposed to "options".
-    CDOptions *option;
-
-    NSString                    *controlName;
+    CDOptions                   *option;
 
     // Variables
     int                         controlExitStatus;
     NSString                    *controlExitStatusString;
+    NSString                    *controlName;
     NSMutableArray              *controlItems;
     NSMutableArray              *controlReturnValues;
 
@@ -60,37 +63,47 @@
     double                      timeout;
 }
 
+#pragma mark - Properties
+@property (nonatomic, retain)               NSString        *controlName;
+@property (nonatomic, readonly)             NSString        *controlNib;
+@property (nonatomic, readonly)             BOOL            isBaseControl;
+// For DX/readability use "option" opposed to "options".
+@property (nonatomic, retain)               CDOptions       *option;
+@property (nonatomic, retain)               CDTerminal      *terminal;
+
+#pragma mark - Public static methods
 + (instancetype) control;
 
-@property (nonatomic, readonly) BOOL isBaseControl;
+#pragma mark - Public instance methods
+- (NSString *) formatSecondsForString:(NSInteger)timeInSeconds;
+- (instancetype) initWithSeenOptions:(NSMutableArray *)seenOptions NS_DESIGNATED_INITIALIZER;
 
-// Logging.
-- (void) debug:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2) NS_REQUIRES_NIL_TERMINATION;
-- (void) error:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2) NS_REQUIRES_NIL_TERMINATION;
-- (void) fatalError:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2) NS_REQUIRES_NIL_TERMINATION;
-- (void) verbose:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2) NS_REQUIRES_NIL_TERMINATION;
-- (void) warning:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2) NS_REQUIRES_NIL_TERMINATION;
-
-// Icon.
-@property (nonatomic, readonly) NSImage *icon;
-@property (nonatomic, readonly) NSMutableArray *iconControls;
-@property (nonatomic, retain) IBOutlet NSImageView *iconView;
-@property (nonatomic, readonly) NSImage *iconImage;
-@property (nonatomic, readonly) NSData *iconData;
-@property (nonatomic, readonly) NSImage *iconWithDefault;
-@property (nonatomic, readonly) NSData *iconDataWithDefault;
+#pragma mark - Icon
+@property (nonatomic, readonly)             NSImage         *icon;
+@property (nonatomic, readonly)             NSMutableArray  *iconControls;
+@property (nonatomic, readonly)             NSData          *iconData;
+@property (nonatomic, readonly)             NSData          *iconDataWithDefault;
+@property (nonatomic, readonly)             NSImage         *iconImage;
+@property (nonatomic, readonly)             NSImage         *iconWithDefault;
+@property (nonatomic, retain)   IBOutlet    NSImageView     *iconView;
 
 - (void) iconAffectedByControl:(id)control;
 - (NSImage *) iconFromFile:(NSString *)file;
 - (NSImage *) iconFromName:(NSString *)name;
 - (void) setIconFromOptions;
 
-// Panel.
-@property (nonatomic, retain) IBOutlet NSPanel *panel;
-@property (nonatomic, readonly) NSSize findNewSize;
-@property (nonatomic, readonly) NSScreen *getScreen;
-@property (nonatomic, readonly) BOOL needsResize;
+#pragma mark - Logging
+- (void) debug:(NSString *)format, ...      NS_FORMAT_FUNCTION(1,2) NS_REQUIRES_NIL_TERMINATION;
+- (void) error:(NSString *)format, ...      NS_FORMAT_FUNCTION(1,2) NS_REQUIRES_NIL_TERMINATION;
+- (void) fatalError:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2) NS_REQUIRES_NIL_TERMINATION;
+- (void) verbose:(NSString *)format, ...    NS_FORMAT_FUNCTION(1,2) NS_REQUIRES_NIL_TERMINATION;
+- (void) warning:(NSString *)format, ...    NS_FORMAT_FUNCTION(1,2) NS_REQUIRES_NIL_TERMINATION;
 
+#pragma mark - Panel
+@property (nonatomic, readonly)             NSSize          findNewSize;
+@property (nonatomic, readonly)             NSScreen        *getScreen;
+@property (nonatomic, readonly)             BOOL            needsResize;
+@property (nonatomic, retain)   IBOutlet    NSPanel         *panel;
 
 - (void) addMinHeight:(CGFloat)height;
 - (void) addMinWidth:(CGFloat)width;
@@ -101,32 +114,13 @@
 - (void) setTitle;
 - (void) setTitle:(NSString *)string;
 
-// Timeout.
-@property (nonatomic, retain) IBOutlet NSTextField *timeoutLabel;
+#pragma mark - Timer
+@property (nonatomic, retain)   IBOutlet    NSTextField     *timeoutLabel;
 
-// For DX/readability use "option" opposed to "options".
-@property (nonatomic, retain) CDOptions *option;
-
-@property (nonatomic, retain) CDTerminal *terminal;
-
-#pragma mark - Internal Control Methods -
-@property (retain) NSString *controlName;
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *controlNib;
 - (void) createTimer;
-- (NSString *) formatSecondsForString:(NSInteger)timeInSeconds;
-- (BOOL) loadControlNib:(NSString *)nib;
 - (void) processTimer;
-- (void) runControl;
 - (void) setTimeout;
 - (void) setTimeoutLabel;
-- (void) showUsage;
-- (void) stopControl;
 - (void) stopTimer;
-
-#pragma mark - Subclassable Control Methods -
-@property (NS_NONATOMIC_IOSONLY, readonly) BOOL validateOptions;
-- (CDOptions *) availableOptions;
-- (void) createControl;
-- (BOOL) validateControl;
 
 @end

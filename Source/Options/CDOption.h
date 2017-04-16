@@ -1,16 +1,23 @@
 #import <Foundation/Foundation.h>
 
 // Category extensions.
+#import "NSArray+CocoaDialog.h"
 #import "NSString+CocoaDialog.h"
 
+// Classes.
+#import "CDJson.h"
+
+#pragma mark - Type definitions
 typedef id (^CDOptionAutomaticDefaultValue)(void);
 
-@interface CDOption : NSObject {
+#pragma mark -
+@interface CDOption : NSObject <CDJsonProtocol> {
     BOOL       _isPercent;
     NSUInteger _minimumValues;
     NSUInteger _maximumValues;
 }
 
+#pragma mark - Properties
 @property (nonatomic, assign) NSString *category;
 @property (nonatomic, copy) id defaultValue;
 @property (nonatomic, assign) NSString *helpText;
@@ -20,7 +27,7 @@ typedef id (^CDOptionAutomaticDefaultValue)(void);
 @property (nonatomic, assign) id value;
 @property (nonatomic, assign) BOOL wasProvided;
 
-// Read-only.
+#pragma mark - Properties (readonly)
 @property (nonatomic, readonly) NSArray* arrayValue;
 @property (nonatomic, readonly) BOOL boolValue;
 @property (nonatomic, readonly) BOOL hasAutomaticDefaultValue;
@@ -41,37 +48,42 @@ typedef id (^CDOptionAutomaticDefaultValue)(void);
 @property (nonatomic, readonly) unsigned int unsignedIntValue;
 @property (nonatomic, readonly) NSUInteger unsignedIntegerValue;
 
+#pragma mark - Public static methods
 + (instancetype) name:(NSString *)name;
 + (instancetype) name:(NSString *)name value:(id)value;
 + (instancetype) name:(NSString *)name category:(NSString *) category;
 + (instancetype) name:(NSString *)name value:(id)value category:(NSString *) category;
 + (instancetype) name:(NSString *)name value:(id)value category:(NSString *) category helpText:(NSString *)helpText;
 
+#pragma mark - Public instance methods
 - (void) setValues:(NSArray<NSString *> *)values;
 
 @end
 
-
+#pragma mark -
 @interface CDOptionDeprecated : CDOption {}
 
+#pragma mark - Public static methods
 + (instancetype) from:(NSString *)from to:(NSString *)to;
 
+#pragma mark - Properties
 @property (nonatomic, readonly) NSString *from;
 @property (nonatomic, readonly) NSString *to;
 
 @end
 
-@interface CDOptionFlag : CDOption @end
-
-// Single values.
+#pragma mark - Single values
 @interface CDOptionSingleString : CDOption @end
 @interface CDOptionSingleNumber : CDOption @end
 @interface CDOptionSingleStringOrNumber : CDOption @end
 
-// Boolean
-@interface CDOptionBoolean : CDOptionSingleStringOrNumber @end
 
-// Multiple values.
+#pragma mark - Multiple values
 @interface CDOptionMultipleStrings : CDOption @end
 @interface CDOptionMultipleNumbers : CDOption @end
 @interface CDOptionMultipleStringsOrNumbers : CDOption @end
+
+#pragma mark - Boolean
+@interface CDOptionBoolean : CDOptionSingleStringOrNumber @end
+@interface CDOptionFlag : CDOption @end
+

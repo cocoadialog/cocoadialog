@@ -1,23 +1,8 @@
-//
-//  CDColor.m
-//  cocoaDialog
-//
-//  Created by Mark Carver on 4/11/17.
-//
-//
-
 #import "CDColor.h"
 
 @implementation CDColor
 
-- (instancetype) init {
-    self = [super init];
-    if (self) {
-        [self reset];
-    }
-    return self;
-}
-
+#pragma mark - Public static methods
 + (instancetype) color {
     return [[[self alloc] init] autorelease];
 }
@@ -46,6 +31,25 @@
 
 + (NSNumber *) style:(CDColorStyle)style {
     return [NSNumber numberWithInt:style];
+}
+
+#pragma mark - Properties
+- (BOOL) isApplied {
+    return _fg != CDColorFgNone || _bg != CDColorBgNone || _styles.count;
+}
+
+#pragma mark - Public instance methods
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        [self reset];
+    }
+    return self;
+}
+
+- (void) dealloc {
+    [_styles release];
+    [super dealloc];
 }
 
 - (void) addStyle:(CDColorStyle)style {
@@ -80,10 +84,6 @@
         }
     }
     return hasStyles;
-}
-
-- (BOOL) isApplied {
-    return _fg != CDColorFgNone || _bg != CDColorBgNone || _styles.count;
 }
 
 - (void)merge:(CDColor *)color {

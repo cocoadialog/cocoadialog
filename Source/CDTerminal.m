@@ -2,6 +2,13 @@
 
 @implementation CDTerminal
 
+#pragma mark - Public static methods
++ (instancetype) terminal {
+    return [[[self alloc] init] autorelease];
+}
+
+
+#pragma mark - Public instance methods
 - (instancetype) init {
     self = [super init];
     if (self) {
@@ -17,10 +24,6 @@
         _supportsColor = _cols > 8;
     }
     return self;
-}
-
-+ (instancetype) terminal {
-    return [[[self alloc] init] autorelease];
 }
 
 - (NSUInteger) colsWithMinimum:(NSUInteger)minimum {

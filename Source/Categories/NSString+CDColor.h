@@ -6,11 +6,11 @@ extern BOOL NSStringCDColor;
 
 @interface NSString (CDColor)
 
-// Storage.
+#pragma mark - Storage
 @property (nonatomic) CDColor *color;
 @property (nonatomic) NSString *originalString;
 
-// Background colors.
+#pragma mark - Background colors
 @property (nonatomic, readonly) NSString *onBlack;
 @property (nonatomic, readonly) NSString *onRed;
 @property (nonatomic, readonly) NSString *onGreen;
@@ -20,7 +20,7 @@ extern BOOL NSStringCDColor;
 @property (nonatomic, readonly) NSString *onCyan;
 @property (nonatomic, readonly) NSString *onWhite;
 
-// Foreground colors.
+#pragma mark - Foreground colors
 @property (nonatomic, readonly) NSString *black;
 @property (nonatomic, readonly) NSString *red;
 @property (nonatomic, readonly) NSString *green;
@@ -38,7 +38,7 @@ extern BOOL NSStringCDColor;
 @property (nonatomic, readonly) NSString *lightCyan;
 @property (nonatomic, readonly) NSString *lightWhite;
 
-// Styles.
+#pragma mark - Styles
 @property (nonatomic, readonly) NSString *bold;
 @property (nonatomic, readonly) NSString *dim;
 @property (nonatomic, readonly) NSString *italic;
@@ -46,18 +46,18 @@ extern BOOL NSStringCDColor;
 @property (nonatomic, readonly) NSString *blink;
 @property (nonatomic, readonly) NSString *swap;
 
-// Clearing.
+#pragma mark - Clearing
 @property (nonatomic, readonly) NSString *clearAll;
 @property (nonatomic, readonly) NSString *clearFg;
 @property (nonatomic, readonly) NSString *clearBg;
 @property (nonatomic, readonly) NSString *clearStyles;
 @property (nonatomic, readonly) NSString *removeColor;
 
-// Stopping.
+#pragma mark - Stopping
 @property (nonatomic, readonly) NSString *stop;
 
+#pragma mark - Public instance methods
 - (NSString *)applyColor:(CDColor *)color;
-
 - (NSString *)stringByPaddingToLength:(NSUInteger)newLength withString:(NSString *)padString startingAtIndex:(NSUInteger)padIndex ignoreColor:(BOOL)ignoreColor;
 
 @end

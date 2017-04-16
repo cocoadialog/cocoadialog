@@ -8,12 +8,15 @@
     NSMutableDictionary *which;
 }
 
+#pragma mark - Properties
 @property (nonatomic, readonly) NSUInteger colors;
 @property (nonatomic, readonly) NSUInteger cols;
 @property (nonatomic, readonly) BOOL supportsColor;
 
+#pragma mark - Public static methods
 + (instancetype) terminal;
 
+#pragma mark - Public instance methods
 - (NSUInteger) colsWithMinimum:(NSUInteger)minimum;
 - (NSString *) execute:(NSString *)command withArguments:(NSArray *)arguments;
 - (void) write:(NSString *)string;

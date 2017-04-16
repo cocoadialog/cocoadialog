@@ -22,15 +22,35 @@
 
 @implementation AppController
 
-+ (NSString *) appVersion {
-    return [NSBundle mainBundle].infoDictionary[@"CFBundleVersion"];
-}
+@synthesize aboutAppLink, aboutPanel, aboutText;
 
+#pragma mark - Properties
 - (NSString *)appVersion {
     return [AppController appVersion];
 }
 
-#pragma mark - Initialization
+#pragma mark - Public static methods
++ (NSString *) appVersion {
+    return [NSBundle mainBundle].infoDictionary[@"CFBundleVersion"];
+}
+
++ (NSArray<NSString *> *) availableControls {
+    return @[
+             @"checkbox", @"dropdown", @"fileselect", @"filesave", @"inputbox", @"msgbox", @"notify",
+             @"ok-msgbox", @"progressbar", @"radio", @"slider", @"secure-inputbox", @"secure-standard-inputbox",
+             @"standard-dropdown", @"standard-inputbox", @"textbox", @"yesno-msgbox",
+             ].sortedAlphabetically;
+}
+
+#pragma mark - Private static methods
++ (CDNotifyControl *) createNotifyControlFromOptions:(CDOptions *)options {
+    Class notifyClass = NSClassFromString(!options[@"no-growl"] ? @"CDGrowlControl" : @"CDBubbleControl");
+    CDNotifyControl *control = [[(CDNotifyControl *)[notifyClass alloc] init] autorelease];
+    control.controlName = @"notify";
+    return control;
+}
+
+#pragma mark - Public instance methods
 - (void) awakeFromNib {
     // Retrieve the control that should be used.
     CDControl *control = [self getControl];
@@ -86,15 +106,6 @@
     [control runControl];
 }
 
-#pragma mark - CDControl
-+ (NSArray<NSString *> *) availableControls {
-    return @[
-             @"checkbox", @"dropdown", @"fileselect", @"filesave", @"inputbox", @"msgbox", @"notify",
-             @"ok-msgbox", @"progressbar", @"radio", @"slider", @"secure-inputbox", @"secure-standard-inputbox",
-             @"standard-dropdown", @"standard-inputbox", @"textbox", @"yesno-msgbox",
-             ].sortedAlphabetically;
-}
-
 - (NSDictionary *) controlClasses {
     return @{
              @"bubble": [CDNotifyControl class],
@@ -119,7 +130,6 @@
              };
 }
 
-
 - (NSArray<NSString *> *) getArguments {
     NSMutableArray<NSString *> *arguments = [NSMutableArray array];
     NSMutableArray<NSString *> *args = [NSMutableArray arrayWithArray:[NSProcessInfo processInfo].arguments];
@@ -141,31 +151,9 @@
     return controlName != nil ? [[self controlClasses] objectForKey:controlName.lowercaseString] : nil;
 }
 
-- (NSString *) getControlName {
-    NSString *controlName = nil;
-    NSArray *controls = [self controlClasses].allKeys;
-
-    // Find first matching control name, if any.
-    NSArray<NSString *> *args = [self getArguments];
-    for (NSUInteger i = 0; i < args.count; i++) {
-        if ([controls containsObject:args[i]]) {
-            controlName = args[i].lowercaseString;
-            break;
-        }
-    }
-
-    // Return the control name if one was found.
-    if (controlName != nil) {
-        return controlName;
-    }
-
-    // Otherwise, just use the first available argument.
-    return args.count ? args[0] : nil;
-}
-
 - (CDControl *) getControl {
-    CDControl *control;
-    NSString *controlName = [self getControlName];
+    CDControl *control = [CDControl control];
+    NSString *controlName = [control.option getArgument:0];
     Class controlClass = [self getControlClass:controlName];
 
     // If a control class was provided, use it to contruct the control.
@@ -178,7 +166,7 @@
         // come to the front automatically.
         [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
 
-        control = [[(CDControl *)[controlClass alloc] init] autorelease];
+        control = [[(CDControl *)[controlClass alloc] initWithSeenOptions:control.option.seenOptions] autorelease];
         control.controlName = controlName;
     }
     // Otherwise, just create a base control to handle global tasks.
@@ -197,9 +185,9 @@
         // Show about.
         else if (controlName == nil || [controlName isEqualToStringCaseInsensitive:@"about"]) {
             [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
-            [self setHyperlinkForTextField:aboutAppLink replaceString:@CDSite withURL:@CDSite];
-            [self setHyperlinkForTextField:aboutText replaceString:@"command line interface" withURL:@"http://en.wikipedia.org/wiki/Command-line_interface"];
-            [self setHyperlinkForTextField:aboutText replaceString:@"documentation" withURL:@"http://mstratman.github.com/cocoadialog/#documentation"];
+            [self setHyperlinkForTextField:aboutAppLink replaceString:NSLocalizedString(@CDSite, nil) withURL:NSLocalizedString(@CDSite, nil)];
+            [self setHyperlinkForTextField:aboutText replaceString:NSLocalizedString(@"command line interface", nil) withURL:NSLocalizedString(@"http://en.wikipedia.org/wiki/Command-line_interface", nil)];
+            [self setHyperlinkForTextField:aboutText replaceString:NSLocalizedString(@"documentation", nil) withURL:NSLocalizedString(@"http://mstratman.github.com/cocoadialog/#documentation", nil)];
             [aboutPanel setFloatingPanel: YES];
             [aboutPanel setLevel:NSFloatingWindowLevel];
             [aboutPanel center];
@@ -252,14 +240,7 @@
     return control;
 }
 
-+ (CDNotifyControl *) createNotifyControlFromOptions:(CDOptions *)options {
-    Class notifyClass = NSClassFromString(!options[@"no-growl"] ? @"CDGrowlControl" : @"CDBubbleControl");
-    CDNotifyControl *control = [[(CDNotifyControl *)[notifyClass alloc] init] autorelease];
-    control.controlName = @"notify";
-    return control;
-}
-
-#pragma mark - Label Hyperlinks
+#pragma mark - Label Hyperlinks - @todo move to separate category file
 -(void)setHyperlinkForTextField:(NSTextField*)aTextField replaceString:(NSString *)aString withURL:(NSString *)aURL {
     NSMutableAttributedString *textFieldString = [[aTextField.attributedStringValue mutableCopy] autorelease];
     NSRange range = [textFieldString.string rangeOfString:aString];

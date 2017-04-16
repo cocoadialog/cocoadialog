@@ -2,6 +2,28 @@
 
 @implementation CDOption
 
+#pragma mark - Public static methods
++ (instancetype) name:(NSString *)name {
+    return [[[self alloc] name:name value:nil category:nil helpText:nil] autorelease];
+}
+
++ (instancetype) name:(NSString *)name value:(id)value {
+    return [[[self alloc] name:name value:value category:nil helpText:nil] autorelease];
+}
+
++ (instancetype) name:(NSString *)name category:(NSString *) category {
+    return [[[self alloc] name:name value:nil category:category helpText:nil] autorelease];
+}
+
++ (instancetype) name:(NSString *)name value:(id)value category:(NSString *) category {
+    return [[[self alloc] name:name value:value category:category helpText:nil] autorelease];
+}
+
++ (instancetype) name:(NSString *)name value:(id)value category:(NSString *) category helpText:(NSString *)helpText {
+    return [[[self alloc] name:name value:value category:category helpText:helpText] autorelease];
+}
+
+#pragma mark - Public instance methods
 - (instancetype) init {
     self = [super init];
     if (self) {
@@ -11,6 +33,11 @@
         _warnings = [NSMutableArray array];
     }
     return self;
+}
+
+- (void) dealloc {
+    [_defaultValue release];
+    [super dealloc];
 }
 
 - (instancetype) name:(NSString *)name value:(id)value category:(NSString *) category helpText:(NSString *)helpText {
@@ -43,26 +70,7 @@
     return self;
 }
 
-+ (instancetype) name:(NSString *)name {
-    return [[[self alloc] name:name value:nil category:nil helpText:nil] autorelease];
-}
-
-+ (instancetype) name:(NSString *)name value:(id)value {
-    return [[[self alloc] name:name value:value category:nil helpText:nil] autorelease];
-}
-
-+ (instancetype) name:(NSString *)name category:(NSString *) category {
-    return [[[self alloc] name:name value:nil category:category helpText:nil] autorelease];
-}
-
-+ (instancetype) name:(NSString *)name value:(id)value category:(NSString *) category {
-    return [[[self alloc] name:name value:value category:category helpText:nil] autorelease];
-}
-
-+ (instancetype) name:(NSString *)name value:(id)value category:(NSString *) category helpText:(NSString *)helpText {
-    return [[[self alloc] name:name value:value category:category helpText:helpText] autorelease];
-}
-
+#pragma mark - Properties
 - (NSArray *) arrayValue {
     return [self.value isKindOfClass:[NSArray class]] ? self.value : nil;
 }
@@ -70,6 +78,21 @@
 - (BOOL) boolValue {
     NSNumber *number = [self numberValue];
     return number != nil ? number.boolValue : NO;
+}
+
+- (id) defaultValue {
+    id value = nil;
+
+    // Determine if default values is "automatic".
+    if (self.hasAutomaticDefaultValue) {
+        CDOptionAutomaticDefaultValue block = (CDOptionAutomaticDefaultValue) _defaultValue;
+        value = block();
+    }
+    // Otherwise, just assign the default value.
+    else {
+        value = _defaultValue;
+    }
+    return value;
 }
 
 - (double) doubleValue {
@@ -80,6 +103,29 @@
 - (float) floatValue {
     NSNumber *number = [self numberValue];
     return number != nil ? number.floatValue : 0;
+}
+
+- (id) jsonValue {
+    return
+    @{
+      @"automaticDefaultValue": [NSNumber numberWithBool:self.hasAutomaticDefaultValue],
+      @"category": self.category ?: [NSNull null],
+      @"description": self.helpText ?: [NSNull null],
+      @"defaultValue": self.defaultValue ?: [NSNull null],
+      @"maximumValues": [NSNumber numberWithUnsignedInteger:self.maximumValues],
+      @"minimumValues": [NSNumber numberWithUnsignedInteger:self.minimumValues],
+      @"name": self.name ?: [NSNull null],
+      @"notes": self.notes ?: [NSNull null],
+      @"required": [NSNumber numberWithBool:self.required],
+      @"type": [self className] ?: [NSNull null],
+      @"typeLabel": self.typeLabel.removeColor ?: [NSNull null],
+      @"warnings": self.warnings ?: [NSNull null],
+      @"wasProvided": [NSNumber numberWithBool:self.wasProvided],
+      };
+}
+
+- (NSString *) toJSONString {
+    return [CDJson objectToJSON:self.jsonValue];
 }
 
 - (BOOL) hasAutomaticDefaultValue {
@@ -108,7 +154,7 @@
 - (NSNumber *) numberValue {
     id value = self.value;
     if (value != nil && [value isKindOfClass:[NSString class]]) {
-        NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+        NSNumberFormatter *f = [[[NSNumberFormatter alloc] init] autorelease];
         f.numberStyle = NSNumberFormatterDecimalStyle;
         return [f numberFromString:value];
     }
@@ -168,28 +214,41 @@
     return _value;
 }
 
-// Must be overridden by subclasses to have values set by arguments.
+#pragma mark - Public instance methods
 - (void) setValues:(NSArray<NSString *> *)values {}
 
 @end
 
-// Deprecated.
+#pragma mark -
 @implementation CDOptionDeprecated
 
+#pragma mark - Public static methods
++ (instancetype) from:(NSString *)from to:(NSString *)to {
+    return [[[CDOptionDeprecated alloc] from:from to:to] autorelease];
+}
+
+#pragma mark - Public instance methods
 - (instancetype) from:(NSString *)from to:(NSString *)to {
     _from = from;
     _to = to;
     return self;
 }
 
-+ (instancetype) from:(NSString *)from to:(NSString *)to {
-    return [[[CDOptionDeprecated alloc] from:from to:to] autorelease];
-}
-
 @end
 
 // Boolean.
+#pragma mark -
 @implementation CDOptionBoolean
+
+#pragma mark - Public instance methods
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        _minimumValues = 0;
+        _maximumValues = 1;
+    }
+    return self;
+}
 
 - (void) setValues:(NSArray<NSString *> *)values {
     if (!values.count) {
@@ -200,6 +259,7 @@
     self.value = [NSNumber numberWithBool:[value isEqualToStringCaseInsensitive:@"yes"] || [value isEqualToStringCaseInsensitive:@"true"] || [value isEqualToStringCaseInsensitive:@"1"]];
 }
 
+#pragma mark - Properties
 - (NSString *) stringValue {
     BOOL boolValue = self.boolValue;
     return boolValue ? NSLocalizedString(@"YES", nil) : NSLocalizedString(@"NO", nil);
@@ -219,10 +279,22 @@
 
 @end
 
-// @todo Convert the "flag" option to just a boolean
-// where no values passed acts like flag does currently.
+// Flag - @todo Convert to CDOptionBoolean where
+// no values passed acts like flag does currently.
+#pragma mark -
 @implementation CDOptionFlag
 
+#pragma mark - Public instance methods
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        _minimumValues = 0;
+        _maximumValues = 0;
+    }
+    return self;
+}
+
+#pragma mark - Properties
 - (NSString *) stringValue {
     BOOL boolValue = self.boolValue;
     return boolValue ? NSLocalizedString(@"YES", nil) : NSLocalizedString(@"NO", nil);
@@ -231,8 +303,10 @@
 @end
 
 // Single string.
+#pragma mark -
 @implementation CDOptionSingleString
 
+#pragma mark - Public instance methods
 - (instancetype) init {
     self = [super init];
     if (self) {
@@ -249,6 +323,7 @@
     self.value = values[values.count - 1];
 }
 
+#pragma mark - Properties
 - (CDColor *) typeColor {
     return [CDColor fg:CDColorFgGreen];
 }
@@ -264,8 +339,10 @@
 @end
 
 // Single number.
+#pragma mark -
 @implementation CDOptionSingleNumber
 
+#pragma mark - Public instance methods
 - (instancetype) init {
     self = [super init];
     if (self) {
@@ -295,6 +372,7 @@
     self.value = [NSNumber numberWithDouble:doubleValue];
 }
 
+#pragma mark - Properties
 - (NSString *) stringValue {
     NSNumber *number = self.numberValue;
     if (number != nil) {
@@ -325,8 +403,10 @@
 @end
 
 // Single string or number.
+#pragma mark -
 @implementation CDOptionSingleStringOrNumber
 
+#pragma mark - Public instance methods
 - (instancetype) init {
     self = [super init];
     if (self) {
@@ -343,6 +423,7 @@
     self.value = values[values.count - 1];
 }
 
+#pragma mark - Properties
 - (CDColor *) typeColor {
     return [CDColor fg:CDColorFgYellow];
 }
@@ -358,8 +439,10 @@
 @end
 
 // Multiple strings.
+#pragma mark -
 @implementation CDOptionMultipleStrings
 
+#pragma mark - Public instance methods
 - (instancetype) init {
     self = [super init];
     if (self) {
@@ -370,8 +453,15 @@
 }
 
 - (void) setValues:(NSArray<NSString *> *)values { self.value = values; }
-- (NSNumber *) numberValue { return [NSNumber numberWithUnsignedInteger:self.arrayValue.count]; }
-- (NSString *) stringValue { return [self.arrayValue componentsJoinedByString:@", "]; }
+
+#pragma mark - Properties
+- (NSNumber *) numberValue {
+    return [NSNumber numberWithUnsignedInteger:self.arrayValue.count];
+}
+
+- (NSString *) stringValue {
+    return [self.arrayValue componentsJoinedByString:@", "];
+}
 
 - (CDColor *) typeColor {
     return [CDColor fg:CDColorFgGreen];
@@ -385,12 +475,13 @@
     return typeLabel;
 }
 
-
 @end
 
 // Multiple numbers.
+#pragma mark -
 @implementation CDOptionMultipleNumbers
 
+#pragma mark - Public instance methods
 - (instancetype) init {
     self = [super init];
     if (self) {
@@ -408,8 +499,14 @@
     self.value = numbers;
 }
 
-- (NSNumber *) numberValue { return [NSNumber numberWithUnsignedInteger:self.arrayValue.count]; }
-- (NSString *) stringValue { return [self.arrayValue componentsJoinedByString:@", "]; }
+#pragma mark - Properties
+- (NSNumber *) numberValue {
+    return [NSNumber numberWithUnsignedInteger:self.arrayValue.count];
+}
+
+- (NSString *) stringValue {
+    return [self.arrayValue componentsJoinedByString:@", "];
+}
 
 - (CDColor *) typeColor {
     return [CDColor fg:CDColorFgCyan];
@@ -423,12 +520,13 @@
     return typeLabel;
 }
 
-
 @end
 
 // Multiple strings or numbers.
+#pragma mark -
 @implementation CDOptionMultipleStringsOrNumbers
 
+#pragma mark - Public instance methods
 - (instancetype) init {
     self = [super init];
     if (self) {
@@ -438,9 +536,18 @@
     return self;
 }
 
-- (void) setValues:(NSArray<NSString *> *)values { self.value = values; }
-- (NSNumber *) numberValue { return [NSNumber numberWithUnsignedInteger:self.arrayValue.count]; }
-- (NSString *) stringValue { return [self.arrayValue componentsJoinedByString:@", "]; }
+- (void) setValues:(NSArray<NSString *> *)values {
+    self.value = values;
+}
+
+#pragma mark - Properties
+- (NSNumber *) numberValue {
+    return [NSNumber numberWithUnsignedInteger:self.arrayValue.count];
+}
+
+- (NSString *) stringValue {
+    return [self.arrayValue componentsJoinedByString:@", "];
+}
 
 - (CDColor *) typeColor {
     return [CDColor fg:CDColorFgYellow];
@@ -453,6 +560,5 @@
     }
     return typeLabel;
 }
-
 
 @end

@@ -90,6 +90,7 @@
 		A796ED541E9B0D3A008EE718 /* NSString+CDColor.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ED521E9B0D3A008EE718 /* NSString+CDColor.m */; };
 		A796ED561E9B2926008EE718 /* CDTerminal.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ED551E9B2926008EE718 /* CDTerminal.m */; };
 		A796ED5A1E9BBD14008EE718 /* NSArray+CocoaDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ED591E9BBD13008EE718 /* NSArray+CocoaDialog.m */; };
+		A7B9A4221EA32F5500FCC725 /* CDJson.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B9A4211EA32F5500FCC725 /* CDJson.m */; };
 		A7BABB401445829B00D3F168 /* relaunch in Resources */ = {isa = PBXBuildFile; fileRef = A7BABB2E1445817B00D3F168 /* relaunch */; };
 		A7D40438153C2BC3005FA3CD /* popup.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7D40436153C2BC3005FA3CD /* popup.xib */; };
 /* End PBXBuildFile section */
@@ -213,6 +214,8 @@
 		A796ED581E9BBD05008EE718 /* NSArray+CocoaDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+CocoaDialog.h"; sourceTree = "<group>"; };
 		A796ED591E9BBD13008EE718 /* NSArray+CocoaDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+CocoaDialog.m"; sourceTree = "<group>"; };
 		A7A51DE11E96B03200469C11 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Resources/Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A7B9A4211EA32F5500FCC725 /* CDJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDJson.m; path = Source/CDJson.m; sourceTree = "<group>"; };
+		A7B9A4231EA32F6B00FCC725 /* CDJson.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CDJson.h; path = Source/CDJson.h; sourceTree = "<group>"; };
 		A7BABA9714456CC800D3F168 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A7BABADA1445809700D3F168 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		A7BABB051445810000D3F168 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
@@ -324,6 +327,8 @@
 				A7140B9B1E9D588400A50272 /* CDColor.m */,
 				A72AB9631EA21146001B803B /* CDControl.h */,
 				A72AB9641EA21146001B803B /* CDControl.m */,
+				A7B9A4231EA32F6B00FCC725 /* CDJson.h */,
+				A7B9A4211EA32F5500FCC725 /* CDJson.m */,
 				A796ED571E9B2C2F008EE718 /* CDTerminal.h */,
 				A796ED551E9B2926008EE718 /* CDTerminal.m */,
 				A796ED411E9AF509008EE718 /* Categories */,
@@ -608,6 +613,7 @@
 			files = (
 				61EC90AD145FACF8003ADF05 /* AppController.m in Sources */,
 				A796ED231E9A38F8008EE718 /* CDCheckboxControl.m in Sources */,
+				A7B9A4221EA32F5500FCC725 /* CDJson.m in Sources */,
 				A796ED371E9A38F8008EE718 /* CDStandardPopUpButtonControl.m in Sources */,
 				A796ED181E9A38F8008EE718 /* KABubbleWindowController.m in Sources */,
 				A796ED541E9B0D3A008EE718 /* NSString+CDColor.m in Sources */,
@@ -745,6 +751,8 @@
 			baseConfigurationReference = A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -810,6 +818,8 @@
 			baseConfigurationReference = A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

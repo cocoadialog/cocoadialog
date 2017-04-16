@@ -3,12 +3,16 @@
 
 @interface NSString (CocoaDialog)
 
-@property (nonatomic, readonly) NSString *optionFormat;
+#pragma mark - Properties
+@property (nonatomic, readonly) NSString *camelCase;
 @property (nonatomic, readonly) NSString *doubleQuote;
+@property (nonatomic, readonly) NSString *optionFormat;
 @property (nonatomic, readonly) NSString *singleQuote;
 
+#pragma mark - Public static methods
 + (instancetype)stringWithFormat:(NSString *)format array:(NSArray *)arrayArguments;
 
+#pragma mark - Public instance methods
 - (BOOL) contains:(NSString *)string;
 - (NSString *) endsWith:(NSString *)string;
 - (BOOL) isBlank;
@@ -25,8 +29,10 @@
 
 @interface NSMutableString (CocoaDialog)
 
+#pragma mark - Public static methods
 + (instancetype)prepend:(NSString *)prepend toString:(NSString *)string;
 
+#pragma mark - Public instance methods
 - (void)prepend:(NSString *)string;
 
 @end
