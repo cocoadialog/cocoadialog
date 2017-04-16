@@ -60,7 +60,7 @@
     // @todo Add "double dash" note for multiple option values automatically.
     //    [columns addObject:[NSString stringWithFormat:@"%@ %@", opt.helpText, NSLocalizedString(@"OPTION_MULTIPLE_DOUBLE_DASH", nil)]];
 
-    if (opt.maximumValues == 0) {
+    if (opt.minimumValues != 0 && opt.maximumValues == 0) {
         NSString *doubleDash = NSLocalizedString(@"OPTION_MULTIPLE_DOUBLE_DASH", nil);
         if (![opt.notes containsObject:doubleDash]) {
             [opt.notes addObject:doubleDash];
