@@ -18,10 +18,18 @@
         fhOut = [NSFileHandle fileHandleWithStandardOutput];
         which = [NSMutableDictionary dictionary];
 
-        // Public properties.
-        _colors = [[self execute:[self which:@"tput"] withArguments:@[@"colors", @"2>/dev/null"]] integerValue];
-        _cols = [[self execute:[self which:@"tput"] withArguments:@[@"cols", @"2>/dev/null"]] integerValue];
-        _supportsColor = _cols > 8;
+        // The "tput" command will throw an error if there is no "TERM"
+        // environment variable set. If not, assume terminal is not interactive.
+        NSString *term = [[[NSProcessInfo processInfo] environment] objectForKey:@"TERM"];
+        if (term == nil || [term isBlank]) {
+            _colors = 0;
+            _cols = 0;
+        }
+        else {
+            _colors = [[self execute:[self which:@"tput"] withArguments:@[@"colors"]] integerValue];
+            _cols = [[self execute:[self which:@"tput"] withArguments:@[@"cols"]] integerValue];
+        }
+        _supportsColor = _colors >= 8;
     }
     return self;
 }

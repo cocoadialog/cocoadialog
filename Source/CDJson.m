@@ -36,6 +36,9 @@
     else {
         value = [object description];
     }
+    if ([value isKindOfClass:[NSString class]]) {
+        value = [value removeColor];
+    }
     return value;
 }
 

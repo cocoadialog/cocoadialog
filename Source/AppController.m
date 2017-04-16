@@ -130,6 +130,13 @@
              };
 }
 
+- (void) dealloc {
+    [aboutAppLink release];
+    [aboutPanel release];
+    [aboutText release];
+    [super dealloc];
+}
+
 - (NSArray<NSString *> *) getArguments {
     NSMutableArray<NSString *> *arguments = [NSMutableArray array];
     NSMutableArray<NSString *> *args = [NSMutableArray arrayWithArray:[NSProcessInfo processInfo].arguments];

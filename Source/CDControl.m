@@ -140,6 +140,10 @@
         _iconControls = [NSMutableArray array];
         terminal = [CDTerminal terminal];
 
+        // Default to terminal support.
+        NSStringCDColor = terminal.supportsColor;
+
+
         controlExitStatus = -1;
         controlReturnValues = [NSMutableArray array];
         controlItems = [NSMutableArray array];
@@ -170,7 +174,7 @@
             }
         };
 
-        // Indicate whether color should be used.
+        // Allow option to override whether color should be used.
         NSStringCDColor = option[@"color"].boolValue;
     }
     return self;
