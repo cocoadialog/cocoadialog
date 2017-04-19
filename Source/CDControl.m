@@ -1303,9 +1303,9 @@
         if (timeout) {
             mainThread = [NSThread currentThread];
             [NSThread detachNewThreadSelector:@selector(createTimer) toTarget:self withObject:nil];
-            [self setTimeoutLabel];
         }
     }
+    [self setTimeoutLabel];
 }
 
 - (void) setTimeoutLabel {
