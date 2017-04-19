@@ -129,82 +129,88 @@
     // Remove the command path.
     [args removeObjectAtIndex:0];
 
-    // Process the arguments first and extract the necessary values.
-    // @todo Now that this is back in options and options have min/max values,
-    // this needs to parse based on the option type.
+    // Parse provided arguments.
     NSString *arg = nil;
-    NSString *currentOption = nil;
-    NSMutableDictionary<NSString *, NSMutableArray<NSString *> *> *argumentValues = [NSMutableDictionary dictionary];
+    BOOL unknownOption = NO;
     for (NSUInteger i = 0; i < args.count; i++) {
         arg = args[i];
 
         NSString *optionName = [CDOptions optionNameFromArgument:arg];
 
-        // Argument breaks.
-        if (currentOption != nil && [optionName isBlank]) {
-            currentOption = nil;
+        // Capture normal arguments.
+        if (optionName == nil) {
+            if (!unknownOption) {
+                [arguments addObject:arg];
+            }
+            continue;
+        }
+        // Skip standalone double dash argument breaks.
+        else if ([optionName isBlank]) {
             continue;
         }
 
-        // Add an existing option value.
-        if (!optionName && currentOption != nil && argumentValues[currentOption]) {
-            [argumentValues[currentOption] addObject:arg];
-        }
-        // Add a option value.
-        else if (optionName) {
-            // If provided option isn't actually an available or deprecated option,
-            // add it to the list of unknown options.
-            if (!options[optionName] && !deprecatedOptions[optionName]) {
-                [unknownOptions addObject:optionName];
-                continue;
-            }
+        CDOption *option = nil;
 
-            currentOption = optionName;
-            if (argumentValues[currentOption] == nil) {
-                argumentValues[currentOption] = [NSMutableArray array];
+        // Handle deprecated options.
+        CDOptionDeprecated *deprecated = deprecatedOptions[optionName];
+        if (deprecated) {
+            if (options[deprecated.to]) {
+                deprecated.wasProvided = YES;
+                option = options[deprecated.to];
             }
         }
-        //Add a normal argument.
         else {
-            [arguments addObject:arg];
+            option = options[optionName];
         }
-    }
 
-    // Handle deprecated options.
-    if (deprecatedOptions.count) {
-        for (NSString *name in deprecatedOptions) {
-            CDOptionDeprecated *deprecated = deprecatedOptions[name];
-            if (argumentValues[deprecated.from] != nil && options[deprecated.to] != nil) {
-                argumentValues[deprecated.to] = argumentValues[deprecated.from];
-                [argumentValues removeObjectForKey:deprecated.from];
-            }
+        // If provided option isn't actually an available option,
+        // add it to the list of unknown options and skip.
+        if (!option) {
+            [unknownOptions addObject:optionName];
+            unknownOption = YES;
+            continue;
         }
-    }
 
-    // Set the argument value(s) for the necessary options.
-    for (id name in options) {
-        CDOption *opt = options[name];
-        NSArray *values = argumentValues[name];
+        unknownOption = NO;
 
-        // If there are values, indicate that the option was provided
-        // and set the value(s) for the option provided by the arguments.
-        if (values != nil) {
-            opt.wasProvided = YES;
+        // Flag that the option was provided.
+        option.wasProvided = YES;
 
-            // Need to handle flags differently because they can potientally have valid arguments after them.
-            // @todo Convert flags to a normal boolean where no value specified acts like a flag currently.
-            if ([opt isKindOfClass:[CDOptionFlag class]]) {
-                opt.value = @YES;
-                // If there are any "values" for this option, then they
-                // are actually arguments that should be added back.
-                for (arg in values) {
-                    [arguments addObject:arg];
-                }
-            }
-            else {
-                [opt setValues:values];
-            }
+        // Retrieve the minimum and maximum values allowed for this option.
+        NSUInteger max = option.maximumValues;
+        NSUInteger min = option.minimumValues;
+
+        // Create an array to store values (in case option allows more than one).
+        NSMutableArray<NSString *> *values = [NSMutableArray array];
+
+        // No values.
+        // @todo Remove once CDOptionFlag is converted to CDOptionBoolean.
+        if (min == 0 && max == 0) {
+            option.value = @YES;
+            continue;
         }
+
+        // Increase index to next argument.
+        i++;
+
+        // Determine how many values should be extracted.
+        NSUInteger stop = max == 0 ? args.count : i + max;
+
+        // Extract value(s).
+        for (; i < stop; i++) {
+            // Stop if there are no more arguments or it's a double dash argument break.
+            if (i >= args.count || !args[i] || [args[i] isEqualToString:@"--"]) {
+                break;
+            }
+            [values addObject:args[i]];
+        }
+
+        // Decrease index since it's exiting the values loop and about
+        // to get increased again at the start of the next argument loop.
+        i--;
+
+        // Set the provided values on the option.
+        [option setValues:values];
     }
 
     // Handle missing required options.

@@ -150,7 +150,13 @@
 
 
         option = [[self availableOptions] processArguments];
-        option.seenOptions = seenOptions;
+
+        // Allow option to override whether color should be used.
+        NSStringCDColor = option[@"color"].boolValue;
+
+        if (seenOptions != nil) {
+            option.seenOptions = seenOptions;
+        }
 
         // Provide some useful debugging information for default/automatic values.
         // Note: this must be added here, after avaialble options have populated in
@@ -173,9 +179,6 @@
                 [self debug:@"The %@ option was provided with the value: %@", opt.name.optionFormat, opt.stringValue, nil];
             }
         };
-
-        // Allow option to override whether color should be used.
-        NSStringCDColor = option[@"color"].boolValue;
     }
     return self;
 }

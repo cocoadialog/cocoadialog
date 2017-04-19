@@ -137,21 +137,14 @@
     [super dealloc];
 }
 
-- (NSArray<NSString *> *) getArguments {
-    NSMutableArray<NSString *> *arguments = [NSMutableArray array];
-    NSMutableArray<NSString *> *args = [NSMutableArray arrayWithArray:[NSProcessInfo processInfo].arguments];
-
-    // Remove the command path.
-    [args removeObjectAtIndex:0];
-
+- (NSString *) controlNameFromArguments:(NSArray *)args {
+    NSArray *controls = [AppController availableControls];
     for (NSUInteger i = 0; i < args.count; i++) {
-        NSString *arg = args[i];
-        BOOL isOption = !!(arg.length >= 2 && [[arg substringWithRange:NSMakeRange(0, 2)] isEqualToString:@"--"]);
-        if (!isOption) {
-            [arguments addObject:arg.lowercaseString];
+        if ([controls containsObject:args[i]]) {
+            return args[i];
         }
     }
-    return arguments;
+    return nil;
 }
 
 - (Class) getControlClass:(NSString *)controlName {
@@ -160,7 +153,7 @@
 
 - (CDControl *) getControl {
     CDControl *control = [CDControl control];
-    NSString *controlName = [control.option getArgument:0];
+    NSString *controlName = [self controlNameFromArguments:control.option.arguments];
     Class controlClass = [self getControlClass:controlName];
 
     // If a control class was provided, use it to contruct the control.
@@ -178,14 +171,13 @@
     }
     // Otherwise, just create a base control to handle global tasks.
     else {
-        control = [[[CDControl alloc] init] autorelease];
         // Show global usage.
-        if (controlName == nil && control.option[@"help"].wasProvided) {
+        if (controlName == nil && ([controlName isEqualToStringCaseInsensitive:@"help"] || control.option[@"help"].wasProvided)) {
             [control showUsage];
             exit(0);
         }
         // Show version.
-        else if ([controlName isEqualToStringCaseInsensitive:@"version"] || control.option[@"version"].wasProvided) {
+        else if (controlName != nil && ([controlName isEqualToStringCaseInsensitive:@"version"] || control.option[@"version"].wasProvided)) {
             [control.terminal writeLine:[AppController appVersion]];
             exit(0);
         }
