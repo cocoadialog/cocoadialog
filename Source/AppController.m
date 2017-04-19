@@ -77,6 +77,19 @@
         }
     }
 
+    // Validate minimum and maximum values were provided.
+    for (NSString *name in control.option) {
+        CDOption *option = control.option[name];
+        if (option.wasProvided) {
+            if (option.providedValues.count < [option.minimumValues unsignedIntegerValue]) {
+                [control fatalError:@"The %@ control requires a minimum of %@ values for the %@ option.", control.controlName.doubleQuote, option.minimumValues, name.optionFormat, nil];
+            }
+            if ([option.maximumValues unsignedIntegerValue] && option.providedValues.count > [option.maximumValues unsignedIntegerValue]) {
+                [control fatalError:@"The %@ control is limited to a maximum of %@ values for the %@ option.", control.controlName.doubleQuote, option.maximumValues, name.optionFormat, nil];
+            }
+        }
+    }
+
     // Validate control option requirements.
     NSMutableArray *missingOptions = [NSMutableArray array];
     NSDictionary *required = control.option.requiredOptions;
@@ -90,11 +103,6 @@
     if (missingOptions.count) {
         NSString *missing = [[missingOptions.sortedAlphabetically prependStringsWith:@"--"] componentsJoinedByString:@", "];
         [control fatalError:@"The %@ control requires the following options: %@", control.controlName.doubleQuote, missing, nil];
-    }
-
-    // Validate control options values.
-    if (![control validateOptions]) {
-        [control fatalError:@"Invalid options values provided.", nil];
     }
 
     // Load the control.

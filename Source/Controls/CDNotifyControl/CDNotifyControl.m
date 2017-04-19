@@ -87,25 +87,17 @@
     return options;
 }
 
-
-- (BOOL) validateOptions {
-    BOOL pass = [super validateOptions];
-
-    if (!(option[@"title"] && option[@"description"]) || !(option[@"titles"] && option[@"descriptions"])) {
-        [self error:@"You must specify either --title and --description, or --titles and --descriptions (with the same number of args).", nil];
-        pass = NO;
-    }
-
-    return pass;
-}
-
 - (void) dealloc {
     [notifications release];
     [super dealloc];
 }
 
-- (void)addNotificationWithTitle:(NSString *)title description:(NSString *)description icon:(NSImage *)_icon priority:(NSNumber *)priority sticky:(BOOL)sticky clickPath:(NSString *)clickPath clickArg:(NSString *)clickArg
-{
+- (void)addNotificationWithTitle:(NSString *)title description:(NSString *)description icon:(NSImage *)_icon priority:(NSNumber *)priority sticky:(BOOL)sticky clickPath:(NSString *)clickPath clickArg:(NSString *)clickArg {
+
+    if (!(option[@"title"] && option[@"description"]) || !(option[@"titles"] && option[@"descriptions"])) {
+        [self fatalError:@"You must specify either --title and --description, or --titles and --descriptions (with the same number of args).", nil];
+    }
+
     NSMutableDictionary * notification = [NSMutableDictionary dictionary];
     notification[@"title"] = title;
     notification[@"description"] = description;

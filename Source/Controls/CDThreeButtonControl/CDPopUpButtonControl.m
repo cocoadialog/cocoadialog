@@ -35,6 +35,9 @@
     // Deprecated options.
     [options addOption:[CDOptionDeprecated          from:@"text" to:@"label"]];
 
+    // Minimum values.
+    options[@"items"].minimumValues = @2;
+
     // Required options.
     [options[@"button1"] addConditionalRequirement:^BOOL{
         return !option[@"pulldown"].wasProvided;
@@ -42,20 +45,6 @@
     options[@"items"].required = YES;
 
     return options;
-}
-
-- (BOOL) validateOptions {
-    BOOL pass = [super validateOptions];
-
-    // Check that at least one item has been specified.
-    // @todo this really could be checked automatically now that options
-    // are objects and could specify the number of minimum values.
-    if (!option[@"items"].arrayValue.count) {
-        [self error:@"Must supply at least one item in --items", nil];
-        pass = NO;
-    }
-
-    return pass;
 }
 
 - (NSString *)controlNib {

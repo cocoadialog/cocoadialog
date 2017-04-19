@@ -14,8 +14,6 @@ typedef BOOL (^CDOptionConditionalRequirement)(void);
 #pragma mark -
 @interface CDOption : NSObject <CDJsonProtocol> {
     BOOL       _isPercent;
-    NSUInteger _minimumValues;
-    NSUInteger _maximumValues;
 }
 
 #pragma mark - Properties
@@ -23,6 +21,8 @@ typedef BOOL (^CDOptionConditionalRequirement)(void);
 @property (nonatomic, assign) NSMutableArray* conditionalRequirements;
 @property (nonatomic, copy) id defaultValue;
 @property (nonatomic, assign) NSString *helpText;
+@property (nonatomic, assign) NSNumber *maximumValues;
+@property (nonatomic, assign) NSNumber *minimumValues;
 @property (nonatomic, assign) NSMutableArray<NSString *> *notes;
 @property (nonatomic, assign) NSMutableArray<NSString *> *warnings;
 @property (nonatomic, assign) BOOL required;
@@ -39,11 +39,10 @@ typedef BOOL (^CDOptionConditionalRequirement)(void);
 @property (nonatomic, readonly) NSInteger integerValue;
 @property (nonatomic, readonly) BOOL isPercent;
 @property (nonatomic, readonly) NSString *label;
-@property (nonatomic, readonly) NSUInteger maximumValues;
-@property (nonatomic, readonly) NSUInteger minimumValues;
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) NSNumber* numberValue;
 @property (nonatomic, readonly) NSNumber* percentValue;
+@property (nonatomic, readonly) NSMutableArray* providedValues;
 @property (nonatomic, readonly) NSString* stringValue;
 @property (nonatomic, readonly) CDColor *typeColor;
 @property (nonatomic, readonly) NSString *typeLabel;

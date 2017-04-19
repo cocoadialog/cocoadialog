@@ -68,7 +68,7 @@
 #pragma mark - Public instance methods
 - (void)addOption:(CDOption *)opt {
     // Add "double dash" note for multiple option values.
-    if (opt.minimumValues >= 1 && opt.maximumValues == 0) {
+    if ([opt.minimumValues unsignedIntegerValue] >= 1 && [opt.maximumValues unsignedIntegerValue] == 0) {
         NSString *doubleDash = NSLocalizedString(@"OPTION_MULTIPLE_DOUBLE_DASH", nil);
         if (![opt.notes containsObject:doubleDash]) {
             [opt.notes addObject:doubleDash];
@@ -187,8 +187,8 @@
         option.wasProvided = YES;
 
         // Retrieve the minimum and maximum values allowed for this option.
-        NSUInteger max = option.maximumValues;
-        NSUInteger min = option.minimumValues;
+        NSUInteger max = [option.maximumValues unsignedIntegerValue];
+        NSUInteger min = [option.minimumValues unsignedIntegerValue];
 
         // Create an array to store values (in case option allows more than one).
         NSMutableArray<NSString *> *values = [NSMutableArray array];

@@ -31,9 +31,29 @@
     return options;
 }
 
-- (BOOL) validateOptions {
-    BOOL pass = [super validateOptions];
+- (BOOL)isReturnValueEmpty {
+    return ([controlMatrix cellAtRow:0 column:0].doubleValue == emptyValue);
+}
 
+- (NSString *) returnValueEmptyText {
+    return [NSString stringWithFormat:@"The value for the slider must be greater than: %i", [controlMatrix cellAtRow:0 column:0].intValue];
+}
+
+- (void) createControl {
+    [self setTitleButtonsLabel:option[@"label"].stringValue];
+}
+
+- (void) controlHasFinished:(int)button {
+    if (option[@"return-float"].wasProvided) {
+        [controlReturnValues addObject:[NSString stringWithFormat:@"%.2f", [controlMatrix cellAtRow:0 column:0].doubleValue]];
+    }
+    else {
+        [controlReturnValues addObject:[NSString stringWithFormat:@"%i", [controlMatrix cellAtRow:0 column:0].intValue]];
+    }
+    [super controlHasFinished:button];
+}
+
+- (void) setControl:(id)sender {
     min = option[@"min"].doubleValue;
     max = option[@"max"].doubleValue;
 
@@ -73,32 +93,6 @@
         ticks = defaultTicks;
     }
 
-    return pass;
-}
-
-- (BOOL)isReturnValueEmpty {
-    return ([controlMatrix cellAtRow:0 column:0].doubleValue == emptyValue);
-}
-
-- (NSString *) returnValueEmptyText {
-    return [NSString stringWithFormat:@"The value for the slider must be greater than: %i", [controlMatrix cellAtRow:0 column:0].intValue];
-}
-
-- (void) createControl {
-    [self setTitleButtonsLabel:option[@"label"].stringValue];
-}
-
-- (void) controlHasFinished:(int)button {
-    if (option[@"return-float"].wasProvided) {
-        [controlReturnValues addObject:[NSString stringWithFormat:@"%.2f", [controlMatrix cellAtRow:0 column:0].doubleValue]];
-    }
-    else {
-        [controlReturnValues addObject:[NSString stringWithFormat:@"%i", [controlMatrix cellAtRow:0 column:0].intValue]];
-    }
-    [super controlHasFinished:button];
-}
-
-- (void) setControl:(id)sender {
     NSRect cmFrame = controlMatrix.frame;
     
     NSView *sliderView = [[[NSView alloc] initWithFrame:NSMakeRect(cmFrame.origin.x, (cmFrame.origin.y + cmFrame.size.height) - 17.0f, cmFrame.size.width, 14.0f)] autorelease];

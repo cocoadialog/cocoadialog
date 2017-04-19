@@ -13,8 +13,8 @@
 "YES" = "Yes";
 
 /* Logging */
-"LOG_DEBUG"   = "[DEBUG]   ";
-"LOG_ERROR"   = "[ERROR]   ";
+"LOG_DEBUG"   = "[DEBUG] ";
+"LOG_ERROR"   = "[ERROR] ";
 "LOG_WARNING" = "[WARNING] ";
 "LOG_VERBOSE" = "[VERBOSE] ";
 

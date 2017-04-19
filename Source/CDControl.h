@@ -32,9 +32,6 @@
 
 @protocol CDControlProtocol <NSWindowDelegate>
 
-@property (nonatomic, readonly) BOOL validateControl;
-@property (nonatomic, readonly) BOOL validateOptions;
-
 - (CDOptions *) availableOptions;
 - (void) createControl;
 - (BOOL) loadControlNib:(NSString *)nib;

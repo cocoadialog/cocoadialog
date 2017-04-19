@@ -2,6 +2,8 @@
 
 @implementation CDOption
 
+@synthesize maximumValues, minimumValues;
+
 #pragma mark - Properties
 - (NSArray *) arrayValue {
     return [self.value isKindOfClass:[NSArray class]] ? self.value : nil;
@@ -44,8 +46,8 @@
       @"category": self.category ?: [NSNull null],
       @"description": self.helpText ?: [NSNull null],
       @"defaultValue": self.defaultValue ?: [NSNull null],
-      @"maximumValues": [NSNumber numberWithUnsignedInteger:self.maximumValues],
-      @"minimumValues": [NSNumber numberWithUnsignedInteger:self.minimumValues],
+      @"maximumValues": self.maximumValues,
+      @"minimumValues": self.minimumValues,
       @"name": self.name ?: [NSNull null],
       @"notes": self.notes ?: [NSNull null],
       @"required": [NSNumber numberWithBool:self.required],
@@ -175,10 +177,11 @@
 - (instancetype) init {
     self = [super init];
     if (self) {
-        _minimumValues = 0;
-        _maximumValues = 1;
+        minimumValues = @0;
+        maximumValues = @1;
         _conditionalRequirements = [NSMutableArray array];
         _notes = [NSMutableArray array];
+        _providedValues = [NSMutableArray array];
         _warnings = [NSMutableArray array];
     }
     return self;
@@ -219,7 +222,9 @@
     return self;
 }
 
-- (void) setValues:(NSArray<NSString *> *)values {}
+- (void) setValues:(NSArray<NSString *> *)values {
+    _providedValues = [NSMutableArray arrayWithArray:values];
+}
 
 @end
 
@@ -248,8 +253,8 @@
 - (instancetype) init {
     self = [super init];
     if (self) {
-        _minimumValues = 0;
-        _maximumValues = 1;
+        self.minimumValues = @0;
+        self.maximumValues = @1;
     }
     return self;
 }
@@ -292,8 +297,8 @@
 - (instancetype) init {
     self = [super init];
     if (self) {
-        _minimumValues = 0;
-        _maximumValues = 0;
+        self.minimumValues = @0;
+        self.maximumValues = @0;
     }
     return self;
 }
@@ -314,13 +319,14 @@
 - (instancetype) init {
     self = [super init];
     if (self) {
-        _minimumValues = 1;
-        _maximumValues = 1;
+        self.minimumValues = @1;
+        self.maximumValues = @1;
     }
     return self;
 }
 
 - (void) setValues:(NSArray<NSString *> *)values {
+    [super setValues:values];
     if (!values.count) {
         return;
     }
@@ -350,13 +356,14 @@
 - (instancetype) init {
     self = [super init];
     if (self) {
-        _minimumValues = 1;
-        _maximumValues = 1;
+        self.minimumValues = @1;
+        self.maximumValues = @1;
     }
     return self;
 }
 
 - (void) setValues:(NSArray<NSString *> *)values {
+    [super setValues:values];
     if (!values.count) {
         return;
     }
@@ -414,13 +421,14 @@
 - (instancetype) init {
     self = [super init];
     if (self) {
-        _minimumValues = 1;
-        _maximumValues = 1;
+        self.minimumValues = @1;
+        self.maximumValues = @1;
     }
     return self;
 }
 
 - (void) setValues:(NSArray<NSString *> *)values {
+    [super setValues:values];
     if (!values.count) {
         return;
     }
@@ -450,13 +458,16 @@
 - (instancetype) init {
     self = [super init];
     if (self) {
-        _minimumValues = 1;
-        _maximumValues = 0;
+        self.minimumValues = @1;
+        self.maximumValues = @0;
     }
     return self;
 }
 
-- (void) setValues:(NSArray<NSString *> *)values { self.value = values; }
+- (void) setValues:(NSArray<NSString *> *)values {
+    [super setValues:values];
+    self.value = values;
+}
 
 #pragma mark - Properties
 - (NSNumber *) numberValue {
@@ -489,13 +500,14 @@
 - (instancetype) init {
     self = [super init];
     if (self) {
-        _minimumValues = 1;
-        _maximumValues = 0;
+        self.minimumValues = @1;
+        self.maximumValues = @0;
     }
     return self;
 }
 
 - (void) setValues:(NSArray<NSString *> *)values {
+    [super setValues:values];
     NSMutableArray *numbers = [NSMutableArray array];
     for (NSUInteger i = 0; i < values.count; i++) {
         numbers[i] = [NSNumber numberWithLongLong:[values[i] longLongValue]];
@@ -534,13 +546,14 @@
 - (instancetype) init {
     self = [super init];
     if (self) {
-        _minimumValues = 1;
-        _maximumValues = 0;
+        self.minimumValues = @1;
+        self.maximumValues = @0;
     }
     return self;
 }
 
 - (void) setValues:(NSArray<NSString *> *)values {
+    [super setValues:values];
     self.value = values;
 }
 

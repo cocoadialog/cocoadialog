@@ -485,14 +485,6 @@
     exit(exitStatus);
 }
 
-- (BOOL) validateControl {
-    return YES;
-}
-
-- (BOOL) validateOptions {
-    return YES;
-}
-
 - (void) windowWillClose:(NSNotification *)notification {
     [self stopControl];
 }

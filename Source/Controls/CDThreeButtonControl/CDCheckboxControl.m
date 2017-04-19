@@ -20,7 +20,7 @@
     [options addOption:[CDOptionMultipleNumbers     name:@"mixed"       category:@"_CHECKBOX_OPTIONS"]];
     [options addOption:[CDOptionMultipleNumbers     name:@"disabled"    category:@"_CHECKBOX_OPTIONS"]];
 
-    // Require options.
+    // Required options.
     options[@"button1"].required = YES;
     options[@"items"].required = YES;
 
@@ -53,19 +53,6 @@
     }
 }
 
-- (BOOL) validateOptions {
-    BOOL pass = [super validateOptions];
-
-    // Check that at least one item has been specified.
-    // @todo this really could be checked automatically now that options
-    // are objects and could specify the number of minimum values.
-    if (!option[@"items"].arrayValue.count) {
-        [self error:@"Must supply at least one item in --items", nil];
-        pass = NO;
-	}
-
-    return pass;
-}
 - (void) createControl {
 	[self setTitleButtonsLabel:option[@"label"].stringValue];
 
