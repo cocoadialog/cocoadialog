@@ -9,6 +9,7 @@
 
 #pragma mark - Type definitions
 typedef id (^CDOptionAutomaticDefaultValue)(void);
+typedef BOOL (^CDOptionConditionalRequirement)(void);
 
 #pragma mark -
 @interface CDOption : NSObject <CDJsonProtocol> {
@@ -19,6 +20,7 @@ typedef id (^CDOptionAutomaticDefaultValue)(void);
 
 #pragma mark - Properties
 @property (nonatomic, assign) NSString *category;
+@property (nonatomic, assign) NSMutableArray* conditionalRequirements;
 @property (nonatomic, copy) id defaultValue;
 @property (nonatomic, assign) NSString *helpText;
 @property (nonatomic, assign) NSMutableArray<NSString *> *notes;
@@ -56,6 +58,7 @@ typedef id (^CDOptionAutomaticDefaultValue)(void);
 + (instancetype) name:(NSString *)name value:(id)value category:(NSString *) category helpText:(NSString *)helpText;
 
 #pragma mark - Public instance methods
+- (void) addConditionalRequirement:(CDOptionConditionalRequirement)block;
 - (void) setValues:(NSArray<NSString *> *)values;
 
 @end

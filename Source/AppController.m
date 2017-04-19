@@ -78,8 +78,17 @@
     }
 
     // Validate control option requirements.
-    if (control.option.missingOptions.count) {
-        NSString *missing = [[control.option.missingOptions.allKeys.sortedAlphabetically prependStringsWith:@"--"] componentsJoinedByString:@", "];
+    NSMutableArray *missingOptions = [NSMutableArray array];
+    NSDictionary *required = control.option.requiredOptions;
+    if (required.count) {
+        for (NSString *name in required) {
+            if (!control.option[name].wasProvided) {
+                [missingOptions addObject:name];
+            }
+        }
+    }
+    if (missingOptions.count) {
+        NSString *missing = [[missingOptions.sortedAlphabetically prependStringsWith:@"--"] componentsJoinedByString:@", "];
         [control fatalError:@"The %@ control requires the following options: %@", control.controlName.doubleQuote, missing, nil];
     }
 

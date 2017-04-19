@@ -6,11 +6,11 @@
 
 
 #pragma mark - Properties
-- (NSArray *) allKeys {
+- (NSArray<NSString *> *) allKeys {
     return options.allKeys;
 }
 
-- (NSArray *) allValues {
+- (NSArray<CDOption *> *) allValues {
     return options.allValues;
 }
 
@@ -30,7 +30,17 @@
 - (NSMutableDictionary<NSString *,CDOption *> *)requiredOptions {
     NSMutableDictionary *required = [NSMutableDictionary dictionaryWithDictionary:requiredOptions];
     for (NSString *name in options) {
-        if (options[name].required) {
+        CDOption *option = options[name];
+        if (option.conditionalRequirements.count) {
+            for (NSUInteger i = 0; i < option.conditionalRequirements.count; i++) {
+                CDOptionConditionalRequirement block = (CDOptionConditionalRequirement) option.conditionalRequirements[i];
+                if (block()) {
+                    required[name] = option;
+                    break;
+                }
+            }
+        }
+        else if (option.required) {
             required[name] = options[name];
         }
     }
@@ -211,16 +221,6 @@
 
         // Set the provided values on the option.
         [option setValues:values];
-    }
-
-    // Handle missing required options.
-    NSDictionary *required = self.requiredOptions;
-    if (required.count) {
-        for (NSString *name in required) {
-            if (!options[name].wasProvided) {
-                missingOptions[name] = required[name];
-            }
-        }
     }
 
     return self;

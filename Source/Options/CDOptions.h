@@ -12,8 +12,8 @@
 @property (nonatomic, retain) NSMutableArray <NSString *> *seenOptions;
 
 #pragma mark - Properties (readonly)
-@property (nonatomic, copy, readonly) NSArray *allKeys;
-@property (nonatomic, copy, readonly) NSArray *allValues;
+@property (nonatomic, copy, readonly) NSArray<NSString *> *allKeys;
+@property (nonatomic, copy, readonly) NSArray<CDOption *> *allValues;
 @property (nonatomic, retain, readonly) NSMutableArray *arguments;
 @property (nonatomic, retain, readonly) NSMutableDictionary <NSString *, CDOptionDeprecated *> *deprecatedOptions;
 @property (nonatomic, retain, readonly) NSMutableDictionary <NSString *, CDOption *> *missingOptions;

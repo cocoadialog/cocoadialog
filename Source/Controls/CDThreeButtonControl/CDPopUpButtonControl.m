@@ -36,7 +36,9 @@
     [options addOption:[CDOptionDeprecated          from:@"text" to:@"label"]];
 
     // Required options.
-    options[@"button1"].required = YES;
+    [options[@"button1"] addConditionalRequirement:^BOOL{
+        return !option[@"pulldown"].wasProvided;
+    }];
     options[@"items"].required = YES;
 
     return options;
