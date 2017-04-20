@@ -475,7 +475,7 @@
 }
 
 - (NSString *) stringValue {
-    return [self.arrayValue componentsJoinedByString:@", "];
+    return [self.arrayValue.doubleQuote componentsJoinedByString:@", "];
 }
 
 - (CDColor *) typeColor {

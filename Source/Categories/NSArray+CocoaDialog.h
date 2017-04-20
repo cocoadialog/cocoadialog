@@ -4,6 +4,7 @@
 @interface NSArray (CocoaDialog)
 
 #pragma mark - Properties
+@property (nonatomic, readonly) NSArray *doubleQuote;
 @property (nonatomic, readonly) NSArray *sortedAlphabetically;
 
 #pragma mark - Public instance methods

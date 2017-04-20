@@ -63,6 +63,7 @@
 
     [control verbose:@"Initiating control: %@", control.controlName.doubleQuote, nil];
 
+    // Warn about deprecated options.
     for (NSString *name in control.option.deprecatedOptions) {
         CDOptionDeprecated *deprecated = control.option.deprecatedOptions[name];
         if (deprecated.wasProvided) {
@@ -70,11 +71,17 @@
         }
     }
 
+    // Warn about unknown options.
     NSArray *unknown = [control.option unknownOptions].sortedAlphabetically;
     if (unknown.count) {
         for (NSString *name in unknown) {
             [control warning:NSLocalizedString(@"UNKNOWN_OPTION", nil), name.optionFormat, nil];
         }
+    }
+
+    // Warn if multiple value options don't specify argument breaks.
+    for (NSString *name in control.option.missingArgumentBreaks) {
+        [control warning:NSLocalizedString(@"MISSING_ARGUMENT_BREAK", nil), name.optionFormat, nil];
     }
 
     // Validate minimum and maximum values were provided.

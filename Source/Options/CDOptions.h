@@ -16,7 +16,7 @@
 @property (nonatomic, copy, readonly) NSArray<CDOption *> *allValues;
 @property (nonatomic, retain, readonly) NSMutableArray *arguments;
 @property (nonatomic, retain, readonly) NSMutableDictionary <NSString *, CDOptionDeprecated *> *deprecatedOptions;
-@property (nonatomic, retain, readonly) NSMutableDictionary <NSString *, CDOption *> *missingOptions;
+@property (nonatomic, retain, readonly) NSMutableArray <NSString *> *missingArgumentBreaks;
 @property (nonatomic, retain, readonly) NSMutableDictionary <NSString *, CDOption *> *options;
 @property (nonatomic, retain, readonly) NSDictionary <NSString *, CDOptions *> *groupByCategories;
 @property (nonatomic, retain, readonly) NSMutableDictionary <NSString *, CDOption *> *requiredOptions;

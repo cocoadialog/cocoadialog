@@ -3,6 +3,16 @@
 @implementation NSArray (CocoaDialog)
 
 #pragma mark - Properties
+- (NSArray *) doubleQuote {
+    NSMutableArray *array = [[[NSMutableArray alloc] init] autorelease];
+    for (NSString *item in self) {
+        if ([item isKindOfClass:[NSString class]]) {
+            [array addObject:item.doubleQuote];
+        }
+    }
+    return [NSArray arrayWithArray:array];
+}
+
 - (NSArray *) sortedAlphabetically {
     return [self sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 }

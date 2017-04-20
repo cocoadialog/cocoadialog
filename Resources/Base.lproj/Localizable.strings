@@ -19,6 +19,7 @@
 "LOG_VERBOSE" = "[VERBOSE] ";
 
 /* Warning messages */
+"MISSING_ARGUMENT_BREAK" = "The %@ option is missing an ending double dash (--) argument break.";
 "UNKNOWN_OPTION" = "Unknown option: %@";
 
 /* Usage */

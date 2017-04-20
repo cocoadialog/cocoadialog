@@ -2,7 +2,7 @@
 
 @implementation CDOptions
 
-@synthesize arguments, options, deprecatedOptions, getOptionCallback, getOptionOnceCallback, missingOptions, requiredOptions, seenOptions, setOptionCallback, unknownOptions;
+@synthesize arguments, options, deprecatedOptions, getOptionCallback, getOptionOnceCallback, missingArgumentBreaks, requiredOptions, seenOptions, setOptionCallback, unknownOptions;
 
 
 #pragma mark - Properties
@@ -53,7 +53,7 @@
 }
 
 + (BOOL) isOption:(NSString *)arg {
-    return !!(arg.length >= 2 && [[arg substringWithRange:NSMakeRange(0, 2)] isEqualToString:@"--"]);
+    return !!(arg && arg.length >= 2 && [[arg substringWithRange:NSMakeRange(0, 2)] isEqualToString:@"--"]);
 }
 
 + (NSString *) optionNameFromArgument:(NSString *)arg {
@@ -93,7 +93,7 @@
     [deprecatedOptions release];
     [getOptionCallback release];
     [getOptionOnceCallback release];
-    [missingOptions release];
+    [missingArgumentBreaks release];
     [options release];
     [requiredOptions release];
     [seenOptions release];
@@ -111,8 +111,8 @@
     if (self) {
         arguments = [NSMutableArray array];
         deprecatedOptions = [NSMutableDictionary dictionary];
-        missingOptions = [NSMutableDictionary dictionary];
         options = [NSMutableDictionary dictionary];
+        missingArgumentBreaks = [NSMutableArray array];
         requiredOptions = [NSMutableDictionary dictionary];
         seenOptions = [NSMutableArray array];
         unknownOptions = [NSMutableArray array];
@@ -204,15 +204,30 @@
         i++;
 
         // Determine how many values should be extracted.
+        BOOL argumentBreak = NO;
+        BOOL possibleOptionsDetected = NO;
         NSUInteger stop = max == 0 ? args.count : i + max;
 
         // Extract value(s).
         for (; i < stop; i++) {
+            // Detect argument breaks.
+            argumentBreak = [args[i] isEqualToString:@"--"];
+
+            // Detect possible options.
+            if (!argumentBreak && [CDOptions isOption:args[i]]) {
+                possibleOptionsDetected = YES;
+            }
+
             // Stop if there are no more arguments or it's a double dash argument break.
-            if (i >= args.count || !args[i] || [args[i] isEqualToString:@"--"]) {
+            if (i >= args.count || !args[i] || argumentBreak) {
                 break;
             }
             [values addObject:args[i]];
+        }
+
+        // Keep track of multiple arguments that didn't specify argument breaks.
+        if (max == 0 && possibleOptionsDetected && !argumentBreak) {
+            [missingArgumentBreaks addObject:optionName];
         }
 
         // Decrease index since it's exiting the values loop and about
