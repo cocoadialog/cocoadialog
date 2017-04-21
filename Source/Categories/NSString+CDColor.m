@@ -20,7 +20,7 @@ BOOL NSStringCDColor = YES;
 - (CDColor *) color {
     CDColor *color = objc_getAssociatedObject(self, @selector(color));
     if (color == nil) {
-        color = [[[CDColor alloc] init] autorelease];
+        color = [CDColor color];
         self.color = color;
     }
     return color;

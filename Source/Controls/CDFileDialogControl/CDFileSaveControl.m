@@ -42,7 +42,7 @@
 	}
     
     // Check for dir or file path existance.
-    NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+    NSFileManager *fm = [[NSFileManager alloc] init];
     if (dir != nil && ![fm fileExistsAtPath:dir]) {
         [self warning:@"Option --with-directory specifies a directory that does not exist: %@", dir, nil];
     }
@@ -61,7 +61,7 @@
 	
     NSInteger result;
     if (dir != nil) {
-        NSURL * url = [[[NSURL alloc] initFileURLWithPath:dir] autorelease];
+        NSURL * url = [[NSURL alloc] initFileURLWithPath:dir];
         savePanel.directoryURL = url;
     }
     savePanel.nameFieldStringValue = file;

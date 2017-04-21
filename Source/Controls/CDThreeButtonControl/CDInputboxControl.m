@@ -6,9 +6,6 @@
 // Licensed under GPL-2.
 
 #import "CDInputboxControl.h"
-#import "CDStandardInputboxControl.h"
-
-
 
 @implementation CDInputboxControl
 
@@ -46,7 +43,7 @@
 	[self setTitleButtonsLabel:labelText];
 }
 
-- (void) controlHasFinished:(int)button {
+- (void) controlHasFinished:(NSUInteger)button {
     [controlReturnValues addObject:[controlMatrix cellAtRow:0 column:0].stringValue];
     [super controlHasFinished:button];
 }
@@ -61,10 +58,10 @@
     
     id inputbox;
     if (option[@"no-show"].wasProvided) {
-        inputbox = [[[NSSecureTextField alloc] init] autorelease];
+        inputbox = [[NSSecureTextField alloc] init];
     }
     else {
-        inputbox = [[[NSTextField alloc] init] autorelease];
+        inputbox = [[NSTextField alloc] init];
     }
     [inputbox setRefusesFirstResponder:YES];
     // Set initial text in textfield

@@ -7,8 +7,8 @@
 
 #import "CDThreeButtonControl.h"
 
-@interface CDMsgboxControl : CDThreeButtonControl {
-	IBOutlet NSTextField* text;
-}
+@interface CDMsgboxControl : CDThreeButtonControl
+
+@property (nonatomic, retain) IBOutlet NSTextField *text;
 
 @end

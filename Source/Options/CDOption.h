@@ -22,16 +22,16 @@ typedef BOOL (^CDOptionConditionalRequirement)(void);
 }
 
 #pragma mark - Properties
-@property (nonatomic, assign) NSString *category;
-@property (nonatomic, assign) NSMutableArray* conditionalRequirements;
+@property (nonatomic, retain) NSString *category;
+@property (nonatomic, retain) NSMutableArray* conditionalRequirements;
 @property (nonatomic, copy) id defaultValue;
-@property (nonatomic, assign) NSString *helpText;
-@property (nonatomic, assign) NSNumber *maximumValues;
-@property (nonatomic, assign) NSNumber *minimumValues;
-@property (nonatomic, assign) NSMutableArray<NSString *> *notes;
-@property (nonatomic, assign) NSMutableArray<NSString *> *warnings;
+@property (nonatomic, retain) NSString *helpText;
+@property (nonatomic, retain) NSNumber *maximumValues;
+@property (nonatomic, retain) NSNumber *minimumValues;
+@property (nonatomic, retain) NSMutableArray<NSString *> *notes;
+@property (nonatomic, retain) NSMutableArray<NSString *> *warnings;
 @property (nonatomic, assign) BOOL required;
-@property (nonatomic, assign) id value;
+@property (nonatomic, retain) id value;
 @property (nonatomic, assign) BOOL wasProvided;
 
 #pragma mark - Properties (readonly)

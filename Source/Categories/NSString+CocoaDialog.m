@@ -145,7 +145,7 @@
 }
 
 -(NSArray *)splitOnChar:(char)ch {
-    NSMutableArray *results = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray *results = [NSMutableArray array];
     int start = 0;
     for(int i=0; i < (int) [self length]; i++) {
 

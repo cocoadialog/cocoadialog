@@ -11,7 +11,7 @@
 
 #pragma mark - Public static methods
 + (instancetype) color {
-    return [[[self alloc] init] autorelease];
+    return [[self alloc] init];
 }
 
 + (instancetype) fg:(CDColorFg)fg {
@@ -27,7 +27,7 @@
 }
 
 + (instancetype) fg:(CDColorFg)fg bg:(CDColorBg)bg styles:(NSArray<NSNumber *> *)styles {
-    CDColor *instance = [[[self alloc] init] autorelease];
+    CDColor *instance = [[self alloc] init];
     if (instance) {
         instance.fg = fg;
         instance.bg = bg;
@@ -52,11 +52,6 @@
         [self reset];
     }
     return self;
-}
-
-- (void) dealloc {
-    [_styles release];
-    [super dealloc];
 }
 
 - (void) addStyle:(CDColorStyle)style {

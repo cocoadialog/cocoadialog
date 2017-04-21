@@ -9,6 +9,8 @@
 
 @implementation CDMsgboxControl
 
+@synthesize text;
+
 - (CDOptions *) availableOptions {
     CDOptions *options = [super availableOptions];
 

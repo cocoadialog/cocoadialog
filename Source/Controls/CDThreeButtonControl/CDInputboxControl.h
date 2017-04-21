@@ -5,7 +5,6 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
-#import <Foundation/Foundation.h>
 #import "CDThreeButtonControl.h"
 
 @interface CDInputboxControl : CDThreeButtonControl

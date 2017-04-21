@@ -42,7 +42,7 @@
     [self setTitleButtonsLabel:option[@"label"].stringValue];
 }
 
-- (void) controlHasFinished:(int)button {
+- (void) controlHasFinished:(NSUInteger)button {
     if (option[@"return-float"].wasProvided) {
         [controlReturnValues addObject:[NSString stringWithFormat:@"%.2f", [controlMatrix cellAtRow:0 column:0].doubleValue]];
     }
@@ -94,14 +94,14 @@
 
     NSRect cmFrame = controlMatrix.frame;
     
-    NSView *sliderView = [[[NSView alloc] initWithFrame:NSMakeRect(cmFrame.origin.x, (cmFrame.origin.y + cmFrame.size.height) - 17.0f, cmFrame.size.width, 14.0f)] autorelease];
+    NSView *sliderView = [[NSView alloc] initWithFrame:NSMakeRect(cmFrame.origin.x, (cmFrame.origin.y + cmFrame.size.height) - 17.0f, cmFrame.size.width, 14.0f)];
     sliderView.autoresizingMask = NSViewMinXMargin | NSViewMaxXMargin | NSViewMinYMargin;
 
     NSString *_sliderLabel = NSLocalizedString(@"SLIDER_DEFAULT_LABEL", nil);
     if (option[@"slider-label"].wasProvided && ![option[@"slider-label"].stringValue isBlank]) {
         _sliderLabel = option[@"slider-label"].stringValue;
     }
-    sliderLabel = [[[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, cmFrame.size.width, 14.0f)] autorelease];
+    sliderLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, cmFrame.size.width, 14.0f)];
     [sliderLabel setBezeled:NO];
     [sliderLabel setDrawsBackground:NO];
     [sliderLabel setEditable:NO];
@@ -110,7 +110,7 @@
     sliderLabel.stringValue = _sliderLabel;
     [sliderView addSubview:sliderLabel];
 
-    valueLabel = [[[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, cmFrame.size.width, 14.0f)] autorelease];
+    valueLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, cmFrame.size.width, 14.0f)];
     [valueLabel setBezeled:NO];
     [valueLabel setDrawsBackground:NO];
     [valueLabel setEditable:NO];
@@ -142,7 +142,7 @@
     controlMatrix.mode = NSTrackModeMatrix;
     [controlMatrix setAllowsEmptySelection:YES];
     
-    CDSliderCell *slider = [[[CDSliderCell alloc] init] autorelease];
+    CDSliderCell *slider = [[CDSliderCell alloc] init];
     slider.alwaysShowValue = option[@"always-show-value"].boolValue;
     slider.delegate = self;
     slider.valueLabel = valueLabel;
@@ -164,14 +164,14 @@
     cmFrame = controlMatrix.frame;
         
     if (ticks > 0) {
-        NSView *tickView = [[[NSView alloc] initWithFrame:NSMakeRect(0.0f, cmFrame.origin.y - (cmFrame.size.height - oldHeight) - 17.0f, self.panel.frame.size.width, 18.0f)] autorelease];
+        NSView *tickView = [[NSView alloc] initWithFrame:NSMakeRect(0.0f, cmFrame.origin.y - (cmFrame.size.height - oldHeight) - 17.0f, self.panel.frame.size.width, 18.0f)];
         tickView.autoresizingMask = NSViewMinYMargin;
             
         NSUInteger count = slider.numberOfTickMarks;
         for (NSUInteger i = 0; i < count; i++) {
             CGFloat  length=cmFrame.size.width-2*10;
             CGFloat  position=floor((count==1)?length/2:i*(length/(count-1)));
-            NSTextField *tickLabel = [[[NSTextField alloc] initWithFrame:NSMakeRect(cmFrame.origin.x + 10.0f + position, 0, 0, 0)] autorelease];
+            NSTextField *tickLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(cmFrame.origin.x + 10.0f + position, 0, 0, 0)];
             [tickLabel setBezeled:NO];
             [tickLabel setDrawsBackground:NO];
             [tickLabel setEditable:NO];
@@ -223,12 +223,6 @@
 @synthesize sticky;
 @synthesize valueLabel;
 
-- (void)dealloc {
-    [delegate release];
-    [valueLabel release];
-    [super dealloc];
-}
-
 - (BOOL) trackMouse:(NSEvent *)theEvent inRect:(NSRect)cellFrame ofView:(NSView *)controlView untilMouseUp:(BOOL)flag {
     if (!alwaysShowValue)
         [valueLabel setHidden:NO];
@@ -260,7 +254,15 @@
     else {
         [self setAllowsTickMarkValuesOnly:NO];
     }
-    [delegate performSelector:self.action];
+
+    // Fix "may cause leak" warning.
+    // @see http://stackoverflow.com/a/20058585/1226717
+    if (delegate) {
+        IMP imp = [delegate methodForSelector:self.action];
+        void (*func)(id, SEL) = (void *)imp;
+        func(delegate, self.action);
+    }
+
     return [super continueTracking:lastPoint at:currentPoint inView:controlView];
 }
 

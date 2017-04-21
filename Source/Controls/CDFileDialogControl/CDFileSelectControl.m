@@ -57,7 +57,7 @@
 	}
     
     // Check for dir or file path existance.
-    NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+    NSFileManager *fm = [[NSFileManager alloc] init];
     // Directory
     if (dir != nil && ![fm fileExistsAtPath:dir]) {
         [self warning:@"Option --with-directory specifies a directory that does not exist: %@", dir, nil];
@@ -86,7 +86,7 @@
             dir = [dir stringByAppendingString:@"/"];
             dir = [dir stringByAppendingString:file];
         }
-        NSURL * url = [[[NSURL alloc] initFileURLWithPath:dir] autorelease];
+        NSURL * url = [[NSURL alloc] initFileURLWithPath:dir];
         openPanel.directoryURL = url;
     }
     result = [openPanel runModal];

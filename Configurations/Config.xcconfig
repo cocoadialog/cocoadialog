@@ -2,12 +2,6 @@
 
 PREBINDING = NO
 ZERO_LINK = NO
-SDKROOT = $(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk
-MACOSX_DEPLOYMENT_TARGET[arch=ppc] = 10.4
-MACOSX_DEPLOYMENT_TARGET[arch=ppc64] = 10.5
-MACOSX_DEPLOYMENT_TARGET[arch=i386] = 10.4
-MACOSX_DEPLOYMENT_TARGET[arch=x86_64] = 10.5
-INSTALL_PATH = ${HOME}/Applications
 GCC_C_LANGUAGE_STANDARD = c99
 GCC_ENABLE_OBJC_EXCEPTIONS = YES
 GCC_DEBUGGING_SYMBOLS = full
@@ -15,7 +9,6 @@ GCC_PRECOMPILE_PREFIX_HEADER = YES
 GCC_PREFIX_HEADER = $(SDKROOT)/System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h
 GCC_FAST_OBJC_DISPATCH = YES
 GCC_ENABLE_PASCAL_STRINGS = NO
-ARCHS = ppc i386 x86_64
 GCC_VERSION = com.apple.compilers.llvm.clang.1_0
 
 // Warnings
@@ -48,10 +41,9 @@ GCC_WARN_UNDECLARED_SELECTOR = NO
 
 WARNING_CFLAGS = -Wall -Wno-unused-parameter -Werror -Wundef -Wendif-labels -Wpointer-arith -Wcast-align -Wwrite-strings -Wmissing-format-attribute -Wpacked -Wredundant-decls -Winline -Wdisabled-optimization -Wformat=2 -Winvalid-pch
 
-PRODUCT_NAME = cocoaDialog
+PRODUCT_NAME = cocoadialog
 WRAPPER_EXTENSION = app
 INFOPLIST_FILE = Resources/Base.lproj/Info.plist
-GCC_PREFIX_HEADER = Source/cocoaDialog_Prefix.pch
 
-FRAMEWORK_SEARCH_PATHS = ${SRCROOT}/Frameworks
+//FRAMEWORK_SEARCH_PATHS = ${SRCROOT}/Frameworks
 HEADER_SEARCH_PATHS = ${SRCROOT}/Source/*

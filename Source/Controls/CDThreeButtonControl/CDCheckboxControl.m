@@ -57,7 +57,7 @@
 
 	// set return values 
     NSArray * cells = controlMatrix.cells;
-    NSMutableArray *tmpValues = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray *tmpValues = [NSMutableArray array];
     NSEnumerator *en = [cells objectEnumerator];
     id obj;
     while (obj = [en nextObject]) {
@@ -65,15 +65,15 @@
             [tmpValues addObject:obj];
         } 
     }
-    checkboxes = [[NSMutableArray arrayWithArray:tmpValues] autorelease];
+    checkboxes = [NSMutableArray arrayWithArray:tmpValues];
     en = [tmpValues objectEnumerator];
     while (obj = [en nextObject]) {
         checkboxes[[obj tag]] = obj;
     }
 }
 
-- (void) controlHasFinished:(int)button {
-    NSMutableArray *checkboxesArray = [[[NSMutableArray alloc] init] autorelease];
+- (void) controlHasFinished:(NSUInteger)button {
+    NSMutableArray *checkboxesArray = [NSMutableArray array];
     NSEnumerator *en = [checkboxes objectEnumerator];
     id obj;
 	if (option[@"string-output"].wasProvided) {
@@ -149,7 +149,7 @@
     float cellWidth = 0.0;
     id obj;
     while (obj = [en nextObject]) {
-        NSButton * button = [[[NSButton alloc] init] autorelease];
+        NSButton * button = [[NSButton alloc] init];
         [button setButtonType:NSSwitchButton];
         button.title = items[currItem];
         if (checked != nil && checked.count) {
@@ -192,7 +192,7 @@
                 currItem++;
             }
             else {
-                NSCell * blankCell = [[[NSCell alloc] init] autorelease];
+                NSCell * blankCell = [[NSCell alloc] init];
                 blankCell.type = NSNullCellType;
                 [blankCell setEnabled:NO];
                 [controlMatrix putCell:blankCell atRow:currRow column:currColumn];

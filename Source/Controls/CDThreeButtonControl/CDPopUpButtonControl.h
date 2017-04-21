@@ -7,9 +7,9 @@
 
 #import "CDThreeButtonControl.h"
 
-@interface CDPopUpButtonControl : CDThreeButtonControl {
-    IBOutlet NSPopUpButton *popupControl;
-}
+@interface CDPopUpButtonControl : CDThreeButtonControl
+
+@property (nonatomic, retain) IBOutlet NSPopUpButton *popupControl;
 
 - (void) selectionChanged:(id)sender;
 

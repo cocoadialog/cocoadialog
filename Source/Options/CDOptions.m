@@ -69,7 +69,7 @@
 
 #pragma mark - Pubic static methods
 + (instancetype) options {
-    return [[[self alloc] init] autorelease];
+    return [[self alloc] init];
 }
 
 #pragma mark - Public instance methods
@@ -95,20 +95,6 @@
     return options.count;
 }
 
-- (void) dealloc {
-    [arguments release];
-    [deprecatedOptions release];
-    [getOptionCallback release];
-    [getOptionOnceCallback release];
-    [missingArgumentBreaks release];
-    [options release];
-    [requiredOptions release];
-    [seenOptions release];
-    [setOptionCallback release];
-    [unknownOptions release];
-    [super dealloc];
-}
-
 - (NSString *) getArgument:(unsigned int) index {
     return arguments != nil && index < arguments.count ? arguments[index] : nil;
 }
@@ -131,7 +117,7 @@
 - (instancetype )initWithObjects:(id  _Nonnull const [])objects forKeys:(id<NSCopying>  _Nonnull const [])keys count:(NSUInteger)cnt {
     self = [super init];
     if (self) {
-        options = [[[NSMutableDictionary alloc] initWithObjects:objects forKeys:keys count:cnt] autorelease];
+        options = [[NSMutableDictionary alloc] initWithObjects:objects forKeys:keys count:cnt];
     }
     return self;
 }

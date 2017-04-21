@@ -7,12 +7,11 @@
 
 #import "CDThreeButtonControl.h"
 
-@interface CDTextboxControl : CDThreeButtonControl {
-	IBOutlet NSTextView  *textView;
-	IBOutlet NSScrollView  *scrollView;
-}
+@interface CDTextboxControl : CDThreeButtonControl
+
+@property (nonatomic, retain) IBOutlet  NSTextView      *textView;
+@property (nonatomic, retain) IBOutlet  NSScrollView    *scrollView;
 
 - (void) setLabel:(NSString *)labelText;
-
 
 @end

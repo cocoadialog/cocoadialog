@@ -64,7 +64,7 @@
 	[self setTitleButtonsLabel:labelText];
 }
 
-- (void) controlHasFinished:(int)button {
+- (void) controlHasFinished:(NSUInteger)button {
     NSArray * radioArray = controlMatrix.cells;
     if (radioArray != nil && radioArray.count) {
         NSCell * selectedCell = controlMatrix.selectedCell;
@@ -120,7 +120,7 @@
     rows = controlMatrix.numberOfRows;
     columns = controlMatrix.numberOfColumns;
     
-    NSMutableArray * controls = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray * controls = [[NSMutableArray alloc] init];
     
     // Create the control for each item
     unsigned long currItem = 0;
@@ -128,7 +128,7 @@
     float cellWidth = 0.0;
     id obj;
     while (obj = [en nextObject]) {
-        NSButton * button = [[[NSButton alloc] init] autorelease];
+        NSButton * button = [[NSButton alloc] init];
         [button setButtonType:NSRadioButton];
         button.title = items[currItem];
         if (disabled != nil && disabled.count) {
@@ -165,7 +165,7 @@
                 currItem++;
             }
             else {
-                NSCell * blankCell = [[[NSCell alloc] init] autorelease];
+                NSCell * blankCell = [[NSCell alloc] init];
                 blankCell.type = NSNullCellType;
                 [blankCell setEnabled:NO];
                 [controlMatrix putCell:blankCell atRow:currRow column:currColumn];

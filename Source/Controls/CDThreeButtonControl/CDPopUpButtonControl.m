@@ -6,10 +6,10 @@
 // Licensed under GPL-2.
 
 #import "CDPopUpButtonControl.h"
-#import "CDStandardPopUpButtonControl.h"
-
 
 @implementation CDPopUpButtonControl
+
+@synthesize popupControl;
 
 - (CDOptions *) availableOptions {
     CDOptions *options = [super availableOptions];
@@ -63,7 +63,7 @@
 	[self setTitleButtonsLabel:option[@"label"].stringValue];
 }
 
-- (void) controlHasFinished:(int)button {
+- (void) controlHasFinished:(NSUInteger)button {
 	if (option[@"string-output"].wasProvided) {
         [controlReturnValues addObject:popupControl.titleOfSelectedItem];
 	} else {

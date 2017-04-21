@@ -11,7 +11,7 @@
 
 #pragma mark - Properties
 - (NSArray *) doubleQuote {
-    NSMutableArray *array = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray *array = [NSMutableArray array];
     for (NSString *item in self) {
         if ([item isKindOfClass:[NSString class]]) {
             [array addObject:item.doubleQuote];
@@ -26,7 +26,7 @@
 
 #pragma mark - Public instance methods
 - (NSArray *) prependStringsWith:(NSString *)prefix {
-    NSMutableArray *array = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray *array = [NSMutableArray array];
     for (id item in self) {
         if ([item isKindOfClass:[NSString class]]) {
             NSMutableString *string = [NSMutableString stringWithString:item];

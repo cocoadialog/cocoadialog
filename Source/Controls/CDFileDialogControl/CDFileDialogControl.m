@@ -9,11 +9,6 @@
 
 @implementation CDFileDialogControl
 
-- (void) dealloc {
-    [extensions release];
-	[super dealloc];
-}
-
 - (CDOptions *) availableOptions {
     CDOptions *options = [super availableOptions];
 

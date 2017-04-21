@@ -19,7 +19,7 @@
         NSData *data = [NSJSONSerialization dataWithJSONObject:object options:NSJSONWritingPrettyPrinted error:&error];
         // If no errors, let's view the JSON
         if (data != nil && error == nil) {
-            json = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+            json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         }
     }
     @catch (NSException *exception) {

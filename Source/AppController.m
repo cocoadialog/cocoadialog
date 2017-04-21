@@ -144,13 +144,6 @@
              };
 }
 
-- (void) dealloc {
-    [aboutAppLink release];
-    [aboutPanel release];
-    [aboutText release];
-    [super dealloc];
-}
-
 - (NSString *) controlNameFromArguments:(NSArray *)args {
     NSArray *controls = [AppController availableControls];
     for (NSUInteger i = 0; i < args.count; i++) {
@@ -231,14 +224,14 @@
 
 #pragma mark - Label Hyperlinks - @todo move to separate category file
 -(void)setHyperlinkForTextField:(NSTextField*)aTextField replaceString:(NSString *)aString withURL:(NSString *)aURL {
-    NSMutableAttributedString *textFieldString = [[aTextField.attributedStringValue mutableCopy] autorelease];
+    NSMutableAttributedString *textFieldString = [aTextField.attributedStringValue mutableCopy];
     NSRange range = [textFieldString.string rangeOfString:aString];
     
     // both are needed, otherwise hyperlink won't accept mousedown
     [aTextField setAllowsEditingTextAttributes: YES];
     [aTextField setSelectable: YES];
     
-    NSMutableAttributedString* replacement = [[[NSMutableAttributedString alloc] init] autorelease];
+    NSMutableAttributedString* replacement = [[NSMutableAttributedString alloc] init];
     [replacement setAttributedString: [NSAttributedString hyperlinkFromString:aString withURL:[NSURL URLWithString:aURL] withFont:aTextField.font]];
     
     [textFieldString replaceCharactersInRange:range withAttributedString:replacement];
@@ -272,6 +265,6 @@
     
     [attrString endEditing];
     
-    return [attrString autorelease];
+    return attrString;
 }
 @end

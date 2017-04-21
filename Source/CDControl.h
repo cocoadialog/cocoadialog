@@ -46,6 +46,7 @@
 }
 
 #pragma mark - Properties
+@property (nonatomic, assign)               NSObject <NSApplicationDelegate, NSUserNotificationCenterDelegate>  *app;
 @property (nonatomic, retain)               NSString        *controlName;
 @property (nonatomic, readonly)             NSString        *controlNib;
 @property (nonatomic, readonly)             BOOL            isBaseControl;
@@ -57,6 +58,7 @@
 + (instancetype) control;
 
 #pragma mark - Public instance methods
+- (NSBundle *) appBundle;
 - (NSString *) formatSecondsForString:(NSInteger)timeInSeconds;
 - (instancetype) initWithSeenOptions:(NSMutableArray *)seenOptions NS_DESIGNATED_INITIALIZER;
 

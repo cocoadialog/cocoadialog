@@ -24,7 +24,7 @@
 
 #pragma mark - Public static methods
 + (instancetype) control {
-    return [[[self alloc] init] autorelease];
+    return [[self alloc] init];
 }
 
 #pragma mark - Public instance methods
@@ -120,15 +120,7 @@
 - (void) dealloc {
     if (timer != nil) {
         [timer invalidate];
-        [timer release];
     }
-    [controlName release];
-    [iconView release];
-    [option release];
-    [panel release];
-    [terminal release];
-    [timeoutLabel release];
-    [super dealloc];
 }
 
 - (instancetype) init {
@@ -160,6 +152,8 @@
             option.seenOptions = seenOptions;
         }
 
+        __block CDControl *control = self;
+
         // Provide some useful debugging information for default/automatic values.
         // Note: this must be added here, after avaialble options have populated in
         // case they access the options themselves to add additional properties like
@@ -171,14 +165,14 @@
                     if (opt.hasAutomaticDefaultValue) {
                         [value appendString:[NSString stringWithFormat:@" (%@)", NSLocalizedString(@"OPTION_AUTOMATIC_DEFAULT_VALUE", nil).lowercaseString]];
                     }
-                    [self debug:@"The %@ option was not provided. Using default value: %@", opt.name.optionFormat, value, nil];
+                    [control debug:@"The %@ option was not provided. Using default value: %@", opt.name.optionFormat, value, nil];
                 }
             }
             else if ([opt isKindOfClass:[CDOptionFlag class]]) {
-                [self debug:@"The %@ option was provided.", opt.name.optionFormat, nil];
+                [control debug:@"The %@ option was provided.", opt.name.optionFormat, nil];
             }
             else {
-                [self debug:@"The %@ option was provided with the value: %@", opt.name.optionFormat, opt.stringValue, nil];
+                [control debug:@"The %@ option was provided with the value: %@", opt.name.optionFormat, opt.stringValue, nil];
             }
         };
     }
@@ -480,10 +474,9 @@
     else {
         [self fatalError:@"Control returned nil.", nil];
     }
-    int exitStatus = controlExitStatus;
-    [self dealloc];
+
     // Return the exit status
-    exit(exitStatus);
+    exit(controlExitStatus);
 }
 
 - (void) windowWillClose:(NSNotification *)notification {
@@ -618,7 +611,7 @@
 }
 
 - (NSImage *) iconFromFile:(NSString *)file {
-    NSImage *image = [[[NSImage alloc] initWithContentsOfFile:file] autorelease];
+    NSImage *image = [[NSImage alloc] initWithContentsOfFile:file];
     if (image == nil) {
         [self warning:@"Could not return icon from specified file: %@.", file.doubleQuote, nil];
     }
@@ -627,7 +620,7 @@
 
 - (NSImage *) iconFromName:(NSString *)name {
     BOOL hasImage = NO;
-    NSImage *image = [[[NSImage alloc] init] autorelease];
+    NSImage *image = [[NSImage alloc] init];
     NSString *bundle = nil;
     NSString *path = nil;
     NSString *iconType = @"icns";
@@ -891,7 +884,7 @@
                 fileName = [[NSBundle bundleWithPath:path] pathForResource:name ofType:iconType];
             }
             if (fileName != nil) {
-                image = [[[NSImage alloc] initWithContentsOfFile:fileName] autorelease];
+                image = [[NSImage alloc] initWithContentsOfFile:fileName];
                 if (image == nil) {
                     [self warning:@"Could not retrieve image from specified icon file %@.", fileName.doubleQuote, nil];
                 }
@@ -960,7 +953,7 @@
         NSSize originalSize = anImage.size;
         // Resize Icon
         if (originalSize.width != aSize.width || originalSize.height != aSize.height) {
-            NSImage *resizedImage = [[[NSImage alloc] initWithSize: aSize] autorelease];
+            NSImage *resizedImage = [[NSImage alloc] initWithSize: aSize];
             [resizedImage lockFocus];
             [anImage drawInRect: NSMakeRect(0, 0, aSize.width, aSize.height) fromRect: NSMakeRect(0, 0, originalSize.width, originalSize.height) operation: NSCompositeSourceOver fraction: 1.0];
             [resizedImage unlockFocus];
@@ -1129,10 +1122,10 @@
 }
 
 - (void) setPanelEmpty {
-    panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect(0, 0, 0, 0)
-                                        styleMask:NSBorderlessWindowMask
-                                          backing:NSBackingStoreBuffered
-                                            defer:NO] autorelease];
+    panel = [[NSPanel alloc] initWithContentRect:NSMakeRect(0, 0, 0, 0)
+                                       styleMask:NSBorderlessWindowMask
+                                         backing:NSBackingStoreBuffered
+                                           defer:NO];
 }
 
 - (void) setPosition {
@@ -1144,7 +1137,7 @@
     CGFloat top = y + height;
     CGFloat left = x;
     CGFloat padding = 20.0;
-    NSNumberFormatter *nf = [[[NSNumberFormatter alloc] init] autorelease];
+    NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
 
     NSString *posX, *posY;
 
@@ -1214,13 +1207,13 @@
 
 #pragma mark - Timer
 - (void) createTimer {
-    NSAutoreleasePool *timerPool = [[NSAutoreleasePool alloc] init];
-    timerThread = [NSThread currentThread];
-    NSRunLoop *_runLoop = [NSRunLoop currentRunLoop];
-    timer = [[NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(processTimer) userInfo:nil repeats:YES] retain];
-    [_runLoop addTimer:timer forMode:NSRunLoopCommonModes];
-    [_runLoop run];
-    [timerPool release];
+    @autoreleasepool {
+        timerThread = [NSThread currentThread];
+        NSRunLoop *_runLoop = [NSRunLoop currentRunLoop];
+        timer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(processTimer) userInfo:nil repeats:YES];
+        [_runLoop addTimer:timer forMode:NSRunLoopCommonModes];
+        [_runLoop run];
+    }
 }
 
 - (NSString *) formatSecondsForString:(NSInteger)timeInSeconds {
@@ -1316,9 +1309,9 @@
         float labelHeightDiff = labelNewHeight - labelRect.size.height;
         timeoutLabel.stringValue = [self formatSecondsForString:(int)timeout];
         if (![timeoutLabel.stringValue isEqualToString:@""] && timeout != 0.0f) {
-            NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: timeoutLabel.stringValue]autorelease];
-            NSTextContainer *textContainer = [[[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)] autorelease];
-            NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease];
+            NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString: timeoutLabel.stringValue];
+            NSTextContainer *textContainer = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)];
+            NSLayoutManager *layoutManager = [[NSLayoutManager alloc]init];
             [layoutManager addTextContainer: textContainer];
             [textStorage addLayoutManager: layoutManager];
             [layoutManager glyphRangeForTextContainer:textContainer];
@@ -1340,7 +1333,6 @@
 
 - (void) stopTimer {
     [timer invalidate];
-    [timer release];
     timer = nil;
     [self performSelector:@selector(stopControl) onThread:mainThread withObject:nil waitUntilDone:YES];
 }

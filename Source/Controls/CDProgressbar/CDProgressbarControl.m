@@ -6,8 +6,6 @@
 // Licensed under GPL-2.
 
 #import "CDProgressbarControl.h"
-#import "CDProgressbarInputHandler.h"
-#import <sys/select.h>
 
 @implementation CDProgressbarControl
 
@@ -38,7 +36,6 @@
 -(void) finish {
 	if (confirmationSheet) {
 		[NSApp endSheet:confirmationSheet.window];
-		[confirmationSheet release];
 		confirmationSheet = nil;
 	}
 
@@ -61,7 +58,6 @@
 
 - (void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
 	if (confirmationSheet == alert) {
-		[confirmationSheet release];
 		confirmationSheet = nil;
 	}
 	if (returnCode == NSAlertFirstButtonReturn && stopEnabled) {
@@ -134,9 +130,8 @@
 		[progressBar setIndeterminate:NO];
 	}
 
-	NSOperationQueue* queue = [[NSOperationQueue new] autorelease];
+	NSOperationQueue* queue = [NSOperationQueue new];
 	[queue addOperation:inputHandler];
-	[inputHandler release];
 }
 
 @end

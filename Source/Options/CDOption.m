@@ -95,7 +95,7 @@
 - (NSNumber *) numberValue {
     id value = self.value;
     if (value != nil && [value isKindOfClass:[NSString class]]) {
-        NSNumberFormatter *f = [[[NSNumberFormatter alloc] init] autorelease];
+        NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
         f.numberStyle = NSNumberFormatterDecimalStyle;
         return [f numberFromString:value];
     }
@@ -157,23 +157,23 @@
 
 #pragma mark - Public static methods
 + (instancetype) name:(NSString *)name {
-    return [[[self alloc] name:name value:nil category:nil helpText:nil] autorelease];
+    return [[self alloc] initWithName:name value:nil category:nil helpText:nil];
 }
 
 + (instancetype) name:(NSString *)name value:(id)value {
-    return [[[self alloc] name:name value:value category:nil helpText:nil] autorelease];
+    return [[self alloc] initWithName:name value:value category:nil helpText:nil];
 }
 
 + (instancetype) name:(NSString *)name category:(NSString *) category {
-    return [[[self alloc] name:name value:nil category:category helpText:nil] autorelease];
+    return [[self alloc] initWithName:name value:nil category:category helpText:nil];
 }
 
 + (instancetype) name:(NSString *)name value:(id)value category:(NSString *) category {
-    return [[[self alloc] name:name value:value category:category helpText:nil] autorelease];
+    return [[self alloc] initWithName:name value:value category:category helpText:nil];
 }
 
 + (instancetype) name:(NSString *)name value:(id)value category:(NSString *) category helpText:(NSString *)helpText {
-    return [[[self alloc] name:name value:value category:category helpText:helpText] autorelease];
+    return [[self alloc] initWithName:name value:value category:category helpText:helpText];
 }
 
 #pragma mark - Public instance methods
@@ -194,12 +194,7 @@
     return self;
 }
 
-- (void) dealloc {
-    [_defaultValue release];
-    [super dealloc];
-}
-
-- (instancetype) name:(NSString *)name value:(id)value category:(NSString *) category helpText:(NSString *)helpText {
+- (instancetype) initWithName:(NSString *)name value:(id)value category:(NSString *) category helpText:(NSString *)helpText {
     self = [self init];
     if (self) {
         _name = name;
@@ -240,7 +235,7 @@
 
 #pragma mark - Public static methods
 + (instancetype) from:(NSString *)from to:(NSString *)to {
-    return [[[CDOptionDeprecated alloc] from:from to:to] autorelease];
+    return [[CDOptionDeprecated alloc] from:from to:to];
 }
 
 #pragma mark - Public instance methods

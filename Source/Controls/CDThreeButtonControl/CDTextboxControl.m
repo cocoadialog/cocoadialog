@@ -9,6 +9,8 @@
 
 @implementation CDTextboxControl
 
+@synthesize textView, scrollView;
+
 - (NSString *)controlNib {
     return @"Textbox";
 }
@@ -45,9 +47,9 @@
         float labelHeightDiff = labelNewHeight - labelRect.size.height;
         if (![labelText isEqualToString:@""]) {
             expandingLabel.stringValue = labelText;
-            NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: labelText]autorelease];
-            NSTextContainer *textContainer = [[[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)] autorelease];
-            NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease];
+            NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString: labelText];
+            NSTextContainer *textContainer = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)];
+            NSLayoutManager *layoutManager = [[NSLayoutManager alloc]init];
             [layoutManager addTextContainer: textContainer];
             [textStorage addLayoutManager: layoutManager];
             [layoutManager glyphRangeForTextContainer:textContainer];
@@ -94,7 +96,6 @@
 		text = [[NSAttributedString alloc] initWithString:option[@"text"].stringValue];
 		[textView.textStorage setAttributedString:text];
 		[textView scrollRangeToVisible:NSMakeRange(text.length, 0)];
-		[text release];
 	} else if (option[@"text-from-file"].wasProvided) {
         NSString *file = option[@"text-from-file"].stringValue;
 		NSString *contents = [NSString stringWithContentsOfFile: file encoding:NSUTF8StringEncoding error:nil];
@@ -105,9 +106,8 @@
 			text = [[NSAttributedString alloc] initWithString:contents];
 		}
 		[textView.textStorage setAttributedString:text];
-		[text release];
 	} else {
-		[textView.textStorage setAttributedString:[[[NSAttributedString alloc] initWithString:@""] autorelease]];
+		[textView.textStorage setAttributedString:[[NSAttributedString alloc] initWithString:@""]];
 	}
     
 	[self setTitleButtonsLabel:option[@"label"].stringValue];
@@ -135,7 +135,7 @@
 	}
 }
 
-- (void) controlHasFinished:(int)button {
+- (void) controlHasFinished:(NSUInteger)button {
 	if (option[@"editable"].wasProvided) {
         [controlReturnValues addObject:textView.textStorage.string];
 	}

@@ -170,37 +170,40 @@
 
 - (void) setButtons {
     cancelButton = 0;
-	unsigned i;
-	struct { NSString *key; NSButton *button; } const buttons[] = {
-		{ @"button1", button1 },
-		{ @"button2", button2 },
-		{ @"button3", button3 }
-	};
-    BOOL noDefault = option[@"no-default-button"].boolValue;
 
+    NSArray *buttons = @[
+                         @{@"name": @"button1", @"button": button1},
+                         @{@"name": @"button2", @"button": button2},
+                         @{@"name": @"button3", @"button": button3},
+                         ];
+
+    BOOL noDefault = option[@"no-default-button"].boolValue;
 	float minWidth = 2 * 20.0f; // margin
-	for (i = 0; i != sizeof(buttons)/sizeof(buttons[0]); i++) {
-		[self setTitle:option[buttons[i].key].stringValue forButton:buttons[i].button];
-        if (option[@"cancel"].wasProvided && ([option[@"cancel"].stringValue isEqualToString:buttons[i].key] || option[@"cancel"].unsignedIntegerValue == i)) {
+	for (NSUInteger i = 0; i < buttons.count; i++) {
+        NSString *name = [buttons[i] objectForKey:@"name"];
+        NSButton *button = [buttons[i] objectForKey:@"button"];
+		[self setTitle:option[name].stringValue forButton:button];
+
+        if (option[@"cancel"].wasProvided && ([option[@"cancel"].stringValue isEqualToString:name] || option[@"cancel"].unsignedIntegerValue == i)) {
             if (!noDefault) {
-                buttons[i].button.keyEquivalent = @"\e";
+                button.keyEquivalent = @"\e";
             }
-            cancelButton = i+1;
+            cancelButton = i + 1;
         }
-        else if ([option[buttons[i].key].stringValue isEqualToStringCaseInsensitive:@"cancel"]) {
+        else if ([option[name].stringValue isEqualToStringCaseInsensitive:@"cancel"]) {
             if (!noDefault) {
-                buttons[i].button.keyEquivalent = @"\e";
+                button.keyEquivalent = @"\e";
             }
-            cancelButton = i+1;
+            cancelButton = i + 1;
         }
-		if (buttons[i].button.hidden == NO) {
-			minWidth += NSWidth(buttons[i].button.frame);
+		if (button.hidden == NO) {
+			minWidth += NSWidth(button.frame);
 		}
         
         // Remove default button key mappings.
-        if (noDefault && ![buttons[i].button.keyEquivalent  isEqual: @""]) {
-            buttons[i].button.keyEquivalent = @"";
-            buttons[i].button.needsDisplay = YES;
+        if (noDefault && ![button.keyEquivalent  isEqual: @""]) {
+            button.keyEquivalent = @"";
+            button.needsDisplay = YES;
         }
 	}
 
@@ -236,9 +239,9 @@
         float labelHeightDiff = labelNewHeight - labelRect.size.height;
         if (![labelText isEqualToString:@""]) {
             expandingLabel.stringValue = labelText;
-            NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: labelText]autorelease];
-            NSTextContainer *textContainer = [[[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)] autorelease];
-            NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease];
+            NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString: labelText];
+            NSTextContainer *textContainer = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)];
+            NSLayoutManager *layoutManager = [[NSLayoutManager alloc]init];
             [layoutManager addTextContainer: textContainer];
             [textStorage addLayoutManager: layoutManager];
             [layoutManager glyphRangeForTextContainer:textContainer];
@@ -265,9 +268,9 @@
         float labelHeightDiff = labelNewHeight - labelRect.size.height;
         self.timeoutLabel.stringValue = [self formatSecondsForString:(int)timeout];
         if (![self.timeoutLabel.stringValue isEqualToString:@""] && timeout != 0.0f) {
-            NSTextStorage *textStorage = [[[NSTextStorage alloc] initWithString: self.timeoutLabel.stringValue]autorelease];
-            NSTextContainer *textContainer = [[[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)] autorelease];
-            NSLayoutManager *layoutManager = [[[NSLayoutManager alloc]init] autorelease];
+            NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString: self.timeoutLabel.stringValue];
+            NSTextContainer *textContainer = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)];
+            NSLayoutManager *layoutManager = [[NSLayoutManager alloc]init];
             [layoutManager addTextContainer: textContainer];
             [textStorage addLayoutManager: layoutManager];
             [layoutManager glyphRangeForTextContainer:textContainer];
@@ -316,8 +319,8 @@
     [alertSheet beginSheetModalForWindow:self.panel modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
-- (void) controlHasFinished:(int)button {
-    controlExitStatus = button;
+- (void) controlHasFinished:(NSUInteger)button {
+    controlExitStatus = (int) button;
     switch (button) {
         case 1: controlExitStatusString = button1.title; break;
         case 2: controlExitStatusString = button2.title; break;
