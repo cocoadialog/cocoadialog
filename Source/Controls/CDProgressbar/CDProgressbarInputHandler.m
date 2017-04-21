@@ -1,9 +1,11 @@
+// CDProgressbarInputHandler.m
+// cocoadialog
 //
-//  CDProgressbarInputHandler.m
-//  cocoaDialog
+// Copyright (c) 2004-2017 Mark A. Stratman <mark@sporkstorms.org>, Mark Carver <mark.carver@me.com>.
+// All rights reserved.
+// Licensed under GPL-2.
 //
-//  Created by Alexey Ermakov on 19.09.2011.
-//
+// Created by Alexey Ermakov on 19.09.2011.
 
 #import "CDProgressbarInputHandler.h"
 

@@ -1,12 +1,9 @@
+// CDProgressbarInputHandlerDelegate.h
+// cocoadialog
 //
-//  CDProgressbarInputHandlerDelegate.h
-//  cocoaDialog
-//
-//  Created by Alexey Ermakov on 22.09.2011.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
-
-#import <Foundation/Foundation.h>
+// Copyright (c) 2004-2017 Mark A. Stratman <mark@sporkstorms.org>, Mark Carver <mark.carver@me.com>.
+// All rights reserved.
+// Licensed under GPL-2.
 
 @protocol CDProgressbarInputHandlerDelegate <NSObject>
 
