@@ -4,24 +4,12 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
+#import <objc/runtime.h>
+#import <ScriptingBridge/ScriptingBridge.h>
 #import "CDControl.h"
 
-@interface CDNotifyControl : CDControl {
-    int             activeNotifications;
-    NSMutableArray  *notifications;
-}
+@interface CDNotifyControl : CDControl
 
-- (void) addNotificationWithTitle:(NSString *)title
-                      description:(NSString *)description
-                             icon:(NSImage *)_icon
-                         priority:(NSNumber *)priority
-                           sticky:(BOOL)sticky
-                        clickPath:(NSString *)clickPath
-                         clickArg:(NSString *)clickArg;
-
-@property (nonatomic, readonly, copy) NSArray *notificationIcons;
-
-- (void) notificationWasClicked:(id)clickContext;
-- (NSArray *) parseTextForArguments:(NSString *)string;
+- (void) notificationActivated:(NSUserNotification *)notification;
 
 @end

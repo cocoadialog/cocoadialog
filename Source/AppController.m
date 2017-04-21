@@ -9,7 +9,7 @@
 
 @implementation AppController
 
-@synthesize aboutAppLink, aboutPanel, aboutText;
+@synthesize aboutAppLink, aboutPanel, aboutText, control;
 
 #pragma mark - Properties
 - (NSString *)appVersion {
@@ -29,18 +29,22 @@
              ].sortedAlphabetically;
 }
 
-#pragma mark - Private static methods
-+ (CDNotifyControl *) createNotifyControlFromOptions:(CDOptions *)options {
-    Class notifyClass = NSClassFromString(!options[@"no-growl"] ? @"CDGrowlControl" : @"CDBubbleControl");
-    CDNotifyControl *control = [[(CDNotifyControl *)[notifyClass alloc] init] autorelease];
-    control.controlName = @"notify";
-    return control;
-}
-
 #pragma mark - Public instance methods
-- (void) awakeFromNib {
+
+- (void)applicationDidFinishLaunching:(NSNotification *)notification {
+    [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
+
+    NSUserNotification *userNotification = notification.userInfo[NSApplicationLaunchUserNotificationKey];
+    if (userNotification) {
+        CDNotifyControl *notify = [CDNotifyControl control];
+        [notify notificationActivated:userNotification];
+        return;
+    }
+
     // Retrieve the control that should be used.
-    CDControl *control = [self getControl];
+    control = [self getControl];
+
+    control.app = self;
 
     // Show control usage.
     if (control.option[@"help"].wasProvided) {
@@ -100,7 +104,8 @@
     }
 
     // Load the control.
-    if (![control loadControlNib:[control controlNib]]) {
+    NSString *nib = [control controlNib];
+    if (nib && ![control loadControlNib:nib]) {
         [control fatalError:@"Unable to load control NIB.", nil];
     }
 
@@ -119,8 +124,6 @@
 
 - (NSDictionary *) controlClasses {
     return @{
-             @"bubble": [CDNotifyControl class],
-             @"cdnotifycontrol": [CDNotifyControl class],
              @"checkbox": [CDCheckboxControl class],
              @"dropdown": [CDPopUpButtonControl class],
              @"fileselect": [CDFileSelectControl class],
@@ -163,8 +166,8 @@
 }
 
 - (CDControl *) getControl {
-    CDControl *control = [CDControl control];
-    NSString *controlName = [self controlNameFromArguments:control.option.arguments];
+    CDControl *aControl = [CDControl control];
+    NSString *controlName = [self controlNameFromArguments:aControl.option.arguments];
     Class controlClass = [self getControlClass:controlName];
 
     // If a control class was provided, use it to contruct the control.
@@ -177,19 +180,19 @@
         // come to the front automatically.
         [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
 
-        control = [[(CDControl *)[controlClass alloc] initWithSeenOptions:control.option.seenOptions] autorelease];
-        control.controlName = controlName;
+        aControl = [(CDControl *)[controlClass alloc] initWithSeenOptions:aControl.option.seenOptions];
+        aControl.controlName = controlName;
     }
     // Otherwise, just create a base control to handle global tasks.
     else {
         // Show global usage.
-        if (controlName == nil && ([controlName isEqualToStringCaseInsensitive:@"help"] || control.option[@"help"].wasProvided)) {
-            [control showUsage];
+        if (controlName == nil && ([controlName isEqualToStringCaseInsensitive:@"help"] || aControl.option[@"help"].wasProvided)) {
+            [aControl showUsage];
             exit(0);
         }
         // Show version.
-        else if (controlName != nil && ([controlName isEqualToStringCaseInsensitive:@"version"] || control.option[@"version"].wasProvided)) {
-            [control.terminal writeLine:[AppController appVersion]];
+        else if (controlName != nil && ([controlName isEqualToStringCaseInsensitive:@"version"] || aControl.option[@"version"].wasProvided)) {
+            [aControl.terminal writeLine:[AppController appVersion]];
             exit(0);
         }
         // Show about.
@@ -206,48 +209,24 @@
             exit(0);
         }
         else if (controlName != nil) {
-            [control fatalError:@"Unknown control: %@\n", controlName.doubleQuote, nil];
+            [aControl fatalError:@"Unknown control: %@\n", controlName.doubleQuote, nil];
         }
     }
 
-    // Control is a notification, these need to be handled much differently.
-    // @todo Remove this custom crap and replace with native notification center APIs.
-    if ([controlName isEqualToStringCaseInsensitive:@"notify"] || [controlName isEqualToStringCaseInsensitive:@"bubble"]) {
-        if (control.option[@"help"].wasProvided) {
-            control = [AppController createNotifyControlFromOptions:control.option];
-            [control showUsage];
-            exit(0);
-        }
+    return aControl;
+}
 
-        // Recapture the arguments.
-        NSMutableArray *arguments = [[[NSMutableArray alloc] initWithArray:[NSProcessInfo processInfo].arguments] autorelease];
-        arguments[1] = @"CDNotifyControl";
-        NSString *launcherSource = [[NSBundle mainBundle] pathForResource:@"relaunch" ofType:@""];
-        [arguments insertObject:launcherSource atIndex:0];
-#if defined __ppc__
-        [arguments insertObject:@"-ppc" atIndex:0];
-#elif defined __i368__
-        [arguments insertObject:@"-i386" atIndex:0];
-#elif defined __ppc64__
-        [arguments insertObject:@"-ppc64" atIndex:0];
-#elif defined __x86_64__
-        [arguments insertObject:@"-x86_64" atIndex:0];
-#endif
-        NSTask *task = [[[NSTask alloc] init] autorelease];
-        task.standardError = [NSFileHandle fileHandleWithStandardError];
-        task.standardOutput = [NSFileHandle fileHandleWithStandardOutput];
-        task.launchPath = @"/usr/bin/arch";
-        task.arguments = arguments;
-        [control debug:@"Relaunching: %@ %@", task.launchPath, [arguments componentsJoinedByString:@" "], nil];
-        [task launch];
-        [task waitUntilExit];
-        exit(task.terminationStatus);
-    }
-    else if ([controlName isEqualToStringCaseInsensitive:@"CDNotifyControl"]) {
-        return [AppController createNotifyControlFromOptions:control.option];
-    }
+- (void) userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification {
+    CDNotifyControl *notify = [CDNotifyControl control];
+    [notify notificationActivated:notification];
+}
 
-    return control;
+- (void)userNotificationCenter:(NSUserNotificationCenter *)center didDeliverNotification:(NSUserNotification *)notification {
+    [control stopControl];
+}
+
+- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification{
+    return YES;
 }
 
 #pragma mark - Label Hyperlinks - @todo move to separate category file

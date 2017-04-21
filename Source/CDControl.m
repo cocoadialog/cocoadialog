@@ -28,10 +28,23 @@
 }
 
 #pragma mark - Public instance methods
+- (NSBundle *) appBundle {
+    return [NSBundle bundleWithIdentifier:option[@"app-bundle"].stringValue] ?: [NSBundle mainBundle];
+}
+
 - (CDOptions *) availableOptions {
     CDOptions *options = [CDOptions options];
 
     // Global.
+    [options addOption:[CDOptionSingleString            name:@"app-bundle"          category:@"GLOBAL_OPTION"]];
+    options[@"app-bundle"].defaultValue = [NSBundle mainBundle].bundleIdentifier;
+
+    [options addOption:[CDOptionSingleString            name:@"app-title"           category:@"GLOBAL_OPTION"]];
+    options[@"app-title"].defaultValue = (CDOptionAutomaticDefaultValue) ^() {
+        NSBundle *appBundle = [self appBundle];
+        return [appBundle objectForInfoDictionaryKey:@"CFBundleDisplayName"] ?: [appBundle objectForInfoDictionaryKey:@"CFBundleName"];
+    };
+
     [options addOption:[CDOptionBoolean                 name:@"color"               category:@"GLOBAL_OPTION"]];
     options[@"color"].defaultValue = (CDOptionAutomaticDefaultValue) ^() {
         return [NSNumber numberWithBool:self.terminal.supportsColor];
@@ -77,7 +90,9 @@
 
     [options addOption:[CDOptionFlag                    name:@"resize"              category:@"WINDOW_OPTION"]];
     [options addOption:[CDOptionSingleString            name:@"title"               category:@"WINDOW_OPTION"]];
-    options[@"title"].defaultValue = @"cocoadialog";
+    options[@"title"].defaultValue = (CDOptionAutomaticDefaultValue) ^() {
+        return option[@"app-title"].stringValue;
+    };
 
     [options addOption:[CDOptionFlag                    name:@"titlebar-close"      category:@"WINDOW_OPTION"]];
     [options addOption:[CDOptionFlag                    name:@"titlebar-minimize"   category:@"WINDOW_OPTION"]];
@@ -99,7 +114,7 @@
 - (void) createControl {};
 
 - (NSString *) controlNib {
-    return @"";
+    return nil;
 }
 
 - (void) dealloc {
@@ -211,18 +226,17 @@
 }
 
 - (void) runControl {
-    // The control must either: 1) sub-class -(NSString *) controlNib, return the name of the NIB, and then connect "panel" in IB or 2) set the panel manually with [self setPanel:(NSPanel *)]  when creating the control.
-    if (self.panel == nil) {
-        [self fatalError:@"The control has not specified the panel it is to use and cocoaDialog cannot continue.", nil];
+    // Handle panels if the control specified one.
+    if (self.panel != nil) {
+        // Set icon
+        if (self.iconView != nil) {
+            [self setIconFromOptions];
+        }
+        // Reposition Panel
+        [self setPosition];
+        [self setFloat];
     }
 
-    // Set icon
-    if (self.iconView != nil) {
-        [self setIconFromOptions];
-    }
-    // Reposition Panel
-    [self setPosition];
-    [self setFloat];
     [NSApp run];
 }
 

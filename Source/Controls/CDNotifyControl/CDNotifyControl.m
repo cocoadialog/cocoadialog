@@ -9,216 +9,93 @@
 
 @implementation CDNotifyControl
 
-- (instancetype) init {
-    self = [super init];
-    if (self) {
-        activeNotifications = 0;
-        notifications = [NSMutableArray array];
-    }
-    return self;
-}
-
 - (CDOptions *) availableOptions {
-    CDOptions *options = [CDOptions options];
-
-    NSString *global = @"GLOBAL_OPTION";
-
-    // Global
-    [options addOption:[CDOptionFlag                    name:@"help"            category:global]];
-    [options addOption:[CDOptionFlag                    name:@"debug"           category:global]];
-    [options addOption:[CDOptionFlag                    name:@"quiet"           category:global]];
-    [options addOption:[CDOptionSingleString            name:@"icon"            category:global]];
-    [options addOption:[CDOptionSingleString            name:@"icon-bundle"     category:global]];
-    [options addOption:[CDOptionSingleString            name:@"icon-file"       category:global]];
-    [options addOption:[CDOptionSingleNumber            name:@"icon-height"     category:global]];
-    [options addOption:[CDOptionSingleNumber            name:@"icon-size"       category:global]];
-    [options addOption:[CDOptionSingleNumber            name:@"icon-width"      category:global]];
-    [options addOption:[CDOptionSingleString            name:@"icon-type"       category:global]];
-    [options addOption:[CDOptionSingleStringOrNumber    name:@"posX"            category:global]];
-    [options addOption:[CDOptionSingleStringOrNumber    name:@"posY"            category:global]];
-    [options addOption:[CDOptionSingleNumber            name:@"timeout"         category:global]];
-
-    // CDNotifyControls
-    [options addOption:[CDOptionSingleString            name:@"alpha"]];
-    [options addOption:[CDOptionSingleString            name:@"fh"]];
-    [options addOption:[CDOptionFlag                    name:@"no-growl"]];
-    [options addOption:[CDOptionFlag                    name:@"sticky"]];
+    // @todo Add a way to "hide" certain global options since they don't all apply here.
+    CDOptions *options = [super availableOptions];
 
     // Text.
-    [options addOption:[CDOptionSingleString            name:@"title"]];
-    [options addOption:[CDOptionMultipleStrings         name:@"titles"]];
-    [options addOption:[CDOptionSingleString            name:@"description"]];
-    [options addOption:[CDOptionMultipleStrings         name:@"descriptions"]];
-
+    [options addOption:[CDOptionSingleString            name:@"subtitle"]];
+    [options addOption:[CDOptionSingleString            name:@"text"]];
 
     // Clicks handler(s).
     [options addOption:[CDOptionSingleString            name:@"click-arg"]];
-    [options addOption:[CDOptionMultipleStrings         name:@"click-args"]];
     [options addOption:[CDOptionSingleString            name:@"click-path"]];
-    [options addOption:[CDOptionMultipleStrings         name:@"click-paths"]];
 
-    // CDBubbleControl Options (they're not used by CDGrowlControl, but need to be
-    // recognized as possible keys for backwards compatability support and so
-    // CDGrowlControl doesn't interpret them as values)
-    //
-    // Options for one bubble
-    [options addOption:[CDOptionSingleString            name:@"text-color"]];
-    [options addOption:[CDOptionSingleString            name:@"border-color"]];
-    [options addOption:[CDOptionSingleString            name:@"background-top"]];
-    [options addOption:[CDOptionSingleString            name:@"background-bottom"]];
-
-    // Options for multiple bubble
-    [options addOption:[CDOptionMultipleStrings         name:@"text-colors"]];
-    [options addOption:[CDOptionMultipleStrings         name:@"border-colors"]];
-    [options addOption:[CDOptionMultipleStrings         name:@"background-tops"]];
-    [options addOption:[CDOptionMultipleStrings         name:@"background-bottoms"]];
-
-    // With this set, clicking one bubble won't kill the rest.
-    [options addOption:[CDOptionFlag                    name:@"independent"]];
-
-    // Deprecated options.
-    [options addOption:[CDOptionDeprecated              from:@"text"        to:@"description"]];
-    [options addOption:[CDOptionDeprecated              from:@"texts"       to:@"descriptions"]];
-    [options addOption:[CDOptionDeprecated              from:@"no-timeout"  to:@"sticky"]];
-    [options addOption:[CDOptionDeprecated              from:@"x-placement" to:@"posX"]];
-    [options addOption:[CDOptionDeprecated              from:@"y-placement" to:@"posY"]];
+    // Required options.
+    options[@"title"].required = YES;
+    options[@"title"].defaultValue = nil;
 
     return options;
 }
 
-- (void) dealloc {
-    [notifications release];
-    [super dealloc];
-}
+- (void) notificationActivated:(NSUserNotification *)notification {
 
-- (void)addNotificationWithTitle:(NSString *)title description:(NSString *)description icon:(NSImage *)_icon priority:(NSNumber *)priority sticky:(BOOL)sticky clickPath:(NSString *)clickPath clickArg:(NSString *)clickArg {
-
-    if (!(option[@"title"] && option[@"description"]) || !(option[@"titles"] && option[@"descriptions"])) {
-        [self fatalError:@"You must specify either --title and --description, or --titles and --descriptions (with the same number of args).", nil];
+    id app = [SBApplication applicationWithBundleIdentifier:notification.userInfo[@"bundleIdentifier"]];
+    if (app) {
+        [app activate];
     }
 
-    NSMutableDictionary * notification = [NSMutableDictionary dictionary];
-    notification[@"title"] = title;
-    notification[@"description"] = description;
-    notification[@"icon"] = _icon;
-    NSData *iconData = [NSData dataWithData:_icon.TIFFRepresentation];
-    if (iconData == nil) {
-        iconData = [NSData data];
-    }
-    notification[@"iconData"] = iconData;
-    if (priority == nil) {
-        priority = @0;
-    }
-    notification[@"priority"] = priority;
-    notification[@"sticky"] = @(sticky);
-    if (clickPath == nil) {
-        clickPath = @"";
-    }
-    notification[@"clickPath"] = clickPath;
-    if (clickArg == nil) {
-        clickArg = @"";
-    }
-    notification[@"clickArg"] = clickArg;
-    [notifications addObject:notification];
-}
+    NSString *command = notification.userInfo[@"command"];
+    if (command) {
+        NSPipe *pipe = [NSPipe pipe];
+        NSFileHandle *fileHandle = [pipe fileHandleForReading];
 
-// returns an NSArray of NSImage's or nil if there's only one.
-- (NSArray *) notificationIcons {
-	NSMutableArray *icons = [NSMutableArray array];
-	NSArray *iconArgs;
-	NSEnumerator *en;
-    
-	if (option[@"icons"].wasProvided) {
-		iconArgs = option[@"icons"].arrayValue;
-		en = [iconArgs objectEnumerator];
-		NSString *iconName;
-		while (iconName = (NSString *)[en nextObject]) {
-            NSImage * _icon = [self iconFromName:iconName];
-			if (_icon == nil) {
-				_icon = NSApp.applicationIconImage;
-			}
-			[icons addObject:_icon];
-		}
-        
-	}
-    else if (option[@"icon-files"].wasProvided) {
-		iconArgs = option[@"icon-files"].arrayValue;
-		en = [iconArgs objectEnumerator];
-		NSString *fileName;
-		while (fileName = (NSString *)[en nextObject]) {
-            NSImage * _icon = [self iconFromFile:fileName];
-			if (_icon == nil) {
-				_icon = NSApp.applicationIconImage;
-			}
-			[icons addObject:_icon];
-		}
-        
-	}
-    else {
-		return nil;
-	}
-    
-	return icons;
-}
-
-- (void) notificationWasClicked:(id)clickContext
-{
-    NSDictionary * notification = [NSDictionary dictionaryWithDictionary:notifications[[clickContext intValue]]];
-    NSString * path = notification[@"clickPath"];
-    if ([path isEqualToStringCaseInsensitive:@"cocoaDialog"]) {
-        path = [NSProcessInfo processInfo].arguments[0];
-    }
-    NSMutableArray *args = [NSMutableArray array];
-    if (![notification[@"clickArg"] isEqualToString:@""]) {
-        args = [NSMutableArray arrayWithArray:[self parseTextForArguments:notification[@"clickArg"]]];
-    }
-    // Check to ensure the file exists before launching the command
-    if (![path isEqualToString:@""] && [[NSFileManager defaultManager] fileExistsAtPath:path]) {
-        [args insertObject:path atIndex:0];
-#if defined __ppc__ || defined __i368__
-        [args insertObject:@"-32" atIndex:0];
-#elif defined __ppc64__ || defined __x86_64__
-        [args insertObject:@"-64" atIndex:0];
-#endif
-        NSTask *task = [[[NSTask alloc] init] autorelease];
-        // Output must be silenced to not hang this process
-        task.standardError = [NSPipe pipe];
-        task.standardOutput = [NSPipe pipe];
-        task.launchPath = @"/usr/bin/arch";
-        task.arguments = args;
+        NSTask *task = [NSTask new];
+        task.launchPath = @"/bin/sh";
+        task.arguments = @[@"-c", command];
+        task.standardOutput = pipe;
+        task.standardError = pipe;
         [task launch];
+
+        NSData *data = nil;
+        NSMutableData *accumulatedData = [NSMutableData data];
+        while ((data = [fileHandle availableData]) && [data length]) {
+            [accumulatedData appendData:data];
+        }
+
+        [task waitUntilExit];
+        NSLog(@"command output:\n%@", [[NSString alloc] initWithData:accumulatedData encoding:NSUTF8StringEncoding]);
     }
+
+    [[NSUserNotificationCenter defaultUserNotificationCenter] removeDeliveredNotification:notification];
 }
 
-- (NSArray *) parseTextForArguments:(NSString *)string
-{
-    NSMutableArray* masterArray = [NSMutableArray array];
-    // Make quotes on their own lines
-    string = [string stringByReplacingOccurrencesOfString:@"\"" withString:[NSString stringWithFormat: @"\n\"\n"]];
-    NSArray * quotedArray = [string componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-    BOOL inQuote = NO;
-    NSEnumerator *en = [quotedArray objectEnumerator];
-    id arg;
-    while (arg = [en nextObject]) {
-        NSMutableArray* spacedArray = [NSMutableArray array];
-        // Determine which quote state we're in
-        if ([[arg substringToIndex:1] isEqualToString:@"\""]) {
-            inQuote = !inQuote;
-            continue;
-        }
-        if (![arg isEqualToString:@""] || arg != nil) {
-            if (inQuote) {
-                [spacedArray addObject:arg];
-            }
-            else {
-                // Trim any spaces or newlines from the beginning or end
-                arg = [arg stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-                [spacedArray addObjectsFromArray: [arg componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
-            }
-            [masterArray addObjectsFromArray:spacedArray];
-        }
+
+- (void) runControl {
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+
+    NSBundle *appBundle = [self appBundle];
+    if (appBundle) {
+        userInfo[@"bundleIdentifier"] = appBundle.bundleIdentifier;
     }
-    return masterArray;
+
+    NSUserNotification *notification = [NSUserNotification new];
+
+    notification.title = option[@"title"].stringValue;
+    notification.subtitle = option[@"subtitle"].stringValue;
+    notification.informativeText = option[@"description"].stringValue;
+
+    NSImage *icon = [self icon] ?: [[NSWorkspace sharedWorkspace] iconForFile:[appBundle bundlePath]];
+    if (icon) {
+        [notification setValue:icon forKey:@"_identityImage"];
+        [notification setValue:@NO forKey:@"_identityImageHasBorder"];
+    }
+
+    notification.soundName = NSUserNotificationDefaultSoundName;
+
+
+    // Todo replace with actual option supplied command.
+    NSMutableString *command = [NSMutableString stringWithString:[NSBundle mainBundle].bundlePath];
+    [command appendString:@"/Contents/MacOS/cocoadialog msgbox --title 'Notification Action' --label 'This opened when you clicked the notification.' --button1 Okay --button2 Cancel"];
+
+    userInfo[@"command"] = command;
+
+    notification.userInfo = userInfo;
+
+    [NSUserNotificationCenter.defaultUserNotificationCenter deliverNotification:notification];
+
+    [NSApp run];
 }
+
 
 @end

@@ -11,11 +11,9 @@
 
 // Controls.
 #import "CDControl.h"
-#import "CDBubbleControl.h"
 #import "CDCheckboxControl.h"
 #import "CDFileSelectControl.h"
 #import "CDFileSaveControl.h"
-#import "CDGrowlControl.h"
 #import "CDInputboxControl.h"
 #import "CDMsgboxControl.h"
 #import "CDNotifyControl.h"
@@ -35,13 +33,14 @@
 #define CDSite "https://mstratman.github.io/cocoadialog/"
 
 #pragma mark -
-@interface AppController : NSObject
+@interface AppController : NSObject <NSApplicationDelegate, NSUserNotificationCenterDelegate>
 
 #pragma mark - Properties
 @property (nonatomic, retain) IBOutlet  NSTextField *aboutAppLink;
 @property (nonatomic, retain) IBOutlet  NSPanel     *aboutPanel;
 @property (nonatomic, retain) IBOutlet  NSTextField *aboutText;
 @property (nonatomic, readonly, copy)   NSString    *appVersion;
+@property (nonatomic, retain)           CDControl   *control;
 
 #pragma mark - Public static methods
 + (NSString *) appVersion;
