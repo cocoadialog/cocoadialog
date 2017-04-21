@@ -9,6 +9,8 @@
 #import "NSArray+CocoaDialog.h"
 #import "NSString+CocoaDialog.h"
 
+#import "CDPanel.h"
+
 // Controls.
 #import "CDControl.h"
 #import "CDCheckboxControl.h"
@@ -37,7 +39,7 @@
 
 #pragma mark - Properties
 @property (nonatomic, retain) IBOutlet  NSTextField *aboutAppLink;
-@property (nonatomic, retain) IBOutlet  NSPanel     *aboutPanel;
+@property (nonatomic, retain) IBOutlet  CDPanel     *aboutPanel;
 @property (nonatomic, retain) IBOutlet  NSTextField *aboutText;
 @property (nonatomic, readonly, copy)   NSString    *appVersion;
 @property (nonatomic, retain)           CDControl   *control;

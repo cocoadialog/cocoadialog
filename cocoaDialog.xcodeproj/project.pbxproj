@@ -7,20 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0E71DA1B0963B19500FF6F7C /* cocoadialog.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E71DA0A0963B19500FF6F7C /* cocoadialog.icns */; };
-		6187E60114664988005067DB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6187E60014664988005067DB /* main.m */; };
-		6190D1D8146CAFB30083364D /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78A8CE8143784A8007AE363 /* Growl.framework */; };
-		6190D1D9146CAFC20083364D /* Growl.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = A78A8CE8143784A8007AE363 /* Growl.framework */; };
-		61C9A9D014665F5B0054DD91 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		61C9A9D314665F680054DD91 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		61EC90AC145FACF8003ADF05 /* AppController.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EC906B145FACF8003ADF05 /* AppController.h */; };
 		61EC90AD145FACF8003ADF05 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC906C145FACF8003ADF05 /* AppController.m */; };
-		61EC90E7145FACF8003ADF05 /* cocoaDialog_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 61EC90AB145FACF8003ADF05 /* cocoaDialog_Prefix.pch */; };
 		61EC90E9145FAD58003ADF05 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC90E8145FAD58003ADF05 /* main.m */; };
+		A70D2CDB1EAA93D5001825C4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A70D2CDA1EAA93D5001825C4 /* Images.xcassets */; };
 		A7140B9C1E9D588400A50272 /* CDColor.m in Sources */ = {isa = PBXBuildFile; fileRef = A7140B9B1E9D588400A50272 /* CDColor.m */; };
 		A72AB9651EA21146001B803B /* CDControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A72AB9631EA21146001B803B /* CDControl.h */; };
 		A72AB9661EA21146001B803B /* CDControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A72AB9641EA21146001B803B /* CDControl.m */; };
-		A78A8CD414376C42007AE363 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB5143759ED007AE363 /* InfoPlist.strings */; };
+		A770D5DD1EAAAD70004D1138 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A77365B41EA87F3100FDC070 /* Cocoa.framework */; };
+		A770D5DF1EAAAD77004D1138 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A770D5DE1EAAAD77004D1138 /* Foundation.framework */; };
+		A770D5E11EAAADA2004D1138 /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A770D5E01EAAADA2004D1138 /* ScriptingBridge.framework */; };
 		A78A8CD514376C42007AE363 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB7143759ED007AE363 /* MainMenu.xib */; };
 		A78A8CD614376C42007AE363 /* Msgbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CB9143759ED007AE363 /* Msgbox.xib */; };
 		A78A8CD714376C42007AE363 /* Progressbar.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CBB143759ED007AE363 /* Progressbar.xib */; };
@@ -39,18 +35,8 @@
 		A796ED0A1E9A38F8008EE718 /* CDFileSaveControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECCC1E9A38F8008EE718 /* CDFileSaveControl.m */; };
 		A796ED0B1E9A38F8008EE718 /* CDFileSelectControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECCD1E9A38F8008EE718 /* CDFileSelectControl.h */; };
 		A796ED0C1E9A38F8008EE718 /* CDFileSelectControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECCE1E9A38F8008EE718 /* CDFileSelectControl.m */; };
-		A796ED0F1E9A38F8008EE718 /* CDBubbleControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECD21E9A38F8008EE718 /* CDBubbleControl.h */; };
-		A796ED101E9A38F8008EE718 /* CDBubbleControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECD31E9A38F8008EE718 /* CDBubbleControl.m */; };
-		A796ED111E9A38F8008EE718 /* CDGrowlControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECD41E9A38F8008EE718 /* CDGrowlControl.h */; };
-		A796ED121E9A38F8008EE718 /* CDGrowlControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECD51E9A38F8008EE718 /* CDGrowlControl.m */; };
 		A796ED131E9A38F8008EE718 /* CDNotifyControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECD61E9A38F8008EE718 /* CDNotifyControl.h */; };
 		A796ED141E9A38F8008EE718 /* CDNotifyControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECD71E9A38F8008EE718 /* CDNotifyControl.m */; };
-		A796ED151E9A38F8008EE718 /* KABubbleWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECD81E9A38F8008EE718 /* KABubbleWindow.h */; };
-		A796ED161E9A38F8008EE718 /* KABubbleWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECD91E9A38F8008EE718 /* KABubbleWindow.m */; };
-		A796ED171E9A38F8008EE718 /* KABubbleWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECDA1E9A38F8008EE718 /* KABubbleWindowController.h */; };
-		A796ED181E9A38F8008EE718 /* KABubbleWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECDB1E9A38F8008EE718 /* KABubbleWindowController.m */; };
-		A796ED191E9A38F8008EE718 /* KABubbleWindowView.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECDC1E9A38F8008EE718 /* KABubbleWindowView.h */; };
-		A796ED1A1E9A38F8008EE718 /* KABubbleWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECDD1E9A38F8008EE718 /* KABubbleWindowView.m */; };
 		A796ED1D1E9A38F8008EE718 /* CDProgressbarControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECE11E9A38F8008EE718 /* CDProgressbarControl.h */; };
 		A796ED1E1E9A38F8008EE718 /* CDProgressbarControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ECE21E9A38F8008EE718 /* CDProgressbarControl.m */; };
 		A796ED1F1E9A38F8008EE718 /* CDProgressbarInputHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = A796ECE31E9A38F8008EE718 /* CDProgressbarInputHandler.h */; };
@@ -91,55 +77,28 @@
 		A796ED561E9B2926008EE718 /* CDTerminal.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ED551E9B2926008EE718 /* CDTerminal.m */; };
 		A796ED5A1E9BBD14008EE718 /* NSArray+CocoaDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = A796ED591E9BBD13008EE718 /* NSArray+CocoaDialog.m */; };
 		A7B9A4221EA32F5500FCC725 /* CDJson.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B9A4211EA32F5500FCC725 /* CDJson.m */; };
-		A7BABB401445829B00D3F168 /* relaunch in Resources */ = {isa = PBXBuildFile; fileRef = A7BABB2E1445817B00D3F168 /* relaunch */; };
 		A7D40438153C2BC3005FA3CD /* popup.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7D40436153C2BC3005FA3CD /* popup.xib */; };
+		A7E545411EA9C9B0001C466B /* CDPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E545401EA9C9B0001C466B /* CDPanel.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		61C9A9D614665F7E0054DD91 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A7BABB2D1445817B00D3F168;
-			remoteInfo = relaunch;
-		};
-/* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		A78A8CEA143784BD007AE363 /* Copy Files */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				6190D1D9146CAFC20083364D /* Growl.framework in Copy Files */,
-			);
-			name = "Copy Files";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		0E71DA0A0963B19500FF6F7C /* cocoadialog.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = cocoadialog.icns; path = Resources/cocoadialog.icns; sourceTree = "<group>"; };
-		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
-		6187E60014664988005067DB /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		61EC906B145FACF8003ADF05 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = Source/AppController.h; sourceTree = "<group>"; };
 		61EC906C145FACF8003ADF05 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppController.m; path = Source/AppController.m; sourceTree = "<group>"; };
-		61EC90AB145FACF8003ADF05 /* cocoaDialog_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cocoaDialog_Prefix.pch; path = Source/cocoaDialog_Prefix.pch; sourceTree = "<group>"; };
 		61EC90E8145FAD58003ADF05 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Source/main.m; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* cocoaDialog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cocoaDialog.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107320486CEB800E47090 /* cocoadialog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cocoadialog.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A70D2CDA1EAA93D5001825C4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Resources/Images.xcassets; sourceTree = "<group>"; };
 		A7140B9B1E9D588400A50272 /* CDColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDColor.m; path = Source/CDColor.m; sourceTree = "<group>"; };
 		A7140B9D1E9D589300A50272 /* CDColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CDColor.h; path = Source/CDColor.h; sourceTree = "<group>"; };
 		A72AB9631EA21146001B803B /* CDControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDControl.h; path = Source/CDControl.h; sourceTree = "<group>"; };
 		A72AB9641EA21146001B803B /* CDControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDControl.m; path = Source/CDControl.m; sourceTree = "<group>"; };
+		A770D5DE1EAAAD77004D1138 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		A770D5E01EAAADA2004D1138 /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
+		A77365B41EA87F3100FDC070 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		A78A8C9514375704007AE363 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ConfigDebug.xcconfig; sourceTree = "<group>"; };
 		A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ConfigRelease.xcconfig; sourceTree = "<group>"; };
 		A78A8CDE14377610007AE363 /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
 		A78A8CDF14377610007AE363 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		A78A8CE8143784A8007AE363 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
-		A78A8CF21437938D007AE363 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		A78A97A01E95C5E700E4B3D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Resources/Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		A78A97A11E95C5E700E4B3D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Resources/Base.lproj/Msgbox.xib; sourceTree = "<group>"; };
 		A78A97A21E95C5E700E4B3D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Resources/Base.lproj/popup.xib; sourceTree = "<group>"; };
@@ -147,8 +106,6 @@
 		A78A97A41E95C5E700E4B3D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Resources/Base.lproj/tbc.xib; sourceTree = "<group>"; };
 		A78A97A51E95C5E700E4B3D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Resources/Base.lproj/Textbox.xib; sourceTree = "<group>"; };
 		A78A97A61E95C5F600E4B3D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Info.plist; sourceTree = "<group>"; };
-		A78A97A81E95C5FE00E4B3D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Resources/Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		A78A97B61E95C62900E4B3D1 /* en-US */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "en-US"; path = "en-US.lproj/Info.plist"; sourceTree = "<group>"; };
 		A796ECB91E9A37D7008EE718 /* CDOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOption.h; sourceTree = "<group>"; };
 		A796ECBA1E9A37D7008EE718 /* CDOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOption.m; sourceTree = "<group>"; };
 		A796ECBB1E9A37D7008EE718 /* CDOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOptions.h; sourceTree = "<group>"; };
@@ -159,18 +116,8 @@
 		A796ECCC1E9A38F8008EE718 /* CDFileSaveControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDFileSaveControl.m; sourceTree = "<group>"; };
 		A796ECCD1E9A38F8008EE718 /* CDFileSelectControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDFileSelectControl.h; sourceTree = "<group>"; };
 		A796ECCE1E9A38F8008EE718 /* CDFileSelectControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDFileSelectControl.m; sourceTree = "<group>"; };
-		A796ECD21E9A38F8008EE718 /* CDBubbleControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDBubbleControl.h; sourceTree = "<group>"; };
-		A796ECD31E9A38F8008EE718 /* CDBubbleControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDBubbleControl.m; sourceTree = "<group>"; };
-		A796ECD41E9A38F8008EE718 /* CDGrowlControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDGrowlControl.h; sourceTree = "<group>"; };
-		A796ECD51E9A38F8008EE718 /* CDGrowlControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDGrowlControl.m; sourceTree = "<group>"; };
 		A796ECD61E9A38F8008EE718 /* CDNotifyControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDNotifyControl.h; sourceTree = "<group>"; };
 		A796ECD71E9A38F8008EE718 /* CDNotifyControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDNotifyControl.m; sourceTree = "<group>"; };
-		A796ECD81E9A38F8008EE718 /* KABubbleWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KABubbleWindow.h; sourceTree = "<group>"; };
-		A796ECD91E9A38F8008EE718 /* KABubbleWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KABubbleWindow.m; sourceTree = "<group>"; };
-		A796ECDA1E9A38F8008EE718 /* KABubbleWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KABubbleWindowController.h; sourceTree = "<group>"; };
-		A796ECDB1E9A38F8008EE718 /* KABubbleWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KABubbleWindowController.m; sourceTree = "<group>"; };
-		A796ECDC1E9A38F8008EE718 /* KABubbleWindowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KABubbleWindowView.h; sourceTree = "<group>"; };
-		A796ECDD1E9A38F8008EE718 /* KABubbleWindowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KABubbleWindowView.m; sourceTree = "<group>"; };
 		A796ECE11E9A38F8008EE718 /* CDProgressbarControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDProgressbarControl.h; sourceTree = "<group>"; };
 		A796ECE21E9A38F8008EE718 /* CDProgressbarControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDProgressbarControl.m; sourceTree = "<group>"; };
 		A796ECE31E9A38F8008EE718 /* CDProgressbarInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDProgressbarInputHandler.h; sourceTree = "<group>"; };
@@ -216,10 +163,8 @@
 		A7A51DE11E96B03200469C11 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Resources/Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A7B9A4211EA32F5500FCC725 /* CDJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDJson.m; path = Source/CDJson.m; sourceTree = "<group>"; };
 		A7B9A4231EA32F6B00FCC725 /* CDJson.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CDJson.h; path = Source/CDJson.h; sourceTree = "<group>"; };
-		A7BABA9714456CC800D3F168 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		A7BABADA1445809700D3F168 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		A7BABB051445810000D3F168 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
-		A7BABB2E1445817B00D3F168 /* relaunch */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = relaunch; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7E545401EA9C9B0001C466B /* CDPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDPanel.m; path = Source/CDPanel.m; sourceTree = "<group>"; };
+		A7E545421EA9C9BD001C466B /* CDPanel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CDPanel.h; path = Source/CDPanel.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,40 +172,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				61C9A9D314665F680054DD91 /* Cocoa.framework in Frameworks */,
-				6190D1D8146CAFB30083364D /* Growl.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A7BABB2B1445817B00D3F168 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				61C9A9D014665F5B0054DD91 /* Cocoa.framework in Frameworks */,
+				A770D5E11EAAADA2004D1138 /* ScriptingBridge.framework in Frameworks */,
+				A770D5DF1EAAAD77004D1138 /* Foundation.framework in Frameworks */,
+				A770D5DD1EAAAD70004D1138 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1058C7A0FEA54F0111CA2CBB /* Apple Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
-				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
-				A7BABADA1445809700D3F168 /* CoreData.framework */,
-				A78A8CF21437938D007AE363 /* CoreFoundation.framework */,
-				A7BABB051445810000D3F168 /* CoreServices.framework */,
-				A7BABA9714456CC800D3F168 /* Foundation.framework */,
-			);
-			name = "Apple Frameworks";
-			sourceTree = "<group>";
-		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D1107320486CEB800E47090 /* cocoaDialog.app */,
-				A7BABB2E1445817B00D3F168 /* relaunch */,
+				8D1107320486CEB800E47090 /* cocoadialog.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -272,10 +196,10 @@
 				A78A8CDF14377610007AE363 /* LICENSE */,
 				A78A8CDE14377610007AE363 /* CHANGELOG */,
 				A78A8C9414375703007AE363 /* Configurations */,
-				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				6187E60D146651CA005067DB /* Source */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				A77365B31EA87F3100FDC070 /* Frameworks */,
 			);
 			name = cocoaDialog;
 			sourceTree = "<group>";
@@ -284,43 +208,23 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A70D2CDA1EAA93D5001825C4 /* Images.xcassets */,
 				A78A97A71E95C5F600E4B3D1 /* Info.plist */,
 				A78A97B71E95C65000E4B3D1 /* Localizable.strings */,
-				A78A8CB5143759ED007AE363 /* InfoPlist.strings */,
 				A78A8CB7143759ED007AE363 /* MainMenu.xib */,
 				A78A8CB9143759ED007AE363 /* Msgbox.xib */,
 				A7D40436153C2BC3005FA3CD /* popup.xib */,
 				A78A8CBB143759ED007AE363 /* Progressbar.xib */,
 				A78A8CBD143759ED007AE363 /* tbc.xib */,
 				A78A8CBF143759ED007AE363 /* Textbox.xib */,
-				0E71DA0A0963B19500FF6F7C /* cocoadialog.icns */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				A78A8CE8143784A8007AE363 /* Growl.framework */,
-				1058C7A0FEA54F0111CA2CBB /* Apple Frameworks */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		6187E5FF14664987005067DB /* relaunch */ = {
-			isa = PBXGroup;
-			children = (
-				6187E60014664988005067DB /* main.m */,
-			);
-			name = relaunch;
-			path = Source/relaunch;
 			sourceTree = "<group>";
 		};
 		6187E60D146651CA005067DB /* Source */ = {
 			isa = PBXGroup;
 			children = (
 				61EC90E8145FAD58003ADF05 /* main.m */,
-				61EC90AB145FACF8003ADF05 /* cocoaDialog_Prefix.pch */,
 				61EC906B145FACF8003ADF05 /* AppController.h */,
 				61EC906C145FACF8003ADF05 /* AppController.m */,
 				A7140B9D1E9D589300A50272 /* CDColor.h */,
@@ -329,14 +233,25 @@
 				A72AB9641EA21146001B803B /* CDControl.m */,
 				A7B9A4231EA32F6B00FCC725 /* CDJson.h */,
 				A7B9A4211EA32F5500FCC725 /* CDJson.m */,
+				A7E545421EA9C9BD001C466B /* CDPanel.h */,
+				A7E545401EA9C9B0001C466B /* CDPanel.m */,
 				A796ED571E9B2C2F008EE718 /* CDTerminal.h */,
 				A796ED551E9B2926008EE718 /* CDTerminal.m */,
 				A796ED411E9AF509008EE718 /* Categories */,
 				A796ECB61E9A37D7008EE718 /* Options */,
 				A796ECC31E9A38F8008EE718 /* Controls */,
-				6187E5FF14664987005067DB /* relaunch */,
 			);
 			name = Source;
+			sourceTree = "<group>";
+		};
+		A77365B31EA87F3100FDC070 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A770D5E01EAAADA2004D1138 /* ScriptingBridge.framework */,
+				A770D5DE1EAAAD77004D1138 /* Foundation.framework */,
+				A77365B41EA87F3100FDC070 /* Cocoa.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		A78A8C9414375703007AE363 /* Configurations */ = {
@@ -389,18 +304,8 @@
 		A796ECD11E9A38F8008EE718 /* CDNotifyControl */ = {
 			isa = PBXGroup;
 			children = (
-				A796ECD21E9A38F8008EE718 /* CDBubbleControl.h */,
-				A796ECD31E9A38F8008EE718 /* CDBubbleControl.m */,
-				A796ECD41E9A38F8008EE718 /* CDGrowlControl.h */,
-				A796ECD51E9A38F8008EE718 /* CDGrowlControl.m */,
 				A796ECD61E9A38F8008EE718 /* CDNotifyControl.h */,
 				A796ECD71E9A38F8008EE718 /* CDNotifyControl.m */,
-				A796ECD81E9A38F8008EE718 /* KABubbleWindow.h */,
-				A796ECD91E9A38F8008EE718 /* KABubbleWindow.m */,
-				A796ECDA1E9A38F8008EE718 /* KABubbleWindowController.h */,
-				A796ECDB1E9A38F8008EE718 /* KABubbleWindowController.m */,
-				A796ECDC1E9A38F8008EE718 /* KABubbleWindowView.h */,
-				A796ECDD1E9A38F8008EE718 /* KABubbleWindowView.m */,
 			);
 			path = CDNotifyControl;
 			sourceTree = "<group>";
@@ -476,7 +381,6 @@
 				A796ED131E9A38F8008EE718 /* CDNotifyControl.h in Headers */,
 				A796ED3C1E9A38F8008EE718 /* CDYesNoMsgboxControl.h in Headers */,
 				A796ED2C1E9A38F8008EE718 /* CDRadioControl.h in Headers */,
-				A796ED191E9A38F8008EE718 /* KABubbleWindowView.h in Headers */,
 				61EC90AC145FACF8003ADF05 /* AppController.h in Headers */,
 				A796ECBF1E9A37D7008EE718 /* CDOption.h in Headers */,
 				A796ED301E9A38F8008EE718 /* CDSecureStandardInputboxControl.h in Headers */,
@@ -486,8 +390,6 @@
 				A796ED2E1E9A38F8008EE718 /* CDSecureInputboxControl.h in Headers */,
 				A796ED531E9B0D3A008EE718 /* NSString+CDColor.h in Headers */,
 				A796ED341E9A38F8008EE718 /* CDStandardInputboxControl.h in Headers */,
-				A796ED111E9A38F8008EE718 /* CDGrowlControl.h in Headers */,
-				A796ED171E9A38F8008EE718 /* KABubbleWindowController.h in Headers */,
 				A796ECC11E9A37D7008EE718 /* CDOptions.h in Headers */,
 				A796ED071E9A38F8008EE718 /* CDFileDialogControl.h in Headers */,
 				A796ED1D1E9A38F8008EE718 /* CDProgressbarControl.h in Headers */,
@@ -497,14 +399,11 @@
 				A796ED321E9A38F8008EE718 /* CDSlider.h in Headers */,
 				A796ED211E9A38F8008EE718 /* CDProgressbarInputHandlerDelegate.h in Headers */,
 				A796ED2A1E9A38F8008EE718 /* CDPopUpButtonControl.h in Headers */,
-				A796ED151E9A38F8008EE718 /* KABubbleWindow.h in Headers */,
 				A796ED241E9A38F8008EE718 /* CDInputboxControl.h in Headers */,
 				A796ED481E9AF509008EE718 /* NSString+CocoaDialog.h in Headers */,
-				A796ED0F1E9A38F8008EE718 /* CDBubbleControl.h in Headers */,
 				A796ED0B1E9A38F8008EE718 /* CDFileSelectControl.h in Headers */,
 				A796ED361E9A38F8008EE718 /* CDStandardPopUpButtonControl.h in Headers */,
 				A72AB9651EA21146001B803B /* CDControl.h in Headers */,
-				61EC90E7145FACF8003ADF05 /* cocoaDialog_Prefix.pch in Headers */,
 				A796ED261E9A38F8008EE718 /* CDMsgboxControl.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -512,42 +411,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8D1107260486CEB800E47090 /* cocoaDialog */ = {
+		8D1107260486CEB800E47090 /* cocoadialog */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0E77E99F0963C37C00D651A3 /* Build configuration list for PBXNativeTarget "cocoaDialog" */;
+			buildConfigurationList = 0E77E99F0963C37C00D651A3 /* Build configuration list for PBXNativeTarget "cocoadialog" */;
 			buildPhases = (
 				8D1107270486CEB800E47090 /* Headers */,
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
-				A78A8CEA143784BD007AE363 /* Copy Files */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				61C9A9D714665F7E0054DD91 /* PBXTargetDependency */,
 			);
-			name = cocoaDialog;
+			name = cocoadialog;
 			productInstallPath = "$(HOME)/Applications";
 			productName = cocoaDialog;
-			productReference = 8D1107320486CEB800E47090 /* cocoaDialog.app */;
+			productReference = 8D1107320486CEB800E47090 /* cocoadialog.app */;
 			productType = "com.apple.product-type.application";
-		};
-		A7BABB2D1445817B00D3F168 /* relaunch */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A7BABB381445817B00D3F168 /* Build configuration list for PBXNativeTarget "relaunch" */;
-			buildPhases = (
-				A7BABB2A1445817B00D3F168 /* Sources */,
-				A7BABB2B1445817B00D3F168 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = relaunch;
-			productName = relaunch;
-			productReference = A7BABB2E1445817B00D3F168 /* relaunch */;
-			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
@@ -560,12 +441,9 @@
 					8D1107260486CEB800E47090 = {
 						LastSwiftMigration = 0830;
 					};
-					A7BABB2D1445817B00D3F168 = {
-						LastSwiftMigration = 0830;
-					};
 				};
 			};
-			buildConfigurationList = 0E77E9A30963C37C00D651A3 /* Build configuration list for PBXProject "cocoaDialog" */;
+			buildConfigurationList = 0E77E9A30963C37C00D651A3 /* Build configuration list for PBXProject "cocoadialog" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = "en-US";
 			hasScannedForEncodings = 1;
@@ -578,8 +456,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D1107260486CEB800E47090 /* cocoaDialog */,
-				A7BABB2D1445817B00D3F168 /* relaunch */,
+				8D1107260486CEB800E47090 /* cocoadialog */,
 			);
 		};
 /* End PBXProject section */
@@ -589,10 +466,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A7BABB401445829B00D3F168 /* relaunch in Resources */,
 				A78A97B91E95C65000E4B3D1 /* Localizable.strings in Resources */,
-				0E71DA1B0963B19500FF6F7C /* cocoadialog.icns in Resources */,
-				A78A8CD414376C42007AE363 /* InfoPlist.strings in Resources */,
+				A70D2CDB1EAA93D5001825C4 /* Images.xcassets in Resources */,
 				A78A8CD514376C42007AE363 /* MainMenu.xib in Resources */,
 				A78A8CD614376C42007AE363 /* Msgbox.xib in Resources */,
 				A78A8CD714376C42007AE363 /* Progressbar.xib in Resources */,
@@ -615,15 +490,12 @@
 				A796ED231E9A38F8008EE718 /* CDCheckboxControl.m in Sources */,
 				A7B9A4221EA32F5500FCC725 /* CDJson.m in Sources */,
 				A796ED371E9A38F8008EE718 /* CDStandardPopUpButtonControl.m in Sources */,
-				A796ED181E9A38F8008EE718 /* KABubbleWindowController.m in Sources */,
 				A796ED541E9B0D3A008EE718 /* NSString+CDColor.m in Sources */,
 				A796ED351E9A38F8008EE718 /* CDStandardInputboxControl.m in Sources */,
 				A796ED141E9A38F8008EE718 /* CDNotifyControl.m in Sources */,
-				A796ED101E9A38F8008EE718 /* CDBubbleControl.m in Sources */,
 				A796ED2F1E9A38F8008EE718 /* CDSecureInputboxControl.m in Sources */,
 				A796ECC21E9A37D7008EE718 /* CDOptions.m in Sources */,
 				A796ED0A1E9A38F8008EE718 /* CDFileSaveControl.m in Sources */,
-				A796ED1A1E9A38F8008EE718 /* KABubbleWindowView.m in Sources */,
 				A796ED331E9A38F8008EE718 /* CDSlider.m in Sources */,
 				A796ED3D1E9A38F8008EE718 /* CDYesNoMsgboxControl.m in Sources */,
 				A72AB9661EA21146001B803B /* CDControl.m in Sources */,
@@ -632,10 +504,8 @@
 				A796ED251E9A38F8008EE718 /* CDInputboxControl.m in Sources */,
 				A796ED2D1E9A38F8008EE718 /* CDRadioControl.m in Sources */,
 				A796ED1E1E9A38F8008EE718 /* CDProgressbarControl.m in Sources */,
-				A796ED121E9A38F8008EE718 /* CDGrowlControl.m in Sources */,
 				A796ED081E9A38F8008EE718 /* CDFileDialogControl.m in Sources */,
 				A796ED5A1E9BBD14008EE718 /* NSArray+CocoaDialog.m in Sources */,
-				A796ED161E9A38F8008EE718 /* KABubbleWindow.m in Sources */,
 				A796ED311E9A38F8008EE718 /* CDSecureStandardInputboxControl.m in Sources */,
 				A796ED491E9AF509008EE718 /* NSString+CocoaDialog.m in Sources */,
 				A796ED3B1E9A38F8008EE718 /* CDThreeButtonControl.m in Sources */,
@@ -643,6 +513,7 @@
 				A796ED2B1E9A38F8008EE718 /* CDPopUpButtonControl.m in Sources */,
 				A796ECC01E9A37D7008EE718 /* CDOption.m in Sources */,
 				A796ED271E9A38F8008EE718 /* CDMsgboxControl.m in Sources */,
+				A7E545411EA9C9B0001C466B /* CDPanel.m in Sources */,
 				A796ED0C1E9A38F8008EE718 /* CDFileSelectControl.m in Sources */,
 				A796ED561E9B2926008EE718 /* CDTerminal.m in Sources */,
 				61EC90E9145FAD58003ADF05 /* main.m in Sources */,
@@ -650,33 +521,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A7BABB2A1445817B00D3F168 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6187E60114664988005067DB /* main.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		61C9A9D714665F7E0054DD91 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A7BABB2D1445817B00D3F168 /* relaunch */;
-			targetProxy = 61C9A9D614665F7E0054DD91 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
-		A78A8CB5143759ED007AE363 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A78A97A81E95C5FE00E4B3D1 /* Base */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		A78A8CB7143759ED007AE363 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -721,7 +568,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A78A97A61E95C5F600E4B3D1 /* Base */,
-				A78A97B61E95C62900E4B3D1 /* en-US */,
 			);
 			name = Info.plist;
 			path = Resources;
@@ -746,146 +592,61 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		0E77E9A20963C37C00D651A3 /* Debug */ = {
+		A770D5D91EAAA1F2004D1138 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
-				CLANG_ENABLE_MODULES = YES;
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
-				);
+				CLANG_ENABLE_OBJC_ARC = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaDialog;
-				SDKROOT = macosx;
-				SECTORDER_FLAGS = "";
-				SWIFT_VERSION = 3.0;
+				PRODUCT_NAME = cocoadialog;
 			};
 			name = Debug;
 		};
-		0E77E9A60963C37C00D651A3 /* Debug */ = {
+		A770D5DA1EAAA1F2004D1138 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */;
 			buildSettings = {
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				HEADER_SEARCH_PATHS = "";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
-		A78A8CA114375864007AE363 /* Release */ = {
+		A770D5DB1EAAA1FC004D1138 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */;
 			buildSettings = {
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				HEADER_SEARCH_PATHS = "";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				SDKROOT = macosx;
+				PRODUCT_NAME = cocoadialog;
 			};
 			name = Release;
 		};
-		A78A8CA214375864007AE363 /* Release */ = {
+		A770D5DC1EAAA1FC004D1138 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
-				CLANG_ENABLE_MODULES = YES;
-				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
-				);
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaDialog;
-				SDKROOT = macosx;
-				SECTORDER_FLAGS = "";
-				SWIFT_VERSION = 3.0;
-			};
-			name = Release;
-		};
-		A7BABB391445817B00D3F168 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaDialog;
-				PRODUCT_NAME = relaunch;
-				SDKROOT = macosx;
-				SWIFT_VERSION = 3.0;
-			};
-			name = Debug;
-		};
-		A7BABB3A1445817B00D3F168 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaDialog;
-				PRODUCT_NAME = relaunch;
-				SDKROOT = macosx;
-				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0E77E99F0963C37C00D651A3 /* Build configuration list for PBXNativeTarget "cocoaDialog" */ = {
+		0E77E99F0963C37C00D651A3 /* Build configuration list for PBXNativeTarget "cocoadialog" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0E77E9A20963C37C00D651A3 /* Debug */,
-				A78A8CA214375864007AE363 /* Release */,
+				A770D5DA1EAAA1F2004D1138 /* Debug */,
+				A770D5DC1EAAA1FC004D1138 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0E77E9A30963C37C00D651A3 /* Build configuration list for PBXProject "cocoaDialog" */ = {
+		0E77E9A30963C37C00D651A3 /* Build configuration list for PBXProject "cocoadialog" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0E77E9A60963C37C00D651A3 /* Debug */,
-				A78A8CA114375864007AE363 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A7BABB381445817B00D3F168 /* Build configuration list for PBXNativeTarget "relaunch" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A7BABB391445817B00D3F168 /* Debug */,
-				A7BABB3A1445817B00D3F168 /* Release */,
+				A770D5D91EAAA1F2004D1138 /* Debug */,
+				A770D5DB1EAAA1FC004D1138 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

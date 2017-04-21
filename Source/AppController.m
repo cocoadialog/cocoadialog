@@ -116,7 +116,7 @@
     [control setTimeout];
 
     // Run the control.
-    // The control is now responsible for terminating cocoaDialog,
+    // The control is now responsible for terminating cocoadialog,
     // which should be invoked by calling the method [self stopControl]
     // from the control's action method(s).
     [control runControl];
@@ -194,7 +194,6 @@
             [self setHyperlinkForTextField:aboutAppLink replaceString:NSLocalizedString(@CDSite, nil) withURL:NSLocalizedString(@CDSite, nil)];
             [self setHyperlinkForTextField:aboutText replaceString:NSLocalizedString(@"command line interface", nil) withURL:NSLocalizedString(@"http://en.wikipedia.org/wiki/Command-line_interface", nil)];
             [self setHyperlinkForTextField:aboutText replaceString:NSLocalizedString(@"documentation", nil) withURL:NSLocalizedString(@"http://mstratman.github.com/cocoadialog/#documentation", nil)];
-            [aboutPanel setFloatingPanel: YES];
             [aboutPanel setLevel:NSFloatingWindowLevel];
             [aboutPanel center];
             [aboutPanel makeKeyAndOrderFront:nil];

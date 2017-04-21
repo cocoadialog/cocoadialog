@@ -6,7 +6,11 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="NSApplication"/>
+        <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
+            <connections>
+                <outlet property="delegate" destination="205" id="XUk-rC-Akw"/>
+            </connections>
+        </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <userDefaultsController representsSharedInstance="YES" id="220"/>
@@ -19,17 +23,17 @@
         </customObject>
         <menu title="MainMenu" systemMenu="main" id="29" userLabel="MainMenu">
             <items>
-                <menuItem title="cocoaDialog" id="56">
-                    <menu key="submenu" title="cocoaDialog" systemMenu="apple" id="57">
+                <menuItem title="cocoadialog" id="56">
+                    <menu key="submenu" title="cocoadialog" systemMenu="apple" id="57">
                         <items>
-                            <menuItem title="About cocoaDialog" id="58">
+                            <menuItem title="About cocoadialog" id="58">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="orderFrontStandardAboutPanel:" target="-2" id="142"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="144"/>
-                            <menuItem title="Hide cocoaDialog" keyEquivalent="h" id="134">
+                            <menuItem title="Hide cocoadialog" keyEquivalent="h" id="134">
                                 <connections>
                                     <action selector="hide:" target="-2" id="152"/>
                                 </connections>
@@ -46,7 +50,7 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="149"/>
-                            <menuItem title="Quit cocoaDialog" keyEquivalent="q" id="136">
+                            <menuItem title="Quit cocoadialog" keyEquivalent="q" id="136">
                                 <connections>
                                     <action selector="terminate:" target="-2" id="139"/>
                                 </connections>
@@ -155,44 +159,56 @@
                 </menuItem>
             </items>
         </menu>
-        <window title="About cocoaDialog" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="documentWindow" id="233" customClass="NSPanel">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
-            <rect key="contentRect" x="272" y="172" width="600" height="332"/>
+        <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="documentWindow" id="233" userLabel="About" customClass="CDPanel">
+            <windowStyleMask key="styleMask" titled="YES" unifiedTitleAndToolbar="YES"/>
+            <rect key="contentRect" x="435" y="707" width="539" height="350"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
-            <view key="contentView" id="234">
-                <rect key="frame" x="0.0" y="0.0" width="600" height="332"/>
+            <view key="contentView" wantsLayer="YES" misplaced="YES" id="234">
+                <rect key="frame" x="0.0" y="0.0" width="539" height="350"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" id="243">
-                        <rect key="frame" x="0.0" y="58" width="600" height="274"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" drawsBackground="YES" id="244">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" white="0.97980720769999996" alpha="1" colorSpace="calibratedWhite"/>
+                    <textField verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" id="214">
+                        <rect key="frame" x="131" y="291" width="390" height="39"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="cocoadialog" id="217">
+                            <font key="font" metaFont="system" size="32"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                         </textFieldCell>
                     </textField>
-                    <imageView id="215">
-                        <rect key="frame" x="20" y="184" width="128" height="128"/>
+                    <textField verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" id="245">
+                        <rect key="frame" x="131" y="87" width="390" height="133"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="246">
+                            <font key="font" metaFont="system"/>
+                            <string key="title">cocoadialog cannot be used by launching the main application. Please read the documentation on how to use cocoadialog.
+
+cocoadialog is a command line interface that allows the use of common GUI dialogs such as file selectors, text input, progress bars, confirmations and more.</string>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" id="248">
+                        <rect key="frame" x="131" y="62" width="390" height="17"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Copyright © 2004-2017 Mark A. Stratman and Mark Carver" id="249">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
+                        </textFieldCell>
+                    </textField>
+                    <imageView misplaced="YES" id="215">
+                        <rect key="frame" x="23.5" y="234" width="96" height="96"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyUpOrDown" image="NSApplicationIcon" id="216"/>
                     </imageView>
-                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="214">
-                        <rect key="frame" x="165" y="268" width="418" height="44"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="cocoaDialog" id="217">
-                            <font key="font" size="36" name="Helvetica-Bold"/>
-                            <color key="textColor" red="0.2770040761" green="0.2770040761" blue="0.2770040761" alpha="1" colorSpace="calibratedRGB"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="213">
-                        <rect key="frame" x="165" y="246" width="418" height="14"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" placeholderString="${BUNDLE_VERSION}" id="218">
-                            <font key="font" metaFont="smallSystemBold"/>
-                            <color key="textColor" red="0.2770040761" green="0.2770040761" blue="0.2770040761" alpha="1" colorSpace="calibratedRGB"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    <textField verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" id="213">
+                        <rect key="frame" x="131" y="273" width="390" height="17"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" placeholderString="${BUNDLE_VERSION}" id="218">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                         </textFieldCell>
                         <connections>
                             <binding destination="205" name="displayPatternValue1" keyPath="appVersion" id="pta-WK-qf1">
@@ -202,9 +218,18 @@
                             </binding>
                         </connections>
                     </textField>
-                    <button verticalHuggingPriority="750" imageHugsTitle="YES" id="212">
-                        <rect key="frame" x="474" y="12" width="112" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textField canDrawConcurrently="YES" verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" id="230">
+                        <rect key="frame" x="131" y="248" width="390" height="17"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="https://mstratman.github.io/cocoadialog/" allowsEditingTextAttributes="YES" id="231">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" misplaced="YES" imageHugsTitle="YES" id="212">
+                        <rect key="frame" x="413" y="13" width="112" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Okay" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="219">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -216,42 +241,9 @@ DQ
                             <action selector="terminate:" target="-2" id="254"/>
                         </connections>
                     </button>
-                    <textField canDrawConcurrently="YES" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="230">
-                        <rect key="frame" x="165" y="224" width="418" height="14"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="https://mstratman.github.io/cocoadialog/" allowsEditingTextAttributes="YES" id="231">
-                            <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" red="0.2770040761" green="0.2770040761" blue="0.2770040761" alpha="1" colorSpace="calibratedRGB"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="245">
-                        <rect key="frame" x="165" y="65" width="418" height="119"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="246">
-                            <font key="font" metaFont="system"/>
-                            <string key="title">cocoaDialog cannot be used by launching the main application. Please read the documentation on how to use cocoaDialog.
-
-cocoaDialog is a command line interface that allows the use of common GUI dialogs such as file selectors, text input, progress bars, confirmations and more.</string>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <box verticalHuggingPriority="750" boxType="separator" id="250">
-                        <rect key="frame" x="180" y="202" width="388" height="5"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    </box>
-                    <textField verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" id="248">
-                        <rect key="frame" x="18" y="22" width="458" height="16"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Copyright © 2004-2017, Mark A. Stratman and Mark Carver" id="249">
-                            <font key="font" metaFont="system" size="12"/>
-                            <color key="textColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                 </subviews>
             </view>
+            <point key="canvasLocation" x="108.5" y="431"/>
         </window>
     </objects>
     <resources>
