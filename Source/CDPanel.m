@@ -25,4 +25,33 @@
     }
 }
 
+- (NSArray *) getObjects:(Class)objectClass {
+    return [self getObjects:objectClass fromView:self.contentView];
+}
+
+- (NSArray *) getObjects:(Class)objectClass fromView:(NSView *)view {
+    NSMutableArray *array = [NSMutableArray array];
+    if([view isKindOfClass:objectClass]) {
+        [array addObject:view];
+    }
+    // Traverse any subviews.
+    for (NSView *subview in [view subviews]) {
+        [array addObjectsFromArray:[self getObjects:objectClass fromView:subview]];
+    }
+    return array;
+}
+
+- (void) makeLargerFontsThinner {
+    BOOL isUltraLightFontWeightAvailable = (&NSFontWeightUltraLight != NULL);
+    if (isUltraLightFontWeightAvailable) {
+        NSArray<NSTextField *> *textFields = [self getObjects:[NSTextField class]];
+        for (NSUInteger i = 0; i < textFields.count; i++) {
+            if (textFields[i].font.pointSize > 28) {
+                textFields[i].font = [NSFont systemFontOfSize:textFields[i].font.pointSize weight:NSFontWeightUltraLight];
+            }
+        }
+    }
+}
+
+
 @end

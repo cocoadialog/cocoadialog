@@ -12,6 +12,10 @@
 
 @property (nonatomic, retain) NSView* vibrantView;
 
+- (NSArray *) getObjects:(Class)objectClass;
+- (NSArray *) getObjects:(Class)objectClass fromView:(NSView *)view;
+- (void) makeLargerFontsThinner;
+
 @end
 
 

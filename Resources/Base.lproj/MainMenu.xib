@@ -176,8 +176,22 @@
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                         </textFieldCell>
                     </textField>
+                    <button verticalHuggingPriority="750" misplaced="YES" imageHugsTitle="YES" id="212">
+                        <rect key="frame" x="413" y="13" width="112" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="Okay" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="219">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="terminate:" target="-2" id="254"/>
+                        </connections>
+                    </button>
                     <textField verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" id="245">
-                        <rect key="frame" x="131" y="87" width="390" height="133"/>
+                        <rect key="frame" x="131" y="87" width="390" height="131"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="246">
                             <font key="font" metaFont="system"/>
@@ -197,11 +211,6 @@ cocoadialog is a command line interface that allows the use of common GUI dialog
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                         </textFieldCell>
                     </textField>
-                    <imageView misplaced="YES" id="215">
-                        <rect key="frame" x="23.5" y="234" width="96" height="96"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyUpOrDown" image="NSApplicationIcon" id="216"/>
-                    </imageView>
                     <textField verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" id="213">
                         <rect key="frame" x="131" y="273" width="390" height="17"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -227,20 +236,11 @@ cocoadialog is a command line interface that allows the use of common GUI dialog
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                         </textFieldCell>
                     </textField>
-                    <button verticalHuggingPriority="750" misplaced="YES" imageHugsTitle="YES" id="212">
-                        <rect key="frame" x="413" y="13" width="112" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="Okay" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="219">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                            <string key="keyEquivalent" base64-UTF8="YES">
-DQ
-</string>
-                        </buttonCell>
-                        <connections>
-                            <action selector="terminate:" target="-2" id="254"/>
-                        </connections>
-                    </button>
+                    <imageView misplaced="YES" id="215">
+                        <rect key="frame" x="20" y="234" width="96" height="96"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyUpOrDown" image="NSApplicationIcon" id="216"/>
+                    </imageView>
                 </subviews>
             </view>
             <point key="canvasLocation" x="108.5" y="431"/>

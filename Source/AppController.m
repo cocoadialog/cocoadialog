@@ -194,6 +194,8 @@
             [self setHyperlinkForTextField:aboutAppLink replaceString:NSLocalizedString(@CDSite, nil) withURL:NSLocalizedString(@CDSite, nil)];
             [self setHyperlinkForTextField:aboutText replaceString:NSLocalizedString(@"command line interface", nil) withURL:NSLocalizedString(@"http://en.wikipedia.org/wiki/Command-line_interface", nil)];
             [self setHyperlinkForTextField:aboutText replaceString:NSLocalizedString(@"documentation", nil) withURL:NSLocalizedString(@"http://mstratman.github.com/cocoadialog/#documentation", nil)];
+
+            [aboutPanel makeLargerFontsThinner];
             [aboutPanel setLevel:NSFloatingWindowLevel];
             [aboutPanel center];
             [aboutPanel makeKeyAndOrderFront:nil];
