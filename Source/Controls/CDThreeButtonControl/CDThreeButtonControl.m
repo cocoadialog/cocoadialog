@@ -318,6 +318,18 @@
 }
 
 - (void) controlHasFinished:(NSUInteger)button {
+    NSString *value = nil;
+    switch (button) {
+        case 1: value = option[@"string-output"].wasProvided ? button1.title : @"1"; break;
+        case 2: value = option[@"string-output"].wasProvided ? button2.title : @"2"; break;
+        case 3: value = option[@"string-output"].wasProvided ? button3.title : @"3"; break;
+    }
+
+    // Prepend the button value to the return values so it's first.
+    if (value != nil) {
+        [returnValues insertObject:value atIndex:0];
+    }
+
     if (button == cancelButton) {
         returnValues = [NSMutableArray array];
         exitStatus = CDExitCodeCancel;
