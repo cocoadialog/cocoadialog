@@ -229,6 +229,12 @@
 
         // Set the provided values on the option.
         [option setValues:values];
+
+        // Determine if parent option was not provided and override this option.
+        if (option.parentOption != nil && options[option.parentOption.name] != nil && !options[option.parentOption.name].wasProvided) {
+            option.wasProvided = NO;
+            [option setValues:[NSArray array]];
+        }
     }
 
     return self;

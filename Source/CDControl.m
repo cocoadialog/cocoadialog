@@ -36,14 +36,17 @@
     CDOptions *options = [CDOptions options];
 
     // Global.
-    [options addOption:[CDOptionSingleString            name:@"app-bundle"          category:@"GLOBAL_OPTION"]];
-    options[@"app-bundle"].defaultValue = [NSBundle mainBundle].bundleIdentifier;
 
-    [options addOption:[CDOptionSingleString            name:@"app-title"           category:@"GLOBAL_OPTION"]];
-    options[@"app-title"].defaultValue = (CDOptionAutomaticDefaultValue) ^() {
-        NSBundle *appBundle = [self appBundle];
-        return [appBundle objectForInfoDictionaryKey:@"CFBundleDisplayName"] ?: [appBundle objectForInfoDictionaryKey:@"CFBundleName"];
-    };
+//    @todo Add these options back if notification support is ever added back in.
+//    @see https://github.com/mstratman/cocoadialog/issues/92
+//    [options addOption:[CDOptionSingleString            name:@"app-bundle"          category:@"GLOBAL_OPTION"]];
+//    options[@"app-bundle"].defaultValue = [NSBundle mainBundle].bundleIdentifier;
+//
+//    [options addOption:[CDOptionSingleString            name:@"app-title"           category:@"GLOBAL_OPTION"]];
+//    options[@"app-title"].defaultValue = (CDOptionAutomaticDefaultValue) ^() {
+//        NSBundle *appBundle = [self appBundle];
+//        return [appBundle objectForInfoDictionaryKey:@"CFBundleDisplayName"] ?: [appBundle objectForInfoDictionaryKey:@"CFBundleName"];
+//    };
 
     [options addOption:[CDOptionBoolean                 name:@"color"               category:@"GLOBAL_OPTION"]];
     options[@"color"].defaultValue = (CDOptionAutomaticDefaultValue) ^() {
@@ -68,6 +71,7 @@
     [options addOption:[CDOptionSingleNumber            name:@"timeout"             category:@"GLOBAL_OPTION"]];
     [options addOption:[CDOptionSingleString            name:@"timeout-format"      category:@"GLOBAL_OPTION"]];
     options[@"timeout-format"].defaultValue = @"Time remaining: %r...";
+    options[@"timeout-format"].parentOption = options[@"timeout"];
 
     [options addOption:[CDOptionFlag                    name:@"verbose"             category:@"GLOBAL_OPTION"]];
     [options addOption:[CDOptionFlag                    name:@"version"             category:@"GLOBAL_OPTION"]];
@@ -159,6 +163,12 @@
         // case they access the options themselves to add additional properties like
         // "required" or "defaultValue".
         option.getOptionOnceCallback = ^(CDOption *opt) {
+            // Immediately return if parent option wasn't provided.
+            if (opt.parentOption != nil && !opt.parentOption.wasProvided) {
+                return;
+            }
+
+            // Option debug info.
             if (!opt.wasProvided) {
                 if (opt.defaultValue != nil) {
                     NSMutableString *value = [NSMutableString stringWithString:opt.stringValue];

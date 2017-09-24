@@ -21,9 +21,7 @@
     [options addOption:[CDOptionSingleString            name:@"button3"             category:@"WINDOW_OPTION"]];
 
     [options addOption:[CDOptionSingleStringOrNumber    name:@"cancel"              category:@"WINDOW_OPTION"]];
-    options[@"cancel"].defaultValue = ^ {
-        return @"Cancel";
-    };
+    options[@"cancel"].defaultValue = @"Cancel";
 
     [options addOption:[CDOptionSingleString            name:@"empty-text"          category:@"WINDOW_OPTION"]];
     [options addOption:[CDOptionFlag                    name:@"no-default-button"   category:@"WINDOW_OPTION"]];

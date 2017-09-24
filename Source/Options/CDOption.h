@@ -29,6 +29,7 @@ typedef BOOL (^CDOptionConditionalRequirement)(void);
 @property (nonatomic, retain) NSNumber *maximumValues;
 @property (nonatomic, retain) NSNumber *minimumValues;
 @property (nonatomic, retain) NSMutableArray<NSString *> *notes;
+@property (nonatomic, retain) CDOption *parentOption;
 @property (nonatomic, retain) NSMutableArray<NSString *> *warnings;
 @property (nonatomic, assign) BOOL required;
 @property (nonatomic, retain) id value;
