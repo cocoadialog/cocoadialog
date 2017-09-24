@@ -232,10 +232,11 @@
         if (labelText == nil) {
             labelText = @"";
         }
-        float labelNewHeight = -10.0f;
+        float labelLineHeight = 14.0f;
+        float labelNewHeight = -labelLineHeight;
         NSRect labelRect = expandingLabel.frame;
         float labelHeightDiff = labelNewHeight - labelRect.size.height;
-        if (![labelText isEqualToString:@""]) {
+        if (![labelText isBlank]) {
             expandingLabel.stringValue = labelText;
             NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString: labelText];
             NSTextContainer *textContainer = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(labelRect.size.width, FLT_MAX)];
@@ -243,7 +244,7 @@
             [layoutManager addTextContainer: textContainer];
             [textStorage addLayoutManager: layoutManager];
             [layoutManager glyphRangeForTextContainer:textContainer];
-            labelNewHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
+            labelNewHeight = [layoutManager usedRectForTextContainer:textContainer].size.height + labelLineHeight;
             labelHeightDiff = labelNewHeight - labelRect.size.height;
             // Set label's new height
             NSRect l = NSMakeRect(labelRect.origin.x, labelRect.origin.y - labelHeightDiff, labelRect.size.width, labelNewHeight);
@@ -256,6 +257,13 @@
         NSSize p = self.panel.contentView.frame.size;
         p.height += labelHeightDiff;
         [self.panel setContentSize:p];
+
+        // Set controlMatrix's new Y.
+        if (controlMatrix != nil) {
+            NSPoint m = controlMatrix.frame.origin;
+            m.y -= labelHeightDiff;
+            [controlMatrix setFrameOrigin:m];
+        }
     }
 }
 
