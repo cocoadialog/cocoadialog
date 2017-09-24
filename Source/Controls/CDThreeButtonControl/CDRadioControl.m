@@ -70,18 +70,18 @@
         NSCell * selectedCell = controlMatrix.selectedCell;
         if (selectedCell != nil) {
             if (option[@"string-output"].wasProvided) {
-                [controlReturnValues addObject:selectedCell.title];
+                [returnValues addObject:selectedCell.title];
             }
             else {
-                [controlReturnValues addObject:[NSString stringWithFormat:@"%ld", controlMatrix.selectedCell.tag]];
+                [returnValues addObject:[NSString stringWithFormat:@"%ld", controlMatrix.selectedCell.tag]];
             }
         }
         else {
-            [controlReturnValues addObject:[NSString stringWithFormat:@"%d", -1]];
+            [returnValues addObject:[NSString stringWithFormat:@"%d", -1]];
         }
     }
     else {
-        [controlReturnValues addObject:[NSString stringWithFormat:@"%d", -1]];
+        [returnValues addObject:[NSString stringWithFormat:@"%d", -1]];
     }
     [super controlHasFinished:button];
 }

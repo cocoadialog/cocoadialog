@@ -44,7 +44,7 @@
 }
 
 - (void) controlHasFinished:(NSUInteger)button {
-    [controlReturnValues addObject:[controlMatrix cellAtRow:0 column:0].stringValue];
+    [returnValues addObject:[controlMatrix cellAtRow:0 column:0].stringValue];
     [super controlHasFinished:button];
 }
 

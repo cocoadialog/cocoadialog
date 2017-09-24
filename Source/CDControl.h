@@ -15,11 +15,23 @@
 #import "CDOption.h"
 #import "CDTerminal.h"
 
+// Exit codes.
+typedef NS_ENUM(int, CDExitCode) {
+    CDExitCodeOk = 0,
+    CDExitCodeCancel = 1,
+    CDExitCodeUnknownControl = 10,
+    CDExitCodeControlFailure = 10,
+    CDExitCodeInvalidOption = 20,
+    CDExitCodeRequiredOption = 21,
+    CDExitCodeTimeout = 124,
+    CDExitCodeUnknown = 255,
+};
+
 @protocol CDControlProtocol <NSWindowDelegate>
 
 - (CDOptions *) availableOptions;
 - (void) createControl;
-- (BOOL) loadControlNib:(NSString *)nib;
+- (void) loadControlNib;
 - (void) runControl;
 - (void) showUsage;
 - (void) stopControl;
@@ -32,11 +44,10 @@
     CDOptions                   *option;
 
     // Variables
-    int                         controlExitStatus;
-    NSString                    *controlExitStatusString;
+    int                         exitStatus;
     NSString                    *controlName;
     NSMutableArray              *controlItems;
-    NSMutableArray              *controlReturnValues;
+    NSMutableArray              *returnValues;
 
     // Timer
     NSThread                    *mainThread;
@@ -79,7 +90,7 @@
 #pragma mark - Logging
 - (void) debug:(NSString *)format, ...      NS_FORMAT_FUNCTION(1,2) NS_REQUIRES_NIL_TERMINATION;
 - (void) error:(NSString *)format, ...      NS_FORMAT_FUNCTION(1,2) NS_REQUIRES_NIL_TERMINATION;
-- (void) fatalError:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2) NS_REQUIRES_NIL_TERMINATION;
+- (void) fatal:(CDExitCode)exitCode error:(NSString *)format, ... NS_FORMAT_FUNCTION(2,3) NS_REQUIRES_NIL_TERMINATION;
 - (void) verbose:(NSString *)format, ...    NS_FORMAT_FUNCTION(1,2) NS_REQUIRES_NIL_TERMINATION;
 - (void) warning:(NSString *)format, ...    NS_FORMAT_FUNCTION(1,2) NS_REQUIRES_NIL_TERMINATION;
 
@@ -105,6 +116,5 @@
 - (void) processTimer;
 - (void) setTimeout;
 - (void) setTimeoutLabel;
-- (void) stopTimer;
 
 @end

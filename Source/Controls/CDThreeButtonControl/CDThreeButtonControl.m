@@ -318,14 +318,9 @@
 }
 
 - (void) controlHasFinished:(NSUInteger)button {
-    controlExitStatus = (int) button;
-    switch (button) {
-        case 1: controlExitStatusString = button1.title; break;
-        case 2: controlExitStatusString = button2.title; break;
-        case 3: controlExitStatusString = button3.title; break;
-    }
     if (button == cancelButton) {
-        controlReturnValues = [NSMutableArray array];
+        returnValues = [NSMutableArray array];
+        exitStatus = CDExitCodeCancel;
     }
     else {
         if (![self allowEmptyReturn] && [self isReturnValueEmpty]) {
@@ -348,17 +343,17 @@
 }
 
 - (IBAction) button1Pressed:(id)sender {
-    [controlReturnValues removeAllObjects];
+    [returnValues removeAllObjects];
     [self controlHasFinished:1];
 }
 
 - (IBAction) button2Pressed:(id)sender {
-    [controlReturnValues removeAllObjects];
+    [returnValues removeAllObjects];
     [self controlHasFinished:2];
 }
 
 - (IBAction) button3Pressed:(id)sender {
-    [controlReturnValues removeAllObjects];
+    [returnValues removeAllObjects];
     [self controlHasFinished:3];
 }
 

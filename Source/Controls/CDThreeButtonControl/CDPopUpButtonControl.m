@@ -65,9 +65,9 @@
 
 - (void) controlHasFinished:(NSUInteger)button {
 	if (option[@"string-output"].wasProvided) {
-        [controlReturnValues addObject:popupControl.titleOfSelectedItem];
+        [returnValues addObject:popupControl.titleOfSelectedItem];
 	} else {
-        [controlReturnValues addObject:[NSString stringWithFormat:@"%ld", (long)popupControl.indexOfSelectedItem]];
+        [returnValues addObject:[NSString stringWithFormat:@"%ld", (long)popupControl.indexOfSelectedItem]];
 	}
     [super controlHasFinished:button];
 }
@@ -75,12 +75,10 @@
 - (void) selectionChanged:(id)sender {
     [popupControl synchronizeTitleAndSelectedItem];
 	if (option[@"exit-onchange"].wasProvided) {
-		controlExitStatus = 4;
-		controlExitStatusString = @"4";
         if (option[@"string-output"].wasProvided) {
-            [controlReturnValues addObject:popupControl.titleOfSelectedItem];
+            [returnValues addObject:popupControl.titleOfSelectedItem];
         } else {
-            [controlReturnValues addObject:[NSString stringWithFormat:@"%ld", (long)popupControl.indexOfSelectedItem]];
+            [returnValues addObject:[NSString stringWithFormat:@"%ld", (long)popupControl.indexOfSelectedItem]];
         }
         [self stopControl];
 	}

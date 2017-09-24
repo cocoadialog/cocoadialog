@@ -92,10 +92,10 @@
         CDOption *option = control.option[name];
         if (option.wasProvided) {
             if (option.providedValues.count < [option.minimumValues unsignedIntegerValue]) {
-                [control fatalError:@"The %@ control requires a minimum of %@ values for the %@ option.", control.controlName.doubleQuote, option.minimumValues, name.optionFormat, nil];
+                [control fatal:CDExitCodeInvalidOption error:@"The %@ control requires a minimum of %@ values for the %@ option.", control.controlName.doubleQuote, option.minimumValues, name.optionFormat, nil];
             }
             if ([option.maximumValues unsignedIntegerValue] && option.providedValues.count > [option.maximumValues unsignedIntegerValue]) {
-                [control fatalError:@"The %@ control is limited to a maximum of %@ values for the %@ option.", control.controlName.doubleQuote, option.maximumValues, name.optionFormat, nil];
+                [control fatal:CDExitCodeInvalidOption error:@"The %@ control is limited to a maximum of %@ values for the %@ option.", control.controlName.doubleQuote, option.maximumValues, name.optionFormat, nil];
             }
         }
     }
@@ -112,14 +112,11 @@
     }
     if (missingOptions.count) {
         NSString *missing = [[missingOptions.sortedAlphabetically prependStringsWith:@"--"] componentsJoinedByString:@", "];
-        [control fatalError:@"The %@ control requires the following options: %@", control.controlName.doubleQuote, missing, nil];
+        [control fatal:CDExitCodeRequiredOption error:@"The %@ control requires the following options: %@", control.controlName.doubleQuote, missing, nil];
     }
 
-    // Load the control.
-    NSString *nib = [control controlNib];
-    if (nib && ![control loadControlNib:nib]) {
-        [control fatalError:@"Unable to load control NIB.", nil];
-    }
+    // Load the control NIB.
+    [control loadControlNib];
 
     // Setup the control.
     [control createControl];
@@ -188,7 +185,7 @@
         NSString *removed = args[i];
         NSString *url = [removedControls objectForKey:args[i]];
         if (url != nil) {
-            [aControl fatalError:@"The %@ control has been removed. Please see %@.", removed.doubleQuote.white, url.white, nil];
+            [aControl fatal:CDExitCodeUnknownControl error:@"The %@ control has been removed. Please see %@.", removed.doubleQuote.white, url.white, nil];
         }
     }
 
@@ -244,7 +241,7 @@
             exit(0);
         }
         else if (controlName != nil) {
-            [aControl fatalError:@"Unknown control: %@\n", controlName.doubleQuote, nil];
+            [aControl fatal:CDExitCodeUnknownControl error:@"Unknown control: %@\n", controlName.doubleQuote, nil];
         }
     }
 

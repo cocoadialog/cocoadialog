@@ -91,16 +91,15 @@
     }
     result = [openPanel runModal];
     if (result == NSFileHandlingPanelOKButton) {
-        controlExitStatus = -1;
         NSEnumerator *en = [openPanel.URLs objectEnumerator];
         id key;
         while (key = [en nextObject]) {
-            [controlReturnValues addObject:[key path]];
+            [returnValues addObject:[key path]];
         }
     }
     else {
-        controlExitStatus = -2;
-        controlReturnValues = [NSMutableArray array];
+        exitStatus = 1;
+        returnValues = [NSMutableArray array];
     }
     [super stopControl];
 }

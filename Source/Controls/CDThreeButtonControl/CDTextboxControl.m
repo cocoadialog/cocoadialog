@@ -137,7 +137,7 @@
 
 - (void) controlHasFinished:(NSUInteger)button {
 	if (option[@"editable"].wasProvided) {
-        [controlReturnValues addObject:textView.textStorage.string];
+        [returnValues addObject:textView.textStorage.string];
 	}
     [super controlHasFinished:button];
 }

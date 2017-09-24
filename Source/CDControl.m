@@ -141,9 +141,8 @@
         // Default to terminal support.
         NSStringCDColor = terminal.supportsColor;
 
-
-        controlExitStatus = -1;
-        controlReturnValues = [NSMutableArray array];
+        exitStatus = CDExitCodeOk;
+        returnValues = [NSMutableArray array];
         controlItems = [NSMutableArray array];
 
 
@@ -189,24 +188,25 @@
     return self;
 }
 
-- (BOOL) loadControlNib:(NSString *)nib {
+- (void) loadControlNib {
+    NSString *nib = [self controlNib];
+
     // Load nib
     if (nib != nil) {
         if (![nib isEqualToString:@""] && ![[NSBundle mainBundle] loadNibNamed:nib owner:self topLevelObjects:nil]) {
-            [self fatalError:@"Could not load control interface: \"%@.nib\"", nib, nil];
+            [self fatal: CDExitCodeControlFailure error:@"Could not load control interface: \"%@.nib\"", nib, nil];
         }
     }
     else {
-        [self fatalError:@"Control did not specify a NIB interface file to load.", nil];
+        [self fatal: CDExitCodeControlFailure error:@"Control did not specify a NIB interface file to load.", nil];
     }
 
     if (panel == nil) {
-        [self fatalError:@"Control panel failed to bind.", nil];
+        [self fatal: CDExitCodeControlFailure error:@"Control panel failed to bind.", nil];
     }
 
     // Handle titlebar close.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillClose:) name:NSWindowWillCloseNotification object:panel];
-
 
     BOOL close = option[@"titlebar-close"].boolValue;
     [panel standardWindowButton:NSWindowCloseButton].enabled = close;
@@ -226,8 +226,6 @@
     if (!resize) {
         panel.styleMask = panel.styleMask^NSResizableWindowMask;
     }
-    
-    return YES;
 }
 
 - (void) runControl {
@@ -450,49 +448,37 @@
 }
 
 - (void) stopControl {
-    // Stop timer
+    // Stop timer.
+    if (timer != nil) {
+        [timer invalidate];
+        timer = nil;
+    }
     if (timerThread != nil) {
         [timerThread cancel];
     }
+
     // Stop any modal windows currently running
     [NSApp stop:self];
-    if (!option[@"quiet"].wasProvided && controlExitStatus != -1 && controlExitStatus != -2) {
-        if (option[@"string-output"].wasProvided) {
-            if (controlExitStatusString == nil) {
-                controlExitStatusString = [NSString stringWithFormat:@"%d", controlExitStatus];
-            }
-            [controlReturnValues insertObject:controlExitStatusString atIndex:0];
-        }
-        else {
-            [controlReturnValues insertObject: [NSString stringWithFormat:@"%d", controlExitStatus] atIndex:0];
-        }
-    }
-    if (controlExitStatus == -1) controlExitStatus = 0;
-    if (controlExitStatus == -2) controlExitStatus = 1;
+
     // Print all the returned lines
-    if (controlReturnValues != nil) {
-        unsigned i;
-        NSFileHandle *fh = [NSFileHandle fileHandleWithStandardOutput];
-        for (i = 0; i < controlReturnValues.count; i++) {
-            if (fh) {
-                [fh writeData:[controlReturnValues[i] dataUsingEncoding:NSUTF8StringEncoding]];
-            }
-            if (!option[@"no-newline"].wasProvided || i+1 < controlReturnValues.count) {
-                if (fh) {
-                    [fh writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
-                }
+    if (returnValues != nil) {
+        for (unsigned i = 0; i < returnValues.count; i++) {
+            [self.terminal write:returnValues[i]];
+            if (!option[@"no-newline"].wasProvided || i+1 < returnValues.count) {
+                [self.terminal writeNewLine];
             }
         }
     }
     else {
-        [self fatalError:@"Control returned nil.", nil];
+        [self fatal:CDExitCodeControlFailure error:@"Control did not return any values.", nil];
     }
 
     // Return the exit status
-    exit(controlExitStatus);
+    exit(exitStatus);
 }
 
 - (void) windowWillClose:(NSNotification *)notification {
+    exitStatus = CDExitCodeCancel;
     [self stopControl];
 }
 
@@ -547,7 +533,7 @@
 }
 
 
-- (void) fatalError:(NSString *)format, ... {
+- (void) fatal: (CDExitCode)exitCode error:(NSString *)format, ... {
     CDColor *lineColor = [CDColor fg:CDColorFgRed bg:CDColorBgNone style:CDColorStyleBold];
     CDColor *argumentColor = [CDColor fg:CDColorFgWhite bg:CDColorBgNone style:CDColorStyleBold];
 
@@ -558,7 +544,7 @@
 
     format = [[NSMutableString prepend:NSLocalizedString(@"LOG_ERROR", nil) toString:format] applyColor:lineColor].stop;
     [terminal writeErrorLine:[NSString stringWithFormat:format array:args]];
-    exit(255);
+    exit(exitCode);
 }
 
 - (void) verbose:(NSString *)format, ... {
@@ -1290,15 +1276,13 @@
     // Update and position the label if it exists
     if (timeout > 0.0f) {
         if (timeoutLabel != nil) {
-            NSInteger seconds = (NSInteger) ceil(timeout);
-            timeoutLabel.stringValue = [self formatSecondsForString:seconds];
+            timeoutLabel.stringValue = [self formatSecondsForString:(NSInteger) ceil(timeout)];
         }
     }
     else {
-        controlExitStatus = 0;
-        controlExitStatusString = @"timeout";
-        controlReturnValues = [NSMutableArray array];
-        [self stopTimer];
+        exitStatus = CDExitCodeTimeout;
+        returnValues = [NSMutableArray array];
+        [self performSelector:@selector(stopControl) onThread:mainThread withObject:nil waitUntilDone:YES];
     }
 }
 
@@ -1342,12 +1326,6 @@
         p.height += labelHeightDiff;
         [panel setContentSize:p];
     }
-}
-
-- (void) stopTimer {
-    [timer invalidate];
-    timer = nil;
-    [self performSelector:@selector(stopControl) onThread:mainThread withObject:nil waitUntilDone:YES];
 }
 
 @end
