@@ -78,30 +78,30 @@
     [options[@"verbose"].warnings addObject:NSLocalizedString(@"OPTION_WARNING_AFFECTS_OUTPUT", nil)];
 
     // Panel.
-    [options addOption:[CDOptionSingleNumber            name:@"height"              category:@"WINDOW_OPTION"]];
-    [options addOption:[CDOptionFlag                    name:@"no-float"            category:@"WINDOW_OPTION"]];
+    [options addOption:[CDOptionSingleNumber            name:@"height"              category:@"DIALOG_OPTION"]];
+    [options addOption:[CDOptionFlag                    name:@"no-float"            category:@"DIALOG_OPTION"]];
     //    @todo Add max/min height/width options back once there is logic in place to support them.
-    //    [options addOption:[CDOptionSingleNumber            name:@"max-height"          category:@"WINDOW_OPTION"]];
-    //    [options addOption:[CDOptionSingleNumber            name:@"max-width"           category:@"WINDOW_OPTION"]];
-    //    [options addOption:[CDOptionSingleNumber            name:@"min-height"          category:@"WINDOW_OPTION"]];
-    //    [options addOption:[CDOptionSingleNumber            name:@"min-width"           category:@"WINDOW_OPTION"]];
+    //    [options addOption:[CDOptionSingleNumber            name:@"max-height"          category:@"DIALOG_OPTION"]];
+    //    [options addOption:[CDOptionSingleNumber            name:@"max-width"           category:@"DIALOG_OPTION"]];
+    //    [options addOption:[CDOptionSingleNumber            name:@"min-height"          category:@"DIALOG_OPTION"]];
+    //    [options addOption:[CDOptionSingleNumber            name:@"min-width"           category:@"DIALOG_OPTION"]];
 
-    [options addOption:[CDOptionSingleStringOrNumber    name:@"posX"                category:@"WINDOW_OPTION"]];
+    [options addOption:[CDOptionSingleStringOrNumber    name:@"posX"                category:@"DIALOG_OPTION"]];
     options[@"posX"].defaultValue = @"center";
 
-    [options addOption:[CDOptionSingleStringOrNumber    name:@"posY"                category:@"WINDOW_OPTION"]];
+    [options addOption:[CDOptionSingleStringOrNumber    name:@"posY"                category:@"DIALOG_OPTION"]];
     options[@"posY"].defaultValue = @"center";
 
-    [options addOption:[CDOptionFlag                    name:@"resize"              category:@"WINDOW_OPTION"]];
-    [options addOption:[CDOptionSingleString            name:@"title"               category:@"WINDOW_OPTION"]];
+    [options addOption:[CDOptionFlag                    name:@"resize"              category:@"DIALOG_OPTION"]];
+    [options addOption:[CDOptionSingleString            name:@"title"               category:@"DIALOG_OPTION"]];
     options[@"title"].defaultValue = (CDOptionAutomaticDefaultValue) ^() {
         return option[@"app-title"].stringValue;
     };
 
-    [options addOption:[CDOptionFlag                    name:@"titlebar-close"      category:@"WINDOW_OPTION"]];
-    [options addOption:[CDOptionFlag                    name:@"titlebar-minimize"   category:@"WINDOW_OPTION"]];
-    [options addOption:[CDOptionFlag                    name:@"titlebar-zoom"       category:@"WINDOW_OPTION"]];
-    [options addOption:[CDOptionSingleNumber            name:@"width"               category:@"WINDOW_OPTION"]];
+    [options addOption:[CDOptionFlag                    name:@"titlebar-close"      category:@"DIALOG_OPTION"]];
+    [options addOption:[CDOptionFlag                    name:@"titlebar-minimize"   category:@"DIALOG_OPTION"]];
+    [options addOption:[CDOptionFlag                    name:@"titlebar-zoom"       category:@"DIALOG_OPTION"]];
+    [options addOption:[CDOptionSingleNumber            name:@"width"               category:@"DIALOG_OPTION"]];
 
     // Icon.
     [options addOption:[CDOptionSingleString            name:@"icon"                category:@"ICON_OPTION"]];

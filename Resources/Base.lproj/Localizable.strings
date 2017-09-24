@@ -70,32 +70,32 @@
 "ICON_OPTION_ICON_TYPE" = "File extension type to use. Defaults to \"icns\"";
 "ICON_OPTION_ICON_WIDTH" = "Width of the icon.";
 
-/* Window options */
-"WINDOW_OPTION" = "Window options";
-"WINDOW_OPTION_HEIGHT" = "Height of the control.";
-"WINDOW_OPTION_NO_FLOAT" = "Prevents the control from always showing. WARNING: disabling this may cause the control to become difficult to manage.";
-"WINDOW_OPTION_MAX_HEIGHT" = "Maximum height for the control.";
-"WINDOW_OPTION_MAX_WIDTH" = "Maximum width for the control.";
-"WINDOW_OPTION_MIN_HEIGHT" = "Minimum height for the control.";
-"WINDOW_OPTION_MIN_WIDTH" = "Minimum width for the control.";
-"WINDOW_OPTION_POSX" = "The horizontal position of the control. Possible values are: \"left\", \"center\", \"right\" or a <number> in pixels.";
-"WINDOW_OPTION_POSY" = "The vertical position of the control. Possible values are: \"top\", \"center\", \"bottom\" or a <number> in pixels.";
-"WINDOW_OPTION_RESIZE" = "Allows the control to be resizeable.";
-"WINDOW_OPTION_TITLE" = "Label to use in the titlebar of the control.";
-"WINDOW_OPTION_TITLEBAR_CLOSE" = "Enables the close titlebar button.";
-"WINDOW_OPTION_TITLEBAR_MINIMIZE" = "Enables the minimize titlebar button.";
-"WINDOW_OPTION_TITLEBAR_ZOOM" = "Enables the zoom (resize) titlebar button.";
-"WINDOW_OPTION_WIDTH" = "Width of the control.";
+/* Dialog options */
+"DIALOG_OPTION" = "Dialog options";
+"DIALOG_OPTION_HEIGHT" = "Height of the dialog.";
+"DIALOG_OPTION_NO_FLOAT" = "Prevents the dialog from always showing. WARNING: disabling this may cause the control to become difficult to manage.";
+"DIALOG_OPTION_MAX_HEIGHT" = "Maximum height for the dialog.";
+"DIALOG_OPTION_MAX_WIDTH" = "Maximum width for the dialog.";
+"DIALOG_OPTION_MIN_HEIGHT" = "Minimum height for the dialog.";
+"DIALOG_OPTION_MIN_WIDTH" = "Minimum width for the dialog.";
+"DIALOG_OPTION_POSX" = "The horizontal position of the dialog. Possible values are: \"left\", \"center\", \"right\" or a <number> in pixels.";
+"DIALOG_OPTION_POSY" = "The vertical position of the dialog. Possible values are: \"top\", \"center\", \"bottom\" or a <number> in pixels.";
+"DIALOG_OPTION_RESIZE" = "Allows the dialog to be resizeable.";
+"DIALOG_OPTION_TITLE" = "Label to use in the titlebar of the dialog.";
+"DIALOG_OPTION_TITLEBAR_CLOSE" = "Enables the close titlebar button.";
+"DIALOG_OPTION_TITLEBAR_MINIMIZE" = "Enables the minimize titlebar button.";
+"DIALOG_OPTION_TITLEBAR_ZOOM" = "Enables the zoom (resize) titlebar button.";
+"DIALOG_OPTION_WIDTH" = "Width of the dialog.";
 
 /* TBC (three button control) options */
-"WINDOW_OPTION_LABEL" = "Text to be displayed at the top of the control.";
-"WINDOW_OPTION_BUTTON1" = "Text to be displayed as the first button.";
-"WINDOW_OPTION_BUTTON2" = "Text to be displayed as the second button.";
-"WINDOW_OPTION_BUTTON3" = "Text to be displayed as the third button.";
-"WINDOW_OPTION_CANCEL" = "Specifies which button should be used as the \"Cancel\" button (e.g. --cancel \"Custom button\"). The value provided can either be the text of one of the provided buttons or the numerical button index, where --button1 is 0.";
-"WINDOW_OPTION_NO_DEFAULT_BUTTON" = "Flag indicating that --button1 will not automatically be focused and requires manual use input.";
-"WINDOW_OPTION_VALUE_REQUIRED" = "Flag indicating that a value is required from the user before the control is able to close.";
-"WINDOW_OPTION_EMPTY_TEXT" = "The text to display to the user when --value-required has been set and user has not provided input.";
+"DIALOG_OPTION_LABEL" = "Text to be displayed at the top of the dialog.";
+"DIALOG_OPTION_BUTTON1" = "Text to be displayed as the first button.";
+"DIALOG_OPTION_BUTTON2" = "Text to be displayed as the second button.";
+"DIALOG_OPTION_BUTTON3" = "Text to be displayed as the third button.";
+"DIALOG_OPTION_CANCEL" = "Specifies which button should be used as the \"Cancel\" button (e.g. --cancel \"Custom button\"). The value provided can either be the text of one of the provided buttons or the numerical button index, where --button1 is 0.";
+"DIALOG_OPTION_NO_DEFAULT_BUTTON" = "Flag indicating that --button1 will not automatically be focused and requires manual use input.";
+"DIALOG_OPTION_VALUE_REQUIRED" = "Flag indicating that a value is required from the user before the dialog is able to close.";
+"DIALOG_OPTION_EMPTY_TEXT" = "The text to display to the user when --value-required has been set and user has not provided input.";
 
 /* Checkbox options */
 "_CHECKBOX_OPTIONS" = "Checkbox options";
@@ -117,8 +117,9 @@
 "CONTROL_OPTIONS_ALERT" = "Bolded text to be displayed above --label.";
 
 /* progressbar */
+"PROGRESS_BAR_CANCELED" = "User canceled progress.";
+"PROGRESS_BAR_STOP" = "Stop";
 "PROGRESS_BAR_STOP_QUESTION" = "Are you sure you want to stop?";
-"PROGRESS_BAR_STOP_BUTTON" = "Stop";
 
 /* slider  */
 "SLIDER_DEFAULT_LABEL" = "Choose a value:";

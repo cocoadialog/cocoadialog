@@ -16,17 +16,17 @@
 - (CDOptions *) availableOptions {
     CDOptions *options = [super availableOptions];
 
-    [options addOption:[CDOptionSingleString            name:@"button1"             category:@"WINDOW_OPTION"]];
-    [options addOption:[CDOptionSingleString            name:@"button2"             category:@"WINDOW_OPTION"]];
-    [options addOption:[CDOptionSingleString            name:@"button3"             category:@"WINDOW_OPTION"]];
+    [options addOption:[CDOptionSingleString            name:@"button1"             category:@"DIALOG_OPTION"]];
+    [options addOption:[CDOptionSingleString            name:@"button2"             category:@"DIALOG_OPTION"]];
+    [options addOption:[CDOptionSingleString            name:@"button3"             category:@"DIALOG_OPTION"]];
 
-    [options addOption:[CDOptionSingleStringOrNumber    name:@"cancel"              category:@"WINDOW_OPTION"]];
+    [options addOption:[CDOptionSingleStringOrNumber    name:@"cancel"              category:@"DIALOG_OPTION"]];
     options[@"cancel"].defaultValue = @"Cancel";
 
-    [options addOption:[CDOptionSingleString            name:@"empty-text"          category:@"WINDOW_OPTION"]];
-    [options addOption:[CDOptionFlag                    name:@"no-default-button"   category:@"WINDOW_OPTION"]];
-    [options addOption:[CDOptionSingleString            name:@"label"               category:@"WINDOW_OPTION"]];
-    [options addOption:[CDOptionFlag                    name:@"value-required"      category:@"WINDOW_OPTION"]];
+    [options addOption:[CDOptionSingleString            name:@"empty-text"          category:@"DIALOG_OPTION"]];
+    [options addOption:[CDOptionFlag                    name:@"no-default-button"   category:@"DIALOG_OPTION"]];
+    [options addOption:[CDOptionSingleString            name:@"label"               category:@"DIALOG_OPTION"]];
+    [options addOption:[CDOptionFlag                    name:@"value-required"      category:@"DIALOG_OPTION"]];
 
     return options;
 }

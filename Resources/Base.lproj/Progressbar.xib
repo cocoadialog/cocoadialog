@@ -20,7 +20,7 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="Progress" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" visibleAtLaunch="NO" animationBehavior="documentWindow" id="18" userLabel="panel" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-            <windowCollectionBehavior key="collectionBehavior" canJoinAllSpaces="YES" managed="YES" participatesInCycle="YES"/>
+            <windowCollectionBehavior key="collectionBehavior" canJoinAllSpaces="YES" managed="YES"/>
             <rect key="contentRect" x="163" y="199" width="463" height="94"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1440"/>
             <view key="contentView" wantsLayer="YES" misplaced="YES" id="19">
@@ -52,6 +52,7 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="smallSystemBold"/>
                         </buttonCell>
+                        <accessibility identifier="PROGRESS_BAR_STOP"/>
                         <connections>
                             <action selector="stop:" target="-2" id="Kwu-ue-0Df"/>
                         </connections>

@@ -40,20 +40,10 @@
 	}
 
 	if (stopped) {
-        // @todo write to stderr instead.
-        [self.terminal writeLine:@"stopped"];
+        [self fatal:CDExitCodeCancel error:NSLocalizedString(@"PROGRESS_BAR_CANCELED", nil), nil];
 	}
 
 	[NSApp terminate:nil];
-}
-
--(void) confirmStop {
-	confirmationSheet = [[NSAlert alloc] init];
-    [confirmationSheet setIcon:[self iconFromName:@"caution"]];
-	[confirmationSheet addButtonWithTitle:NSLocalizedString(@"Stop", nil)];
-	[confirmationSheet addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-	confirmationSheet.messageText = NSLocalizedString(@"Are you sure you want to stop?", nil);
-	[confirmationSheet beginSheetModalForWindow:self.panel modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
 - (void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
@@ -66,8 +56,13 @@
 	}
 }
 
--(IBAction)stop:(id)sender {
-	[self confirmStop];
+-(IBAction) stop:(id)sender {
+    confirmationSheet = [[NSAlert alloc] init];
+    [confirmationSheet setIcon:[self iconFromName:@"caution"]];
+    [confirmationSheet addButtonWithTitle:NSLocalizedString(@"PROGRESS_BAR_STOP", nil)];
+    [confirmationSheet addButtonWithTitle:NSLocalizedString(@"CANCEL", nil)];
+    confirmationSheet.messageText = NSLocalizedString(@"PROGRESS_BAR_STOP_QUESTION", nil);
+    [confirmationSheet beginSheetModalForWindow:self.panel modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
 -(void) setStopEnabled:(NSNumber*)enabled {

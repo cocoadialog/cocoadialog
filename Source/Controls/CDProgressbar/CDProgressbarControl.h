@@ -26,6 +26,7 @@
 }
 
 -(void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+-(void) finish;
 
 -(IBAction)stop:(id)sender;
 
