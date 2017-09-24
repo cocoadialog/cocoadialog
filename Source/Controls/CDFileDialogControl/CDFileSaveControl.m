@@ -71,7 +71,7 @@
         [returnValues addObject:savePanel.URL.path];
     }
     else {
-        exitStatus = 1;
+        exitStatus = CDExitCodeCancel;
         returnValues = [NSMutableArray array];
     }
     [super stopControl];

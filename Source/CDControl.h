@@ -44,7 +44,7 @@ typedef NS_ENUM(int, CDExitCode) {
     CDOptions                   *option;
 
     // Variables
-    int                         exitStatus;
+    CDExitCode                  exitStatus;
     NSString                    *controlName;
     NSMutableArray              *controlItems;
     NSMutableArray              *returnValues;
