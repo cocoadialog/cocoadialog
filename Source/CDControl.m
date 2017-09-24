@@ -265,6 +265,8 @@
         NSMutableDictionary *json = [NSMutableDictionary dictionary];
         json[@"usage"] = [NSString stringWithFormat:NSLocalizedString(@"USAGE", nil), controlUsage];
         json[@"controls"] = controls;
+        json[@"deprecatedControls"] = [AppController deprecatedControls];
+        json[@"removedControls"] = [AppController removedControls];
         json[@"options"] = option;
         json[@"version"] = version;
         json[@"website"] = @CDSite;

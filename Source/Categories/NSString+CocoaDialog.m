@@ -127,6 +127,11 @@
 
 };
 
+- (NSString *) replacePattern:(NSString *)aPattern withString:(NSString *)aString error:(NSError **)error {
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:aPattern options:NSRegularExpressionCaseInsensitive error:error];
+    return [regex stringByReplacingMatchesInString:self options:0 range:NSMakeRange(0, self.length) withTemplate:aString];
+}
+
 - (NSString *) stringByReplacingCharactersInSet:(NSCharacterSet *)charSet withString:(NSString *)aString {
     NSMutableString *s = [NSMutableString stringWithCapacity:self.length];
     for (NSUInteger i = 0; i < self.length; ++i) {

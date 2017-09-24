@@ -23,10 +23,22 @@
 
 + (NSArray<NSString *> *) availableControls {
     return @[
-             @"checkbox", @"dropdown", @"fileselect", @"filesave", @"inputbox", @"msgbox", @"notify",
+             @"checkbox", @"dropdown", @"fileselect", @"filesave", @"inputbox", @"msgbox",
              @"ok-msgbox", @"progressbar", @"radio", @"slider", @"secure-inputbox", @"secure-standard-inputbox",
              @"standard-dropdown", @"standard-inputbox", @"textbox", @"yesno-msgbox",
              ].sortedAlphabetically;
+}
+
++ (NSDictionary<NSString *,NSString *> *) deprecatedControls {
+    return @{
+             @"bubble": @"notify",
+             };
+}
+
++ (NSDictionary<NSString *,NSString *> *) removedControls {
+    return @{
+             @"notify": @"https://github.com/julienXX/terminal-notifier",
+             };
 }
 
 #pragma mark - Public instance methods
@@ -130,7 +142,6 @@
              @"filesave": [CDFileSaveControl class],
              @"inputbox": [CDInputboxControl class],
              @"msgbox": [CDMsgboxControl class],
-             @"notify": [CDNotifyControl class],
              @"ok-msgbox": [CDOkMsgboxControl class],
              @"progressbar": [CDProgressbarControl class],
              @"radio": [CDRadioControl class],
@@ -141,6 +152,10 @@
              @"standard-inputbox": [CDStandardInputboxControl class],
              @"textbox": [CDTextboxControl class],
              @"yesno-msgbox": [CDYesNoMsgboxControl class],
+
+             // @todo Add back the notify control class if support is ever added back in.
+             // @see https://github.com/mstratman/cocoadialog/issues/92
+             // @"notify": [CDNotifyControl class],
              };
 }
 
@@ -151,7 +166,33 @@
             return args[i];
         }
     }
-    return nil;
+
+    CDControl *aControl = [CDControl control];
+    NSString *controlName = nil;
+
+    // Dynamically replace deprecated control with new one and show a warning.
+    NSDictionary *deprecatedControls = [AppController deprecatedControls];
+    for (NSUInteger i = 0; i < args.count; i++) {
+        NSString *deprecated = args[i];
+        NSString *replacement = [deprecatedControls objectForKey:args[i]];
+        if (replacement != nil) {
+            [aControl warning:@"The %@ control has been deprecated and will be removed in a future release. Please use the %@ control instead.", deprecated.doubleQuote.white, replacement.doubleQuote.white, nil];
+            controlName = [deprecatedControls objectForKey:args[i]];
+            args = [NSArray arrayWithObjects:controlName, nil];
+            break;
+        }
+    }
+
+    NSDictionary *removedControls = [AppController removedControls];
+    for (NSUInteger i = 0; i < args.count; i++) {
+        NSString *removed = args[i];
+        NSString *url = [removedControls objectForKey:args[i]];
+        if (url != nil) {
+            [aControl fatalError:@"The %@ control has been removed. Please see %@.", removed.doubleQuote.white, url.white, nil];
+        }
+    }
+
+    return controlName;
 }
 
 - (Class) getControlClass:(NSString *)controlName {

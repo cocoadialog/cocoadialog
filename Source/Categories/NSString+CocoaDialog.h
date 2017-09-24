@@ -25,6 +25,7 @@
 - (BOOL) isEqualToStringCaseInsensitive:(NSString *)string;
 - (NSString *) indent:(NSInteger)length;
 - (NSString *) indentNewlinesWith:(NSInteger)length;
+- (NSString *) replacePattern:(NSString *)aPattern withString:(NSString *)aString error:(NSError **)error;
 - (NSArray *) splitOnChar:(char)ch;
 - (NSString *) stringByReplacingCharactersInSet:(NSCharacterSet *)charSet withString:(NSString *)aString;
 - (NSString *) substringFrom:(NSInteger)from to:(NSInteger)to;

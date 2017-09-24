@@ -47,6 +47,8 @@
 #pragma mark - Public static methods
 + (NSString *) appVersion;
 + (NSArray<NSString *> *) availableControls;
++ (NSDictionary<NSString *, NSString *> *) deprecatedControls;
++ (NSDictionary<NSString *, NSString *> *) removedControls;
 
 #pragma mark - Public instance methods
 - (CDControl *) getControl;

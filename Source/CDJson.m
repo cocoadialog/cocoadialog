@@ -20,6 +20,13 @@
         // If no errors, let's view the JSON
         if (data != nil && error == nil) {
             json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+
+            // Remove unnecessary space before colon in key/value pairs.
+            json = [json replacePattern:@"(\"[^\"]*\")\\s:\\s" withString:@"$1: " error:nil];
+
+            // Remove extraneous spaces in empty arrays and objects.
+            json = [json replacePattern:@"\\[(?:\\s|\n)+\\]" withString:@"[]" error:nil];
+            json = [json replacePattern:@"\\{(?:\\s|\n)+\\}" withString:@"{}" error:nil];
         }
     }
     @catch (NSException *exception) {
