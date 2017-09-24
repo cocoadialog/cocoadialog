@@ -23,9 +23,24 @@
 
 + (NSArray<NSString *> *) availableControls {
     return @[
-             @"checkbox", @"dropdown", @"fileselect", @"filesave", @"inputbox", @"msgbox",
-             @"ok-msgbox", @"progressbar", @"radio", @"slider", @"secure-inputbox", @"secure-standard-inputbox",
-             @"standard-dropdown", @"standard-inputbox", @"textbox", @"yesno-msgbox",
+             // TBC.
+             @"checkbox",
+             @"inputbox",
+             @"msgbox",
+             @"radio",
+             @"slider",
+
+             // Dropdown
+             @"dropdown",
+
+             // File.
+             @"fileselect", @"filesave",
+
+             // Progressbar.
+             @"progressbar",
+
+             // Textbox.
+             @"textbox",
              ].sortedAlphabetically;
 }
 
@@ -38,6 +53,12 @@
 + (NSDictionary<NSString *,NSString *> *) removedControls {
     return @{
              @"notify": @"https://github.com/julienXX/terminal-notifier",
+             @"ok-msgbox": @"msgbox --button1 \"Okay\" --button2 \"Cancel\"",
+             @"secure-inputbox": @"inputbox --no-show",
+             @"secure-standard-inputbox": @"inputbox --no-show --button1 \"Okay\" --button2 \"Cancel\"",
+             @"standard-dropdown": @"dropdown --button1 \"Okay\" --button2 \"Cancel\"",
+             @"standard-inputbox": @"inputbox --button1 \"Okay\" --button2 \"Cancel\"",
+             @"yesno-msgbox": @"msgbox --button1 \"Yes\" --button2 \"No\" --button3 \"Cancel\"",
              };
 }
 
@@ -139,16 +160,10 @@
              @"filesave": [CDFileSaveControl class],
              @"inputbox": [CDInputboxControl class],
              @"msgbox": [CDMsgboxControl class],
-             @"ok-msgbox": [CDOkMsgboxControl class],
              @"progressbar": [CDProgressbarControl class],
              @"radio": [CDRadioControl class],
              @"slider": [CDSlider class],
-             @"secure-inputbox": [CDSecureInputboxControl class],
-             @"secure-standard-inputbox": [CDSecureStandardInputboxControl class],
-             @"standard-dropdown": [CDStandardPopUpButtonControl class],
-             @"standard-inputbox": [CDStandardInputboxControl class],
              @"textbox": [CDTextboxControl class],
-             @"yesno-msgbox": [CDYesNoMsgboxControl class],
 
              // @todo Add back the notify control class if support is ever added back in.
              // @see https://github.com/mstratman/cocoadialog/issues/92
@@ -185,8 +200,13 @@
         NSString *removed = args[i];
         NSString *url = [removedControls objectForKey:args[i]];
         if (url != nil) {
-            [aControl fatal:CDExitCodeUnknownControl error:@"The %@ control has been removed. Please see %@.", removed.doubleQuote.white, url.white, nil];
+            [aControl fatal:CDExitCodeUnknownControl error:@"The %@ control has been removed. Please use %@ instead.", removed.doubleQuote.white, url.white, nil];
         }
+    }
+
+    // If no explicit control names were found, attempt to just use the first argument passed.
+    if (controlName == nil && [args count] > 0) {
+        controlName = [args objectAtIndex:0];
     }
 
     return controlName;
@@ -217,17 +237,17 @@
     // Otherwise, just create a base control to handle global tasks.
     else {
         // Show global usage.
-        if (controlName == nil && ([controlName isEqualToStringCaseInsensitive:@"help"] || aControl.option[@"help"].wasProvided)) {
+        if ([controlName isEqualToStringCaseInsensitive:@"help"] || (controlName == nil && aControl.option[@"help"].wasProvided)) {
             [aControl showUsage];
             exit(0);
         }
         // Show version.
-        else if (controlName != nil && ([controlName isEqualToStringCaseInsensitive:@"version"] || aControl.option[@"version"].wasProvided)) {
+        else if ([controlName isEqualToStringCaseInsensitive:@"version"] || (controlName == nil && aControl.option[@"version"].wasProvided)) {
             [aControl.terminal writeLine:[AppController appVersion]];
             exit(0);
         }
         // Show about.
-        else if (controlName == nil || [controlName isEqualToStringCaseInsensitive:@"about"]) {
+        else if ([controlName isEqualToStringCaseInsensitive:@"about"]) {
             [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
             [self setHyperlinkForTextField:aboutAppLink replaceString:NSLocalizedString(@CDSite, nil) withURL:NSLocalizedString(@CDSite, nil)];
             [self setHyperlinkForTextField:aboutText replaceString:NSLocalizedString(@"command line interface", nil) withURL:NSLocalizedString(@"http://en.wikipedia.org/wiki/Command-line_interface", nil)];
