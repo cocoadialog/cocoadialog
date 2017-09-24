@@ -204,6 +204,7 @@
         [self fatalError:@"Control panel failed to bind.", nil];
     }
 
+    // Handle titlebar close.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillClose:) name:NSWindowWillCloseNotification object:panel];
 
 
@@ -221,7 +222,7 @@
 
     // Handle --resize option.
     BOOL resize = option[@"resize"].boolValue;
-    [panel standardWindowButton:NSWindowZoomButton].enabled = resize && option[@"titlebar-resize"];
+    [panel standardWindowButton:NSWindowZoomButton].enabled = resize && option[@"titlebar-zoom"].wasProvided;
     if (!resize) {
         panel.styleMask = panel.styleMask^NSResizableWindowMask;
     }

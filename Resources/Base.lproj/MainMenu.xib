@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13196" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13196"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -160,14 +160,15 @@
             </items>
         </menu>
         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="documentWindow" id="233" userLabel="About" customClass="CDPanel">
-            <windowStyleMask key="styleMask" titled="YES" unifiedTitleAndToolbar="YES"/>
+            <windowStyleMask key="styleMask" titled="YES"/>
+            <windowCollectionBehavior key="collectionBehavior" canJoinAllSpaces="YES" managed="YES" participatesInCycle="YES"/>
             <rect key="contentRect" x="435" y="707" width="539" height="350"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
             <view key="contentView" wantsLayer="YES" misplaced="YES" id="234">
                 <rect key="frame" x="0.0" y="0.0" width="539" height="350"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" id="214">
+                    <textField verticalHuggingPriority="750" misplaced="YES" id="214">
                         <rect key="frame" x="131" y="291" width="390" height="39"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="cocoadialog" id="217">
@@ -190,7 +191,7 @@ DQ
                             <action selector="terminate:" target="-2" id="254"/>
                         </connections>
                     </button>
-                    <textField verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" id="245">
+                    <textField verticalHuggingPriority="750" misplaced="YES" id="245">
                         <rect key="frame" x="131" y="87" width="390" height="131"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="246">
@@ -202,7 +203,7 @@ cocoadialog is a command line interface that allows the use of common GUI dialog
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                         </textFieldCell>
                     </textField>
-                    <textField verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" id="248">
+                    <textField verticalHuggingPriority="750" misplaced="YES" id="248">
                         <rect key="frame" x="131" y="62" width="390" height="17"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Copyright © 2004-2017 Mark A. Stratman and Mark Carver" id="249">
@@ -211,7 +212,7 @@ cocoadialog is a command line interface that allows the use of common GUI dialog
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                         </textFieldCell>
                     </textField>
-                    <textField verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" id="213">
+                    <textField verticalHuggingPriority="750" misplaced="YES" id="213">
                         <rect key="frame" x="131" y="273" width="390" height="17"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" placeholderString="${BUNDLE_VERSION}" id="218">
@@ -227,7 +228,7 @@ cocoadialog is a command line interface that allows the use of common GUI dialog
                             </binding>
                         </connections>
                     </textField>
-                    <textField canDrawConcurrently="YES" verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" id="230">
+                    <textField canDrawConcurrently="YES" verticalHuggingPriority="750" misplaced="YES" id="230">
                         <rect key="frame" x="131" y="248" width="390" height="17"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="https://mstratman.github.io/cocoadialog/" allowsEditingTextAttributes="YES" id="231">
