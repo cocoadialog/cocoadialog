@@ -1,15 +1,15 @@
-// CDPopUpButtonControl.m
+// CDDropdownControl.m
 // cocoadialog
 //
 // Copyright (c) 2004-2017 Mark A. Stratman <mark@sporkstorms.org>, Mark Carver <mark.carver@me.com>.
 // All rights reserved.
 // Licensed under GPL-2.
 
-#import "CDPopUpButtonControl.h"
+#import "CDDropdownControl.h"
 
-@implementation CDPopUpButtonControl
+@implementation CDDropdownControl
 
-@synthesize popupControl;
+@synthesize dropdownControl;
 
 - (CDOptions *) availableOptions {
     CDOptions *options = [super availableOptions];
@@ -35,50 +35,52 @@
 }
 
 - (NSString *)controlNib {
-    return @"popup";
+    return @"Dropdown";
 }
 
 - (void) createControl {
-    [self addMinWidth:popupControl.frame.size.width];
-    [controlItems addObject:popupControl];
-    [self iconAffectedByControl:popupControl];
+    [self addMinWidth:dropdownControl.frame.size.width];
+    [controlItems addObject:dropdownControl];
+    [self iconAffectedByControl:dropdownControl];
     // Setup the control
-    popupControl.keyEquivalent = @" ";
-    popupControl.target = self;
-    popupControl.action = @selector(selectionChanged:);
-	[popupControl removeAllItems];
-    // Set popup/pulldown style
-    popupControl.pullsDown = option[@"pulldown"] ? YES : NO;
+    dropdownControl.keyEquivalent = @" ";
+    dropdownControl.target = self;
+    dropdownControl.action = @selector(selectionChanged:);
+	[dropdownControl removeAllItems];
+
+    // Set pulldown style.
+    dropdownControl.pullsDown = option[@"pulldown"].wasProvided;
+
     // Populate menu
     NSArray *items = option[@"items"].arrayValue;
 	if (items != nil && items.count) {
 		NSEnumerator *en = [items objectEnumerator];
 		id obj;
 		while (obj = [en nextObject]) {
-			[popupControl addItemWithTitle:(NSString *)obj];
+			[dropdownControl addItemWithTitle:(NSString *)obj];
 		}
         NSUInteger selected = option[@"selected"].wasProvided ? option[@"selected"].unsignedIntegerValue : 0;
-        [popupControl selectItemAtIndex:selected];
+        [dropdownControl selectItemAtIndex:selected];
 	}
 	[self setTitleButtonsLabel:option[@"label"].stringValue];
 }
 
 - (void) controlHasFinished:(NSUInteger)button {
 	if (option[@"string-output"].wasProvided) {
-        [returnValues addObject:popupControl.titleOfSelectedItem];
+        [returnValues addObject:dropdownControl.titleOfSelectedItem];
 	} else {
-        [returnValues addObject:[NSString stringWithFormat:@"%ld", (long)popupControl.indexOfSelectedItem]];
+        [returnValues addObject:[NSString stringWithFormat:@"%ld", (long)dropdownControl.indexOfSelectedItem]];
 	}
     [super controlHasFinished:button];
 }
 
 - (void) selectionChanged:(id)sender {
-    [popupControl synchronizeTitleAndSelectedItem];
+    [dropdownControl synchronizeTitleAndSelectedItem];
 	if (option[@"exit-onchange"].wasProvided) {
         if (option[@"string-output"].wasProvided) {
-            [returnValues addObject:popupControl.titleOfSelectedItem];
+            [returnValues addObject:dropdownControl.titleOfSelectedItem];
         } else {
-            [returnValues addObject:[NSString stringWithFormat:@"%ld", (long)popupControl.indexOfSelectedItem]];
+            [returnValues addObject:[NSString stringWithFormat:@"%ld", (long)dropdownControl.indexOfSelectedItem]];
         }
         [self stopControl];
 	}

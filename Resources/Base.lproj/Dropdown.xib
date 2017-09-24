@@ -6,16 +6,16 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="CDPopUpButtonControl">
+        <customObject id="-2" userLabel="File's Owner" customClass="CDDropdownControl">
             <connections>
                 <outlet property="button1" destination="5" id="20"/>
                 <outlet property="button2" destination="6" id="19"/>
                 <outlet property="button3" destination="7" id="18"/>
                 <outlet property="controlMatrix" destination="29" id="36"/>
+                <outlet property="dropdownControl" destination="75" id="86"/>
                 <outlet property="expandingLabel" destination="9" id="17"/>
                 <outlet property="iconView" destination="40" id="xsz-xm-Vm7"/>
                 <outlet property="panel" destination="3" id="QeC-Qt-cLv"/>
-                <outlet property="popupControl" destination="75" id="86"/>
                 <outlet property="timeoutLabel" destination="59" id="68"/>
             </connections>
         </customObject>
@@ -29,7 +29,7 @@
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" id="4">
                 <rect key="frame" x="0.0" y="0.0" width="428" height="226"/>
-                <autoresizingMask key="autoresizingMask"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
                 <subviews>
                     <imageView id="40" userLabel="iconView">
                         <rect key="frame" x="17" y="158" width="48" height="48"/>
@@ -54,10 +54,6 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <customView misplaced="YES" id="29" userLabel="controlMatrix" customClass="NSMatrix">
-                        <rect key="frame" x="72" y="70" width="336" height="88"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    </customView>
                     <popUpButton verticalHuggingPriority="750" misplaced="YES" imageHugsTitle="YES" id="75">
                         <rect key="frame" x="70" y="160" width="341" height="26"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -109,6 +105,10 @@ DQ
                             <action selector="button1Pressed:" target="-2" id="22"/>
                         </connections>
                     </button>
+                    <customView misplaced="YES" id="29" userLabel="controlMatrix" customClass="NSMatrix">
+                        <rect key="frame" x="72" y="70" width="336" height="88"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    </customView>
                 </subviews>
             </view>
         </window>

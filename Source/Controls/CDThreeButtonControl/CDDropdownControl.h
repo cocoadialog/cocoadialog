@@ -1,4 +1,4 @@
-// CDPopUpButtonControl.h
+// CDDropdownControl.h
 // cocoadialog
 //
 // Copyright (c) 2004-2017 Mark A. Stratman <mark@sporkstorms.org>, Mark Carver <mark.carver@me.com>.
@@ -7,9 +7,9 @@
 
 #import "CDThreeButtonControl.h"
 
-@interface CDPopUpButtonControl : CDThreeButtonControl
+@interface CDDropdownControl : CDThreeButtonControl
 
-@property (nonatomic, retain) IBOutlet NSPopUpButton *popupControl;
+@property (nonatomic, retain) IBOutlet NSPopUpButton *dropdownControl;
 
 - (void) selectionChanged:(id)sender;
 

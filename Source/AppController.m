@@ -155,7 +155,7 @@
 - (NSDictionary *) controlClasses {
     return @{
              @"checkbox": [CDCheckboxControl class],
-             @"dropdown": [CDPopUpButtonControl class],
+             @"dropdown": [CDDropdownControl class],
              @"fileselect": [CDFileSelectControl class],
              @"filesave": [CDFileSaveControl class],
              @"inputbox": [CDInputboxControl class],

@@ -19,7 +19,7 @@
 #import "CDInputboxControl.h"
 #import "CDMsgboxControl.h"
 #import "CDNotifyControl.h"
-#import "CDPopUpButtonControl.h"
+#import "CDDropdownControl.h"
 #import "CDProgressbarControl.h"
 #import "CDRadioControl.h"
 #import "CDSlider.h"
