@@ -10,6 +10,7 @@
 #import "NSString+CocoaDialog.h"
 
 // Classes.
+#import "CDColumns.h"
 #import "CDJson.h"
 #import "CDOptions.h"
 #import "CDOption.h"
@@ -47,7 +48,7 @@ typedef NS_ENUM(int, CDExitCode) {
     CDExitCode                  exitStatus;
     NSString                    *controlName;
     NSMutableArray              *controlItems;
-    NSMutableArray              *returnValues;
+    NSMutableDictionary         *returnValues;
 
     // Timer
     NSThread                    *mainThread;

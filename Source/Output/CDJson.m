@@ -16,7 +16,8 @@
     NSString *json = nil;
 
     @try {
-        NSData *data = [NSJSONSerialization dataWithJSONObject:object options:NSJSONWritingPrettyPrinted error:&error];
+        NSUInteger sortKeys = (1UL << 1); // NSJSONWritingSortedKeys in 10.13 sdk;
+        NSData *data = [NSJSONSerialization dataWithJSONObject:object options:NSJSONWritingPrettyPrinted | sortKeys error:&error];
         // If no errors, let's view the JSON
         if (data != nil && error == nil) {
             json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -40,20 +41,32 @@
 }
 
 + (NSString *) parseObject:(id)object {
-    id value;
-    if ([object conformsToProtocol:@protocol(CDJsonProtocol)]) {
-        value = [object jsonValue];
-        if (![NSJSONSerialization isValidJSONObject:value]) {
-            value = [self parseObject:value];
-        }
+    id parsed = object;
+
+    // Let objects that specify they have a specific JSON value be invoked.
+    if (parsed != nil && [parsed conformsToProtocol:@protocol(CDJsonValueProtocol)]) {
+        parsed = [parsed jsonValue];
     }
-    else {
-        value = [object description];
+
+    // Convert nil values to null.
+    if (parsed == nil) {
+        parsed = [NSNull null];
     }
-    if ([value isKindOfClass:[NSString class]]) {
-        value = [value removeColor];
+
+    // The [NSJSONSerialization isValidJSONObject:] method cannot be used here because this method may be recursively
+    // parsing child properties and thus fall outside the scope of its requirements (non-array and non-dictionary types
+    // must be nested within one of those types).
+    if (
+        ![parsed isKindOfClass:[NSArray class]] &&
+        ![parsed isKindOfClass:[NSDictionary class]] &&
+        ![parsed isKindOfClass:[NSNumber class]] &&
+        ![parsed isKindOfClass:[NSNull class]] &&
+        ![parsed isKindOfClass:[NSString class]]
+    ) {
+        parsed = [parsed description];
     }
-    return value;
+
+    return parsed;
 }
 
 @end
@@ -82,7 +95,8 @@
 #pragma mark - Properties
 - (id) jsonValue {
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    for (NSString *name in self) {
+    NSArray *sortedKeys = self.allKeys.sortedAlphabetically;
+    for (NSString *name in sortedKeys) {
         dictionary[name.camelCase] = [CDJson parseObject:self[name]];
     }
     return dictionary;
@@ -90,6 +104,16 @@
 
 - (NSString *) toJSONString {
     return [CDJson objectToJSON:self.jsonValue];
+}
+
+@end
+
+#pragma mark -
+@implementation NSString (CDJson)
+
+#pragma mark - Properties
+- (NSString *) jsonValue {
+    return self.removeColor;
 }
 
 @end

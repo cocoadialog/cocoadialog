@@ -69,19 +69,19 @@
     if (radioArray != nil && radioArray.count) {
         NSCell * selectedCell = controlMatrix.selectedCell;
         if (selectedCell != nil) {
-            if (option[@"string-output"].wasProvided) {
-                [returnValues addObject:selectedCell.title];
+            if (option[@"return-labels"].wasProvided) {
+                returnValues[@"value"] = selectedCell.title;
             }
             else {
-                [returnValues addObject:[NSString stringWithFormat:@"%ld", controlMatrix.selectedCell.tag]];
+                returnValues[@"value"] = [NSNumber numberWithInteger:controlMatrix.selectedCell.tag];
             }
         }
         else {
-            [returnValues addObject:[NSString stringWithFormat:@"%d", -1]];
+            returnValues[@"value"] = @-1;
         }
     }
     else {
-        [returnValues addObject:[NSString stringWithFormat:@"%d", -1]];
+        returnValues[@"value"] = @-1;
     }
     [super controlHasFinished:button];
 }

@@ -5,6 +5,7 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
+#import "NSArray+CocoaDialog.h"
 #import "NSString+CocoaDialog.h"
 #import "CDTerminal.h"
 
@@ -12,12 +13,13 @@
 #define CDJson_h
 
 #pragma mark -
-@protocol CDJsonProtocol
-
-#pragma mark - Properties
+@protocol CDJsonValueProtocol
 - (id) jsonValue;
-- (NSString *) toJSONString;
+@end
 
+#pragma mark -
+@protocol CDJsonOutputProtocol
+- (NSString *) toJSONString;
 @end
 
 #pragma mark -
@@ -30,9 +32,12 @@
 @end
 
 #pragma mark -
-@interface NSArray (CDJson) <CDJsonProtocol> @end
+@interface NSArray (CDJson) <CDJsonOutputProtocol, CDJsonValueProtocol> @end
 
 #pragma mark -
-@interface NSDictionary (CDJson) <CDJsonProtocol> @end
+@interface NSDictionary (CDJson) <CDJsonOutputProtocol, CDJsonValueProtocol> @end
+
+#pragma mark -
+@interface NSString (CDJson) <CDJsonValueProtocol> @end
 
 #endif /* CDJson_h */

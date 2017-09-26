@@ -5,10 +5,8 @@
 /* General */
 "CANCEL" = "Cancel";
 "NO" = "No";
-"OK" = "Ok";
 "NOTE" = "Note";
 "OKAY" = "Okay";
-"OPTION_EMPTY_TEXT" = "An input is required, please try again.";
 "WARNING" = "Warning";
 "YES" = "Yes";
 
@@ -36,6 +34,8 @@
 "OPTION_TYPE_STRING" = "string";
 
 /* Option verbiage */
+"OPTION_ALLOWED_VALUE" = "Allowed value: %@";
+"OPTION_ALLOWED_VALUES" = "Allowed values: %@";
 "OPTION_AUTOMATIC_DEFAULT_VALUE" = "Automatic";
 "OPTION_DEFAULT_VALUE" = "Default value: %@";
 "OPTION_MULTIPLE_DOUBLE_DASH" = "Append a double dash (--) after all values have been provided to indicate that values should stop being parsed.";
@@ -51,10 +51,9 @@
 "GLOBAL_OPTION_HELP" = "Displays this help.";
 "GLOBAL_OPTION_NO_NEWLINE" = "Prevents appending a newline character to the control result value.";
 "GLOBAL_OPTION_NO_WARNINGS" = "Prevents any warning messages that may affect the control result value.";
-"GLOBAL_OPTION_OUTPUT" = "@todo";
+"GLOBAL_OPTION_OUTPUT" = "Specifies the output format to use after a control has finished and wishes to relay the return values back to the terminal. Depending on your use case, you may need to choose a different format.";
 "GLOBAL_OPTION_QUIET" = "Silences all output.";
 "GLOBAL_OPTION_SCREEN" = "Indicates on which screen the control will appear. By default, the screen that currently has keyboard focus is used.";
-"GLOBAL_OPTION_STRING_OUTPUT" = "Returns text values of input elements rather than their numerical index.";
 "GLOBAL_OPTION_TIMEOUT" = "Number of seconds the control should wait for user input before timing out.";
 "GLOBAL_OPTION_TIMEOUT_FORMAT" = "Sets the timeout format used to display the remaining time. Provided replacement tokens include: %r (relative), %d (day), %h (hour), %m (minute) and %s (second).";
 "GLOBAL_OPTION_VERBOSE" = "Enables verbose oriented output to help troubleshoot possible issues with a control.";
@@ -66,7 +65,7 @@
 "ICON_OPTION_ICON_BUNDLE" = "Name of the bundle to load icon from.";
 "ICON_OPTION_ICON_FILE" = "Filename of an icon or image to use.";
 "ICON_OPTION_ICON_HEIGHT" = "Height of the icon.";
-"ICON_OPTION_ICON_SIZE" = "Unified height and width of icon. Can be one of: 16, 32, 48, 128, 256.";
+"ICON_OPTION_ICON_SIZE" = "Unified height and width of the icon.";
 "ICON_OPTION_ICON_TYPE" = "File extension type to use. Defaults to \"icns\"";
 "ICON_OPTION_ICON_WIDTH" = "Width of the icon.";
 
@@ -81,6 +80,7 @@
 "DIALOG_OPTION_POSX" = "The horizontal position of the dialog. Possible values are: \"left\", \"center\", \"right\" or a <number> in pixels.";
 "DIALOG_OPTION_POSY" = "The vertical position of the dialog. Possible values are: \"top\", \"center\", \"bottom\" or a <number> in pixels.";
 "DIALOG_OPTION_RESIZE" = "Allows the dialog to be resizeable.";
+"DIALOG_OPTION_RETURN_LABELS" = "Returns label text values of buttons, checkboxes, dropdowns, and radios rather than its numerical index value.";
 "DIALOG_OPTION_TITLE" = "Label to use in the titlebar of the dialog.";
 "DIALOG_OPTION_TITLEBAR_CLOSE" = "Enables the close titlebar button.";
 "DIALOG_OPTION_TITLEBAR_MINIMIZE" = "Enables the minimize titlebar button.";
@@ -95,7 +95,7 @@
 "DIALOG_OPTION_CANCEL" = "Specifies which button should be used as the \"Cancel\" button (e.g. --cancel \"Custom button\"). The value provided can either be the text of one of the provided buttons or the numerical button index, where --button1 is 0.";
 "DIALOG_OPTION_NO_DEFAULT_BUTTON" = "Flag indicating that --button1 will not automatically be focused and requires manual use input.";
 "DIALOG_OPTION_VALUE_REQUIRED" = "Flag indicating that a value is required from the user before the dialog is able to close.";
-"DIALOG_OPTION_EMPTY_TEXT" = "The text to display to the user when --value-required has been set and user has not provided input.";
+"DIALOG_OPTION_EMPTY_TEXT" = "The text to display to the user when the --value-required option has been provided and the user has not provided any input.";
 
 /* Checkbox options */
 "_CHECKBOX_OPTIONS" = "Checkbox options";

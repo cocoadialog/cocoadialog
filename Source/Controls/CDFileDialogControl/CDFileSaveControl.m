@@ -68,11 +68,12 @@
     result = [savePanel runModal];
 
     if (result == NSFileHandlingPanelOKButton) {
-        [returnValues addObject:savePanel.URL.path];
+        returnValues[@"button"] = option[@"return-labels"] ? NSLocalizedString(@"OKAY", nil) : @0;
+        returnValues[@"value"] = savePanel.URL.path;
     }
     else {
         exitStatus = CDExitCodeCancel;
-        returnValues = [NSMutableArray array];
+        returnValues[@"button"] = option[@"return-labels"] ? NSLocalizedString(@"CANCEL", nil) : @1;
     }
     [super stopControl];
 }

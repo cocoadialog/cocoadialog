@@ -32,10 +32,6 @@
     return [NSString stringWithFormat:@"\"%@\"", self];
 }
 
-- (NSString *) jsonValue {
-    return self.doubleQuote;
-}
-
 - (NSString *) optionFormat {
     return [NSMutableString prepend:@"--" toString:self];
 }

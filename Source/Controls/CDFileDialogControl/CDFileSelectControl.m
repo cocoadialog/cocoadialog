@@ -91,15 +91,18 @@
     }
     result = [openPanel runModal];
     if (result == NSFileHandlingPanelOKButton) {
+        NSMutableArray *files = [NSMutableArray array];
         NSEnumerator *en = [openPanel.URLs objectEnumerator];
         id key;
         while (key = [en nextObject]) {
-            [returnValues addObject:[key path]];
+            [files addObject:[key path]];
         }
+        returnValues[@"button"] = option[@"return-labels"] ? NSLocalizedString(@"OKAY", nil) : @0;
+        returnValues[@"value"] = files;
     }
     else {
         exitStatus = CDExitCodeCancel;
-        returnValues = [NSMutableArray array];
+        returnValues[@"button"] = option[@"return-labels"] ? NSLocalizedString(@"CANCEL", nil) : @1;
     }
     [super stopControl];
 }

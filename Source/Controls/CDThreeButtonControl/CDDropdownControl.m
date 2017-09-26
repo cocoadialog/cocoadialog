@@ -66,10 +66,10 @@
 }
 
 - (void) controlHasFinished:(NSUInteger)button {
-	if (option[@"string-output"].wasProvided) {
-        [returnValues addObject:dropdownControl.titleOfSelectedItem];
+	if (option[@"return-labels"].wasProvided) {
+        returnValues[@"value"] = dropdownControl.titleOfSelectedItem;
 	} else {
-        [returnValues addObject:[NSString stringWithFormat:@"%ld", (long)dropdownControl.indexOfSelectedItem]];
+        returnValues[@"value"] = [NSNumber numberWithInteger:dropdownControl.indexOfSelectedItem];
 	}
     [super controlHasFinished:button];
 }
@@ -77,10 +77,10 @@
 - (void) selectionChanged:(id)sender {
     [dropdownControl synchronizeTitleAndSelectedItem];
 	if (option[@"exit-onchange"].wasProvided) {
-        if (option[@"string-output"].wasProvided) {
-            [returnValues addObject:dropdownControl.titleOfSelectedItem];
+        if (option[@"return-labels"].wasProvided) {
+            returnValues[@"value"] = dropdownControl.titleOfSelectedItem;
         } else {
-            [returnValues addObject:[NSString stringWithFormat:@"%ld", (long)dropdownControl.indexOfSelectedItem]];
+            returnValues[@"value"] = [NSNumber numberWithInteger:dropdownControl.indexOfSelectedItem];
         }
         [self stopControl];
 	}

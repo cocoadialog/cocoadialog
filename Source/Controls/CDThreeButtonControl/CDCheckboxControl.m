@@ -76,7 +76,7 @@
     NSMutableArray *checkboxesArray = [NSMutableArray array];
     NSEnumerator *en = [checkboxes objectEnumerator];
     id obj;
-	if (option[@"string-output"].wasProvided) {
+	if (option[@"return-labels"].wasProvided) {
         if (checkboxes != nil && checkboxes.count) {
             unsigned long state;
             while (obj = [en nextObject]) {
@@ -87,16 +87,17 @@
                     case NSMixedState: [checkboxesArray addObject: @"mixed"]; break;
                 }
             }
-            [returnValues addObject:[checkboxesArray componentsJoinedByString:@" "]];
         }
 	} else {
         if (checkboxes != nil && checkboxes.count) {
             while (obj = [en nextObject]) {
-                [checkboxesArray addObject: [NSString stringWithFormat:@"%li", (long)[obj state]]];
+                [checkboxesArray addObject:[NSNumber numberWithInteger:[obj state]]];
             }
-            [returnValues addObject:[checkboxesArray componentsJoinedByString:@" "]];
         }
 	}    
+
+    returnValues[@"value"] = checkboxesArray;
+
     [super controlHasFinished:button];
 }
 

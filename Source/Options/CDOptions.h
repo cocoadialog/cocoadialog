@@ -9,7 +9,7 @@
 #import "CDJson.h"
 #import "CDOption.h"
 
-@interface CDOptions : NSDictionary <CDJsonProtocol>
+@interface CDOptions : NSDictionary <CDJsonOutputProtocol, CDJsonValueProtocol>
 
 #pragma mark - Properties
 @property (nonatomic, copy) void (^getOptionCallback)(CDOption *opt);
@@ -25,6 +25,7 @@
 @property (nonatomic, retain, readonly) NSMutableArray <NSString *> *missingArgumentBreaks;
 @property (nonatomic, retain, readonly) NSMutableDictionary <NSString *, CDOption *> *options;
 @property (nonatomic, retain, readonly) NSDictionary <NSString *, CDOptions *> *groupByCategories;
+@property (nonatomic, retain, readonly) NSMutableArray <NSString *> *invalidValues;
 @property (nonatomic, retain, readonly) NSMutableDictionary <NSString *, CDOption *> *requiredOptions;
 @property (nonatomic, retain, readonly) NSMutableArray <NSString *> *unknownOptions;
 

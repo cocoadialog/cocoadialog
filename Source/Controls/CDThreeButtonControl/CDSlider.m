@@ -44,10 +44,10 @@
 
 - (void) controlHasFinished:(NSUInteger)button {
     if (option[@"return-float"].wasProvided) {
-        [returnValues addObject:[NSString stringWithFormat:@"%.2f", [controlMatrix cellAtRow:0 column:0].doubleValue]];
+        returnValues[@"value"] = [NSNumber numberWithDouble:[controlMatrix cellAtRow:0 column:0].doubleValue];
     }
     else {
-        [returnValues addObject:[NSString stringWithFormat:@"%i", [controlMatrix cellAtRow:0 column:0].intValue]];
+        returnValues[@"value"] = [NSNumber numberWithInteger:[controlMatrix cellAtRow:0 column:0].intValue];
     }
     [super controlHasFinished:button];
 }

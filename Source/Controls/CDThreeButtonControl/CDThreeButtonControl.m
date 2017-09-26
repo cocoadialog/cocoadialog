@@ -28,6 +28,10 @@
     [options addOption:[CDOptionSingleString            name:@"label"               category:@"DIALOG_OPTION"]];
     [options addOption:[CDOptionFlag                    name:@"value-required"      category:@"DIALOG_OPTION"]];
 
+    [options addOption:[CDOptionFlag                    name:@"return-labels"        category:@"DIALOG_OPTION"]];
+    [options addOption:[CDOptionDeprecated              from:@"string-output"        to:@"return-labels"]];
+
+
     return options;
 }
 
@@ -304,7 +308,7 @@
 }
 
 - (BOOL) allowEmptyReturn {
-    return !option[@"value-required"];
+    return !option[@"value-required"].wasProvided;
 }
 
 // This must be subclassed for each control. Each control must provide additional logic pertaining to their specific return values
@@ -319,27 +323,30 @@
 - (void) returnValueEmptySheet {
     NSString *message = option[@"empty-text"].wasProvided ? option[@"empty-text"].stringValue : [self returnValueEmptyText];
     NSAlert *alertSheet = [[NSAlert alloc] init];
-    [alertSheet addButtonWithTitle:NSLocalizedString(@"Okay", nil)];
+    [alertSheet addButtonWithTitle:NSLocalizedString(@"OKAY", nil)];
     alertSheet.icon = [self iconFromName:@"caution"];
     alertSheet.messageText = message;
     [alertSheet beginSheetModalForWindow:self.panel modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
 - (void) controlHasFinished:(NSUInteger)button {
-    NSString *value = nil;
-    switch (button) {
-        case 1: value = option[@"string-output"].wasProvided ? button1.title : @"1"; break;
-        case 2: value = option[@"string-output"].wasProvided ? button2.title : @"2"; break;
-        case 3: value = option[@"string-output"].wasProvided ? button3.title : @"3"; break;
+    id buttonValue = [NSNumber numberWithUnsignedInteger:button];
+
+    if (option[@"return-labels"].wasProvided) {
+        switch (button) {
+            case 1: buttonValue = button1.title; break;
+            case 2: buttonValue = button2.title; break;
+            case 3: buttonValue = button3.title; break;
+        }
     }
 
-    // Prepend the button value to the return values so it's first.
-    if (value != nil) {
-        [returnValues insertObject:value atIndex:0];
+    // Add the button return value.
+    if (buttonValue != nil) {
+        returnValues[@"button"] = buttonValue;
     }
 
     if (button == cancelButton) {
-        returnValues = [NSMutableArray array];
+        returnValues = [NSMutableDictionary dictionary];
         exitStatus = CDExitCodeCancel;
     }
     else {

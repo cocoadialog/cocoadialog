@@ -60,6 +60,8 @@
     [options addOption:[CDOptionFlag                    name:@"no-newline"          category:@"GLOBAL_OPTION"]];
     [options addOption:[CDOptionFlag                    name:@"no-warnings"         category:@"GLOBAL_OPTION"]];
     [options addOption:[CDOptionSingleString            name:@"output"              category:@"GLOBAL_OPTION"]];
+    [options[@"output"].allowedValues addObjectsFromArray:@[@"columns", @"json"]];
+    options[@"output"].defaultValue = @"columns";
     [options addOption:[CDOptionFlag                    name:@"quiet"               category:@"GLOBAL_OPTION"]];
 
     [options addOption:[CDOptionSingleNumber            name:@"screen"              category:@"GLOBAL_OPTION"]];
@@ -67,7 +69,6 @@
         return [NSNumber numberWithUnsignedInteger:[[NSScreen screens] indexOfObject:[NSScreen mainScreen]]];
     };
 
-    [options addOption:[CDOptionFlag                    name:@"string-output"       category:@"GLOBAL_OPTION"]];
     [options addOption:[CDOptionSingleNumber            name:@"timeout"             category:@"GLOBAL_OPTION"]];
     [options addOption:[CDOptionSingleString            name:@"timeout-format"      category:@"GLOBAL_OPTION"]];
     options[@"timeout-format"].defaultValue = @"Time remaining: %r...";
@@ -95,7 +96,9 @@
     [options addOption:[CDOptionFlag                    name:@"resize"              category:@"DIALOG_OPTION"]];
     [options addOption:[CDOptionSingleString            name:@"title"               category:@"DIALOG_OPTION"]];
     options[@"title"].defaultValue = (CDOptionAutomaticDefaultValue) ^() {
-        return option[@"app-title"].stringValue;
+        NSBundle *appBundle = [self appBundle];
+        return [appBundle objectForInfoDictionaryKey:@"CFBundleDisplayName"] ?: [appBundle objectForInfoDictionaryKey:@"CFBundleName"];
+//        return option[@"app-title"].stringValue;
     };
 
     [options addOption:[CDOptionFlag                    name:@"titlebar-close"      category:@"DIALOG_OPTION"]];
@@ -111,6 +114,9 @@
     [options addOption:[CDOptionSingleNumber            name:@"icon-size"           category:@"ICON_OPTION"]];
     [options addOption:[CDOptionSingleNumber            name:@"icon-width"          category:@"ICON_OPTION"]];
     [options addOption:[CDOptionSingleString            name:@"icon-type"           category:@"ICON_OPTION"]];
+    [options[@"icon-height"].allowedValues addObjectsFromArray:@[@16, @32, @48, @128, @256]];
+    [options[@"icon-size"].allowedValues addObjectsFromArray:@[@16, @32, @48, @128, @256]];
+    [options[@"icon-width"].allowedValues addObjectsFromArray:@[@16, @32, @48, @128, @256]];
 
     return options;
 }
@@ -142,9 +148,8 @@
         NSStringCDColor = terminal.supportsColor;
 
         exitStatus = CDExitCodeOk;
-        returnValues = [NSMutableArray array];
         controlItems = [NSMutableArray array];
-
+        returnValues = [NSMutableDictionary dictionary];
 
         option = [[self availableOptions] processArguments];
 
@@ -271,15 +276,15 @@
 
     // Output usage as JSON.
     if ([option[@"output"].stringValue isEqualToStringCaseInsensitive:@"json"]) {
-        NSMutableDictionary *json = [NSMutableDictionary dictionary];
-        json[@"usage"] = [NSString stringWithFormat:NSLocalizedString(@"USAGE", nil), controlUsage];
-        json[@"controls"] = controls;
-        json[@"deprecatedControls"] = [AppController deprecatedControls];
-        json[@"removedControls"] = [AppController removedControls];
-        json[@"options"] = option;
-        json[@"version"] = version;
-        json[@"website"] = @CDSite;
-        [self.terminal write:json.toJSONString];
+        NSMutableDictionary *output = [NSMutableDictionary dictionary];
+        output[@"controls"] = controls;
+        output[@"deprecatedControls"] = [AppController deprecatedControls];
+        output[@"removedControls"] = [AppController removedControls];
+        output[@"options"] = option;
+        output[@"usage"] = [NSString stringWithFormat:NSLocalizedString(@"USAGE", nil), controlUsage];
+        output[@"version"] = version;
+        output[@"website"] = @CDSite;
+        [self.terminal write:output.toJSONString];
         exit(0);
     }
 
@@ -332,7 +337,7 @@
             CDOption *categoryOption = categoryOptions[name];
 
             NSMutableString *column = [NSMutableString string];
-            NSMutableString *extra = [NSMutableString string];
+            NSMutableArray *extra = [NSMutableArray array];
 
             [column appendString:[categoryOption.name.optionFormat indent:margin].white.bold.stop];
 
@@ -368,6 +373,30 @@
                     [column appendString:[helpText indent:(margin * 2)]];
                 }
 
+                // Add the allowed values.
+                NSMutableArray *allowedValues = [NSMutableArray array];
+                id value = nil;
+                for (value in categoryOption.allowedValues) {
+                    if (value != nil && [value isKindOfClass:[NSString class]]) {
+                        NSString *valueString = (NSString *) value;
+                        value = valueString.doubleQuote;
+                    }
+                    else if (value != nil && [value isKindOfClass:[NSNumber class]]) {
+                        NSNumber *valueNumber = (NSNumber *) value;
+                        if (strcmp([valueNumber objCType], @encode(BOOL)) == 0) {
+                            value = [valueNumber boolValue] ? NSLocalizedString(@"YES", nil) : NSLocalizedString(@"NO", nil);
+                        }
+                        else {
+                            value = [valueNumber stringValue];
+                        }
+                    }
+                    [allowedValues addObject:value];
+                }
+
+                if (allowedValues.count > 0) {
+                    [extra addObject:[NSString stringWithFormat:NSLocalizedString(allowedValues.count == 1 ? @"OPTION_ALLOWED_VALUE" : @"OPTION_ALLOWED_VALUES", nil).white.bold.stop, [[allowedValues componentsJoinedByString:@", "] applyColor:typeColor]]];
+                }
+
                 // Add the default/required values.
                 id defaultValue = categoryOption.defaultValue;
                 if (defaultValue != nil && [defaultValue isKindOfClass:[NSString class]]) {
@@ -386,21 +415,22 @@
 
                 if (defaultValue != nil) {
                     if (categoryOption.hasAutomaticDefaultValue) {
-                        defaultValue = [NSString stringWithFormat:@"%@ (%@)", defaultValue, NSLocalizedString(@"OPTION_AUTOMATIC_DEFAULT_VALUE", nil).lowercaseString];
+                        defaultValue = [NSString stringWithFormat:@"%@ (%@)", defaultValue, NSLocalizedString(@"OPTION_AUTOMATIC_DEFAULT_VALUE", nil)];
                     }
-                    [extra appendString:[NSString stringWithFormat:NSLocalizedString(@"OPTION_DEFAULT_VALUE", nil).white.bold.stop, [defaultValue applyColor:typeColor]].stop];
+                    [extra addObject:[NSString stringWithFormat:NSLocalizedString(@"OPTION_DEFAULT_VALUE", nil).white.bold.stop, [defaultValue applyColor:typeColor]]];
                 }
 
-                if (![extra isBlank]) {
-                    [column appendString:@"\n\n"];
-                    [column appendString:[extra indent:(margin * 2)]];
+                if (extra.count > 0) {
+//                    [column appendString:[@"\n" indent:(margin * 2)]];
+                    [extra insertObject:@"" atIndex:0];
+                    [column appendString:[[extra componentsJoinedByString:@"\n\n"] indentNewlinesWith:(margin * 2)]];
                 }
 
                 if (categoryOption.notes.count) {
                     [column appendString:@"\n\n"];
                     [column appendString:[[NSString stringWithFormat:@"%@:", NSLocalizedString(@"NOTE", nil).uppercaseString] indent:(margin * 2)].yellow.bold.stop];
                     if (categoryOption.notes.count == 1) {
-                        [column appendString:[NSString stringWithFormat:@" %@", categoryOption.notes[0]].yellow.stop];
+                        [column appendString:[NSString stringWithFormat:@" %@", categoryOption.notes[0]].yellow.dim.stop];
                     }
                     else {
                         for (NSUInteger i = 0; i < categoryOption.notes.count; i++) {
@@ -460,17 +490,16 @@
     // Stop any modal windows currently running
     [NSApp stop:self];
 
-    // Print all the returned lines
-    if (returnValues != nil) {
-        for (unsigned i = 0; i < returnValues.count; i++) {
-            [self.terminal write:returnValues[i]];
-            if (!option[@"no-newline"].wasProvided || i+1 < returnValues.count) {
-                [self.terminal writeNewLine];
-            }
-        }
+    // Output return values in specified format.
+    if ([option[@"output"].stringValue isEqualToStringCaseInsensitive:@"json"]) {
+        [self.terminal write:returnValues.toJSONString];
     }
     else {
-        [self fatal:CDExitCodeControlFailure error:@"Control did not return any values.", nil];
+        [self.terminal write:returnValues.toColumnString];
+    }
+
+    if (!option[@"no-newline"].wasProvided) {
+        [self.terminal writeNewLine];
     }
 
     // Return the exit status
@@ -1281,7 +1310,7 @@
     }
     else {
         exitStatus = CDExitCodeTimeout;
-        returnValues = [NSMutableArray array];
+        returnValues = [NSMutableDictionary dictionary];
         [self performSelector:@selector(stopControl) onThread:mainThread withObject:nil waitUntilDone:YES];
     }
 }

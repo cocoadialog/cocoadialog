@@ -17,11 +17,13 @@ typedef id (^CDOptionAutomaticDefaultValue)(void);
 typedef BOOL (^CDOptionConditionalRequirement)(void);
 
 #pragma mark -
-@interface CDOption : NSObject <CDJsonProtocol> {
+@interface CDOption : NSObject <CDJsonOutputProtocol, CDJsonValueProtocol> {
     BOOL       _isPercent;
 }
 
 #pragma mark - Properties
+// @todo actually restrict & warn when user provides value that isn't allowed.
+@property (nonatomic, retain) NSMutableArray *allowedValues;
 @property (nonatomic, retain) NSString *category;
 @property (nonatomic, retain) NSMutableArray* conditionalRequirements;
 @property (nonatomic, copy) id defaultValue;

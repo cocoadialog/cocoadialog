@@ -49,6 +49,7 @@
 - (id) jsonValue {
     return
     @{
+      @"allowedValues": self.allowedValues.count > 0 ? self.allowedValues : [NSNull null],
       @"automaticDefaultValue": [NSNumber numberWithBool:self.hasAutomaticDefaultValue],
       @"category": self.category ?: [NSNull null],
       @"description": self.helpText ?: [NSNull null],
@@ -60,7 +61,7 @@
       @"required": [NSNumber numberWithBool:self.required],
       @"type": [self className] ?: [NSNull null],
       @"typeLabel": self.typeLabel.removeColor ?: [NSNull null],
-      @"warnings": self.warnings ?: [NSNull null],
+      @"warnings": self.warnings ?: @[],
       @"wasProvided": [NSNumber numberWithBool:self.wasProvided],
       };
 }
@@ -186,6 +187,7 @@
     if (self) {
         minimumValues = @0;
         maximumValues = @1;
+        _allowedValues = [NSMutableArray array];
         _conditionalRequirements = [NSMutableArray array];
         _notes = [NSMutableArray array];
         _providedValues = [NSMutableArray array];
