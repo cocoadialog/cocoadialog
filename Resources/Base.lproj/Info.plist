@@ -28,9 +28,7 @@
 	<string>10.8</string>
 	<key>LSUIElement</key>
 	<true/>
-	<key>NSMainNibFile</key>
-	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
+	<string>CDApplication</string>
 </dict>
 </plist>

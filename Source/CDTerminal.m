@@ -9,6 +9,12 @@
 
 @implementation CDTerminal
 
+#pragma mark - Properties
+- (BOOL) isCLI {
+    NSString *termProgram = [[NSProcessInfo processInfo].environment objectForKey:@"TERM_PROGRAM"];
+    return termProgram && !termProgram.isBlank;
+}
+
 #pragma mark - Public static methods
 + (instancetype) terminal {
     return [[self alloc] init];
@@ -60,6 +66,10 @@
     NSString *output = [[NSString alloc] initWithData:dataRead encoding:NSUTF8StringEncoding];
     output = [output stringByReplacingCharactersInSet:[NSCharacterSet newlineCharacterSet] withString:@""];
     return  output;
+}
+
+- (NSArray *) getArguments {
+    return [[NSProcessInfo processInfo].arguments sliceFrom:1];
 }
 
 - (void) write:(NSString *)string {

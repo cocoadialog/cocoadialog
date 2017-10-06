@@ -5,7 +5,8 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
-#import "NSString+CocoaDialog.h"
+#import "NSArray+CDArray.h"
+#import "NSString+CDString.h"
 
 @interface CDTerminal : NSObject {
     NSFileHandle        *fhErr;
@@ -15,9 +16,10 @@
 }
 
 #pragma mark - Properties
-@property (nonatomic, readonly) NSUInteger colors;
-@property (nonatomic, readonly) NSUInteger cols;
-@property (nonatomic, readonly) BOOL supportsColor;
+@property (readonly) NSUInteger     colors;
+@property (readonly) NSUInteger     cols;
+@property (readonly) BOOL           isCLI;
+@property (readonly) BOOL           supportsColor;
 
 #pragma mark - Public static methods
 + (instancetype) terminal;
@@ -25,6 +27,7 @@
 #pragma mark - Public instance methods
 - (NSUInteger) colsWithMinimum:(NSUInteger)minimum;
 - (NSString *) execute:(NSString *)command withArguments:(NSArray *)arguments;
+- (NSArray *) getArguments;
 - (void) write:(NSString *)string;
 - (void) writeLine:(NSString *)string;
 - (void) writeNewLine;

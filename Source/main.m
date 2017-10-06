@@ -5,6 +5,10 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
+#import "CDApplication.h"
+
 int main(int argc, const char *argv[]) {
-	return NSApplicationMain(argc, argv);
+    CDApplication *application = [CDApplication sharedApplication];
+    [application setDelegate:NSApp];
+    [application run];
 }

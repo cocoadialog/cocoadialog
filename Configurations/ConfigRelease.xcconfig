@@ -1,6 +1,6 @@
 #include "Config.xcconfig"
 
-// Release only
+// Release.
 GCC_OPTIMIZATION_LEVEL = s
 DEBUG_INFORMATION_FORMAT = dwarf-with-dsym
 GCC_GENERATE_DEBUGGING_SYMBOLS = NO
@@ -13,3 +13,6 @@ DEPLOYMENT_POSTPROCESSING = YES
 STRIPFLAGS = -u -r
 STRIP_STYLE = non-global
 SEPARATE_STRIP = YES
+
+// CocoaPods.
+#include "Pods/Target Support Files/Pods-cocoadialog/Pods-cocoadialog.release.xcconfig"

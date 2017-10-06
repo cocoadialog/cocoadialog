@@ -10,3 +10,7 @@
 DerivedData/
 project.xcworkspace/
 xcuserdata/
+
+# CocoaPods
+Pods/
+Podfile.lock

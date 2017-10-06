@@ -5,16 +5,24 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
+#ifndef CDControl_h
+#define CDControl_h
+
 // Categories.
-#import "NSArray+CocoaDialog.h"
-#import "NSString+CocoaDialog.h"
+#import "NSArray+CDArray.h"
+#import "NSPanel+CDPanel.h"
+#import "NSString+CDString.h"
 
 // Classes.
+#import "CDControlAlias.h"
+@class CDControlAlias;
+
 #import "CDColumns.h"
 #import "CDJson.h"
 #import "CDOptions.h"
 #import "CDOption.h"
 #import "CDTerminal.h"
+#import "CDTemplate.h"
 
 // Exit codes.
 typedef NS_ENUM(int, CDExitCode) {
@@ -28,11 +36,11 @@ typedef NS_ENUM(int, CDExitCode) {
     CDExitCodeUnknown = 255,
 };
 
-@protocol CDControlProtocol <NSWindowDelegate>
+#pragma mark -
+@protocol CDControlProtocol
 
 - (CDOptions *) availableOptions;
-- (void) createControl;
-- (void) loadControlNib;
+- (void) initControl;
 - (void) runControl;
 - (void) showUsage;
 - (void) stopControl;
@@ -46,47 +54,29 @@ typedef NS_ENUM(int, CDExitCode) {
 
     // Variables
     CDExitCode                  exitStatus;
-    NSString                    *controlName;
+    NSString                    *name;
     NSMutableArray              *controlItems;
     NSMutableDictionary         *returnValues;
-
-    // Timer
-    NSThread                    *mainThread;
-    NSTimer                     *timer;
-    NSThread                    *timerThread;
-    double                      timeout;
 }
 
 #pragma mark - Properties
-@property (nonatomic, assign)               NSObject <NSApplicationDelegate, NSUserNotificationCenterDelegate>  *app;
-@property (nonatomic, retain)               NSString        *controlName;
-@property (nonatomic, readonly)             NSString        *controlNib;
-@property (nonatomic, readonly)             BOOL            isBaseControl;
+@property (retain)               CDControlAlias  *alias;
+@property (assign)               NSObject <NSApplicationDelegate, NSUserNotificationCenterDelegate>  *app;
+@property (nonatomic, retain)    NSString        *name;
+@property (readonly)             BOOL            isBaseControl;
 // For DX/readability use "option" opposed to "options".
-@property (nonatomic, retain)               CDOptions       *option;
-@property (nonatomic, retain)               CDTerminal      *terminal;
+@property (retain)               CDOptions       *option;
+@property (retain)               CDTerminal      *terminal;
+@property (readonly)             NSString        *xib;
 
 #pragma mark - Public static methods
 + (instancetype) control;
 
 #pragma mark - Public instance methods
 - (NSBundle *) appBundle;
-- (NSString *) formatSecondsForString:(NSInteger)timeInSeconds;
-- (instancetype) initWithSeenOptions:(NSMutableArray *)seenOptions NS_DESIGNATED_INITIALIZER;
-
-#pragma mark - Icon
-@property (nonatomic, readonly)             NSImage         *icon;
-@property (nonatomic, readonly)             NSMutableArray  *iconControls;
-@property (nonatomic, readonly)             NSData          *iconData;
-@property (nonatomic, readonly)             NSData          *iconDataWithDefault;
-@property (nonatomic, readonly)             NSImage         *iconImage;
-@property (nonatomic, readonly)             NSImage         *iconWithDefault;
-@property (nonatomic, retain)   IBOutlet    NSImageView     *iconView;
-
-- (void) iconAffectedByControl:(id)control;
-- (NSImage *) iconFromFile:(NSString *)file;
-- (NSImage *) iconFromName:(NSString *)name;
-- (void) setIconFromOptions;
+- (NSScreen *) getScreen;
+- (instancetype) initWithAlias:(CDControlAlias *)alias seenOptions:(NSArray *)seenOptions NS_DESIGNATED_INITIALIZER;
+- (NSString *) loadTemplate:(NSString *)name withData:(id)data;
 
 #pragma mark - Logging
 - (void) debug:(NSString *)format, ...      NS_FORMAT_FUNCTION(1,2) NS_REQUIRES_NIL_TERMINATION;
@@ -95,27 +85,10 @@ typedef NS_ENUM(int, CDExitCode) {
 - (void) verbose:(NSString *)format, ...    NS_FORMAT_FUNCTION(1,2) NS_REQUIRES_NIL_TERMINATION;
 - (void) warning:(NSString *)format, ...    NS_FORMAT_FUNCTION(1,2) NS_REQUIRES_NIL_TERMINATION;
 
-#pragma mark - Panel
-@property (nonatomic, readonly)             NSSize          findNewSize;
-@property (nonatomic, readonly)             NSScreen        *getScreen;
-@property (nonatomic, readonly)             BOOL            needsResize;
-@property (nonatomic, retain)   IBOutlet    NSPanel         *panel;
-
-- (void) addMinHeight:(CGFloat)height;
-- (void) addMinWidth:(CGFloat)width;
-- (void) resize;
-- (void) setFloat;
-- (void) setPanelEmpty;
-- (void) setPosition;
-- (void) setTitle;
-- (void) setTitle:(NSString *)string;
-
-#pragma mark - Timer
-@property (nonatomic, retain)   IBOutlet    NSTextField     *timeoutLabel;
-
-- (void) createTimer;
-- (void) processTimer;
-- (void) setTimeout;
-- (void) setTimeoutLabel;
+#pragma mark - Icon
+- (NSImage *) iconFromFile:(NSString *)file;
+- (NSImage *) iconFromName:(NSString *)name;
 
 @end
+
+#endif /* CDControl_h */

@@ -69,8 +69,8 @@ typedef NS_ENUM(int, CDColorStyle) {
 #pragma mark - Properties
 @property (nonatomic) CDColorBg bg;
 @property (nonatomic) CDColorFg fg;
-@property (nonatomic, readonly) BOOL isApplied;
-@property (nonatomic, retain, readonly) NSMutableArray<NSNumber *> *styles;
+@property (readonly) BOOL isApplied;
+@property (retain, readonly) NSMutableArray<NSNumber *> *styles;
 
 #pragma mark - Public static methods
 + (instancetype) color;

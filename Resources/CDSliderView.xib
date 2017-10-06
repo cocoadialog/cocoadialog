@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13196" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13196"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="CDSliderView">
+            <connections>
+                <outlet property="contentView" destination="c22-O7-iKe" id="1bD-lr-sql"/>
+                <outlet property="label" destination="knK-Sj-u2C" id="OuF-EZ-VdT"/>
+                <outlet property="slider" destination="xHg-6e-bqs" id="QCl-vu-LFW"/>
+                <outlet property="sliderBottomConstraint" destination="WOc-4P-e72" id="N8E-s6-bNP"/>
+                <outlet property="sliderTopConstraint" destination="w0B-3c-2sk" id="ID5-hW-bHk"/>
+                <outlet property="ticksLabel" destination="S17-73-7eY" id="Oqk-57-ikn"/>
+                <outlet property="valueLabel" destination="AkH-Oq-Vh6" id="wVN-v3-eQT"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe" userLabel="CDSliderView">
+            <rect key="frame" x="0.0" y="0.0" width="554" height="74"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+            <subviews>
+                <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xHg-6e-bqs" userLabel="slider">
+                    <rect key="frame" x="5" y="19" width="544" height="24"/>
+                    <sliderCell key="cell" alignment="left" maxValue="100" tickMarkPosition="below" numberOfTickMarks="10" sliderType="linear" id="A2I-LW-B0a"/>
+                </slider>
+                <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="knK-Sj-u2C" userLabel="label">
+                    <rect key="frame" x="5" y="50" width="469" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="e32-Ze-saT">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AkH-Oq-Vh6" userLabel="valueLabel">
+                    <rect key="frame" x="480" y="50" width="69" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="valueLabel" id="Dkc-4m-EVI">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="S17-73-7eY">
+                    <rect key="frame" x="5" y="4" width="544" height="14"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="ticksLabel" id="Sru-Vt-xAK">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <constraints>
+                <constraint firstItem="knK-Sj-u2C" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="7" id="3Ho-ip-JEP"/>
+                <constraint firstItem="S17-73-7eY" firstAttribute="trailing" secondItem="xHg-6e-bqs" secondAttribute="trailing" id="RzN-TN-AL1"/>
+                <constraint firstItem="S17-73-7eY" firstAttribute="top" secondItem="xHg-6e-bqs" secondAttribute="bottom" constant="2" id="Shn-QV-BDV"/>
+                <constraint firstAttribute="bottom" secondItem="xHg-6e-bqs" secondAttribute="bottom" constant="20" id="WOc-4P-e72"/>
+                <constraint firstItem="S17-73-7eY" firstAttribute="leading" secondItem="xHg-6e-bqs" secondAttribute="leading" id="dW1-QI-00w"/>
+                <constraint firstItem="knK-Sj-u2C" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="7" id="egX-uo-1hs"/>
+                <constraint firstAttribute="trailing" secondItem="AkH-Oq-Vh6" secondAttribute="trailing" constant="7" id="g8D-Fk-vMN"/>
+                <constraint firstAttribute="trailing" secondItem="xHg-6e-bqs" secondAttribute="trailing" constant="7" id="hqV-ks-zV8"/>
+                <constraint firstItem="xHg-6e-bqs" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="7" id="iJW-Av-OFn"/>
+                <constraint firstItem="AkH-Oq-Vh6" firstAttribute="leading" secondItem="knK-Sj-u2C" secondAttribute="trailing" constant="10" id="sYe-mB-j1k"/>
+                <constraint firstItem="xHg-6e-bqs" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="33" id="w0B-3c-2sk"/>
+                <constraint firstItem="AkH-Oq-Vh6" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="7" id="wNS-dz-Eoe"/>
+            </constraints>
+            <point key="canvasLocation" x="176" y="142"/>
+        </customView>
+    </objects>
+</document>
