@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const fs = require('fs');
 const path = require('path');
 
 const dot = require('dot-prop');
@@ -8,9 +9,16 @@ const semver = require('semver-utils');
 const simplePlist = require('simple-plist');
 
 const baseDir = path.resolve(`${__dirname}/../`);
-const releasePath = path.resolve(`${baseDir}/DerivedData/cocoadialog/Build/Products/Release`);
-const releaseApp = `${releasePath}/cocoadialog.app`;
-const infoPlist = `${releaseApp}/Contents/Info.plist`;
+const releasePath = path.resolve(path.join(baseDir, 'DerivedData', 'cocoadialog', 'Build', 'Products', 'Release'));
+const releaseApp = path.join(releasePath, 'cocoadialog.app');
+const infoPlist = path.join(releaseApp, 'Contents', 'Info.plist');
+
+fs.stat(infoPlist, err => {
+  if (err) {
+    console.log(`${infoPlist} does not exist.`);
+    process.exit(1);
+  }
+});
 
 const spawn = (command) => execa.shell(command)
   .then(result => result.stdout.trim())
