@@ -13,7 +13,7 @@ https://cocoadialog.com/documentation
 
 If you want to help contribute with the development of this application, please read:
 
-[Contribution guidelines for cocoadialog](docs/CONTRIBUTING.md)
+[Contribution guidelines for cocoadialog](CONTRIBUTING.md)
 
 ## Credits
 

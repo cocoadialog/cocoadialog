@@ -9,9 +9,10 @@ before_install:
 
 install:
   - brew outdated xctool || brew upgrade xctool
+  - brew upgrade node 2>/dev/null || brew install node
   - brew upgrade yarn 2>/dev/null || brew install yarn
   - yarn
-  - rm -rf ~/.nvm && curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.5/install.sh | bash && cd ~/.nvm && source ~/.nvm/nvm.sh && nvm install 8.7.0
+  - /usr/local/bin/node -v
   - node -v
   - /usr/bin/env node -v
   - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
@@ -22,7 +23,7 @@ script:
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -J '^cocoadialog$'
-  - ./Scripts/success
+  - node ./Scripts/success
 
 notifications:
   slack:
