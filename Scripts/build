@@ -1,15 +1,10 @@
 #!/bin/sh
 
-# Ensure that any piped command failures also causes the build to fail.
-set -o pipefail
-
 echo $(pwd -P)
 
 # Create a build folder.
 [ -d ./Build ] && rm -r ./Build
 mkdir ./Build
-
-pod install
 
 xcodebuild -workspace cocoadialog.xcworkspace -scheme Debug test | tee ./Build/xcodebuild-debug-test.log | xcpretty -f `xcpretty-travis-formatter`
 
