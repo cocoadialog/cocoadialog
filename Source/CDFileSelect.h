@@ -5,7 +5,10 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
+@class CDFileSelect;
+
 #import "CDFile.h"
 
 @interface CDFileSelect : CDFile
+
 @end

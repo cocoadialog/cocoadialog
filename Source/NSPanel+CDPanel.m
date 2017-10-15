@@ -1,4 +1,4 @@
-// CDPanel.m
+// NSPanel+CDPanel.m
 // cocoadialog
 //
 // Copyright (c) 2004-2017 Mark A. Stratman <mark@sporkstorms.org>, Mark Carver <mark.carver@me.com>.

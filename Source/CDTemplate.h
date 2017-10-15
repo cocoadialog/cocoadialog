@@ -5,24 +5,27 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
+@class CDTemplate;
+
 #import "CDTextField.h"
+
 #import <GRMustache/GRMustache.h>
+#import "CDTerminal.h"
 
-#ifndef CDTemplate_h
-#define CDTemplate_h
+@interface CDTemplate : NSObject
 
-@interface CDTemplate : CDTextField
+#pragma mark - Properties
+@property (strong)      id                                                          data;
+@property (strong)      GRMustacheTemplateRepository*                               repository;
+@property (strong)      NSMutableDictionary <NSString*, GRMustacheTemplate*>*       templates;
+@property (strong)      CDTerminal*                                                 terminal;
 
-@property (strong)      id                                      data;
-@property (strong)      GRMustacheTemplateRepository            *repository;
-@property (strong)      GRMustacheTemplate                      *tpl;
+#pragma mark - Public static methods
++ (instancetype) sharedInstance;
 
-+ (instancetype) load:(NSString *)templateName data:(id)data error:(NSError **)error;
+#pragma mark - Public chainable methods
+- (NSString *(^)(NSString *name, id data)) render;
 
-- (NSString *) renderError:(NSError **)error;
+#pragma mark - Public instance methods
 
 @end
-
-
-#endif /* CDTemplate_h */
-

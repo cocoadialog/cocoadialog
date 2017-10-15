@@ -5,12 +5,7 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
-#import "NSArray+CDArray.h"
-#import "NSString+CDString.h"
-#import "CDTerminal.h"
-
-#ifndef CDColumns_h
-#define CDColumns_h
+@class CDColumns;
 
 #pragma mark -
 @protocol CDColumnsValueProtocol
@@ -39,5 +34,3 @@
 
 #pragma mark -
 @interface NSString (CDColumns) <CDColumnsValueProtocol> @end
-
-#endif /* CDColumns_h */

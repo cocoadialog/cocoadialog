@@ -157,11 +157,6 @@ BOOL NSStringCDColor = YES;
 }
 
 #pragma mark - Public instance methods
-- (NSString *) applyColor:(CDColor *)color {
-    [self.color merge:color];
-    return self.formattedString;
-}
-
 - (NSString *) stringByPaddingToLength:(NSUInteger)newLength withString:(NSString *)padString startingAtIndex:(NSUInteger)padIndex ignoreColor:(BOOL)ignoreColor {
     NSError *error = nil;
     NSString *pattern = [NSString stringWithFormat:@"%@[^m]+m", @CDColorEscapeRegExp];
@@ -174,8 +169,16 @@ BOOL NSStringCDColor = YES;
             [stripped insertString:[self substringWithRange:match.range] atIndex:match.range.location];
         }
         return stripped;
-}
+    }
     return [self stringByPaddingToLength:newLength withString:padString startingAtIndex:padIndex];
+}
+
+#pragma mark - Public chainable methods
+- (NSString *(^)(CDColor* color)) addColor {
+    return ^NSString *(CDColor* color){
+        [self.color merge:color];
+        return self.formattedString;
+    };
 }
 
 

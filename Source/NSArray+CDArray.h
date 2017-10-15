@@ -5,12 +5,12 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
-#import "NSString+CDString.h"
-
 @interface NSArray (CDArray)
 
 #pragma mark - Properties
 @property (readonly) NSArray *doubleQuote;
+@property (readonly) NSArray *filterEmpty;
+@property (readonly) NSArray *parseCallStackSymbols;
 @property (readonly) NSArray *sortedAlphabetically;
 
 #pragma mark - Public instance methods
@@ -19,5 +19,8 @@
 - (NSArray *) replaceNullValuesWith:(id)value;
 - (NSArray *) sliceFrom:(NSUInteger)from;
 - (NSArray *) sliceFrom:(NSUInteger)from to:(NSUInteger)to;
+
+#pragma mark - Public chainable methods
+- (NSString *(^)(NSString* string)) join;
 
 @end

@@ -5,6 +5,8 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
+@class CDTextbox;
+
 #import "CDDialog.h"
 #import "CDTextView.h"
 

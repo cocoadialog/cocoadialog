@@ -1,0 +1,13 @@
+// prefix.pch
+// cocoadialog
+//
+// Copyright (c) 2004-2017 Mark A. Stratman <mark@sporkstorms.org>, Mark Carver <mark.carver@me.com>.
+// All rights reserved.
+// Licensed under GPL-2.
+
+#ifndef prefix_pch
+#define prefix_pch
+
+#define MAS_SHORTHAND
+
+#endif /* prefix_pch */

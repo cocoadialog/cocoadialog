@@ -9,6 +9,6 @@
 
 int main(int argc, const char *argv[]) {
     CDApplication *application = [CDApplication sharedApplication];
-    [application setDelegate:NSApp];
-    [application run];
+    [NSApp setDelegate:application];
+    [NSApp run];
 }

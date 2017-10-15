@@ -3,14 +3,21 @@
 
 # Xcode
 *.pbxuser
+*.log
 *.mode1v3
 *.mode2v3
 *.perspectivev3
 *.xcuserstate
-DerivedData/
+/DerivedData
 project.xcworkspace/
 xcuserdata/
 
 # CocoaPods
-Pods/
+/Pods
 Podfile.lock
+
+# Node.js
+/node_modules
+
+# Building process (Node.js)
+/Build

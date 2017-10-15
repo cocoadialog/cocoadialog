@@ -20,11 +20,11 @@
 
         // Attempt to load a XIB for this view.
         if (![[NSBundle mainBundle] loadNibNamed:[self className] owner:self topLevelObjects:nil]) {
-            [dialog fatal:CDExitCodeControlFailure error:@"Control view does not contain a XIB named: %@", [self className].doubleQuote.white.bold, nil];
+            dialog.terminal.error(@"Control view does not contain a XIB named: %@", [self className].doubleQuote.white.bold, nil).exit(CDTerminalExitCodeControlFailure);
         }
 
         if (self.contentView == nil) {
-            [dialog fatal:CDExitCodeControlFailure error:@"The %@ control view has not properly bound the %@ property.", [self className].doubleQuote.white.bold, @"contentView".doubleQuote.white.bold, nil];
+            dialog.terminal.error(@"The %@ control view has not properly bound the %@ property.", [self className].doubleQuote.white.bold, @"contentView".doubleQuote.white.bold, nil).exit(CDTerminalExitCodeControlFailure);
         }
 
         self.autoresizingMask = NSViewMinXMargin | NSViewMaxXMargin | NSViewMinYMargin | NSViewMaxYMargin | NSViewWidthSizable | NSViewHeightSizable;

@@ -5,6 +5,8 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
+@class CDColor;
+
 #pragma mark - Constants
 
 #ifndef CDColorEscape
@@ -14,9 +16,6 @@
 #ifndef CDColorEscapeRegExp
 #define CDColorEscapeRegExp "\\x1b\\["
 #endif
-
-#ifndef CDColor_h
-#define CDColor_h
 
 typedef NS_ENUM(int, CDColorBg) {
     CDColorBgNone = -1,
@@ -92,5 +91,3 @@ typedef NS_ENUM(int, CDColorStyle) {
 - (void) reset;
 
 @end
-
-#endif /* CDColor_h */

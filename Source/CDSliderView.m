@@ -14,7 +14,7 @@ IB_DESIGNABLE
 - (void) initView {
     [super initView];
 
-//    NSString *_sliderLabel = NSLocalizedString(@"SLIDER_DEFAULT_LABEL", nil);
+//    NSString *_sliderLabel = @"OPTION_SLIDER_DEFAULT_LABEL".localized;
 //    if (option[@"slider-label"].wasProvided && ![option[@"slider-label"].stringValue isBlank]) {
 //        _sliderLabel = option[@"slider-label"].stringValue;
 //    }

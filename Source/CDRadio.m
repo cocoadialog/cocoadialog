@@ -9,58 +9,52 @@
 
 @implementation CDRadio
 
-- (CDOptions *) availableOptions {
-    CDOptions *options = [super availableOptions];
++ (NSString *) scope {
+    return @"radio";
+}
 
-    // Require --button1.
-    options[@"button1"].required = YES;
++ (CDOptions *) availableOptions {
+    CDOptions* options = super.availableOptions;
 
-    // --allow-mixed
-    [options add:[CDOptionBoolean             name:@"allow-mixed"]];
+    // Require at least one button.
+    options[@"button1"].require(YES).min(1);
 
-    // --disabled
-    [options add:[CDOptionMultipleNumbers     name:@"disabled"]];
-
-    // --items
-    [options add:[CDOptionMultipleStrings     name:@"items"]];
-    options[@"items"].minimumValues = @2;
-    options[@"items"].required = YES;
-
-    // --mixed
-    [options add:[CDOptionMultipleNumbers     name:@"mixed"]];
-
-    // --selected
-    [options add:[CDOptionSingleNumber        name:@"selected"]];
-
-    return options;
+    return options.addOptionsToScope([self class].scope,
+  @[
+    CDOption.create(CDBoolean,  @"allow-mixed"),
+    CDOption.create(CDNumber,   @"disabled").max(-1),
+    CDOption.create(CDString,   @"items").min(2).max(-1).require(YES),
+    CDOption.create(CDNumber,   @"mixed").max(-1),
+    CDOption.create(CDNumber,   @"selected"),
+    ]);
 }
 
 - (void) controlHasFinished:(NSUInteger)button {
     if (self.matrix.cells != nil && self.matrix.cells.count) {
         NSCell *selectedCell = self.matrix.selectedCell;
         if (selectedCell != nil) {
-            if (option[@"return-labels"].wasProvided) {
-                returnValues[@"value"] = selectedCell.title;
+            if (self.options[@"return-labels"].wasProvided) {
+                self.returnValues[@"value"] = selectedCell.title;
             }
             else {
-                returnValues[@"value"] = [NSNumber numberWithInteger:self.matrix.selectedCell.tag];
+                self.returnValues[@"value"] = [NSNumber numberWithInteger:self.matrix.selectedCell.tag];
             }
         }
         else {
-            returnValues[@"value"] = @-1;
+            self.returnValues[@"value"] = @-1;
         }
     }
     else {
-        returnValues[@"value"] = @-1;
+        self.returnValues[@"value"] = @-1;
     }
     [super controlHasFinished:button];
 }
 
-- (void) initControl {
-    [super initControl];
-    self.items = option[@"items"].arrayValue ?: [NSArray array];
-    self.mixed = option[@"mixed"].arrayValue ?: [NSArray array];
-    self.disabled = option[@"disabled"].arrayValue ?: [NSArray array];
+- (void) createControl {
+    [super createControl];
+    self.items = self.options[@"items"].arrayValue ?: [NSArray array];
+    self.mixed = self.options[@"mixed"].arrayValue ?: [NSArray array];
+    self.disabled = self.options[@"disabled"].arrayValue ?: [NSArray array];
 }
 
 - (void) initMatrix {
@@ -94,7 +88,7 @@
 }
 
 - (BOOL) isCellSelected:(NSUInteger)index {
-    return option[@"selected"].wasProvided ? option[@"selected"].unsignedIntValue == index : NO;
+    return self.options[@"selected"].wasProvided ? self.options[@"selected"].unsignedIntValue == index : NO;
 }
 
 - (BOOL) isReturnValueEmpty {

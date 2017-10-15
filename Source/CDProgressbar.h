@@ -5,10 +5,11 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
-#import <sys/select.h>
+@class CDProgressbar;
+
+//#import <sys/select.h> @todo does this actually need to be here now?
 #import "CDDialog.h"
 #import "CDProgressbarView.h"
-#import "CDProgressbarInputHandler.h"
 
 @protocol CDProgressbarProtocol <NSObject>
 
@@ -24,7 +25,7 @@
 @property (strong)       IBOutlet    NSButton                    *stopButton;
 @property (strong)                   NSAlert                     *confirmationSheet;
 @property (strong)                   NSArray <NSString *>        *labels;
-@property (nonatomic)                           BOOL                        stopped;
+@property (nonatomic)                BOOL                        stopped;
 
 # pragma mark - Public instance methods
 

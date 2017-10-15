@@ -7,60 +7,56 @@
 
 #import "CDProgressbar.h"
 
+#import "CDProgressbarInputHandler.h"
+#import "CDIcon.h"
+
 @implementation CDProgressbar
 
-- (CDOptions *) availableOptions {
-    CDOptions *options = [super availableOptions];
++ (NSString *) scope {
+    return @"progressbar";
+}
+
++ (CDOptions *) availableOptions {
+    CDOptions *options = super.availableOptions;
 
     // Remove normal buttons.
     [options remove:@"button1"];
     [options remove:@"button1"];
     [options remove:@"button1"];
 
-    // --labels
-    [options add:[CDOptionMultipleStrings       name:@"labels"              category:@"PROGRESSBAR_OPTION"]];
-    [options add:[CDOptionSingleString          name:@"text"                replacedBy:@"labels" valueIndex:0]];
-    options[@"labels"].maximumValues = @2;
-
-    // --indeterminate
-    [options add:[CDOptionBoolean               name:@"indeterminate"       category:@"PROGRESSBAR_OPTION"]];
-
-    // --percent
-    [options add:[CDOptionSingleString          name:@"percent"             category:@"PROGRESSBAR_OPTION"]];
-
-    // --second-label
-    [options add:[CDOptionSingleString          name:@"second-label"        category:@"PROGRESSBAR_OPTION"]];
-
-    // --stoppable
-    [options add:[CDOptionBoolean               name:@"stoppable"           category:@"PROGRESSBAR_OPTION"]];
-
-    return options;
+    return options.addOptionsToScope([self class].scope,
+  @[
+    CDOption.create(CDString,   @"labels").max(2).deprecates(@[CDOption.create(CDString, @"text").toValueIndex(0)]),
+    CDOption.create(CDNumber,   @"percent"),
+    CDOption.create(CDBoolean,  @"indeterminate"),
+    CDOption.create(CDBoolean,  @"stoppable"),
+    ]);
 }
 
-- (void) initControl {
-    [super initControl];
+- (void) createControl {
+    [super createControl];
 
     self.progressbar = [[CDProgressbarView alloc] initWithDialog:self];
 
     // Set text label.
-    self.labels = option[@"labels"].arrayValue ?: [NSArray array];
+    self.labels = self.options[@"labels"].arrayValue ?: [NSArray array];
 
     // Set whether progressbar is stoppable.
-    self.progressbar.stoppable = option[@"stoppable"].boolValue;
+    self.progressbar.stoppable = self.options[@"stoppable"].boolValue;
 
     CDProgressbarInputHandler *inputHandler = [[CDProgressbarInputHandler alloc] init];
     [inputHandler setDelegate:self];
 
     // Set initial percent.
-    if (option[@"percent"].wasProvided) {
+    if (self.options[@"percent"].wasProvided) {
         double initialPercent;
-        if ([inputHandler parseString:option[@"percent"].stringValue intoProgress:&initialPercent]) {
+        if ([inputHandler parseString:self.options[@"percent"].stringValue intoProgress:&initialPercent]) {
             self.progressbar.value = initialPercent;
         }
     }
 
     // set indeterminate
-    self.progressbar.indeterminate = option[@"indeterminate"].boolValue;
+    self.progressbar.indeterminate = self.options[@"indeterminate"].boolValue;
 
     NSOperationQueue* queue = [NSOperationQueue new];
     [queue addOperation:inputHandler];
@@ -83,7 +79,7 @@
     }
 
     if (self.stopped) {
-        [self fatal:CDExitCodeCancel error:NSLocalizedString(@"PROGRESS_BAR_CANCELED", nil), nil];
+        self.terminal.error(@"OPTION_PROGRESSBAR_CANCELED".localized, nil).exit(CDTerminalExitCodeCancel);
     }
 
     [self stopControl];
@@ -101,10 +97,10 @@
 
 - (IBAction) stop:(id)sender {
     self.confirmationSheet = [[NSAlert alloc] init];
-    [self.confirmationSheet setIcon:[self iconFromName:@"caution"]];
-    [self.confirmationSheet addButtonWithTitle:NSLocalizedString(@"PROGRESS_BAR_STOP", nil)];
-    [self.confirmationSheet addButtonWithTitle:NSLocalizedString(@"CANCEL", nil)];
-    self.confirmationSheet.messageText = NSLocalizedString(@"PROGRESS_BAR_STOP_QUESTION", nil);
+    [self.confirmationSheet setIcon:[CDIcon.sharedInstance iconFromName:@"caution"]];
+    [self.confirmationSheet addButtonWithTitle:@"OPTION_PROGRESSBAR_STOP".localized];
+    [self.confirmationSheet addButtonWithTitle:@"CANCEL".localized];
+    self.confirmationSheet.messageText = @"PROGRESS_BAR_STOP_QUESTION".localized;
     [self.confirmationSheet beginSheetModalForWindow:self.panel completionHandler:^(NSModalResponse returnCode) {
         [self alertDidEnd:self.confirmationSheet returnCode:returnCode contextInfo:nil];
     }];

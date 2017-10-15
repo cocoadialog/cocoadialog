@@ -6,6 +6,7 @@
 // Licensed under GPL-2.
 
 #import "NSArray+CDArray.h"
+#import "NSString+CDString.h"
 
 @implementation NSArray (CDArray)
 
@@ -18,6 +19,43 @@
         }
     }
     return [NSArray arrayWithArray:array];
+}
+
+- (NSArray *) filterEmpty {
+    NSMutableArray* filtered = @[].mutableCopy;
+    for (id item in self) {
+        if (
+            [item isKindOfClass:[NSNull class]] ||
+            ([item isKindOfClass:[NSNumber class]] && ((NSNumber *)item).unsignedIntegerValue == 0) ||
+            ([item isKindOfClass:[NSString class]] && ((NSString *)item).isBlank) ||
+            ([item isKindOfClass:[NSArray class]] && ((NSArray *)item).count == 0) ||
+            ([item isKindOfClass:[NSDictionary class]] && ((NSDictionary *)item).count == 0)
+            ) {
+            continue;
+        }
+        [filtered addObject:item];
+    }
+    return filtered;
+}
+
+- (NSArray *) parseCallStackSymbols {
+    NSArray* callStackSymbols = [self sliceFrom:1];
+    NSMutableArray* array = @[].mutableCopy;
+    for (NSString* item in callStackSymbols) {
+        NSArray<NSString*>* itemArray = [item componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" -[]+?.,"]].filterEmpty;
+        // Ignore this project's classes.
+        if (
+            [itemArray[3] hasPrefix:@"CDLocale"] ||
+            [itemArray[3] hasPrefix:@"NSArray(CD"] ||
+            [itemArray[3] hasPrefix:@"NSNumber(CD"] ||
+            [itemArray[3] hasPrefix:@"NSPanel(CD"] ||
+            [itemArray[3] hasPrefix:@"NSString(CD"]
+            ) {
+            continue;
+        }
+        [array addObject:itemArray];
+    }
+    return array[0];
 }
 
 - (NSArray *) sortedAlphabetically {
@@ -71,6 +109,13 @@
         return self;
     }
     return [self subarrayWithRange:NSMakeRange(from, MAX(self.count - 1, to))];
+}
+
+#pragma mark - Public chainable methods
+- (NSString *(^)(NSString *string)) join {
+    return ^NSString *(NSString *delimiter){
+        return [self componentsJoinedByString:delimiter];
+    };
 }
 
 @end

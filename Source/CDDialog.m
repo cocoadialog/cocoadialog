@@ -7,12 +7,26 @@
 
 #import "CDApplication.h"
 #import "CDDialog.h"
+#import "CDIcon.h"
+
+// Frameworks.
+#import <Masonry/Masonry.h>
 
 @implementation CDDialog
 
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        self.panel = [[NSPanel alloc] init];
+        self.buttons = [NSMutableArray array];
+        self.controlView = [[NSView alloc] init];
+    }
+    return self;
+}
+
 #pragma mark - Properties
 - (BOOL) allowEmptyReturn {
-    return !option[@"value-required"].boolValue;
+    return !self.options[@"value-required"].boolValue;
 }
 
 - (BOOL) isReturnValueEmpty {
@@ -20,165 +34,64 @@
 }
 
 - (NSString *) returnValueEmptyText {
-    return NSLocalizedString(@"An input is required, please try again.", nil);
+    return @"An input is required, please try again.".localized;
 }
 
-- (NSString *) xib {
++ (NSString *) scope {
+    return @"dialog";
+}
+
+- (NSString *) nib {
     return [CDDialog className];
 }
 
 #pragma mark - Public instance methods
-- (CDOptions *) availableOptions {
-    CDOptions *options = [super availableOptions];
-
-    // --buttons
-    [options add:[CDOptionMultipleStrings         name:@"buttons"             category:@"DIALOG_OPTION"]];
-    [options add:[CDOptionSingleString            name:@"button1"             replacedBy:@"buttons"     valueIndex:0]];
-    [options add:[CDOptionSingleString            name:@"button2"             replacedBy:@"buttons"     valueIndex:1]];
-    [options add:[CDOptionSingleString            name:@"button3"             replacedBy:@"buttons"     valueIndex:2]];
-    options[@"buttons"].maximumValues = @3;
-
-    // --cancel-button
-    [options add:[CDOptionSingleStringOrNumber    name:@"cancel-button"       category:@"DIALOG_OPTION"]];
-    [options add:[CDOptionSingleStringOrNumber    name:@"cancel"              replacedBy:@"cancel-button"]];
-    options[@"cancel-button"].defaultValue = @"Cancel";
-
-    // --default-button
-    [options add:[CDOptionSingleStringOrNumber    name:@"default-button"      category:@"DIALOG_OPTION"]];
-
-    // --float
-    [options add:[CDOptionBoolean                 name:@"float"               category:@"DIALOG_OPTION"]];
-    [options add:[CDOptionBoolean                 name:@"no-float"            replacedBy:@"float"]];
-    options[@"float"].defaultValue = @YES;
-
-    // --header
-    [options add:[CDOptionSingleString            name:@"header"              category:@"DIALOG_OPTION"]];
-    [options add:[CDOptionSingleString            name:@"alert"               replacedBy:@"header"]];
-    [options add:[CDOptionSingleString            name:@"text"                replacedBy:@"header"]];
-
-    // --height
-    [options add:[CDOptionSingleNumber            name:@"height"              category:@"DIALOG_OPTION"]];
-
-    // --icon
-    [options add:[CDOptionSingleString            name:@"icon"                category:@"DIALOG_OPTION"]];
-
-    // --icon-bundle
-    [options add:[CDOptionSingleString            name:@"icon-bundle"         category:@"DIALOG_OPTION"]];
-
-    // --icon-file
-    [options add:[CDOptionSingleString            name:@"icon-file"           category:@"DIALOG_OPTION"]];
-
-    // --icon-height
-    [options add:[CDOptionSingleNumber            name:@"icon-height"         category:@"DIALOG_OPTION"]];
-    [options[@"icon-height"].allowedValues addObjectsFromArray:@[@16, @32, @48, @96, @128, @256]];
-
-    // --icon-size
-    [options add:[CDOptionSingleNumber            name:@"icon-size"           category:@"DIALOG_OPTION"]];
-    [options[@"icon-size"].allowedValues addObjectsFromArray:@[@16, @32, @48, @96, @128, @256]];
-    options[@"icon-size"].defaultValue = @48;
-
-    // --icon-type
-    [options add:[CDOptionSingleString            name:@"icon-type"           category:@"DIALOG_OPTION"]];
-    [options[@"icon-type"].allowedValues addObjectsFromArray:@[@"gif", @"icns", @"ico", @"jpg", @"png", @"tiff"]];
-    options[@"icon-type"].defaultValue = @"icns";
-
-    // --icon-width
-    [options add:[CDOptionSingleNumber            name:@"icon-width"          category:@"DIALOG_OPTION"]];
-    [options[@"icon-width"].allowedValues addObjectsFromArray:@[@16, @32, @48, @96, @128, @256]];
-
-    // --markdown
-    [options add:[CDOptionBoolean                 name:@"markdown"            category:@"DIALOG_OPTION"]];
-
-    // --max-height
-    [options add:[CDOptionSingleNumber            name:@"max-height"          category:@"DIALOG_OPTION"]];
-
-    // --max-width
-    [options add:[CDOptionSingleNumber            name:@"max-width"           category:@"DIALOG_OPTION"]];
-
-    // --min-height
-    [options add:[CDOptionSingleNumber            name:@"min-height"          category:@"DIALOG_OPTION"]];
-
-    // --min-width
-    [options add:[CDOptionSingleNumber            name:@"min-width"           category:@"DIALOG_OPTION"]];
-
-    // --message
-    [options add:[CDOptionSingleString            name:@"message"             category:@"DIALOG_OPTION"]];
-    [options add:[CDOptionSingleString            name:@"informative-text"    replacedBy:@"message"]];
-
-    // --posX
-    [options add:[CDOptionSingleStringOrNumber    name:@"posX"                category:@"DIALOG_OPTION"]];
-    options[@"posX"].defaultValue = @"center";
-
-    // --posY
-    [options add:[CDOptionSingleStringOrNumber    name:@"posY"                category:@"DIALOG_OPTION"]];
-    options[@"posY"].defaultValue = @"center";
-
-    // --resize
-    [options add:[CDOptionBoolean                 name:@"resize"              category:@"DIALOG_OPTION"]];
-
-    // --selectable-labels
-    [options add:[CDOptionBoolean                 name:@"selectable-labels"   category:@"DIALOG_OPTION"]];
-
-    // --timeout
-    [options add:[CDOptionSingleNumber            name:@"timeout"             category:@"DIALOG_OPTION"]];
-
-    // --timeout-format
-    [options add:[CDOptionSingleString            name:@"timeout-format"      category:@"DIALOG_OPTION"]];
-    options[@"timeout-format"].defaultValue = @"_Time remaining: %r..._";
-    options[@"timeout-format"].parentOption = options[@"timeout"];
-
-    // --title
-    [options add:[CDOptionSingleString            name:@"title"               category:@"DIALOG_OPTION"]];
-    options[@"title"].defaultValue = (CDOptionAutomaticDefaultValue) ^() {
-        return [CDApplication appTitle];
-        //return option[@"app-title"].stringValue;
-    };
-
-    // --titlebar-close
-    [options add:[CDOptionBoolean                 name:@"titlebar-close"      category:@"DIALOG_OPTION"]];
-
-    // --titlebar-minimize
-    [options add:[CDOptionBoolean                 name:@"titlebar-minimize"   category:@"DIALOG_OPTION"]];
-
-    // --titlebar-zoom
-    [options add:[CDOptionBoolean                 name:@"titlebar-zoom"       category:@"DIALOG_OPTION"]];
-
-    // --vibrancy
-    [options add:[CDOptionBoolean                 name:@"vibrancy"            category:@"DIALOG_OPTION"]];
-    options[@"vibrancy"].defaultValue = (CDOptionAutomaticDefaultValue) ^() {
++ (CDOptions *) availableOptions {
+    return super.availableOptions.addOptionsToScope([self class].scope,
+  @[
+    CDOption.create(CDString,           @"buttons").min(1).max(3).deprecates(@[
+                                                                    CDOption.create(CDString, @"button1").toValueIndex(0),
+                                                                    CDOption.create(CDString, @"button2").toValueIndex(1),
+                                                                    CDOption.create(CDString, @"button3").toValueIndex(2)
+                                                                    ]),
+    CDOption.create(CDStringOrNumber,   @"cancel-button").setDefaultValue(@"Cancel").deprecates(@[CDOption.create(CDStringOrNumber, @"cancel")]),
+    CDOption.create(CDStringOrNumber,   @"default-button"),
+    CDOption.create(CDBoolean,          @"float").setDefaultValue(@YES).deprecates(@[CDOption.create(CDBoolean, @"no-float")]).addWarning(@"USAGE_OPTION_DIALOG_FLOAT_WARNING".localized),
+    CDOption.create(CDString,           @"header").deprecates(@[CDOption.create(CDString, @"alert"), CDOption.create(CDString, @"text")]),
+    CDOption.create(CDNumber,           @"height"),
+    CDOption.create(CDString,           @"icon"),
+    CDOption.create(CDString,           @"icon-bundle"),
+    CDOption.create(CDString,           @"icon-file"),
+    CDOption.create(CDNumber,           @"icon-height").allow(@[@16, @32, @48, @96, @128, @256]),
+    CDOption.create(CDNumber,           @"icon-size").allow(@[@16, @32, @48, @96, @128, @256]).setDefaultValue(@48),
+    CDOption.create(CDString,           @"icon-type").allow(@[@"gif", @"icns", @"ico", @"jpg", @"png", @"tiff"]).setDefaultValue(@"icns"),
+    CDOption.create(CDNumber,           @"icon-width").allow(@[@16, @32, @48, @96, @128, @256]),
+    CDOption.create(CDBoolean,          @"markdown").setDefaultValue(@YES),
+    CDOption.create(CDNumber,           @"max-height").setDefaultValue(@YES),
+    CDOption.create(CDNumber,           @"max-width").setDefaultValue(@YES),
+    CDOption.create(CDNumber,           @"min-height").setDefaultValue(@YES),
+    CDOption.create(CDNumber,           @"min-width").setDefaultValue(@YES),
+    CDOption.create(CDString,           @"message").deprecates(@[CDOption.create(CDString, @"informative-text")]),
+    CDOption.create(CDStringOrNumber,   @"posX").setDefaultValue(@"center"),
+    CDOption.create(CDStringOrNumber,   @"posY").setDefaultValue(@"center"),
+    CDOption.create(CDBoolean,          @"resize").setDefaultValue(@NO),
+    CDOption.create(CDBoolean,          @"selectable-labels").setDefaultValue(@NO).addNote(@"USAGE_OPTION_DIALOG_SELECTABLE_LABELS_NOTE_MARKDOWN".localized),
+    CDOption.create(CDNumber,           @"timeout"),
+    CDOption.create(CDString,           @"timeout-format").setDefaultValue(@"_Time remaining: %r..._").dependsOn(@"timeout"),
+    CDOption.create(CDString,           @"title"),
+    CDOption.create(CDBoolean,          @"titlebar-close").setDefaultValue(@NO),
+    CDOption.create(CDBoolean,          @"titlebar-minimize").setDefaultValue(@NO),
+    CDOption.create(CDBoolean,          @"titlebar-zoom").setDefaultValue(@NO),
+    CDOption.create(CDBoolean,          @"vibrancy").setDefaultValue((CDOptionAutomaticValueBlock) ^() {
         return [NSNumber numberWithBool:NSClassFromString(@"NSVisualEffectView") != nil];
-    };
-
-    // --width
-    [options add:[CDOptionSingleNumber            name:@"width"               category:@"DIALOG_OPTION"]];
-
-    // --------------------
-    // Input options.
-    // --------------------
-
-    // --empty-text
-    [options add:[CDOptionSingleString            name:@"empty-text"            category:@"INPUT_OPTIONS"]];
-
-    // --no-newline
-    [options add:[CDOptionBoolean                 name:@"no-newline"            category:@"INPUT_OPTIONS"]];
-
-    // --return-labels
-    [options add:[CDOptionBoolean                 name:@"return-labels"         category:@"INPUT_OPTIONS"]];
-    [options add:[CDOptionBoolean                 name:@"string-output"         replacedBy:@"return-labels"]];
-
-    // --value-required
-    [options add:[CDOptionBoolean                 name:@"value-required"        category:@"INPUT_OPTIONS"]];
-
-    // --------------------
-    // Hidden options (deprecated aliased control options).
-    // @todo Remove in 4.0.0
-    // --------------------
-
-    // --no-cancel
-    [options add:[CDOptionBoolean                 name:@"no-cancel"]]; // yesno-msgbox
-    options[@"no-cancel"].hidden = YES;
-
-    return options;
+    }).addNote(@"USAGE_OPTION_DIALOG_VIBRANCY_NOTE_OS".localized),
+    CDOption.create(CDNumber,           @"width"),
+    CDOption.create(CDString,           @"empty-text"),
+    CDOption.create(CDBoolean,          @"newline").setDefaultValue(@YES).deprecates(@[CDOption.create(CDBoolean, @"no-newline")]),
+    CDOption.create(CDBoolean,          @"return-labels").setDefaultValue(@NO).deprecates(@[CDOption.create(CDBoolean, @"string-output")]),
+    CDOption.create(CDBoolean,          @"value-required").setDefaultValue(@NO),
+    CDOption.create(CDBoolean,          @"no-cancel").hide(YES)
+    ]);
 }
 
 - (void) dealloc {
@@ -187,23 +100,24 @@
     }
 }
 
-- (void) initControl {
-    [super initControl];
-    [self initTitle];
-    [self initIcon];
-    [self initHeader];
-    [self initMessage];
-    [self initControlView];
-    [self initTimeout];
-    [self initButtons];
+- (void) createControl {
+    [super createControl];
+
+    [self createTitle];
+    [self createIcon];
+    [self createHeader];
+    [self createMessage];
+    [self createControlView];
+    [self createTimeout];
+    [self createButtons];
 }
 
-- (void) initControlView {
+- (void) createControlView {
 }
 
 - (void) runControl {
     // Add borders around all views when in development mode.
-    if (option[@"dev"].boolValue) {
+    if (self.options[@"dev"].boolValue) {
         for (NSView *view in self.panel.contentView.subviews) {
             view.wantsLayer = YES;
             view.layer.borderWidth = 1;
@@ -240,7 +154,16 @@
     [self.panel moveContraintAttribute:NSLayoutAttributeTop toVisibleView:@[self.header, self.message, self.controlView, self.timeoutLabel]];
 
     // Initialize the panel.
-    [self initPanel];
+    [self createPanel];
+
+    if (self.options[@"dev"].boolValue) {
+        for (NSLayoutConstraint *constraint in self.panel.contentView.constraints) {
+            if ([NSStringFromClass([constraint class]) isEqualTo:@"NSAutoresizingMaskLayoutConstraint"]) {
+                continue;
+            }
+            self.terminal.dev(@"%@", [self debugConstraint:constraint], nil);
+        }
+    }
 
     // Start timeout, if necessary.
     if (self.timeout) {
@@ -250,6 +173,57 @@
 
     // Continue up the chain.
     [super runControl];
+}
+
+- (NSString *) debugConstraint:(NSLayoutConstraint *)constraint {
+    NSView *firstItem = constraint.firstItem;
+    NSView *secondItem = constraint.secondItem;
+
+    NSString *relation = @"=";
+    if (constraint.relation == NSLayoutRelationLessThanOrEqual) {
+        relation = @"≤";
+    }
+    if (constraint.relation == NSLayoutRelationGreaterThanOrEqual) {
+        relation = @"≥";
+    }
+
+    NSString *multiplier = @"";
+    if (constraint.multiplier > 1) {
+        multiplier = [NSString stringWithFormat:@" %.2f x", constraint.multiplier];
+    }
+
+    NSString *constant = @"";
+    if (constraint.constant > 0) {
+        constant = [NSString stringWithFormat:@" + %.2f", constraint.constant];
+    }
+    else if (constraint.constant < 0) {
+        constant = [NSString stringWithFormat:@" - %.2f", constraint.constant];
+    }
+
+    NSString *priority = @"";
+    if (constraint.priority != NSLayoutPriorityRequired) {
+        priority = [NSString stringWithFormat:@" @%.0f", constraint.priority];
+    }
+
+    return [NSString stringWithFormat:@"%@.%@ %@%@ %@.%@%@%@", firstItem.identifier, [self layoutAtttributeToString:constraint.firstAttribute], relation, multiplier, secondItem.identifier, [self layoutAtttributeToString:constraint.secondAttribute], constant, priority];
+}
+
+- (NSString *) layoutAtttributeToString:(NSLayoutAttribute)attribute {
+    switch (attribute) {
+        case NSLayoutAttributeLeft: return @"left";
+        case NSLayoutAttributeRight: return @"right";
+        case NSLayoutAttributeTop: return @"top";;
+        case NSLayoutAttributeBottom: return @"bottom";
+        case NSLayoutAttributeLeading: return @"leading";
+        case NSLayoutAttributeTrailing: return @"trailing";
+        case NSLayoutAttributeWidth: return @"width";
+        case NSLayoutAttributeHeight: return @"height";
+        case NSLayoutAttributeCenterX: return @"centerX";
+        case NSLayoutAttributeCenterY: return @"centerY";
+        case NSLayoutAttributeBaseline: return @"baseline";
+        default:
+        case NSLayoutAttributeNotAnAttribute: return @"unknown";
+    }
 }
 
 - (void) stopControl {
@@ -275,10 +249,10 @@
     // Save the currently focused view.
     self.firstResponder = self.panel.firstResponder ?: nil;
 
-    NSString *message = option[@"empty-text"].wasProvided ? option[@"empty-text"].stringValue : [self returnValueEmptyText];
+    NSString *message = self.options[@"empty-text"].wasProvided ? self.options[@"empty-text"].stringValue : [self returnValueEmptyText];
     NSAlert *alertSheet = [[NSAlert alloc] init];
-    [alertSheet addButtonWithTitle:NSLocalizedString(@"OKAY", nil)];
-    alertSheet.icon = [self iconFromName:@"caution"];
+    [alertSheet addButtonWithTitle:@"OKAY".localized];
+    alertSheet.icon = [CDIcon.sharedInstance iconFromName:@"caution"];
     alertSheet.messageText = message;
     [alertSheet beginSheetModalForWindow:self.panel completionHandler:^(NSModalResponse returnCode) {
         [self alertDidEnd:alertSheet returnCode:returnCode contextInfo:nil];
@@ -293,25 +267,28 @@
     [self setLabel:self.message withText:self.message.stringValue];
     [self setLabel:self.timeoutLabel withText:self.timeoutLabel.stringValue];
     [self updateMinSize];
-    if (option[@"dev"].boolValue) {
-        [self verbose:@"Resized panel width: %@, height: %@, minimum width: %@, minimum height: %@", [NSNumber numberWithFloat:self.panel.frame.size.width], [NSNumber numberWithFloat:self.panel.frame.size.height], [NSNumber numberWithFloat:self.panel.contentMinSize.width], [NSNumber numberWithFloat:self.panel.contentMinSize.height], nil];
-    }
+
+    NSNumber *width = [NSNumber numberWithFloat:self.panel.frame.size.width];
+    NSNumber *height = [NSNumber numberWithFloat:self.panel.frame.size.height];
+    NSNumber *minWidth = [NSNumber numberWithFloat:self.panel.contentMinSize.width];
+    NSNumber *minHeight = [NSNumber numberWithFloat:self.panel.contentMinSize.height];
+    self.terminal.dev(@"width: %@, height: %@, minWidth: %@, minHeight: %@", width, height, minWidth, minHeight, nil);
 }
 
 - (void) windowWillClose:(NSNotification *)notification {
-    exitStatus = CDExitCodeCancel;
+    self.exitStatus = CDTerminalExitCodeCancel;
     [self stopControl];
 }
 
 #pragma mark - Buttons
 
-- (void) initButtons {
-    self.cancelButton = option[@"cancel-button"].numberValue;
-    NSString *cancelButton = option[@"cancel-button"].stringValue;
+- (void) createButtons {
+    self.cancelButton = self.options[@"cancel-button"].numberValue;
+    NSString *cancelButton = self.options[@"cancel-button"].stringValue;
 
-    NSArray *buttons = option[@"buttons"].arrayValue;
-//    NSNumber *defaultButtonNumber = option[@"default-button"].numberValue;
-//    NSString *defaultButtonString = defaultButtonNumber == nil ? option[@"default-button"].stringValue : nil;
+    NSArray *buttons = self.options[@"buttons"].arrayOfStrings;
+//    NSNumber *defaultButtonNumber = self.options[@"default-button"].numberValue;
+//    NSString *defaultButtonString = defaultButtonNumber == nil ? self.options[@"default-button"].stringValue : nil;
     for (NSUInteger i = 0; i < buttons.count; i++) {
         NSButton *button = [self valueForKey:[NSString stringWithFormat:@"button%lu", i]];
         NSString *title = buttons[i];
@@ -346,8 +323,8 @@
 
 - (void) controlHasFinished:(NSUInteger)button {
     if (self.cancelButton && button == self.cancelButton.unsignedIntegerValue) {
-        returnValues = [NSMutableDictionary dictionary];
-        exitStatus = CDExitCodeCancel;
+        self.returnValues = [NSMutableDictionary dictionary];
+        self.exitStatus = CDTerminalExitCodeCancel;
     }
     else {
         if (![self allowEmptyReturn] && [self isReturnValueEmpty]) {
@@ -358,7 +335,7 @@
 
     id buttonValue = [NSNumber numberWithUnsignedInteger:button];
 
-    if (option[@"return-labels"].wasProvided) {
+    if (self.options[@"return-labels"].wasProvided) {
         switch (button) {
             case 0: buttonValue = self.button0.title; break;
             case 1: buttonValue = self.button1.title; break;
@@ -368,34 +345,34 @@
 
     // Add the button return value.
     if (buttonValue != nil) {
-        returnValues[@"button"] = buttonValue;
+        self.returnValues[@"button"] = buttonValue;
     }
 
     [self stopControl];
 }
 
 - (IBAction) buttonPressed:(NSButton *)button {
-    [returnValues removeAllObjects];
+    [self.returnValues removeAllObjects];
     [self controlHasFinished:button.tag];
 }
 
 #pragma mark - Header
 
-- (void) initHeader {
-    [self setLabel:self.header withText:option[@"header"].stringValue];
+- (void) createHeader {
+    [self setLabel:self.header withText:self.options[@"header"].stringValue];
     if (self.header.hidden) {
         [self.panel removeSubview:self.header movingAttribute:NSLayoutAttributeTop to:self.message];
     }
 }
 
 #pragma mark - Icon
-- (void) initIcon {
+- (void) createIcon {
     NSImage *image = nil;
-    if (option[@"icon-file"].wasProvided) {
-        image = [self iconFromFile:option[@"icon-file"].stringValue];
+    if (self.options[@"icon-file"].wasProvided) {
+        image = [CDIcon.sharedInstance iconFromFile:self.options[@"icon-file"].stringValue];
     }
-    else if (option[@"icon"].wasProvided) {
-        image = [self iconFromName:option[@"icon"].stringValue];
+    else if (self.options[@"icon"].wasProvided) {
+        image = [CDIcon.sharedInstance iconFromName:self.options[@"icon"].stringValue];
     }
 
     // Default icon size.
@@ -403,16 +380,16 @@
     float h = 48.0f;
 
     // Retrive sizes from options.
-    if (option[@"icon-size"].wasProvided) {
-        w = option[@"icon-size"].floatValue;
-        h = option[@"icon-size"].floatValue;
+    if (self.options[@"icon-size"].wasProvided) {
+        w = self.options[@"icon-size"].floatValue;
+        h = self.options[@"icon-size"].floatValue;
     }
     else {
-        if (option[@"icon-width"].wasProvided) {
-            w = option[@"icon-width"].floatValue;
+        if (self.options[@"icon-width"].wasProvided) {
+            w = self.options[@"icon-width"].floatValue;
         }
-        if (option[@"icon-height"].wasProvided) {
-            h = option[@"icon-height"].floatValue;
+        if (self.options[@"icon-height"].wasProvided) {
+            h = self.options[@"icon-height"].floatValue;
         }
     }
 
@@ -423,10 +400,7 @@
 - (void) setIconFromImage:(NSImage *)anImage withSize:(NSSize)aSize {
     // Immediately remove image if not set and then return.
     if (anImage == nil) {
-        self.iconView.image = nil;
-        self.iconLeadingConstraint.constant = 0;
-        self.iconHeightConstraint.constant = 0;
-        self.iconWidthConstraint.constant = 0;
+        self.iconView.hidden = YES;
         [self.panel updateConstraintsIfNeeded];
         return;
     }
@@ -446,16 +420,13 @@
     self.iconView.image = anImage;
 
     // Update constraints.
-    self.iconLeadingConstraint.constant = 20;
-    self.iconHeightConstraint.constant = aSize.height;
-    self.iconWidthConstraint.constant = aSize.width;
     [self.panel updateConstraintsIfNeeded];
 }
 
 #pragma mark - Message
 
-- (void) initMessage {
-    [self setLabel:self.message withText:option[@"message"].stringValue];
+- (void) createMessage {
+    [self setLabel:self.message withText:self.options[@"message"].stringValue];
     if (self.message.hidden) {
         [self.panel removeSubview:self.message movingAttribute:NSLayoutAttributeTop to:self.controlView];
     }
@@ -487,7 +458,7 @@
     minHeight += [self getViewHeight:self.controlView];
     minHeight += [self getViewHeight:self.timeoutLabel];
 
-    if (option[@"buttons"].wasProvided) {
+    if (self.options[@"buttons"].wasProvided) {
         minHeight += [self getViewHeight:self.button0] + 10.0f;
     }
 
@@ -512,9 +483,9 @@
     self.panel.contentMinSize = minSize;
 }
 
-- (void) initPanel {
+- (void) createPanel {
     if (self.panel == nil) {
-        [self fatal: CDExitCodeControlFailure error:@"Control panel failed to bind.", nil];
+        self.terminal.error(@"Control panel failed to bind.", nil).exit(CDTerminalExitCodeControlFailure);
     }
 
     // Update panel's constraints.
@@ -522,8 +493,8 @@
     self.panel.viewsNeedDisplay = YES;
     [self.panel updateConstraintsIfNeeded];
 
-    [self.panel makeLabelsSelectable:option[@"selectable-labels"].boolValue];
-    self.panel.vibrancy = option[@"vibrancy"].boolValue;
+    [self.panel makeLabelsSelectable:self.options[@"selectable-labels"].boolValue];
+    self.panel.vibrancy = self.options[@"vibrancy"].boolValue;
 
     [self updateMinSize];
 
@@ -532,14 +503,14 @@
     NSSize size = self.panel.contentView.frame.size;
 
     float width, height;
-    if (option[@"width"].wasProvided) {
-        width = option[@"width"].isPercent ? [option[@"width"] percentageOf:screen.frame.size.width] : option[@"width"].floatValue;
+    if (self.options[@"width"].wasProvided) {
+        width = self.options[@"width"].isPercent ? [self.options[@"width"] percentageOf:screen.frame.size.width] : self.options[@"width"].floatValue;
         if (width != 0.0) {
             size.width = width;
         }
     }
-    if (option[@"height"].wasProvided) {
-        height = option[@"height"].isPercent ? [option[@"height"] percentageOf:screen.frame.size.height] : option[@"height"].floatValue;
+    if (self.options[@"height"].wasProvided) {
+        height = self.options[@"height"].isPercent ? [self.options[@"height"] percentageOf:screen.frame.size.height] : self.options[@"height"].floatValue;
         if (height != 0.0) {
             size.height = height;
         }
@@ -556,8 +527,8 @@
     [self.panel setContentSize:size];
 
     // Determine whether or not panel should float.
-    self.panel.floatingPanel = option[@"float"].boolValue;
-    self.panel.level = option[@"float"].boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel;
+    self.panel.floatingPanel = self.options[@"float"].boolValue;
+    self.panel.level = self.options[@"float"].boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel;
 
     // Retrieve information about the screen.
     float x = NSMinX(screen.visibleFrame);
@@ -567,15 +538,15 @@
     float screenWidth = NSWidth(screen.visibleFrame);
 
     // Retrieve any position options.
-    NSString *posX = option[@"posX"].stringValue;
-    NSString *posY = option[@"posY"].stringValue;
+    NSString *posX = self.options[@"posX"].stringValue;
+    NSString *posY = self.options[@"posY"].stringValue;
 
     // Default to center positions.
     float left = x + ((screenWidth - NSWidth(self.panel.frame)) / 2.0f - padding);
     float top = (y + screenHeight) - (screenHeight / 1.8f) - (NSHeight(self.panel.frame) / 1.8f);
 
-    float posXNumber = option[@"posX"].isPercent ? [option[@"posX"] percentageOf:screenWidth - NSWidth(self.panel.frame)] : option[@"posX"].floatValue;
-    float posYNumber = option[@"posY"].isPercent ? [option[@"posY"] percentageOf:screenHeight - NSHeight(self.panel.frame)] : option[@"posY"].floatValue;
+    float posXNumber = self.options[@"posX"].isPercent ? [self.options[@"posX"] percentageOf:screenWidth - NSWidth(self.panel.frame)] : self.options[@"posX"].floatValue;
+    float posYNumber = self.options[@"posY"].isPercent ? [self.options[@"posY"] percentageOf:screenHeight - NSHeight(self.panel.frame)] : self.options[@"posY"].floatValue;
 
 
     // Left
@@ -609,11 +580,11 @@
     [self.panel makeKeyAndOrderFront:nil];
 }
 
-- (void) initTitle {
-    self.panel.title = option[@"title"].stringValue;
+- (void) createTitle {
+    self.panel.title = self.options[@"title"].stringValue ?: @"";
 
     // Handle --titlebar-close option.
-    BOOL close = option[@"titlebar-close"].boolValue;
+    BOOL close = self.options[@"titlebar-close"].boolValue;
     [self.panel standardWindowButton:NSWindowCloseButton].enabled = close;
     if (close) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillClose:) name:NSWindowWillCloseNotification object:self.panel];
@@ -623,15 +594,15 @@
     }
 
     // Handle --titlebar-minimize option.
-    BOOL minimize = option[@"titlebar-minimize"].boolValue;
+    BOOL minimize = self.options[@"titlebar-minimize"].boolValue;
     [self.panel standardWindowButton:NSWindowMiniaturizeButton].enabled = minimize;
     if (!minimize) {
         self.panel.styleMask = self.panel.styleMask^NSMiniaturizableWindowMask;
     }
 
     // Handle --resize and && --titlebar-zoom options.
-    BOOL resize = option[@"resize"].boolValue;
-    [self.panel standardWindowButton:NSWindowZoomButton].enabled = resize && option[@"titlebar-zoom"].wasProvided;
+    BOOL resize = self.options[@"resize"].boolValue;
+    [self.panel standardWindowButton:NSWindowZoomButton].enabled = resize && self.options[@"titlebar-zoom"].wasProvided;
     if (!resize) {
         self.panel.styleMask = self.panel.styleMask^NSResizableWindowMask;
     }
@@ -707,18 +678,18 @@
     // Update and position the label if it exists.
     if (self.timeout > 0.0f) {
         if (self.timeoutLabel != nil) {
-            self.timeoutLabel.stringValue = [self format:option[@"timeout-format"].stringValue withSeconds:ceil(self.timeout)];
+            self.timeoutLabel.stringValue = [self format:self.options[@"timeout-format"].stringValue withSeconds:ceil(self.timeout)];
         }
     }
     else {
-        exitStatus = CDExitCodeTimeout;
-        returnValues = [NSMutableDictionary dictionary];
+        self.exitStatus = CDTerminalExitCodeTimeout;
+        self.returnValues = [NSMutableDictionary dictionary];
         [self performSelector:@selector(stopControl) onThread:self.mainThread withObject:nil waitUntilDone:YES];
     }
 }
 
 - (void) setLabel:(CDTextField *)label withText:(NSString *)text {
-    label.markdown.enabled = option[@"markdown"].boolValue;
+    label.markdown.enabled = self.options[@"markdown"].boolValue;
 
     // Immediately hide label if there's nothing there.
     if (text == nil || text.isBlank) {
@@ -762,11 +733,11 @@
     [label displayIfNeeded];
 }
 
-- (void) initTimeout {
+- (void) createTimeout {
     self.timer = nil;
-    self.timeout = option[@"timeout"].doubleValue;
+    self.timeout = self.options[@"timeout"].doubleValue;
 
-    NSString *text = self.timeout ? [self format:option[@"timeout-format"].stringValue withSeconds:ceil(self.timeout)] : nil;
+    NSString *text = self.timeout ? [self format:self.options[@"timeout-format"].stringValue withSeconds:ceil(self.timeout)] : nil;
 
     // Set the timeout label.
     [self setLabel:self.timeoutLabel withText:text];

@@ -5,6 +5,8 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
+@class CDDropdown;
+
 #import "CDDialog.h"
 
 @interface CDDropdown : CDDialog

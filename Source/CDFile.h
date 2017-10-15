@@ -5,17 +5,20 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
+@class CDFile;
+
 #import "CDDialog.h"
 
+@interface CDFile : CDDialog <NSOpenSavePanelDelegate>
 
-@interface CDFile : CDDialog <NSOpenSavePanelDelegate> {
-    NSSavePanel *savePanel;
-    NSMutableArray *extensions;
-}
+@property (strong)      NSString*           directory;
+@property (strong)      NSArray*            extensions;
+@property (strong)      NSString*           file;
+@property (strong)      NSFileManager*      fileManager;
+@property (strong)      NSSavePanel*        savePanel;
+
+- (void) createSavePanel;
 
 - (BOOL) isExtensionAllowed:(NSString *)filename;
-
-// Set options common to any file save panel
-- (void) setMisc;
 
 @end

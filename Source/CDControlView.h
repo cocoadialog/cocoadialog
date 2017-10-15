@@ -5,11 +5,8 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
-#ifndef CDView_h
-#define CDView_h
+@class CDControlView;
 
-#import <Foundation/Foundation.h>
-#import <Cocoa/Cocoa.h>
 #import "CDDialog.h"
 
 @interface CDControlView : NSView;
@@ -22,5 +19,3 @@
 - (void) initView;
 
 @end
-
-#endif /* CDView_h */

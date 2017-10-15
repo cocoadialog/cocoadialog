@@ -5,10 +5,12 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
+@class CDInputbox;
+
 #import "CDDialog.h"
 
 @interface CDInputbox : CDDialog
 
-@property (retain)       NSTextField     *input;
+@property (retain) NSTextField *input;
 
 @end

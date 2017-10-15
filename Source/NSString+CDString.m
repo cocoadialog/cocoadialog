@@ -5,11 +5,20 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
+#import "NSNumber+CDNumber.h"
 #import "NSString+CDString.h"
+#import "CDLocale.h"
 
 @implementation NSString (CDString)
 
 #pragma mark - Properties
+- (BOOL) boolValue {
+    return [self isEqualToString:@"1"]
+    || [self isEqualToStringCaseInsensitive:@"ON".localized]
+    || [self isEqualToStringCaseInsensitive:@"TRUE".localized]
+    || [self isEqualToStringCaseInsensitive:@"YES".localized];
+}
+
 - (NSString *) camelCase {
     NSMutableString *camelCase = [NSMutableString string];
     NSString *string = [self stringByReplacingCharactersInSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet] withString:@" "];
@@ -28,12 +37,57 @@
     return camelCase;
 }
 
-- (NSData *) data {
+- (NSData*) data {
     return [self dataUsingEncoding:NSUTF8StringEncoding];
 }
 
-- (NSString *) doubleQuote {
+- (NSString*) doubleQuote {
     return [NSString stringWithFormat:@"\"%@\"", self];
+}
+
+- (NSString*) localized {
+    return [CDLocale.sharedInstance localize:self];
+}
+
+- (NSString* (^)(id arguments, ...)) arguments {
+    return ^NSString* (id arguments, ...) {
+        NSMutableArray *array = [NSMutableArray array];
+        va_list va_args;
+        va_start(va_args, arguments);
+        NSString* arg;
+        while ((arg = va_arg(va_args, id)) != nil) {
+            [array addObject:arg];
+        }
+        // Prepend the first argument.
+        [array insertObject:arguments atIndex:0];
+        va_end(va_args);
+        return [NSString stringWithFormat:self array:array];
+    };
+}
+
+-(NSString *) localizedCapitalizedString {
+    return self.localized.capitalizedString;
+}
+
+- (NSString *) localizedLowercaseString {
+    return self.localized.lowercaseString;
+}
+
+-(NSString *) localizedUppercaseString {
+    return self.localized.uppercaseString;
+}
+
+- (NSNumber *) numberValue {
+    NSNumberFormatter* formatter = [[NSNumberFormatter alloc] init];
+    formatter.numberStyle = NSNumberFormatterDecimalStyle;
+
+    BOOL percent = [self hasSuffix:@"%"];
+    NSString* string = percent ? [self substringWithRange:NSMakeRange(0, self.length - 1)] : self;
+    NSNumber* number = [formatter numberFromString:string];
+    if (number && percent) {
+        number = [NSNumber numberWithDouble:number.doubleValue / 100];
+    }
+    return number ? number.percent(percent) : nil;
 }
 
 - (NSString *) optionFormat {
@@ -42,6 +96,10 @@
 
 - (NSString *) singleQuote {
     return [NSString stringWithFormat:@"'%@'", self];
+}
+
+- (NSString *) snakeCase {
+    return [self stringByReplacingCharactersInSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet] withString:@"_"];
 }
 
 #pragma mark - Public static methods
@@ -237,6 +295,29 @@
     }
 
     return replacement;
+}
+
+#pragma mark - Public chainable methods
+- (NSString *(^)(NSString *string)) append {
+    return ^NSString *(NSString *string){
+        return [self stringByAppendingString:string];
+    };
+}
+
+- (NSString *(^)(NSString *string)) prepend {
+    return ^NSString *(NSString *string){
+        return [string stringByAppendingString:self];
+    };
+}
+
+- (NSString *(^)(NSUInteger count)) repeat {
+    return ^NSString *(NSUInteger count){
+        NSString *string = self.copy;
+        for (NSUInteger i = 0; i < count; i++) {
+            string = string.append(self);
+        }
+        return string;
+    };
 }
 
 @end

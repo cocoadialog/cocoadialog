@@ -5,10 +5,8 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
-#ifndef CDTextField_h
-#define CDTextField_h
+@class CDTextField;
 
-#import <Foundation/Foundation.h>
 #import "CDMarkdown.h"
 
 @interface CDTextField : NSTextField <NSTextFieldDelegate>
@@ -17,4 +15,3 @@
 
 @end
 
-#endif /* CDTextField_h */

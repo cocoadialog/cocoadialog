@@ -5,8 +5,7 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
-#ifndef CDTextView_h
-#define CDTextView_h
+@class CDTextView;
 
 #import "CDControlView.h"
 #import "CDMarkdown.h"
@@ -18,5 +17,3 @@
 @property (strong) 	        IBOutlet NSTextView         *textView;
 
 @end
-
-#endif /* CDTextView_h */

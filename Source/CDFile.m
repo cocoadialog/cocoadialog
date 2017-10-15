@@ -9,70 +9,79 @@
 
 @implementation CDFile
 
-- (CDOptions *) availableOptions {
-    CDOptions *options = [super availableOptions];
-
-    // --label
-    [options add:[CDOptionSingleString    name:@"label"                             category:@"FILE_OPTION"]];
-    [options add:[CDOptionSingleString    name:@"text"                              replacedBy:@"label"]];
-
-    // --create-directories
-    [options add:[CDOptionBoolean         name:@"create-directories"                category:@"FILE_OPTION"]];
-
-    // --packages-as-directories
-    [options add:[CDOptionBoolean         name:@"packages-as-directories"           category:@"FILE_OPTION"]];
-
-    // --with-extensions
-    [options add:[CDOptionMultipleStrings name:@"with-extensions"                   category:@"FILE_OPTION"]];
-
-    // --with-directory
-    [options add:[CDOptionSingleString    name:@"with-directory"                    category:@"FILE_OPTION"]];
-
-    // --with-file
-    [options add:[CDOptionSingleString    name:@"with-file"                         category:@"FILE_OPTION"]];
-
-    return options;
++ (NSString *) scope {
+    return @"file";
 }
 
-// Set options common to any file save panel
-- (void) setMisc {
-    savePanel.delegate = self;
-    
-    // Create directories.
-    savePanel.canCreateDirectories = option[@"create-directories"].boolValue;
++ (CDOptions *) availableOptions {
+    return super.availableOptions.addOptionsToScope([self class].scope,
+  @[
 
-    // Extensions.
-    extensions = [NSMutableArray array];
-    NSArray *optionExtensions = option[@"with-extensions"].arrayValue;
-	if (optionExtensions != nil && optionExtensions.count) {
-		NSString *extension;
-		NSEnumerator *en = [optionExtensions objectEnumerator];
-		while (extension = [en nextObject]) {
-			if ([extension isEqualToString:@"."]) {
-                extension = @"";
+    CDOption.create(CDString,   @"label").deprecates(@[CDOption.create(CDString, @"text")]),
+    CDOption.create(CDBoolean,  @"create-directories").deprecates(@[CDOption.create(CDBoolean, @"no-create-directories")]),
+    CDOption.create(CDBoolean,  @"packages-as-directories"),
+    CDOption.create(CDString,   @"extensions").max(-1).deprecates(@[CDOption.create(CDString, @"with-extensions").max(-1)]).process((CDOptionProcessBlock) ^NSArray* (NSArray *values) {
+        if (!values.count) {
+            return values;
+        }
+        NSMutableArray* newValues = @[].mutableCopy;
+        for (NSString* extension in values) {
+            if ([extension isEqualToString:@"."] || [extension isEqualToString:@"*"]) {
+                [newValues addObject:@""];
             }
             // Strip leading '.' from each extension
             else if (extension.length > 1 && [[extension substringWithRange:NSMakeRange(0,1)] isEqualToString:@"."]) {
-				extension = [extension substringFromIndex:1];
-			}
-            [extensions addObject:extension];
+                [newValues addObject:[extension substringFromIndex:1]];
+            }
         }
-	}
+        return newValues;
+    }),
+    CDOption.create(CDString,   @"directory").deprecates(@[CDOption.create(CDString, @"with-directory")]),
+    CDOption.create(CDString,   @"file").deprecates(@[CDOption.create(CDString, @"with-file")]),
+    ]);
+}
 
-	// Set title
-	if (option[@"title"].wasProvided) {
-		savePanel.title = option[@"title"].stringValue;
-	}
-	// set message displayed on file select panel
-	if (option[@"label"].wasProvided) {
-		savePanel.message = option[@"label"].stringValue;
-	}
+- (void) createSavePanel {
+    self.savePanel = [NSSavePanel savePanel];
+}
+
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        _fileManager = [[NSFileManager alloc] init];
+    }
+    return self;
+}
+
+// Set options common to any file save panel
+- (void) createControl {
+    [super createControl];
+
+    // Options.
+    self.directory = self.options[@"directory"].stringValue;
+    self.extensions = self.options[@"extensions"].arrayValue;
+    self.file = self.options[@"file"].stringValue ?: @"";
+
+    // Create save panel.
+    [self createSavePanel];
+
+    // Save panel properties.
+    self.savePanel.delegate = self;
+    self.savePanel.canCreateDirectories = self.options[@"create-directories"].boolValue;
+    self.savePanel.treatsFilePackagesAsDirectories = self.options[@"packages-as-directories"].boolValue;
+    self.savePanel.title = self.options[@"title"].stringValue;
+    self.savePanel.message = self.options[@"label"].stringValue;
+
+    // Check directory existance.
+    if (self.directory && !self.directory.isBlank && ![self.fileManager fileExistsAtPath:self.directory]) {
+        self.terminal.warning(@"The %@ option specified a directory that does not exist: %@", @"directory".optionFormat, self.directory, nil);
+    }
 }
 
 - (BOOL)isExtensionAllowed:(NSString *)filename {
-    if (extensions != nil && extensions.count) {
+    if (self.extensions != nil && self.extensions.count) {
         NSString* extension = filename.pathExtension;
-        return [extensions containsObject:extension];
+        return [self.extensions containsObject:extension];
     }
     else {
         return YES;
@@ -80,7 +89,7 @@
 }
 
 - (BOOL)panel:(id)sender shouldShowFilename:(NSString *)filename {
-    BOOL packageAsDir = option[@"packages‑as‑directories"].boolValue;
+    BOOL packageAsDir = self.options[@"packages‑as‑directories"].boolValue;
     BOOL isPackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:filename];
     BOOL isDir;
     // Allow directories and/or packages to be selectable

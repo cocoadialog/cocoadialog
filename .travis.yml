@@ -1,0 +1,30 @@
+os: osx
+language: objective-c
+osx_image: xcode9
+xcode_workspace: cocoadialog.xcworkspace
+xcode_scheme: Debug
+xcode_sdk: macosx10.13
+
+before_install:
+  - brew update
+  - brew outdated xctool || brew upgrade xctool
+  - brew upgrade node || brew install node
+  - brew upgrade yarn || brew install yarn
+  - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
+  - gem install xcpretty-travis-formatter --no-rdoc --no-ri --no-document --quiet
+
+install:
+  - node -v
+  - yarn -v
+  - yarn
+
+script:
+  - ./Scripts/build
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash) -J '^cocoadialog$'
+  - ./Scripts/success
+
+notifications:
+  slack:
+    secure: G5I3v9A1PtH3pb2l4zE9fip3KsuToVt0UGl2tQ4H6MEdA3RN0ioHOkEXG/t7clM+zvcKd2yugTYZYySVYjo8YYOc90s5BpJGpJ4ASgp1xwnd/iQgtKhuouRSDib2Ys5LwB0lL8Qds+FcD33OHrQNH06VD5T3dwhlidTjUPONtxQ=

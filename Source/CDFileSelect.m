@@ -9,105 +9,77 @@
 
 @implementation CDFileSelect
 
-- (CDOptions *) availableOptions {
-    CDOptions *options = [super availableOptions];
-
-    [options add:[CDOptionMultipleStrings       name:@"allowed-files"]];
-    [options add:[CDOptionBoolean               name:@"select-directories"]];
-    [options add:[CDOptionBoolean               name:@"select-only-directories"]];
-    [options add:[CDOptionBoolean               name:@"no-select-directories"]];
-    [options add:[CDOptionBoolean               name:@"select-multiple"]];
-    [options add:[CDOptionBoolean               name:@"no-select-multiple"]];
-
-    return options;
++ (CDOptions *) availableOptions {
+    return super.availableOptions.addOptionsToScope([self class].scope,
+  @[
+    CDOption.create(CDString,   @"allowed-files").max(-1),
+    CDOption.create(CDBoolean,  @"select-directories").deprecates(@[CDOption.create(CDBoolean, @"no-select-directories")]),
+    CDOption.create(CDBoolean,  @"select-only-directories"),
+    CDOption.create(CDBoolean,  @"select-multiple").deprecates(@[CDOption.create(CDBoolean, @"no-select-multiple")]),
+    ]);
 }
 
-- (void) initControl {
-    savePanel = [NSOpenPanel openPanel];
-	NSString *file = nil;
-	NSString *dir = nil;
+- (void) createSavePanel {
+    self.savePanel = [NSOpenPanel openPanel];
+}
 
-	[self setMisc];
+- (void) createControl {
+    [self createControl];
 
-    NSOpenPanel *openPanel = (NSOpenPanel *)savePanel;
+    // Check file existance.
+    if (self.file && !self.file.isBlank && ![self.fileManager fileExistsAtPath:self.file]) {
+        self.terminal.warning(@"The %@ option specified a file that does not exist: %@", @"file".optionFormat, self.file, nil);
+    }
 
-	// Multiple selection.
-    [openPanel setAllowsMultipleSelection:option[@"select-multiple"].wasProvided];
-
-	// Select directories.
-    [openPanel setCanChooseDirectories:option[@"create-directories"].wasProvided || option[@"select-directories"].wasProvided];
+    NSOpenPanel *openPanel = (NSOpenPanel *) self.savePanel;
+    openPanel.allowsMultipleSelection = self.options[@"select-multiple"].boolValue;
+    openPanel.canChooseDirectories = self.options[@"create-directories"].boolValue || self.options[@"select-directories"].boolValue;
 
     // Select only directories.
-    if (option[@"select-only-directories"].wasProvided) {
-		[openPanel setCanChooseDirectories:YES];
-		[openPanel setCanChooseFiles:NO];
+    if (self.options[@"select-only-directories"].boolValue) {
+        openPanel.canChooseDirectories = YES;
+        openPanel.canChooseFiles = NO;
 	}
-
-    // Packages as directories.
-    [openPanel setTreatsFilePackagesAsDirectories:option[@"packages-as-directories"].wasProvided];
-
-	// set starting file (to be used later with 
-	// runModal...) - doesn't work.
-	if (option[@"with-file"].wasProvided) {
-		file = option[@"with-file"].stringValue;
-	}
-	// set starting directory (to be used later with runModal...)
-	if (option[@"with-directory"].wasProvided) {
-		dir = option[@"with-directory"].stringValue;
-	}
-    
-    // Check for dir or file path existance.
-    NSFileManager *fm = [[NSFileManager alloc] init];
-    // Directory
-    if (dir != nil && ![fm fileExistsAtPath:dir]) {
-        [self warning:@"Option --with-directory specifies a directory that does not exist: %@", dir, nil];
-    }
-    // File
-    if (file != nil && ![fm fileExistsAtPath:file]) {
-        [self warning:@"Option --with-file specifies a file that does not exist: %@", file, nil];
-    }
 
     self.panel = openPanel;
 
-    [self initPanel];
-    [self initTimeout];
+    [self createPanel];
+    [self createTimeout];
     
-    NSInteger result;
-
-    if (dir != nil) {
-        if (file != nil) {
-            dir = [dir stringByAppendingString:@"/"];
-            dir = [dir stringByAppendingString:file];
+    if (self.directory && !self.directory.isBlank) {
+        if (self.file && !self.file.isBlank) {
+            self.directory = [self.directory stringByAppendingString:@"/"];
+            self.directory = [self.directory stringByAppendingString:self.file];
         }
-        NSURL * url = [[NSURL alloc] initFileURLWithPath:dir];
-        openPanel.directoryURL = url;
+        openPanel.directoryURL = [NSURL fileURLWithPath:self.directory];
     }
-    result = [openPanel runModal];
+
+    NSInteger result = [openPanel runModal];
     if (result == NSFileHandlingPanelOKButton) {
-        NSMutableArray *files = [NSMutableArray array];
+        NSMutableArray *files = @[].mutableCopy;
         NSEnumerator *en = [openPanel.URLs objectEnumerator];
-        id key;
-        while (key = [en nextObject]) {
-            [files addObject:[key path]];
+        NSURL *url;
+        while (url = [en nextObject]) {
+            [files addObject:[url path]];
         }
-        returnValues[@"button"] = option[@"return-labels"] ? NSLocalizedString(@"OKAY", nil) : @0;
-        returnValues[@"value"] = files;
+        self.returnValues[@"button"] = self.options[@"return-labels"] ? @"OKAY".localized : @0;
+        self.returnValues[@"value"] = files;
     }
     else {
-        exitStatus = CDExitCodeCancel;
-        returnValues[@"button"] = option[@"return-labels"] ? NSLocalizedString(@"CANCEL", nil) : @1;
+        self.exitStatus = CDTerminalExitCodeCancel;
+        self.returnValues[@"button"] = self.options[@"return-labels"] ? @"CANCEL".localized : @1;
     }
     [super stopControl];
 }
 
 - (BOOL)isExtensionAllowed:(NSString *)filename {
     BOOL extensionAllowed = YES;
-    if (extensions != nil && extensions.count) {
+    if (self.extensions && self.extensions.count) {
         NSString* extension = filename.pathExtension;
-        extensionAllowed = [extensions containsObject:extension];
+        extensionAllowed = [self.extensions containsObject:extension];
     }
-    if (option[@"allowed-files"].wasProvided) {
-        NSArray *allowedFiles = option[@"allowed-files"].arrayValue;
+    if (self.options[@"allowed-files"].wasProvided) {
+        NSArray *allowedFiles = self.options[@"allowed-files"].arrayValue;
         if (allowedFiles != nil && allowedFiles.count) {
             if ([allowedFiles containsObject:filename.lastPathComponent]) {
                 return YES;

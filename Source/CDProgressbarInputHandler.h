@@ -7,6 +7,8 @@
 //
 // Created by Alexey Ermakov on 19.09.2011.
 
+@class CDProgressbarInputHandler;
+
 #define CDProgressbarMAX 100.0
 #define CDProgressbarMIN 0.0
 
@@ -22,4 +24,5 @@
 
 -(BOOL) parseString:(NSString*)str intoProgress:(double*)value;
 -(void) setDelegate:(id)newDelegate;
+
 @end

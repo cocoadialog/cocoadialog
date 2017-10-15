@@ -5,26 +5,25 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
-#import "CDControlView.h"
+@class CDSliderView;
 
-#ifndef CDSliderView_h
-#define CDSliderView_h
+#import "CDControlView.h"
 
 @interface CDSliderView : CDControlView;
 
 @property (nonatomic)               IBInspectable               BOOL                        alwaysShowValue;
 @property (nonatomic)               IBInspectable               double                      emptyValue;
-@property (strong)       IBOutlet                    NSTextField                 *label;
+@property (strong)                  IBOutlet                    NSTextField                 *label;
 @property (nonatomic)               IBInspectable               double                      max;
 @property (nonatomic)               IBInspectable               double                      min;
-@property (strong)       IBOutlet                    NSSlider                    *slider;
-@property (strong)       IBOutlet                    NSLayoutConstraint          *sliderBottomConstraint;
-@property (strong)       IBOutlet                    NSLayoutConstraint          *sliderTopConstraint;
+@property (strong)                  IBOutlet                    NSSlider                    *slider;
+@property (strong)                  IBOutlet                    NSLayoutConstraint          *sliderBottomConstraint;
+@property (strong)                  IBOutlet                    NSLayoutConstraint          *sliderTopConstraint;
 @property (nonatomic)               IBInspectable               BOOL                        sticky;
 @property (nonatomic)               IBInspectable               NSUInteger                  ticks;
-@property (strong)       IBOutlet                    NSTextField                 *ticksLabel;
+@property (strong)                  IBOutlet                    NSTextField                 *ticksLabel;
 @property (nonatomic)               IBInspectable               double                      value;
-@property (strong)       IBOutlet                    NSTextField                 *valueLabel;
+@property (strong)                  IBOutlet                    NSTextField                 *valueLabel;
 
 - (void) sliderChanged;
 
@@ -33,13 +32,9 @@
 @interface CDSliderCell : NSSliderCell
 
 @property (nonatomic)               BOOL            alwaysShowValue;
-@property (retain)       id              delegate;
+@property (retain)                  id              delegate;
 @property (nonatomic)               BOOL            sticky;
 @property (nonatomic)               BOOL            tracking;
-@property (retain)       NSTextField     *valueLabel;
+@property (retain)                  NSTextField     *valueLabel;
 
 @end
-
-
-#endif /* CDSliderView_h */
-

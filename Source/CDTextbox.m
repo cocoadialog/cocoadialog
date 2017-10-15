@@ -9,50 +9,38 @@
 
 @implementation CDTextbox
 
-- (CDOptions *) availableOptions {
-    CDOptions *options = [super availableOptions];
-
-    // --editable
-    [options add:[CDOptionBoolean               name:@"editable"              category:@"TEXTBOX_OPTION"]];
-    [options add:[CDOptionBoolean               name:@"no-editable"           replacedBy:@"editable"]];
-
-    // --file
-    [options add:[CDOptionSingleString          name:@"file"                  category:@"TEXTBOX_OPTION"]];
-    [options add:[CDOptionSingleString          name:@"text-from-file"        replacedBy:@"file"]];
-
-    // --focus
-    [options add:[CDOptionBoolean               name:@"focus"                 category:@"TEXTBOX_OPTION"]];
-    [options add:[CDOptionBoolean               name:@"focus-textbox"         replacedBy:@"focus"]];
-
-    // --scroll-to
-    [options add:[CDOptionSingleString          name:@"scroll-to"             category:@"TEXTBOX_OPTION"]];
-    [options[@"scroll-to"].allowedValues addObjectsFromArray:@[@"bottom", @"top"]];
-    options[@"scroll-to"].defaultValue = @"top";
-
-    // --selected
-    [options add:[CDOptionBoolean               name:@"selected"              category:@"TEXTBOX_OPTION"]];
-
-    // --value
-    [options add:[CDOptionSingleString          name:@"value"                 category:@"TEXTBOX_OPTION"]];
-    [options add:[CDOptionSingleString          name:@"text"                  replacedBy:@"value"]];
-
-    // Require at least one button.
-    options[@"buttons"].required = YES;
-    options[@"buttons"].minimumValues = @1;
-
-    return options;
++ (NSString *) scope {
+    return @"textbox";
 }
 
-- (void) initControl {
-    [super initControl];
++ (CDOptions *) availableOptions {
+    CDOptions* options = super.availableOptions;
+
+    // Require at least one button.
+    options[@"buttons"].require(YES).min(1);
+
+    return options.addOptionsToScope([self class].scope,
+  @[
+    CDOption.create(CDBoolean,  @"editable").deprecates(@[CDOption.create(CDBoolean, @"no-editable")]),
+    CDOption.create(CDString,   @"file").deprecates(@[CDOption.create(CDString, @"text-from-file")]),
+    CDOption.create(CDBoolean,  @"focus").deprecates(@[CDOption.create(CDBoolean, @"focus-textbox")]),
+    CDOption.create(CDString,   @"scroll-to").allow(@[@"bottom", @"top"]).setDefaultValue(@"top"),
+    CDOption.create(CDBoolean,  @"selected"),
+    CDOption.create(CDString,   @"value").deprecates(@[CDOption.create(CDString, @"text")]),
+    ]);
+}
+
+- (void) createControl {
+    [super createControl];
     
     self.textView = [[CDTextView alloc] initWithDialog:self];
 	
 	// Set first responder
 	// Why doesn't this work for the button?
-	if (option[@"focus"].wasProvided) {
+	if (self.options[@"focus"].wasProvided) {
 		[self.panel makeFirstResponder:self.textView.textView];
-	} else {
+	}
+    else {
 		[self.panel makeFirstResponder:self.button1];
 	}
 }
@@ -66,8 +54,8 @@
 }
 
 - (void) controlHasFinished:(NSUInteger)button {
-	if (option[@"editable"].wasProvided && option[@"editable"].boolValue) {
-        returnValues[@"value"] = self.textView.textView.textStorage.string;
+	if (self.options[@"editable"].wasProvided && self.options[@"editable"].boolValue) {
+        self.returnValues[@"value"] = self.textView.textView.textStorage.string;
 	}
     [super controlHasFinished:button];
 }

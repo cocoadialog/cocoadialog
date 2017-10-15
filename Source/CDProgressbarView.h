@@ -5,10 +5,9 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
-#import "CDControlView.h"
+@class CDProgressbarView;
 
-#ifndef CDProgressbarView_h
-#define CDProgressbarView_h
+#import "CDControlView.h"
 
 @interface CDProgressbarView : CDControlView
 
@@ -27,6 +26,3 @@
 @property (nonatomic)                           IBInspectable       double                  value;
 
 @end
-
-
-#endif /* CDProgressbarView_h */

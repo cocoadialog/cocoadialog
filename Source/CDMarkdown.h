@@ -5,10 +5,8 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
-#ifndef CDMarkdown_h
-#define CDMarkdown_h
+@class CDMarkdown;
 
-#import <Foundation/Foundation.h>
 #import <TSMarkdownParser/TSMarkdownParser.h>
 
 @interface CDMarkdown : NSObject
@@ -27,5 +25,3 @@
 - (NSAttributedString *) parseString:(NSString *)string;
 
 @end
-
-#endif /* CDMarkdown_h */

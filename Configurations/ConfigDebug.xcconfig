@@ -1,9 +1,10 @@
 #include "Config.xcconfig"
+#include "Pods/Target Support Files/Pods-cocoadialog/Pods-cocoadialog.debug.xcconfig"
 
 // Debug.
-GCC_OPTIMIZATION_LEVEL = 0
 DEBUG_INFORMATION_FORMAT = dwarf
 GCC_GENERATE_DEBUGGING_SYMBOLS = YES
-
-// CocoaPods.
-#include "Pods/Target Support Files/Pods-cocoadialog/Pods-cocoadialog.debug.xcconfig"
+GCC_GENERATE_TEST_COVERAGE_FILES = YES
+GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES
+GCC_OPTIMIZATION_LEVEL = 0
+GCC_PREPROCESSOR_DEFINITIONS = COCOAPODS=1 DEBUG=1

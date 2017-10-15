@@ -7,6 +7,9 @@
 
 #import "CDJson.h"
 
+#import "NSArray+CDArray.h"
+#import "NSString+CDString.h"
+
 #pragma mark -
 @implementation CDJson
 

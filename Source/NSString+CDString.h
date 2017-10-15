@@ -10,11 +10,18 @@
 @interface NSString (CDString)
 
 #pragma mark - Properties
-@property (readonly) NSString *camelCase;
-@property (readonly) NSData   *data;
-@property (readonly) NSString *doubleQuote;
-@property (readonly) NSString *optionFormat;
-@property (readonly) NSString *singleQuote;
+@property (readonly) BOOL       boolValue;
+@property (readonly) NSString*  camelCase;
+@property (readonly) NSData*    data;
+@property (readonly) NSString*  doubleQuote;
+@property (readonly) NSString*  localized;
+@property (readonly) NSNumber*  numberValue;
+@property (readonly) NSString*  optionFormat;
+@property (readonly) NSString*  singleQuote;
+@property (readonly) NSString*  snakeCase;
+
+#pragma mark - Public chainable methods
+- (NSString *(^)(id arguments, ...)) arguments;
 
 #pragma mark - Public static methods
 + (instancetype)stringWithFormat:(NSString *)format array:(NSArray *)arrayArguments;
@@ -34,6 +41,11 @@
 - (NSString *) trimTrailing;
 - (NSString *) stringByStrippingWhitespace;
 - (NSString *) wrapToLength:(NSInteger)length;
+
+#pragma mark - Public chainable methods
+- (NSString *(^)(NSString* string)) append;
+- (NSString *(^)(NSString* string)) prepend;
+- (NSString *(^)(NSUInteger count)) repeat;
 
 @end
 

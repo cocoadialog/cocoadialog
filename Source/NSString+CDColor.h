@@ -63,7 +63,9 @@ extern BOOL NSStringCDColor;
 @property (readonly) NSString *stop;
 
 #pragma mark - Public instance methods
-- (NSString *)applyColor:(CDColor *)color;
 - (NSString *)stringByPaddingToLength:(NSUInteger)newLength withString:(NSString *)padString startingAtIndex:(NSUInteger)padIndex ignoreColor:(BOOL)ignoreColor;
+
+#pragma mark - Public chainable methods
+- (NSString *(^)(CDColor* color)) addColor;
 
 @end

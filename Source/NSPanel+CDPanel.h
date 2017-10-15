@@ -1,4 +1,4 @@
-// CDPanel.h
+// NSPanel+CDPanel.h
 // cocoadialog
 //
 // Copyright (c) 2004-2017 Mark A. Stratman <mark@sporkstorms.org>, Mark Carver <mark.carver@me.com>.
@@ -6,9 +6,6 @@
 // Licensed under GPL-2.
 
 #import <objc/runtime.h>
-
-#ifndef CDPanel_h
-#define CDPanel_h
 
 @interface NSPanel (CDPanel)
 
@@ -29,6 +26,3 @@
 - (void) removeSubview:(NSView *)from movingAttribute:(NSLayoutAttribute)attribute to:(NSView *)to;
 
 @end
-
-
-#endif /* CDPanel_h */

@@ -9,46 +9,8 @@
 
 @implementation CDSlider
 
-- (CDOptions *) availableOptions {
-    CDOptions *options = [super availableOptions];
-
-    // Require at least one button.
-    options[@"buttons"].required = YES;
-    options[@"buttons"].minimumValues = @1;
-
-    // --always-show-value
-    [options add:[CDOptionBoolean             name:@"always-show-value"     category:@"SLIDER_OPTION"]];
-
-    // --empty-value
-    [options add:[CDOptionSingleString        name:@"empty-value"           category:@"SLIDER_OPTION"]];
-
-    // --max
-    [options add:[CDOptionSingleNumber        name:@"max"                   category:@"SLIDER_OPTION"]];
-    options[@"max"].defaultValue = @100;
-
-    // --min
-    [options add:[CDOptionSingleNumber        name:@"min"                   category:@"SLIDER_OPTION"]];
-    options[@"min"].defaultValue = @0;
-
-    // --return-float
-    [options add:[CDOptionBoolean             name:@"return-float"          category:@"SLIDER_OPTION"]];
-
-    // --ticks
-    [options add:[CDOptionSingleNumber        name:@"ticks"                 category:@"SLIDER_OPTION"]];
-
-    // --slider-label
-    [options add:[CDOptionSingleString        name:@"slider-label"          category:@"SLIDER_OPTION"]];
-
-    // --sticky
-    [options add:[CDOptionBoolean             name:@"sticky"                category:@"SLIDER_OPTION"]];
-
-    // --value
-    [options add:[CDOptionSingleNumber        name:@"value"                 category:@"SLIDER_OPTION"]];
-
-    return options;
-}
-
-- (BOOL)isReturnValueEmpty {
+# pragma mark - Properties
+- (BOOL) isReturnValueEmpty {
     return (self.slider.value == self.emptyValue);
 }
 
@@ -56,27 +18,54 @@
     return [NSString stringWithFormat:@"The value for the slider must be greater than: %i", (int) self.min];
 }
 
+
+# pragma mark - Public static methods
++ (NSString *) scope {
+    return @"slider";
+}
+
++ (CDOptions *) availableOptions {
+    CDOptions *options = [super availableOptions];
+
+    // Require at least one button.
+    options[@"buttons"].require(YES).min(1);
+
+    return options.addOptionsToScope([self class].scope,
+  @[
+    CDOption.create(CDBoolean,  @"always-show-value"),
+    CDOption.create(CDNumber,   @"empty-value"),
+    CDOption.create(CDNumber,   @"max").setDefaultValue(@"100"),
+    CDOption.create(CDNumber,   @"min").setDefaultValue(@"0"),
+    CDOption.create(CDBoolean,  @"return-float"),
+    CDOption.create(CDNumber,   @"ticks").setDefaultValue(@"10"),
+    CDOption.create(CDString,   @"slider-label").setDefaultValue(@"OPTION_SLIDER_SLIDER_LABEL".localized),
+    CDOption.create(CDBoolean,  @"sticky"),
+    CDOption.create(CDNumber,   @"value"),
+    ]);
+}
+
+# pragma mark - Public instance methods
 - (void) controlHasFinished:(NSUInteger)button {
-    if (option[@"return-float"].wasProvided) {
-        returnValues[@"value"] = @((int)(self.slider.value * 100) / 100.0);
+    if (self.options[@"return-float"].wasProvided) {
+        self.returnValues[@"value"] = @((int)(self.slider.value * 100) / 100.0);
     }
     else {
-        returnValues[@"value"] = [NSNumber numberWithInteger:(int) self.slider.value];
+        self.returnValues[@"value"] = [NSNumber numberWithInteger:(int) self.slider.value];
     }
     [super controlHasFinished:button];
 }
 
-- (void) initControl {
-    [super initControl];
+- (void) createControl {
+    [super createControl];
 
-    self.min = option[@"min"].doubleValue;
-    self.max = option[@"max"].doubleValue;
+    self.min = self.options[@"min"].doubleValue;
+    self.max = self.options[@"max"].doubleValue;
 
     // Determine the current value.
-    if (option[@"value"].wasProvided) {
-        self.value = option[@"value"].doubleValue;
+    if (self.options[@"value"].wasProvided) {
+        self.value = self.options[@"value"].doubleValue;
         if (self.value < self.min || self.value > self.max) {
-            [self warning:@"The provided value for the option --value cannot be smaller than --min or greater than --max. Using the --min value: %f", self.min, nil];
+            self.terminal.warning(@"The provided value for the option --value cannot be smaller than --min or greater than --max. Using the --min value: %f", self.min, nil);
             self.value = self.min;
         }
     }
@@ -85,10 +74,11 @@
     }
 
     // Determine what constitutes an "empty" value.
-    if (option[@"empty-value"].wasProvided) {
-        self.emptyValue = option[@"empty-value"].doubleValue;
+    if (self.options[@"empty-value"].wasProvided) {
+        self.emptyValue = self.options[@"empty-value"].doubleValue;
         if (self.emptyValue < self.min || self.emptyValue > self.max) {
-            [self warning:@"The provided value for the option --empty-value cannot be smaller than --min or greater than --max. Using the --min value: %f", self.min, nil];
+
+            self.terminal.warning(@"The provided value for the option --empty-value cannot be smaller than --min or greater than --max. Using the --min value: %f", self.min, nil);
         }
     }
     else {
@@ -97,10 +87,10 @@
 
     // Determine the number of ticks.
     double defaultTicks = self.max > 5 ? 5 : self.max;
-    if (option[@"ticks"].wasProvided) {
-        self.ticks = option[@"ticks"].unsignedIntegerValue;
+    if (self.options[@"ticks"].wasProvided) {
+        self.ticks = self.options[@"ticks"].unsignedIntegerValue;
         if (self.ticks < self.min || self.ticks > self.max) {
-            [self warning:@"The provided value for the option --ticks cannot be smaller than --min or greater than --max. Using the default --ticks value: %f", defaultTicks, nil];
+            self.terminal.warning(@"The provided value for the option --ticks cannot be smaller than --min or greater than --max. Using the default --ticks value: %f", defaultTicks, nil);
             self.ticks = defaultTicks;
         }
     }

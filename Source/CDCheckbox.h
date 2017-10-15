@@ -5,6 +5,8 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
+@class CDCheckbox;
+
 #import "CDMatrix.h"
 
 @interface CDCheckbox : CDMatrix
@@ -14,6 +16,5 @@
 @property (strong)                   NSArray                 *disabled;
 @property (strong)                   NSArray                 *items;
 @property (strong)                   NSArray                 *mixed;
-
 
 @end

@@ -7,9 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A71EC8C11F88B0E500DB31D8 /* Locale.plist in Resources */ = {isa = PBXBuildFile; fileRef = A71EC8C31F88B0E500DB31D8 /* Locale.plist */; };
+		A71EC8C51F88B1A600DB31D8 /* CDLocale.h in Headers */ = {isa = PBXBuildFile; fileRef = A71EC8C41F88B1A600DB31D8 /* CDLocale.h */; };
+		A71EC8C71F88B1CF00DB31D8 /* CDLocale.m in Sources */ = {isa = PBXBuildFile; fileRef = A71EC8C61F88B1CF00DB31D8 /* CDLocale.m */; };
 		A739833C1F7CBAD400867E08 /* CDSliderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A73983071F7CBAD400867E08 /* CDSliderView.xib */; };
 		A739834D1F7CBB3600867E08 /* CDDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = A739834C1F7CBB3600867E08 /* CDDialog.xib */; };
 		A739834F1F7CBD7600867E08 /* CDProgressbarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A739834E1F7CBD7600867E08 /* CDProgressbarView.xib */; };
+		A73F15BE1F87EA1200169420 /* prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = A73F15BD1F87EA1200169420 /* prefix.pch */; };
 		A74A1C2A1F86480B006289A8 /* About.mustache in Resources */ = {isa = PBXBuildFile; fileRef = A74A1C2C1F86480B006289A8 /* About.mustache */; };
 		A74A1C2E1F864B74006289A8 /* CDTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = A74A1C2D1F864B74006289A8 /* CDTextField.h */; };
 		A74A1C301F864B7F006289A8 /* CDTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = A74A1C2F1F864B7F006289A8 /* CDTextField.m */; };
@@ -21,11 +25,17 @@
 		A74A1C3B1F86E9D7006289A8 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CDF14377610007AE363 /* LICENSE */; };
 		A74A1C3D1F86EE24006289A8 /* CDMarkdown.h in Headers */ = {isa = PBXBuildFile; fileRef = A74A1C3C1F86EE24006289A8 /* CDMarkdown.h */; };
 		A74A1C3F1F86EE30006289A8 /* CDMarkdown.m in Sources */ = {isa = PBXBuildFile; fileRef = A74A1C3E1F86EE30006289A8 /* CDMarkdown.m */; };
+		A75155B61F8BC07600204A88 /* CDOptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A75155B41F8BC00A00204A88 /* CDOptionTests.m */; };
+		A754FE4B1F89D109008F0BC3 /* CDUsage.h in Headers */ = {isa = PBXBuildFile; fileRef = A754FE4A1F89D109008F0BC3 /* CDUsage.h */; };
+		A754FE4D1F89D115008F0BC3 /* CDUsage.m in Sources */ = {isa = PBXBuildFile; fileRef = A754FE4C1F89D115008F0BC3 /* CDUsage.m */; };
+		A754FE4F1F89D311008F0BC3 /* CDIcon.h in Headers */ = {isa = PBXBuildFile; fileRef = A754FE4E1F89D311008F0BC3 /* CDIcon.h */; };
+		A754FE511F89D31B008F0BC3 /* CDIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = A754FE501F89D31B008F0BC3 /* CDIcon.m */; };
 		A770D5DD1EAAAD70004D1138 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A77365B41EA87F3100FDC070 /* Cocoa.framework */; };
 		A770D5DF1EAAAD77004D1138 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A770D5DE1EAAAD77004D1138 /* Foundation.framework */; };
 		A770D5E11EAAADA2004D1138 /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A770D5E01EAAADA2004D1138 /* ScriptingBridge.framework */; };
-		A7C95D061F7CB5CB009000CE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A7C95CBD1F7CB5CB009000CE /* Localizable.strings */; };
 		A7C95D091F7CB5CB009000CE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7C95CC31F7CB5CB009000CE /* Images.xcassets */; };
+		A7D10CC91F8B030800AA3132 /* NSNumber+CDNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D10CC81F8B030800AA3132 /* NSNumber+CDNumber.h */; };
+		A7D10CCB1F8B031500AA3132 /* NSNumber+CDNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D10CCA1F8B031500AA3132 /* NSNumber+CDNumber.m */; };
 		A7EC0C061F7F2CBC00EFF605 /* NSArray+CDArray.h in Headers */ = {isa = PBXBuildFile; fileRef = A7EC0BC71F7F2CBC00EFF605 /* NSArray+CDArray.h */; };
 		A7EC0C071F7F2CBC00EFF605 /* NSArray+CDArray.m in Sources */ = {isa = PBXBuildFile; fileRef = A7EC0BC81F7F2CBC00EFF605 /* NSArray+CDArray.m */; };
 		A7EC0C081F7F2CBC00EFF605 /* NSString+CDColor.h in Headers */ = {isa = PBXBuildFile; fileRef = A7EC0BC91F7F2CBC00EFF605 /* NSString+CDColor.h */; };
@@ -89,11 +99,27 @@
 		C05B25BAF933D30A3EB73B17 /* libPods-cocoadialog.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8FDB69E191B5158E1872F21 /* libPods-cocoadialog.a */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		A75155B71F8BC09200204A88 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D1107260486CEB800E47090;
+			remoteInfo = cocoadialog;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		8D1107320486CEB800E47090 /* cocoadialog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cocoadialog.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A71EC8C21F88B0E500DB31D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Locale.plist; sourceTree = "<group>"; };
+		A71EC8C41F88B1A600DB31D8 /* CDLocale.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDLocale.h; sourceTree = "<group>"; };
+		A71EC8C61F88B1CF00DB31D8 /* CDLocale.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDLocale.m; sourceTree = "<group>"; };
 		A73983071F7CBAD400867E08 /* CDSliderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CDSliderView.xib; sourceTree = "<group>"; };
 		A739834C1F7CBB3600867E08 /* CDDialog.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CDDialog.xib; sourceTree = "<group>"; };
 		A739834E1F7CBD7600867E08 /* CDProgressbarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CDProgressbarView.xib; sourceTree = "<group>"; };
+		A73F15BB1F87E97900169420 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; path = Podfile; sourceTree = "<group>"; };
+		A73F15BD1F87EA1200169420 /* prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = prefix.pch; sourceTree = "<group>"; };
+		A74373D91F92D9AA002A4142 /* package.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = package.json; sourceTree = "<group>"; };
 		A74A1C2B1F86480B006289A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text; name = Base; path = Base.lproj/About.mustache; sourceTree = "<group>"; };
 		A74A1C2D1F864B74006289A8 /* CDTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDTextField.h; sourceTree = "<group>"; };
 		A74A1C2F1F864B7F006289A8 /* CDTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDTextField.m; sourceTree = "<group>"; };
@@ -104,18 +130,27 @@
 		A74A1C391F86E6D0006289A8 /* Acknowledgements.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Acknowledgements.md; sourceTree = "<group>"; };
 		A74A1C3C1F86EE24006289A8 /* CDMarkdown.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDMarkdown.h; sourceTree = "<group>"; };
 		A74A1C3E1F86EE30006289A8 /* CDMarkdown.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDMarkdown.m; sourceTree = "<group>"; };
+		A75155A31F8BAFDB00204A88 /* Tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A75155B21F8BBDC100204A88 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
+		A75155B41F8BC00A00204A88 /* CDOptionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDOptionTests.m; sourceTree = "<group>"; };
+		A75155B51F8BC00A00204A88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A754FE4A1F89D109008F0BC3 /* CDUsage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDUsage.h; sourceTree = "<group>"; };
+		A754FE4C1F89D115008F0BC3 /* CDUsage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDUsage.m; sourceTree = "<group>"; };
+		A754FE4E1F89D311008F0BC3 /* CDIcon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDIcon.h; sourceTree = "<group>"; };
+		A754FE501F89D31B008F0BC3 /* CDIcon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDIcon.m; sourceTree = "<group>"; };
 		A770D5DE1EAAAD77004D1138 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A770D5E01EAAADA2004D1138 /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
 		A77365B41EA87F3100FDC070 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		A78A8C9514375704007AE363 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ConfigDebug.xcconfig; sourceTree = "<group>"; };
 		A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ConfigRelease.xcconfig; sourceTree = "<group>"; };
-		A78A8CDE14377610007AE363 /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
+		A78A8CDE14377610007AE363 /* HISTORY.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = HISTORY.md; sourceTree = "<group>"; };
 		A78A8CDF14377610007AE363 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		A796ED4E1E9B0BD7008EE718 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		A7C95CBC1F7CB5CB009000CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Info.plist; sourceTree = "<group>"; };
-		A7C95CBE1F7CB5CB009000CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A7C95CC31F7CB5CB009000CE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		A7D10CC81F8B030800AA3132 /* NSNumber+CDNumber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSNumber+CDNumber.h"; sourceTree = "<group>"; };
+		A7D10CCA1F8B031500AA3132 /* NSNumber+CDNumber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+CDNumber.m"; sourceTree = "<group>"; };
 		A7EC0BC71F7F2CBC00EFF605 /* NSArray+CDArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+CDArray.h"; sourceTree = "<group>"; };
 		A7EC0BC81F7F2CBC00EFF605 /* NSArray+CDArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+CDArray.m"; sourceTree = "<group>"; };
 		A7EC0BC91F7F2CBC00EFF605 /* NSString+CDColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+CDColor.h"; sourceTree = "<group>"; };
@@ -169,6 +204,8 @@
 		A7EC0C031F7F2CBC00EFF605 /* CDColumns.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDColumns.m; sourceTree = "<group>"; };
 		A7EC0C041F7F2CBC00EFF605 /* CDJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDJson.h; sourceTree = "<group>"; };
 		A7EC0C051F7F2CBC00EFF605 /* CDJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDJson.m; sourceTree = "<group>"; };
+		A7F3E7A81F8E419F0017D71A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A7F3E7AA1F8E47D60017D71A /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
 		A7FC52C31F7FB07F00DA9F5E /* CDMatrix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDMatrix.h; sourceTree = "<group>"; };
 		A7FC52C51F7FB09000DA9F5E /* CDMatrix.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDMatrix.m; sourceTree = "<group>"; };
 		A7FC52C71F7FC7D800DA9F5E /* CDSliderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDSliderView.m; sourceTree = "<group>"; };
@@ -184,10 +221,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A770D5E11EAAADA2004D1138 /* ScriptingBridge.framework in Frameworks */,
 				A770D5DF1EAAAD77004D1138 /* Foundation.framework in Frameworks */,
 				A770D5DD1EAAAD70004D1138 /* Cocoa.framework in Frameworks */,
+				A770D5E11EAAADA2004D1138 /* ScriptingBridge.framework in Frameworks */,
 				C05B25BAF933D30A3EB73B17 /* libPods-cocoadialog.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A75155A01F8BAFDB00204A88 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -198,6 +242,7 @@
 			isa = PBXGroup;
 			children = (
 				8D1107320486CEB800E47090 /* cocoadialog.app */,
+				A75155A31F8BAFDB00204A88 /* Tests.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -206,12 +251,19 @@
 			isa = PBXGroup;
 			children = (
 				A796ED4E1E9B0BD7008EE718 /* .gitignore */,
+				A75155B21F8BBDC100204A88 /* .travis.yml */,
+				A78A8CDE14377610007AE363 /* HISTORY.md */,
+				A7F3E7AA1F8E47D60017D71A /* CONTRIBUTING.md */,
 				A78A8CDF14377610007AE363 /* LICENSE */,
-				A78A8CDE14377610007AE363 /* CHANGELOG */,
+				A7F3E7A81F8E419F0017D71A /* README.md */,
+				A74373D91F92D9AA002A4142 /* package.json */,
+				A73F15BB1F87E97900169420 /* Podfile */,
+				A73F15BD1F87EA1200169420 /* prefix.pch */,
 				A78A8C9414375703007AE363 /* Configurations */,
 				A7C95CB41F7CB5CB009000CE /* Resources */,
 				A74A1C271F8646DD006289A8 /* Templates */,
 				A7EC0BC51F7F2CBC00EFF605 /* Source */,
+				A75155B31F8BC00A00204A88 /* Tests */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				A77365B31EA87F3100FDC070 /* Frameworks */,
 				3F5B3C182ED05F8713EA5C49 /* Pods */,
@@ -233,6 +285,15 @@
 				A74A1C2C1F86480B006289A8 /* About.mustache */,
 			);
 			path = Templates;
+			sourceTree = "<group>";
+		};
+		A75155B31F8BC00A00204A88 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				A75155B41F8BC00A00204A88 /* CDOptionTests.m */,
+				A75155B51F8BC00A00204A88 /* Info.plist */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		A77365B31EA87F3100FDC070 /* Frameworks */ = {
@@ -265,7 +326,7 @@
 				A73983071F7CBAD400867E08 /* CDSliderView.xib */,
 				A7FC52CB1F8121F900DA9F5E /* CDTextView.xib */,
 				A7C95CBB1F7CB5CB009000CE /* Info.plist */,
-				A7C95CBD1F7CB5CB009000CE /* Localizable.strings */,
+				A71EC8C31F88B0E500DB31D8 /* Locale.plist */,
 				A7C95CC31F7CB5CB009000CE /* Images.xcassets */,
 			);
 			path = Resources;
@@ -299,8 +360,12 @@
 				A7EC0BDF1F7F2CBC00EFF605 /* CDFileSave.m */,
 				A7EC0BE01F7F2CBC00EFF605 /* CDFileSelect.h */,
 				A7EC0BE11F7F2CBC00EFF605 /* CDFileSelect.m */,
+				A754FE4E1F89D311008F0BC3 /* CDIcon.h */,
+				A754FE501F89D31B008F0BC3 /* CDIcon.m */,
 				A7EC0BE31F7F2CBC00EFF605 /* CDInputbox.h */,
 				A7EC0BE41F7F2CBC00EFF605 /* CDInputbox.m */,
+				A71EC8C41F88B1A600DB31D8 /* CDLocale.h */,
+				A71EC8C61F88B1CF00DB31D8 /* CDLocale.m */,
 				A74A1C3C1F86EE24006289A8 /* CDMarkdown.h */,
 				A74A1C3E1F86EE30006289A8 /* CDMarkdown.m */,
 				A7FC52C31F7FB07F00DA9F5E /* CDMatrix.h */,
@@ -333,8 +398,12 @@
 				A7FC52CD1F81220F00DA9F5E /* CDTextView.m */,
 				A7EC0BFC1F7F2CBC00EFF605 /* CDTextbox.h */,
 				A7EC0BFD1F7F2CBC00EFF605 /* CDTextbox.m */,
+				A754FE4A1F89D109008F0BC3 /* CDUsage.h */,
+				A754FE4C1F89D115008F0BC3 /* CDUsage.m */,
 				A7EC0BC71F7F2CBC00EFF605 /* NSArray+CDArray.h */,
 				A7EC0BC81F7F2CBC00EFF605 /* NSArray+CDArray.m */,
+				A7D10CC81F8B030800AA3132 /* NSNumber+CDNumber.h */,
+				A7D10CCA1F8B031500AA3132 /* NSNumber+CDNumber.m */,
 				A7EC0BE91F7F2CBC00EFF605 /* NSPanel+CDPanel.h */,
 				A7EC0BEA1F7F2CBC00EFF605 /* NSPanel+CDPanel.m */,
 				A7EC0BC91F7F2CBC00EFF605 /* NSString+CDColor.h */,
@@ -352,39 +421,44 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A7EC0C0E1F7F2CBC00EFF605 /* CDCheckbox.h in Headers */,
-				A7EC0C0A1F7F2CBC00EFF605 /* NSString+CDString.h in Headers */,
-				A7EC0C0C1F7F2CBC00EFF605 /* CDApplication.h in Headers */,
-				A7EC0C121F7F2CBC00EFF605 /* CDControl.h in Headers */,
-				A7FC52C41F7FB07F00DA9F5E /* CDMatrix.h in Headers */,
-				A7EC0C1A1F7F2CBC00EFF605 /* CDFileSave.h in Headers */,
-				A74A1C3D1F86EE24006289A8 /* CDMarkdown.h in Headers */,
-				A7EC0C311F7F2CBC00EFF605 /* CDTerminal.h in Headers */,
-				A7EC0C101F7F2CBC00EFF605 /* CDColor.h in Headers */,
-				A7FC52CA1F7FC7E300DA9F5E /* CDSliderView.h in Headers */,
-				A7EC0C261F7F2CBC00EFF605 /* CDProgressbar.h in Headers */,
-				A7EC0C241F7F2CBC00EFF605 /* NSPanel+CDPanel.h in Headers */,
-				A7EC0C381F7F2CBC00EFF605 /* CDColumns.h in Headers */,
-				A7EC0C351F7F2CBC00EFF605 /* CDControlView.h in Headers */,
+				A73F15BE1F87EA1200169420 /* prefix.pch in Headers */,
 				A7EC0C061F7F2CBC00EFF605 /* NSArray+CDArray.h in Headers */,
+				A7EC0C081F7F2CBC00EFF605 /* NSString+CDColor.h in Headers */,
+				A754FE4B1F89D109008F0BC3 /* CDUsage.h in Headers */,
+				A7EC0C0A1F7F2CBC00EFF605 /* NSString+CDString.h in Headers */,
+				A7EC0C241F7F2CBC00EFF605 /* NSPanel+CDPanel.h in Headers */,
+				A7D10CC91F8B030800AA3132 /* NSNumber+CDNumber.h in Headers */,
+				A7EC0C101F7F2CBC00EFF605 /* CDColor.h in Headers */,
+				A7EC0C381F7F2CBC00EFF605 /* CDColumns.h in Headers */,
+				A74A1C361F865CE0006289A8 /* CDControlAlias.h in Headers */,
+				A7EC0C3A1F7F2CBC00EFF605 /* CDJson.h in Headers */,
+				A74A1C3D1F86EE24006289A8 /* CDMarkdown.h in Headers */,
+				A74A1C341F864E51006289A8 /* CDTemplate.h in Headers */,
+				A7EC0C311F7F2CBC00EFF605 /* CDTerminal.h in Headers */,
+				A74A1C2E1F864B74006289A8 /* CDTextField.h in Headers */,
+				A7EC0C0C1F7F2CBC00EFF605 /* CDApplication.h in Headers */,
+				A7EC0C221F7F2CBC00EFF605 /* CDOptions.h in Headers */,
+				A7EC0C201F7F2CBC00EFF605 /* CDOption.h in Headers */,
+				A7EC0C121F7F2CBC00EFF605 /* CDControl.h in Headers */,
+				A7EC0C141F7F2CBC00EFF605 /* CDDialog.h in Headers */,
+				A754FE4F1F89D311008F0BC3 /* CDIcon.h in Headers */,
+				A7EC0C351F7F2CBC00EFF605 /* CDControlView.h in Headers */,
+				A7EC0C1E1F7F2CBC00EFF605 /* CDInputbox.h in Headers */,
+				A7FC52C41F7FB07F00DA9F5E /* CDMatrix.h in Headers */,
+				A7EC0C0E1F7F2CBC00EFF605 /* CDCheckbox.h in Headers */,
+				A7EC0C2D1F7F2CBC00EFF605 /* CDRadio.h in Headers */,
+				A7EC0C181F7F2CBC00EFF605 /* CDFile.h in Headers */,
+				A71EC8C51F88B1A600DB31D8 /* CDLocale.h in Headers */,
+				A7EC0C1A1F7F2CBC00EFF605 /* CDFileSave.h in Headers */,
+				A7EC0C1C1F7F2CBC00EFF605 /* CDFileSelect.h in Headers */,
 				A7EC0C161F7F2CBC00EFF605 /* CDDropdown.h in Headers */,
 				A7EC0C2F1F7F2CBC00EFF605 /* CDSlider.h in Headers */,
-				A7EC0C201F7F2CBC00EFF605 /* CDOption.h in Headers */,
-				A7EC0C181F7F2CBC00EFF605 /* CDFile.h in Headers */,
-				A7EC0C2D1F7F2CBC00EFF605 /* CDRadio.h in Headers */,
-				A7EC0C3A1F7F2CBC00EFF605 /* CDJson.h in Headers */,
-				A7EC0C1E1F7F2CBC00EFF605 /* CDInputbox.h in Headers */,
-				A7EC0C2B1F7F2CBC00EFF605 /* CDProgressbarView.h in Headers */,
-				A7EC0C081F7F2CBC00EFF605 /* NSString+CDColor.h in Headers */,
 				A7EC0C281F7F2CBC00EFF605 /* CDProgressbarInputHandler.h in Headers */,
-				A74A1C361F865CE0006289A8 /* CDControlAlias.h in Headers */,
-				A7EC0C221F7F2CBC00EFF605 /* CDOptions.h in Headers */,
-				A7EC0C141F7F2CBC00EFF605 /* CDDialog.h in Headers */,
-				A74A1C341F864E51006289A8 /* CDTemplate.h in Headers */,
+				A7EC0C2B1F7F2CBC00EFF605 /* CDProgressbarView.h in Headers */,
+				A7EC0C261F7F2CBC00EFF605 /* CDProgressbar.h in Headers */,
+				A7FC52CA1F7FC7E300DA9F5E /* CDSliderView.h in Headers */,
 				A7FC52D01F81222F00DA9F5E /* CDTextView.h in Headers */,
-				A74A1C2E1F864B74006289A8 /* CDTextField.h in Headers */,
 				A7EC0C331F7F2CBC00EFF605 /* CDTextbox.h in Headers */,
-				A7EC0C1C1F7F2CBC00EFF605 /* CDFileSelect.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,6 +486,24 @@
 			productName = cocoaDialog;
 			productReference = 8D1107320486CEB800E47090 /* cocoadialog.app */;
 			productType = "com.apple.product-type.application";
+		};
+		A75155A21F8BAFDB00204A88 /* Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A75155A81F8BAFDB00204A88 /* Build configuration list for PBXNativeTarget "Tests" */;
+			buildPhases = (
+				A751559F1F8BAFDB00204A88 /* Sources */,
+				A75155A01F8BAFDB00204A88 /* Frameworks */,
+				A75155A11F8BAFDB00204A88 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A75155B81F8BC09200204A88 /* PBXTargetDependency */,
+			);
+			name = Tests;
+			productName = CDOptionTests;
+			productReference = A75155A31F8BAFDB00204A88 /* Tests.app */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -441,6 +533,7 @@
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* cocoadialog */,
+				A75155A21F8BAFDB00204A88 /* Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -450,15 +543,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A71EC8C11F88B0E500DB31D8 /* Locale.plist in Resources */,
 				A7FC52CC1F8121F900DA9F5E /* CDTextView.xib in Resources */,
 				A739834D1F7CBB3600867E08 /* CDDialog.xib in Resources */,
 				A7C95D091F7CB5CB009000CE /* Images.xcassets in Resources */,
 				A74A1C3A1F86E9C7006289A8 /* Acknowledgements.md in Resources */,
-				A7C95D061F7CB5CB009000CE /* Localizable.strings in Resources */,
 				A74A1C3B1F86E9D7006289A8 /* LICENSE in Resources */,
 				A74A1C2A1F86480B006289A8 /* About.mustache in Resources */,
 				A739833C1F7CBAD400867E08 /* CDSliderView.xib in Resources */,
 				A739834F1F7CBD7600867E08 /* CDProgressbarView.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A75155A11F8BAFDB00204A88 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -487,19 +587,13 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-cocoadialog/Pods-cocoadialog-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/CocoaMarkdown/CocoaMarkdown.framework",
 				"${BUILT_PRODUCTS_DIR}/GRMustache/GRMustache.framework",
 				"${BUILT_PRODUCTS_DIR}/JRSwizzle/JRSwizzle.framework",
-				"${BUILT_PRODUCTS_DIR}/Ono/Ono.framework",
-				"${BUILT_PRODUCTS_DIR}/cmark/cmark.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaMarkdown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRMustache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JRSwizzle.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Ono.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/cmark.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -521,7 +615,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -535,13 +629,16 @@
 				A7EC0C301F7F2CBC00EFF605 /* CDSlider.m in Sources */,
 				A7EC0C131F7F2CBC00EFF605 /* CDControl.m in Sources */,
 				A7EC0C2E1F7F2CBC00EFF605 /* CDRadio.m in Sources */,
+				A71EC8C71F88B1CF00DB31D8 /* CDLocale.m in Sources */,
 				A7EC0C111F7F2CBC00EFF605 /* CDColor.m in Sources */,
 				A74A1C3F1F86EE30006289A8 /* CDMarkdown.m in Sources */,
 				A7FC52C61F7FB09000DA9F5E /* CDMatrix.m in Sources */,
 				A7EC0C361F7F2CBC00EFF605 /* CDControlView.m in Sources */,
+				A754FE511F89D31B008F0BC3 /* CDIcon.m in Sources */,
 				A7EC0C3B1F7F2CBC00EFF605 /* CDJson.m in Sources */,
 				A7FC52CE1F81220F00DA9F5E /* CDTextView.m in Sources */,
 				A7FC52C81F7FC7D800DA9F5E /* CDSliderView.m in Sources */,
+				A754FE4D1F89D115008F0BC3 /* CDUsage.m in Sources */,
 				A74A1C331F864DE4006289A8 /* CDTemplate.m in Sources */,
 				A7EC0C191F7F2CBC00EFF605 /* CDFile.m in Sources */,
 				A7EC0C321F7F2CBC00EFF605 /* CDTerminal.m in Sources */,
@@ -549,6 +646,7 @@
 				A7EC0C291F7F2CBC00EFF605 /* CDProgressbarInputHandler.m in Sources */,
 				A7EC0C391F7F2CBC00EFF605 /* CDColumns.m in Sources */,
 				A7EC0C271F7F2CBC00EFF605 /* CDProgressbar.m in Sources */,
+				A7D10CCB1F8B031500AA3132 /* NSNumber+CDNumber.m in Sources */,
 				A7EC0C091F7F2CBC00EFF605 /* NSString+CDColor.m in Sources */,
 				A7EC0C1F1F7F2CBC00EFF605 /* CDInputbox.m in Sources */,
 				A7EC0C151F7F2CBC00EFF605 /* CDDialog.m in Sources */,
@@ -568,9 +666,33 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A751559F1F8BAFDB00204A88 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A75155B61F8BC07600204A88 /* CDOptionTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		A75155B81F8BC09200204A88 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D1107260486CEB800E47090 /* cocoadialog */;
+			targetProxy = A75155B71F8BC09200204A88 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
+		A71EC8C31F88B0E500DB31D8 /* Locale.plist */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A71EC8C21F88B0E500DB31D8 /* Base */,
+			);
+			name = Locale.plist;
+			sourceTree = "<group>";
+		};
 		A74A1C2C1F86480B006289A8 /* About.mustache */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -587,17 +709,90 @@
 			name = Info.plist;
 			sourceTree = "<group>";
 		};
-		A7C95CBD1F7CB5CB009000CE /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A7C95CBE1F7CB5CB009000CE /* Base */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		A75155A91F8BAFDB00204A88 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cocoadialog.Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/cocoadialog.app/Contents/MacOS/cocoadialog";
+			};
+			name = Debug;
+		};
+		A75155AA1F8BAFDB00204A88 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cocoadialog.Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/cocoadialog.app/Contents/MacOS/cocoadialog";
+			};
+			name = Release;
+		};
 		A770D5D91EAAA1F2004D1138 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */;
@@ -632,7 +827,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = cocoadialog;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cocoadialog.app;
 			};
@@ -670,7 +866,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = cocoadialog;
+				CLANG_ENABLE_MODULES = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cocoadialog.app;
 			};
@@ -693,6 +891,15 @@
 			buildConfigurations = (
 				A770D5D91EAAA1F2004D1138 /* Debug */,
 				A770D5DB1EAAA1FC004D1138 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A75155A81F8BAFDB00204A88 /* Build configuration list for PBXNativeTarget "Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A75155A91F8BAFDB00204A88 /* Debug */,
+				A75155AA1F8BAFDB00204A88 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

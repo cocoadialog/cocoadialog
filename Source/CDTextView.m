@@ -15,26 +15,26 @@
     self.markdown.headerColor = [NSColor systemGrayColor];
 
     // Editable.
-    self.textView.editable = self.dialog.option[@"editable"].boolValue;
+    self.textView.editable = self.dialog.options[@"editable"].boolValue;
 
     // Set initial text in textview
     NSAttributedString *text;
-    if (self.dialog.option[@"value"].wasProvided) {
-        text = [[NSAttributedString alloc] initWithString:self.dialog.option[@"value"].stringValue];
+    if (self.dialog.options[@"value"].wasProvided) {
+        text = [[NSAttributedString alloc] initWithString:self.dialog.options[@"value"].stringValue];
         [self.textView.textStorage setAttributedString:text];
     }
-    else if (self.dialog.option[@"file"].wasProvided) {
+    else if (self.dialog.options[@"file"].wasProvided) {
         NSError *error;
-        NSString *file = self.dialog.option[@"file"].stringValue;
+        NSString *file = self.dialog.options[@"file"].stringValue;
         NSString *contents = [NSString stringWithContentsOfFile: file encoding:NSUTF8StringEncoding error:&error];
         if (error) {
-            [self.dialog fatal:CDExitCodeControlFailure error:@"%@", error.localizedDescription, nil];
+            self.dialog.terminal.error(@"%@", error.localizedDescription, nil).exit(CDTerminalExitCodeControlFailure);
         }
         if (contents == nil) {
-            [self.dialog warning:@"Could not read file: %@", file.doubleQuote.white.bold, nil];
+            self.dialog.terminal.warning(@"Could not read file: %@", file.doubleQuote.white.bold, nil);
             return;
         }
-        if (([file endsWith:@"md"] || [file endsWith:@"markdown"]) && self.dialog.option[@"markdown"].boolValue && !self.dialog.option[@"editable"].boolValue) {
+        if (([file endsWith:@"md"] || [file endsWith:@"markdown"]) && self.dialog.options[@"markdown"].boolValue && !self.dialog.options[@"editable"].boolValue) {
             text = [self.markdown parseString:contents];
         }
         else {
@@ -48,7 +48,7 @@
 
     // scroll to top or bottom (do this AFTER resizing, setting the text,
     // etc). Default is top
-    if (self.dialog.option[@"scroll-to"].wasProvided && [self.dialog.option[@"scroll-to"].stringValue isEqualToStringCaseInsensitive:@"bottom"]) {
+    if (self.dialog.options[@"scroll-to"].wasProvided && [self.dialog.options[@"scroll-to"].stringValue isEqualToStringCaseInsensitive:@"bottom"]) {
         [self.textView scrollRangeToVisible:NSMakeRange(self.textView.textStorage.length-1, 0)];
     }
     else {
@@ -56,7 +56,7 @@
     }
 
     // select all the text
-    if (self.dialog.option[@"selected"].wasProvided) {
+    if (self.dialog.options[@"selected"].wasProvided) {
         [self.textView setSelectedRange:NSMakeRange(0, self.textView.textStorage.length)];
     }
 }

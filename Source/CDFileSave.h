@@ -5,8 +5,9 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
-#import "CDFile.h"
+@class CDFileSave;
 
+#import "CDFile.h"
 
 @interface CDFileSave : CDFile
 

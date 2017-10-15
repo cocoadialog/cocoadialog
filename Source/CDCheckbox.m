@@ -9,35 +9,32 @@
 
 @implementation CDCheckbox
 
-- (CDOptions *) availableOptions {
-    CDOptions *options = [super availableOptions];
-
-    // Require --button1.
-    options[@"button1"].required = YES;
-
-    // --checked
-    [options add:[CDOptionMultipleNumbers     name:@"checked"     category:@"CHECKBOX_OPTIONS"]];
-
-    // --disabled
-    [options add:[CDOptionMultipleNumbers     name:@"disabled"    category:@"CHECKBOX_OPTIONS"]];
-
-    // --items
-    [options add:[CDOptionMultipleStrings     name:@"items"       category:@"CHECKBOX_OPTIONS"]];
-    options[@"items"].required = YES;
-
-    // --mixed
-    [options add:[CDOptionMultipleNumbers     name:@"mixed"       category:@"CHECKBOX_OPTIONS"]];
-
-    return options;
++ (NSString *) scope {
+    return @"checkbox";
 }
 
-- (void) initControl {
-    [super initControl];
++ (CDOptions *) availableOptions {
+    CDOptions *options = super.availableOptions;
 
-    self.checked = option[@"checked"].arrayValue ?: [NSArray array];
-    self.items = option[@"items"].arrayValue ?: [NSArray array];
-    self.mixed = option[@"mixed"].arrayValue ?: [NSArray array];
-    self.disabled = option[@"disabled"].arrayValue ?: [NSArray array];
+    // Require at least one button.
+    options[@"button1"].require(YES).min(1);
+
+    return options.addOptionsToScope([self class].scope,
+  @[
+    CDOption.create(CDNumber,   @"checked").max(-1),
+    CDOption.create(CDNumber,   @"disabled").max(-1),
+    CDOption.create(CDString,   @"items").max(-1).require(YES),
+    CDOption.create(CDNumber,   @"mixed").max(-1),
+    ]);
+}
+
+- (void) createControl {
+    [super createControl];
+
+    self.checked = self.options[@"checked"].arrayValue ?: [NSArray array];
+    self.items = self.options[@"items"].arrayValue ?: [NSArray array];
+    self.mixed = self.options[@"mixed"].arrayValue ?: [NSArray array];
+    self.disabled = self.options[@"disabled"].arrayValue ?: [NSArray array];
     
     // set return values
     NSArray * cells = self.matrix.cells;
@@ -104,7 +101,7 @@
     NSMutableArray *checkboxesArray = [NSMutableArray array];
     NSEnumerator *en = [self.checkboxes objectEnumerator];
     id obj;
-    if (option[@"return-labels"].wasProvided) {
+    if (self.options[@"return-labels"].wasProvided) {
         if (self.checkboxes != nil && self.checkboxes.count) {
             unsigned long state;
             while (obj = [en nextObject]) {
@@ -124,7 +121,7 @@
         }
     }
 
-    returnValues[@"value"] = checkboxesArray;
+    self.returnValues[@"value"] = checkboxesArray;
 
     [super controlHasFinished:button];
 }

@@ -9,64 +9,28 @@
 
 @implementation CDFileSave
 
-- (CDOptions *) availableOptions {
-    CDOptions *options = [super availableOptions];
+- (void) createControl {
+    [super createControl];
 
-    [options add:[CDOptionBoolean       name:@"no-create-directories"]];
-
-    return options;
-}
-
-- (void) initControl {
-	savePanel = [NSSavePanel savePanel];
-    [savePanel setAllowedFileTypes:nil];
-    
-	NSString *file = @"";
-	NSString *dir = nil;
-	
-	[self setMisc];
-
-    [savePanel setTreatsFilePackagesAsDirectories:option[@"packages-as-directories"].wasProvided];
-
-	if (option[@"no-create-directories"].wasProvided) {
-		[savePanel setCanCreateDirectories:NO];
-	}
-
-	// Set starting file (to be used later with runModal...) - doesn't work.
-	if (option[@"with-file"].wasProvided) {
-		file = option[@"with-file"].stringValue;
-	}
-	// Set starting directory (to be used later with runModal...)
-	if (option[@"with-directory"].wasProvided) {
-		dir = option[@"with-directory"].stringValue;
-	}
-    
-    // Check for dir or file path existance.
-    NSFileManager *fm = [[NSFileManager alloc] init];
-    if (dir != nil && ![fm fileExistsAtPath:dir]) {
-        [self warning:@"Option --with-directory specifies a directory that does not exist: %@", dir, nil];
+    self.savePanel.allowedFileTypes = nil;
+    self.savePanel.nameFieldStringValue = self.file;
+    if (self.directory && !self.directory.isBlank) {
+        self.savePanel.directoryURL = [NSURL fileURLWithPath:self.directory];
     }
 
-    self.panel = savePanel;
+    self.panel = self.savePanel;
 
-    [self initPanel];
-    [self initTimeout];
-	
-    NSInteger result;
-    if (dir != nil) {
-        NSURL * url = [[NSURL alloc] initFileURLWithPath:dir];
-        savePanel.directoryURL = url;
-    }
-    savePanel.nameFieldStringValue = file;
-    result = [savePanel runModal];
+    [self createPanel];
+    [self createTimeout];
 
+    NSInteger result = [self.savePanel runModal];
     if (result == NSFileHandlingPanelOKButton) {
-        returnValues[@"button"] = option[@"return-labels"] ? NSLocalizedString(@"OKAY", nil) : @0;
-        returnValues[@"value"] = savePanel.URL.path;
+        self.returnValues[@"button"] = self.options[@"return-labels"] ? @"OKAY".localized : @0;
+        self.returnValues[@"value"] = self.savePanel.URL.path;
     }
     else {
-        exitStatus = CDExitCodeCancel;
-        returnValues[@"button"] = option[@"return-labels"] ? NSLocalizedString(@"CANCEL", nil) : @1;
+        self.exitStatus = CDTerminalExitCodeCancel;
+        self.returnValues[@"button"] = self.options[@"return-labels"] ? @"CANCEL".localized : @1;
     }
     [super stopControl];
 }

@@ -5,12 +5,7 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
-#import "NSArray+CDArray.h"
-#import "NSString+CDString.h"
-#import "CDTerminal.h"
-
-#ifndef CDJson_h
-#define CDJson_h
+@class CDJson;
 
 #pragma mark -
 @protocol CDJsonValueProtocol
@@ -39,5 +34,3 @@
 
 #pragma mark -
 @interface NSString (CDJson) <CDJsonValueProtocol> @end
-
-#endif /* CDJson_h */

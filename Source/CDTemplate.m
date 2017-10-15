@@ -9,38 +9,57 @@
 
 @implementation CDTemplate
 
-+ (instancetype) load:(NSString *)templateName data:(id)data error:(NSError **)error {
-    return [[self alloc] initTemplate:templateName withData:data error:error];
+#pragma mark - Public static methods
++ (instancetype) sharedInstance {
+    static CDTemplate *sharedInstance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[CDTemplate alloc] init];
+    });
+    return sharedInstance;
 }
 
+#pragma mark - Public instance methods
 - (instancetype) init {
     self = [super init];
     if (self) {
-        NSError *error = nil;
         _repository = [GRMustacheTemplateRepository templateRepositoryWithBundle:[NSBundle mainBundle]];
-        _tpl = [GRMustacheTemplate templateFromString:@"" error:&error];
+        _templates = @{}.mutableCopy;
+        _terminal = [CDTerminal sharedInstance];
     }
     return self;
 }
 
-- (instancetype) initTemplate:(NSString *)templateName withData:(id)data error:(NSError **)error {
-    self = [self init];
-    if (self) {
-        self.data = data;
-        self.tpl = [self.repository templateNamed:templateName error:error];
+#pragma mark - Public chainable methods
+- (NSString *(^)(NSString *name, id data)) render {
+    return ^NSString *(NSString *name, id data){
+        return [self render:name withData:data];
+    };
+}
+
+#pragma mark - Private instance methods
+- (GRMustacheTemplate *) load:(NSString *)name {
+    GRMustacheTemplate *template = self.templates[name];
+    if (!template) {
+        NSError *parseError;
+        template = [self.repository templateNamed:name error:&parseError];
+        if (parseError) {
+            self.terminal.error(@"%@", parseError.localizedDescription, nil).exit(CDTerminalExitCodeTemplateLoadFailure);
+            template = [[GRMustacheTemplate alloc] init];
+        }
+        self.templates[name] = template;
     }
-    return self;
+    return template;
 }
 
-- (NSString *) renderError:(NSError **)error {
-    return [self.tpl renderObject:self.data error:error];
-}
+- (NSString *) render:(NSString *)name withData:(id)data {
+    NSError *renderError;
+    NSString *rendered = [[self load:name] renderObject:data error:&renderError];
+    if (renderError) {
+        self.terminal.error(@"%@", renderError.localizedDescription, nil).exit(CDTerminalExitCodeTemplateRenderFailure);
+    }
 
-- (void) setStringValue:(NSString *)stringValue {
-    NSError *error = nil;
-    self.tpl = [GRMustacheTemplate templateFromString:stringValue error:&error];
-    [super setStringValue:stringValue];
+    return rendered;
 }
 
 @end
-

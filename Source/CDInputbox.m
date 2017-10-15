@@ -9,26 +9,22 @@
 
 @implementation CDInputbox
 
-- (CDOptions *) availableOptions {
-    CDOptions *options = [super availableOptions];
++ (NSString *) scope {
+    return @"input";
+}
 
-    // --secure
-    [options add:[CDOptionBoolean           name:@"secure"              category:@"INPUT_OPTION"]];
-    [options add:[CDOptionBoolean           name:@"no-show"             replacedBy:@"secure"]];
++ (CDOptions *) availableOptions {
+    CDOptions* options = super.availableOptions;
 
-    // --selected
-    [options add:[CDOptionBoolean           name:@"selected"            category:@"INPUT_OPTION"]];
-    [options add:[CDOptionBoolean           name:@"not-selected"        replacedBy:@"selected"]];
+    // Required at least one button.
+    options[@"buttons"].require(YES).min(1);
 
-    // --value
-    [options add:[CDOptionSingleString      name:@"value"               category:@"INPUT_OPTION"]];
-    [options add:[CDOptionSingleString      name:@"text"                replacedBy:@"value"]];
-
-    // Required options.
-    options[@"buttons"].required = YES;
-    options[@"buttons"].minimumValues = @1;
-
-    return options;
+    return options.addOptionsToScope([self class].scope,
+  @[
+    CDOption.create(CDBoolean,  @"secure").deprecates(@[CDOption.create(CDBoolean, @"no-show")]),
+    CDOption.create(CDBoolean,  @"selected").deprecates(@[CDOption.create(CDBoolean, @"not-selected")]),
+    CDOption.create(CDString,   @"value").deprecates(@[CDOption.create(CDString, @"text")]),
+    ]);
 }
 
 - (BOOL)isReturnValueEmpty {
@@ -40,12 +36,12 @@
 }
 
 - (void) controlHasFinished:(NSUInteger)button {
-    returnValues[@"value"] = self.input.stringValue;
+    self.returnValues[@"value"] = self.input.stringValue;
     [super controlHasFinished:button];
 }
 
 - (void) setControl:(id)sender {
-    if (option[@"secure"].boolValue) {
+    if (self.options[@"secure"].boolValue) {
         self.input = [[NSSecureTextField alloc] init];
     }
     else {
@@ -55,10 +51,10 @@
     self.input.refusesFirstResponder = YES;
 
     // Set initial text in textfield.
-    [self.input setStringValue:option[@"value"].stringValue];
+    [self.input setStringValue:self.options[@"value"].stringValue];
 
     // Select all the text.
-	if (option[@"selected"].wasProvided || option[@"selected"].boolValue) {
+	if (self.options[@"selected"].wasProvided || self.options[@"selected"].boolValue) {
         [self.input selectAll:nil];
 	}
 

@@ -5,27 +5,24 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
-#ifndef CDControlAlias_h
-#define CDControlAlias_h
+@class CDControlAlias;
 
 #import "CDControl.h"
-#import "CDOptions.h"
 
-@class CDOptions;
-@class CDControl;
-
-typedef void (^CDControlAliasDefaultOptions)(CDOptions *options, CDControl *control);
+typedef void (^CDControlAliasProcessBlock)(CDControl *control);
 
 #pragma mark -
 @interface CDControlAlias : NSObject
 
 @property (strong, readonly)      NSString                          *controlName;
-@property (strong, readonly)      NSString                          *helpText;
 @property (strong, readonly)      NSString                          *name;
-@property (strong, readonly)      CDControlAliasDefaultOptions      process;
+@property (strong, readonly)      CDControlAliasProcessBlock        processBlock;
+@property (strong, readonly)      NSString                          *usageDescription;
 
-+ (instancetype) alias:(NSString *)name forControl:(NSString *)controlName helpText:(NSString *)options block:(CDControlAliasDefaultOptions)process;
++ (CDControlAlias *(^)(NSString* from, NSString* to)) create;
++ (instancetype) from:(NSString *)from to:(NSString *)to;
+
+- (CDControlAlias *(^)(NSString* usage)) usage;
+- (CDControlAlias *(^)(CDControlAliasProcessBlock block)) process;
 
 @end
-
-#endif /* CDControlAlias_h */

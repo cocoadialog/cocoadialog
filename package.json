@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "name": "cocoadialog",
+  "version": "1.0.0",
+  "description": "Build scripts",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cocoadialog/cocoadialog.git"
+  },
+  "author": "Mark Carver",
+  "license": "GPL-2.0",
+  "dependencies": {
+    "dot-prop": "^4.2.0",
+    "execa": "^0.8.0",
+    "semver-utils": "^1.1.1",
+    "simple-plist": "^0.2.1"
+  }
+}

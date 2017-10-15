@@ -17,40 +17,34 @@
     }
 }
 
-- (CDOptions *) availableOptions {
-    CDOptions *options = [super availableOptions];
-
-    // --columns
-    [options add:[CDOptionSingleNumber        name:@"columns"]];
-    options[@"columns"].defaultValue = @1;
-
-    // --rows
-    [options add:[CDOptionSingleNumber        name:@"rows"]];
-    options[@"rows"].defaultValue = @1;
-
-    return options;
++ (CDOptions *) availableOptions {
+    return super.availableOptions.addOptionsToScope([self class].scope,
+  @[
+    CDOption.create(CDNumber, @"columns").setDefaultValue(@"1"),
+    CDOption.create(CDNumber, @"rows").setDefaultValue(@"1"),
+    ]);
 }
 
-- (void) initControl {
-    [super initControl];
+- (void) createControl {
+    [super createControl];
 
     // Set default precedence: columns, if both are present or neither are present
     self.expandColumns = YES;
 
     // Set number of columns.
-    self.columns = option[@"columns"].unsignedIntegerValue;
+    self.columns = self.options[@"columns"].unsignedIntegerValue;
     if (self.columns < 1) {
         self.columns = 1;
     }
 
     // Set number of rows.
-    self.rows = option[@"rows"].unsignedIntegerValue;
+    self.rows = self.options[@"rows"].unsignedIntegerValue;
     if (self.rows < 1) {
         self.rows = 1;
     }
     // User has specified number of rows, but not columns.
     // Set precedence to expand columns, not rows
-    if (self.rows > 1 && !option[@"columns"].wasProvided) {
+    if (self.rows > 1 && !self.options[@"columns"].wasProvided) {
         self.expandColumns = YES;
     }
 
@@ -67,10 +61,9 @@
     if (self.matrix.cells.count > 0) {
         [self.matrix sizeToCells];
         [self.matrix.superview setNeedsDisplay:YES];
-        self.controlViewHeightConstraint.constant = self.panel.contentView.frame.size.height;
     }
     else {
-        self.controlViewHeightConstraint.constant = 0;
+        self.matrix.hidden = YES;
         [self.matrix setFrameSize:NSMakeSize(0.0f, 0.0f)];
     }
 
@@ -112,7 +105,7 @@
 - (void) initMatrixCells {
     // Ensure subclassed controls provided at least one cell.
     if (!self.cells.count) {
-        [self fatal:CDExitCodeControlFailure error:@"The %@ control did not initialize any matrix cells.", self.name.doubleQuote.bold.white, nil];
+        self.terminal.error(@"The %@ control did not initialize any matrix cells.", self.name.doubleQuote.bold.white, nil).exit(CDTerminalExitCodeControlFailure);
     }
 
     // Default exact columns/rows.

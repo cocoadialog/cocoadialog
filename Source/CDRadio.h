@@ -5,6 +5,8 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
+@class CDRadio;
+
 #import "CDMatrix.h"
 
 @interface CDRadio : CDMatrix
