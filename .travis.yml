@@ -8,6 +8,7 @@ before_install:
   - brew update
 
 install:
+  - export PATH="/usr/local/bin:$PATH" # Homebrew isn't the top priority in macOS images.
   - brew outdated xctool || brew upgrade xctool
   - brew upgrade node 2>/dev/null || brew install node
   - brew upgrade yarn 2>/dev/null || brew install yarn
