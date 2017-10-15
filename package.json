@@ -13,6 +13,7 @@
   "dependencies": {
     "dot-prop": "^4.2.0",
     "execa": "^0.8.0",
+    "get-stream": "^3.0.0",
     "semver-utils": "^1.1.1",
     "simple-plist": "^0.2.1"
   }

@@ -21,8 +21,7 @@ install:
 
 script:
   - set -o pipefail
-  - ./Scripts/build
-  - ./Scripts/success
+  - ./Scripts/build.js
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -J '^cocoadialog$'
