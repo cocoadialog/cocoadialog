@@ -22,10 +22,10 @@ install:
 script:
   - set -o pipefail
   - ./Scripts/build
+  - ./Scripts/success
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -J '^cocoadialog$'
-  - ./Scripts/success
 
 notifications:
   slack:
