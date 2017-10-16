@@ -145,11 +145,11 @@ const fold = {
 
   wrapCommand(group, command) {
     group = this.encode(group);
-    return travis.timeStart()
-      .then(() => this.start(group, command, false))
+    return this.start(group, command, false)
+      .then(() => travis.timeStart())
       .then(() => pipe(command))
-      .then(() => this.end(group))
-      .then(() => travis.timeFinish());
+      .then(() => travis.timeFinish())
+      .then(() => this.end(group));
   }
 };
 
@@ -177,7 +177,7 @@ const xcodebuild = (...types) => {
   types = Array.from(types);
   return types.reduce((chain, type) => {
     let [action, scheme] = type.split(':');
-    return chain.then(() => fold.wrapCommand(`xcodebuild`, `xcodebuild -derivedDataPath ${derivedDataDir} -workspace ${workspace} -scheme ${scheme} ${action} | tee ${buildDir}/xcodebuild-${scheme}-${action}.log | xcpretty -f \`xcpretty-travis-formatter\``));
+    return chain.then(() => fold.wrapCommand(`xcodebuild`, `xcodebuild -derivedDataPath ${derivedDataDir} -workspace ${workspace} -scheme ${scheme} ${action} | tee ${buildDir}/xcodebuild-${scheme}-${action}.log | xcpretty -f $(xcpretty-travis-formatter)`));
   }, Promise.resolve());
 };
 
