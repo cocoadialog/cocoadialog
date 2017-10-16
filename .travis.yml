@@ -15,7 +15,6 @@ install:
   - brew upgrade yarn 2>/dev/null || brew install yarn # Upgrade or install to latest yarn.
   - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
   - gem install xcpretty-travis-formatter --no-rdoc --no-ri --no-document --quiet
-  - pod install
   - yarn
 
 script:

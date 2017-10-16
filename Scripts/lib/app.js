@@ -1,3 +1,11 @@
+// Handle rejections and exceptions.
+const errorHandler = err => {
+  console.error(err instanceof Error && err.message || err);
+  process.exit(err.code && /\d+/.test(err.code) && err.code || 1);
+};
+process.on('unhandledRejection', errorHandler);
+process.on('unhandledRejection', errorHandler);
+
 // Node.js
 const path = require('path');
 
@@ -46,6 +54,9 @@ exports.initData = () => Promise.resolve()
   .then(() => plist.read(this.infoPlist))
   .then(plist => (this.data.plist = plist))
 
+  // Make sure we retrieve the whole repo's history (travis does a shallow clone of only 50 for the current branch).
+  .then(() => travis.wrapCommand('git.fetch', 'git fetch --all --verbose --unshallow 2>/dev/null || git fetch --all --verbose'))
+
   // Determine current HEAD if Travis is not running.
   .then(() => travis.running || this.addDataFromCommand('head', `git rev-parse --abbrev-ref HEAD`, value => value.replace(/^(tags|heads)\//, '')))
 
@@ -62,4 +73,5 @@ exports.initData = () => Promise.resolve()
   .then(() => this.addDataFromCommand('commitsAhead.master', `git rev-list --left-right --count master...HEAD | cut -f2 2>/dev/null`, value => parseInt(value) || 0))
   .then(() => this.addDataFromCommand('commitsAhead.dev', `git rev-list --left-right --count dev...HEAD | cut -f2 2>/dev/null`, value => parseInt(value) || 0))
   .then(() => this.data.lastTag && this.addDataFromCommand('commitsAhead.latestTag', `git rev-list --left-right --count ${this.data.lastTag}...master | cut -f2 2>/dev/null`, value => parseInt(value) || 0))
-  .then(() => (this.data.commitsAhead.total = parseInt(travis.pullRequest ? this.data.commitsAhead.dev : this.data.commitsAhead.master)));
+  .then(() => (this.data.commitsAhead.total = parseInt(travis.pullRequest ? this.data.commitsAhead.dev : this.data.commitsAhead.master)))
+;

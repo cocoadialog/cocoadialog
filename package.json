@@ -11,6 +11,7 @@
   "author": "Mark Carver",
   "license": "GPL-2.0",
   "scripts": {
+    "preinstall": "pod install",
     "build": "./Scripts/build.js",
     "test": "./Scripts/test.js",
     "travis": "./Scripts/travis.js",
