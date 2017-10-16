@@ -10,6 +10,11 @@
   },
   "author": "Mark Carver",
   "license": "GPL-2.0",
+  "scripts": {
+    "build": "./Scripts/build.js",
+    "test": "./Scripts/test.js",
+    "update-version": "./Scripts/update-version.js"
+  },
   "dependencies": {
     "dot-prop": "^4.2.0",
     "execa": "^0.8.0",
