@@ -10,11 +10,20 @@
   },
   "author": "Mark Carver",
   "license": "GPL-2.0",
+  "scripts": {
+    "preinstall": "pod install",
+    "build": "./Scripts/build.js",
+    "test": "./Scripts/test.js",
+    "travis": "./Scripts/travis.js",
+    "update-version": "./Scripts/update-version.js"
+  },
   "dependencies": {
     "dot-prop": "^4.2.0",
     "execa": "^0.8.0",
     "get-stream": "^3.0.0",
+    "nanoseconds": "^0.1.0",
     "semver-utils": "^1.1.1",
+    "shortid": "^2.2.8",
     "simple-plist": "^0.2.1"
   }
 }
