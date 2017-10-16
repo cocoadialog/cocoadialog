@@ -13,6 +13,7 @@
   "scripts": {
     "build": "./Scripts/build.js",
     "test": "./Scripts/test.js",
+    "travis": "./Scripts/travis.js",
     "update-version": "./Scripts/update-version.js"
   },
   "dependencies": {

@@ -19,9 +19,7 @@ install:
   - yarn
 
 script:
-  - yarn run test
-  - yarn run build
-  - yarn run update-version
+  - yarn travis
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -J '^cocoadialog$'

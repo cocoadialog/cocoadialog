@@ -9,7 +9,7 @@ const plist = require('./lib/plist');
 const travis = require('./lib/travis');
 
 // Initialize the application data.
-app.initData()
+module.exports = app.initData()
   // Update the version based on data.
   .then(() => {
     // Parse the existing CFBundleVersion from the app.
