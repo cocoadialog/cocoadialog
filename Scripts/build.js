@@ -79,7 +79,7 @@ const travis = {
     if (!this.timers[id]) this.timers[id] = {};
     this.timers[id].start = nano(process.hrtime());
     this.currentTimerId = id;
-    return echon(`travis_time:start:${id}\r\\033[0m`);
+    return echon(`travis_time:start:${id}\n\\033[0m`);
   },
 
   timeFinish() {
@@ -88,7 +88,7 @@ const travis = {
     if (!this.running || !this.timers[id]) return Promise.resolve();
     this.timers[id].end = nano(process.hrtime());
     let duration = this.timers[id].end - this.timers[id].start;
-    return echon(`\ntravis_time:end:${id}:start=${this.timers[id].start},finish=${this.timers[id].end},duration=${duration}\r\\033[0m`);
+    return echon(`\ntravis_time:end:${id}:start=${this.timers[id].start},finish=${this.timers[id].end},duration=${duration}\n\\033[0m`);
   }
 };
 
@@ -125,7 +125,7 @@ const fold = {
   },
 
   end(group) {
-    return travis.running ? echo(`travis_fold:end:${this.encode(group, false)}\r`) : Promise.resolve();
+    return travis.running ? echo(`travis_fold:end:${this.encode(group, false)}\n`) : Promise.resolve();
   },
 
   start(group, description = '', track = true) {
