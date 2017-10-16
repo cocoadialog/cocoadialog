@@ -10,6 +10,13 @@ const execa = require('execa');
 const semver = require('semver-utils');
 const simplePlist = require('simple-plist');
 
+// Travis.
+const travis = {
+  running: true,//process.env.TRAVIS === 'true',
+  branch: process.env.TRAVIS_PULL_REQUEST_BRANCH || process.env.TRAVIS_BRANCH,
+  pullRequest: process.env.TRAVIS_PULL_REQUEST !== 'false' && parseInt(process.env.TRAVIS_PULL_REQUEST) || false
+};
+
 // Project.
 const appName = 'cocoadialog';
 const workspace = `${appName}.xcworkspace`;
@@ -21,14 +28,13 @@ const releaseDir = path.resolve(path.join(derivedDataDir, 'Build', 'Products', '
 const releaseApp = path.join(releaseDir, 'cocoadialog.app');
 const infoPlist = path.join(releaseApp, 'Contents', 'Info.plist');
 
-const isTravis = () => {
-  return process.env.TRAVIS === 'true';
+const pipe = command => {
+  process.stdout.write(command);
+  return execa(command, {shell: '/bin/bash', stderr: 'inherit', stdout: 'inherit'}).catch(result => {
+    console.error(result.message);
+    process.exit(result.code || 1);
+  });
 };
-
-const pipe = command => execa.shell(command, {stderr: 'inherit', stdout: 'inherit'}).catch(result => {
-  console.error(result.message);
-  process.exit(result.code || 1);
-});
 
 const readPlist = file => new Promise((resolve, reject) => {
   simplePlist.readFile(file, (err, data) => {
@@ -44,7 +50,7 @@ const writePlist = (file, data) => new Promise((resolve, reject) => {
   });
 });
 
-const spawn = command => execa.shell(command)
+const spawn = command => execa(command, {shell: '/bin/bash'})
   .then(result => result.stdout.trim())
   .catch(result => {
     console.error(result.message);
@@ -67,29 +73,38 @@ const mkdir = path => exists(path).catch(() => new Promise((resolve, reject) => 
 }));
 
 const fold = {
-  encode(group) {
-    return group.replace(/[^A-Za-z\d]+/g, '-').replace(/-$/, '');
-  },
+  seenGroups: {},
 
-  format(type, group) {
-    return isTravis() ? `echo "\ntravis_fold:${type}:${this.encode(group)}\r"` : '';
-  },
+  encode(group, track = true) {
+    group = group.toLowerCase().replace(/[^a-z\d\-_.]+/g, '-').replace(/-$/, '');
+    let i = 1;
+    let parts = group.split('.');
 
-  write(type, group) {
-    let fold = this.format(type, group);
-    return fold !== '' ? pipe(fold) : Promise.resolve();
+    // Get the current count number.
+    if (/^\d+$/.test(parts[parts.length - 1])) {
+      i = parseInt(parts.pop());
+      group = parts.join('.');
+    }
+
+    if (track && this.seenGroups[group]) {
+      i = this.seenGroups[group] + 1;
+    }
+    this.seenGroups[group] = i;
+    return `${group}.${i}`;
   },
 
   end(group) {
-    return this.write('end', group);
+    return travis.running ? execa(`echo -e "travis_fold:end:${this.encode(group, false)}\r"`, {shell: '/bin/bash', stderr: 'inherit', stdout: 'inherit'}) : Promise.resolve();
   },
 
-  start(group) {
-    return this.write('start', group);
+  start(group, description, track = true) {
+    description = description && `\\033[33;1m${description}\\033[0m` || '';
+    return travis.running ? execa(`echo -e "travis_fold:start:${this.encode(group, track)}${description}"`, {shell: '/bin/bash', stderr: 'inherit', stdout: 'inherit'}) : Promise.resolve();
   },
 
-  wrap(group, command) {
-    return this.start(group)
+  wrap(group, command, description) {
+    group = this.encode(group);
+    return this.start(group, description, false)
       .then(() => pipe(command))
       .then(() => this.end(group));
   }
@@ -108,10 +123,9 @@ let data = {
     master: ''
   },
   hashLength: 7,
-  head: 'master',
+  head: travis.running ? travis.branch : 'master',
   lastTag: false,
   plist: {},
-  pullRequest: isTravis() && process.env.TRAVIS_PULL_REQUEST !== 'false' && parseInt(process.env.TRAVIS_PULL_REQUEST) || false
 };
 
 // Helper function for easily adding values from the CLI to the data object.
@@ -120,8 +134,12 @@ const addData = (name, command, convert = v => v) => spawn(command).then(value =
 const xcodebuild = (...types) => {
   types = Array.from(types);
   return types.reduce((chain, type) => {
-    let [scheme, action] = type.split(':');
-    return chain.then(() => fold.wrap(`xcodebuild.${scheme}.${action}`, `xcodebuild -derivedDataPath ${derivedDataDir} -workspace ${workspace} -scheme ${scheme} ${action} | tee ${buildDir}/xcodebuild-${scheme}-${action}.log | xcpretty -f $(xcpretty-travis-formatter)`));
+    let [action, scheme] = type.split(':');
+    return chain.then(() => fold.wrap(
+      `xcodebuild`,
+      `xcodebuild -derivedDataPath ${derivedDataDir} -workspace ${workspace} -scheme ${scheme} ${action} | tee ${buildDir}/xcodebuild-${scheme}-${action}.log | xcpretty -f \`xcpretty-travis-formatter\``,
+      `xcodebuild ${action}: ${scheme}`
+    ));
   }, Promise.resolve());
 };
 
@@ -129,15 +147,15 @@ const xcodebuild = (...types) => {
 mkdir(buildDir)
 
   // Xcode Test & Build.
-  .then(() => xcodebuild('Debug:test', 'Release:build'))
+  .then(() => xcodebuild('test:Debug', 'build:Release'))
 
   // Retrieve built Info.plist.
   .then(() => exists(infoPlist))
   .then(() => readPlist(infoPlist))
   .then(plist => (data.plist = plist))
 
-  // Determine current HEAD.
-  .then(() => addData('head', `git rev-parse --abbrev-ref HEAD`, value => value.replace(/^(tags|heads)\//, '')))
+  // Determine current HEAD if Travis is not running.
+  .then(() => travis.running || addData('head', `git rev-parse --abbrev-ref HEAD`, value => value.replace(/^(tags|heads)\//, '')))
 
   // Determine last tag.
   .then(() => addData('lastTag', `git describe --tags --abbrev=0 2>/dev/null || echo`, value => value || false))
@@ -152,7 +170,7 @@ mkdir(buildDir)
   .then(() => addData('commitsAhead.master', `git rev-list --left-right --count master...HEAD | cut -f2 2>/dev/null`), value => parseInt(value) || 0)
   .then(() => addData('commitsAhead.dev', `git rev-list --left-right --count dev...HEAD | cut -f2 2>/dev/null`, value => parseInt(value) || 0))
   .then(() => data.lastTag && addData('commitsAhead.latestTag', `git rev-list --left-right --count ${data.lastTag}...master | cut -f2 2>/dev/null`, value => parseInt(value) || 0))
-  .then(() => (data.commitsAhead.total = parseInt(data.pullRequest ? data.commitsAhead.dev : data.commitsAhead.master)))
+  .then(() => (data.commitsAhead.total = parseInt(travis.pullRequest ? data.commitsAhead.dev : data.commitsAhead.master)))
 
   .then(() => {
     // Parse the existing CFBundleVersion from the app.
@@ -181,9 +199,9 @@ mkdir(buildDir)
     }
 
     // Determine the proper number of commits ahead.
-    if (data.pullRequest) {
+    if (travis.pullRequest) {
       count = data.commitsAhead.dev;
-      version.release = `pr${data.pullRequest}`;
+      version.release = `pr${travis.pullRequest}`;
     }
     else if (data.lastTag) {
       count = data.commitsAhead.latestTag;
