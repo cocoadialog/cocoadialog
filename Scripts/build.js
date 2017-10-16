@@ -7,51 +7,26 @@ const path = require('path');
 // Modules.
 const dot = require('dot-prop');
 const execa = require('execa');
+const nano = require('nanoseconds');
 const semver = require('semver-utils');
+const shortid = require('shortid');
 const simplePlist = require('simple-plist');
 
-// Travis.
-const travis = {
-  running: true,//process.env.TRAVIS === 'true',
-  branch: process.env.TRAVIS_PULL_REQUEST_BRANCH || process.env.TRAVIS_BRANCH,
-  pullRequest: process.env.TRAVIS_PULL_REQUEST !== 'false' && parseInt(process.env.TRAVIS_PULL_REQUEST) || false
-};
-
-// Project.
-const appName = 'cocoadialog';
-const workspace = `${appName}.xcworkspace`;
-
-const baseDir = path.resolve(`${__dirname}/../`);
-const buildDir = path.join(baseDir, 'Build');
-const derivedDataDir = path.join(baseDir, 'DerivedData');
-const releaseDir = path.resolve(path.join(derivedDataDir, 'Build', 'Products', 'Release'));
-const releaseApp = path.join(releaseDir, 'cocoadialog.app');
-const infoPlist = path.join(releaseApp, 'Contents', 'Info.plist');
+// Helper Promise functions based on above modules.
+const execSync = command => execa.shellSync(command, {shell: '/bin/bash'}).stdout.toString().trim();
 
 const pipe = command => {
-  process.stdout.write(command);
   return execa(command, {shell: '/bin/bash', stderr: 'inherit', stdout: 'inherit'}).catch(result => {
     console.error(result.message);
     process.exit(result.code || 1);
   });
 };
 
-const readPlist = file => new Promise((resolve, reject) => {
-  simplePlist.readFile(file, (err, data) => {
-    if (err) reject(err);
-    resolve(data);
-  });
-});
-
-const writePlist = (file, data) => new Promise((resolve, reject) => {
-  simplePlist.writeFile(file, data, err => {
-    if (err) reject(err);
-    resolve();
-  });
-});
+const echo = string => pipe(`echo -e "${string}"`);
+const echon = string => pipe(`echo -en "${string}"`);
 
 const spawn = command => execa(command, {shell: '/bin/bash'})
-  .then(result => result.stdout.trim())
+  .then(result => result.stdout.toString().trim())
   .catch(result => {
     console.error(result.message);
     process.exit(result.code || 1);
@@ -71,6 +46,62 @@ const mkdir = path => exists(path).catch(() => new Promise((resolve, reject) => 
     resolve()
   });
 }));
+
+const readPlist = file => new Promise((resolve, reject) => {
+  simplePlist.readFile(file, (err, data) => {
+    if (err) reject(err);
+    resolve(data);
+  });
+});
+
+const writePlist = (file, data) => new Promise((resolve, reject) => {
+  simplePlist.writeFile(file, data, err => {
+    if (err) reject(err);
+    resolve();
+  });
+});
+
+// Travis.
+const travis = {
+  running: process.env.TRAVIS === 'true',
+
+  branch: process.env.TRAVIS_PULL_REQUEST_BRANCH || process.env.TRAVIS_BRANCH || execSync('git rev-parse --abbrev-ref HEAD') || 'unknown',
+
+  pullRequest: process.env.TRAVIS_PULL_REQUEST !== 'false' && parseInt(process.env.TRAVIS_PULL_REQUEST) || false,
+
+  currentTimerId: null,
+
+  timers: {},
+
+  timeStart() {
+    if (!this.running) return Promise.resolve();
+    let id = shortid.generate();
+    if (!this.timers[id]) this.timers[id] = {};
+    this.timers[id].start = nano(process.hrtime());
+    this.currentTimerId = id;
+    return echon(`travis_time:start:${id}\r\\033[0m`);
+  },
+
+  timeFinish() {
+    let id = this.currentTimerId;
+    this.currentTimerId = null;
+    if (!this.running || !this.timers[id]) return Promise.resolve();
+    this.timers[id].end = nano(process.hrtime());
+    let duration = this.timers[id].end - this.timers[id].start;
+    return echon(`\ntravis_time:end:${id}:start=${this.timers[id].start},finish=${this.timers[id].end},duration=${duration}\r\\033[0m`);
+  }
+};
+
+// Project.
+const appName = 'cocoadialog';
+const workspace = `${appName}.xcworkspace`;
+
+const baseDir = path.resolve(`${__dirname}/../`);
+const buildDir = path.join(baseDir, 'Build');
+const derivedDataDir = path.join(baseDir, 'DerivedData');
+const releaseDir = path.resolve(path.join(derivedDataDir, 'Build', 'Products', 'Release'));
+const releaseApp = path.join(releaseDir, 'cocoadialog.app');
+const infoPlist = path.join(releaseApp, 'Contents', 'Info.plist');
 
 const fold = {
   seenGroups: {},
@@ -94,19 +125,31 @@ const fold = {
   },
 
   end(group) {
-    return travis.running ? execa(`echo -e "travis_fold:end:${this.encode(group, false)}\r"`, {shell: '/bin/bash', stderr: 'inherit', stdout: 'inherit'}) : Promise.resolve();
+    return travis.running ? echo(`travis_fold:end:${this.encode(group, false)}\r`) : Promise.resolve();
   },
 
-  start(group, description, track = true) {
-    description = description && `\\033[33;1m${description}\\033[0m` || '';
-    return travis.running ? execa(`echo -e "travis_fold:start:${this.encode(group, track)}${description}"`, {shell: '/bin/bash', stderr: 'inherit', stdout: 'inherit'}) : Promise.resolve();
+  start(group, description = '', track = true) {
+    description = description && `\\033[33;1m${description}\\033[0m`;
+    if (!travis.running) {
+      return description ? echo(`${description}`) : Promise.resolve();
+    }
+    return echo(`travis_fold:start:${this.encode(group, track)}${description}`);
   },
 
-  wrap(group, command, description) {
+  wrap(group, description, content) {
     group = this.encode(group);
     return this.start(group, description, false)
-      .then(() => pipe(command))
+      .then(() => echo(content))
       .then(() => this.end(group));
+  },
+
+  wrapCommand(group, command) {
+    group = this.encode(group);
+    return travis.timeStart()
+      .then(() => this.start(group, command, false))
+      .then(() => pipe(command))
+      .then(() => this.end(group))
+      .then(() => travis.timeFinish());
   }
 };
 
@@ -122,8 +165,7 @@ let data = {
     latestTag: false,
     master: ''
   },
-  hashLength: 7,
-  head: travis.running ? travis.branch : 'master',
+  head: travis.running && travis.branch || execSync('git rev-parse --abbrev-ref HEAD') || 'unknown',
   lastTag: false,
   plist: {},
 };
@@ -135,11 +177,7 @@ const xcodebuild = (...types) => {
   types = Array.from(types);
   return types.reduce((chain, type) => {
     let [action, scheme] = type.split(':');
-    return chain.then(() => fold.wrap(
-      `xcodebuild`,
-      `xcodebuild -derivedDataPath ${derivedDataDir} -workspace ${workspace} -scheme ${scheme} ${action} | tee ${buildDir}/xcodebuild-${scheme}-${action}.log | xcpretty -f \`xcpretty-travis-formatter\``,
-      `xcodebuild ${action}: ${scheme}`
-    ));
+    return chain.then(() => fold.wrapCommand(`xcodebuild`, `xcodebuild -derivedDataPath ${derivedDataDir} -workspace ${workspace} -scheme ${scheme} ${action} | tee ${buildDir}/xcodebuild-${scheme}-${action}.log | xcpretty -f \`xcpretty-travis-formatter\``));
   }, Promise.resolve());
 };
 
@@ -161,13 +199,13 @@ mkdir(buildDir)
   .then(() => addData('lastTag', `git describe --tags --abbrev=0 2>/dev/null || echo`, value => value || false))
 
   // Determine hashes.
-  .then(() => addData('hash._current', `git rev-parse --short=${data.hashLength} HEAD`))
-  .then(() => addData('hash.master', `git show-ref --abbrev=${data.hashLength} -s master | head -1`))
-  .then(() => addData('hash.dev', `git show-ref --abbrev=${data.hashLength} -s dev | head -1`))
-  .then(() => data.lastTag && addData('hash.latestTag', `git show-ref --abbrev=${data.hashLength} -s ${data.lastTag} | head -1`))
+  .then(() => addData('hash._current', `git rev-parse HEAD`))
+  .then(() => addData('hash.master', `git show-ref -s master | head -1`))
+  .then(() => addData('hash.dev', `git show-ref -s dev | head -1`))
+  .then(() => data.lastTag && addData('hash.latestTag', `git show-ref -s ${data.lastTag} | head -1`))
 
   // Determine commits ahead.
-  .then(() => addData('commitsAhead.master', `git rev-list --left-right --count master...HEAD | cut -f2 2>/dev/null`), value => parseInt(value) || 0)
+  .then(() => addData('commitsAhead.master', `git rev-list --left-right --count master...HEAD | cut -f2 2>/dev/null`, value => parseInt(value) || 0))
   .then(() => addData('commitsAhead.dev', `git rev-list --left-right --count dev...HEAD | cut -f2 2>/dev/null`, value => parseInt(value) || 0))
   .then(() => data.lastTag && addData('commitsAhead.latestTag', `git rev-list --left-right --count ${data.lastTag}...master | cut -f2 2>/dev/null`, value => parseInt(value) || 0))
   .then(() => (data.commitsAhead.total = parseInt(travis.pullRequest ? data.commitsAhead.dev : data.commitsAhead.master)))
@@ -195,7 +233,7 @@ mkdir(buildDir)
 
     // If the current hash is the same as master and the last tag, then this is a release.
     if (!data.lastTag || !data.hash.lastTag || (data.hash._current !== data.hash.lastTag && data.hash.master !== data.hash.lastTag)) {
-      hash = data.hash._current;
+      hash = data.hash._current.substr(0, 7);
     }
 
     // Determine the proper number of commits ahead.
@@ -216,7 +254,15 @@ mkdir(buildDir)
     count = parseInt(count);
 
     // Add the count and hash to as the build identifier.
-    version.build = count ? `${count}-${hash}` : hash;
+    if (count && hash) {
+      version.build = `${count}-${hash}`;
+    }
+    else if (hash) {
+      version.build = hash;
+    }
+    else {
+      version.build = null;
+    }
 
     return version;
   })
@@ -229,9 +275,7 @@ mkdir(buildDir)
   })
   .then(() => {
     delete data.plist;
-    console.log(`Successfully updated ./${path.relative(baseDir, infoPlist)} to ${data.version}`);
-    return data;
+    return fold.wrap('info.plist', `Info.plist version: ${data.version}`, JSON.stringify(data, null, 2));
   })
-  .then(console.log)
   .catch(err => console.error(err) && process.exit(1))
 ;
