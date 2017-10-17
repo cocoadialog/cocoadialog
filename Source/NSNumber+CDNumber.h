@@ -10,7 +10,8 @@
 
 @interface NSNumber (CDNumber)
 
-#pragma mark - Storage
+#pragma mark - Properties
+@property (nonatomic, readonly) BOOL        isBoolean;
 @property (nonatomic, assign)   BOOL        isPercent;
 
 #pragma mark - Public chainable methods

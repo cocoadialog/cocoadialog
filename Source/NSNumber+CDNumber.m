@@ -10,7 +10,13 @@
 @implementation NSNumber (CDNumber)
 
 
-#pragma mark - Storage
+#pragma mark - Properties
+- (BOOL) isBoolean {
+    if (strcmp([self objCType], @encode(BOOL)) == 0) {
+        return YES;
+    }
+    return NO;
+}
 
 - (BOOL) isPercent {
     NSNumber* number = objc_getAssociatedObject(self, @selector(isPercent));

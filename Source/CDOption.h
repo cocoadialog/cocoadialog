@@ -77,6 +77,7 @@ typedef NS_ENUM(NSUInteger, CDOptionValueType) {
 #pragma mark - Public instance methods
 - (instancetype) init NS_UNAVAILABLE;
 - (instancetype) initWithType:(CDOptionValueType)type name:(NSString *)name NS_DESIGNATED_INITIALIZER;
+- (id) convertValue:(id)value;
 - (float) percentageOf:(float)value;
 - (void) setValue:(id)value atIndex:(NSUInteger)index;
 

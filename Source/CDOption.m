@@ -68,13 +68,13 @@
 
     // Boolean.
     if (self.valueType == CDBoolean) {
-        if ([value isKindOfClass:[NSString class]]) {
+        if (value && [value isKindOfClass:[NSString class]]) {
             return [NSNumber numberWithBool:((NSString*)value).boolValue];
         }
-        else if ([value isKindOfClass:[NSNumber class]]) {
+        else if (value && [value isKindOfClass:[NSNumber class]]) {
             return [NSNumber numberWithBool:((NSNumber*)value).boolValue];
         }
-        return [NSNumber numberWithBool:self.wasProvided];
+        return @NO;
     }
 
     // Number.
@@ -88,10 +88,11 @@
 
         return @0;
     }
-    // Number or string.
+
+    // String or number.
     else if (self.valueType == CDStringOrNumber) {
         if ([value isKindOfClass:[NSString class]]) {
-            return value;
+            return ((NSString*)value).numberValue ?: value;
         }
         else if ([value isKindOfClass:[NSNumber class]]) {
             return value;
@@ -99,8 +100,13 @@
         return @"%@".arguments(value, nil).numberValue ?: self.defaultValue;
     }
 
-    // String, passing through formatter just in case.
-    return @"%@".arguments(value, nil);
+    // String.
+    if ([value isKindOfClass:[NSString class]] || [value isKindOfClass:[NSNumber class]]) {
+        return @"%@".arguments(value, nil);
+    }
+
+    // All else fails, use the default value.
+    return self.defaultValue;
 }
 
 - (float) percentageOf:(float)value {
@@ -127,7 +133,7 @@
             missing--;
         }
     }
-    else if (max > 0 && max < currentMaxIndex) {
+    else if (max > 0 && max <= currentMaxIndex) {
         NSUInteger extra = currentMaxIndex - maxIndex;
         // Remove extra indicies.
         while (extra > 0) {
@@ -316,11 +322,8 @@
                     [array addObject:string.numberValue ?: @0];
                 }
             }
-            else if ([item isKindOfClass:[NSNumber class]]) {
-                [array addObject:item];
-            }
             else {
-                [array addObject:@0];
+                [array addObject:item];
             }
         }
         else {
@@ -333,38 +336,20 @@
 - (NSArray<NSString *> *) arrayOfStrings {
     NSMutableArray *array = @[].mutableCopy;
     for (id item in self.arrayValue) {
+        // Boolean.
         if (self.valueType == CDBoolean) {
             [array addObject:@"%@".arguments(item, nil).boolValue ? @"YES".localized : @"NO".localized];
+            continue;
         }
-        else if (self.valueType == CDNumber) {
-            if ([item isKindOfClass:[NSNumber class]]) {
-                if (item && ((NSNumber*)item).isPercent) {
-                    NSNumber *number = [NSNumber numberWithDouble:((NSNumber*)item).doubleValue * 100];
-                    [array addObject:@"%@%%".arguments(number, nil)];
-                }
-                else {
-                    [array addObject:@"%@".arguments(item, nil)];
-                }
-            }
-            else if ([item isKindOfClass:[NSString class]]) {
-                [array addObject:item];
-            }
-            else {
-                [array addObject:@"%@".arguments(item, nil) ?: @"0"];
-            }
+
+        // Number (percent).
+        if ((self.valueType == CDNumber || self.valueType == CDStringOrNumber) && [item isKindOfClass:[NSNumber class]] && ((NSNumber*)item).isPercent) {
+            NSNumber *number = [NSNumber numberWithDouble:((NSNumber*)item).doubleValue * 100];
+            [array addObject:@"%@%%".arguments(number, nil)];
+            continue;
         }
-        else if (self.valueType == CDStringOrNumber) {
-            if (item && [item isKindOfClass:[NSNumber class]] && ((NSNumber*)item).isPercent) {
-                NSNumber *number = [NSNumber numberWithDouble:((NSNumber*)item).doubleValue * 100];
-                [array addObject:@"%@%%".arguments(number, nil)];
-            }
-            else {
-                [array addObject:@"%@".arguments(item, nil) ?: self.defaultValue];
-            }
-        }
-        else {
-            [array addObject:@"%@".arguments(item, nil)];
-        }
+
+        [array addObject:@"%@".arguments(item, nil)];
     }
     return array;
 }
@@ -372,29 +357,20 @@
 - (NSArray*) arrayOfStringOrNumbers {
     NSMutableArray *array = @[].mutableCopy;
     for (id item in self.arrayValue) {
+        // Boolean.
         if (self.valueType == CDBoolean) {
             [array addObject:@"%@".arguments(item, nil).boolValue ? @"YES".localized : @"NO".localized];
+            continue;
         }
-        else if (self.valueType == CDNumber) {
-            [array addObject:@"%@".arguments(item, nil).numberValue ?: item];
+
+        // String Percent.
+        if ((self.valueType == CDStringOrNumber) && [item isKindOfClass:[NSNumber class]] && ((NSNumber*)item).isPercent) {
+            NSNumber *number = [NSNumber numberWithDouble:((NSNumber*)item).doubleValue * 100];
+            [array addObject:@"%@%%".arguments(number, nil)];
+            continue;
         }
-        else if (self.valueType == CDString) {
-            [array addObject:@"%@".arguments(item, nil)];
-        }
-        else if (self.valueType == CDStringOrNumber) {
-            if ([item isKindOfClass:[NSNumber class]]) {
-                [array addObject:item];
-            }
-            else if ([item isKindOfClass:[NSString class]]) {
-                [array addObject:item];
-            }
-            else {
-                [array addObject:@"%@".arguments(item, nil)];
-            }
-        }
-        else {
-            [array addObject:@"%@".arguments(item, nil)];
-        }
+
+        [array addObject:item];
     }
     return array;
 }
@@ -490,6 +466,9 @@
                 if ([items[i] isKindOfClass:[NSString class]]) {
                     [displayValue addObject:@"(%@) %@".arguments(index, ((NSString*)items[i]).doubleQuote, nil)];
                 }
+                else if ([items[i] isKindOfClass:[NSNumber class]] && ((NSNumber*)items[i]).isPercent) {
+                    [displayValue addObject:@"(%@) %@".arguments(index, @"%@%%".arguments([NSNumber numberWithFloat:((NSNumber*)items[i]).floatValue * 100], nil).doubleQuote, nil)];
+                }
                 else {
                     [displayValue addObject:@"(%@) %@".arguments(index, items[i], nil)];
                 }
@@ -497,6 +476,9 @@
             else {
                 if ([items[i] isKindOfClass:[NSString class]]) {
                     [displayValue addObject:((NSString*)items[i]).doubleQuote];
+                }
+                else if ([items[i] isKindOfClass:[NSNumber class]] && ((NSNumber*)items[i]).isPercent) {
+                    [displayValue addObject:@"%@%%".arguments([NSNumber numberWithFloat:((NSNumber*)items[i]).floatValue * 100], nil).doubleQuote];
                 }
                 else {
                     [displayValue addObject:@"%@".arguments(items[i], nil)];
