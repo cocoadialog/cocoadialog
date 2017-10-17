@@ -10,14 +10,22 @@
   },
   "author": "Mark Carver",
   "license": "GPL-2.0",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
   "scripts": {
     "preinstall": "pod install",
     "build": "./Scripts/build.js",
+    "commit": "./Scripts/commit.js",
     "test": "./Scripts/test.js",
     "travis": "./Scripts/travis.js",
     "update-version": "./Scripts/update-version.js"
   },
   "dependencies": {
+    "commitizen": "^2.9.6",
+    "cz-conventional-changelog": "^2.0.0",
     "dot-prop": "^4.2.0",
     "execa": "^0.8.0",
     "get-stream": "^3.0.0",
