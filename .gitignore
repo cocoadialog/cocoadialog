@@ -12,6 +12,9 @@
 project.xcworkspace/
 xcuserdata/
 
+# JetBrains IDEs
+.idea
+
 # CocoaPods
 /Pods
 Podfile.lock

@@ -1,5 +1,8 @@
 # <img src="https://raw.githubusercontent.com/cocoadialog/cocoadialog/master/Resources/Images.xcassets/cocoadialog.appiconset/cocoadialog-64.png" alt="cocoadialog" valign="middle" /> cocoadialog
-[![Build Status](https://travis-ci.org/cocoadialog/cocoadialog.svg?branch=master)](https://travis-ci.org/cocoadialog/cocoadialog) [![codecov](https://codecov.io/gh/cocoadialog/cocoadialog/branch/master/graph/badge.svg)](https://codecov.io/gh/cocoadialog/cocoadialog)
+
+[![Build Status](https://travis-ci.org/cocoadialog/cocoadialog.svg?branch=master)](https://travis-ci.org/cocoadialog/cocoadialog)
+[![codecov](https://codecov.io/gh/cocoadialog/cocoadialog/branch/master/graph/badge.svg)](https://codecov.io/gh/cocoadialog/cocoadialog)
+[![slack](https://slack.cocoadialog.com/badge.svg)](https://slack.cocoadialog.com)
 
 > Create macOS dialogs from the command line easily!
 

@@ -110,6 +110,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3E30424E25F42D9CE80C4AEF /* test.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = test.js; sourceTree = "<group>"; };
+		3E30437AC7469E138D7B413B /* app.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = app.js; sourceTree = "<group>"; };
+		3E304684D7D50B5C2A230EFD /* xcode.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = xcode.js; sourceTree = "<group>"; };
+		3E3047F56204EC2E07F1BF8A /* Promise.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Promise.js; sourceTree = "<group>"; };
+		3E3048338EBB84DBDB5CB5A5 /* io.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = io.js; sourceTree = "<group>"; };
+		3E3048CE72AB9867DA9BF248 /* travis.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = travis.js; sourceTree = "<group>"; };
+		3E304AEF65481C17A0351729 /* plist.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = plist.js; sourceTree = "<group>"; };
+		3E304BA512F43D11C8627A57 /* commit.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = commit.js; sourceTree = "<group>"; };
+		3E304BB2F1E443AE55C6C120 /* travis.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = travis.js; sourceTree = "<group>"; };
+		3E304CDA4338D5CAC6BED0B2 /* build.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = build.js; sourceTree = "<group>"; };
+		3E304D0060FB3255308ACF05 /* fs.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = fs.js; sourceTree = "<group>"; };
+		3E304EAF35BA2AB93C494E2B /* update-version.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "update-version.js"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* cocoadialog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cocoadialog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A71EC8C21F88B0E500DB31D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Locale.plist; sourceTree = "<group>"; };
 		A71EC8C41F88B1A600DB31D8 /* CDLocale.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDLocale.h; sourceTree = "<group>"; };
@@ -267,10 +279,38 @@
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				A77365B31EA87F3100FDC070 /* Frameworks */,
 				3F5B3C182ED05F8713EA5C49 /* Pods */,
+				3E30425D63056AEB1E867BA7 /* Scripts */,
 			);
 			name = cocoaDialog;
 			sourceTree = "<group>";
 			usesTabs = 0;
+		};
+		3E30425D63056AEB1E867BA7 /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				3E3049D5FFD4398D36A66696 /* lib */,
+				3E30424E25F42D9CE80C4AEF /* test.js */,
+				3E304CDA4338D5CAC6BED0B2 /* build.js */,
+				3E3048CE72AB9867DA9BF248 /* travis.js */,
+				3E304EAF35BA2AB93C494E2B /* update-version.js */,
+				3E304BA512F43D11C8627A57 /* commit.js */,
+			);
+			path = Scripts;
+			sourceTree = "<group>";
+		};
+		3E3049D5FFD4398D36A66696 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				3E304D0060FB3255308ACF05 /* fs.js */,
+				3E3048338EBB84DBDB5CB5A5 /* io.js */,
+				3E30437AC7469E138D7B413B /* app.js */,
+				3E304AEF65481C17A0351729 /* plist.js */,
+				3E304684D7D50B5C2A230EFD /* xcode.js */,
+				3E304BB2F1E443AE55C6C120 /* travis.js */,
+				3E3047F56204EC2E07F1BF8A /* Promise.js */,
+			);
+			path = lib;
+			sourceTree = "<group>";
 		};
 		3F5B3C182ED05F8713EA5C49 /* Pods */ = {
 			isa = PBXGroup;
@@ -511,7 +551,9 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = CD;
 				LastUpgradeCheck = 0900;
+				ORGANIZATIONNAME = cocoadialog;
 				TargetAttributes = {
 					8D1107260486CEB800E47090 = {
 						LastSwiftMigration = 0830;
@@ -829,6 +871,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = cocoadialog;
+				CLANG_ENABLE_MODULES = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cocoadialog.app;
 			};
@@ -868,7 +911,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = cocoadialog;
-				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_MODULES = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cocoadialog.app;
 			};
