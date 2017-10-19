@@ -245,7 +245,7 @@
 
 - (CDOption *(^)(NSArray *)) overrideValues {
     return ^CDOption *(NSArray *array){
-        self.values = array.mutableCopy;
+        [self setValues:array.mutableCopy];
         return self;
     };
 }
@@ -407,9 +407,6 @@
         else if (self.valueType == CDString || self.valueType == CDStringOrNumber) {
             value = @"";
         }
-        else {
-            value = [NSNull null];
-        }
     }
 
     return [self convertValue:value];
@@ -425,13 +422,7 @@
     if (self.valueType == CDBoolean) {
         NSArray<NSNumber*>* numbers = self.arrayOfNumbers;
         for (NSUInteger i = 0; i < numbers.count; i++) {
-            NSNumber* index = [NSNumber numberWithUnsignedInteger:i];
-            if (multiple) {
-                [displayValue addObject:@"(%@) %@".arguments(index, numbers[i].boolValue ? @"YES".localized : @"NO".localized, nil)];
-            }
-            else {
-                [displayValue addObject:@"%@".arguments(numbers[i].boolValue ? @"YES".localized : @"NO".localized, nil)];
-            }
+            [displayValue addObject:@"%@".arguments(numbers[i].boolValue ? @"YES".localized : @"NO".localized, nil)];
         }
     }
     else if (self.valueType == CDNumber) {
@@ -466,9 +457,6 @@
                 if ([items[i] isKindOfClass:[NSString class]]) {
                     [displayValue addObject:@"(%@) %@".arguments(index, ((NSString*)items[i]).doubleQuote, nil)];
                 }
-                else if ([items[i] isKindOfClass:[NSNumber class]] && ((NSNumber*)items[i]).isPercent) {
-                    [displayValue addObject:@"(%@) %@".arguments(index, @"%@%%".arguments([NSNumber numberWithFloat:((NSNumber*)items[i]).floatValue * 100], nil).doubleQuote, nil)];
-                }
                 else {
                     [displayValue addObject:@"(%@) %@".arguments(index, items[i], nil)];
                 }
@@ -476,9 +464,6 @@
             else {
                 if ([items[i] isKindOfClass:[NSString class]]) {
                     [displayValue addObject:((NSString*)items[i]).doubleQuote];
-                }
-                else if ([items[i] isKindOfClass:[NSNumber class]] && ((NSNumber*)items[i]).isPercent) {
-                    [displayValue addObject:@"%@%%".arguments([NSNumber numberWithFloat:((NSNumber*)items[i]).floatValue * 100], nil).doubleQuote];
                 }
                 else {
                     [displayValue addObject:@"%@".arguments(items[i], nil)];
@@ -491,12 +476,12 @@
 
 - (double) doubleValue {
     NSNumber *number = self.numberValue;
-    return number != nil ? number.doubleValue : 0;
+    return number ? number.doubleValue : 0;
 }
 
 - (float) floatValue {
     NSNumber *number = self.numberValue;
-    return number != nil ? number.floatValue : 0;
+    return number ? number.floatValue : 0;
 }
 
 - (BOOL) hasAutomaticDefaultValue {
@@ -509,28 +494,46 @@
 }
 
 - (id) jsonValue {
+    NSString* valueType = @"";
+    switch (self.valueType) {
+        case CDBoolean:
+            valueType = @"CDBoolean";
+            break;
+
+        case CDNumber:
+            valueType = @"CDNumber";
+            break;
+
+        case CDString:
+            valueType = @"CDString";
+            break;
+
+        case CDStringOrNumber:
+            valueType = @"CDStringOrNumber";
+            break;
+    }
     NSMutableArray* deprecates = @[].mutableCopy;
     for (CDOption* option in self.deprecatedOptions) {
         [deprecates addObject: option.name];
     }
     return
     @{
-      @"allowedValues": self.allowedValues.count > 0 ? self.allowedValues : [NSNull null],
+      @"allowedValues": [NSNumber numberWithUnsignedInteger:self.allowedValues.count],
       @"automaticDefaultValue": [NSNumber numberWithBool:self.hasAutomaticDefaultValue],
-      @"description": self.description ?: [NSNull null],
-      @"defaultValue": self.defaultValue ?: [NSNull null],
-      @"deprecates": deprecates ?: [NSNull null],
+      @"description": self.description,
+      @"defaultValue": self.defaultValue,
+      @"deprecates": deprecates,
       @"hidden": [NSNumber numberWithBool:self.hidden],
       @"maximumValues": self.maximumValues,
       @"minimumValues": self.minimumValues,
-      @"name": self.name ?: [NSNull null],
-      @"notes": self.notes ?: [NSNull null],
+      @"name": self.name,
+      @"notes": self.notes,
       @"required": [NSNumber numberWithBool:self.required],
       @"parent": self.parent ?: [NSNull null],
-      @"type": [self className] ?: [NSNull null],
-      @"scope": self.scope ?: [NSNull null],
-      @"typeLabel": self.typeLabel.removeColor ?: [NSNull null],
-      @"warnings": self.warnings ?: @[],
+      @"scope": self.scope,
+      @"typeLabel": self.typeLabel.removeColor,
+      @"valueType": valueType,
+      @"warnings": self.warnings,
       @"wasProvided": [NSNumber numberWithBool:self.wasProvided],
       };
 }
@@ -541,16 +544,16 @@
 
 - (int) intValue {
     NSNumber *number = self.numberValue;
-    return number != nil ? number.intValue : (int) 0;
+    return number ? number.intValue : 0;
 }
 
 - (NSInteger) integerValue {
     NSNumber *number = self.numberValue;
-    return number != nil ? number.integerValue : (NSInteger) 0;
+    return number ? number.integerValue : 0;
 }
 
 - (BOOL) isPercent {
-    NSNumber* number = self.numberValue;
+    NSNumber *number = self.numberValue;
     return number ? number.isPercent : NO;
 }
 
@@ -559,13 +562,21 @@
 }
 
 - (NSNumber *) numberValue {
-    return self.maximumValues.integerValue == 1 ? self.arrayOfNumbers.lastObject : [NSNumber numberWithUnsignedInteger:self.arrayOfNumbers.count];
+    if (self.valueType == CDStringOrNumber) {
+        id value = self.maximumValues.integerValue == 1 ? self.arrayOfStringOrNumbers.lastObject : [NSNumber numberWithUnsignedInteger:self.arrayOfStringOrNumbers.count];
+        if ([value isKindOfClass:[NSString class]]) {
+            return ((NSString*)value).numberValue ?: nil;
+        }
+        return [value isKindOfClass:[NSNumber class]] ? value : nil;
+    }
+    else {
+        return self.maximumValues.integerValue == 1 ? self.arrayOfNumbers.lastObject : [NSNumber numberWithUnsignedInteger:self.arrayOfNumbers.count];
+    }
 }
 
 - (NSNumber *) percentValue {
-    NSNumber *number = self.numberValue;
-    if (number && number.isPercent) {
-        return [NSNumber numberWithDouble:number.doubleValue * 100];
+    if (self.isPercent) {
+        return [NSNumber numberWithDouble:self.doubleValue * 100];
     }
     return nil;
 }
@@ -575,19 +586,18 @@
 }
 
 - (CDColor *) typeColor {
-    if (self.valueType == CDString) {
-        return [CDColor fg:CDColorFgGreen];
-    }
     if (self.valueType == CDBoolean) {
         return [CDColor fg:CDColorFgMagenta];
     }
     if (self.valueType == CDNumber) {
         return [CDColor fg:CDColorFgCyan];
     }
-    if (self.valueType == CDStringOrNumber) {
-        return [CDColor fg:CDColorFgYellow];
+    if (self.valueType == CDString) {
+        return [CDColor fg:CDColorFgGreen];
     }
-    return [CDColor fg:CDColorFgNone];
+
+    // String or number (or unknown value type).
+    return [CDColor fg:CDColorFgYellow];
 }
 
 - (NSString *) typeLabel {
@@ -635,13 +645,13 @@
 }
 
 - (unsigned int) unsignedIntValue {
-    NSNumber *number = [self numberValue];
-    return number != nil ? number.unsignedIntValue : (unsigned int) 0;
+    NSNumber *number = self.numberValue;
+    return number ? number.unsignedIntValue : 0;
 }
 
 - (NSUInteger) unsignedIntegerValue {
-    NSNumber *number = [self numberValue];
-    return number != nil ? number.unsignedIntegerValue : (NSUInteger) 0;
+    NSNumber *number = self.numberValue;
+    return number ? number.unsignedIntegerValue : 0;
 }
 
 @end
