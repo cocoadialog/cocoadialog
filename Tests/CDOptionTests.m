@@ -288,18 +288,30 @@
     XCTAssertTrue(_stringOrNumber.name == deprecated.deprecatedTo);
 }
 
+- (void) testDescription {
+    XCTAssertEqualObjects(@"USAGE_OPTION_CONTROL_BOOLEAN".localized, _boolean.reset().description);
+    XCTAssertEqualObjects(@"USAGE_OPTION_CONTROL_NUMBER".localized, _number.reset().description);
+    XCTAssertEqualObjects(@"USAGE_OPTION_CONTROL_STRING".localized, _string.reset().description);
+    XCTAssertEqualObjects(@"USAGE_OPTION_CONTROL_STRINGORNUMBER".localized, _stringOrNumber.reset().description);
+    XCTAssertEqualObjects(@"USAGE_OPTION_UNICORN_BOOLEAN".localized, _boolean.reset().setScope(@"unicorn").description);
+    XCTAssertEqualObjects(@"USAGE_OPTION_UNICORN_NUMBER".localized, _number.reset().setScope(@"unicorn").description);
+    XCTAssertEqualObjects(@"USAGE_OPTION_UNICORN_STRING".localized, _string.reset().setScope(@"unicorn").description);
+    XCTAssertEqualObjects(@"USAGE_OPTION_UNICORN_STRINGORNUMBER".localized, _stringOrNumber.reset().setScope(@"unicorn").description);
+}
+
 - (void) testDisplayValue {
     XCTAssertEqualObjects(@"YES".localized, _boolean.reset().rawValue(@"YES").displayValue);
     XCTAssertEqualObjects(@"42", _number.reset().rawValue(@"42").displayValue);
     XCTAssertEqualObjects(@"\"Okay\"", _string.reset().rawValue(@"Okay").displayValue);
     XCTAssertEqualObjects(@"\"Okay\"", _stringOrNumber.reset().rawValue(@"Okay").displayValue);
     XCTAssertEqualObjects(@"42", _stringOrNumber.reset().overrideValues(@[@42]).displayValue);
+    XCTAssertEqualObjects(@"\"42%\"", _stringOrNumber.reset().overrideValues(@[@"42%"]).displayValue);
 
-    NSArray *array = @[@"Okay", @"42%", @2, @YES];
+    NSArray *array = @[@"Okay", @"25", @"42%", @2, @YES];
     XCTAssertEqualObjects(@"NO".localized, _boolean.reset().max(array.count).overrideValues(array).displayValue);
-    XCTAssertEqualObjects(@"[(0) 0, (1) 0.42, (2) 2, (3) 1]", _number.reset().max(array.count).overrideValues(array).displayValue);
-    XCTAssertEqualObjects(@"[(0) \"Okay\", (1) \"42%\", (2) \"2\", (3) \"1\"]", _string.reset().max(array.count).overrideValues(array).displayValue);
-    XCTAssertEqualObjects(@"[(0) \"Okay\", (1) \"42%\", (2) 2, (3) 1]", _stringOrNumber.reset().max(array.count).overrideValues(array).displayValue);
+    XCTAssertEqualObjects(@"[(0) 0, (1) 25, (2) 0.42, (3) 2, (4) 1]", _number.reset().max(array.count).overrideValues(array).displayValue);
+    XCTAssertEqualObjects(@"[(0) \"Okay\", (1) \"25\", (2) \"42%\", (3) \"2\", (4) \"1\"]", _string.reset().max(array.count).overrideValues(array).displayValue);
+    XCTAssertEqualObjects(@"[(0) \"Okay\", (1) 25, (2) \"42%\", (3) 2, (4) 1]", _stringOrNumber.reset().max(array.count).overrideValues(array).displayValue);
 }
 
 - (void) testHide {
@@ -313,6 +325,32 @@
     XCTAssertThrowsSpecificNamed(CDOption.create(-1, @"a"), NSException, NSInvalidArgumentException);
     XCTAssertThrowsSpecificNamed(CDOption.create(CDString, nil), NSException, NSInvalidArgumentException);
     XCTAssertThrowsSpecificNamed(CDOption.create(CDString, @""), NSException, NSInvalidArgumentException);
+}
+
+- (void) testJson {
+    NSArray* keys = @[@"allowedValues", @"automaticDefaultValue", @"description", @"defaultValue", @"deprecates", @"hidden", @"maximumValues", @"minimumValues", @"name", @"notes", @"required", @"parent", @"scope", @"typeLabel", @"valueType", @"warnings", @"wasProvided"];
+
+    CDOption* b = _boolean.reset().deprecates(@[_boolean]);
+    CDOption* n = _number.reset().deprecates(@[_number]);
+    CDOption* s = _string.reset().deprecates(@[_string]);
+    CDOption* sn = _stringOrNumber.reset().deprecates(@[_stringOrNumber]);
+
+    NSArray *bJson = ((NSDictionary*)b.jsonValue).allKeys;
+    NSArray *nJson = ((NSDictionary*)n.jsonValue).allKeys;
+    NSArray *sJson = ((NSDictionary*)s.jsonValue).allKeys;
+    NSArray *snJson = ((NSDictionary*)sn.jsonValue).allKeys;
+
+    for (NSString* key in keys) {
+        XCTAssertTrue([bJson containsObject:key]);
+        XCTAssertTrue([nJson containsObject:key]);
+        XCTAssertTrue([sJson containsObject:key]);
+        XCTAssertTrue([snJson containsObject:key]);
+    }
+
+    // @note this really isn't important since this is a protocol implementation and
+    // should be covered elsewhere. However, to ensure 100% coverage of this class
+    // it needs to be invoked at least once.
+    XCTAssertEqualObjects(b.toJSONString, b.toJSONString);
 }
 
 - (void) testLabel {
@@ -368,28 +406,32 @@
 
 - (void) testNumberValue {
     // Boolean.
+    XCTAssertEqualObjects(@0, _boolean.reset().numberValue);
     XCTAssertEqualObjects(@0, _boolean.reset().rawValue(@"-1").numberValue);
     XCTAssertEqualObjects(@0, _boolean.reset().rawValue(@"0").numberValue);
     XCTAssertEqualObjects(@1, _boolean.reset().rawValue(@"1").numberValue);
     XCTAssertEqualObjects(@0, _boolean.reset().rawValue(@"a").numberValue);
 
     // Number.
+    XCTAssertEqualObjects(@0, _number.reset().numberValue);
     XCTAssertEqualObjects(@-1, _number.reset().rawValue(@"-1").numberValue);
     XCTAssertEqualObjects(@0, _number.reset().rawValue(@"0").numberValue);
     XCTAssertEqualObjects(@1, _number.reset().rawValue(@"1").numberValue);
     XCTAssertEqualObjects(@0, _number.reset().rawValue(@"a").numberValue);
 
     // String.
+    XCTAssertEqualObjects(@0, _string.reset().numberValue);
     XCTAssertEqualObjects(@-1, _string.reset().rawValue(@"-1").numberValue);
     XCTAssertEqualObjects(@0, _string.reset().rawValue(@"0").numberValue);
     XCTAssertEqualObjects(@1, _string.reset().rawValue(@"1").numberValue);
     XCTAssertEqualObjects(@0, _string.reset().rawValue(@"a").numberValue);
 
     // String or number.
+    XCTAssertEqualObjects(nil, _stringOrNumber.reset().numberValue);
     XCTAssertEqualObjects(@-1, _stringOrNumber.reset().rawValue(@"-1").numberValue);
     XCTAssertEqualObjects(@0, _stringOrNumber.reset().rawValue(@"0").numberValue);
     XCTAssertEqualObjects(@1, _stringOrNumber.reset().rawValue(@"1").numberValue);
-    XCTAssertEqualObjects(@0, _stringOrNumber.reset().rawValue(@"a").numberValue);
+    XCTAssertEqualObjects(nil, _stringOrNumber.reset().rawValue(@"a").numberValue);
 
     // Multiple values.
     NSArray* array = @[@"Okay", @"42%", @2, @YES];
@@ -398,13 +440,13 @@
     XCTAssertEqualObjects(@4, _number.reset().max(array.count).overrideValues(array).numberValue);
     XCTAssertEqualObjects(@4, _string.reset().max(array.count).overrideValues(array).numberValue);
     XCTAssertEqualObjects(@4, _stringOrNumber.reset().max(array.count).overrideValues(array).numberValue);
-
 }
 
 - (void) testNumericalProperties {
     NSArray *keys = @[@"doubleValue", @"floatValue", @"intValue", @"integerValue", @"unsignedIntValue", @"unsignedIntegerValue"];
     for (NSString* key in keys) {
         // Boolean.
+        XCTAssertEqual([@0 valueForKey:key], [_boolean.reset() valueForKey:key]);
         XCTAssertEqual([@0 valueForKey:key], [_boolean.reset().rawValue(@"-1") valueForKey:key]);
         XCTAssertEqual([@0 valueForKey:key], [_boolean.reset().rawValue(@"0") valueForKey:key]);
         XCTAssertEqual([@1 valueForKey:key], [_boolean.reset().rawValue(@"1") valueForKey:key]);
@@ -414,6 +456,7 @@
         if (![key isEqualToString:@"unsignedIntValue"] && ![key isEqualToString:@"unsignedIntegerValue"]) {
             XCTAssertEqual([_number.reset().rawValue(@"-1") valueForKey:key], [@-1 valueForKey:key]);
         }
+        XCTAssertEqual([@0 valueForKey:key], [_number.reset() valueForKey:key]);
         XCTAssertEqual([@0 valueForKey:key], [_number.reset().rawValue(@"0") valueForKey:key]);
         XCTAssertEqual([@1 valueForKey:key], [_number.reset().rawValue(@"1") valueForKey:key]);
         XCTAssertEqual([@0 valueForKey:key], [_number.reset().rawValue(@"a") valueForKey:key]);
@@ -422,6 +465,7 @@
         if (![key isEqualToString:@"unsignedIntValue"] && ![key isEqualToString:@"unsignedIntegerValue"]) {
             XCTAssertEqual([@-1 valueForKey:key], [_string.reset().rawValue(@"-1") valueForKey:key]);
         }
+        XCTAssertEqual([@0 valueForKey:key], [_string.reset() valueForKey:key]);
         XCTAssertEqual([@0 valueForKey:key], [_string.reset().rawValue(@"0") valueForKey:key]);
         XCTAssertEqual([@1 valueForKey:key], [_string.reset().rawValue(@"1") valueForKey:key]);
         XCTAssertEqual([@0 valueForKey:key], [_string.reset().rawValue(@"a") valueForKey:key]);
@@ -430,6 +474,7 @@
         if (![key isEqualToString:@"unsignedIntValue"] && ![key isEqualToString:@"unsignedIntegerValue"]) {
             XCTAssertEqual([@-1 valueForKey:key], [_stringOrNumber.reset().rawValue(@"-1") valueForKey:key]);
         }
+        XCTAssertEqual([@0 valueForKey:key], [_stringOrNumber.reset() valueForKey:key]);
         XCTAssertEqual([@0 valueForKey:key], [_stringOrNumber.reset().rawValue(@"0") valueForKey:key]);
         XCTAssertEqual([@1 valueForKey:key], [_stringOrNumber.reset().rawValue(@"1") valueForKey:key]);
         XCTAssertEqual([@0 valueForKey:key], [_stringOrNumber.reset().rawValue(@"a") valueForKey:key]);
@@ -513,10 +558,15 @@
     NSNumber *b = @YES;
     NSString *s = @"value";
     NSNumber *n = @2;
+    CDOptionAutomaticValueBlock block = (CDOptionAutomaticValueBlock) ^(){return @42;};
     XCTAssertTrue([b isEqualTo:_boolean.reset().setDefaultValue(b).defaultValue]);
     XCTAssertTrue([n isEqualTo:_number.reset().setDefaultValue(n).defaultValue]);
     XCTAssertTrue([s isEqualTo:_string.reset().setDefaultValue(s).defaultValue]);
     XCTAssertTrue([s isEqualTo:_stringOrNumber.reset().setDefaultValue(s).defaultValue]);
+    XCTAssertEqualObjects(@YES, _boolean.reset().setDefaultValue(block).defaultValue);
+    XCTAssertEqualObjects(@42, _number.reset().setDefaultValue(block).defaultValue);
+    XCTAssertEqualObjects(@"42", _string.reset().setDefaultValue(block).defaultValue);
+    XCTAssertEqualObjects(@42, _stringOrNumber.reset().setDefaultValue(block).defaultValue);
 }
 
 - (void) testSetScope {
@@ -550,12 +600,20 @@
     XCTAssertEqualObjects(@2, _stringOrNumber.reset().toValueIndex(2).deprecatedValueIndex);
 }
 
+- (void) testTypeColor {
+    XCTAssertTrue(_boolean.reset().typeColor.fg == CDColorFgMagenta);
+    XCTAssertTrue(_number.reset().typeColor.fg == CDColorFgCyan);
+    XCTAssertTrue(_string.reset().typeColor.fg == CDColorFgGreen);
+    XCTAssertTrue(_stringOrNumber.reset().typeColor.fg == CDColorFgYellow);
+}
+
 - (void) testTypeLabel {
+    CDOptionAutomaticValueBlock block = (CDOptionAutomaticValueBlock) ^(){return @NO;};
     NSString* booleanLabel = @"<%@>".arguments(@"USAGE_OPTION_TYPE_BOOLEAN".localized, nil);
     NSString* numberLabel = @"<%@>".arguments(@"USAGE_OPTION_TYPE_NUMBER".localized, nil);
     NSString* stringLabel = @"<%@>".arguments(@"USAGE_OPTION_TYPE_STRING".localized, nil);
     NSString* stringOrNumberLabel = @"<%@|%@>".arguments(@"USAGE_OPTION_TYPE_NUMBER".localized, @"USAGE_OPTION_TYPE_STRING".localized, nil);
-    XCTAssertEqualObjects(booleanLabel, _boolean.reset().typeLabel);
+    XCTAssertEqualObjects(booleanLabel, _boolean.reset().setDefaultValue(block).typeLabel);
     XCTAssertEqualObjects(numberLabel, _number.reset().typeLabel);
     XCTAssertEqualObjects(stringLabel, _string.reset().typeLabel);
     XCTAssertEqualObjects(stringOrNumberLabel, _stringOrNumber.reset().typeLabel);
