@@ -75,6 +75,6 @@ module.exports = app.initData()
   })
   .then(() => {
     delete app.data.plist;
-    return travis.wrap('info.plist', `Info.plist version: ${app.data.version}`, JSON.stringify(app.data, null, 2));
+    return travis.wrap('version', `Version: ${app.data.version}`, JSON.stringify(app.data, null, 2));
   })
 ;

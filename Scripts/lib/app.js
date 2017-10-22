@@ -69,9 +69,7 @@ class App {
       .then(plist => (this.data.plist = plist))
 
       // Make sure we retrieve the whole repo's history (travis does a shallow clone of only 50 for the current branch).
-      .then(() => travis.wrapCommand('git.fetch', 'git fetch --unshallow 2>/dev/null || true'))
-      .then(() => travis.wrapCommand('git.config', 'git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*'))
-      .then(() => travis.wrapCommand('git.fetch', 'git fetch --all --tags --verbose'))
+      .then(() => travis.wrapCommand('git.fetch', '(git fetch --unshallow 2>/dev/null || true) && git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/* && git fetch --all --tags --verbose', 'Fetch entire repository'))
 
       // Determine current HEAD if Travis is not running.
       .then(() => travis.running || this.addDataFromCommand('head', `git rev-parse --abbrev-ref HEAD`, value => value.replace(/^(tags|heads)\//, '')))
