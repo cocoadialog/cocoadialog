@@ -18,62 +18,80 @@ const io = require('./io');
 const plist = require('./plist');
 const travis = require('./travis');
 
-exports.name = 'cocoadialog';
-exports.workspace = `${this.name}.xcworkspace`;
+class App {
 
-exports.baseDir = path.resolve(`${__dirname}/../../`);
-exports.buildDir = path.join(this.baseDir, 'Build');
-exports.derivedDataDir = path.join(this.baseDir, 'DerivedData');
-exports.releaseDir = path.resolve(path.join(this.derivedDataDir, 'Build', 'Products', 'Release'));
-exports.releaseApp = path.join(this.releaseDir, 'cocoadialog.app');
-exports.infoPlist = path.join(this.releaseApp, 'Contents', 'Info.plist');
+  constructor() {
+    // Static names.
+    this.name = 'cocoadialog';
+    this.workspace = `${this.name}.xcworkspace`;
+    this.project = `${this.name}.xcodeproj`;
+    this.projectConfig = path.join(this.project, 'project.pbxproj');
 
-exports.data = {
-  commitsAhead: {
-    dev: 0,
-    latestTag: 0,
-    master: 0
-  },
-  hash: {
-    _current: '',
-    dev: '',
-    latestTag: false,
-    master: ''
-  },
-  head: travis.running && travis.branch || io.execSync('git rev-parse --abbrev-ref HEAD') || 'unknown',
-  lastTag: false,
-  plist: {},
-};
+    // Directories.
+    this.baseDir = path.resolve(`${__dirname}/../../`);
+    this.buildDir = path.join(this.baseDir, 'Build');
+    this.derivedDataDir = path.join(this.baseDir, 'DerivedData');
+    this.projectConfigPath = path.join(this.baseDir, this.projectConfig);
 
-// Helper function for easily adding values from the CLI to the data object.
-exports.addDataFromCommand = (name, command, convert = v => v) => io.spawn(command).then(value => dot.set(this.data, name, convert(value)));
+    // Release directories.
+    this.releaseDir = path.resolve(path.join(this.derivedDataDir, 'Build', 'Products', 'Release'));
+    this.releaseApp = path.join(this.releaseDir, 'cocoadialog.app');
+    this.infoPlist = path.join(this.releaseApp, 'Contents', 'Info.plist');
 
-exports.initData = () => Promise.resolve()
-  // Retrieve built Info.plist.
-  .then(() => fs.exists(this.infoPlist))
-  .then(() => plist.read(this.infoPlist))
-  .then(plist => (this.data.plist = plist))
+    this.data = {
+      commitsAhead: {
+        dev: 0,
+        latestTag: 0,
+        master: 0
+      },
+      hash: {
+        _current: '',
+        dev: '',
+        latestTag: false,
+        master: ''
+      },
+      head: travis.running && travis.branch || io.execSync('git rev-parse --abbrev-ref HEAD') || 'unknown',
+      lastTag: false,
+      plist: {},
+    };
+  }
 
-  // Make sure we retrieve the whole repo's history (travis does a shallow clone of only 50 for the current branch).
-  .then(() => travis.wrapCommand('git.fetch', 'git fetch --unshallow 2>/dev/null || true'))
-  .then(() => travis.wrapCommand('git.config', 'git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*'))
-  .then(() => travis.wrapCommand('git.fetch', 'git fetch --all --tags --verbose'))
+  // Helper function for easily adding values from the CLI to the data object.
+  addDataFromCommand(name, command, convert = v => v) {
+    return io.spawn(command).then(value => dot.set(this.data, name, convert(value)));
+  }
 
-  // Determine current HEAD if Travis is not running.
-  .then(() => travis.running || this.addDataFromCommand('head', `git rev-parse --abbrev-ref HEAD`, value => value.replace(/^(tags|heads)\//, '')))
+  initData() {
+    return Promise.resolve()
+    // Retrieve built Info.plist.
+      .then(() => fs.exists(this.infoPlist))
+      .then(() => plist.read(this.infoPlist))
+      .then(plist => (this.data.plist = plist))
 
-  // Determine last tag.
-  .then(() => this.addDataFromCommand('lastTag', `git describe --tags --abbrev=0 2>/dev/null || echo`, value => value || false))
+      // Make sure we retrieve the whole repo's history (travis does a shallow clone of only 50 for the current branch).
+      .then(() => travis.wrapCommand('git.fetch', 'git fetch --unshallow 2>/dev/null || true'))
+      .then(() => travis.wrapCommand('git.config', 'git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*'))
+      .then(() => travis.wrapCommand('git.fetch', 'git fetch --all --tags --verbose'))
 
-  // Determine hashes.
-  .then(() => this.addDataFromCommand('hash._current', `git rev-parse HEAD`))
-  .then(() => this.addDataFromCommand('hash.master', `git show-ref -s remotes/origin/master | head -1`))
-  .then(() => this.addDataFromCommand('hash.dev', `git show-ref -s remotes/origin/dev | head -1`))
-  .then(() => this.data.lastTag && this.addDataFromCommand('hash.latestTag', `git show-ref -s ${this.data.lastTag} | head -1`))
+      // Determine current HEAD if Travis is not running.
+      .then(() => travis.running || this.addDataFromCommand('head', `git rev-parse --abbrev-ref HEAD`, value => value.replace(/^(tags|heads)\//, '')))
 
-  // Determine commits ahead.
-  .then(() => this.addDataFromCommand('commitsAhead.master', `git rev-list --left-right --count remotes/origin/master...HEAD | cut -f2 2>/dev/null`, value => parseInt(value) || 0))
-  .then(() => this.addDataFromCommand('commitsAhead.dev', `git rev-list --left-right --count remotes/origin/dev...HEAD | cut -f2 2>/dev/null`, value => parseInt(value) || 0))
-  .then(() => this.data.lastTag && this.addDataFromCommand('commitsAhead.latestTag', `git rev-list --left-right --count ${this.data.lastTag}...remotes/origin/master | cut -f2 2>/dev/null`, value => parseInt(value) || 0))
-  .then(() => (this.data.commitsAhead.total = parseInt(travis.pullRequest ? this.data.commitsAhead.dev : this.data.commitsAhead.master)))
-;
+      // Determine last tag.
+      .then(() => this.addDataFromCommand('lastTag', `git describe --tags --abbrev=0 2>/dev/null || echo`, value => value || false))
+
+      // Determine hashes.
+      .then(() => this.addDataFromCommand('hash._current', `git rev-parse HEAD`))
+      .then(() => this.addDataFromCommand('hash.master', `git show-ref -s remotes/origin/master | head -1`))
+      .then(() => this.addDataFromCommand('hash.dev', `git show-ref -s remotes/origin/dev | head -1`))
+      .then(() => this.data.lastTag && this.addDataFromCommand('hash.latestTag', `git show-ref -s ${this.data.lastTag} | head -1`))
+
+      // Determine commits ahead.
+      .then(() => this.addDataFromCommand('commitsAhead.master', `git rev-list --left-right --count remotes/origin/master...HEAD | cut -f2 2>/dev/null`, value => parseInt(value) || 0))
+      .then(() => this.addDataFromCommand('commitsAhead.dev', `git rev-list --left-right --count remotes/origin/dev...HEAD | cut -f2 2>/dev/null`, value => parseInt(value) || 0))
+      .then(() => this.data.lastTag && this.addDataFromCommand('commitsAhead.latestTag', `git rev-list --left-right --count ${this.data.lastTag}...remotes/origin/master | cut -f2 2>/dev/null`, value => parseInt(value) || 0))
+      .then(() => (this.data.commitsAhead.total = parseInt(travis.pullRequest ? this.data.commitsAhead.dev : this.data.commitsAhead.master)))
+      ;
+  }
+}
+
+module.exports = new App();

@@ -16,9 +16,10 @@
     }
   },
   "scripts": {
-    "preinstall": "pod install",
     "build": "./Scripts/build.js",
     "commit": "./Scripts/commit.js",
+    "preinstall": "pod install",
+    "postinstall": "./Scripts/post-install.js",
     "test": "./Scripts/test.js",
     "travis": "./Scripts/travis.js",
     "update-version": "./Scripts/update-version.js"

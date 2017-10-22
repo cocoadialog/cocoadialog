@@ -67,11 +67,7 @@ exports.end = group => this.running ? io.echo(`travis_fold:end:${this.encode(gro
  * @return {Promise.<T>}
  */
 exports.start = (group, description = '', track = true) => {
-  description = description && `\\033[33;1m${description}\\033[0m`;
-  if (!this.running) {
-    return description ? io.echo(`${description}`) : Promise.resolve();
-  }
-  return io.echo(`travis_fold:start:${this.encode(group, track)}${description}`);
+  return this.running ? io.echo(`travis_fold:start:${this.encode(group, track)}\\033[33;1m${description}\\033[0m\n`) : Promise.resolve();
 };
 
 /**
@@ -90,12 +86,13 @@ exports.wrap = (group, description, content) => {
 /**
  * @param {string} group
  * @param {string} command
+ * @param {string} [description]
  * @return {Promise.<T>}
  */
-exports.wrapCommand = (group, command) => {
+exports.wrapCommand = (group, command, description) => {
   group = this.encode(group);
-  return this.start(group, command, false)
-    .then(() => io.pipe(command))
+  return this.start(group, description || command, false)
+    .then(() => io.pipe(command, description !== void 0))
     .then(() => this.end(group));
 };
 

@@ -112,6 +112,7 @@
 /* Begin PBXFileReference section */
 		3E30424E25F42D9CE80C4AEF /* test.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = test.js; sourceTree = "<group>"; };
 		3E30437AC7469E138D7B413B /* app.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = app.js; sourceTree = "<group>"; };
+		3E30449B76E398F38BDEC136 /* xcprettyTravisFormatter.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = xcprettyTravisFormatter.rb; sourceTree = "<group>"; };
 		3E304684D7D50B5C2A230EFD /* xcode.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = xcode.js; sourceTree = "<group>"; };
 		3E3047F56204EC2E07F1BF8A /* Promise.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Promise.js; sourceTree = "<group>"; };
 		3E3048338EBB84DBDB5CB5A5 /* io.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = io.js; sourceTree = "<group>"; };
@@ -119,9 +120,11 @@
 		3E304AEF65481C17A0351729 /* plist.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = plist.js; sourceTree = "<group>"; };
 		3E304BA512F43D11C8627A57 /* commit.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = commit.js; sourceTree = "<group>"; };
 		3E304BB2F1E443AE55C6C120 /* travis.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = travis.js; sourceTree = "<group>"; };
+		3E304C7CE337A380AC5A064D /* post-install.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "post-install.js"; sourceTree = "<group>"; };
 		3E304CDA4338D5CAC6BED0B2 /* build.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = build.js; sourceTree = "<group>"; };
 		3E304D0060FB3255308ACF05 /* fs.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = fs.js; sourceTree = "<group>"; };
 		3E304EAF35BA2AB93C494E2B /* update-version.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "update-version.js"; sourceTree = "<group>"; };
+		3E304FB8D58B66BC9C8E6A8D /* pods.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = pods.js; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* cocoadialog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cocoadialog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A71EC8C21F88B0E500DB31D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Locale.plist; sourceTree = "<group>"; };
 		A71EC8C41F88B1A600DB31D8 /* CDLocale.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDLocale.h; sourceTree = "<group>"; };
@@ -129,7 +132,6 @@
 		A73983071F7CBAD400867E08 /* CDSliderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CDSliderView.xib; sourceTree = "<group>"; };
 		A739834C1F7CBB3600867E08 /* CDDialog.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CDDialog.xib; sourceTree = "<group>"; };
 		A739834E1F7CBD7600867E08 /* CDProgressbarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CDProgressbarView.xib; sourceTree = "<group>"; };
-		A73F15BB1F87E97900169420 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; path = Podfile; sourceTree = "<group>"; };
 		A73F15BD1F87EA1200169420 /* prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = prefix.pch; sourceTree = "<group>"; };
 		A74373D91F92D9AA002A4142 /* package.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = package.json; sourceTree = "<group>"; };
 		A74A1C2B1F86480B006289A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text; name = Base; path = Base.lproj/About.mustache; sourceTree = "<group>"; };
@@ -269,7 +271,6 @@
 				A78A8CDF14377610007AE363 /* LICENSE */,
 				A7F3E7A81F8E419F0017D71A /* README.md */,
 				A74373D91F92D9AA002A4142 /* package.json */,
-				A73F15BB1F87E97900169420 /* Podfile */,
 				A73F15BD1F87EA1200169420 /* prefix.pch */,
 				A78A8C9414375703007AE363 /* Configurations */,
 				A7C95CB41F7CB5CB009000CE /* Resources */,
@@ -294,6 +295,7 @@
 				3E3048CE72AB9867DA9BF248 /* travis.js */,
 				3E304EAF35BA2AB93C494E2B /* update-version.js */,
 				3E304BA512F43D11C8627A57 /* commit.js */,
+				3E304C7CE337A380AC5A064D /* post-install.js */,
 			);
 			path = Scripts;
 			sourceTree = "<group>";
@@ -308,6 +310,8 @@
 				3E304684D7D50B5C2A230EFD /* xcode.js */,
 				3E304BB2F1E443AE55C6C120 /* travis.js */,
 				3E3047F56204EC2E07F1BF8A /* Promise.js */,
+				3E30449B76E398F38BDEC136 /* xcprettyTravisFormatter.rb */,
+				3E304FB8D58B66BC9C8E6A8D /* pods.js */,
 			);
 			path = lib;
 			sourceTree = "<group>";
