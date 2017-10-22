@@ -56,8 +56,6 @@
         // Retrieve the process arguments, starting after the command path.
         _arguments = [[NSProcessInfo processInfo].arguments sliceFrom:1].mutableCopy;
 
-        [self writeLine:_arguments.join(@" ")];
-
         // Get the process environment.
         _environment = [NSProcessInfo processInfo].environment;
 

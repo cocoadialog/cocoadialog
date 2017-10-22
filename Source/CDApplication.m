@@ -112,7 +112,19 @@
     Class controlClass = [self controlClassForName:controlName];
 
     // Retrieve all the available options for the control and process the terminal arguments.
-    _options = [controlClass availableOptions].processTerminalArguments();
+    _options = [controlClass availableOptions].processArguments(_terminal.arguments);
+
+    // Determine the current log level. must be done immediately after options
+    // have been processed so logging respects any passed values).
+    CDTerminalLogLevel logLevel = CDTerminalLogLevelNone;
+    if (!_options[@"quiet"].boolValue) {
+        if (_options[@"debug"].boolValue)   logLevel |= CDTerminalLogLevelDebug;
+        if (_options[@"dev"].boolValue)     logLevel |= CDTerminalLogLevelDev;
+        if (_options[@"error"].boolValue)   logLevel |= CDTerminalLogLevelError;
+        if (_options[@"verbose"].boolValue) logLevel |= CDTerminalLogLevelVerbose;
+        if (_options[@"warning"].boolValue) logLevel |= CDTerminalLogLevelWarning;
+    }
+    _terminal.setLogLevel(logLevel);
 
     // Show a warning if the control was deprecated.
     if (deprecatedFrom && deprecatedTo) {

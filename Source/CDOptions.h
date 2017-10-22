@@ -31,7 +31,6 @@ typedef void (^CDOptionsSetCallback)(CDOption *opt, NSString *key);
 @property (nonatomic, readonly)     NSMutableDictionary<NSString*,CDOption*>*       options;
 @property (nonatomic, readonly)     NSDictionary<NSString*,CDOptions*>*             groupByScope;
 @property (nonatomic, readonly)     NSMutableArray<NSString*>*                      invalidValues;
-@property (nonatomic, readonly)     BOOL                                            processedTerminalArguments;
 @property (nonatomic, readonly)     BOOL                                            processedWithControl;
 @property (nonatomic, readonly)     NSMutableDictionary<NSString*,CDOption*>*       requiredOptions;
 @property (nonatomic, readonly)     NSMutableArray<NSString*>*                      seenOptions;
@@ -57,7 +56,7 @@ typedef void (^CDOptionsSetCallback)(CDOption *opt, NSString *key);
 #pragma mark - Public chainable methods
 - (CDOptions *(^)(NSArray <CDOption *> *)) addOptions;
 - (CDOptions *(^)(NSString *, NSArray <CDOption *> *)) addOptionsToScope;
-- (CDOptions *(^)(void)) processTerminalArguments;
+- (CDOptions *(^)(NSArray*)) processArguments;
 - (CDOptions *(^)(CDControl *)) processWithControl;
 
 @end

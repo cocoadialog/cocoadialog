@@ -146,30 +146,29 @@
     if (self.setOptionCallback != nil) {
         self.setOptionCallback(opt, key);
     }
-    if (!self.options[key]) {
-        // Add "double dash" note for multiple option values.
-        if (opt.minimumValues.unsignedIntegerValue >= 1 && opt.maximumValues.unsignedIntegerValue == 0) {
-            NSString *doubleDash = @"OPTION_MULTIPLE_DOUBLE_DASH".localized;
-            if (![opt.notes containsObject:doubleDash]) {
-                [opt.notes addObject:doubleDash];
-            }
-        }
 
-        // Handle deprecated options.
-        if (opt.deprecatedTo != nil) {
-            self.deprecatedOptions[opt.name] = opt;
-        }
-        else {
-            self.options[opt.name] = opt;
-        }
-
-        // Add any deprecated options this option contains.
-        for (CDOption* depOpt in opt.deprecatedOptions) {
-            self[depOpt.name] = depOpt;
+    // Add "double dash" note for multiple option values.
+    if (opt.minimumValues.unsignedIntegerValue >= 1 && opt.maximumValues.unsignedIntegerValue == 0) {
+        NSString *doubleDash = @"OPTION_MULTIPLE_DOUBLE_DASH".localized;
+        if (![opt.notes containsObject:doubleDash]) {
+            [opt.notes addObject:doubleDash];
         }
     }
 
-    self.options[key] = opt;
+    // Handle deprecated options.
+    if (opt.deprecatedTo != nil) {
+        opt.hidden = YES;
+        self.deprecatedOptions[opt.name] = opt;
+    }
+    else {
+        self.options[opt.name] = opt;
+    }
+
+    // Add any deprecated options this option contains.
+    for (CDOption* depOpt in opt.deprecatedOptions) {
+        depOpt.deprecatedTo = opt.name;
+        self[depOpt.name] = depOpt;
+    }
 }
 
 - (void) setObject:(CDOption *)opt forKeyedSubscript:(NSString*)key {
@@ -197,14 +196,9 @@
     };
 }
 
-- (CDOptions *(^)(void)) processTerminalArguments {
-    return ^CDOptions *(void) {
-        // Immediately return if these options have already been processed by
-        if (self.processedTerminalArguments) {
-            return self;
-        }
-
-        NSMutableArray *args = self.terminal.arguments.mutableCopy;
+- (CDOptions *(^)(NSArray*)) processArguments {
+    return ^CDOptions *(NSArray* arguments) {
+        NSMutableArray *args = arguments.mutableCopy;
         NSInteger count = args.count;
 
         // Parse provided arguments.
@@ -329,21 +323,6 @@
                 to.values = from.arrayValue.mutableCopy;
             }
         }
-
-        // Determine the current log level. must be done immediately after options
-        // have been processed so logging respects any passed values).
-        CDTerminalLogLevel logLevel = CDTerminalLogLevelNone;
-        if (!_options[@"quiet"].boolValue) {
-            if (_options[@"debug"].boolValue)   logLevel |= CDTerminalLogLevelDebug;
-            if (_options[@"dev"].boolValue)     logLevel |= CDTerminalLogLevelDev;
-            if (_options[@"error"].boolValue)   logLevel |= CDTerminalLogLevelError;
-            if (_options[@"verbose"].boolValue) logLevel |= CDTerminalLogLevelVerbose;
-            if (_options[@"warning"].boolValue) logLevel |= CDTerminalLogLevelWarning;
-        }
-        self.terminal.setLogLevel(logLevel);
-
-        // Indicate that this has been processed.
-        _processedTerminalArguments = YES;
 
         return self;
     };

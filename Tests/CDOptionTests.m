@@ -385,15 +385,19 @@
 
 - (void) testMinimumValues {
     // Boolean.
+    XCTAssertEqual(0, _boolean.reset().minimumValues.integerValue);
     XCTAssertEqual(0, _boolean.reset().min(6).minimumValues.integerValue);
 
     // Number.
+    XCTAssertEqual(1, _number.reset().minimumValues.integerValue);
     XCTAssertEqual(4, _number.reset().min(4).minimumValues.integerValue);
 
     // String.
+    XCTAssertEqual(1, _string.reset().minimumValues.integerValue);
     XCTAssertEqual(2, _string.reset().min(2).minimumValues.integerValue);
 
     // String or number.
+    XCTAssertEqual(1, _stringOrNumber.reset().minimumValues.integerValue);
     XCTAssertEqual(2, _stringOrNumber.reset().min(2).minimumValues.integerValue);
 }
 

@@ -148,6 +148,14 @@
     _maximumValues = maximumValues;
 }
 
+- (void) setMinimumValues:(NSNumber *)minimumValues {
+    // Enforce CDBoolean min value.
+    if (self.valueType == CDBoolean) {
+        minimumValues = @0;
+    }
+    _minimumValues = minimumValues;
+}
+
 - (void) setValue:(id)value atIndex:(NSUInteger)index {
     // Immediately return if index exceeds maximum allowed values.
     if (index > self.maximumValues.unsignedIntegerValue - 1) {
@@ -205,6 +213,7 @@
     return ^CDOption *(NSArray <CDOption *> *options){
         for (CDOption* option in options) {
             option.deprecatedTo = self.name;
+            option.hidden = YES;
             [self.deprecatedOptions addObject:option];
         }
         return self;
@@ -234,11 +243,7 @@
 
 - (CDOption *(^)(NSInteger)) min {
     return ^CDOption *(NSInteger min){
-        // Enforce CDBoolean min value.
-        if (self.valueType == CDBoolean) {
-            min = 0;
-        }
-        _minimumValues = [NSNumber numberWithInteger:min];
+        self.minimumValues = [NSNumber numberWithInteger:min];
         return self;
     };
 }
@@ -601,7 +606,7 @@
 }
 
 - (NSString *) typeLabel {
-    NSString* typeLabel;
+    NSString* typeLabel = @"";
 
     // Boolean.
     if (self.valueType == CDBoolean) {
