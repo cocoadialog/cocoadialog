@@ -7,10 +7,12 @@
 
 @class CDInputbox;
 
+#import <Foundation/Foundation.h>
+
 #import "CDDialog.h"
 
 @interface CDInputbox : CDDialog
 
-@property (retain) NSTextField *input;
+@property(retain) NSTextField *input;
 
 @end

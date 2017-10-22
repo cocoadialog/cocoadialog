@@ -9,31 +9,25 @@
 
 @implementation NSNumber (CDNumber)
 
-
-#pragma mark - Properties
-- (BOOL) isBoolean {
-    if (strcmp([self objCType], @encode(BOOL)) == 0) {
-        return YES;
-    }
-    return NO;
+- (BOOL)isBoolean {
+  return strcmp([self objCType], @encode(BOOL)) == 0;
 }
 
-- (BOOL) isPercent {
-    NSNumber* number = objc_getAssociatedObject(self, @selector(isPercent));
-    return number ? number.boolValue : NO;
+- (BOOL)isPercent {
+  NSNumber *number = objc_getAssociatedObject(self, @selector(isPercent));
+  return number != nil && number.boolValue;
 }
 
-- (void) setIsPercent:(BOOL)isPercent {
-    NSNumber *number = [NSNumber numberWithBool:isPercent];
-    objc_setAssociatedObject(self, @selector(isPercent), number, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setIsPercent:(BOOL)isPercent {
+  NSNumber *number = @(isPercent);
+  objc_setAssociatedObject(self, @selector(isPercent), number, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-#pragma mark - Public chainable methods
-- (NSNumber *(^)(BOOL)) percent {
-    return ^NSNumber *(BOOL percent){
-        self.isPercent = percent;
-        return self;
-    };
+- (NSNumber *(^)(BOOL))percent {
+  return ^NSNumber *(BOOL percent) {
+    self.isPercent = percent;
+    return self;
+  };
 }
 
 @end

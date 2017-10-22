@@ -7,14 +7,16 @@
 
 @class CDCheckbox;
 
+#import <Foundation/Foundation.h>
+
 #import "CDMatrix.h"
 
 @interface CDCheckbox : CDMatrix
 
-@property (strong)                   NSMutableArray          *checkboxes;
-@property (strong)                   NSArray                 *checked;
-@property (strong)                   NSArray                 *disabled;
-@property (strong)                   NSArray                 *items;
-@property (strong)                   NSArray                 *mixed;
+@property(strong) NSMutableArray *checkboxes;
+@property(strong) NSArray *checked;
+@property(strong) NSArray *disabled;
+@property(strong) NSArray *items;
+@property(strong) NSArray *mixed;
 
 @end

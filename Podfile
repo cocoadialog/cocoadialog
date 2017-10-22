@@ -10,19 +10,16 @@ end
 class ::Pod::Generator::Acknowledgements
   def header_text
     "\nThe following third party libraries are so awesome, you'll just have to check them out to see how badass they are! Thank you for coding amazing tools and letting this project use them!\n\n\n" +
-    "## CocoaPods\n\n[CocoaPods](https://cocoapods.org) is a dependency manager for Swift and Objective-C Cocoa projects.\n\nThe MIT License (MIT): \n\nhttps://github.com/CocoaPods/CocoaPods/blob/master/LICENSE\n\n"
+      "## CocoaPods\n\n[CocoaPods](https://cocoapods.org) is a dependency manager for Swift and Objective-C Cocoa projects.\n\nThe MIT License (MIT): \n\nhttps://github.com/CocoaPods/CocoaPods/blob/master/LICENSE\n\n"
   end
+
   def footnote_text
     ""
   end
 end
 
-post_install do | installer |
+post_install do |installer|
   installer.pods_project.targets.each do |target|
-#    target.build_configurations.each do |config|
-#      config.build_settings['GCC_PREFIX_HEADER'] = "$(SDKROOT)/System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h"
-#    end
-
     # Only match Pod targets, not Pods used inside the targets.
     next if !target.name.match(/^Pods-/)
 
@@ -41,8 +38,8 @@ post_install do | installer |
     # Check if generated file exists and then copy it.
     puts "    - Checking if \"" + target.name + "\" has \"" + file + "\"..."
     if (File.file?(file))
-        puts "      - Copying \"" + filename + "\" -> \"" + newFile + "\"..."
-        FileUtils.cp_r(file, newFile, :remove_destination => true)
+      puts "      - Copying \"" + filename + "\" -> \"" + newFile + "\"..."
+      FileUtils.cp_r(file, newFile, :remove_destination => true)
     end
   end
 end

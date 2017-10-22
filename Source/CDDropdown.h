@@ -7,12 +7,14 @@
 
 @class CDDropdown;
 
+#import <Foundation/Foundation.h>
+
 #import "CDDialog.h"
 
 @interface CDDropdown : CDDialog
 
-@property (retain) IBOutlet NSPopUpButton *dropdownControl;
+@property(retain) IBOutlet NSPopUpButton *dropdownControl;
 
-- (void) selectionChanged:(id)sender;
+- (void)selectionChanged:(id)sender;
 
 @end

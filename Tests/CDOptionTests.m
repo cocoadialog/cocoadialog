@@ -5,6 +5,7 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
+#import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 #import "CDOption.h"
 #import "NSNumber+CDNumber.h"

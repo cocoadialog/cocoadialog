@@ -22,5 +22,5 @@ Podfile.lock
 # Node.js
 /node_modules
 
-# Building process (Node.js)
+# Building process (via Yarn/Node.js)
 /Build

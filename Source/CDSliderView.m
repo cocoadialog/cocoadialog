@@ -11,8 +11,8 @@ IB_DESIGNABLE
 
 @implementation CDSliderView
 
-- (void) initView {
-    [super initView];
+- (void)initView {
+  [super initView];
 
 //    NSString *_sliderLabel = @"OPTION_SLIDER_DEFAULT_LABEL".localized;
 //    if (option[@"slider-label"].wasProvided && ![option[@"slider-label"].stringValue isBlank]) {
@@ -96,10 +96,10 @@ IB_DESIGNABLE
 //        [self resize];
 //    }
 
-    [self sliderChanged];
+  [self sliderChanged];
 }
 
-- (void) sliderChanged {
+- (void)sliderChanged {
 //    CDSliderCell *slider = [matrix cellAtRow:0 column:0];
 //    // Update the label
 //    NSString *label = @"";
@@ -114,57 +114,56 @@ IB_DESIGNABLE
 
 @end
 
-
-
 @implementation CDSliderCell
 
-- (BOOL) trackMouse:(NSEvent *)theEvent inRect:(NSRect)cellFrame ofView:(NSView *)controlView untilMouseUp:(BOOL)flag {
-    if (!self.alwaysShowValue)
-        [self.valueLabel setHidden:NO];
-    return [super trackMouse:theEvent inRect:cellFrame ofView:controlView untilMouseUp:flag];
+- (BOOL)trackMouse:(NSEvent *)theEvent inRect:(NSRect)cellFrame ofView:(NSView *)controlView untilMouseUp:(BOOL)flag {
+  if (!self.alwaysShowValue)
+    [self.valueLabel setHidden:NO];
+  return [super trackMouse:theEvent inRect:cellFrame ofView:controlView untilMouseUp:flag];
 }
 
-- (BOOL) startTrackingAt:(NSPoint)startPoint inView:(NSView *)controlView {
-    if (self.numberOfTickMarks > 0)
-        self.tracking = YES;
-    return [super startTrackingAt:startPoint inView:controlView];
+- (BOOL)startTrackingAt:(NSPoint)startPoint inView:(NSView *)controlView {
+  if (self.numberOfTickMarks > 0)
+    self.tracking = YES;
+  return [super startTrackingAt:startPoint inView:controlView];
 }
 
-- (BOOL) continueTracking:(NSPoint)lastPoint at:(NSPoint)currentPoint
+- (BOOL)continueTracking:(NSPoint)lastPoint at:(NSPoint)currentPoint
                   inView:(NSView *)controlView {
-    if (self.tracking && self.sticky) {
-        NSUInteger count = self.numberOfTickMarks;
-        CGFloat snapFlexibility = (100 / count) / 2;
-        for (NSUInteger i = 0; i < count; i++) {
-            NSRect tickMarkRect = [self rectOfTickMarkAtIndex:i];
-            if (ABS(tickMarkRect.origin.x - currentPoint.x) <= snapFlexibility) {
-                [self setAllowsTickMarkValuesOnly:YES];
+  if (self.tracking && self.sticky) {
+    NSUInteger count = (NSUInteger) self.numberOfTickMarks;
+    CGFloat snapFlexibility = (100 / count) / 2;
+    for (NSUInteger i = 0; i < count; i++) {
+      NSRect tickMarkRect = [self rectOfTickMarkAtIndex:i];
+      if (ABS(tickMarkRect.origin.x - currentPoint.x) <= snapFlexibility) {
+        [self setAllowsTickMarkValuesOnly:YES];
 
-            } else if (ABS(tickMarkRect.origin.x - currentPoint.x) >= snapFlexibility &&
-                       ABS(tickMarkRect.origin.x - currentPoint.x) <= snapFlexibility * 2) {
-                [self setAllowsTickMarkValuesOnly:NO];
-            }
-        }
-    }
-    else {
+      }
+      else if (ABS(tickMarkRect.origin.x - currentPoint.x) >= snapFlexibility &&
+        ABS(tickMarkRect.origin.x - currentPoint.x) <= snapFlexibility * 2) {
         [self setAllowsTickMarkValuesOnly:NO];
+      }
     }
+  }
+  else {
+    [self setAllowsTickMarkValuesOnly:NO];
+  }
 
-    // Fix "may cause leak" warning.
-    // @see http://stackoverflow.com/a/20058585/1226717
-    if (self.delegate) {
-        IMP imp = [self.delegate methodForSelector:self.action];
-        void (*func)(id, SEL) = (void *)imp;
-        func(self.delegate, self.action);
-    }
+  // Fix "may cause leak" warning.
+  // @see http://stackoverflow.com/a/20058585/1226717
+  if (self.delegate) {
+    IMP imp = [self.delegate methodForSelector:self.action];
+    void (*func)(id, SEL) = (void *) imp;
+    func(self.delegate, self.action);
+  }
 
-    return [super continueTracking:lastPoint at:currentPoint inView:controlView];
+  return [super continueTracking:lastPoint at:currentPoint inView:controlView];
 }
 
-- (void) stopTracking:(NSPoint)lastPoint at:(NSPoint)stopPoint inView:(NSView *)controlView mouseIsUp:(BOOL)flag {
-    if (!self.alwaysShowValue)
-        [self.valueLabel setHidden:YES];
-    [super stopTracking:lastPoint at:stopPoint inView:controlView mouseIsUp:flag];
+- (void)stopTracking:(NSPoint)lastPoint at:(NSPoint)stopPoint inView:(NSView *)controlView mouseIsUp:(BOOL)flag {
+  if (!self.alwaysShowValue)
+    [self.valueLabel setHidden:YES];
+  [super stopTracking:lastPoint at:stopPoint inView:controlView mouseIsUp:flag];
 }
 
 

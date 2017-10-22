@@ -7,30 +7,28 @@
 
 @class CDJson;
 
-#pragma mark -
+#import <Foundation/Foundation.h>
+
 @protocol CDJsonValueProtocol
-- (id) jsonValue;
+- (id)jsonValue;
 @end
 
-#pragma mark -
 @protocol CDJsonOutputProtocol
-- (NSString *) toJSONString;
+- (NSString *)toJSONString;
 @end
 
-#pragma mark -
 @interface CDJson : NSObject
 
-#pragma mark - Public static methods
-+ (NSString *) objectToJSON:(id)object;
-+ (NSString *) parseObject:(id)object;
++ (NSString *)objectToJSON:(id)object;
++ (NSString *)parseObject:(id)object;
 
 @end
 
-#pragma mark -
-@interface NSArray (CDJson) <CDJsonOutputProtocol, CDJsonValueProtocol> @end
+@interface NSArray (CDJson) <CDJsonOutputProtocol, CDJsonValueProtocol>
+@end
 
-#pragma mark -
-@interface NSDictionary (CDJson) <CDJsonOutputProtocol, CDJsonValueProtocol> @end
+@interface NSDictionary (CDJson) <CDJsonOutputProtocol, CDJsonValueProtocol>
+@end
 
-#pragma mark -
-@interface NSString (CDJson) <CDJsonValueProtocol> @end
+@interface NSString (CDJson) <CDJsonValueProtocol>
+@end

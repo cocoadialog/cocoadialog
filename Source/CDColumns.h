@@ -7,30 +7,28 @@
 
 @class CDColumns;
 
-#pragma mark -
+#import <Foundation/Foundation.h>
+
 @protocol CDColumnsValueProtocol
-- (id) columnValue;
+- (id)columnValue;
 @end
 
-#pragma mark -
 @protocol CDColumnsOutputProtocol
-- (NSString *) toColumnString;
+- (NSString *)toColumnString;
 @end
 
-#pragma mark -
 @interface CDColumns : NSObject
-
-#pragma mark - Public static methods
-+ (NSString *) objectToColumns:(id)object;
-+ (NSString *) parseObject:(id)object;
-
++ (NSString *)objectToColumns:(id)object;
++ (NSString *)parseObject:(id)object;
 @end
 
-#pragma mark -
-@interface NSArray (CDColumns) <CDColumnsOutputProtocol, CDColumnsValueProtocol> @end
+@interface NSArray (CDColumns) <CDColumnsOutputProtocol, CDColumnsValueProtocol>
+@end
 
-#pragma mark -
-@interface NSDictionary (CDColumns) <CDColumnsOutputProtocol, CDColumnsValueProtocol> @end
 
-#pragma mark -
-@interface NSString (CDColumns) <CDColumnsValueProtocol> @end
+@interface NSDictionary (CDColumns) <CDColumnsOutputProtocol, CDColumnsValueProtocol>
+@end
+
+
+@interface NSString (CDColumns) <CDColumnsValueProtocol>
+@end

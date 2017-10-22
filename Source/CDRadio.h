@@ -7,14 +7,16 @@
 
 @class CDRadio;
 
+#import <Foundation/Foundation.h>
+
 #import "CDMatrix.h"
 
 @interface CDRadio : CDMatrix
 
 # pragma mark - Properties
-@property (strong)                   NSArray                 *disabled;
-@property (strong)                   NSArray                 *items;
-@property (strong)                   NSArray                 *mixed;
-@property (strong)                   NSMutableArray          *radios;
+@property(strong) NSArray *disabled;
+@property(strong) NSArray *items;
+@property(strong) NSArray *mixed;
+@property(strong) NSMutableArray *radios;
 
 @end

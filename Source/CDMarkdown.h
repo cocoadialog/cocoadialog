@@ -7,21 +7,23 @@
 
 @class CDMarkdown;
 
+#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
 #import <TSMarkdownParser/TSMarkdownParser.h>
 
 @interface CDMarkdown : NSObject
 
-@property               BOOL                    hasLinks;
-@property               BOOL                    enabled;
-@property               BOOL                    newFontWeights;
-@property (strong)      NSColor                 *headerColor;
-@property               double                  headerFontSizeMultiplier;
-@property               NSFontWeight            headerFontWeight;
-@property               float                   minimumHeaderFontSize;
-@property (strong)      TSMarkdownParser        *parser;
+@property BOOL hasLinks;
+@property BOOL enabled;
+@property BOOL newFontWeights;
+@property(strong) NSColor *headerColor;
+@property double headerFontSizeMultiplier;
+@property NSFontWeight headerFontWeight;
+@property float minimumHeaderFontSize;
+@property(strong) TSMarkdownParser *parser;
 
-+ (instancetype) markdown;
++ (instancetype)markdown;
 
-- (NSAttributedString *) parseString:(NSString *)string;
+- (NSAttributedString *)parseString:(NSString *)string;
 
 @end

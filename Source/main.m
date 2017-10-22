@@ -8,7 +8,7 @@
 #import "CDApplication.h"
 
 int main(int argc, const char *argv[]) {
-    CDApplication *application = [CDApplication sharedApplication];
-    [NSApp setDelegate:application];
-    [NSApp run];
+  CDApplication *application = [CDApplication sharedApplication];
+  [NSApp setDelegate:application];
+  [NSApp run];
 }

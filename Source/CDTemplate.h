@@ -7,25 +7,21 @@
 
 @class CDTemplate;
 
-#import "CDTextField.h"
-
+#import <Foundation/Foundation.h>
 #import <GRMustache/GRMustache.h>
+
+#import "CDTextField.h"
 #import "CDTerminal.h"
 
 @interface CDTemplate : NSObject
 
-#pragma mark - Properties
-@property (strong)      id                                                          data;
-@property (strong)      GRMustacheTemplateRepository*                               repository;
-@property (strong)      NSMutableDictionary <NSString*, GRMustacheTemplate*>*       templates;
-@property (strong)      CDTerminal*                                                 terminal;
+@property(strong) id data;
+@property(strong) GRMustacheTemplateRepository *repository;
+@property(strong) NSMutableDictionary <NSString *, GRMustacheTemplate *> *templates;
+@property(strong) CDTerminal *terminal;
 
-#pragma mark - Public static methods
-+ (instancetype) sharedInstance;
++ (instancetype)sharedInstance;
 
-#pragma mark - Public chainable methods
-- (NSString *(^)(NSString *name, id data)) render;
-
-#pragma mark - Public instance methods
+- (NSString *(^)(NSString *name, id data))render;
 
 @end

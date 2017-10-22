@@ -10,11 +10,9 @@
 
 @interface NSNumber (CDNumber)
 
-#pragma mark - Properties
-@property (nonatomic, readonly) BOOL        isBoolean;
-@property (nonatomic, assign)   BOOL        isPercent;
+@property(nonatomic, readonly) BOOL isBoolean;
+@property(nonatomic, assign) BOOL isPercent;
 
-#pragma mark - Public chainable methods
-- (NSNumber *(^)(BOOL)) percent;
+- (NSNumber *(^)(BOOL))percent;
 
 @end

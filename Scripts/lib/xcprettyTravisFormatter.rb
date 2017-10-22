@@ -72,13 +72,14 @@ class TravisFormatter < XCPretty::Simple
   def format_analyze(file_name, file_path);                                 open_fold("Analyze"); super; end
   def format_analyze_target(target, project, configuration);                open_fold("Analyze"); super; end
 
+  # Build.
+  def format_build_target(target, project, configuration);                  open_fold("Build"); super; end
+  def format_compile(file_name, file_path);                                 open_fold("Build"); super; end
+
   # Clean.
   def format_clean(project, target, configuration);                         open_fold("Clean"); super; end
   def format_clean_target(target, project, configuration);                  open_fold("Clean"); super; end
   def format_clean_remove;                                                  open_fold("Clean"); super; end
-
-  # Compile.
-  def format_compile(file_name, file_path);                                 open_fold("Compile"); super; end
 
   # Test.
   def format_test_run_started(name);                                        open_fold("Test"); super; end

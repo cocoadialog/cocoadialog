@@ -5,23 +5,20 @@
 // All rights reserved.
 // Licensed under GPL-2.
 
+#import <Foundation/Foundation.h>
+
 #import "CDApplication.h"
 
 @interface CDIcon : NSObject
 
-#pragma mark - Properties
+@property(strong, readonly) CDApplication *app;
+@property(strong, readonly) CDTerminal *terminal;
+@property(strong, readonly) CDTemplate *template;
 
-#pragma mark - Readonly Properties
-@property (strong, readonly)        CDApplication*                  app;
-@property (strong, readonly)        CDTerminal*                     terminal;
-@property (strong, readonly)        CDTemplate*                     template;
++ (instancetype)sharedInstance;
 
-#pragma mark - Public static methods
-+ (instancetype) sharedInstance;
-
-#pragma mark - Public instance methods
-- (NSImage *) iconFromFile:(NSString *)file;
-- (NSImage *) iconFromName:(NSString *)name;
+- (NSImage *)iconFromFile:(NSString *)file;
+- (NSImage *)iconFromName:(NSString *)name;
 
 @end
 

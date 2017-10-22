@@ -7,8 +7,9 @@
 
 @class CDFileSelect;
 
+#import <Foundation/Foundation.h>
+
 #import "CDFile.h"
 
 @interface CDFileSelect : CDFile
-
 @end

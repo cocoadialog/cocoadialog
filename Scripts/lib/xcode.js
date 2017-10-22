@@ -11,7 +11,7 @@ const xcpretty = io.execSync('which xcpretty || echo');
 exports.run = (...types) => fs.mkdir(app.buildDir)
   .then(() => Promise.reduce(types, type => {
     let [action, scheme] = type.split(':');
-    let command = `xcodebuild -verbose -derivedDataPath ${app.derivedDataDir} -workspace ${app.workspace} -scheme ${scheme} ${action} | tee ${app.buildDir}/xcodebuild-${action}-${scheme}.log`;
+    let command = `xcodebuild -verbose -derivedDataPath ${app.derivedDataDir} -workspace ${app.workspace} -scheme ${scheme} ${action} 2>/dev/null | tee ${app.buildDir}/xcodebuild-${action}-${scheme}.log`;
     if (xcpretty) {
       command += ` | ${xcpretty} --formatter '${path.join(__dirname, 'xcprettyTravisFormatter.rb')}'`;
     }

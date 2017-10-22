@@ -7,18 +7,19 @@
 
 @class CDFile;
 
+#import <Foundation/Foundation.h>
+
 #import "CDDialog.h"
 
 @interface CDFile : CDDialog <NSOpenSavePanelDelegate>
 
-@property (strong)      NSString*           directory;
-@property (strong)      NSArray*            extensions;
-@property (strong)      NSString*           file;
-@property (strong)      NSFileManager*      fileManager;
-@property (strong)      NSSavePanel*        savePanel;
+@property(strong) NSString *directory;
+@property(strong) NSArray *extensions;
+@property(strong) NSString *file;
+@property(strong) NSFileManager *fileManager;
+@property(strong) NSSavePanel *savePanel;
 
-- (void) createSavePanel;
-
-- (BOOL) isExtensionAllowed:(NSString *)filename;
+- (void)createSavePanel;
+- (BOOL)isExtensionAllowed:(NSString *)filename;
 
 @end

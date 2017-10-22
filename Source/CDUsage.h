@@ -7,19 +7,16 @@
 
 #import "CDApplication.h"
 
+#import <Foundation/Foundation.h>
+
 @interface CDUsage : NSObject
 
-#pragma mark - Properties
+@property(strong, readonly) CDApplication *app;
+@property(strong, readonly) CDTerminal *terminal;
+@property(strong, readonly) CDTemplate *template;
 
-#pragma mark - Readonly Properties
-@property (strong, readonly)        CDApplication*                  app;
-@property (strong, readonly)        CDTerminal*                     terminal;
-@property (strong, readonly)        CDTemplate*                     template;
++ (instancetype)usage;
 
-#pragma mark - Public static methods
-+ (instancetype) usage;
-
-#pragma mark - Public instance methods
-- (void) showUsage;
+- (void)showUsage;
 
 @end

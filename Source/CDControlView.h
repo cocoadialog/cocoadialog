@@ -7,15 +7,17 @@
 
 @class CDControlView;
 
+#import <Foundation/Foundation.h>
+
 #import "CDDialog.h"
 
 @interface CDControlView : NSView;
 
-@property (strong)   IBOutlet    NSView      *contentView;
-@property (strong)               CDDialog    *dialog;
+@property(strong) IBOutlet    NSView *contentView;
+@property(strong) CDDialog *dialog;
 
-+ (instancetype) initWithDialog:(CDDialog *)dialog;
-- (instancetype) initWithDialog:(CDDialog *)dialog;
-- (void) initView;
++ (instancetype)initWithDialog:(CDDialog *)dialog;
+- (instancetype)initWithDialog:(CDDialog *)dialog;
+- (void)initView;
 
 @end

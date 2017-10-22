@@ -7,78 +7,74 @@
 
 @class CDTerminal;
 
+#import <Foundation/Foundation.h>
+
 @interface CDTerminal : NSObject
 
-typedef CDTerminal* (^CDTerminalFormatBlock)(NSString *format, ...); //NS_FORMAT_FUNCTION(1,2) NS_REQUIRES_NIL_TERMINATION
+typedef CDTerminal *(^CDTerminalFormatBlock)(NSString *format, ...); //NS_FORMAT_FUNCTION(1,2) NS_REQUIRES_NIL_TERMINATION
 
 // Exit codes.
 typedef NS_ENUM(NSUInteger, CDTerminalExitCode) {
-    // Standard.
+  // Standard.
     CDTerminalExitCodeOk = 0,
-    CDTerminalExitCodeCancel = 1,
-    CDTerminalExitCodeTimeout = 124,
-    CDTerminalExitCodeUnknown = 255,
+  CDTerminalExitCodeCancel = 1,
+  CDTerminalExitCodeTimeout = 124,
+  CDTerminalExitCodeUnknown = 255,
 
-    // Template.
+  // Template.
     CDTerminalExitCodeTemplateLoadFailure = 20,
-    CDTerminalExitCodeTemplateRenderFailure = 21,
+  CDTerminalExitCodeTemplateRenderFailure = 21,
 
-    // Control.
+  // Control.
     CDTerminalExitCodeControlUnknown = 31,
-    CDTerminalExitCodeControlFailure = 32,
+  CDTerminalExitCodeControlFailure = 32,
 
-    // Options
+  // Options
     CDTerminalExitCodeOptionInvalid = 51,
-    CDTerminalExitCodeOptionRequired = 52,
-
+  CDTerminalExitCodeOptionRequired = 52,
 
 };
 
 typedef NS_OPTIONS(NSUInteger, CDTerminalLogLevel) {
-    CDTerminalLogLevelNone      = 0,
-    CDTerminalLogLevelError     = (1 << 0),
-    CDTerminalLogLevelWarning   = (1 << 1),
-    CDTerminalLogLevelDebug     = (1 << 2),
-    CDTerminalLogLevelVerbose   = (1 << 3),
-    CDTerminalLogLevelDev       = (1 << 4),
+  CDTerminalLogLevelNone = 0,
+  CDTerminalLogLevelError = (1 << 0),
+  CDTerminalLogLevelWarning = (1 << 1),
+  CDTerminalLogLevelDebug = (1 << 2),
+  CDTerminalLogLevelVerbose = (1 << 3),
+  CDTerminalLogLevelDev = (1 << 4),
 };
 
-#pragma mark - Properties
-@property (strong)      NSMutableArray*                             arguments;
-@property (assign)      CDTerminalLogLevel                          logLevel;
+@property(strong) NSMutableArray *arguments;
+@property(assign) CDTerminalLogLevel logLevel;
 
-#pragma mark - Readonly Properties
-@property (readonly)    NSUInteger                                  colors;
-@property (readonly)    NSUInteger                                  cols;
-@property (readonly)    NSDictionary <NSString*, NSString*>*        environment;
-@property (readonly)    BOOL                                        isCLI;
-@property (readonly)    BOOL                                        supportsColor;
-@property (readonly)    NSFileHandle*                               fhErr;
-@property (readonly)    NSFileHandle*                               fhOut;
-@property (readonly)    NSFileHandle*                               fhIn;
-@property (readonly)    NSMutableDictionary*                        which;
+@property(readonly) NSUInteger colors;
+@property(readonly) NSUInteger cols;
+@property(readonly) NSDictionary <NSString *, NSString *> *environment;
+@property(readonly) BOOL isCLI;
+@property(readonly) BOOL supportsColor;
+@property(readonly) NSFileHandle *fhErr;
+@property(readonly) NSFileHandle *fhOut;
+@property(readonly) NSFileHandle *fhIn;
+@property(readonly) NSMutableDictionary *which;
 
-#pragma mark - Public static methods
-+ (instancetype) sharedInstance;
++ (instancetype)sharedInstance;
 
-#pragma mark - Public instance methods
-- (NSUInteger) colsWithMinimum:(NSUInteger)minimum;
-- (NSString *) execute:(NSString *)command withArguments:(NSArray *)arguments;
-- (void) write:(NSString *)string;
-- (void) writeLine:(NSString *)string;
-- (void) writeNewLine;
-- (void) writeError:(NSString *)string;
-- (void) writeErrorLine:(NSString *)string;
-- (void) writeErrorNewLine;
-- (NSString *) which:(NSString *)command;
+- (NSUInteger)colsWithMinimum:(NSUInteger)minimum;
+- (NSString *)execute:(NSString *)command withArguments:(NSArray *)arguments;
+- (void)write:(NSString *)string;
+- (void)writeLine:(NSString *)string;
+- (void)writeNewLine;
+- (void)writeError:(NSString *)string;
+- (void)writeErrorLine:(NSString *)string;
+- (void)writeErrorNewLine;
+- (NSString *)which:(NSString *)command;
 
-#pragma mark - Public chainable methods
-- (CDTerminalFormatBlock) debug;
-- (CDTerminalFormatBlock) dev;
-- (CDTerminalFormatBlock) error;
-- (void *(^)(CDTerminalExitCode)) exit;
-- (CDTerminal *(^)(CDTerminalLogLevel)) setLogLevel;
-- (CDTerminalFormatBlock) verbose;
-- (CDTerminalFormatBlock) warning;
+- (CDTerminalFormatBlock)debug;
+- (CDTerminalFormatBlock)dev;
+- (CDTerminalFormatBlock)error;
+- (void *(^)(CDTerminalExitCode))exit;
+- (CDTerminal *(^)(CDTerminalLogLevel))setLogLevel;
+- (CDTerminalFormatBlock)verbose;
+- (CDTerminalFormatBlock)warning;
 
 @end

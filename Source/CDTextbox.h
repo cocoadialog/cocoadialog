@@ -7,11 +7,13 @@
 
 @class CDTextbox;
 
+#import <Foundation/Foundation.h>
+
 #import "CDDialog.h"
 #import "CDTextView.h"
 
 @interface CDTextbox : CDDialog
 
-@property (retain)       CDTextView      *textView;
+@property(retain) CDTextView *textView;
 
 @end

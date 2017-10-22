@@ -10,50 +10,49 @@
 
 @implementation CDTextField
 
-- (instancetype) initWithCoder:(NSCoder *)coder {
-    self = [super initWithCoder:coder];
-    if (self) {
-        [self customInit];
-    }
-    return self;
+- (instancetype)initWithCoder:(NSCoder *)coder {
+  self = [super initWithCoder:coder];
+  if (self) {
+    [self customInit];
+  }
+  return self;
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
-    self = [super initWithFrame:frameRect];
-    if (self) {
-        [self customInit];
-    }
-    return self;
+  self = [super initWithFrame:frameRect];
+  if (self) {
+    [self customInit];
+  }
+  return self;
 }
 
-- (void) customInit {
-    _markdown = [CDMarkdown markdown];
+- (void)customInit {
+  _markdown = [CDMarkdown markdown];
 }
 
-- (void) setStringValue:(NSString *) stringValue {
-    [super setStringValue:stringValue];
+- (void)setStringValue:(NSString *)stringValue {
+  [super setStringValue:stringValue];
 
-    // Immediately return if markdown is not enabled.
-    if (!self.markdown.enabled) {
-        return;
-    }
+  // Immediately return if markdown is not enabled.
+  if (!self.markdown.enabled) {
+    return;
+  }
 
-    // Ensure clicking with mouse doesn't remove the attributes.
-    if (!self.allowsEditingTextAttributes) {
-        self.allowsEditingTextAttributes = YES;
-    }
+  // Ensure clicking with mouse doesn't remove the attributes.
+  if (!self.allowsEditingTextAttributes) {
+    self.allowsEditingTextAttributes = YES;
+  }
 
-    self.attributedStringValue = [self.markdown parseString:stringValue];
-    self.needsDisplay = YES;
+  self.attributedStringValue = [self.markdown parseString:stringValue];
+  self.needsDisplay = YES;
 }
 
-
-- (void) setSelectable:(BOOL)selectable {
-    // Enforce labels that have links to be selectable (otherwise they will not work).
-    if (self.markdown.hasLinks) {
-        selectable = YES;
-    }
-    [super setSelectable:selectable];
+- (void)setSelectable:(BOOL)selectable {
+  // Enforce labels that have links to be selectable (otherwise they will not work).
+  if (self.markdown.hasLinks) {
+    selectable = YES;
+  }
+  [super setSelectable:selectable];
 }
 
 @end

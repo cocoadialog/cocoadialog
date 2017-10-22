@@ -7,19 +7,19 @@
 
 @class CDMatrix;
 
+#import <Foundation/Foundation.h>
+
 #import "CDDialog.h"
 
 @interface CDMatrix : CDDialog
 
-#pragma mark - Properties
-@property (strong)                   NSMutableArray<NSCell *>            *cells;
-@property (nonatomic)                NSUInteger                          columns;
-@property (nonatomic)                BOOL                                expandColumns;
-@property (strong)                   NSMatrix                            *matrix;
-@property (nonatomic)                NSUInteger                          rows;
+@property(strong) NSMutableArray<NSCell *> *cells;
+@property(nonatomic) NSUInteger columns;
+@property(nonatomic) BOOL expandColumns;
+@property(strong) NSMatrix *matrix;
+@property(nonatomic) NSUInteger rows;
 
-#pragma mark - Public instance methods
-- (void) initMatrix;
-- (BOOL) isCellSelected:(NSUInteger)index;
+- (void)initMatrix;
+- (BOOL)isCellSelected:(NSUInteger)index;
 
 @end

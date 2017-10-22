@@ -7,22 +7,23 @@
 
 @class CDControlAlias;
 
+#import <Foundation/Foundation.h>
+
 #import "CDControl.h"
 
 typedef void (^CDControlAliasProcessBlock)(CDControl *control);
 
-#pragma mark -
 @interface CDControlAlias : NSObject
 
-@property (strong, readonly)      NSString                          *controlName;
-@property (strong, readonly)      NSString                          *name;
-@property (strong, readonly)      CDControlAliasProcessBlock        processBlock;
-@property (strong, readonly)      NSString                          *usageDescription;
+@property(strong, readonly) NSString *controlName;
+@property(strong, readonly) NSString *name;
+@property(strong, readonly) CDControlAliasProcessBlock processBlock;
+@property(strong, readonly) NSString *usageDescription;
 
-+ (CDControlAlias *(^)(NSString* from, NSString* to)) create;
-+ (instancetype) from:(NSString *)from to:(NSString *)to;
++ (CDControlAlias *(^)(NSString *from, NSString *to))create;
++ (instancetype)from:(NSString *)from to:(NSString *)to;
 
-- (CDControlAlias *(^)(NSString* usage)) usage;
-- (CDControlAlias *(^)(CDControlAliasProcessBlock block)) process;
+- (CDControlAlias *(^)(NSString *usage))usage;
+- (CDControlAlias *(^)(CDControlAliasProcessBlock block))process;
 
 @end

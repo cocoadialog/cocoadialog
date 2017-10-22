@@ -7,11 +7,13 @@
 
 @class CDTextField;
 
+#import <Foundation/Foundation.h>
+
 #import "CDMarkdown.h"
 
 @interface CDTextField : NSTextField <NSTextFieldDelegate>
 
-@property (strong)      CDMarkdown              *markdown;
+@property(strong) CDMarkdown *markdown;
 
 @end
 

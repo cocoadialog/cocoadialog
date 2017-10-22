@@ -7,18 +7,20 @@
 
 @class CDSlider;
 
+#import <Foundation/Foundation.h>
+
 #import "CDDialog.h"
 #import "CDSliderView.h"
 
 @interface CDSlider : CDDialog
 
 # pragma mark - Properties
-@property (nonatomic)               double          emptyValue;
-@property (nonatomic)               double          max;
-@property (nonatomic)               double          min;
-@property (retain)                  CDSliderView    *slider;
-@property (nonatomic)               BOOL            sticky;
-@property (nonatomic)               NSUInteger      ticks;
-@property (nonatomic)               double          value;
+@property(nonatomic) double emptyValue;
+@property(nonatomic) double max;
+@property(nonatomic) double min;
+@property(retain) CDSliderView *slider;
+@property(nonatomic) BOOL sticky;
+@property(nonatomic) NSUInteger ticks;
+@property(nonatomic) double value;
 
 @end

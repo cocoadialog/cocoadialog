@@ -7,8 +7,9 @@
 
 @class CDFileSave;
 
+#import <Foundation/Foundation.h>
+
 #import "CDFile.h"
 
 @interface CDFileSave : CDFile
-
 @end

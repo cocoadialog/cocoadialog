@@ -39,7 +39,7 @@ GCC_WARN_UNUSED_VALUE = YES
 GCC_WARN_UNUSED_PARAMETER = NO
 GCC_WARN_UNDECLARED_SELECTOR = NO
 
-WARNING_CFLAGS = -Wall -Wno-unused-parameter -Werror -Wundef -Wendif-labels -Wpointer-arith -Wcast-align -Wwrite-strings -Wmissing-format-attribute -Wpacked -Wredundant-decls -Winline -Wdisabled-optimization -Wformat=2 -Winvalid-pch
+WARNING_CFLAGS = -Wall -Wno-unknown-pragmas -Wno-unused-parameter -Werror -Wundef -Wendif-labels -Wpointer-arith -Wcast-align -Wwrite-strings -Wmissing-format-attribute -Wpacked -Wredundant-decls -Winline -Wdisabled-optimization -Wformat=2 -Winvalid-pch
 
 PRODUCT_NAME = cocoadialog
 WRAPPER_EXTENSION = app

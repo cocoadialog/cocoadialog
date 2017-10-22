@@ -7,14 +7,16 @@
 
 @class CDLocale;
 
+#import <Foundation/Foundation.h>
+
 #import "CDTerminal.h"
 
 @interface CDLocale : NSObject
 
-@property (strong, readonly) NSDictionary*  dictionary;
-@property (strong, readonly) CDTerminal*    terminal;
+@property(strong, readonly) NSDictionary *dictionary;
+@property(strong, readonly) CDTerminal *terminal;
 
-+ (instancetype) sharedInstance;
-- (NSString *) localize:(NSString *)key;
++ (instancetype)sharedInstance;
+- (NSString *)localize:(NSString *)key;
 
 @end

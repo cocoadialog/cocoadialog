@@ -7,13 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E304F1DFE4187A80D94E1F3 /* prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 3E3040075CAC5E4017D7C6A0 /* prefix.pch */; };
 		A71EC8C11F88B0E500DB31D8 /* Locale.plist in Resources */ = {isa = PBXBuildFile; fileRef = A71EC8C31F88B0E500DB31D8 /* Locale.plist */; };
 		A71EC8C51F88B1A600DB31D8 /* CDLocale.h in Headers */ = {isa = PBXBuildFile; fileRef = A71EC8C41F88B1A600DB31D8 /* CDLocale.h */; };
 		A71EC8C71F88B1CF00DB31D8 /* CDLocale.m in Sources */ = {isa = PBXBuildFile; fileRef = A71EC8C61F88B1CF00DB31D8 /* CDLocale.m */; };
+		A728DD7F1F9D375B0073580B /* libPods-cocoadialog.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A728DD761F9D36140073580B /* libPods-cocoadialog.a */; };
+		A728DD801F9D37620073580B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A770D5DE1EAAAD77004D1138 /* Foundation.framework */; };
+		A728DD831F9D37720073580B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A77365B41EA87F3100FDC070 /* Cocoa.framework */; };
 		A739833C1F7CBAD400867E08 /* CDSliderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A73983071F7CBAD400867E08 /* CDSliderView.xib */; };
 		A739834D1F7CBB3600867E08 /* CDDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = A739834C1F7CBB3600867E08 /* CDDialog.xib */; };
 		A739834F1F7CBD7600867E08 /* CDProgressbarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A739834E1F7CBD7600867E08 /* CDProgressbarView.xib */; };
-		A73F15BE1F87EA1200169420 /* prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = A73F15BD1F87EA1200169420 /* prefix.pch */; };
 		A74A1C2A1F86480B006289A8 /* About.mustache in Resources */ = {isa = PBXBuildFile; fileRef = A74A1C2C1F86480B006289A8 /* About.mustache */; };
 		A74A1C2E1F864B74006289A8 /* CDTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = A74A1C2D1F864B74006289A8 /* CDTextField.h */; };
 		A74A1C301F864B7F006289A8 /* CDTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = A74A1C2F1F864B7F006289A8 /* CDTextField.m */; };
@@ -22,7 +25,6 @@
 		A74A1C361F865CE0006289A8 /* CDControlAlias.h in Headers */ = {isa = PBXBuildFile; fileRef = A74A1C351F865CE0006289A8 /* CDControlAlias.h */; };
 		A74A1C381F865CEC006289A8 /* CDControlAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = A74A1C371F865CEC006289A8 /* CDControlAlias.m */; };
 		A74A1C3A1F86E9C7006289A8 /* Acknowledgements.md in Resources */ = {isa = PBXBuildFile; fileRef = A74A1C391F86E6D0006289A8 /* Acknowledgements.md */; };
-		A74A1C3B1F86E9D7006289A8 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A78A8CDF14377610007AE363 /* LICENSE */; };
 		A74A1C3D1F86EE24006289A8 /* CDMarkdown.h in Headers */ = {isa = PBXBuildFile; fileRef = A74A1C3C1F86EE24006289A8 /* CDMarkdown.h */; };
 		A74A1C3F1F86EE30006289A8 /* CDMarkdown.m in Sources */ = {isa = PBXBuildFile; fileRef = A74A1C3E1F86EE30006289A8 /* CDMarkdown.m */; };
 		A75155B61F8BC07600204A88 /* CDOptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A75155B41F8BC00A00204A88 /* CDOptionTests.m */; };
@@ -100,7 +102,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		A75155B71F8BC09200204A88 /* PBXContainerItemProxy */ = {
+		A728DD841F9D378C0073580B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
@@ -110,30 +112,24 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3E30424E25F42D9CE80C4AEF /* test.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = test.js; sourceTree = "<group>"; };
-		3E30437AC7469E138D7B413B /* app.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = app.js; sourceTree = "<group>"; };
-		3E30449B76E398F38BDEC136 /* xcprettyTravisFormatter.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = xcprettyTravisFormatter.rb; sourceTree = "<group>"; };
-		3E304684D7D50B5C2A230EFD /* xcode.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = xcode.js; sourceTree = "<group>"; };
-		3E3047F56204EC2E07F1BF8A /* Promise.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Promise.js; sourceTree = "<group>"; };
-		3E3048338EBB84DBDB5CB5A5 /* io.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = io.js; sourceTree = "<group>"; };
-		3E3048CE72AB9867DA9BF248 /* travis.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = travis.js; sourceTree = "<group>"; };
-		3E304AEF65481C17A0351729 /* plist.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = plist.js; sourceTree = "<group>"; };
-		3E304BA512F43D11C8627A57 /* commit.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = commit.js; sourceTree = "<group>"; };
-		3E304BB2F1E443AE55C6C120 /* travis.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = travis.js; sourceTree = "<group>"; };
-		3E304C7CE337A380AC5A064D /* post-install.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "post-install.js"; sourceTree = "<group>"; };
-		3E304CDA4338D5CAC6BED0B2 /* build.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = build.js; sourceTree = "<group>"; };
-		3E304D0060FB3255308ACF05 /* fs.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = fs.js; sourceTree = "<group>"; };
-		3E304EAF35BA2AB93C494E2B /* update-version.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "update-version.js"; sourceTree = "<group>"; };
-		3E304FB8D58B66BC9C8E6A8D /* pods.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = pods.js; sourceTree = "<group>"; };
+		3E3040075CAC5E4017D7C6A0 /* prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prefix.pch; sourceTree = "<group>"; };
+		3E3049E7EE1D7617EEF62E8A /* ConfigRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ConfigRelease.xcconfig; sourceTree = "<group>"; };
+		3E304E0BB7C7789B2908851B /* ConfigDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ConfigDebug.xcconfig; sourceTree = "<group>"; };
+		3E304F5304D63D160EFB6FAC /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* cocoadialog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cocoadialog.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A21235E129F27B93137BD95D /* Pods-cocoadialog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cocoadialog.release.xcconfig"; path = "Pods/Target Support Files/Pods-cocoadialog/Pods-cocoadialog.release.xcconfig"; sourceTree = "<group>"; };
 		A71EC8C21F88B0E500DB31D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Locale.plist; sourceTree = "<group>"; };
 		A71EC8C41F88B1A600DB31D8 /* CDLocale.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDLocale.h; sourceTree = "<group>"; };
 		A71EC8C61F88B1CF00DB31D8 /* CDLocale.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDLocale.m; sourceTree = "<group>"; };
+		A728DD761F9D36140073580B /* libPods-cocoadialog.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libPods-cocoadialog.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A728DD7B1F9D36240073580B /* libGRMustache.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libGRMustache.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A728DD7C1F9D36240073580B /* libJRSwizzle.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libJRSwizzle.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A728DD7D1F9D36240073580B /* libMasonry.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libMasonry.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A728DD7E1F9D36240073580B /* libTSMarkdownParser.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libTSMarkdownParser.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A728DD811F9D37680073580B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		A73983071F7CBAD400867E08 /* CDSliderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CDSliderView.xib; sourceTree = "<group>"; };
 		A739834C1F7CBB3600867E08 /* CDDialog.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CDDialog.xib; sourceTree = "<group>"; };
 		A739834E1F7CBD7600867E08 /* CDProgressbarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CDProgressbarView.xib; sourceTree = "<group>"; };
-		A73F15BD1F87EA1200169420 /* prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = prefix.pch; sourceTree = "<group>"; };
-		A74373D91F92D9AA002A4142 /* package.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = package.json; sourceTree = "<group>"; };
 		A74A1C2B1F86480B006289A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text; name = Base; path = Base.lproj/About.mustache; sourceTree = "<group>"; };
 		A74A1C2D1F864B74006289A8 /* CDTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDTextField.h; sourceTree = "<group>"; };
 		A74A1C2F1F864B7F006289A8 /* CDTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDTextField.m; sourceTree = "<group>"; };
@@ -145,7 +141,6 @@
 		A74A1C3C1F86EE24006289A8 /* CDMarkdown.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDMarkdown.h; sourceTree = "<group>"; };
 		A74A1C3E1F86EE30006289A8 /* CDMarkdown.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDMarkdown.m; sourceTree = "<group>"; };
 		A75155A31F8BAFDB00204A88 /* Tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A75155B21F8BBDC100204A88 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		A75155B41F8BC00A00204A88 /* CDOptionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDOptionTests.m; sourceTree = "<group>"; };
 		A75155B51F8BC00A00204A88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A754FE4A1F89D109008F0BC3 /* CDUsage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDUsage.h; sourceTree = "<group>"; };
@@ -155,12 +150,6 @@
 		A770D5DE1EAAAD77004D1138 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A770D5E01EAAADA2004D1138 /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
 		A77365B41EA87F3100FDC070 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		A78A8C9514375704007AE363 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
-		A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ConfigDebug.xcconfig; sourceTree = "<group>"; };
-		A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ConfigRelease.xcconfig; sourceTree = "<group>"; };
-		A78A8CDE14377610007AE363 /* HISTORY.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = HISTORY.md; sourceTree = "<group>"; };
-		A78A8CDF14377610007AE363 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		A796ED4E1E9B0BD7008EE718 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		A7C95CBC1F7CB5CB009000CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Info.plist; sourceTree = "<group>"; };
 		A7C95CC31F7CB5CB009000CE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A7D10CC81F8B030800AA3132 /* NSNumber+CDNumber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSNumber+CDNumber.h"; sourceTree = "<group>"; };
@@ -218,8 +207,6 @@
 		A7EC0C031F7F2CBC00EFF605 /* CDColumns.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDColumns.m; sourceTree = "<group>"; };
 		A7EC0C041F7F2CBC00EFF605 /* CDJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDJson.h; sourceTree = "<group>"; };
 		A7EC0C051F7F2CBC00EFF605 /* CDJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDJson.m; sourceTree = "<group>"; };
-		A7F3E7A81F8E419F0017D71A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		A7F3E7AA1F8E47D60017D71A /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
 		A7FC52C31F7FB07F00DA9F5E /* CDMatrix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDMatrix.h; sourceTree = "<group>"; };
 		A7FC52C51F7FB09000DA9F5E /* CDMatrix.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDMatrix.m; sourceTree = "<group>"; };
 		A7FC52C71F7FC7D800DA9F5E /* CDSliderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDSliderView.m; sourceTree = "<group>"; };
@@ -228,6 +215,7 @@
 		A7FC52CD1F81220F00DA9F5E /* CDTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDTextView.m; sourceTree = "<group>"; };
 		A7FC52CF1F81221900DA9F5E /* CDTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDTextView.h; sourceTree = "<group>"; };
 		E8FDB69E191B5158E1872F21 /* libPods-cocoadialog.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-cocoadialog.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8E6EA18F8A8D49BBE67D1D9 /* Pods-cocoadialog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cocoadialog.debug.xcconfig"; path = "Pods/Target Support Files/Pods-cocoadialog/Pods-cocoadialog.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -246,6 +234,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A728DD831F9D37720073580B /* Cocoa.framework in Frameworks */,
+				A728DD801F9D37620073580B /* Foundation.framework in Frameworks */,
+				A728DD7F1F9D375B0073580B /* libPods-cocoadialog.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,66 +252,39 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		25467D3391C70123D7E8565E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F8E6EA18F8A8D49BBE67D1D9 /* Pods-cocoadialog.debug.xcconfig */,
+				A21235E129F27B93137BD95D /* Pods-cocoadialog.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		29B97314FDCFA39411CA2CEA /* cocoaDialog */ = {
 			isa = PBXGroup;
 			children = (
-				A796ED4E1E9B0BD7008EE718 /* .gitignore */,
-				A75155B21F8BBDC100204A88 /* .travis.yml */,
-				A78A8CDE14377610007AE363 /* HISTORY.md */,
-				A7F3E7AA1F8E47D60017D71A /* CONTRIBUTING.md */,
-				A78A8CDF14377610007AE363 /* LICENSE */,
-				A7F3E7A81F8E419F0017D71A /* README.md */,
-				A74373D91F92D9AA002A4142 /* package.json */,
-				A73F15BD1F87EA1200169420 /* prefix.pch */,
-				A78A8C9414375703007AE363 /* Configurations */,
 				A7C95CB41F7CB5CB009000CE /* Resources */,
 				A74A1C271F8646DD006289A8 /* Templates */,
 				A7EC0BC51F7F2CBC00EFF605 /* Source */,
 				A75155B31F8BC00A00204A88 /* Tests */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				A77365B31EA87F3100FDC070 /* Frameworks */,
-				3F5B3C182ED05F8713EA5C49 /* Pods */,
-				3E30425D63056AEB1E867BA7 /* Scripts */,
+				3E30463D71D79A0F5AE279C5 /* Configurations */,
+				25467D3391C70123D7E8565E /* Pods */,
 			);
 			name = cocoaDialog;
 			sourceTree = "<group>";
 			usesTabs = 0;
 		};
-		3E30425D63056AEB1E867BA7 /* Scripts */ = {
+		3E30463D71D79A0F5AE279C5 /* Configurations */ = {
 			isa = PBXGroup;
 			children = (
-				3E3049D5FFD4398D36A66696 /* lib */,
-				3E30424E25F42D9CE80C4AEF /* test.js */,
-				3E304CDA4338D5CAC6BED0B2 /* build.js */,
-				3E3048CE72AB9867DA9BF248 /* travis.js */,
-				3E304EAF35BA2AB93C494E2B /* update-version.js */,
-				3E304BA512F43D11C8627A57 /* commit.js */,
-				3E304C7CE337A380AC5A064D /* post-install.js */,
+				3E304F5304D63D160EFB6FAC /* Config.xcconfig */,
+				3E304E0BB7C7789B2908851B /* ConfigDebug.xcconfig */,
+				3E3049E7EE1D7617EEF62E8A /* ConfigRelease.xcconfig */,
 			);
-			path = Scripts;
-			sourceTree = "<group>";
-		};
-		3E3049D5FFD4398D36A66696 /* lib */ = {
-			isa = PBXGroup;
-			children = (
-				3E304D0060FB3255308ACF05 /* fs.js */,
-				3E3048338EBB84DBDB5CB5A5 /* io.js */,
-				3E30437AC7469E138D7B413B /* app.js */,
-				3E304AEF65481C17A0351729 /* plist.js */,
-				3E304684D7D50B5C2A230EFD /* xcode.js */,
-				3E304BB2F1E443AE55C6C120 /* travis.js */,
-				3E3047F56204EC2E07F1BF8A /* Promise.js */,
-				3E30449B76E398F38BDEC136 /* xcprettyTravisFormatter.rb */,
-				3E304FB8D58B66BC9C8E6A8D /* pods.js */,
-			);
-			path = lib;
-			sourceTree = "<group>";
-		};
-		3F5B3C182ED05F8713EA5C49 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Pods;
+			path = Configurations;
 			sourceTree = "<group>";
 		};
 		A74A1C271F8646DD006289A8 /* Templates */ = {
@@ -343,22 +307,18 @@
 		A77365B31EA87F3100FDC070 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A728DD811F9D37680073580B /* AppKit.framework */,
+				A728DD7B1F9D36240073580B /* libGRMustache.a */,
+				A728DD7C1F9D36240073580B /* libJRSwizzle.a */,
+				A728DD7D1F9D36240073580B /* libMasonry.a */,
+				A728DD7E1F9D36240073580B /* libTSMarkdownParser.a */,
+				A728DD761F9D36140073580B /* libPods-cocoadialog.a */,
 				A770D5E01EAAADA2004D1138 /* ScriptingBridge.framework */,
 				A770D5DE1EAAAD77004D1138 /* Foundation.framework */,
 				A77365B41EA87F3100FDC070 /* Cocoa.framework */,
 				E8FDB69E191B5158E1872F21 /* libPods-cocoadialog.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		A78A8C9414375703007AE363 /* Configurations */ = {
-			isa = PBXGroup;
-			children = (
-				A78A8C9514375704007AE363 /* Config.xcconfig */,
-				A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */,
-				A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */,
-			);
-			path = Configurations;
 			sourceTree = "<group>";
 		};
 		A7C95CB41F7CB5CB009000CE /* Resources */ = {
@@ -454,6 +414,7 @@
 				A7EC0BCA1F7F2CBC00EFF605 /* NSString+CDColor.m */,
 				A7EC0BCB1F7F2CBC00EFF605 /* NSString+CDString.h */,
 				A7EC0BCC1F7F2CBC00EFF605 /* NSString+CDString.m */,
+				3E3040075CAC5E4017D7C6A0 /* prefix.pch */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -465,7 +426,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A73F15BE1F87EA1200169420 /* prefix.pch in Headers */,
 				A7EC0C061F7F2CBC00EFF605 /* NSArray+CDArray.h in Headers */,
 				A7EC0C081F7F2CBC00EFF605 /* NSString+CDColor.h in Headers */,
 				A754FE4B1F89D109008F0BC3 /* CDUsage.h in Headers */,
@@ -503,6 +463,7 @@
 				A7FC52CA1F7FC7E300DA9F5E /* CDSliderView.h in Headers */,
 				A7FC52D01F81222F00DA9F5E /* CDTextView.h in Headers */,
 				A7EC0C331F7F2CBC00EFF605 /* CDTextbox.h in Headers */,
+				3E304F1DFE4187A80D94E1F3 /* prefix.pch in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -542,7 +503,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				A75155B81F8BC09200204A88 /* PBXTargetDependency */,
+				A728DD851F9D378C0073580B /* PBXTargetDependency */,
 			);
 			name = Tests;
 			productName = CDOptionTests;
@@ -561,6 +522,9 @@
 				TargetAttributes = {
 					8D1107260486CEB800E47090 = {
 						LastSwiftMigration = 0830;
+					};
+					A75155A21F8BAFDB00204A88 = {
+						TestTargetID = 8D1107260486CEB800E47090;
 					};
 				};
 			};
@@ -594,7 +558,6 @@
 				A739834D1F7CBB3600867E08 /* CDDialog.xib in Resources */,
 				A7C95D091F7CB5CB009000CE /* Images.xcassets in Resources */,
 				A74A1C3A1F86E9C7006289A8 /* Acknowledgements.md in Resources */,
-				A74A1C3B1F86E9D7006289A8 /* LICENSE in Resources */,
 				A74A1C2A1F86480B006289A8 /* About.mustache in Resources */,
 				A739833C1F7CBAD400867E08 /* CDSliderView.xib in Resources */,
 				A739834F1F7CBD7600867E08 /* CDProgressbarView.xib in Resources */,
@@ -723,10 +686,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		A75155B81F8BC09200204A88 /* PBXTargetDependency */ = {
+		A728DD851F9D378C0073580B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8D1107260486CEB800E47090 /* cocoadialog */;
-			targetProxy = A75155B71F8BC09200204A88 /* PBXContainerItemProxy */;
+			targetProxy = A728DD841F9D378C0073580B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -760,6 +723,7 @@
 /* Begin XCBuildConfiguration section */
 		A75155A91F8BAFDB00204A88 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3E304E0BB7C7789B2908851B /* ConfigDebug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -793,6 +757,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cocoadialog.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -803,6 +768,7 @@
 		};
 		A75155AA1F8BAFDB00204A88 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3E3049E7EE1D7617EEF62E8A /* ConfigRelease.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -831,6 +797,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cocoadialog.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -841,7 +808,6 @@
 		};
 		A770D5D91EAAA1F2004D1138 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -865,25 +831,24 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = cocoadialog;
 			};
 			name = Debug;
 		};
 		A770D5DA1EAAA1F2004D1138 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A78A8C9614375704007AE363 /* ConfigDebug.xcconfig */;
+			baseConfigurationReference = 3E304E0BB7C7789B2908851B /* ConfigDebug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = cocoadialog;
 				CLANG_ENABLE_MODULES = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cocoadialog.app;
+				PRODUCT_NAME = cocoadialog;
 			};
 			name = Debug;
 		};
 		A770D5DB1EAAA1FC004D1138 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -905,19 +870,19 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PRODUCT_NAME = cocoadialog;
 			};
 			name = Release;
 		};
 		A770D5DC1EAAA1FC004D1138 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A78A8C9714375704007AE363 /* ConfigRelease.xcconfig */;
+			baseConfigurationReference = 3E3049E7EE1D7617EEF62E8A /* ConfigRelease.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = cocoadialog;
 				CLANG_ENABLE_MODULES = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cocoadialog.app;
+				PRODUCT_NAME = cocoadialog;
 			};
 			name = Release;
 		};
@@ -931,7 +896,7 @@
 				A770D5DC1EAAA1FC004D1138 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		0E77E9A30963C37C00D651A3 /* Build configuration list for PBXProject "cocoadialog" */ = {
 			isa = XCConfigurationList;
@@ -940,7 +905,7 @@
 				A770D5DB1EAAA1FC004D1138 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		A75155A81F8BAFDB00204A88 /* Build configuration list for PBXNativeTarget "Tests" */ = {
 			isa = XCConfigurationList;
@@ -949,7 +914,7 @@
 				A75155AA1F8BAFDB00204A88 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

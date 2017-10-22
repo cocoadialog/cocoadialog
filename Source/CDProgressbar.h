@@ -7,32 +7,34 @@
 
 @class CDProgressbar;
 
+#import <Foundation/Foundation.h>
+
 //#import <sys/select.h> @todo does this actually need to be here now?
 #import "CDDialog.h"
 #import "CDProgressbarView.h"
 
 @protocol CDProgressbarProtocol <NSObject>
 
-- (void) progressUpdate:(NSDictionary *)data;
-- (void) progressFinished;
+- (void)progressUpdate:(NSDictionary *)data;
+- (void)progressFinished;
 
 @end
 
 @interface CDProgressbar : CDDialog <NSWindowDelegate, CDProgressbarProtocol>
 
 # pragma mark - Properties
-@property (strong)                   CDProgressbarView           *progressbar;
-@property (strong)       IBOutlet    NSButton                    *stopButton;
-@property (strong)                   NSAlert                     *confirmationSheet;
-@property (strong)                   NSArray <NSString *>        *labels;
-@property (nonatomic)                BOOL                        stopped;
+@property(strong) CDProgressbarView *progressbar;
+@property(strong) IBOutlet    NSButton *stopButton;
+@property(strong) NSAlert *confirmationSheet;
+@property(strong) NSArray <NSString *> *labels;
+@property(nonatomic) BOOL stopped;
 
 # pragma mark - Public instance methods
 
--(void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+- (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 
 # pragma mark - Actions
 
--(IBAction) stop:(id)sender;
+- (IBAction) stop:(id)sender;
 
 @end

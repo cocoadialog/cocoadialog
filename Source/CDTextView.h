@@ -7,13 +7,15 @@
 
 @class CDTextView;
 
+#import <Foundation/Foundation.h>
+
 #import "CDControlView.h"
 #import "CDMarkdown.h"
 
 @interface CDTextView : CDControlView
 
-@property (strong)                   CDMarkdown         *markdown;
-@property (strong)          IBOutlet NSScrollView       *scrollView;
-@property (strong) 	        IBOutlet NSTextView         *textView;
+@property(strong) CDMarkdown *markdown;
+@property(strong) IBOutlet NSScrollView *scrollView;
+@property(strong) IBOutlet NSTextView *textView;
 
 @end
