@@ -5,7 +5,7 @@ exports.execSync = command => execa.shellSync(command, {shell: '/bin/bash'}).std
 
 exports.pipe = (command, printCommand = false) => {
   if (printCommand) {
-    console.log(command);
+    console.log(`$ ${command}\n`);
   }
   // Piped commands should always exit on error.
   return execa(command, {shell: '/bin/bash', stderr: 'inherit', stdout: 'inherit'})

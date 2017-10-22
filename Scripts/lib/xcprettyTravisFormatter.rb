@@ -34,10 +34,6 @@ class TravisFormatter < XCPretty::Simple
       end
     end
   end
-  
-  def group_count(group)
-    [group, i]
-  end
 
   def format_group(group, track = true)
     group = group.downcase.gsub(/[^a-z\d\-_.]+/, '-').gsub(/-$/, '')
@@ -87,8 +83,8 @@ class TravisFormatter < XCPretty::Simple
   # Test.
   def format_test_run_started(name);                                        open_fold("Test"); super; end
   def format_test_suite_started(name);                                      open_fold("Test"); super; end
-  def format_failing_test(suite, test, reason, file_path);                  @errors.push(super); ""; end
-  def format_test_summary(message, failures_per_suite);                     @errors.concat(failures_per_suite.values); ""; end
+  def format_failing_test(suite, test, reason, file_path);                  @errors.push(super); super; end
+  def format_test_summary(message, failures_per_suite);                     @errors.concat(failures_per_suite.values); super; end
 
   # Errors and warnings.
   def format_compile_error(file_name, file_path, reason, line, cursor);     @errors.push(super); ""; end
