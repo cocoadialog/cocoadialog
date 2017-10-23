@@ -8,4 +8,4 @@ if (!travis.running) {
   process.exit(1);
 }
 
-module.exports = Promise.reduce(['./test', './build', './update-version'], require);
+module.exports = Promise.reduce(['./build', './analyze', './test', './update-version'], require);

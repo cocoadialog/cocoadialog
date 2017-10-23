@@ -6,14 +6,15 @@
 // Licensed under GPL-2.
 
 #import "CDApplication.h"
-#import "CDControl.h"
 #import "CDColumns.h"
-#import "CDTemplate.h"
-
 
 @implementation CDControl
 
 @synthesize app, alias, exitStatus, name, options, returnValues, terminal, template, topLevelObjects, nib;
+
++ (instancetype)initWithName:(NSString *)aName alias:(CDControlAlias *)anAlias {
+  return [[self alloc] initWithName:aName alias:anAlias];
+}
 
 - (instancetype)init {
   self = [super init];
@@ -85,6 +86,7 @@
         return @([CDTerminal sharedInstance].supportsColor);
       }),
       CDOption.create(CDBoolean, @"debug").addWarning(@"USAGE_OPTION_WARNING_AFFECTS_OUTPUT".localized),
+      CDOption.create(CDBoolean, @"error").setDefaultValue(@YES),
       CDOption.create(CDBoolean, @"help"),
       CDOption.create(CDString, @"output").allow(@[@"columns", @"json"]).setDefaultValue(@"columns"),
       CDOption.create(CDBoolean, @"quiet"),
@@ -93,12 +95,8 @@
       }),
       CDOption.create(CDBoolean, @"verbose").addWarning(@"USAGE_OPTION_WARNING_AFFECTS_OUTPUT".localized),
       CDOption.create(CDBoolean, @"version"),
-      CDOption.create(CDBoolean, @"warnings").setDefaultValue(@"YES"),
+      CDOption.create(CDBoolean, @"warning").setDefaultValue(@"YES"),
     ]);
-}
-
-+ (instancetype)control {
-  return [[self alloc] init];
 }
 
 - (void)debugOptions:(CDOption *)opt {

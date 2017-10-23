@@ -19,6 +19,7 @@ typedef NS_ENUM(NSUInteger, CDTerminalExitCode) {
     CDTerminalExitCodeOk = 0,
   CDTerminalExitCodeCancel = 1,
   CDTerminalExitCodeTimeout = 124,
+  CDTerminalExitCodeInternal = 254,
   CDTerminalExitCodeUnknown = 255,
 
   // Template.

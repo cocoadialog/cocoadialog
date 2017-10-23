@@ -7,8 +7,10 @@
 @class CDApplication;
 
 #import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
 #import <AppKit/AppKit.h>
 
+#import "CDClass.h"
 #import "CDOptions.h"
 #import "CDControlAlias.h"
 #import "CDControl.h"

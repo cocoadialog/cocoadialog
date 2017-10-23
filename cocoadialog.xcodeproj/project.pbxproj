@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E304A343DA6A36155D2BA52 /* CDClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E30411254CFA06DFC60005B /* CDClass.h */; };
+		3E304AFBDE23F6B8F8A358F6 /* CDClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E304AED500E87A50DA3FD8C /* CDClass.m */; };
 		3E304F1DFE4187A80D94E1F3 /* prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 3E3040075CAC5E4017D7C6A0 /* prefix.pch */; };
 		A71EC8C11F88B0E500DB31D8 /* Locale.plist in Resources */ = {isa = PBXBuildFile; fileRef = A71EC8C31F88B0E500DB31D8 /* Locale.plist */; };
 		A71EC8C51F88B1A600DB31D8 /* CDLocale.h in Headers */ = {isa = PBXBuildFile; fileRef = A71EC8C41F88B1A600DB31D8 /* CDLocale.h */; };
@@ -113,7 +115,9 @@
 
 /* Begin PBXFileReference section */
 		3E3040075CAC5E4017D7C6A0 /* prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prefix.pch; sourceTree = "<group>"; };
+		3E30411254CFA06DFC60005B /* CDClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDClass.h; sourceTree = "<group>"; };
 		3E3049E7EE1D7617EEF62E8A /* ConfigRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ConfigRelease.xcconfig; sourceTree = "<group>"; };
+		3E304AED500E87A50DA3FD8C /* CDClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDClass.m; sourceTree = "<group>"; };
 		3E304E0BB7C7789B2908851B /* ConfigDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ConfigDebug.xcconfig; sourceTree = "<group>"; };
 		3E304F5304D63D160EFB6FAC /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* cocoadialog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cocoadialog.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -415,6 +419,8 @@
 				A7EC0BCB1F7F2CBC00EFF605 /* NSString+CDString.h */,
 				A7EC0BCC1F7F2CBC00EFF605 /* NSString+CDString.m */,
 				3E3040075CAC5E4017D7C6A0 /* prefix.pch */,
+				3E304AED500E87A50DA3FD8C /* CDClass.m */,
+				3E30411254CFA06DFC60005B /* CDClass.h */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -464,6 +470,7 @@
 				A7FC52D01F81222F00DA9F5E /* CDTextView.h in Headers */,
 				A7EC0C331F7F2CBC00EFF605 /* CDTextbox.h in Headers */,
 				3E304F1DFE4187A80D94E1F3 /* prefix.pch in Headers */,
+				3E304A343DA6A36155D2BA52 /* CDClass.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -672,6 +679,7 @@
 				A7EC0C341F7F2CBC00EFF605 /* CDTextbox.m in Sources */,
 				A7EC0C071F7F2CBC00EFF605 /* NSArray+CDArray.m in Sources */,
 				A7EC0C2C1F7F2CBC00EFF605 /* CDProgressbarView.m in Sources */,
+				3E304AFBDE23F6B8F8A358F6 /* CDClass.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

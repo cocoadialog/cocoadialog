@@ -59,6 +59,8 @@
     // Determine if running inside a terminal.
     _isCLI = _environment[@"TERM_PROGRAM"] && !_environment[@"TERM_PROGRAM"].isBlank;
 
+    _logLevel = CDTerminalLogLevelError | CDTerminalLogLevelWarning;
+
     // The "tput" command will throw an error if there is no "TERM" environment variable set.
     // If not, assume terminal is not interactive.
     if (!_isCLI || !_environment[@"TERM"] || _environment[@"TERM"].isBlank) {

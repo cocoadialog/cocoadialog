@@ -104,14 +104,11 @@
     }
   }
 
-  // Get all available options and put them in their necessary categories.
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-  NSDictionary<NSString *, CDOptions *> *categories = ((CDOptions *) [control performSelector:NSSelectorFromString(@"availableOptions")]).groupByScope;
-#pragma clang diagnostic pop
+  // Get all available options and put them in their necessary scopedOptions.
+  NSDictionary<NSString *, CDOptions *> *scopedOptions = control.options.groupByScope;
 
   // Print options for each scope.
-  NSEnumerator *sortedScopes = [[NSArray arrayWithArray:[categories.allKeys sortedArrayUsingComparator:^NSComparisonResult(NSString *a, NSString *b) {
+  NSEnumerator *sortedScopes = [[NSArray arrayWithArray:[scopedOptions.allKeys sortedArrayUsingComparator:^NSComparisonResult(NSString *a, NSString *b) {
     // Ensure global options are always at the bottom.
     if ([a isEqualToString:@"global"]) {
       return (NSComparisonResult) NSOrderedDescending;
@@ -128,7 +125,7 @@
     [self.terminal writeLine:[NSString stringWithFormat:@"USAGE_HEADER_SCOPE_%@", scope.uppercaseString].localized.white.bold.underline.stop];
     [self.terminal writeNewLine];
 
-    CDOptions *scopeOptions = categories[scope];
+    CDOptions *scopeOptions = scopedOptions[scope];
     NSArray *sorted = scopeOptions.allKeys.sortedAlphabetically;
     for (NSString *optionName in sorted) {
       CDOption *scopeOption = scopeOptions[optionName];

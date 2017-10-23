@@ -6,21 +6,9 @@
 // Licensed under GPL-2.
 
 #import "CDApplication.h"
-
-// Controls.
-#import "CDCheckbox.h"
-#import "CDFileSelect.h"
-#import "CDFileSave.h"
-#import "CDInputbox.h"
-#import "CDDropdown.h"
-#import "CDProgressbar.h"
-#import "CDRadio.h"
-#import "CDSlider.h"
-#import "CDTextbox.h"
 #import "CDUsage.h"
 
 @implementation CDApplication
-
 
 - (NSString *)baseUrl {
   return @"https://cocoadialog.com";
@@ -55,7 +43,6 @@
 - (NSString *)version {
   return [NSBundle mainBundle].infoDictionary[@"CFBundleVersion"];
 }
-
 
 + (NSArray<NSString *> *)availableControls {
   return @[
@@ -95,7 +82,6 @@
   };
 }
 
-
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
   // Immediately exit if we're testing.
   if (self.isTesting) {
@@ -109,15 +95,10 @@
 
   // Retrieve the control name and class based on terminal arguments.
   NSString *controlName = [self controlName];
-  Class controlClass = [self controlClassForName:controlName];
-
-  // Ensure the control class provided conforms to the CDControlProtocol.
-  if (!controlClass || ![controlClass conformsToProtocol:@protocol(CDControlProtocol)]) {
-    _terminal.error(@"Provided class does not conform to the CDControlProtocol: %@", controlClass, nil).exit(CDTerminalExitCodeControlFailure);
-  }
+  CDClass *controlClass = CDClass.create([self controlClassForName:controlName]).ensureProtocol(@"CDControlProtocol");
 
   // Retrieve all the available options for the control.
-  CDOptions *availableOptions = ((CDOptions *(*)(id, SEL)) [controlClass methodForSelector:NSSelectorFromString(@"availableOptions")])(controlClass, NSSelectorFromString(@"availableOptions"));
+  CDOptions *availableOptions = controlClass.methodForSelector(@selector(availableOptions), nil);
 
   // Process the terminal arguments.
   _options = availableOptions.processArguments(_terminal.arguments);
@@ -150,8 +131,7 @@
   }
 
   // Construct the control.
-  CDControl *control = ((CDControl *(*)(id, SEL)) [controlClass methodForSelector:NSSelectorFromString(@"alloc")])(controlClass, NSSelectorFromString(@"alloc"));
-  _control = [control initWithName:controlName alias:_controlAlias];
+  _control = controlClass.methodForSelector(@selector(initWithName:alias:), controlName, _controlAlias, nil);
 
   // Show usage.
   if ([controlName isEqualToStringCaseInsensitive:@"help"] || _options[@"help"].wasProvided) {
@@ -184,13 +164,13 @@
   NSArray *unknown = [self.control.options unknownOptions].sortedAlphabetically;
   if (unknown.count) {
     for (NSString *name in unknown) {
-      self.terminal.warning(NSLocalizedString(@"WARNING_UNKNOWN_OPTION".localized, nil), name.optionFormat, nil);
+      self.terminal.warning(@"WARNING_UNKNOWN_OPTION".localized, name.optionFormat, nil);
     }
   }
 
   // Warn if multiple value options don't specify argument breaks.
   for (NSString *name in self.control.options.missingArgumentBreaks) {
-    self.terminal.warning(NSLocalizedString(@"WARNING_MISSING_ARGUMENT_BREAK".localized, nil), name.optionFormat, nil);
+    self.terminal.warning(@"WARNING_MISSING_ARGUMENT_BREAK".localized, name.optionFormat, nil);
   }
 
   // Validate minimum and maximum values were provided.
@@ -228,7 +208,7 @@
   // Because this application isn't going to be double-clicked, or
   // launched with the "open" command-line tool, it won't necessarily
   // come to the front automatically.
-  [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
+  [self activateIgnoringOtherApps:YES];
 
   // Run the control.
   // The control is now responsible for terminating cocoadialog,
@@ -308,30 +288,26 @@
   ];
 }
 
-- (NSDictionary *)controlClasses {
-  return @{
-    @"checkbox": CDCheckbox.class,
-    @"dropdown": CDDropdown.class,
-    @"open": CDFileSelect.class,
-    @"save": CDFileSave.class,
-    @"input": CDInputbox.class,
-    @"msgbox": CDDialog.class,
-    @"progressbar": CDProgressbar.class,
-    @"radio": CDRadio.class,
-    @"slider": CDSlider.class,
-    @"textbox": CDTextbox.class,
-
-    // @todo Add back the notify control class if support is ever added back in.
-    // @see https://github.com/cocoadialog/cocoadialog/issues/92
-    // @"notify": CDNotifyControl.class,
-  };
-}
-
-
 - (Class)controlClassForName:(NSString *)controlName {
+  NSDictionary <NSString *, NSString *> *controlClasses = @{
+    @"checkbox": @"CDCheckbox",
+    @"dropdown": @"CDDropdown",
+    @"open": @"CDFileSelect",
+    @"save": @"CDFileSave",
+    @"input": @"CDInputbox",
+    @"msgbox": @"CDDialog",
+    @"progressbar": @"CDProgressbar",
+    @"radio": @"CDRadio",
+    @"slider": @"CDSlider",
+    @"textbox": @"CDTextbox",
+  };
+
   Class controlClass;
-  if (controlName) {
-    controlClass = self.controlClasses[controlName.lowercaseString];
+  if (controlName && controlClasses[controlName.lowercaseString]) {
+    controlClass = NSClassFromString(controlClasses[controlName.lowercaseString]);
+    if (!controlClass) {
+      self.terminal.error(@"Unable to find class %@.", controlClasses[controlName.lowercaseString].doubleQuote, nil).exit(CDTerminalExitCodeControlFailure);
+    }
   }
   return controlClass ?: CDControl.class;
 }
@@ -420,7 +396,7 @@
 
 - (BOOL)isTesting {
   // Returns YES if we are currently being unit tested.
-  return !!(NSClassFromString(@"XCTestProbe"));
+  return NSClassFromString(@"XCTestProbe") != NULL;
 }
 
 @end

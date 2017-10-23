@@ -1,4 +1,4 @@
 #!/usr/bin/env node
 const xcode = require('./lib/xcode');
 
-module.exports = xcode.run('build:Release', 'analyze:Release');
+module.exports = xcode.run('build:Debug', 'build:Release');

@@ -29,12 +29,11 @@
 @property(strong, readonly) NSArray *topLevelObjects;
 
 + (CDOptions *)availableOptions;
-+ (instancetype)control;
++ (instancetype)initWithName:(NSString *)aName alias:(CDControlAlias *)anAlias;
 + (NSString *)scope;
 
 - (void)createControl;
 - (NSScreen *)getScreen;
-- (instancetype)initWithName:(NSString *)aName alias:(CDControlAlias *)anAlias;
 - (void)runControl;
 - (void)stopControl;
 
