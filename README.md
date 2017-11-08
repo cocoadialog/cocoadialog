@@ -10,7 +10,7 @@
 
 If you are looking for documentation on how to use a working version of this application, please visit:
 
-https://cocoadialog.com/documentation
+https://cocoadialog.com/#documentation
 
 ## Contributing
 
