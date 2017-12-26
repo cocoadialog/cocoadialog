@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E304412D37EBC35B4FE7D67 /* CDOptionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3042EF7EE082C41B116478 /* CDOptionsTests.m */; };
 		3E304A343DA6A36155D2BA52 /* CDClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E30411254CFA06DFC60005B /* CDClass.h */; };
 		3E304AFBDE23F6B8F8A358F6 /* CDClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E304AED500E87A50DA3FD8C /* CDClass.m */; };
 		3E304F1DFE4187A80D94E1F3 /* prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 3E3040075CAC5E4017D7C6A0 /* prefix.pch */; };
@@ -116,6 +117,7 @@
 /* Begin PBXFileReference section */
 		3E3040075CAC5E4017D7C6A0 /* prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prefix.pch; sourceTree = "<group>"; };
 		3E30411254CFA06DFC60005B /* CDClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDClass.h; sourceTree = "<group>"; };
+		3E3042EF7EE082C41B116478 /* CDOptionsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOptionsTests.m; sourceTree = "<group>"; };
 		3E3049E7EE1D7617EEF62E8A /* ConfigRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ConfigRelease.xcconfig; sourceTree = "<group>"; };
 		3E304AED500E87A50DA3FD8C /* CDClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDClass.m; sourceTree = "<group>"; };
 		3E304E0BB7C7789B2908851B /* ConfigDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ConfigDebug.xcconfig; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 			children = (
 				A75155B41F8BC00A00204A88 /* CDOptionTests.m */,
 				A75155B51F8BC00A00204A88 /* Info.plist */,
+				3E3042EF7EE082C41B116478 /* CDOptionsTests.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -524,7 +527,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = CD;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = cocoadialog;
 				TargetAttributes = {
 					8D1107260486CEB800E47090 = {
@@ -688,6 +691,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A75155B61F8BC07600204A88 /* CDOptionTests.m in Sources */,
+				3E304412D37EBC35B4FE7D67 /* CDOptionsTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

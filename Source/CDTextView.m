@@ -56,7 +56,7 @@
   }
 
   // select all the text
-  if (self.dialog.options[@"selected"].wasProvided) {
+  if (self.dialog.options[@"selected"].boolValue) {
     [self.textView setSelectedRange:NSMakeRange(0, self.textView.textStorage.length)];
   }
 }

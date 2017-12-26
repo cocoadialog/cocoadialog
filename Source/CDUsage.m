@@ -151,7 +151,7 @@
         [line appendString:[NSString stringWithFormat:@" (%@)", @"USAGE_OPTION_REQUIRED_VALUE".localizedLowercaseString].red.bold.stop];
       }
 
-      if (control.options[@"verbose"].wasProvided) {
+      if (control.options[@"verbose"].boolValue) {
         // Add the option description.
         [line appendString:@"\n"];
 
@@ -265,7 +265,7 @@
 
   [self.terminal writeLine:[NSString stringWithFormat:@"%@: %@", @"WEBSITE".localizedUppercaseString.underline.white.bold.stop, self.app.baseUrl.cyan.stop]];
 
-  if (!control.options[@"verbose"].wasProvided) {
+  if (!control.options[@"verbose"].boolValue) {
     [self.terminal writeNewLine];
     [self.terminal writeLine:@"---"];
     [self.terminal writeNewLine];

@@ -45,7 +45,7 @@
 
 # pragma mark - Public instance methods
 - (void)controlHasFinished:(NSInteger)button {
-  if (self.options[@"return-float"].wasProvided) {
+  if (self.options[@"return-float"].boolValue) {
     self.returnValues[@"value"] = @((int) (self.slider.value * 100) / 100.0);
   }
   else {

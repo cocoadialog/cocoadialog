@@ -34,7 +34,7 @@ IB_DESIGNABLE
 //    [valueLabel setSelectable:NO];
 //    valueLabel.alignment = NSRightTextAlignment;
 //    valueLabel.font = [NSFont fontWithName:valueLabel.font.fontName size:10.0f];
-//    if (!option[@"always-show-value"].wasProvided) {
+//    if (!option[@"always-show-value"].boolValue) {
 //        [valueLabel setHidden:YES];
 //    }
 //    [sliderView addSubview:valueLabel];
@@ -103,7 +103,7 @@ IB_DESIGNABLE
 //    CDSliderCell *slider = [matrix cellAtRow:0 column:0];
 //    // Update the label
 //    NSString *label = @"";
-//    if (option[@"return-float"].wasProvided) {
+//    if (option[@"return-float"].boolValue) {
 //        label = [NSString stringWithFormat:@"%.2f", slider.doubleValue];
 //    }
 //    else {

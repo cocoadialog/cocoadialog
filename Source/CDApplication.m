@@ -134,12 +134,12 @@
   _control = controlClass.methodForSelector(@selector(initWithName:alias:), controlName, _controlAlias, nil);
 
   // Show usage.
-  if ([controlName isEqualToStringCaseInsensitive:@"help"] || _options[@"help"].wasProvided) {
+  if ([controlName isEqualToStringCaseInsensitive:@"help"] || _options[@"help"].boolValue) {
     [[CDUsage usage] showUsage];
     exit(0);
   }
     // Show version.
-  else if ([controlName isEqualToStringCaseInsensitive:@"version"] || _options[@"version"].wasProvided) {
+  else if ([controlName isEqualToStringCaseInsensitive:@"version"] || _options[@"version"].boolValue) {
     [self.terminal writeLine:self.version];
     exit(0);
   }

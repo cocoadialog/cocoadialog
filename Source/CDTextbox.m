@@ -37,7 +37,7 @@
 
   // Set first responder
   // Why doesn't this work for the button?
-  if (self.options[@"focus"].wasProvided) {
+  if (self.options[@"focus"].boolValue) {
     [self.panel makeFirstResponder:self.textView.textView];
   }
   else {
@@ -54,7 +54,7 @@
 }
 
 - (void)controlHasFinished:(NSInteger)button {
-  if (self.options[@"editable"].wasProvided && self.options[@"editable"].boolValue) {
+  if (self.options[@"editable"].boolValue) {
     self.returnValues[@"value"] = self.textView.textView.textStorage.string;
   }
   [super controlHasFinished:button];

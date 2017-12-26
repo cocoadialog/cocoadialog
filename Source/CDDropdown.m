@@ -38,7 +38,7 @@
   [dropdownControl removeAllItems];
 
   // Set pulldown style.
-  dropdownControl.pullsDown = self.options[@"pulldown"].wasProvided;
+  dropdownControl.pullsDown = self.options[@"pulldown"].boolValue;
 
   // Populate menu
   NSArray *items = self.options[@"items"].arrayValue;
@@ -54,7 +54,7 @@
 }
 
 - (void)controlHasFinished:(NSInteger)button {
-  if (self.options[@"return-labels"].wasProvided) {
+  if (self.options[@"return-labels"].boolValue) {
     self.returnValues[@"value"] = dropdownControl.titleOfSelectedItem;
   }
   else {
@@ -65,8 +65,8 @@
 
 - (void)selectionChanged:(id)sender {
   [dropdownControl synchronizeTitleAndSelectedItem];
-  if (self.options[@"exit-onchange"].wasProvided) {
-    if (self.options[@"return-labels"].wasProvided) {
+  if (self.options[@"exit-onchange"].boolValue) {
+    if (self.options[@"return-labels"].boolValue) {
       self.returnValues[@"value"] = dropdownControl.titleOfSelectedItem;
     }
     else {

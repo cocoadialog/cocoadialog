@@ -44,7 +44,7 @@
   NSString *path = nil;
 
   // Set default bundle identifier
-  if (bundle == nil) {
+  if (bundle.isBlank) {
     // Application icon
     if ([value isEqualToStringCaseInsensitive:@"cocoadialog"]) {
       image = NSApp.applicationIconImage;

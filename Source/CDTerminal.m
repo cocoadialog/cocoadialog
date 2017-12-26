@@ -59,6 +59,8 @@
     // Determine if running inside a terminal.
     _isCLI = _environment[@"TERM_PROGRAM"] && !_environment[@"TERM_PROGRAM"].isBlank;
 
+    // Default to showing errors and warnings. Note: this is just a precaution to ensure any critical
+    // information is shown until the CLI options have been parsed and can override this value.
     _logLevel = CDTerminalLogLevelError | CDTerminalLogLevelWarning;
 
     // The "tput" command will throw an error if there is no "TERM" environment variable set.

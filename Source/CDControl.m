@@ -185,7 +185,7 @@
     [self.terminal write:self.returnValues.toColumnString];
   }
 
-  if (!self.options[@"no-newline"].wasProvided) {
+  if (!self.options[@"no-newline"].boolValue) {
     [self.terminal writeNewLine];
   }
 

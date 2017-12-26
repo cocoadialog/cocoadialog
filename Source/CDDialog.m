@@ -103,7 +103,7 @@
 
   id buttonValue = @(button);
 
-  if (self.options[@"return-labels"].wasProvided) {
+  if (self.options[@"return-labels"].boolValue) {
     if (button == 0) {
       buttonValue = self.button0.title;
     }
@@ -360,7 +360,7 @@
 
   // Handle --resize and && --titlebar-zoom options.
   BOOL resize = self.options[@"resize"].boolValue;
-  [self.panel standardWindowButton:NSWindowZoomButton].enabled = resize && self.options[@"titlebar-zoom"].wasProvided;
+  [self.panel standardWindowButton:NSWindowZoomButton].enabled = resize && self.options[@"titlebar-zoom"].boolValue;
   if (!resize) {
     self.panel.styleMask = self.panel.styleMask ^ NSResizableWindowMask;
   }

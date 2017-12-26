@@ -43,7 +43,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A75155A21F8BAFDB00204A88"
-               BuildableName = "Tests.xctest"
+               BuildableName = "Tests.app"
                BlueprintName = "Tests"
                ReferencedContainer = "container:cocoadialog.xcodeproj">
             </BuildableReference>
@@ -63,7 +63,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A75155A21F8BAFDB00204A88"
-               BuildableName = "Tests.xctest"
+               BuildableName = "Tests.app"
                BlueprintName = "Tests"
                ReferencedContainer = "container:cocoadialog.xcodeproj">
             </BuildableReference>
@@ -73,7 +73,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A75155A21F8BAFDB00204A88"
-            BuildableName = "Tests.xctest"
+            BuildableName = "Tests.app"
             BlueprintName = "Tests"
             ReferencedContainer = "container:cocoadialog.xcodeproj">
          </BuildableReference>
@@ -92,6 +92,15 @@
       debugDocumentVersioning = "NO"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "02E0D2956AE49C3557330536DA5689BA"
+            BuildableName = "libPods-cocoadialog.a"
+            BlueprintName = "Pods-cocoadialog"
+            ReferencedContainer = "container:Pods/Pods.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>

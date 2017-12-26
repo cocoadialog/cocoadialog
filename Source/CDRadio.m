@@ -33,7 +33,7 @@
   if (self.matrix.cells != nil && self.matrix.cells.count) {
     NSCell *selectedCell = self.matrix.selectedCell;
     if (selectedCell != nil) {
-      if (self.options[@"return-labels"].wasProvided) {
+      if (self.options[@"return-labels"].boolValue) {
         self.returnValues[@"value"] = selectedCell.title;
       }
       else {
