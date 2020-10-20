@@ -29,3 +29,4 @@ Podfile.lock
 build/*
 *.build
 *.o
+*.pbxproj~dd31a22b17d4be89b743f3e7510a500b8e53c763
