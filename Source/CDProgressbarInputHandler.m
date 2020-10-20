@@ -17,11 +17,11 @@
     if (self) {
         buffer = [[NSMutableData alloc] initWithCapacity:2048];
     }
-    
+
     return self;
 }
 
--(BOOL) getLastNewlinePosition:(NSUInteger*)position inData:(NSData*)data
+-(BOOL) getLastNewlinePosition:(NSUInteger *)position inData:(NSData *)data
 {
 	BOOL found = NO;
 
@@ -37,7 +37,7 @@
 	return found;
 }
 
--(NSString*) readLines:(NSFileHandle*)fileHandle
+-(NSString *) readLines:(NSFileHandle *)fileHandle
 {
     // Read a chunk of data from the file handle into the buffer and see if we have at least one complete string.
     // As newline takes one byte in UTF-8, we just scan for the last occurrence of it in the buffer, return everything up to it
@@ -51,18 +51,29 @@
             [buffer appendData:chunk];
             NSUInteger lastNewline;
             if ([self getLastNewlinePosition:&lastNewline inData:buffer]) {
+#ifdef CD_HEAD
                 NSData* readStrings = [buffer subdataWithRange:NSMakeRange(0, lastNewline + 1)];
                 NSData* rest = [buffer subdataWithRange:NSMakeRange(lastNewline + 1, buffer.length - (lastNewline + 1))];
                 buffer = [[NSMutableData alloc] initWithData:rest];
 
                 NSString* result = [[NSString alloc] initWithData:readStrings encoding:NSUTF8StringEncoding];
+#else
+                NSData *readStrings = [buffer subdataWithRange:NSMakeRange(0, (lastNewline + 1))];
+                NSData *rest = [buffer subdataWithRange:NSMakeRange((lastNewline + 1),
+                                                                    ([buffer length] - (lastNewline + 1)))];
+                [buffer release];
+                buffer = [[NSMutableData alloc] initWithData:rest];
+
+                NSString *result = [[[NSString alloc] initWithData:readStrings
+                                                          encoding:NSUTF8StringEncoding] autorelease];
+#endif
                 return result;
             }
         }
     }
 }
 
--(BOOL) parseString:(NSString*)str intoProgress:(double*)value
+-(BOOL) parseString:(NSString *)str intoProgress:(double *)value
 {
     if (str == nil) {
         return NO;
@@ -81,8 +92,10 @@
 
 -(void) invokeOnMainQueueWithTarget:(id)target selector:(SEL)selector object:(id)object
 {
-	NSOperationQueue* mainQueue = [NSOperationQueue mainQueue];
-	NSInvocationOperation* operation = [[NSInvocationOperation alloc] initWithTarget:target selector:selector object:object];
+	NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
+	NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:target
+                                                                            selector:selector
+                                                                              object:object];
 	[mainQueue addOperation:operation];
 }
 
@@ -90,20 +103,28 @@
 {
     if (currentProgress != newProgress) {
         currentProgress = newProgress;
+#ifdef CD_HEAD
         [self invokeOnMainQueueWithTarget:delegate selector:@selector(updateProgress:) object:@(newProgress)];
+#else
+        [self invokeOnMainQueueWithTarget:delegate
+                                 selector:@selector(updateProgress:)
+                                   object:[NSNumber numberWithDouble:newProgress]];
+#endif
     }
 }
 
--(void) updateLabel:(NSString*)newLabel
+-(void) updateLabel:(NSString *)newLabel
 {
     if (![currentLabel isEqualToString:newLabel]) {
         currentLabel = newLabel;
 
-        [self invokeOnMainQueueWithTarget:delegate selector:@selector(updateLabel:) object:newLabel];
+        [self invokeOnMainQueueWithTarget:delegate
+                                 selector:@selector(updateLabel:)
+                                   object:newLabel];
     }
 }
 
--(void) parseLines:(NSString*)str
+-(void) parseLines:(NSString *)str
 {
     NSCharacterSet *whitespaceSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
     NSArray *lines = [str componentsSeparatedByString:@"\n"];
@@ -112,14 +133,27 @@
         NSString *line = lines[i];
         if (line.length != 0) {
             if ([line isEqualToString:@"stop enable"]) {
+#ifdef CD_HEAD
                 [self invokeOnMainQueueWithTarget:delegate selector:@selector(setStopEnabled:) object:@YES];
+#else
+                [self invokeOnMainQueueWithTarget:delegate
+                                         selector:@selector(setStopEnabled:)
+                                           object:[NSNumber numberWithBool:YES]];
+#endif
             } else if ([line isEqualToString:@"stop disable"]) {
+#ifdef CD_HEAD
                 [self invokeOnMainQueueWithTarget:delegate selector:@selector(setStopEnabled:) object:@NO];
+#else
+                [self invokeOnMainQueueWithTarget:delegate
+                                         selector:@selector(setStopEnabled:)
+                                           object:[NSNumber numberWithBool:NO]];
+#endif
             } else {
                 NSScanner *scanner = [NSScanner scannerWithString:line];
 
                 NSString *percent = NULL;
-                [scanner scanUpToCharactersFromSet:whitespaceSet intoString:&percent];
+                [scanner scanUpToCharactersFromSet:whitespaceSet
+                                        intoString:&percent];
 
                 double progressValue;
                 if ([self parseString:percent intoProgress:&progressValue]) {
@@ -144,13 +178,24 @@
     NSFileHandle *stdinFH = [NSFileHandle fileHandleWithStandardInput];
 
     while (!finished) {
+#ifdef CD_HEAD
         @autoreleasepool {
             NSString* lines = [self readLines:stdinFH];
             [self parseLines:lines];
         }
+#else
+        pool = [[NSAutoreleasePool alloc] init];
+        NSString *lines = [self readLines:stdinFH];
+        [self parseLines:lines];
+        [pool drain];
+#endif
     }
 
-    [self invokeOnMainQueueWithTarget:delegate selector:@selector(finish) object:nil];
+    [self invokeOnMainQueueWithTarget:delegate
+                             selector:@selector(finish)
+                               object:nil];
 }
 
 @end
+
+/* EOF */

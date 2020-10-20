@@ -9,8 +9,8 @@
 
 @class CDProgressbarInputHandler;
 
-#define CDProgressbarMAX 100.0
-#define CDProgressbarMIN 0.0
+#define CDProgressbarMAX 100.0f
+#define CDProgressbarMIN 0.0f
 
 @interface CDProgressbarInputHandler : NSOperation {
     id delegate;
@@ -22,7 +22,9 @@
     NSString *currentLabel;
 }
 
--(BOOL) parseString:(NSString*)str intoProgress:(double*)value;
+-(BOOL) parseString:(NSString *)str intoProgress:(double *)value;
 -(void) setDelegate:(id)newDelegate;
-
+-(void) updateProgress:(double)newProgress;
 @end
+
+/* EOF */

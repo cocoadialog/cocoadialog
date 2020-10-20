@@ -24,3 +24,8 @@ Podfile.lock
 
 # Building process (Node.js)
 /Build
+
+# Other build artifacts:
+build/*
+*.build
+*.o

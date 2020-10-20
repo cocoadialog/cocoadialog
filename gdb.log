@@ -1,0 +1,586 @@
+#  /Developer/usr/bin/gdb t=0.064202 Tepoch=1432576661.108887
+<- (gdb) 
+-> 1-gdb-version
+#  PBXGDB_MIGDBVersionCommand t=7.612349 Tepoch=1432576668.657031
+-> 2-gdb-set auto-raise-load-levels 1
+#  PBXGDB_MISetAutoRaiseSymbols t=7.612631 Tepoch=1432576668.657313
+-> 3-gdb-set env SSH_AUTH_SOCK /tmp/ssh-hdKjgdRFSO/agent.53059
+#  PBXGDB_MISetEnvCommand t=7.612770 Tepoch=1432576668.657452
+-> 4-gdb-set env warpdoc /Applications/arp_warp_7.4/manual
+#  PBXGDB_MISetEnvCommand t=7.612858 Tepoch=1432576668.657540
+-> 5-gdb-set env Apple_PubSub_Socket_Render /tmp/launch-GZHYqX/Render
+#  PBXGDB_MISetEnvCommand t=7.612925 Tepoch=1432576668.657607
+-> 6-gdb-set env DBUS_FINK_SESSION_BUS_SOCKET /tmp/launch-F2YJtP/unix_domain_listener
+#  PBXGDB_MISetEnvCommand t=7.615348 Tepoch=1432576668.660031
+-> 7-gdb-set env __DoAppleInternalLogging__ true
+#  PBXGDB_MISetEnvCommand t=7.617025 Tepoch=1432576668.661707
+-> 8-gdb-set env DYLD_FRAMEWORK_PATH /Users/ericgallager/cocoadialog/build/Debug
+#  PBXGDB_MISetEnvCommand t=7.617116 Tepoch=1432576668.661798
+-> 9-gdb-set env USERBREAK 1
+#  PBXGDB_MISetEnvCommand t=7.617186 Tepoch=1432576668.661868
+-> 10-gdb-set env SHELL /bin/bash
+#  PBXGDB_MISetEnvCommand t=7.617254 Tepoch=1432576668.661936
+-> 11-gdb-set env DYLD_LIBRARY_PATH /Users/ericgallager/cocoadialog/build/Debug
+#  PBXGDB_MISetEnvCommand t=7.617326 Tepoch=1432576668.662008
+-> 12-gdb-set env NSUnbufferedIO YES
+#  PBXGDB_MISetEnvCommand t=7.617393 Tepoch=1432576668.662075
+-> 13-gdb-set env warpbin /Applications/arp_warp_7.4/bin/bin-i386-Darwin
+#  PBXGDB_MISetEnvCommand t=7.617460 Tepoch=1432576668.662142
+-> 14-gdb-set env PATH /Developer/usr/bin:/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/opt/X11/bin:/usr/texbin:/usr/X11/bin
+#  PBXGDB_MISetEnvCommand t=7.617536 Tepoch=1432576668.662218
+-> 15-gdb-set env DISPLAY /tmp/launch-B4CLtA/org.macosforge.xquartz:0
+#  PBXGDB_MISetEnvCommand t=7.617603 Tepoch=1432576668.662285
+-> 16-gdb-set env DBUS_LAUNCHD_SESSION_BUS_SOCKET /tmp/launch-DpGspv/unix_domain_listener
+#  PBXGDB_MISetEnvCommand t=7.617668 Tepoch=1432576668.662351
+-> 17-gdb-set env COMMAND_MODE unix2003
+#  PBXGDB_MISetEnvCommand t=7.617734 Tepoch=1432576668.662416
+-> 18-gdb-set env SSH_ASKPASS /Developer/Library/PrivateFrameworks/DevToolsInterface.framework/Resources/Xcode SSHPassKey
+#  PBXGDB_MISetEnvCommand t=7.617803 Tepoch=1432576668.662485
+-> 19-gdb-set env TMPDIR /var/folders/Vs/VsGkDxJXHq41Y+34HmvuNk+++Tg/-Tmp-/
+#  PBXGDB_MISetEnvCommand t=7.617871 Tepoch=1432576668.662553
+-> 20-gdb-set env HOME /Users/ericgallager
+#  PBXGDB_MISetEnvCommand t=7.617937 Tepoch=1432576668.662619
+-> 21-gdb-set env USER ericgallager
+#  PBXGDB_MISetEnvCommand t=7.618039 Tepoch=1432576668.662721
+-> 22-gdb-set env LOGNAME ericgallager
+#  PBXGDB_MISetEnvCommand t=7.618125 Tepoch=1432576668.662807
+-> 23-gdb-set env CVS_RSH ssh
+#  PBXGDB_MISetEnvCommand t=7.618192 Tepoch=1432576668.662874
+-> 24-gdb-set env __CF_USER_TEXT_ENCODING 0x1FB:0:0
+#  PBXGDB_MISetEnvCommand t=7.618263 Tepoch=1432576668.662945
+-> 25-gdb-set env DYLD_NEW_LOCAL_SHARED_REGIONS YES
+#  PBXGDB_MISetEnvCommand t=7.618327 Tepoch=1432576668.663009
+-> 26-gdb-set env DYLD_NO_FIX_PREBINDING YES
+#  PBXGDB_MISetEnvCommand t=7.618392 Tepoch=1432576668.663074
+#  Enqueue seq in Command Q: <PBXGDB_SetupSharedLibrarySequence: 0x20230c240> t=7.618692 Tepoch=1432576668.663374
+#  Executing Sequence: <PBXGDB_SetupSharedLibrarySequence: 0x20230c240> t=7.618774 Tepoch=1432576668.663456
+-> 28-gdb-set inferior-auto-start-cfm off
+#  PBXGDB_MISetLoadCFMInfoCommand t=7.618962 Tepoch=1432576668.663644
+-> 27-gdb-set sharedLibrary load-rules dyld ".*AppKit.*" all dyld ".*libobjc.*" all dyld ".*CarbonDataFormatters.*" all dyld ".*libauto.*" all dyld ".*PBGDBIntrospectionSupport.*" all dyld ".*CFDataFormatters.*" all dyld ".*CoreFoundation.*" extern dyld ".*libSystem.*" all dyld ".*/usr/lib/dyld.*" all dyld ".*Foundation.*" all dyld "/System/Library/Frameworks\\\\|/System/Library/PrivateFrameworks\\\\|/usr/lib" extern dyld ".*" extern exec ".*" extern 
+#  PBXGDB_MISetSharedLibraryLoadSymbolsCommand t=7.619584 Tepoch=1432576668.664266
+-> 29tty /dev/ttys000
+#  PBXGDB_MISetTTYCommand t=7.665985 Tepoch=1432576668.710667
+#  Enqueue seq in Command Q: <PBXGDB_GenericMICommandSequence: 0x2022dec20> t=7.666148 Tepoch=1432576668.710830
+#  Enqueue seq in Command Q: <PBXGDB_FixAndContinueIsSupportedSequence: 0x2022dfb60> t=7.666211 Tepoch=1432576668.710893
+-> 31-exec-arguments 
+#  PBXGDB_MISetArgumentsCommand t=7.667571 Tepoch=1432576668.712253
+#  Enqueue seq in Command Q: <PBXGDB_RegisterDataValueSetupSequence: 0x200cc4480> t=7.667756 Tepoch=1432576668.712438
+#  Enqueue seq in State Changing Q: <PBXGDB_RunControlSequence: 0x200c9d340> t=7.667828 Tepoch=1432576668.712510
+<- ~"GNU gdb 6.3.50-20050815 (Apple version gdb-1515) (Sat Jan 15 08:33:48 UTC 2011)\n"
+<- ~"Copyright 2004 Free Software Foundation, Inc.\n"
+<- ~"GDB is free software, covered by the GNU General Public License, and you are\nwelcome to change it and/or distribute copies of it under certain conditions.\nType \"show copying\" to see the conditions.\nThere is absolutely no warranty for GDB.  Type \"show warranty\" for details.\n"
+<- ~"This GDB was configured as \"x86_64-apple-darwin\"."
+<- 1^done,version="6.3.50-20050815 (Apple version gdb-1515)",rc_version="1515",target="x86_64-apple-darwin",build-date="Sat Jan 15 08:33:48 UTC 2011",time={wallclock="0.00038",user="0.00034",system="0.00004",start="1432576668.660559",end="1432576668.660941"}
+#  processing result t=7.674625 Tepoch=1432576668.719307
+<- (gdb) 
+<- 2^done,time={wallclock="0.00005",user="0.00005",system="0.00000",start="1432576668.661019",end="1432576668.661071"}
+#  processing result t=7.674787 Tepoch=1432576668.719469
+<- (gdb) 
+<- 3^done,time={wallclock="0.00006",user="0.00003",system="0.00003",start="1432576668.661166",end="1432576668.661227"}
+#  processing result t=7.674885 Tepoch=1432576668.719567
+<- (gdb) 
+<- 4^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1432576668.661318",end="1432576668.661331"}
+#  processing result t=7.674983 Tepoch=1432576668.719665
+<- (gdb) 
+<- 5^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1432576668.661433",end="1432576668.661445"}
+#  processing result t=7.675081 Tepoch=1432576668.719763
+<- (gdb) 
+<- 6^done,time={wallclock="0.00002",user="0.00002",system="0.00000",start="1432576668.661629",end="1432576668.661645"}
+#  processing result t=7.675176 Tepoch=1432576668.719858
+<- (gdb) 
+<- 7^done,time={wallclock="0.00006",user="0.00005",system="0.00001",start="1432576668.663622",end="1432576668.663686"}
+#  processing result t=7.675270 Tepoch=1432576668.719952
+<- (gdb) 
+<- 8^done,time={wallclock="0.00002",user="0.00002",system="0.00000",start="1432576668.663847",end="1432576668.663865"}
+#  processing result t=7.678287 Tepoch=1432576668.722969
+<- (gdb) 
+<- 9^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1432576668.663918",end="1432576668.663930"}
+#  processing result t=7.678422 Tepoch=1432576668.723105
+<- (gdb) 
+<- 10^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1432576668.663987",end="1432576668.663999"}
+#  processing result t=7.678516 Tepoch=1432576668.723198
+<- (gdb) 
+<- 11^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1432576668.664113",end="1432576668.664125"}
+#  processing result t=7.678607 Tepoch=1432576668.723289
+<- (gdb) 
+<- 12^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1432576668.664185",end="1432576668.664197"}
+#  processing result t=7.678698 Tepoch=1432576668.723380
+<- (gdb) 
+<- 13^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1432576668.664303",end="1432576668.664315"}
+#  processing result t=7.678849 Tepoch=1432576668.723531
+<- (gdb) 
+<- 14^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1432576668.664505",end="1432576668.664519"}
+#  processing result t=7.678944 Tepoch=1432576668.723626
+<- (gdb) 
+<- 15^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1432576668.664620",end="1432576668.664632"}
+#  processing result t=7.679037 Tepoch=1432576668.723719
+<- (gdb) 
+<- 16^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1432576668.664758",end="1432576668.664770"}
+#  processing result t=7.717846 Tepoch=1432576668.762528
+<- (gdb) 
+<- 17^done,time={wallclock="0.00002",user="0.00001",system="0.00001",start="1432576668.664833",end="1432576668.664849"}
+#  processing result t=7.718133 Tepoch=1432576668.762815
+<- (gdb) 
+<- 18^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1432576668.665008",end="1432576668.665019"}
+#  processing result t=7.718294 Tepoch=1432576668.762976
+<- (gdb) 
+<- 19^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1432576668.665114",end="1432576668.665124"}
+#  processing result t=7.718435 Tepoch=1432576668.763117
+<- (gdb) 
+<- 20^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1432576668.665182",end="1432576668.665193"}
+#  processing result t=7.718576 Tepoch=1432576668.763258
+<- (gdb) 
+<- 21^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1432576668.665244",end="1432576668.665254"}
+#  processing result t=7.718715 Tepoch=1432576668.763397
+<- (gdb) 
+<- 22^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1432576668.665308",end="1432576668.665318"}
+#  processing result t=7.718856 Tepoch=1432576668.763538
+<- (gdb) 
+<- 23^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1432576668.665362",end="1432576668.665373"}
+#  processing result t=7.718996 Tepoch=1432576668.763678
+<- (gdb) 
+<- 24^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1432576668.665441",end="1432576668.665451"}
+#  processing result t=7.719136 Tepoch=1432576668.763818
+<- (gdb) 
+<- 25^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1432576668.665519",end="1432576668.665530"}
+#  processing result t=7.719284 Tepoch=1432576668.763966
+<- (gdb) 
+<- 26^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1432576668.665590",end="1432576668.665600"}
+#  processing result t=7.719425 Tepoch=1432576668.764107
+<- (gdb) 
+<- 28^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1432576668.665658",end="1432576668.665667"}
+#  processing result t=7.719562 Tepoch=1432576668.764245
+<- (gdb) 
+<- 27^done,time={wallclock="0.00009",user="0.00008",system="0.00001",start="1432576668.713513",end="1432576668.713607"}
+#  processing result t=7.719707 Tepoch=1432576668.764389
+-> 32sharedlibrary apply-load-rules all
+#  PBXGDB_MISharedLibraryApplyLoadRulesCommand t=7.719824 Tepoch=1432576668.764506
+<- (gdb) 
+<- &"tty /dev/ttys000\n"
+<- 29^done
+#  processing result t=7.719968 Tepoch=1432576668.764650
+<- (gdb) 
+<- 31^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1432576668.713734",end="1432576668.713744"}
+#  processing result t=7.720112 Tepoch=1432576668.764794
+<- (gdb) 
+<- &"sharedlibrary apply-load-rules all\n"
+<- 32^done
+#  processing result t=7.732777 Tepoch=1432576668.777459
+#  didFinish Sequence: <PBXGDB_SetupSharedLibrarySequence: 0x20230c240> t=7.732996 Tepoch=1432576668.777678
+#  Executing Sequence: <PBXGDB_GenericMICommandSequence: 0x2022dec20> t=7.733038 Tepoch=1432576668.777720
+-> 30-file-exec-and-symbols "/Users/ericgallager/cocoadialog/build/Debug/cocoaDialog.app/Contents/MacOS/cocoaDialog"
+#  PBXGDB_MILoadExecutableCommand t=7.733717 Tepoch=1432576668.778399
+<- (gdb) 
+<- ~"Reading symbols from /usr/lib/dyld..."
+<- ~"Reading symbols from /usr/lib/dyld.dSYM/Contents/Resources/DWARF/dyld..."
+<- ~"done.\n"
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/Cocoa.framework/Versions/A/Cocoa..."
+<- ~"done.\n"
+<- ~"Reading symbols from /Users/ericgallager/cocoadialog/build/Debug/cocoaDialog.app/Contents/Frameworks/Growl.framework/Versions/A/Growl..."
+<- ~"done.\n"
+<- ~"Reading symbols from /usr/lib/libSystem.B.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /usr/lib/libSystem.B.dylib[LC_SEGMENT.__DATA.__commpage]..."
+<- ~"done.\n"
+<- ~"Reading symbols from /usr/lib/libobjc.A.dylib..."
+<- ~"Reading symbols from /usr/lib/libobjc.A.dylib.dSYM/Contents/Resources/DWARF/libobjc.A.dylib..."
+<- ~"done.\n"
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/ApplicationServices.framework/Versions/A/ApplicationServices..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/Foundation.framework/Versions/C/Foundation..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/AppKit.framework/Versions/C/AppKit..."
+<- ~"done.\n"
+<- ~"Reading symbols from /Users/ericgallager/cocoadialog/build/Debug/cocoaDialog.app/Contents/MacOS/cocoaDialog..."
+<- ~"done.\n"
+<- 30^done,time={wallclock="18.79954",user="0.19157",system="0.23111",start="1432576668.778626",end="1432576687.578171"}
+#  processing result t=26.538770 Tepoch=1432576687.583452
+#  didFinish Sequence: <PBXGDB_GenericMICommandSequence: 0x2022dec20> t=26.546001 Tepoch=1432576687.590684
+#  Executing Sequence: <PBXGDB_FixAndContinueIsSupportedSequence: 0x2022dfb60> t=26.546071 Tepoch=1432576687.590753
+-> 33-mi-verify-command file-fix-file-is-grooved
+#  PBXGDB_MIVerifyCommandCommand t=26.546226 Tepoch=1432576687.590908
+<- (gdb) 
+<- 33^done,name="file-fix-file-is-grooved",defined="true",implemented="true",time={wallclock="0.00006",user="0.00004",system="0.00001",start="1432576687.596853",end="1432576687.596914"}
+#  processing result t=26.555350 Tepoch=1432576687.600032
+-> 34-file-fix-file-is-grooved
+#  PBXGDB_MIFixAndContinueSupportedCommand t=26.555550 Tepoch=1432576687.600232
+<- (gdb) 
+<- 34^done,supported="0",details="Groove is gone.",time={wallclock="0.00006",user="0.00003",system="0.00004",start="1432576687.600533",end="1432576687.600597"}
+#  processing result t=26.556200 Tepoch=1432576687.600882
+#  didFinish Sequence: <PBXGDB_FixAndContinueIsSupportedSequence: 0x2022dfb60> t=26.556256 Tepoch=1432576687.600938
+#  Executing Sequence: <PBXGDB_RegisterDataValueSetupSequence: 0x200cc4480> t=26.556292 Tepoch=1432576687.600974
+-> 35-data-list-register-names
+#  PBXGDB_MIGetRegisterNames t=26.556408 Tepoch=1432576687.601090
+<- (gdb) 
+<- 35^done,register-names=["rax","rbx","rcx","rdx","rsi","rdi","rbp","rsp","r8","r9","r10","r11","r12","r13","r14","r15","rip","eflags","cs","ss","ds","es","fs","gs","st0","st1","st2","st3","st4","st5","st6","st7","fctrl","fstat","ftag","fiseg","fioff","foseg","fooff","fop","xmm0","xmm1","xmm2","xmm3","xmm4","xmm5","xmm6","xmm7","xmm8","xmm9","xmm10","xmm11","xmm12","xmm13","xmm14","xmm15","mxcsr"],time={wallclock="0.00018",user="0.00018",system="0.00000",start="1432576687.601348",end="1432576687.601528"}
+#  processing result t=26.567640 Tepoch=1432576687.612322
+#  didFinish Sequence: <PBXGDB_RegisterDataValueSetupSequence: 0x200cc4480> t=26.569304 Tepoch=1432576687.613986
+#  Executing Sequence: <PBXGDB_RunControlSequence: 0x200c9d340> t=26.569364 Tepoch=1432576687.614046
+<- (gdb) 
+-> 36-exec-run
+#  PBXGDB_MIRunExecutableCommand t=26.630239 Tepoch=1432576687.674922
+<- 36*stopped,time={wallclock="0.00022",user="0.00017",system="0.00004",start="1432576687.675229",end="1432576687.675445"},reason="error"
+#  processing result t=26.634227 Tepoch=1432576687.678910
+#  Enqueue seq in Command Q: <PBXGDB_ThreadListSequence: 0x20464c580> t=26.635649 Tepoch=1432576687.680331
+<- (gdb) 
+<- ~"[Switching to process 8163]\n"
+<- ~"Relocating symbols from /usr/lib/dyld..."
+<- ~"done\n"
+<- =shlibs-updated
+<- ~"objc trampoline structures initialized."
+<- 36^running
+#  processing result t=28.200532 Tepoch=1432576689.245214
+<- (gdb) 
+<- ~"Relocating symbols from /System/Library/Frameworks/Cocoa.framework/Versions/A/Cocoa..."
+<- ~"done\n"
+<- ~"Relocating symbols from /Users/ericgallager/cocoadialog/build/Debug/cocoaDialog.app/Contents/Frameworks/Growl.framework/Versions/A/Growl..."
+<- ~"done\n"
+<- ~"Relocating symbols from /usr/lib/libSystem.B.dylib..."
+<- ~"done\n"
+<- ~"Relocating symbols from /usr/lib/libobjc.A.dylib..."
+<- ~"done\n"
+<- ~"Relocating symbols from /System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation..."
+<- ~"done\n"
+<- ~"Relocating symbols from /System/Library/Frameworks/ApplicationServices.framework/Versions/A/ApplicationServices..."
+<- ~"done\n"
+<- ~"Relocating symbols from /System/Library/Frameworks/Foundation.framework/Versions/C/Foundation..."
+<- ~"done\n"
+<- ~"Relocating symbols from /System/Library/Frameworks/AppKit.framework/Versions/C/AppKit..."
+<- ~"done\n"
+<- ~"Reading symbols from /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/SecurityHI.framework/Versions/A/SecurityHI..."
+<- ~"done.\n"
+<- ~"Relocating symbols from /System/Library/Frameworks/Cocoa.framework/Versions/A/Cocoa..."
+<- ~"done\n"
+<- ~"Relocating symbols from /Users/ericgallager/cocoadialog/build/Debug/cocoaDialog.app/Contents/Frameworks/Growl.framework/Versions/A/Growl..."
+<- ~"done\n"
+<- ~"Reading symbols from /Users/ericgallager/cocoadialog/build/Debug/cocoaDialog.app/Contents/Frameworks/Sparkle.framework/Versions/A/Sparkle..."
+<- ~"done.\n"
+<- ~"Relocating symbols from /usr/lib/libSystem.B.dylib..."
+<- ~"done\n"
+<- ~"Relocating symbols from /usr/lib/libobjc.A.dylib..."
+<- ~"done\n"
+<- ~"objc trampoline structures initialized.Relocating symbols from /System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation..."
+<- ~"done\n"
+<- ~"Relocating symbols from /System/Library/Frameworks/ApplicationServices.framework/Versions/A/ApplicationServices..."
+<- ~"done\n"
+<- ~"Relocating symbols from /System/Library/Frameworks/Foundation.framework/Versions/C/Foundation..."
+<- ~"done\n"
+<- ~"Relocating symbols from /System/Library/Frameworks/AppKit.framework/Versions/C/AppKit..."
+<- ~"done\n"
+<- ~"Reading symbols from /System/Library/Frameworks/CoreData.framework/Versions/A/CoreData..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/AudioUnit.framework/Versions/A/AudioUnit..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/PrivateFrameworks/DesktopServicesPriv.framework/Versions/A/DesktopServicesPriv..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/HIToolbox..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/IOKit.framework/Versions/A/IOKit..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/QuartzCore.framework/Versions/A/QuartzCore..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/Security.framework/Versions/A/Security..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/SpeechRecognition.framework/Versions/A/SpeechRecognition..."
+<- ~"done.\n"
+<- ~"Reading symbols from /usr/lib/libauto.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /usr/lib/libicucore.A.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /usr/lib/libxml2.2.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /usr/lib/libz.1.2.3.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/PrivateFrameworks/CoreUI.framework/Versions/A/CoreUI..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/CoreAudio.framework/Versions/A/CoreAudio..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/DiskArbitration.framework/Versions/A/DiskArbitration..."
+<- ~"done.\n"
+<- ~"Reading symbols from /usr/lib/liblangid.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/PrivateFrameworks/MultitouchSupport.framework/Versions/A/MultitouchSupport..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/CoreGraphics..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/ImageIO..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreText.framework/Versions/A/CoreText..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/ATS..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/HIServices.framework/Versions/A/HIServices..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/LangAnalysis.framework/Versions/A/LangAnalysis..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/PrintCore..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/QD.framework/Versions/A/QD..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/SpeechSynthesis.framework/Versions/A/SpeechSynthesis..."
+<- ~"done.\n"
+<- ~"Reading symbols from /usr/lib/libbsm.0.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /usr/lib/system/libmathCommon.A.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /usr/lib/libstdc++.6.0.9.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /usr/lib/system/libkxld.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/CarbonCore.framework/Versions/A/CarbonCore..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/CFNetwork.framework/Versions/A/CFNetwork..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Metadata..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/OSServices.framework/Versions/A/OSServices..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/SearchKit.framework/Versions/A/SearchKit..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/AE.framework/Versions/A/AE..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/LaunchServices..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/DictionaryServices.framework/Versions/A/DictionaryServices..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/NetFS.framework/Versions/A/NetFS..."
+<- ~"done.\n"
+<- ~"Reading symbols from /usr/lib/libsqlite3.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/SystemConfiguration.framework/Versions/A/SystemConfiguration..."
+<- ~"done.\n"
+<- ~"Reading symbols from /usr/lib/libxslt.1.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/Accelerate.framework/Versions/A/Accelerate..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libTIFF.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libGIF.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libPng.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libRadiance.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libJPEG.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vImage.framework/Versions/A/vImage..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/vecLib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libvDSP.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libvMisc.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libLAPACK.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /usr/lib/libcrypto.0.9.8.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/PrivateFrameworks/TrustEvaluationAgent.framework/Versions/A/TrustEvaluationAgent..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libFontParser.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /usr/lib/libcups.2.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/Kerberos.framework/Versions/A/Kerberos..."
+<- ~"done.\n"
+<- ~"Reading symbols from /usr/lib/libresolv.9.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/vecLib.framework/Versions/A/vecLib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/PrivateFrameworks/FamilyControls.framework/Versions/A/FamilyControls..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/Ink.framework/Versions/A/Ink..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/OpenGL.framework/Versions/A/OpenGL..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGLImage.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/OpenCL.framework/Versions/A/OpenCL..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/IOSurface.framework/Versions/A/IOSurface..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGLU.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGLProgrammability.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libCoreVMClient.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGFXShared.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/SecurityFoundation.framework/Versions/A/SecurityFoundation..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/OpenDirectory.framework/Versions/A/OpenDirectory..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Frameworks/CommerceCore.framework/Versions/A/CommerceCore..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/OpenDirectory.framework/Versions/A/Frameworks/CFOpenDirectory.framework/Versions/A/CFOpenDirectory..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/PrivateFrameworks/PasswordServer.framework/Versions/A/PasswordServer..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/DirectoryService.framework/Versions/A/DirectoryService..."
+<- ~"done.\n"
+<- ~"Reading symbols from /usr/lib/libsasl2.2.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/WebKit.framework/Versions/A/WebKit..."
+<- ~"done.\n"
+<- ~"Reading symbols from /usr/lib/libbz2.1.0.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /usr/lib/libxar.1.dylib..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/Carbon.framework/Versions/A/Carbon..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/JavaScriptCore.framework/Versions/A/JavaScriptCore..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/WebKit.framework/Versions/A/Frameworks/WebCore.framework/Versions/A/WebCore..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/CommonPanels.framework/Versions/A/CommonPanels..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/Help.framework/Versions/A/Help..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/ImageCapture.framework/Versions/A/ImageCapture..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/OpenScripting.framework/Versions/A/OpenScripting..."
+<- ~"done.\n"
+<- ~"Reading symbols from /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/Print.framework/Versions/A/Print..."
+<- ~"done.\n"
+<- =shlibs-added,shlib-info=[num="2",name="SecurityHI",kind="F",dyld-addr="0x7fff839a1000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/SecurityHI.framework/Versions/A/SecurityHI",description="/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/SecurityHI.framework/Versions/A/SecurityHI",loaded_addr="0x7fff839a1000",slide="0x7fff839a1000",prefix=""],time={now="1432576709.186489"}
+<- =shlibs-added,shlib-info=[num="3",name="Cocoa",kind="F",dyld-addr="0x7fff84664000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/Cocoa.framework/Versions/A/Cocoa",description="/System/Library/Frameworks/Cocoa.framework/Versions/A/Cocoa",loaded_addr="0x7fff84664000",slide="0x7fff84664000",prefix=""],time={now="1432576709.186701"}
+<- =shlibs-added,shlib-info=[num="4",name="Growl",kind="F",dyld-addr="0x100054000",reason="dyld",requested-state="E",state="E",path="/Users/ericgallager/cocoadialog/build/Debug/cocoaDialog.app/Contents/Frameworks/Growl.framework/Versions/A/Growl",description="/Users/ericgallager/cocoadialog/build/Debug/cocoaDialog.app/Contents/Frameworks/Growl.framework/Versions/A/Growl",loaded_addr="0x100054000",slide="0x40054000",prefix=""],time={now="1432576709.186948"}
+<- =shlibs-added,shlib-info=[num="5",name="Sparkle",kind="F",dyld-addr="0x1000aa000",reason="dyld",requested-state="E",state="E",path="/Users/ericgallager/cocoadialog/build/Debug/cocoaDialog.app/Contents/Frameworks/Sparkle.framework/Versions/A/Sparkle",description="/Users/ericgallager/cocoadialog/build/Debug/cocoaDialog.app/Contents/Frameworks/Sparkle.framework/Versions/A/Sparkle",loaded_addr="0x1000aa000",slide="0x1000aa000",prefix=""],time={now="1432576709.187221"}
+<- =shlibs-added,shlib-info=[num="6",name="libSystem.B.dylib",kind="-",dyld-addr="0x7fff851f8000",reason="dyld",requested-state="Y",state="Y",path="/usr/lib/libSystem.B.dylib",description="/usr/lib/libSystem.B.dylib",loaded_addr="0x7fff851f8000",slide="0x7fff851f8000",prefix="",commpage-objpath="/usr/lib/libSystem.B.dylib[LC_SEGMENT.__DATA.__commpage]"],time={now="1432576709.187418"}
+<- =shlibs-added,shlib-info=[num="7",name="libobjc.A.dylib",kind="-",dyld-addr="0x7fff86ff9000",reason="dyld",requested-state="Y",state="Y",path="/usr/lib/libobjc.A.dylib",description="/usr/lib/libobjc.A.dylib",loaded_addr="0x7fff86ff9000",slide="0x7fff86ff9000",prefix="",dsym-objpath="/usr/lib/libobjc.A.dylib.dSYM/Contents/Resources/DWARF/libobjc.A.dylib"],time={now="1432576709.187606"}
+<- =shlibs-added,shlib-info=[num="8",name="CoreFoundation",kind="F",dyld-addr="0x7fff81177000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",description="/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",loaded_addr="0x7fff81177000",slide="0x7fff81177000",prefix=""],time={now="1432576709.187814"}
+<- =shlibs-added,shlib-info=[num="9",name="ApplicationServices",kind="F",dyld-addr="0x7fff8471d000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/ApplicationServices",description="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/ApplicationServices",loaded_addr="0x7fff8471d000",slide="0x7fff8471d000",prefix=""],time={now="1432576709.188061"}
+<- =shlibs-added,shlib-info=[num="10",name="Foundation",kind="F",dyld-addr="0x7fff87559000",reason="dyld",requested-state="Y",state="Y",path="/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation",description="/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation",loaded_addr="0x7fff87559000",slide="0x7fff87559000",prefix=""],time={now="1432576709.188270"}
+<- =shlibs-added,shlib-info=[num="11",name="AppKit",kind="F",dyld-addr="0x7fff85f4e000",reason="dyld",requested-state="Y",state="Y",path="/System/Library/Frameworks/AppKit.framework/Versions/C/AppKit",description="/System/Library/Frameworks/AppKit.framework/Versions/C/AppKit",loaded_addr="0x7fff85f4e000",slide="0x7fff85f4e000",prefix=""],time={now="1432576709.188466"}
+<- =shlibs-added,shlib-info=[num="12",name="CoreData",kind="F",dyld-addr="0x7fff8366d000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/CoreData.framework/Versions/A/CoreData",description="/System/Library/Frameworks/CoreData.framework/Versions/A/CoreData",loaded_addr="0x7fff8366d000",slide="0x7fff8366d000",prefix=""],time={now="1432576709.188659"}
+<- =shlibs-added,shlib-info=[num="13",name="AudioToolbox",kind="F",dyld-addr="0x7fff8781b000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox",description="/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox",loaded_addr="0x7fff8781b000",slide="0x7fff8781b000",prefix=""],time={now="1432576709.188866"}
+<- =shlibs-added,shlib-info=[num="14",name="AudioUnit",kind="F",dyld-addr="0x7fff81175000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/AudioUnit.framework/Versions/A/AudioUnit",description="/System/Library/Frameworks/AudioUnit.framework/Versions/A/AudioUnit",loaded_addr="0x7fff81175000",slide="0x7fff81175000",prefix=""],time={now="1432576709.189060"}
+<- =shlibs-added,shlib-info=[num="15",name="DesktopServicesPriv",kind="F",dyld-addr="0x7fff83179000",reason="dyld",requested-state="E",state="E",path="/System/Library/PrivateFrameworks/DesktopServicesPriv.framework/Versions/A/DesktopServicesPriv",description="/System/Library/PrivateFrameworks/DesktopServicesPriv.framework/Versions/A/DesktopServicesPriv",loaded_addr="0x7fff83179000",slide="0x7fff83179000",prefix=""],time={now="1432576709.189298"}
+<- =shlibs-added,shlib-info=[num="16",name="HIToolbox",kind="F",dyld-addr="0x7fff80e76000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/HIToolbox",description="/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/HIToolbox",loaded_addr="0x7fff80e76000",slide="0x7fff80e76000",prefix=""],time={now="1432576709.189546"}
+<- =shlibs-added,shlib-info=[num="17",name="IOKit",kind="F",dyld-addr="0x7fff870d8000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit",description="/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit",loaded_addr="0x7fff870d8000",slide="0x7fff870d8000",prefix=""],time={now="1432576709.189729"}
+<- =shlibs-added,shlib-info=[num="18",name="QuartzCore",kind="F",dyld-addr="0x7fff86a90000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/QuartzCore.framework/Versions/A/QuartzCore",description="/System/Library/Frameworks/QuartzCore.framework/Versions/A/QuartzCore",loaded_addr="0x7fff86a90000",slide="0x7fff86a90000",prefix=""],time={now="1432576709.189926"}
+<- =shlibs-added,shlib-info=[num="19",name="Security",kind="F",dyld-addr="0x7fff8338f000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/Security.framework/Versions/A/Security",description="/System/Library/Frameworks/Security.framework/Versions/A/Security",loaded_addr="0x7fff8338f000",slide="0x7fff8338f000",prefix=""],time={now="1432576709.190128"}
+<- =shlibs-added,shlib-info=[num="20",name="SpeechRecognition",kind="F",dyld-addr="0x7fff84bfc000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/SpeechRecognition.framework/Versions/A/SpeechRecognition",description="/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/SpeechRecognition.framework/Versions/A/SpeechRecognition",loaded_addr="0x7fff84bfc000",slide="0x7fff84bfc000",prefix=""],time={now="1432576709.190422"}
+<- =shlibs-added,shlib-info=[num="21",name="libauto.dylib",kind="-",dyld-addr="0x7fff86f64000",reason="dyld",requested-state="Y",state="Y",path="/usr/lib/libauto.dylib",description="/usr/lib/libauto.dylib",loaded_addr="0x7fff86f64000",slide="0x7fff86f64000",prefix=""],time={now="1432576709.190566"}
+<- =shlibs-added,shlib-info=[num="22",name="libicucore.A.dylib",kind="-",dyld-addr="0x7fff87363000",reason="dyld",requested-state="E",state="E",path="/usr/lib/libicucore.A.dylib",description="/usr/lib/libicucore.A.dylib",loaded_addr="0x7fff87363000",slide="0x7fff87363000",prefix=""],time={now="1432576709.190718"}
+<- =shlibs-added,shlib-info=[num="23",name="libxml2.2.dylib",kind="-",dyld-addr="0x7fff81c0e000",reason="dyld",requested-state="E",state="E",path="/usr/lib/libxml2.2.dylib",description="/usr/lib/libxml2.2.dylib",loaded_addr="0x7fff81c0e000",slide="0x7fff81c0e000",prefix=""],time={now="1432576709.190860"}
+<- =shlibs-added,shlib-info=[num="24",name="libz.1.2.3.dylib",kind="-",dyld-addr="0x7fff89f71000",reason="dyld",requested-state="E",state="E",path="/usr/lib/libz.1.2.3.dylib",description="/usr/lib/libz.1.2.3.dylib",loaded_addr="0x7fff89f71000",slide="0x7fff89f71000",prefix=""],time={now="1432576709.190999"}
+<- =shlibs-added,shlib-info=[num="25",name="CoreUI",kind="F",dyld-addr="0x7fff85c29000",reason="dyld",requested-state="E",state="E",path="/System/Library/PrivateFrameworks/CoreUI.framework/Versions/A/CoreUI",description="/System/Library/PrivateFrameworks/CoreUI.framework/Versions/A/CoreUI",loaded_addr="0x7fff85c29000",slide="0x7fff85c29000",prefix=""],time={now="1432576709.191191"}
+<- =shlibs-added,shlib-info=[num="26",name="CoreAudio",kind="F",dyld-addr="0x7fff85d40000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/CoreAudio.framework/Versions/A/CoreAudio",description="/System/Library/Frameworks/CoreAudio.framework/Versions/A/CoreAudio",loaded_addr="0x7fff85d40000",slide="0x7fff85d40000",prefix=""],time={now="1432576709.191385"}
+<- =shlibs-added,shlib-info=[num="27",name="DiskArbitration",kind="F",dyld-addr="0x7fff85d39000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/DiskArbitration.framework/Versions/A/DiskArbitration",description="/System/Library/Frameworks/DiskArbitration.framework/Versions/A/DiskArbitration",loaded_addr="0x7fff85d39000",slide="0x7fff85d39000",prefix=""],time={now="1432576709.191601"}
+<- =shlibs-added,shlib-info=[num="28",name="liblangid.dylib",kind="-",dyld-addr="0x7fff80c39000",reason="dyld",requested-state="E",state="E",path="/usr/lib/liblangid.dylib",description="/usr/lib/liblangid.dylib",loaded_addr="0x7fff80c39000",slide="0x7fff80c39000",prefix=""],time={now="1432576709.191741"}
+<- =shlibs-added,shlib-info=[num="29",name="MultitouchSupport",kind="F",dyld-addr="0x7fff85f37000",reason="dyld",requested-state="E",state="E",path="/System/Library/PrivateFrameworks/MultitouchSupport.framework/Versions/A/MultitouchSupport",description="/System/Library/PrivateFrameworks/MultitouchSupport.framework/Versions/A/MultitouchSupport",loaded_addr="0x7fff85f37000",slide="0x7fff85f37000",prefix=""],time={now="1432576709.191987"}
+<- =shlibs-added,shlib-info=[num="30",name="CoreServices",kind="F",dyld-addr="0x7fff83376000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices",description="/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices",loaded_addr="0x7fff83376000",slide="0x7fff83376000",prefix=""],time={now="1432576709.192192"}
+<- =shlibs-added,shlib-info=[num="31",name="CoreGraphics",kind="F",dyld-addr="0x7fff88f53000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/CoreGraphics",description="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/CoreGraphics",loaded_addr="0x7fff88f53000",slide="0x7fff88f53000",prefix=""],time={now="1432576709.192469"}
+<- =shlibs-added,shlib-info=[num="32",name="ImageIO",kind="F",dyld-addr="0x7fff806b2000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/ImageIO",description="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/ImageIO",loaded_addr="0x7fff806b2000",slide="0x7fff806b2000",prefix=""],time={now="1432576709.192728"}
+<- =shlibs-added,shlib-info=[num="33",name="CoreText",kind="F",dyld-addr="0x7fff885b0000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreText.framework/Versions/A/CoreText",description="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreText.framework/Versions/A/CoreText",loaded_addr="0x7fff885b0000",slide="0x7fff885b0000",prefix=""],time={now="1432576709.192990"}
+<- =shlibs-added,shlib-info=[num="34",name="ATS",kind="F",dyld-addr="0x7fff81d2c000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/ATS",description="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/ATS",loaded_addr="0x7fff81d2c000",slide="0x7fff81d2c000",prefix=""],time={now="1432576709.193235"}
+<- =shlibs-added,shlib-info=[num="35",name="ColorSync",kind="F",dyld-addr="0x7fff86e35000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync",description="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync",loaded_addr="0x7fff86e35000",slide="0x7fff86e35000",prefix=""],time={now="1432576709.193515"}
+<- =shlibs-added,shlib-info=[num="36",name="HIServices",kind="F",dyld-addr="0x7fff8a71e000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/HIServices.framework/Versions/A/HIServices",description="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/HIServices.framework/Versions/A/HIServices",loaded_addr="0x7fff8a71e000",slide="0x7fff8a71e000",prefix=""],time={now="1432576709.193755"}
+<- =shlibs-added,shlib-info=[num="37",name="LangAnalysis",kind="F",dyld-addr="0x7fff851e2000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/LangAnalysis.framework/Versions/A/LangAnalysis",description="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/LangAnalysis.framework/Versions/A/LangAnalysis",loaded_addr="0x7fff851e2000",slide="0x7fff851e2000",prefix=""],time={now="1432576709.193999"}
+<- =shlibs-added,shlib-info=[num="38",name="PrintCore",kind="F",dyld-addr="0x7fff83be8000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/PrintCore",description="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/PrintCore",loaded_addr="0x7fff83be8000",slide="0x7ffe89ae8000",prefix=""],time={now="1432576709.194232"}
+<- =shlibs-added,shlib-info=[num="39",name="QD",kind="F",dyld-addr="0x7fff81e44000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/QD.framework/Versions/A/QD",description="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/QD.framework/Versions/A/QD",loaded_addr="0x7fff81e44000",slide="0x7fff81e44000",prefix=""],time={now="1432576709.194444"}
+<- =shlibs-added,shlib-info=[num="40",name="SpeechSynthesis",kind="F",dyld-addr="0x7fff80872000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/SpeechSynthesis.framework/Versions/A/SpeechSynthesis",description="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/SpeechSynthesis.framework/Versions/A/SpeechSynthesis",loaded_addr="0x7fff80872000",slide="0x7fff80872000",prefix=""],time={now="1432576709.194693"}
+<- =shlibs-added,shlib-info=[num="41",name="libbsm.0.dylib",kind="-",dyld-addr="0x7fff8a516000",reason="dyld",requested-state="E",state="E",path="/usr/lib/libbsm.0.dylib",description="/usr/lib/libbsm.0.dylib",loaded_addr="0x7fff8a516000",slide="0x7fff8a516000",prefix=""],time={now="1432576709.194813"}
+<- =shlibs-added,shlib-info=[num="42",name="libmathCommon.A.dylib",kind="-",dyld-addr="0x7fff882fd000",reason="dyld",requested-state="E",state="E",path="/usr/lib/system/libmathCommon.A.dylib",description="/usr/lib/system/libmathCommon.A.dylib",loaded_addr="0x7fff882fd000",slide="0x7fff882fd000",prefix=""],time={now="1432576709.194951"}
+<- =shlibs-added,shlib-info=[num="43",name="libstdc++.6.0.9.dylib",kind="-",dyld-addr="0x7fff84f87000",reason="dyld",requested-state="E",state="E",path="/usr/lib/libstdc++.6.0.9.dylib",description="/usr/lib/libstdc++.6.0.9.dylib",loaded_addr="0x7fff84f87000",slide="0x7fff84f87000",prefix=""],time={now="1432576709.195081"}
+<- =shlibs-added,shlib-info=[num="44",name="libkxld.dylib",kind="-",dyld-addr="0x7fff877dc000",reason="dyld",requested-state="E",state="E",path="/usr/lib/system/libkxld.dylib",description="/usr/lib/system/libkxld.dylib",loaded_addr="0x7fff877dc000",slide="0x7fff877dc000",prefix=""],time={now="1432576709.195205"}
+<- =shlibs-added,shlib-info=[num="45",name="CarbonCore",kind="F",dyld-addr="0x7fff85721000",reason="dyld",requested-state="Y",state="Y",path="/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/CarbonCore.framework/Versions/A/CarbonCore",description="/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/CarbonCore.framework/Versions/A/CarbonCore",loaded_addr="0x7fff85721000",slide="0x7fff85721000",prefix=""],time={now="1432576709.195428"}
+<- =shlibs-added,shlib-info=[num="46",name="CFNetwork",kind="F",dyld-addr="0x7fff8a3a7000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/CFNetwork.framework/Versions/A/CFNetwork",description="/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/CFNetwork.framework/Versions/A/CFNetwork",loaded_addr="0x7fff8a3a7000",slide="0x7fff8a3a7000",prefix=""],time={now="1432576709.195648"}
+<- =shlibs-added,shlib-info=[num="47",name="Metadata",kind="F",dyld-addr="0x7fff8a6d3000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Metadata",description="/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Metadata",loaded_addr="0x7fff8a6d3000",slide="0x7fff89ed3000",prefix=""],time={now="1432576709.195865"}
+<- =shlibs-added,shlib-info=[num="48",name="OSServices",kind="F",dyld-addr="0x7fff84b3e000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/OSServices.framework/Versions/A/OSServices",description="/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/OSServices.framework/Versions/A/OSServices",loaded_addr="0x7fff84b3e000",slide="0x7fff84b3e000",prefix=""],time={now="1432576709.196089"}
+<- =shlibs-added,shlib-info=[num="49",name="SearchKit",kind="F",dyld-addr="0x7fff85dc0000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/SearchKit.framework/Versions/A/SearchKit",description="/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/SearchKit.framework/Versions/A/SearchKit",loaded_addr="0x7fff85dc0000",slide="0x7fff85dc0000",prefix=""],time={now="1432576709.196285"}
+<- =shlibs-added,shlib-info=[num="50",name="AE",kind="F",dyld-addr="0x7fff89f83000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/AE.framework/Versions/A/AE",description="/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/AE.framework/Versions/A/AE",loaded_addr="0x7fff89f83000",slide="0x7fff89f83000",prefix=""],time={now="1432576709.196462"}
+<- =shlibs-added,shlib-info=[num="51",name="LaunchServices",kind="F",dyld-addr="0x7fff84901000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/LaunchServices",description="/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/LaunchServices",loaded_addr="0x7fff84901000",slide="0x7fff84901000",prefix=""],time={now="1432576709.196671"}
+<- =shlibs-added,shlib-info=[num="52",name="DictionaryServices",kind="F",dyld-addr="0x7fff8a7b5000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/DictionaryServices.framework/Versions/A/DictionaryServices",description="/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/DictionaryServices.framework/Versions/A/DictionaryServices",loaded_addr="0x7fff8a7b5000",slide="0x7fff8a7b5000",prefix=""],time={now="1432576709.196906"}
+<- =shlibs-added,shlib-info=[num="53",name="NetFS",kind="F",dyld-addr="0x7fff8a301000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/NetFS.framework/Versions/A/NetFS",description="/System/Library/Frameworks/NetFS.framework/Versions/A/NetFS",loaded_addr="0x7fff8a301000",slide="0x7fff8a301000",prefix=""],time={now="1432576709.197045"}
+<- =shlibs-added,shlib-info=[num="54",name="libsqlite3.dylib",kind="-",dyld-addr="0x7fff87951000",reason="dyld",requested-state="E",state="E",path="/usr/lib/libsqlite3.dylib",description="/usr/lib/libsqlite3.dylib",loaded_addr="0x7fff87951000",slide="0x7fff87951000",prefix=""],time={now="1432576709.197152"}
+<- =shlibs-added,shlib-info=[num="55",name="SystemConfiguration",kind="F",dyld-addr="0x7fff8421e000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/SystemConfiguration.framework/Versions/A/SystemConfiguration",description="/System/Library/Frameworks/SystemConfiguration.framework/Versions/A/SystemConfiguration",loaded_addr="0x7fff8421e000",slide="0x7fff8421e000",prefix=""],time={now="1432576709.197326"}
+<- =shlibs-added,shlib-info=[num="56",name="libxslt.1.dylib",kind="-",dyld-addr="0x7fff8a311000",reason="dyld",requested-state="E",state="E",path="/usr/lib/libxslt.1.dylib",description="/usr/lib/libxslt.1.dylib",loaded_addr="0x7fff8a311000",slide="0x7fff8a311000",prefix=""],time={now="1432576709.197432"}
+<- =shlibs-added,shlib-info=[num="57",name="Accelerate",kind="F",dyld-addr="0x7fff8a111000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/Accelerate.framework/Versions/A/Accelerate",description="/System/Library/Frameworks/Accelerate.framework/Versions/A/Accelerate",loaded_addr="0x7fff8a111000",slide="0x7fff8a111000",prefix=""],time={now="1432576709.392001"}
+<- =shlibs-added,shlib-info=[num="58",name="libTIFF.dylib",kind="-",dyld-addr="0x7fff8095d000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libTIFF.dylib",description="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libTIFF.dylib",loaded_addr="0x7fff8095d000",slide="0x7fff8095d000",prefix=""],time={now="1432576709.392291"}
+<- =shlibs-added,shlib-info=[num="59",name="libGIF.dylib",kind="-",dyld-addr="0x7fff86e2f000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libGIF.dylib",description="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libGIF.dylib",loaded_addr="0x7fff86e2f000",slide="0x7fff86e2f000",prefix=""],time={now="1432576709.392577"}
+<- =shlibs-added,shlib-info=[num="60",name="libPng.dylib",kind="-",dyld-addr="0x7fff80887000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libPng.dylib",description="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libPng.dylib",loaded_addr="0x7fff80887000",slide="0x7fff80887000",prefix=""],time={now="1432576709.392858"}
+<- =shlibs-added,shlib-info=[num="61",name="libRadiance.dylib",kind="-",dyld-addr="0x7fff83176000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libRadiance.dylib",description="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libRadiance.dylib",loaded_addr="0x7fff83176000",slide="0x7fff83176000",prefix=""],time={now="1432576709.393152"}
+<- =shlibs-added,shlib-info=[num="62",name="libJPEG.dylib",kind="-",dyld-addr="0x7fff8a0a3000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libJPEG.dylib",description="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libJPEG.dylib",loaded_addr="0x7fff8a0a3000",slide="0x7fff8a0a3000",prefix=""],time={now="1432576709.393435"}
+<- =shlibs-added,shlib-info=[num="63",name="vImage",kind="F",dyld-addr="0x7fff8a52d000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vImage.framework/Versions/A/vImage",description="/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vImage.framework/Versions/A/vImage",loaded_addr="0x7fff8a52d000",slide="0x7fff8a52d000",prefix=""],time={now="1432576709.393679"}
+<- =shlibs-added,shlib-info=[num="64",name="vecLib",kind="F",dyld-addr="0x7fff86e2e000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/vecLib",description="/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/vecLib",loaded_addr="0x7fff86e2e000",slide="0x7fff86e2e000",prefix=""],time={now="1432576709.393921"}
+<- =shlibs-added,shlib-info=[num="65",name="libvDSP.dylib",kind="-",dyld-addr="0x7fff8a68a000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libvDSP.dylib",description="/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libvDSP.dylib",loaded_addr="0x7fff8a68a000",slide="0x7fff8a68a000",prefix=""],time={now="1432576709.394211"}
+<- =shlibs-added,shlib-info=[num="66",name="libvMisc.dylib",kind="-",dyld-addr="0x7fff83c6e000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libvMisc.dylib",description="/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libvMisc.dylib",loaded_addr="0x7fff83c6e000",slide="0x7fff83c6e000",prefix=""],time={now="1432576709.394473"}
+<- =shlibs-added,shlib-info=[num="67",name="libBLAS.dylib",kind="-",dyld-addr="0x7fff8862f000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib",description="/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib",loaded_addr="0x7fff8862f000",slide="0x7fff8862f000",prefix=""],time={now="1432576709.394733"}
+<- =shlibs-added,shlib-info=[num="68",name="libLAPACK.dylib",kind="-",dyld-addr="0x7fff8992e000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libLAPACK.dylib",description="/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libLAPACK.dylib",loaded_addr="0x7fff8992e000",slide="0x7fff8992e000",prefix=""],time={now="1432576709.394994"}
+<- =shlibs-added,shlib-info=[num="69",name="libcrypto.0.9.8.dylib",kind="-",dyld-addr="0x7fff8980e000",reason="dyld",requested-state="E",state="E",path="/usr/lib/libcrypto.0.9.8.dylib",description="/usr/lib/libcrypto.0.9.8.dylib",loaded_addr="0x7fff8980e000",slide="0x7fff8980e000",prefix=""],time={now="1432576709.395135"}
+<- =shlibs-added,shlib-info=[num="70",name="TrustEvaluationAgent",kind="F",dyld-addr="0x7fff8a10f000",reason="dyld",requested-state="E",state="E",path="/System/Library/PrivateFrameworks/TrustEvaluationAgent.framework/Versions/A/TrustEvaluationAgent",description="/System/Library/PrivateFrameworks/TrustEvaluationAgent.framework/Versions/A/TrustEvaluationAgent",loaded_addr="0x7fff8a10f000",slide="0x7fff8a10f000",prefix=""],time={now="1432576709.395346"}
+<- =shlibs-added,shlib-info=[num="71",name="libFontParser.dylib",kind="-",dyld-addr="0x7fff896c8000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libFontParser.dylib",description="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libFontParser.dylib",loaded_addr="0x7fff896c8000",slide="0x7fff896c8000",prefix=""],time={now="1432576709.395606"}
+<- =shlibs-added,shlib-info=[num="72",name="libcups.2.dylib",kind="-",dyld-addr="0x7fff84f4c000",reason="dyld",requested-state="E",state="E",path="/usr/lib/libcups.2.dylib",description="/usr/lib/libcups.2.dylib",loaded_addr="0x7fff84f4c000",slide="0x7fff84f4c000",prefix=""],time={now="1432576709.395729"}
+<- =shlibs-added,shlib-info=[num="73",name="Kerberos",kind="F",dyld-addr="0x7fff8466c000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/Kerberos.framework/Versions/A/Kerberos",description="/System/Library/Frameworks/Kerberos.framework/Versions/A/Kerberos",loaded_addr="0x7fff8466c000",slide="0x7fff6466c000",prefix=""],time={now="1432576709.396146"}
+<- =shlibs-added,shlib-info=[num="74",name="libresolv.9.dylib",kind="-",dyld-addr="0x7fff88f1d000",reason="dyld",requested-state="E",state="E",path="/usr/lib/libresolv.9.dylib",description="/usr/lib/libresolv.9.dylib",loaded_addr="0x7fff88f1d000",slide="0x7fff88f1d000",prefix=""],time={now="1432576709.396289"}
+<- =shlibs-added,shlib-info=[num="75",name="vecLib",kind="F",dyld-addr="0x7fff806ac000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/vecLib.framework/Versions/A/vecLib",description="/System/Library/Frameworks/vecLib.framework/Versions/A/vecLib",loaded_addr="0x7fff806ac000",slide="0x7fff806ac000",prefix=""],time={now="1432576709.396453"}
+<- =shlibs-added,shlib-info=[num="76",name="FamilyControls",kind="F",dyld-addr="0x7fff80907000",reason="dyld",requested-state="E",state="E",path="/System/Library/PrivateFrameworks/FamilyControls.framework/Versions/A/FamilyControls",description="/System/Library/PrivateFrameworks/FamilyControls.framework/Versions/A/FamilyControls",loaded_addr="0x7fff80907000",slide="0x7fff80907000",prefix=""],time={now="1432576709.396651"}
+<- =shlibs-added,shlib-info=[num="77",name="Ink",kind="F",dyld-addr="0x7fff845ae000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/Ink.framework/Versions/A/Ink",description="/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/Ink.framework/Versions/A/Ink",loaded_addr="0x7fff845ae000",slide="0x7fff845ae000",prefix=""],time={now="1432576709.396855"}
+<- =shlibs-added,shlib-info=[num="78",name="CoreVideo",kind="F",dyld-addr="0x7fff809b4000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",description="/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",loaded_addr="0x7fff809b4000",slide="0x7fff809b4000",prefix=""],time={now="1432576709.397026"}
+<- =shlibs-added,shlib-info=[num="79",name="OpenGL",kind="F",dyld-addr="0x7fff8a0ff000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/OpenGL.framework/Versions/A/OpenGL",description="/System/Library/Frameworks/OpenGL.framework/Versions/A/OpenGL",loaded_addr="0x7fff8a0ff000",slide="0x7fff8a0ff000",prefix=""],time={now="1432576709.397190"}
+<- =shlibs-added,shlib-info=[num="80",name="libGLImage.dylib",kind="-",dyld-addr="0x7fff8a071000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGLImage.dylib",description="/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGLImage.dylib",loaded_addr="0x7fff8a071000",slide="0x7fff8a071000",prefix=""],time={now="1432576709.397383"}
+<- =shlibs-added,shlib-info=[num="81",name="OpenCL",kind="F",dyld-addr="0x7fff84583000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/OpenCL.framework/Versions/A/OpenCL",description="/System/Library/Frameworks/OpenCL.framework/Versions/A/OpenCL",loaded_addr="0x7fff84583000",slide="0x7fff84583000",prefix=""],time={now="1432576709.397549"}
+<- =shlibs-added,shlib-info=[num="82",name="IOSurface",kind="F",dyld-addr="0x7fff80065000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/IOSurface.framework/Versions/A/IOSurface",description="/System/Library/Frameworks/IOSurface.framework/Versions/A/IOSurface",loaded_addr="0x7fff80065000",slide="0x7fff80065000",prefix=""],time={now="1432576709.397702"}
+<- =shlibs-added,shlib-info=[num="83",name="libGLU.dylib",kind="-",dyld-addr="0x7fff89fbf000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGLU.dylib",description="/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGLU.dylib",loaded_addr="0x7fff89fbf000",slide="0x7fff89fbf000",prefix=""],time={now="1432576709.397870"}
+<- =shlibs-added,shlib-info=[num="84",name="libGL.dylib",kind="-",dyld-addr="0x7fff85ac8000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib",description="/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib",loaded_addr="0x7fff85ac8000",slide="0x7fff85ac8000",prefix=""],time={now="1432576709.398035"}
+<- =shlibs-added,shlib-info=[num="85",name="libGLProgrammability.dylib",kind="-",dyld-addr="0x7fff88324000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGLProgrammability.dylib",description="/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGLProgrammability.dylib",loaded_addr="0x7fff88324000",slide="0x7fff88324000",prefix=""],time={now="1432576709.398239"}
+<- =shlibs-added,shlib-info=[num="86",name="libCoreVMClient.dylib",kind="-",dyld-addr="0x7fff8735f000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libCoreVMClient.dylib",description="/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libCoreVMClient.dylib",loaded_addr="0x7fff8735f000",slide="0x7fff8735f000",prefix=""],time={now="1432576709.398433"}
+<- =shlibs-added,shlib-info=[num="87",name="libGFXShared.dylib",kind="-",dyld-addr="0x7fff896a7000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGFXShared.dylib",description="/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGFXShared.dylib",loaded_addr="0x7fff896a7000",slide="0x7fff896a7000",prefix=""],time={now="1432576709.398612"}
+<- =shlibs-added,shlib-info=[num="88",name="SecurityFoundation",kind="F",dyld-addr="0x7fff8a26c000",reason="dyld",requested-state="Y",state="Y",path="/System/Library/Frameworks/SecurityFoundation.framework/Versions/A/SecurityFoundation",description="/System/Library/Frameworks/SecurityFoundation.framework/Versions/A/SecurityFoundation",loaded_addr="0x7fff8a26c000",slide="0x7fff8a26c000",prefix=""],time={now="1432576709.398791"}
+<- =shlibs-added,shlib-info=[num="89",name="OpenDirectory",kind="F",dyld-addr="0x7fff8006c000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/OpenDirectory.framework/Versions/A/OpenDirectory",description="/System/Library/Frameworks/OpenDirectory.framework/Versions/A/OpenDirectory",loaded_addr="0x7fff8006c000",slide="0x7fff8006c000",prefix=""],time={now="1432576709.398963"}
+<- =shlibs-added,shlib-info=[num="90",name="CommerceCore",kind="F",dyld-addr="0x7fff84665000",reason="dyld",requested-state="E",state="E",path="/System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Frameworks/CommerceCore.framework/Versions/A/CommerceCore",description="/System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Frameworks/CommerceCore.framework/Versions/A/CommerceCore",loaded_addr="0x7fff84665000",slide="0x7fff84665000",prefix=""],time={now="1432576709.399181"}
+<- =shlibs-added,shlib-info=[num="91",name="CFOpenDirectory",kind="F",dyld-addr="0x7fff85e81000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/OpenDirectory.framework/Versions/A/Frameworks/CFOpenDirectory.framework/Versions/A/CFOpenDirectory",description="/System/Library/Frameworks/OpenDirectory.framework/Versions/A/Frameworks/CFOpenDirectory.framework/Versions/A/CFOpenDirectory",loaded_addr="0x7fff85e81000",slide="0x7fff85e81000",prefix=""],time={now="1432576709.399403"}
+<- =shlibs-added,shlib-info=[num="92",name="PasswordServer",kind="F",dyld-addr="0x7fff808a9000",reason="dyld",requested-state="E",state="E",path="/System/Library/PrivateFrameworks/PasswordServer.framework/Versions/A/PasswordServer",description="/System/Library/PrivateFrameworks/PasswordServer.framework/Versions/A/PasswordServer",loaded_addr="0x7fff808a9000",slide="0x7fff808a9000",prefix=""],time={now="1432576709.399579"}
+<- =shlibs-added,shlib-info=[num="93",name="DirectoryService",kind="F",dyld-addr="0x7fff80e46000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/DirectoryService.framework/Versions/A/DirectoryService",description="/System/Library/Frameworks/DirectoryService.framework/Versions/A/DirectoryService",loaded_addr="0x7fff80e46000",slide="0x7fff80e46000",prefix=""],time={now="1432576709.399920"}
+<- =shlibs-added,shlib-info=[num="94",name="libsasl2.2.dylib",kind="-",dyld-addr="0x7fff80c21000",reason="dyld",requested-state="E",state="E",path="/usr/lib/libsasl2.2.dylib",description="/usr/lib/libsasl2.2.dylib",loaded_addr="0x7fff80c21000",slide="0x7fff80c21000",prefix=""],time={now="1432576709.400036"}
+<- =shlibs-added,shlib-info=[num="95",name="WebKit",kind="F",dyld-addr="0x7fff80074000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/WebKit.framework/Versions/A/WebKit",description="/System/Library/Frameworks/WebKit.framework/Versions/A/WebKit",loaded_addr="0x7fff80074000",slide="0x7fff80074000",prefix=""],time={now="1432576710.090660"}
+<- =shlibs-added,shlib-info=[num="96",name="libbz2.1.0.dylib",kind="-",dyld-addr="0x7fff85ef0000",reason="dyld",requested-state="E",state="E",path="/usr/lib/libbz2.1.0.dylib",description="/usr/lib/libbz2.1.0.dylib",loaded_addr="0x7fff85ef0000",slide="0x7fff85ef0000",prefix=""],time={now="1432576710.090808"}
+<- =shlibs-added,shlib-info=[num="97",name="libxar.1.dylib",kind="-",dyld-addr="0x7fff80cc2000",reason="dyld",requested-state="E",state="E",path="/usr/lib/libxar.1.dylib",description="/usr/lib/libxar.1.dylib",loaded_addr="0x7fff80cc2000",slide="0x7fff80cc2000",prefix=""],time={now="1432576710.090946"}
+<- =shlibs-added,shlib-info=[num="98",name="Carbon",kind="F",dyld-addr="0x7fff80c44000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/Carbon.framework/Versions/A/Carbon",description="/System/Library/Frameworks/Carbon.framework/Versions/A/Carbon",loaded_addr="0x7fff80c44000",slide="0x7fff80c44000",prefix=""],time={now="1432576710.091132"}
+<- =shlibs-added,shlib-info=[num="99",name="JavaScriptCore",kind="F",dyld-addr="0x7fff84260000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/JavaScriptCore",description="/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/JavaScriptCore",loaded_addr="0x7fff84260000",slide="0x7fff84260000",prefix=""],time={now="1432576710.091486"}
+<- =shlibs-added,shlib-info=[num="100",name="WebCore",kind="F",dyld-addr="0x7fff8210b000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/WebKit.framework/Versions/A/Frameworks/WebCore.framework/Versions/A/WebCore",description="/System/Library/Frameworks/WebKit.framework/Versions/A/Frameworks/WebCore.framework/Versions/A/WebCore",loaded_addr="0x7fff8210b000",slide="0x7fff8210b000",prefix=""],time={now="1432576710.091732"}
+<- =shlibs-added,shlib-info=[num="101",name="CommonPanels",kind="F",dyld-addr="0x7fff8329e000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/CommonPanels.framework/Versions/A/CommonPanels",description="/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/CommonPanels.framework/Versions/A/CommonPanels",loaded_addr="0x7fff8329e000",slide="0x7fff8329e000",prefix=""],time={now="1432576710.092012"}
+<- =shlibs-added,shlib-info=[num="102",name="Help",kind="F",dyld-addr="0x7fff8a834000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/Help.framework/Versions/A/Help",description="/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/Help.framework/Versions/A/Help",loaded_addr="0x7fff8a834000",slide="0x7fff8a834000",prefix=""],time={now="1432576710.092260"}
+<- =shlibs-added,shlib-info=[num="103",name="ImageCapture",kind="F",dyld-addr="0x7fff83377000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/ImageCapture.framework/Versions/A/ImageCapture",description="/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/ImageCapture.framework/Versions/A/ImageCapture",loaded_addr="0x7fff83377000",slide="0x7fff83377000",prefix=""],time={now="1432576710.092532"}
+<- =shlibs-added,shlib-info=[num="104",name="OpenScripting",kind="F",dyld-addr="0x7fff8a055000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/OpenScripting.framework/Versions/A/OpenScripting",description="/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/OpenScripting.framework/Versions/A/OpenScripting",loaded_addr="0x7fff8a055000",slide="0x7fff8a055000",prefix=""],time={now="1432576710.092766"}
+<- =shlibs-added,shlib-info=[num="105",name="Print",kind="F",dyld-addr="0x7fff81ff8000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/Print.framework/Versions/A/Print",description="/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/Print.framework/Versions/A/Print",loaded_addr="0x7fff81ff8000",slide="0x7fff1d4f8000",prefix=""],time={now="1432576710.092973"}
+<- =shlibs-added,shlib-info=[num="106",name="cocoaDialog",kind="-",dyld-addr="0x100000000",reason="exec",requested-state="E",state="E",path="/Users/ericgallager/cocoadialog/build/Debug/cocoaDialog.app/Contents/MacOS/cocoaDialog",description="/Users/ericgallager/cocoadialog/build/Debug/cocoaDialog.app/Contents/MacOS/cocoaDialog",loaded_addr="",slide="0x0",prefix=""],time={now="1432576710.093151"}
+<- ~"Reading symbols from /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libFontRegistry.dylib..."
+<- ~"done.\n"
+<- =shlibs-added,shlib-info=[num="107",name="libFontRegistry.dylib",kind="-",dyld-addr="0x7fff8325f000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libFontRegistry.dylib",description="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libFontRegistry.dylib",loaded_addr="0x7fff8325f000",slide="0x7fff8325f000",prefix=""],time={now="1432576711.734300"}
+<- ~"Reading symbols from /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/Resources/libCSync.A.dylib..."
+<- ~"done.\n"
+<- =shlibs-added,shlib-info=[num="108",name="libCSync.A.dylib",kind="-",dyld-addr="0x7fff808f9000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/Resources/libCSync.A.dylib",description="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/Resources/libCSync.A.dylib",loaded_addr="0x7fff808f9000",slide="0x7fff808f9000",prefix=""],time={now="1432576712.005703"}
+<- ~"Reading symbols from /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/Resources/libCGXType.A.dylib..."
+<- ~"done.\n"
+<- =shlibs-added,shlib-info=[num="109",name="libCGXType.A.dylib",kind="-",dyld-addr="0x7fff806ad000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/Resources/libCGXType.A.dylib",description="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/Resources/libCGXType.A.dylib",loaded_addr="0x7fff806ad000",slide="0x7fff806ad000",prefix=""],time={now="1432576712.145668"}
+<- ~"Reading symbols from /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libTrueTypeScaler.dylib..."
+<- ~"done.\n"
+<- =shlibs-added,shlib-info=[num="110",name="libTrueTypeScaler.dylib",kind="-",dyld-addr="0x7fff8a0cb000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libTrueTypeScaler.dylib",description="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libTrueTypeScaler.dylib",loaded_addr="0x7fff8a0cb000",slide="0x7fff8a0cb000",prefix=""],time={now="1432576712.361675"}
+<- ~"Reading symbols from /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/Resources/libRIP.A.dylib..."
+<- ~"done.\n"
+<- =shlibs-added,shlib-info=[num="111",name="libRIP.A.dylib",kind="-",dyld-addr="0x7fff853ba000",reason="dyld",requested-state="E",state="E",path="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/Resources/libRIP.A.dylib",description="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/Resources/libRIP.A.dylib",loaded_addr="0x7fff853ba000",slide="0x7fff853ba000",prefix=""],time={now="1432576712.598644"}
+<- ~"Reading symbols from /System/Library/CoreServices/RawCamera.bundle/Contents/MacOS/RawCamera..."
+<- ~"done.\n"
+<- =shlibs-added,shlib-info=[num="112",name="RawCamera",kind="B",dyld-addr="0x7fff80217000",reason="dyld",requested-state="E",state="E",path="/System/Library/CoreServices/RawCamera.bundle/Contents/MacOS/RawCamera",description="/System/Library/CoreServices/RawCamera.bundle/Contents/MacOS/RawCamera",loaded_addr="0x7fff80217000",slide="0x7fff80217000",prefix=""],time={now="1432576713.128711"}
+<- 36*stopped,time={wallclock="34.75654",user="0.55698",system="0.64006",start="1432576687.675229",end="1432576722.431770"},reason="exited-normally"
+#  processing result t=61.387539 Tepoch=1432576722.432221
