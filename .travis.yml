@@ -1,6 +1,6 @@
 os: osx
 language: objective-c
-osx_image: xcode9
+osx_image: xcode11.3
 xcode_workspace: cocoadialog.xcworkspace
 xcode_sdk: macosx10.13
 
@@ -13,8 +13,8 @@ install:
   - brew upgrade node 2>/dev/null || brew install node # Upgrade or install to latest Node.js.
   - /usr/local/bin/node -v && /usr/bin/env node -v && node -v # Verify they're all the same version.
   - brew upgrade yarn 2>/dev/null || brew install yarn # Upgrade or install to latest yarn.
-  - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
-  - gem install xcpretty-travis-formatter --no-rdoc --no-ri --no-document --quiet
+  - gem install xcpretty --no-document --quiet
+  - gem install xcpretty-travis-formatter --no-document --quiet
   - yarn
 
 script:

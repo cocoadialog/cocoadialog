@@ -210,7 +210,7 @@
 
 - (void *(^)(CDTerminalExitCode)) exit {
     return ^void *(CDTerminalExitCode exitCode) {
-        exit(exitCode);
+        exit((int) exitCode);
     };
 }
 

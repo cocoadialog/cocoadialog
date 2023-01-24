@@ -196,7 +196,7 @@
     }
 
     // Return the exit status
-    exit(self.exitStatus);
+    exit((int) self.exitStatus);
 }
 
 @end
